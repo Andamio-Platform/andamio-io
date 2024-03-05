@@ -24,9 +24,14 @@ export default function DialogContent({
 }) {
   const ctx = api.useUtils();
 
-  const { data: modules, isLoading } = api.module.getCourseModules.useQuery({
-    courseCode: course.courseCode,
-  });
+  const { data: modules, isLoading } = api.module.getCourseModules.useQuery(
+    {
+      courseCode: course ? course.courseCode : "",
+    },
+    {
+      enabled: !!course,
+    },
+  );
 
   const { register, handleSubmit, reset } = useForm();
 

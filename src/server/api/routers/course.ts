@@ -24,6 +24,7 @@ export const courseRouter = createTRPCRouter({
         },
         include: {
           modules: true,
+          managers: true,
         },
       });
     }),

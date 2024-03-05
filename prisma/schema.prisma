@@ -71,8 +71,8 @@ model User {
   courses          Course[]         @relation("CreatedCourses")
   contents         Content[]        @relation("CreatedContents")
   contentsVariants ContentVariant[] @relation("CreatedContentsVariants")
-  managedCourses   Course[]         @relation("ManagedCourses")
-  joinedCourses    Course[]         @relation("JoinedCourses")
+  managedCourses   Course[]         @relation("CourseManagers")
+  joinedCourses    Course[]         @relation("CourseLearners")
   subscriptions    Subscription[]   @relation("Subscriptions")
 }
 
@@ -195,8 +195,8 @@ model Course {
   videoUrl    String?
 
   modules     Module[]        @relation("CourseModules")
-  managers    User[]          @relation("ManagedCourses")
-  joinedUsers User[]          @relation("JoinedCourses")
+  managers    User[]          @relation("CourseManagers")
+  joinedUsers User[]          @relation("CourseLearners")
   variants    CourseVariant[] @relation("CourseVariants")
 
   createdBy   User   @relation("CreatedCourses", fields: [createdById], references: [id])

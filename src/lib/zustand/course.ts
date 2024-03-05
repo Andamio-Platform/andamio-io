@@ -6,6 +6,6 @@ interface CourseState {
 }
 
 export const useCourseStore = create<CourseState>()((set, get) => ({
-  courseVariant: 'JP', // todo
+  courseVariant: undefined,
   setCourseVariant: (variant) => set({ courseVariant: variant }),
 }));

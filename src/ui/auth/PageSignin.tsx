@@ -5,10 +5,8 @@ export default function PageSignin({ redirectUrl }: { redirectUrl?: string }) {
   // todo: hardcode providers for now, because on vercel, it's not working
   const _providers = [
     {
-      callbackUrl: "http://localhost:3000/api/auth/callback/discord",
       id: "discord",
       name: "Discord",
-      signinUrl: "http://localhost:3000/api/auth/signin/discord",
       type: "oauth",
     },
   ];

@@ -12,6 +12,7 @@ import Button from "~/components/button";
 import FormLabel from "~/components/form/form-label";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import Tabs from "~/components/tabs";
+import useCourseVariantTabs from "~/hooks/useCourseVariantTabs";
 
 export default function DialogModule({
   moduleDialogOpen,
@@ -28,8 +29,6 @@ export default function DialogModule({
 
   const { register, handleSubmit, reset } = useForm();
 
-  const [tabs, setTabs] = useState([{ name: "Main", value: "main" }]);
-  const [currentVariantTab, setCurrentVariantTab] = useState<string>("main");
   const [currentCourseVariant, setCurrentCourseVariant] = useState<
     CourseVariant | undefined
   >(undefined);
@@ -39,9 +38,15 @@ export default function DialogModule({
 
   const { data: courseVariants } = api.courseVariant.getCourseVariants.useQuery(
     {
-      courseId: course.id,
+      courseId: course ? course.id : "",
+    },
+    {
+      enabled: course ? true : false,
     },
   );
+
+  const { tabs, currentVariantTab, setCurrentVariantTab } =
+    useCourseVariantTabs(course?.id);
 
   const { data: moduleVariants } = api.moduleVariant.getmoduleVariants.useQuery(
     {
@@ -129,32 +134,36 @@ export default function DialogModule({
     });
 
   function onSubmit(data: FieldValues) {
-    if (module) {
-      if (currentVariantTab != "main" && currentCourseVariant) {
-        moduleVariantUpsert({
-          courseVariantId: currentCourseVariant.id,
-          moduleId: module.id,
-          moduleVariantId: currentModuleVariant ? currentModuleVariant.id : "",
-          variantCode: currentVariantTab,
-          title: data.title,
-          description: data.description,
-        });
+    if (course) {
+      if (module) {
+        if (currentVariantTab != "main" && currentCourseVariant) {
+          moduleVariantUpsert({
+            courseVariantId: currentCourseVariant.id,
+            moduleId: module.id,
+            moduleVariantId: currentModuleVariant
+              ? currentModuleVariant.id
+              : "",
+            variantCode: currentVariantTab,
+            title: data.title,
+            description: data.description,
+          });
+        } else {
+          moduleUpdate({
+            moduleId: module.id,
+            courseCode: course.courseCode,
+            moduleCode: data.moduleCode,
+            title: data.title,
+            description: data.description,
+          });
+        }
       } else {
-        moduleUpdate({
-          moduleId: module.id,
-          courseCode: course.courseCode,
+        moduleCreate({
+          courseId: course.id,
           moduleCode: data.moduleCode,
           title: data.title,
           description: data.description,
         });
       }
-    } else {
-      moduleCreate({
-        courseId: course.id,
-        moduleCode: data.moduleCode,
-        title: data.title,
-        description: data.description,
-      });
     }
   }
 
@@ -165,16 +174,6 @@ export default function DialogModule({
       description: "",
     });
   }
-
-  useEffect(() => {
-    if (courseVariants) {
-      const _tabs = [{ name: "Main", value: "main" }];
-      courseVariants.map((variant) => {
-        _tabs.push({ name: variant.variantCode, value: variant.variantCode });
-      });
-      setTabs(_tabs);
-    }
-  }, [courseVariants]);
 
   useEffect(() => {
     if (moduleDialogOpen) {

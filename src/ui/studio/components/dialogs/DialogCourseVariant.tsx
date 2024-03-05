@@ -59,21 +59,23 @@ export default function DialogCourseVariant({
     });
 
   function onSubmit(data: FieldValues) {
-    if (courseVariant) {
-      update({
-        courseVariantId: courseVariant.id,
-        variantCode: data.variantCode,
-        title: data.title,
-        description: data.description,
-      });
-    } else {
-      const _data = {
-        variantCode: data.variantCode,
-        title: data.title,
-        description: data.description,
-        courseId: course.id,
-      };
-      create(_data);
+    if (course) {
+      if (courseVariant) {
+        update({
+          courseVariantId: courseVariant.id,
+          variantCode: data.variantCode,
+          title: data.title,
+          description: data.description,
+        });
+      } else {
+        const _data = {
+          variantCode: data.variantCode,
+          title: data.title,
+          description: data.description,
+          courseId: course.id,
+        };
+        create(_data);
+      }
     }
   }
 

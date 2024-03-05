@@ -4,11 +4,13 @@ import Button from "~/components/button";
 import { FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import dynamic from "next/dynamic";
-import { useRouter } from "next/router";
 import StudioLayout from "~/ui/studio/components/layout/StudioLayout";
 import ContentInfoForm from "~/ui/studio/components/ContentInfoForm";
-// import ContentEditor from "~/ui/studio/components/ContentEditor";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
+import Tabs from "~/components/tabs";
+import useCourseByOwner from "~/hooks/useCourseByOwner";
+import useCourseVariantTabs from "~/hooks/useCourseVariantTabs";
+import useContent from "~/hooks/useContent";
 
 const ContentEditor = dynamic(
   () => import("~/ui/studio/components/ContentEditor"),
@@ -27,11 +29,9 @@ export default function PageCourseContent({
   contentCode: string;
 }) {
   const ctx = api.useUtils();
-  const router = useRouter();
 
-  const { data: ownerCourses, isLoading } =
-    api.content.getModuleContents.useQuery({ courseCode, moduleCode });
-  const content = ownerCourses?.find((c) => c.contentCode === contentCode);
+  const { content } = useContent(courseCode, moduleCode, contentCode);
+  const { course } = useCourseByOwner(courseCode);
 
   const { mutate: update, isLoading: isLoadingUpdate } =
     api.content.update.useMutation({
@@ -46,7 +46,7 @@ export default function PageCourseContent({
         if (errorMessage) {
           toast.error("Some inputs are missing or invalid");
         } else {
-          toast.error("Course Code taken. Please try again.");
+          toast.error("Content Code taken. Please try again.");
         }
       },
     });
@@ -56,6 +56,9 @@ export default function PageCourseContent({
   const [contentJson, setContentJson] = useState<{} | null>(null);
   const [contentHtml, setcontentHtml] = useState<string>("");
   const [loaded, setLoaded] = useState<boolean>(false);
+
+  const { tabs, currentVariantTab, setCurrentVariantTab } =
+    useCourseVariantTabs(course?.id);
 
   function onSubmit(data: FieldValues) {
     if (content) {
@@ -105,6 +108,7 @@ export default function PageCourseContent({
                 {content.description}
               </p>
             </div>
+
             <div>
               <div className="gap-2 sm:flex">
                 <Button
@@ -127,6 +131,14 @@ export default function PageCourseContent({
                 </Button>
               </div>
             </div>
+          </div>
+
+          <div className="px-4">
+            <Tabs
+              tabs={tabs}
+              current={currentVariantTab}
+              onChange={setCurrentVariantTab}
+            />
           </div>
 
           <div className="mx-6">

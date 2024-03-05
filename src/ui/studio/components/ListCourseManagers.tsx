@@ -27,7 +27,7 @@ export default function ListCourseManagers({ course }: { course: Course }) {
     });
 
   const { data: sessionData } = useSession();
-  const isOwner = course.createdById === sessionData?.user?.id;
+  const isOwner = course?.createdById === sessionData?.user?.id;
 
   return (
     <>
@@ -60,7 +60,7 @@ export default function ListCourseManagers({ course }: { course: Course }) {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {course.managers?.map((manager, i) => (
+            {course?.managers?.map((manager, i) => (
               <tr key={i}>
                 <td className="py-5 pl-4 pr-3 text-sm sm:pl-0">
                   <div className="flex items-center">

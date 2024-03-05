@@ -47,7 +47,7 @@ export default function DialogCourseManager({
     });
 
   function onSubmit(data: FieldValues) {
-    if (selectedPerson) {
+    if (course && selectedPerson) {
       mutate({
         courseCode: course.courseCode,
         userId: selectedPerson.id,

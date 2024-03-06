@@ -13,9 +13,6 @@ const GlobalNav = () => (
         </Link>
         <ul className="menu menu-horizontal px-1">
           <li className="font-bold hidden md:block">
-            <Link href="/catalyst">Catalyst Fund 11</Link>
-          </li>
-          <li className="font-bold hidden md:block">
             <Link href={"/about"}>About</Link>
           </li>
           <li className="font-bold hidden md:block">

@@ -1,10 +1,10 @@
 // import { Metadata } from "next";
-import { TransformedPageContent } from "../../course/module/[moduleId]/[modulePage]/transformedPageContent";
 import { getBlogPageContent } from "../../../lib/blogposts";
 import Markdoc from "@markdoc/markdoc";
 import { parseBlogMarkdocFrontmatter } from "../../../utils/markdown";
 import styles from "./Blog.module.css";
 import Head from "next/head";
+import { TransformedPageContent } from "../../../utils/transformedPageContent";
 
 export type Props = {
   blogPostId: string;

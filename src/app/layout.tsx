@@ -2,7 +2,6 @@ import "../styles/globals.css";
 import "../styles/buttons.css";
 import "../styles/loading.css";
 import type { Metadata } from "next";
-import Providers from "./Providers";
 import GlobalNav from "../components/ui/GlobalNav";
 
 import { Source_Code_Pro, Martel_Sans } from "next/font/google";
@@ -31,13 +30,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" data-theme="andamio" className={`${source_code_pro.variable} ${martel_sans.variable}`}>
       <body>
-        <Providers>
           <div className="flex flex-col bg-test-1 bg-cover bg-fixed">
             <GlobalNav />
             <div className="min-h-[80vh]">{children}</div>
           </div>
           <GlobalFooter />
-        </Providers>
       </body>
     </html>
   );

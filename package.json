@@ -12,14 +12,11 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@andamiojs/core": "1.0.4-alpha.1",
     "@babel/core": "7.0.0",
     "@headlessui/react": "1.7.17",
     "@heroicons/react": "2.0.18",
     "@markdoc/markdoc": "0.3.4",
     "@markdoc/next.js": "0.3.4",
-    "@meshsdk/core": "1.5.7-beta.1",
-    "@meshsdk/react": "1.1.7",
     "bright": "0.8.4",
     "formik": "2.4.5",
     "gray-matter": "^4.0.3",

@@ -1,44 +1,30 @@
 "use client";
 
-import { CardanoWallet } from "@meshsdk/react";
 import Image from "next/image";
 import Link from "next/link";
-import { andamioConfig } from "../../andamio/config";
 
 const GlobalNav = () => (
   <div className="card bg-primary text-primary-content font-mono shadow-xl md:mx-5 md:mt-5 z-10">
     <div className="navbar">
-      <div className="flex justify-between">
+      <div className="flex flex-row w-full justify-between">
         <Link className="btn btn-ghost normal-case text-lg" href="/">
           <Image src="/andamio.png" height={40} width={40} alt="andamio" />
-          <p className="hidden md:block">{andamioConfig.title}</p>
+          <p className="hidden md:block">Andamio</p>
         </Link>
-      </div>
-      <ul className="menu menu-horizontal px-1">
-        <li className="text-info font-bold">
-          <Link href="/catalyst">Catalyst Fund 11</Link>
-        </li>
-        <li className="hidden md:block">
-          <Link href={"/course"}>{`Start ${andamioConfig.title} Course`}</Link>
-        </li>
-        {/* <li>
-          <Link href={"/course-management/roles/learner/dashboard"}>Learner Dashboard</Link>
-        </li> */}
-        {process.env.NEXT_PUBLIC_EXPERIMENTAL_FEATURES?.split(",").includes("cm") && (
-          <li className="hidden md:block">
-            <Link href={"/course-management"}>Course Management</Link>
+        <ul className="menu menu-horizontal px-1">
+          <li className="font-bold hidden md:block">
+            <Link href="/catalyst">Catalyst Fund 11</Link>
           </li>
-        )}
-        {process.env.NEXT_PUBLIC_EXPERIMENTAL_FEATURES?.split(",").includes("pm") && (
-          <li className="hidden md:block">
-            <Link href={"/contributor-platform"}>Contributor Platform</Link>
+          <li className="font-bold hidden md:block">
+            <Link href={"/about"}>About</Link>
           </li>
-        )}
-      </ul>
-      <div className="ml-5">
-        <div className="hidden md:block">
-          <CardanoWallet />
-        </div>
+          <li className="font-bold hidden md:block">
+            <Link href={"/blog"}>Blog</Link>
+          </li>
+          <li className="font-bold hidden md:block">
+            <Link href={"/calendar"}>Calendar</Link>
+          </li>
+        </ul>
       </div>
     </div>
   </div>

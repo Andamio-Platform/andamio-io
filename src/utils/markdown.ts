@@ -1,4 +1,3 @@
-import { LMSObjectMetadata } from '@andamiojs/core';
 import { Node } from '@markdoc/markdoc';
 
 export interface BlogPostMetadata {
@@ -6,6 +5,24 @@ export interface BlogPostMetadata {
   author: string;
   date: string;
 }
+
+export interface LMSObjectMetadata {
+  title: string;
+  description?: string;
+  slt: string[];
+  type:
+    | 'ModuleOverview'
+    | 'SLTList'
+    | 'Lesson'
+    | 'Assignment'
+    | 'Project'
+    | 'Summary';
+  videoURL?: string;
+  lastEdited: string;
+  author: string;
+  slug?: string;
+}
+
 
 
 export const parseMarkdocFrontmatter = (ast: Node) => {

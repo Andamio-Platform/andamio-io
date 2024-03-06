@@ -1,6 +1,5 @@
 import fs from "fs";
 import path from "path";
-import { ModuleMarkdocPage } from "@andamiojs/core";
 import Markdoc from "@markdoc/markdoc";
 import { BlogPostMetadata, parseBlogMarkdocFrontmatter } from "../utils/markdown";
 
@@ -9,6 +8,12 @@ export type BlogPost = {
   contents: string;
   frontmatter: BlogPostMetadata;
 };
+
+export interface ModuleMarkdocPage {
+  _title: string;
+  _contents: string;
+}
+
 
 const blogDirectory = path.join(process.cwd(), "/src/blog");
 

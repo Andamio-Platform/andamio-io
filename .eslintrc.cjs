@@ -44,8 +44,13 @@ const config = {
         },
       },
     ],
-    "@typescript-eslint/no-unsafe-member-access": "off",
-    "@typescript-eslint/consistent-indexed-object-style": "off",
+    "@typescript-eslint/no-unsafe-member-access": "warn",
+    "@typescript-eslint/consistent-indexed-object-style": "warn",
+    "@typescript-eslint/no-unsafe-call": "warn",
+    "@typescript-eslint/no-unsafe-return": "warn",
+    "react-hooks/rules-of-hooks": "warn",
+    "@typescript-eslint/prefer-nullish-coalescing": "warn",
+    "@typescript-eslint/no-unsafe-argument": "warn",
   },
 };
 

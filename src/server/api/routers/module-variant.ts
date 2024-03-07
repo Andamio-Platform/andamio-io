@@ -30,7 +30,6 @@ export const moduleVariantRouter = createTRPCRouter({
         courseVariantId: z.string().min(1),
         moduleId: z.string().min(1),
         moduleVariantId: z.string(),
-        variantCode: z.string().min(1),
         title: z.string().min(1),
         description: z.string().optional(),
         imageUrl: z.string().optional(),

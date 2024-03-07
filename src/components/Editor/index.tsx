@@ -1,55 +1,49 @@
-import { useEditor, EditorContent } from "@tiptap/react";
+import { useEditor, EditorContent, Content } from "@tiptap/react";
 import { ExtensionKit } from "./extension-kit";
+import { useRef } from "react";
 
-export default function Editor() {
-  const editable = true;
+export default class Editor {
+  editor;
+  menuContainerRef = useRef(null);
 
-  const editor = useEditor({
-    extensions: [...ExtensionKit()],
-    content: "<p>Hello World! 🌎️</p>",
-    editorProps: {
-      attributes: {
-        class:
-          "prose dark:prose-invert prose-sm sm:prose-base lg:prose-lg xl:prose-2xl m-5 focus:outline-none",
+  constructor({
+    editable = true,
+    initialContent = "<p>start typing...</p>",
+  }: {
+    editable?: boolean;
+    initialContent?: string;
+  }) {
+    this.editor = useEditor({
+      extensions: [...ExtensionKit()],
+      content: initialContent,
+      editorProps: {
+        attributes: {
+          class:
+            // "prose dark:prose-invert prose-sm sm:prose-base lg:prose-lg xl:prose-2xl m-5 focus:outline-none",
+            "prose prose-lg prose-stone dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full",
+        },
       },
-    },
-    editable: editable,
-  });
-
-  function save() {
-    if (editor) {
-      const json = editor.getJSON();
-      console.log("json", json);
-      const html = editor.getHTML();
-      console.log("html", html);
-    }
+      editable: editable,
+    });
   }
 
-  function load() {
-    if (editor) {
-      editor.commands.setContent({
-        type: "doc",
-        content: [
-          {
-            type: "paragraph",
-            content: [
-              {
-                type: "text",
-                text: "Hello World 123! 🌎️",
-              },
-            ],
-          },
-        ],
-      });
-    }
+  getJSON() {
+    if (this.editor) return this.editor.getJSON();
   }
 
-  return (
-    <>
-      <EditorContent editor={editor} />
+  setContent(content: Content) {
+    if (this.editor) this.editor.commands.setContent(content);
+  }
 
-      <button onClick={save}>Save</button>
-      <button onClick={load}>Load</button>
-    </>
-  );
+  render() {
+    if (this.editor) {
+      return (
+        <div className="relative flex h-full flex-1 flex-col overflow-hidden">
+          <EditorContent editor={this.editor} />
+          {/* <LinkMenu editor={this.editor} appendTo={this.menuContainerRef} /> */}
+          {/* <TextMenu editor={this.editor} /> */}
+        </div>
+      );
+    }
+  }
 }

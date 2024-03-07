@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Button from "~/components/button";
 import { FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 import StudioLayout from "~/ui/studio/components/layout/StudioLayout";
 import ContentInfoForm from "~/ui/studio/components/ContentInfoForm";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
@@ -11,13 +11,16 @@ import Tabs from "~/components/tabs";
 import useCourseByOwner from "~/hooks/useCourseByOwner";
 import useCourseVariantTabs from "~/hooks/useCourseVariantTabs";
 import useContent from "~/hooks/useContent";
+import useContentVarient from "~/hooks/useContentVarient";
+import mergeObjects from "~/utils/mergeObjects";
+import Editor from "~/components/Editor";
 
-const ContentEditor = dynamic(
-  () => import("~/ui/studio/components/ContentEditor"),
-  {
-    loading: () => <p>Loading...</p>,
-  },
-);
+// const ContentEditor = dynamic(
+//   () => import("~/ui/studio/components/ContentEditor"),
+//   {
+//     loading: () => <p>Loading...</p>,
+//   },
+// );
 
 export default function PageCourseContent({
   courseCode,
@@ -32,6 +35,16 @@ export default function PageCourseContent({
 
   const { content } = useContent(courseCode, moduleCode, contentCode);
   const { course } = useCourseByOwner(courseCode);
+  const {
+    tabs,
+    selectedVariantTab,
+    setSelectedVariantTab,
+    selectedCourseVariantId,
+  } = useCourseVariantTabs(course?.id);
+  const { contentVariant } = useContentVarient(
+    content?.id,
+    selectedCourseVariantId,
+  );
 
   const { mutate: update, isLoading: isLoadingUpdate } =
     api.content.update.useMutation({
@@ -51,15 +64,15 @@ export default function PageCourseContent({
       },
     });
 
+  //
+
   const { register, handleSubmit, reset } = useForm();
+  const editor = new Editor({
+    //@ts-expect-error todo how to fix this
+    initialContent: content ? content.contentJson ?? "" : "",
+  });
 
-  const [contentJson, setContentJson] = useState<{} | null>(null);
-  const [contentHtml, setcontentHtml] = useState<string>("");
-  const [loaded, setLoaded] = useState<boolean>(false);
-
-  const { tabs, currentVariantTab, setCurrentVariantTab } =
-    useCourseVariantTabs(course?.id);
-
+  // todo save variant
   function onSubmit(data: FieldValues) {
     if (content) {
       const _content = {
@@ -70,17 +83,14 @@ export default function PageCourseContent({
         description: data.description,
         slt: data.slt ?? "",
         videoUrl: data.videoUrl ?? "",
-        contentJson: contentJson,
-        contentHtml: contentHtml,
+        contentJson: editor.getJSON(),
       };
       update(_content);
     }
   }
 
   useEffect(() => {
-    if (content && !loaded) {
-      if (content.contentJson) setContentJson(content.contentJson);
-      if (content.contentHtml) setcontentHtml(content.contentHtml);
+    if (content) {
       reset({
         contentCode: content.contentCode,
         type: content.type,
@@ -89,11 +99,69 @@ export default function PageCourseContent({
         slt: content.slt,
         videoUrl: content.videoUrl,
       });
-      setLoaded(true);
+
+      //@ts-expect-error todo how to fix this
+      if (content.contentJson) editor.setContent(content.contentJson);
     }
   }, [content]);
 
-  if (content === undefined) return <></>;
+  // useEffect(() => {
+  //   setLoaded(false);
+
+  //   setTimeout(() => {
+  //     if (contentVariant) {
+  //       console.log(3, loaded);
+  //       if (contentVariant.contentJson)
+  //         setContentJson(contentVariant.contentJson);
+  //       if (contentVariant.contentHtml)
+  //         setcontentHtml(contentVariant.contentHtml);
+  //       reset({
+  //         title: contentVariant.title,
+  //         description: contentVariant.description,
+  //         slt: contentVariant.slt,
+  //         videoUrl: contentVariant.videoUrl,
+  //       });
+  //       setLoaded(true);
+  //     } else if (content) {
+  //       console.log(4, loaded);
+  //       if (content.contentJson) setContentJson(content.contentJson);
+  //       if (content.contentHtml) setcontentHtml(content.contentHtml);
+  //       reset({
+  //         contentCode: content.contentCode,
+  //         type: content.type,
+  //         title: content.title,
+  //         description: content.description,
+  //         slt: content.slt,
+  //         videoUrl: content.videoUrl,
+  //       });
+  //       setLoaded(true);
+  //     }
+  //   }, 1000);
+  // }, [content]);
+
+  // if (!loaded || content == undefined) return <></>;
+
+  // useEffect(() => {
+  //   if (content && !loaded) {
+  //     if (content.contentJson) setContentJson(content.contentJson);
+  //     if (content.contentHtml) setcontentHtml(content.contentHtml);
+  //     reset({
+  //       contentCode: content.contentCode,
+  //       type: content.type,
+  //       title: content.title,
+  //       description: content.description,
+  //       slt: content.slt,
+  //       videoUrl: content.videoUrl,
+  //     });
+  //     setLoaded(true);
+  //   }
+  // }, [content]);
+
+  const _content = contentVariant
+    ? mergeObjects(contentVariant, content)
+    : content;
+
+  if (_content === undefined) return <></>;
 
   return (
     <StudioLayout>
@@ -102,10 +170,10 @@ export default function PageCourseContent({
           <div className="flex px-4 py-6 sm:px-6">
             <div className="grow">
               <h3 className="text-base font-semibold leading-7 text-gray-900">
-                {content.type} - {content.title}
+                {_content.type} - {_content.title}
               </h3>
               <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
-                {content.description}
+                {_content.description}
               </p>
             </div>
 
@@ -136,85 +204,103 @@ export default function PageCourseContent({
           <div className="px-4">
             <Tabs
               tabs={tabs}
-              current={currentVariantTab}
-              onChange={setCurrentVariantTab}
+              current={selectedVariantTab}
+              onChange={setSelectedVariantTab}
             />
           </div>
 
-          <div className="mx-6">
-            <dl className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-              <ContentInfoForm
-                register={register}
-                content={content}
-                courseCode={courseCode}
-              />
+          <div className="m-6">
+            <ContentInfoForm
+              register={register}
+              //@ts-expect-error todo fix this
+              content={_content}
+              courseCode={courseCode}
+            />
 
-              <ContentEditor
-                contentJson={contentJson}
-                setContentJson={setContentJson}
-                setcontentHtml={setcontentHtml}
-              />
-
-              {/* <div className="border-t border-gray-100 px-4 py-6 sm:col-span-2 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900">
-              Attachments
-            </dt>
-            <dd className="mt-2 text-sm text-gray-900">
-              <ul
-                role="list"
-                className="divide-y divide-gray-100 rounded-md border border-gray-200"
-              >
-                <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
-                  <div className="flex w-0 flex-1 items-center">
-                    <PaperClipIcon
-                      className="h-5 w-5 flex-shrink-0 text-gray-400"
-                      aria-hidden="true"
-                    />
-                    <div className="ml-4 flex min-w-0 flex-1 gap-2">
-                      <span className="truncate font-medium">
-                        resume_back_end_developer.pdf
-                      </span>
-                      <span className="flex-shrink-0 text-gray-400">2.4mb</span>
-                    </div>
-                  </div>
-                  <div className="ml-4 flex-shrink-0">
-                    <a
-                      href="#"
-                      className="font-medium text-indigo-600 hover:text-indigo-500"
-                    >
-                      Download
-                    </a>
-                  </div>
-                </li>
-                <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
-                  <div className="flex w-0 flex-1 items-center">
-                    <PaperClipIcon
-                      className="h-5 w-5 flex-shrink-0 text-gray-400"
-                      aria-hidden="true"
-                    />
-                    <div className="ml-4 flex min-w-0 flex-1 gap-2">
-                      <span className="truncate font-medium">
-                        coverletter_back_end_developer.pdf
-                      </span>
-                      <span className="flex-shrink-0 text-gray-400">4.5mb</span>
-                    </div>
-                  </div>
-                  <div className="ml-4 flex-shrink-0">
-                    <a
-                      href="#"
-                      className="font-medium text-indigo-600 hover:text-indigo-500"
-                    >
-                      Download
-                    </a>
-                  </div>
-                </li>
-              </ul>
-            </dd>
-          </div> */}
-            </dl>
+            <div className="relative w-full max-w-screen-lg">
+              {editor.render()}
+            </div>
           </div>
+
+          {/* <ContentContainer
+          content={
+            contentVariant ? mergeObjects(contentVariant, content) : content
+          }
+          courseCode={courseCode}
+          update={update}
+        /> */}
         </div>
       </form>
     </StudioLayout>
+  );
+}
+
+function ContentContainer({
+  content,
+  courseCode,
+  update,
+}: {
+  content: any;
+  courseCode: string;
+  update: any;
+}) {
+  const { register, handleSubmit, reset } = useForm();
+  const editor = new Editor({
+    initialContent: content.contentJson,
+  });
+
+  function onSubmit(data: FieldValues) {
+    if (content) {
+      const _content = {
+        id: content.id,
+        contentCode: data.contentCode,
+        type: data.contentType,
+        title: data.title,
+        description: data.description,
+        slt: data.slt ?? "",
+        videoUrl: data.videoUrl ?? "",
+        contentJson: editor.getJSON(),
+      };
+      update(_content);
+    }
+  }
+
+  useEffect(() => {
+    if (content) {
+      reset({
+        contentCode: content.contentCode,
+        type: content.type,
+        title: content.title,
+        description: content.description,
+        slt: content.slt,
+        videoUrl: content.videoUrl,
+      });
+    }
+  }, [content]);
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="mx-6">
+        <div>
+          <div className="gap-2 sm:flex">
+            <Button disabled={false}>
+              {false ? (
+                <ArrowPathIcon className="h-5 w-5 animate-spin" />
+              ) : (
+                "Save"
+              )}
+            </Button>
+          </div>
+        </div>
+
+        <ContentInfoForm
+          register={register}
+          content={content}
+          courseCode={courseCode}
+        />
+
+        <div className="relative w-full max-w-screen-lg">{editor.render()}</div>
+      </div>
+    </form>
   );
 }

@@ -121,8 +121,7 @@ model Content {
 }
 
 model ContentVariant {
-  id          String @id @default(cuid())
-  variantCode String
+  id String @id @default(cuid())
 
   title       String
   description String?
@@ -133,8 +132,10 @@ model ContentVariant {
   contentJson Json?
   live        Boolean?
 
-  contentId String
-  content   Content @relation("ContentsVariants", fields: [contentId], references: [id])
+  contentId       String
+  content         Content       @relation("ContentsVariants", fields: [contentId], references: [id])
+  courseVariantId String
+  courseVariant   CourseVariant @relation("ContentVariantsCourseVariant", fields: [courseVariantId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -142,6 +143,7 @@ model ContentVariant {
   createdBy   User   @relation("CreatedContentsVariants", fields: [createdById], references: [id])
   createdById String
 
+  @@index([courseVariantId])
   @@index([createdById])
   @@index([contentId])
   @@index([id])
@@ -216,9 +218,10 @@ model CourseVariant {
   imageUrl    String?
   videoUrl    String?
 
-  courseId       String
-  course         Course          @relation("CourseVariants", fields: [courseId], references: [id])
-  moduleVariants ModuleVariant[] @relation("ModuleVariantsCourseVariant")
+  courseId        String
+  course          Course           @relation("CourseVariants", fields: [courseId], references: [id])
+  moduleVariants  ModuleVariant[]  @relation("ModuleVariantsCourseVariant")
+  contentVariants ContentVariant[] @relation("ContentVariantsCourseVariant")
 
   @@index([courseId])
   @@index([id])

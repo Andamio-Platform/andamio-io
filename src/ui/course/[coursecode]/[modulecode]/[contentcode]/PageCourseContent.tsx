@@ -3,6 +3,8 @@ import ReactHtmlParser from "react-html-parser";
 import VideoPlayer from "~/components/media/VideoPlayer";
 import CourseLayout from "~/ui/course/components/layout/CourseLayout";
 import Loading from "~/components/loading";
+import Editor from "~/components/Editor";
+import { useEffect } from "react";
 
 export default function PageCourseContent({
   courseCode,
@@ -18,6 +20,20 @@ export default function PageCourseContent({
     moduleCode,
     contentCode,
   });
+
+  const editor = new Editor({
+    editable: false,
+    initialContent: "",
+  });
+
+  useEffect(() => {
+    if (content) {
+      if (content.contentJson) {
+        //@ts-expect-error todo fix this
+        editor.setContent(content.contentJson);
+      }
+    }
+  }, [content]);
 
   return (
     <CourseLayout>
@@ -37,11 +53,11 @@ export default function PageCourseContent({
 
             {content.videoUrl && <VideoPlayer videoId={content.videoUrl} />}
 
-            {content.contentHtml && (
-              <div className="prose max-w-2xl lg:prose-xl">
-                {ReactHtmlParser(content.contentHtml)}
-              </div>
-            )}
+            {content.contentHtml &&
+              // <div className="prose max-w-2xl lg:prose-xl">
+              //   {ReactHtmlParser(content.contentHtml)}
+              // </div>
+              editor.render()}
           </div>
         )}
       </>

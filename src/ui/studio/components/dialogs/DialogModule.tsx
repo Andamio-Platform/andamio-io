@@ -45,7 +45,7 @@ export default function DialogModule({
     },
   );
 
-  const { tabs, currentVariantTab, setCurrentVariantTab } =
+  const { tabs, selectedVariantTab, setSelectedVariantTab } =
     useCourseVariantTabs(course?.id);
 
   const { data: moduleVariants } = api.moduleVariant.getmoduleVariants.useQuery(
@@ -136,14 +136,13 @@ export default function DialogModule({
   function onSubmit(data: FieldValues) {
     if (course) {
       if (module) {
-        if (currentVariantTab != "main" && currentCourseVariant) {
+        if (selectedVariantTab != "main" && currentCourseVariant) {
           moduleVariantUpsert({
             courseVariantId: currentCourseVariant.id,
             moduleId: module.id,
             moduleVariantId: currentModuleVariant
               ? currentModuleVariant.id
               : "",
-            variantCode: currentVariantTab,
             title: data.title,
             description: data.description,
           });
@@ -177,12 +176,12 @@ export default function DialogModule({
 
   useEffect(() => {
     if (moduleDialogOpen) {
-      if (currentVariantTab != "main") {
+      if (selectedVariantTab != "main") {
         let found = false;
 
         if (courseVariants) {
           courseVariants.find((x: CourseVariant) => {
-            if (x.variantCode === currentVariantTab) {
+            if (x.variantCode === selectedVariantTab) {
               setCurrentCourseVariant(x);
             }
           });
@@ -191,7 +190,7 @@ export default function DialogModule({
         if (moduleVariants) {
           const _moduleVariant = moduleVariants.find(
             (x: ModuleVariant) =>
-              x.courseVariant.variantCode == currentVariantTab,
+              x.courseVariant.variantCode == selectedVariantTab,
           );
           if (_moduleVariant) {
             reset(_moduleVariant);
@@ -215,7 +214,7 @@ export default function DialogModule({
     } else {
       clearForm();
     }
-  }, [moduleDialogOpen, currentVariantTab]);
+  }, [moduleDialogOpen, selectedVariantTab]);
 
   return (
     <DialogBox
@@ -239,8 +238,8 @@ export default function DialogModule({
 
       <Tabs
         tabs={tabs}
-        current={currentVariantTab}
-        onChange={setCurrentVariantTab}
+        current={selectedVariantTab}
+        onChange={setSelectedVariantTab}
       />
 
       <div className="mt-4 grid grid-cols-1 gap-y-4">
@@ -256,7 +255,7 @@ export default function DialogModule({
           <Input
             name="moduleCode"
             register={register}
-            disabled={currentVariantTab != "main"}
+            disabled={selectedVariantTab != "main"}
           />
         </FormFieldset>
 

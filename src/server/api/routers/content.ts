@@ -84,7 +84,6 @@ export const contentRouter = createTRPCRouter({
         imageUrl: z.string().optional(),
         videoUrl: z.string().optional(),
         contentJson: z.any().optional(),
-        contentHtml: z.string().optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -101,7 +100,6 @@ export const contentRouter = createTRPCRouter({
           imageUrl: input.imageUrl,
           videoUrl: input.videoUrl,
           contentJson: input.contentJson,
-          contentHtml: input.contentHtml,
         },
       });
     }),

@@ -8,6 +8,7 @@ import ListModules from "~/ui/studio/components/ListModules";
 import ListCourseManagers from "~/ui/studio/components/ListCourseManagers";
 import ListCourseVariants from "../components/ListCourseVariants";
 import { useSession } from "next-auth/react";
+import ShowCourseOnchain from "../components/ShowCourseOnchain";
 
 export default function PageCourse({ courseCode }: { courseCode: string }) {
   const { data: sessionData } = useSession();
@@ -22,6 +23,7 @@ export default function PageCourse({ courseCode }: { courseCode: string }) {
     { name: "Modules", value: "modules" },
     { name: "Managers", value: "managers" },
     { name: "Variants", value: "variants" },
+    { name: "On-Chain Info", value: "onchain" },
   ];
 
   return (
@@ -38,6 +40,9 @@ export default function PageCourse({ courseCode }: { courseCode: string }) {
               )}
               {currentTab === "variants" && (
                 <ListCourseVariants course={course} />
+              )}
+              {currentTab === "onchain" && (
+                <ShowCourseOnchain course={course} />
               )}
             </div>
           </>

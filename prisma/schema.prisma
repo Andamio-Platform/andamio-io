@@ -194,10 +194,11 @@ model Course {
   imageUrl    String?
   videoUrl    String?
 
-  modules     Module[]        @relation("CourseModules")
-  managers    User[]          @relation("ManagedCourses")
-  joinedUsers User[]          @relation("JoinedCourses")
-  variants    CourseVariant[] @relation("CourseVariants")
+  modules         Module[]                @relation("CourseModules")
+  managers        User[]                  @relation("ManagedCourses")
+  joinedUsers     User[]                  @relation("JoinedCourses")
+  variants        CourseVariant[]         @relation("CourseVariants")
+  onchainInstance CourseOnChainInstance[] @relation("CourseInstance")
 
   createdBy   User   @relation("CreatedCourses", fields: [createdById], references: [id])
   createdById String
@@ -232,4 +233,21 @@ model Subscription {
   createdById String
 
   @@index([createdById])
+}
+
+model CourseOnChainInstance {
+  id String @id @default(cuid())
+
+  courseRefAddress  String?
+  assignmentAddress String?
+  creatorCS         String?
+  facilitatorCS     String?
+  learnerCS         String?
+  courseRefUTxO     String?
+  assignmentRefUTxO String?
+
+  withCourse Course @relation("CourseInstance", fields: [courseId], references: [id])
+  courseId   String
+
+  @@index([courseId])
 }

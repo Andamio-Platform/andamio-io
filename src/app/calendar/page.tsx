@@ -16,5 +16,3 @@ export default async function CalendarPage() {
     </main>
   );
 }
-
-// https://teamup.com/ksso1wk6ysj9ireqau

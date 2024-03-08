@@ -9,11 +9,11 @@
 }
 
 .blogPostContainer h2 {
-  @apply text-2xl my-2 text-info
+  @apply text-2xl mb-5 text-blue-200 font-bold
 }
 
 .blogPostContainer h3 {
-  @apply text-xl my-2 text-info
+  @apply text-2xl mt-5 mb-5 text-blue-200 font-bold
 }
 
 .blogPostContainer h4 {
@@ -21,7 +21,7 @@
 }
 
 .blogPostContainer p {
-  @apply py-2 text-primary-content
+  @apply py-2 text-primary-content tracking-wide leading-7
 }
 
 .blogPostContainer ul {
@@ -37,7 +37,7 @@
 }
 
 .blogPostContainer a {
-  @apply font-semibold text-blue-800 hover:text-blue-700
+  @apply font-semibold text-info hover:text-blue-300
 }
 
 .blogPostContainer table {

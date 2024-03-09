@@ -12,7 +12,7 @@ import Button from "~/components/button";
 import FormLabel from "~/components/form/form-label";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import Tabs from "~/components/tabs";
-import useCourseVariantTabs from "~/hooks/useCourseVariantTabs";
+import useCourseVariants from "~/hooks/useCourseVariants";
 
 export default function DialogModule({
   moduleDialogOpen,
@@ -45,8 +45,8 @@ export default function DialogModule({
     },
   );
 
-  const { tabs, selectedVariantTab, setSelectedVariantTab } =
-    useCourseVariantTabs(course?.id);
+  const { listCourseVariant, selectedVariantName, setSelectedVariantName } =
+    useCourseVariants(course?.id);
 
   const { data: moduleVariants } = api.moduleVariant.getmoduleVariants.useQuery(
     {
@@ -136,7 +136,7 @@ export default function DialogModule({
   function onSubmit(data: FieldValues) {
     if (course) {
       if (module) {
-        if (selectedVariantTab != "main" && currentCourseVariant) {
+        if (selectedVariantName != "main" && currentCourseVariant) {
           moduleVariantUpsert({
             courseVariantId: currentCourseVariant.id,
             moduleId: module.id,
@@ -176,12 +176,12 @@ export default function DialogModule({
 
   useEffect(() => {
     if (moduleDialogOpen) {
-      if (selectedVariantTab != "main") {
+      if (selectedVariantName != "main") {
         let found = false;
 
         if (courseVariants) {
           courseVariants.find((x: CourseVariant) => {
-            if (x.variantCode === selectedVariantTab) {
+            if (x.variantCode === selectedVariantName) {
               setCurrentCourseVariant(x);
             }
           });
@@ -190,7 +190,7 @@ export default function DialogModule({
         if (moduleVariants) {
           const _moduleVariant = moduleVariants.find(
             (x: ModuleVariant) =>
-              x.courseVariant.variantCode == selectedVariantTab,
+              x.courseVariant.variantCode == selectedVariantName,
           );
           if (_moduleVariant) {
             reset(_moduleVariant);
@@ -214,7 +214,7 @@ export default function DialogModule({
     } else {
       clearForm();
     }
-  }, [moduleDialogOpen, selectedVariantTab]);
+  }, [moduleDialogOpen, selectedVariantName]);
 
   return (
     <DialogBox
@@ -237,9 +237,9 @@ export default function DialogModule({
       </DialogParagraph>
 
       <Tabs
-        tabs={tabs}
-        current={selectedVariantTab}
-        onChange={setSelectedVariantTab}
+        tabs={listCourseVariant}
+        current={selectedVariantName}
+        onChange={setSelectedVariantName}
       />
 
       <div className="mt-4 grid grid-cols-1 gap-y-4">
@@ -255,7 +255,7 @@ export default function DialogModule({
           <Input
             name="moduleCode"
             register={register}
-            disabled={selectedVariantTab != "main"}
+            disabled={selectedVariantName != "main"}
           />
         </FormFieldset>
 

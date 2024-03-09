@@ -13,6 +13,7 @@ import CourseLayout from "../components/layout/CourseLayout";
 import { signIn, useSession } from "next-auth/react";
 import { useCourseStore } from "~/lib/zustand/course";
 import mergeObjects from "~/utils/mergeObjects";
+import useCourseVariants from "~/hooks/useCourseVariants";
 
 export default function PageCourse({ courseCode }: { courseCode: string }) {
   const { data: sessionData } = useSession();
@@ -20,16 +21,9 @@ export default function PageCourse({ courseCode }: { courseCode: string }) {
   const { data: course, isLoading } = api.course.getCourse.useQuery({
     courseCode,
   });
-  const { data: courseVariants } = api.courseVariant.getCourseVariants.useQuery(
-    {
-      courseId: course ? course.id : "",
-    },
-    {
-      enabled: course != undefined,
-    },
-  );
+  const { listCourseVariant, setSelectedVariantName, selectedCourseVariant } =
+    useCourseVariants(course?.id);
 
-  const courseVariant = useCourseStore((state) => state.courseVariant);
   const setCourseVariant = useCourseStore((state) => state.setCourseVariant);
 
   if (course === null && isLoading) {
@@ -40,15 +34,16 @@ export default function PageCourse({ courseCode }: { courseCode: string }) {
     let _course = course;
     let _courseVariant = undefined;
 
-    if (courseVariant && courseVariants) {
-      _courseVariant = courseVariants.find(
-        (v) => v.variantCode === courseVariant,
-      );
+    if (selectedCourseVariant) {
+      _courseVariant = selectedCourseVariant;
+      setCourseVariant(selectedCourseVariant);
+    } else {
+      setCourseVariant(undefined);
+    }
 
-      if (_courseVariant) {
-        //@ts-expect-error todo merging need improvement
-        _course = mergeObjects(_courseVariant, _course);
-      }
+    if (_courseVariant) {
+      //@ts-expect-error todo merging need improvement
+      _course = mergeObjects(_courseVariant, _course);
     }
 
     return { _course, _courseVariant };
@@ -71,21 +66,14 @@ export default function PageCourse({ courseCode }: { courseCode: string }) {
         <H1>{_course.title}</H1>
 
         <div className="flex gap-4">
-          <button
-            onClick={() => {
-              setCourseVariant(undefined);
-            }}
-          >
-            Main
-          </button>
-          {courseVariants?.map((variant) => (
+          {listCourseVariant?.map((variant) => (
             <button
-              key={variant.id}
+              key={variant.name}
               onClick={() => {
-                setCourseVariant(variant.variantCode);
+                setSelectedVariantName(variant.value);
               }}
             >
-              {variant.variantCode}
+              {variant.name}
             </button>
           ))}
         </div>

@@ -36,7 +36,6 @@ export const contentVariantRouter = createTRPCRouter({
         imageUrl: z.string().optional(),
         videoUrl: z.string().optional(),
         contentJson: z.any().optional(),
-        contentHtml: z.string().optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -51,7 +50,6 @@ export const contentVariantRouter = createTRPCRouter({
           imageUrl: input.imageUrl,
           videoUrl: input.videoUrl,
           contentJson: input.contentJson,
-          contentHtml: input.contentHtml,
           createdBy: { connect: { id: ctx.session.user.id } },
           content: {
             connect: {
@@ -67,8 +65,10 @@ export const contentVariantRouter = createTRPCRouter({
         update: {
           title: input.title,
           description: input.description,
+          slt: input.slt,
           imageUrl: input.imageUrl,
           videoUrl: input.videoUrl,
+          contentJson: input.contentJson,
         },
       });
     }),

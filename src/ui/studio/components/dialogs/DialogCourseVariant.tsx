@@ -66,12 +66,14 @@ export default function DialogCourseVariant({
           variantCode: data.variantCode,
           title: data.title,
           description: data.description,
+          videoUrl: data.videoUrl,
         });
       } else {
         const _data = {
           variantCode: data.variantCode,
           title: data.title,
           description: data.description,
+          videoUrl: data.videoUrl,
           courseId: course.id,
         };
         create(_data);
@@ -114,6 +116,10 @@ export default function DialogCourseVariant({
 
         <FormFieldset label="Course description">
           <Textarea name="description" register={register} rows={8} />
+        </FormFieldset>
+
+        <FormFieldset label="Intro Video">
+          <Input name="videoUrl" register={register} />
         </FormFieldset>
 
         <FormFieldset label="Variant code">

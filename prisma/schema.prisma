@@ -98,7 +98,6 @@ model Content {
   title       String
   description String?
   slt         String?
-  contentHtml String?     @db.Text
   contentJson Json?
   imageUrl    String?
   videoUrl    String?
@@ -128,7 +127,6 @@ model ContentVariant {
   slt         String?
   imageUrl    String?
   videoUrl    String?
-  contentHtml String?  @db.Text
   contentJson Json?
   live        Boolean?
 

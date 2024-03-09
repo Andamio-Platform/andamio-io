@@ -9,10 +9,12 @@ export default function ContentInfoForm({
   register,
   content,
   courseCode,
+  disabledVariantFields = false,
 }: {
   register: UseFormRegister<FieldValues>;
   content: Content;
   courseCode: string;
+  disabledVariantFields: boolean;
 }) {
   const { data: modules } = api.module.getCourseModules.useQuery({
     courseCode: courseCode,
@@ -30,7 +32,11 @@ export default function ContentInfoForm({
       <div className="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0">
         <dt className="text-sm font-medium leading-6 text-gray-900">Code</dt>
         <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
-          <Input name="contentCode" register={register} />
+          <Input
+            name="contentCode"
+            register={register}
+            disabled={disabledVariantFields}
+          />
         </dd>
       </div>
 
@@ -45,6 +51,7 @@ export default function ContentInfoForm({
               label: type,
             }))}
             value={content.type}
+            disabled={disabledVariantFields}
           />
         </dd>
       </div>
@@ -73,6 +80,7 @@ export default function ContentInfoForm({
                   }))
                 : []
             }
+            disabled={disabledVariantFields}
           />
         </dd>
       </div>

@@ -8,3 +8,4 @@ export type CourseVariant =
   RouterOutputs["courseVariant"]["getCourseVariants"][number];
 export type ModuleVariant =
   RouterOutputs["moduleVariant"]["getmoduleVariants"][number];
+export type CourseOnChainInstance = RouterOutputs["courseOnChainInstance"]["getCourseOnchainInstances"]

@@ -236,7 +236,8 @@ model Subscription {
 }
 
 model CourseOnChainInstance {
-  id String @id @default(cuid())
+  id                String @id @default(cuid())
+  onchainInstanceId String @unique
 
   courseRefAddress  String?
   assignmentAddress String?

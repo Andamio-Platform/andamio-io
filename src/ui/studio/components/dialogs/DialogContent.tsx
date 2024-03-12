@@ -44,6 +44,9 @@ export default function DialogContent({
         void ctx.content.getModuleContents.invalidate({
           moduleCode: _module?.moduleCode,
         });
+        void ctx.module.getCourseModules.invalidate({
+          courseCode: course.courseCode,
+        });
       },
       onError: (e) => {
         const errorMessage = e.data?.zodError?.fieldErrors;

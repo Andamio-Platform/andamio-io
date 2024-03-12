@@ -1,6 +1,7 @@
 import { useEditor, EditorContent, Content } from "@tiptap/react";
 import { ExtensionKit } from "./extension-kit";
 import { useRef } from "react";
+import { TextMenu } from "./components/menus";
 
 export default class Editor {
   editor;
@@ -11,7 +12,7 @@ export default class Editor {
     initialContent = "<p>start typing...</p>",
   }: {
     editable?: boolean;
-    initialContent?: string;
+    initialContent?: Content;
   }) {
     this.editor = useEditor({
       extensions: [...ExtensionKit()],

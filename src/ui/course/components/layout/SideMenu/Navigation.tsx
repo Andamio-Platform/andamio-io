@@ -5,6 +5,7 @@ import { RouterOutputs, api } from "~/utils/api";
 import { useRouter } from "next/router";
 import { Module } from "~/types/db";
 import { useSession } from "next-auth/react";
+import Select from "~/components/form/select";
 
 export const courseNavigation = [
   { name: "Home", href: "/home", icon: HomeIcon, current: false },
@@ -190,7 +191,7 @@ function CoursePage() {
             {ownerCourses?.map((course) => (
               <li key={course.courseCode}>
                 <Link
-                  href={`/studio/${course.courseCode}`}
+                  href={`/course/${course.courseCode}`}
                   className={classNames(
                     router.query.coursecode == course.courseCode
                       ? "bg-gray-50 text-indigo-600"

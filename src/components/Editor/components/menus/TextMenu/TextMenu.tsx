@@ -1,6 +1,6 @@
 // import { Icon } from '../../ui/Icon'
 // import { Toolbar } from '../../ui/Toolbar'
-// // import { useTextmenuCommands } from './hooks/useTextmenuCommands'
+// import { useTextmenuCommands } from './hooks/useTextmenuCommands'
 // import { useTextmenuStates } from './hooks/useTextmenuStates'
 import { BubbleMenu, Editor } from '@tiptap/react'
 // import { memo } from 'react'
@@ -14,10 +14,10 @@ import { BubbleMenu, Editor } from '@tiptap/react'
 // // import { AIDropdown } from '../../../components/AIDropdown'
 // import { EditLinkPopover } from './components/EditLinkPopover'
 
-// We memorize the button so each button is not rerendered
-// on every editor state change
+// // We memorize the button so each button is not rerendered
+// // on every editor state change
 // const MemoButton = memo(Toolbar.Button)
-// const MemoColorPicker = memo(ColorPicker)
+// // const MemoColorPicker = memo(ColorPicker)
 // const MemoFontFamilyPicker = memo(FontFamilyPicker)
 // const MemoFontSizePicker = memo(FontSizePicker)
 // const MemoContentTypePicker = memo(ContentTypePicker)
@@ -90,7 +90,7 @@ export const TextMenu = ({ editor }: TextMenuProps) => {
   //         <Icon name="Code2" />
   //       </MemoButton>
   //       <EditLinkPopover onSetLink={commands.onLink} />
-  //       <Popover.Root>
+  //       {/* <Popover.Root>
   //         <Popover.Trigger asChild>
   //           <MemoButton active={!!states.currentHighlight} tooltip="Highlight text">
   //             <Icon name="Highlighter" />
@@ -105,8 +105,8 @@ export const TextMenu = ({ editor }: TextMenuProps) => {
   //             />
   //           </Surface>
   //         </Popover.Content>
-  //       </Popover.Root>
-  //       <Popover.Root>
+  //       </Popover.Root> */}
+  //       {/* <Popover.Root>
   //         <Popover.Trigger asChild>
   //           <MemoButton active={!!states.currentColor} tooltip="Text color">
   //             <Icon name="Palette" />
@@ -121,7 +121,7 @@ export const TextMenu = ({ editor }: TextMenuProps) => {
   //             />
   //           </Surface>
   //         </Popover.Content>
-  //       </Popover.Root>
+  //       </Popover.Root> */}
   //       <Popover.Root>
   //         <Popover.Trigger asChild>
   //           <MemoButton tooltip="More options">
@@ -183,6 +183,6 @@ export const TextMenu = ({ editor }: TextMenuProps) => {
   //         </Popover.Content>
   //       </Popover.Root>
   //     </Toolbar.Wrapper>
-    // </BubbleMenu>
+  //   </BubbleMenu>
   // )
 }

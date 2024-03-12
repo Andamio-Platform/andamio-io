@@ -82,7 +82,7 @@ export default function PageCourseContent({
   const { register, handleSubmit, reset } = useForm();
   const editor = new Editor({
     //@ts-expect-error todo how to fix this
-    initialContent: content ? content.contentJson ?? "" : "",
+    initialContent: content ? content.contentJson ?? undefined : undefined,
   });
   const [thisContent, setThisContent] = useState<any>();
 

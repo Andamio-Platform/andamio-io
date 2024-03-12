@@ -238,6 +238,7 @@ model Subscription {
 enum Network {
   PREPROD
   MAINNET
+  SANCHONET
 }
 
 model CourseOnChainInstance {

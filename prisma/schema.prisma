@@ -239,13 +239,16 @@ model CourseOnChainInstance {
   id                String @id @default(cuid())
   onchainInstanceId String @unique
 
-  courseRefAddress  String?
-  assignmentAddress String?
-  creatorCS         String?
-  facilitatorCS     String?
-  learnerCS         String?
-  courseRefUTxO     String?
-  assignmentRefUTxO String?
+  network              String?
+  courseRefAddress     String?
+  assignmentAddress    String?
+  creatorCS            String?
+  facilitatorCS        String?
+  learnerCS            String?
+  moduleCS             String?
+  courseRefUTxO        String?
+  assignmentRefUTxO    String?
+  moduleMintingRefUTxO String?
 
   withCourse Course @relation("CourseInstance", fields: [courseId], references: [id])
   courseId   String

@@ -25,6 +25,7 @@ export default function DialogCourseOnChain({
   const [onchainInstanceId, setOnchainInstanceId] = useState<
     string | undefined
   >(undefined);
+  const [network, setNetwork] = useState<string | undefined>(undefined);
   const [courseRefAddress, setCourseRefAddress] = useState<string | undefined>(
     undefined,
   );
@@ -36,16 +37,22 @@ export default function DialogCourseOnChain({
     undefined,
   );
   const [learnerCS, setLearnerCS] = useState<string | undefined>(undefined);
+  const [moduleCS, setModuleCS] = useState<string | undefined>(undefined);
   const [courseRefUTxO, setCourseRefUTxO] = useState<string | undefined>(
     undefined,
   );
   const [assignmentRefUTxO, setAssignmentRefUTxO] = useState<
     string | undefined
   >(undefined);
+  const [moduleMintingRefUTxO, setModuleMintingRefUTxO] = useState<
+    string | undefined
+  >(undefined);
 
   useEffect(() => {
     if (courseOnchain) {
       setOnchainInstanceId(courseOnchain[0]?.onchainInstanceId);
+      if (courseOnchain[0]?.network)
+        setNetwork(courseOnchain[0]?.network);
       if (courseOnchain[0]?.courseRefAddress)
         setCourseRefAddress(courseOnchain[0]?.courseRefAddress);
       if (courseOnchain[0]?.assignmentAddress)
@@ -56,10 +63,13 @@ export default function DialogCourseOnChain({
         setFacilitatorCS(courseOnchain[0]?.facilitatorCS);
       if (courseOnchain[0]?.learnerCS)
         setLearnerCS(courseOnchain[0]?.learnerCS);
+      if (courseOnchain[0]?.moduleCS) setModuleCS(courseOnchain[0]?.moduleCS);
       if (courseOnchain[0]?.courseRefUTxO)
         setCourseRefUTxO(courseOnchain[0]?.courseRefUTxO);
       if (courseOnchain[0]?.assignmentRefUTxO)
         setAssignmentRefUTxO(courseOnchain[0]?.assignmentRefUTxO);
+      if (courseOnchain[0]?.moduleMintingRefUTxO)
+        setAssignmentRefUTxO(courseOnchain[0]?.moduleMintingRefUTxO);
     }
   }, [courseOnchain]);
 
@@ -101,25 +111,31 @@ export default function DialogCourseOnChain({
     if (courseOnchain && onchainInstanceId) {
       update({
         onchainInstanceId: onchainInstanceId,
+        network: data.network,
         courseRefAddress: data.courseRefAddress,
         assignmentAddress: data.assignmentAddress,
         creatorCS: data.creatorCS,
         facilitatorCS: data.facilitatorCS,
         learnerCS: data.learnerCS,
+        moduleCS: data.moduleCS,
         courseRefUTxO: data.courseRefUTxO,
         assignmentRefUTxO: data.assignmentRefUTxO,
+        moduleMintingRefUTxO: data.moduleMintingRefUTxO,
       });
     } else {
       const _data = {
         courseId: course.id,
         onchainInstanceId: data.onchainInstanceId,
+        network: data.network,
         courseRefAddress: data.courseRefAddress,
         assignmentAddress: data.assignmentAddress,
         creatorCS: data.creatorCS,
         facilitatorCS: data.facilitatorCS,
         learnerCS: data.learnerCS,
+        moduleCS: data.moduleCS,
         courseRefUTxO: data.courseRefUTxO,
         assignmentRefUTxO: data.assignmentRefUTxO,
+        moduleMintingRefUTxO: data.moduleMintingRefUTxO,
       };
       create(_data);
     }
@@ -147,9 +163,15 @@ export default function DialogCourseOnChain({
       open={dialogOpen}
       setOpen={setDialogOpen}
     >
-
       {courseOnchain && courseOnchain[0] ? (
         <div className="mt-4 grid grid-cols-1 gap-y-4">
+          <FormFieldset label="Network">
+            <Input
+              name="network"
+              register={register}
+              placeholder={network}
+            />
+          </FormFieldset>
           <FormFieldset label="Course Validator Address">
             <Input
               name="courseRefAddress"
@@ -185,6 +207,9 @@ export default function DialogCourseOnChain({
               placeholder={learnerCS}
             />
           </FormFieldset>
+          <FormFieldset label="Module CS">
+            <Input name="moduleCS" register={register} placeholder={moduleCS} />
+          </FormFieldset>
           <FormFieldset label="Course Reference UTxO">
             <Input
               name="courseRefUTxO"
@@ -199,10 +224,20 @@ export default function DialogCourseOnChain({
               placeholder={assignmentRefUTxO}
             />
           </FormFieldset>
+          <FormFieldset label="Module Minting Reference UTxO">
+            <Input
+              name="moduleMintingRefUTxO"
+              register={register}
+              placeholder={moduleMintingRefUTxO}
+            />
+          </FormFieldset>
           <p>Onchain Instance Id: {onchainInstanceId}</p>
         </div>
       ) : (
         <div className="mt-4 grid grid-cols-1 gap-y-4">
+          <FormFieldset label="Network">
+            <Input name="network" register={register} />
+          </FormFieldset>
           <FormFieldset label="Course Validator Address">
             <Input name="courseRefAddress" register={register} />
           </FormFieldset>
@@ -218,11 +253,17 @@ export default function DialogCourseOnChain({
           <FormFieldset label="Learner CS">
             <Input name="learnerCS" register={register} />
           </FormFieldset>
+          <FormFieldset label="Learner CS">
+            <Input name="moduleCS" register={register} />
+          </FormFieldset>
           <FormFieldset label="Course Reference UTxO">
             <Input name="courseRefUTxO" register={register} />
           </FormFieldset>
           <FormFieldset label="Assignment Reference UTxO">
             <Input name="assignmentRefUTxO" register={register} />
+          </FormFieldset>
+          <FormFieldset label="Module Minting Reference UTxO">
+            <Input name="moduleMintingRefUTxO" register={register} />
           </FormFieldset>
           <FormFieldset label="Onchain Instance ID">
             <Input name="onchainInstanceId" register={register} />

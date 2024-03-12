@@ -1,3 +1,4 @@
+import { Network } from "@prisma/client";
 import { z } from "zod";
 
 import {
@@ -11,12 +12,15 @@ export const courseOnChainInstanceRouter = createTRPCRouter({
     .input(
       z.object({
         courseId: z.string().min(1),
+        network: z.nativeEnum(Network)
       }),
     )
     .query(({ ctx, input }) => {
+      console.log("check700")
       return ctx.db.courseOnChainInstance.findFirst({
         where: {
           courseId: input.courseId,
+          network: input.network
         },
       });
     }),
@@ -26,7 +30,7 @@ export const courseOnChainInstanceRouter = createTRPCRouter({
       z.object({
         courseId: z.string().min(1),
         onchainInstanceId: z.string().min(1),
-        network: z.string().min(1),
+        network: z.nativeEnum(Network),
         courseRefAddress: z.string().optional(),
         assignmentAddress: z.string().optional(),
         creatorCS: z.string().optional(),
@@ -65,7 +69,7 @@ export const courseOnChainInstanceRouter = createTRPCRouter({
     .input(
       z.object({
         onchainInstanceId: z.string().min(1),
-        network: z.string().min(1),
+        network: z.nativeEnum(Network),
         courseRefAddress: z.string().optional(),
         assignmentAddress: z.string().optional(),
         creatorCS: z.string().optional(),

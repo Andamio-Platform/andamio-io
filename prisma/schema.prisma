@@ -235,11 +235,16 @@ model Subscription {
   @@index([createdById])
 }
 
+enum Network {
+  PREPROD
+  MAINNET
+}
+
 model CourseOnChainInstance {
   id                String @id @default(cuid())
   onchainInstanceId String @unique
 
-  network              String?
+  network              Network @default(PREPROD)
   courseRefAddress     String?
   assignmentAddress    String?
   creatorCS            String?

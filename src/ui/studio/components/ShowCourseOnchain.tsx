@@ -5,9 +5,20 @@ import { Course, CourseOnChainInstance, CourseVariant } from "~/types/db";
 import { api } from "~/utils/api";
 import { useSession } from "next-auth/react";
 import DialogCourseOnChain from "./dialogs/DialogCourseOnChain";
+import { Network } from "@prisma/client";
+import FormFieldset from "~/components/form/form-fieldset";
+import Select from "~/components/form/select";
+import SelectNetwork from "~/components/select-network";
 
-export default function ShowCourseOnchain({ course }: { course: Course }) {
+export default function ShowCourseOnchain({
+  course,
+  network,
+}: {
+  course: Course;
+  network: Network;
+}) {
   const [showDialog, setShowDialog] = useState<boolean>(false);
+
   const [selectedOnChainInstance, setSelectedOnchainInstance] = useState<
     CourseOnChainInstance | undefined
   >(undefined);
@@ -20,6 +31,7 @@ export default function ShowCourseOnchain({ course }: { course: Course }) {
   const { data: courseOnchain } =
     api.courseOnChainInstance.getCourseOnchainInstances.useQuery({
       courseId: course.id,
+      network: network,
     });
 
   useEffect(() => {
@@ -30,7 +42,7 @@ export default function ShowCourseOnchain({ course }: { course: Course }) {
 
   return (
     <>
-      {selectedOnChainInstance && (
+      {selectedOnChainInstance ? (
         <Card>
           <table className="min-w-full border-separate border-spacing-0">
             <thead>
@@ -152,6 +164,18 @@ export default function ShowCourseOnchain({ course }: { course: Course }) {
             </div>
           </table>
         </Card>
+      ) : (
+        <>
+          <div className="flex place-content-end">
+            <Button
+              onClick={() => {
+                setShowDialog(true);
+              }}
+            >
+              Add On-Chain Info
+            </Button>
+          </div>
+        </>
       )}
 
       <DialogCourseOnChain
@@ -159,6 +183,7 @@ export default function ShowCourseOnchain({ course }: { course: Course }) {
         setDialogOpen={setShowDialog}
         course={course}
         courseOnchain={selectedOnChainInstance}
+        selectedNetwork={network}
       />
     </>
   );

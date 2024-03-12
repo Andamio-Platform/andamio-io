@@ -14,7 +14,7 @@ export const courseOnChainInstanceRouter = createTRPCRouter({
       }),
     )
     .query(({ ctx, input }) => {
-      return ctx.db.courseOnChainInstance.findMany({
+      return ctx.db.courseOnChainInstance.findFirst({
         where: {
           courseId: input.courseId,
         },

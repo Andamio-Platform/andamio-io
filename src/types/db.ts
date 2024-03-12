@@ -1,5 +1,11 @@
 import { RouterOutputs } from "~/utils/api";
 
+// Todo
+// Compare Course with [number]
+// to CourseOnChainInstance, which doesn't have it
+// Add [number] and see how TS complains
+
+
 export type Course = RouterOutputs["course"]["getCoursesByOwner"][number];
 export type Module = RouterOutputs["module"]["getCourseModules"][number];
 export type Content = RouterOutputs["content"]["getModuleContents"][number];

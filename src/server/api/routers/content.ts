@@ -79,11 +79,11 @@ export const contentRouter = createTRPCRouter({
         contentCode: z.string().min(1),
         type: z.nativeEnum(ContentType),
         title: z.string().min(1),
-        description: z.string().optional(),
         slt: z.string().optional(),
         imageUrl: z.string().optional(),
         videoUrl: z.string().optional(),
         contentJson: z.any().optional(),
+        live: z.boolean().optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -95,11 +95,11 @@ export const contentRouter = createTRPCRouter({
           contentCode: input.contentCode,
           type: input.type,
           title: input.title,
-          description: input.description,
           slt: input.slt,
           imageUrl: input.imageUrl,
           videoUrl: input.videoUrl,
           contentJson: input.contentJson,
+          live: input.live,
         },
       });
     }),

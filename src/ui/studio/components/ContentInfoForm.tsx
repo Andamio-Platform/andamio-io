@@ -30,7 +30,9 @@ export default function ContentInfoForm({
       </div>
 
       <div className="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0">
-        <dt className="text-sm font-medium leading-6 text-gray-900">Code</dt>
+        <dt className="text-sm font-medium leading-6 text-gray-900">
+          Content code
+        </dt>
         <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
           <Input
             name="contentCode"
@@ -50,7 +52,6 @@ export default function ContentInfoForm({
               value: type,
               label: type,
             }))}
-            value={content.type}
             disabled={disabledVariantFields}
           />
         </dd>
@@ -69,7 +70,6 @@ export default function ContentInfoForm({
         <dt className="text-sm font-medium leading-6 text-gray-900">Module</dt>
         <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
           <Select
-            value={content.moduleId}
             name="moduleId"
             register={register}
             options={
@@ -87,10 +87,24 @@ export default function ContentInfoForm({
 
       <div className="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0">
         <dt className="text-sm font-medium leading-6 text-gray-900">
-          Description
+          Content is Live
         </dt>
         <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
-          <Input name="description" register={register} />
+          <Select
+            name="live"
+            register={register}
+            options={[
+              {
+                value: 0,
+                label: "Not Live",
+              },
+              {
+                value: 1,
+                label: "Live",
+              },
+            ]}
+            disabled={disabledVariantFields}
+          />
         </dd>
       </div>
 

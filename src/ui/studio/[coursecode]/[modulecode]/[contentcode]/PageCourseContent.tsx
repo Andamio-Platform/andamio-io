@@ -80,6 +80,7 @@ export default function PageCourseContent({
   //
 
   const { register, handleSubmit, reset } = useForm();
+
   const editor = new Editor({
     //@ts-expect-error todo how to fix this
     initialContent: content ? content.contentJson ?? undefined : undefined,
@@ -96,7 +97,6 @@ export default function PageCourseContent({
         contentId: content.id,
         contentVariantId: contentVariant.id,
         title: data.title,
-        description: data.description,
         slt: data.slt ?? "",
         videoUrl: data.videoUrl ?? "",
         contentJson: editor.getJSON(),
@@ -108,10 +108,10 @@ export default function PageCourseContent({
         contentCode: data.contentCode,
         type: data.contentType,
         title: data.title,
-        description: data.description,
         slt: data.slt ?? "",
         videoUrl: data.videoUrl ?? "",
         contentJson: editor.getJSON(),
+        live: data.live == 1,
       };
       update(_content);
     }
@@ -131,6 +131,7 @@ export default function PageCourseContent({
           description: _content.description,
           slt: _content.slt,
           videoUrl: _content.videoUrl,
+          live: _content.live,
         });
 
         if (_content.contentJson) editor.setContent(_content.contentJson);

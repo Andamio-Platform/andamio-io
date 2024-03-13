@@ -53,7 +53,7 @@
 }
 
 .blogPostContainer code {
-  @apply p-[1px] bg-primary text-primary-content rounded-sm
+  @apply p-[1px] bg-primary text-info rounded-sm
 }
 
 .blogPostContainer blockquote {

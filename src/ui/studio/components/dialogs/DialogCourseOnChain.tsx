@@ -107,8 +107,8 @@ export default function DialogCourseOnChain({
     <DialogBox
       title={
         courseOnchain
-          ? `Editing ${courseOnchain?.onchainInstanceId}`
-          : "Create a new course variant"
+          ? `Editing On-Chain Course Config ${courseOnchain?.onchainInstanceId}`
+          : "On-Chain Course Config"
       }
       isForm={{
         buttonLabel: courseOnchain ? "Save" : "Create",
@@ -169,7 +169,7 @@ export default function DialogCourseOnChain({
           <FormFieldset label="Learner CS">
             <Input name="learnerCS" register={register} />
           </FormFieldset>
-          <FormFieldset label="Learner CS">
+          <FormFieldset label="Module CS">
             <Input name="moduleCS" register={register} />
           </FormFieldset>
           <FormFieldset label="Course Reference UTxO">

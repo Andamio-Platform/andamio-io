@@ -129,7 +129,7 @@ function ListModules({
   if (modules == undefined) return <></>;
 
   return (
-    <div className="mx-auto max-w-7xl px-6 lg:px-8">
+    <div className="mx-auto w-full max-w-7xl px-6 lg:px-8">
       <div className="mx-auto max-w-4xl divide-y divide-gray-900/10">
         <Card>
           <dl className="space-y-6 divide-y divide-gray-900/10">
@@ -238,25 +238,30 @@ function ListContent({
 
   return (
     <ul role="list" className="divide-y divide-gray-100">
-      {contents.sort(sortBy).map((content, i) => (
-        <li
-          key={`content${i}`}
-          className="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 sm:flex-nowrap"
-        >
-          <Link
-            href={`/course/${courseCode}/${moduleCode}/${content.contentCode}`}
+      {contents
+        .sort(sortBy)
+        .filter((content) => {
+          return content.live == true;
+        })
+        .map((content, i) => (
+          <li
+            key={`content${i}`}
+            className="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 sm:flex-nowrap"
           >
-            <p className="flex items-center gap-x-2 text-sm font-semibold leading-6 text-gray-900">
-              <span>{content.contentCode}</span>
-              <CircleIcon />
-              {content.title}
-            </p>
-            <div className="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
-              <p>{content.slt}</p>
-            </div>
-          </Link>
-        </li>
-      ))}
+            <Link
+              href={`/course/${courseCode}/${moduleCode}/${content.contentCode}`}
+            >
+              <p className="flex items-center gap-x-2 text-sm font-semibold leading-6 text-gray-900">
+                <span>{content.contentCode}</span>
+                <CircleIcon />
+                {content.title}
+              </p>
+              <div className="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
+                <p>{content.slt}</p>
+              </div>
+            </Link>
+          </li>
+        ))}
     </ul>
   );
 }

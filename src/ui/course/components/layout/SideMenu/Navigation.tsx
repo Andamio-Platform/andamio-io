@@ -112,33 +112,38 @@ function Content({
 
   return (
     <>
-      {contents.sort(sortBy).map((content, i) => (
-        <li key={content.contentCode}>
-          <Link
-            href={`/course/${router.query.coursecode as string}/${moduleCode}/${content.contentCode}`}
-            className={classNames(
-              router.query.coursecode == content.contentCode
-                ? "bg-gray-50 text-indigo-600"
-                : "text-gray-700 hover:bg-gray-50 hover:text-indigo-600",
-              "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
-            )}
-          >
-            <span
+      {contents
+        .sort(sortBy)
+        .filter((content) => {
+          return content.live == true;
+        })
+        .map((content, i) => (
+          <li key={content.contentCode}>
+            <Link
+              href={`/course/${router.query.coursecode as string}/${moduleCode}/${content.contentCode}`}
               className={classNames(
                 router.query.coursecode == content.contentCode
-                  ? "border-indigo-600 text-indigo-600"
-                  : "border-gray-200 text-gray-400 group-hover:border-indigo-600 group-hover:text-indigo-600",
-                "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border bg-white text-[0.625rem] font-medium",
+                  ? "bg-gray-50 text-indigo-600"
+                  : "text-gray-700 hover:bg-gray-50 hover:text-indigo-600",
+                "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
               )}
             >
-              {content.contentCode.length > 1
-                ? content.contentCode.substring(0, 1)
-                : content.contentCode}
-            </span>
-            <span className="truncate">{content.title}</span>
-          </Link>
-        </li>
-      ))}
+              <span
+                className={classNames(
+                  router.query.coursecode == content.contentCode
+                    ? "border-indigo-600 text-indigo-600"
+                    : "border-gray-200 text-gray-400 group-hover:border-indigo-600 group-hover:text-indigo-600",
+                  "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border bg-white text-[0.625rem] font-medium",
+                )}
+              >
+                {content.contentCode.length > 1
+                  ? content.contentCode.substring(0, 1)
+                  : content.contentCode}
+              </span>
+              <span className="truncate">{content.title}</span>
+            </Link>
+          </li>
+        ))}
     </>
   );
 }

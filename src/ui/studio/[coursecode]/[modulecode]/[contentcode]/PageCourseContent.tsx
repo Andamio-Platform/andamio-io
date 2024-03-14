@@ -111,7 +111,7 @@ export default function PageCourseContent({
         slt: data.slt ?? "",
         videoUrl: data.videoUrl ?? "",
         contentJson: editor.getJSON(),
-        live: data.live == 1,
+        live: data.live == "true",
       };
       update(_content);
     }
@@ -131,7 +131,7 @@ export default function PageCourseContent({
           description: _content.description,
           slt: _content.slt,
           videoUrl: _content.videoUrl,
-          live: _content.live,
+          live: _content.live ? _content.live : false,
         });
 
         if (_content.contentJson) editor.setContent(_content.contentJson);

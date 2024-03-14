@@ -19,7 +19,6 @@ export default function ContentInfoForm({
   const { data: modules } = api.module.getCourseModules.useQuery({
     courseCode: courseCode,
   });
-
   return (
     <dl className="grid grid-cols-1 gap-4 sm:grid-cols-3">
       <div className="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0">
@@ -95,11 +94,11 @@ export default function ContentInfoForm({
             register={register}
             options={[
               {
-                value: 0,
+                value: false,
                 label: "Not Live",
               },
               {
-                value: 1,
+                value: true,
                 label: "Live",
               },
             ]}
@@ -108,14 +107,20 @@ export default function ContentInfoForm({
         </dd>
       </div>
 
-      <div className="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0">
-        <dt className="text-sm font-medium leading-6 text-gray-900">
-          Student Learning Target
-        </dt>
-        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
-          <Input name="slt" register={register} />
-        </dd>
-      </div>
+      {content.type == "LESSON" && (
+        <div className="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0">
+          <dt className="text-sm font-medium leading-6 text-gray-900">
+            Student Learning Target
+          </dt>
+          <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
+            <Input
+              name="slt"
+              register={register}
+              disabled={content.type != "LESSON"}
+            />
+          </dd>
+        </div>
+      )}
 
       {/* <div className="border-t border-gray-100 px-4 py-6 sm:col-span-2 sm:px-0">
             <dt className="text-sm font-medium leading-6 text-gray-900">

@@ -7,6 +7,29 @@ import {
 } from "~/server/api/trpc";
 
 export const moduleRouter = createTRPCRouter({
+  getModule: publicProcedure
+    .input(z.object({ moduleId: z.string() }))
+    .query(({ ctx, input }) => {
+      return ctx.db.module.findFirst({
+        where: {
+          id: input.moduleId,
+        },
+        include: {
+          contents: {
+            select: {
+              id: true,
+              title: true,
+              type: true,
+              description: true,
+              slt: true,
+              contentCode: true,
+              live: true,
+            },
+          },
+        },
+      });
+    }),
+
   getCourseModules: publicProcedure
     .input(z.object({ courseCode: z.string() }))
     .query(({ ctx, input }) => {
@@ -30,6 +53,7 @@ export const moduleRouter = createTRPCRouter({
               description: true,
               slt: true,
               contentCode: true,
+              live: true,
             },
           },
         },

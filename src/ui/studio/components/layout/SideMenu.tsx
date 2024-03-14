@@ -17,6 +17,7 @@ function classNames(...classes: string[]) {
 export default function SideMenu() {
   const { data: sessionData } = useSession();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const { data: ownerCourses, isLoading } =
     api.course.getCoursesByOwner.useQuery(undefined, {
       enabled: sessionData != null,
@@ -229,8 +230,18 @@ export default function SideMenu() {
               </li>
               {sessionData && (
                 <li className="-mx-6 mt-auto">
+                  {isProfileMenuOpen && (
+                    <button
+                      onClick={() => void signOut({ callbackUrl: "/" })}
+                      className="block w-full px-6 py-3 text-left text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-50 focus:outline-none"
+                    >
+                      Sign Out
+                    </button>
+                  )}
                   <a
-                    onClick={() => void signOut({ callbackUrl: "/" })}
+                    onClick={() =>
+                      setIsProfileMenuOpen((prevState) => !prevState)
+                    }
                     className="flex cursor-pointer items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-50"
                   >
                     <img

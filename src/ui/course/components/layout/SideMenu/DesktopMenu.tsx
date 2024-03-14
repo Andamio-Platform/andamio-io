@@ -1,8 +1,10 @@
 import { useSession, signOut } from "next-auth/react";
 import Navigation from "./Navigation";
+import { useState } from "react";
 
 export default function DesktopMenu() {
   const { data: sessionData } = useSession();
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
 
   return (
     <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
@@ -15,8 +17,18 @@ export default function DesktopMenu() {
             <Navigation />
             {sessionData && (
               <li className="-mx-6 mt-auto">
+                {isProfileMenuOpen && (
+                  <button
+                    onClick={() => void signOut({ callbackUrl: "/" })}
+                    className="block w-full px-6 py-3 text-left text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-50 focus:outline-none"
+                  >
+                    Sign Out
+                  </button>
+                )}
                 <a
-                  onClick={() => void signOut({ callbackUrl: "/" })}
+                  onClick={() =>
+                    setIsProfileMenuOpen((prevState) => !prevState)
+                  }
                   className="flex cursor-pointer items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-50"
                 >
                   <img

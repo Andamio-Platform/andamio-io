@@ -22,10 +22,7 @@ export default function Hero() {
               Andamio Learning and Contribution Platform
             </h1>
             <p className="mt-6 text-lg leading-8 text-gray-600">
-              The trusted network for Lorem ipsum dolor sit amet consectetur
-              adipisicing elit. Quos distinctio omnis animi maiores corporis,
-              quisquam, harum accusantium tenetur, itaque autem tempora.
-              Asperiores rerum quaerat illo libero ducimus numquam sequi sed.
+              Learn and contribute
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <Link href={`/auth/signin`}>

@@ -1,3 +1,7 @@
+
 export default function DebugUiPage() {
-  return <></>;
+  return (
+    <>
+    </>
+  );
 }

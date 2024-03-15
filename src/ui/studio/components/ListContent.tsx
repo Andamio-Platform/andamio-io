@@ -14,6 +14,8 @@ export default function ListContent({
   course: Course;
   module: Module;
 }) {
+  if (course == null) return null;
+
   const { data: moduleContents, isLoading } =
     api.content.getModuleContents.useQuery({
       courseCode: course.courseCode,

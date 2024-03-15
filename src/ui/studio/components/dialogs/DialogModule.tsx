@@ -12,6 +12,7 @@ import Button from "~/components/button";
 import FormLabel from "~/components/form/form-label";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import Tabs from "~/components/tabs";
+import useCourseVariants from "~/hooks/useCourseVariants";
 
 export default function DialogModule({
   moduleDialogOpen,
@@ -28,8 +29,6 @@ export default function DialogModule({
 
   const { register, handleSubmit, reset } = useForm();
 
-  const [tabs, setTabs] = useState([{ name: "Main", value: "main" }]);
-  const [currentVariantTab, setCurrentVariantTab] = useState<string>("main");
   const [currentCourseVariant, setCurrentCourseVariant] = useState<
     CourseVariant | undefined
   >(undefined);
@@ -39,9 +38,15 @@ export default function DialogModule({
 
   const { data: courseVariants } = api.courseVariant.getCourseVariants.useQuery(
     {
-      courseId: course.id,
+      courseId: course ? course.id : "",
+    },
+    {
+      enabled: course ? true : false,
     },
   );
+
+  const { listCourseVariant, selectedVariantName, setSelectedVariantName } =
+    useCourseVariants(course?.id);
 
   const { data: moduleVariants } = api.moduleVariant.getmoduleVariants.useQuery(
     {
@@ -129,32 +134,35 @@ export default function DialogModule({
     });
 
   function onSubmit(data: FieldValues) {
-    if (module) {
-      if (currentVariantTab != "main" && currentCourseVariant) {
-        moduleVariantUpsert({
-          courseVariantId: currentCourseVariant.id,
-          moduleId: module.id,
-          moduleVariantId: currentModuleVariant ? currentModuleVariant.id : "",
-          variantCode: currentVariantTab,
-          title: data.title,
-          description: data.description,
-        });
+    if (course) {
+      if (module) {
+        if (selectedVariantName != "main" && currentCourseVariant) {
+          moduleVariantUpsert({
+            courseVariantId: currentCourseVariant.id,
+            moduleId: module.id,
+            moduleVariantId: currentModuleVariant
+              ? currentModuleVariant.id
+              : "",
+            title: data.title,
+            description: data.description,
+          });
+        } else {
+          moduleUpdate({
+            moduleId: module.id,
+            courseCode: course.courseCode,
+            moduleCode: data.moduleCode,
+            title: data.title,
+            description: data.description,
+          });
+        }
       } else {
-        moduleUpdate({
-          moduleId: module.id,
-          courseCode: course.courseCode,
+        moduleCreate({
+          courseId: course.id,
           moduleCode: data.moduleCode,
           title: data.title,
           description: data.description,
         });
       }
-    } else {
-      moduleCreate({
-        courseId: course.id,
-        moduleCode: data.moduleCode,
-        title: data.title,
-        description: data.description,
-      });
     }
   }
 
@@ -167,23 +175,13 @@ export default function DialogModule({
   }
 
   useEffect(() => {
-    if (courseVariants) {
-      const _tabs = [{ name: "Main", value: "main" }];
-      courseVariants.map((variant) => {
-        _tabs.push({ name: variant.variantCode, value: variant.variantCode });
-      });
-      setTabs(_tabs);
-    }
-  }, [courseVariants]);
-
-  useEffect(() => {
     if (moduleDialogOpen) {
-      if (currentVariantTab != "main") {
+      if (selectedVariantName != "main") {
         let found = false;
 
         if (courseVariants) {
           courseVariants.find((x: CourseVariant) => {
-            if (x.variantCode === currentVariantTab) {
+            if (x.variantCode === selectedVariantName) {
               setCurrentCourseVariant(x);
             }
           });
@@ -192,7 +190,7 @@ export default function DialogModule({
         if (moduleVariants) {
           const _moduleVariant = moduleVariants.find(
             (x: ModuleVariant) =>
-              x.courseVariant.variantCode == currentVariantTab,
+              x.courseVariant.variantCode == selectedVariantName,
           );
           if (_moduleVariant) {
             reset(_moduleVariant);
@@ -216,7 +214,7 @@ export default function DialogModule({
     } else {
       clearForm();
     }
-  }, [moduleDialogOpen, currentVariantTab]);
+  }, [moduleDialogOpen, selectedVariantName]);
 
   return (
     <DialogBox
@@ -239,9 +237,9 @@ export default function DialogModule({
       </DialogParagraph>
 
       <Tabs
-        tabs={tabs}
-        current={currentVariantTab}
-        onChange={setCurrentVariantTab}
+        tabs={listCourseVariant}
+        current={selectedVariantName}
+        onChange={setSelectedVariantName}
       />
 
       <div className="mt-4 grid grid-cols-1 gap-y-4">
@@ -257,7 +255,7 @@ export default function DialogModule({
           <Input
             name="moduleCode"
             register={register}
-            disabled={currentVariantTab != "main"}
+            disabled={selectedVariantName != "main"}
           />
         </FormFieldset>
 

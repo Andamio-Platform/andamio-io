@@ -24,9 +24,14 @@ export default function DialogContent({
 }) {
   const ctx = api.useUtils();
 
-  const { data: modules, isLoading } = api.module.getCourseModules.useQuery({
-    courseCode: course.courseCode,
-  });
+  const { data: modules, isLoading } = api.module.getCourseModules.useQuery(
+    {
+      courseCode: course ? course.courseCode : "",
+    },
+    {
+      enabled: !!course,
+    },
+  );
 
   const { register, handleSubmit, reset } = useForm();
 
@@ -38,6 +43,9 @@ export default function DialogContent({
         const _module = modules?.find((c) => c.id === data.moduleId);
         void ctx.content.getModuleContents.invalidate({
           moduleCode: _module?.moduleCode,
+        });
+        void ctx.module.getCourseModules.invalidate({
+          courseCode: course.courseCode,
         });
       },
       onError: (e) => {

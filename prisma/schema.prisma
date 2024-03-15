@@ -6,8 +6,8 @@ generator client {
 }
 
 datasource db {
-  // provider = "postgresql"
-  provider     = "mysql"
+  provider     = "postgresql"
+  // provider     = "mysql"
   // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below
   // Further reading:
   // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
@@ -71,8 +71,8 @@ model User {
   courses          Course[]         @relation("CreatedCourses")
   contents         Content[]        @relation("CreatedContents")
   contentsVariants ContentVariant[] @relation("CreatedContentsVariants")
-  managedCourses   Course[]         @relation("ManagedCourses")
-  joinedCourses    Course[]         @relation("JoinedCourses")
+  managedCourses   Course[]         @relation("CourseManagers")
+  joinedCourses    Course[]         @relation("CourseLearners")
   subscriptions    Subscription[]   @relation("Subscriptions")
 }
 
@@ -98,7 +98,6 @@ model Content {
   title       String
   description String?
   slt         String?
-  contentHtml String?     @db.Text
   contentJson Json?
   imageUrl    String?
   videoUrl    String?
@@ -121,20 +120,20 @@ model Content {
 }
 
 model ContentVariant {
-  id          String @id @default(cuid())
-  variantCode String
+  id String @id @default(cuid())
 
   title       String
   description String?
   slt         String?
   imageUrl    String?
   videoUrl    String?
-  contentHtml String?  @db.Text
   contentJson Json?
   live        Boolean?
 
-  contentId String
-  content   Content @relation("ContentsVariants", fields: [contentId], references: [id])
+  contentId       String
+  content         Content       @relation("ContentsVariants", fields: [contentId], references: [id])
+  courseVariantId String
+  courseVariant   CourseVariant @relation("ContentVariantsCourseVariant", fields: [courseVariantId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -142,6 +141,7 @@ model ContentVariant {
   createdBy   User   @relation("CreatedContentsVariants", fields: [createdById], references: [id])
   createdById String
 
+  @@index([courseVariantId])
   @@index([createdById])
   @@index([contentId])
   @@index([id])
@@ -194,10 +194,10 @@ model Course {
   imageUrl    String?
   videoUrl    String?
 
-  modules         Module[]                @relation("CourseModules")
-  managers        User[]                  @relation("ManagedCourses")
-  joinedUsers     User[]                  @relation("JoinedCourses")
-  variants        CourseVariant[]         @relation("CourseVariants")
+  modules     Module[]        @relation("CourseModules")
+  managers    User[]          @relation("CourseManagers")
+  joinedUsers User[]          @relation("CourseLearners")
+  variants    CourseVariant[] @relation("CourseVariants")
   onchainInstance CourseOnChainInstance[] @relation("CourseInstance")
 
   createdBy   User   @relation("CreatedCourses", fields: [createdById], references: [id])
@@ -217,9 +217,10 @@ model CourseVariant {
   imageUrl    String?
   videoUrl    String?
 
-  courseId       String
-  course         Course          @relation("CourseVariants", fields: [courseId], references: [id])
-  moduleVariants ModuleVariant[] @relation("ModuleVariantsCourseVariant")
+  courseId        String
+  course          Course           @relation("CourseVariants", fields: [courseId], references: [id])
+  moduleVariants  ModuleVariant[]  @relation("ModuleVariantsCourseVariant")
+  contentVariants ContentVariant[] @relation("ContentVariantsCourseVariant")
 
   @@index([courseId])
   @@index([id])

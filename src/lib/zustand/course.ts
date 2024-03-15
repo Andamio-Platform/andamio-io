@@ -1,11 +1,12 @@
+import { CourseVariant } from "@prisma/client";
 import { create } from "zustand";
 
 interface CourseState {
-  courseVariant: string | undefined;
-  setCourseVariant: (variant: string | undefined) => void;
+  courseVariant: CourseVariant | undefined;
+  setCourseVariant: (variant: CourseVariant | undefined) => void;
 }
 
 export const useCourseStore = create<CourseState>()((set, get) => ({
-  courseVariant: 'JP', // todo
+  courseVariant: undefined,
   setCourseVariant: (variant) => set({ courseVariant: variant }),
 }));

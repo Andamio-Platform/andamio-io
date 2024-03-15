@@ -9,6 +9,7 @@ import DialogCourse from "~/ui/studio/components/dialogs/DialogCourse";
 export default function CourseTitle({ course }: { course: Course }) {
   const [courseDialogOpen, setCourseDialogOpen] = useState(false);
   const { data: sessionData } = useSession();
+
   const isOwner = course.createdById === sessionData?.user?.id;
 
   return (

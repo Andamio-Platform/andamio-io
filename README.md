@@ -1,28 +1,45 @@
-# Create T3 App
+# Andamio Platform
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+### Commands to run
 
-## What's next? How do I make an app with this?
+- `build`: check lint and build Next JS project - use before deploy to GitHub and Vercel
+- `db:update`: format, push and generate the database - use after changing the database schema (prisma/schema.prisma)
+- `dev`: run the development server
+- `db:studio`: open the Prisma Studio - to view database tables and data
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+### Folder structure
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+The folder structure of this project is as follows:
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+```
+.
+├── prisma # the database schema
+├── src # the main source code of the project
+│   ├── components # basic UI components
+│   ├── hooks # custom reusable hooks
+│   ├── lib # reusable functions and third party libraries
+│   ├── pages # the routing of every page
+│   ├── server # contains backend services including auth, DB and TRPC
+│   │   ├── api/root.ts # TRPC router, add if new routers are added
+│   │   ├── api/routers # database queries and mutations
+│   ├── styles # global styles and theme
+│   ├── types # global types
+│   ├── ui # main UI source codes, including business logic
+│   ├── utils # utility functions
+│   ├── env.js # environment variables
+```
 
-## Learn More
+### Environment variables
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+```
+# Database URL
+DATABASE_URL="postgres://..."
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+# Next Auth
+NEXTAUTH_SECRET=""
+NEXTAUTH_URL="http://localhost:3000"
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
-
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+# Next Auth Discord Provider
+DISCORD_CLIENT_ID=""
+DISCORD_CLIENT_SECRET=""
+```

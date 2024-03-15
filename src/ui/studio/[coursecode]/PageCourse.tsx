@@ -1,4 +1,3 @@
-import { api } from "~/utils/api";
 import { useState } from "react";
 import Tabs from "~/components/tabs";
 import Loading from "~/components/loading";
@@ -7,6 +6,8 @@ import CourseTitle from "~/ui/studio/components/CourseTitle";
 import ListModules from "~/ui/studio/components/ListModules";
 import ListCourseManagers from "~/ui/studio/components/ListCourseManagers";
 import ListCourseVariants from "../components/ListCourseVariants";
+
+import useCourseByOwner from "~/hooks/useCourseByOwner";
 import { useSession } from "next-auth/react";
 import ShowCourseOnchain from "../components/ShowCourseOnchain";
 import { Network } from "@prisma/client";
@@ -14,12 +15,8 @@ import FormFieldset from "~/components/form/form-fieldset";
 import SelectNetwork from "~/components/select-network";
 
 export default function PageCourse({ courseCode }: { courseCode: string }) {
-  const { data: sessionData } = useSession();
-  const { data: ownerCourses, isLoading } =
-    api.course.getCoursesByOwner.useQuery(undefined, {
-      enabled: sessionData != null,
-    });
-  const course = ownerCourses?.find((c) => c.courseCode === courseCode);
+  
+  const { course, isLoading } = useCourseByOwner(courseCode);
   const [currentTab, setCurrentTab] = useState<string>("modules");
   const [selectedNetwork, setSelectedNetwork] = useState<Network>("PREPROD");
 

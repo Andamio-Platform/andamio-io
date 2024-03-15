@@ -3,19 +3,17 @@ import { useEffect, useState } from "react";
 import Button from "~/components/button";
 import { FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import dynamic from "next/dynamic";
-import { useRouter } from "next/router";
+// import dynamic from "next/dynamic";
 import StudioLayout from "~/ui/studio/components/layout/StudioLayout";
 import ContentInfoForm from "~/ui/studio/components/ContentInfoForm";
-// import ContentEditor from "~/ui/studio/components/ContentEditor";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
-
-const ContentEditor = dynamic(
-  () => import("~/ui/studio/components/ContentEditor"),
-  {
-    loading: () => <p>Loading...</p>,
-  },
-);
+import Tabs from "~/components/tabs";
+import useCourseByOwner from "~/hooks/useCourseByOwner";
+import useCourseVariants from "~/hooks/useCourseVariants";
+import useContent from "~/hooks/useContent";
+import useContentVarient from "~/hooks/useContentVarient";
+import mergeObjects from "~/utils/mergeObjects";
+import Editor from "~/components/Editor";
 
 export default function PageCourseContent({
   courseCode,
@@ -27,11 +25,19 @@ export default function PageCourseContent({
   contentCode: string;
 }) {
   const ctx = api.useUtils();
-  const router = useRouter();
 
-  const { data: ownerCourses, isLoading } =
-    api.content.getModuleContents.useQuery({ courseCode, moduleCode });
-  const content = ownerCourses?.find((c) => c.contentCode === contentCode);
+  const { content } = useContent(courseCode, moduleCode, contentCode);
+  const { course } = useCourseByOwner(courseCode);
+  const {
+    listCourseVariant,
+    selectedVariantName,
+    setSelectedVariantName,
+    selectedCourseVariant,
+  } = useCourseVariants(course?.id);
+  const { contentVariant } = useContentVarient(
+    content?.id,
+    selectedCourseVariant?.id,
+  );
 
   const { mutate: update, isLoading: isLoadingUpdate } =
     api.content.update.useMutation({
@@ -46,51 +52,96 @@ export default function PageCourseContent({
         if (errorMessage) {
           toast.error("Some inputs are missing or invalid");
         } else {
-          toast.error("Course Code taken. Please try again.");
+          toast.error("Content Code taken. Please try again.");
         }
       },
     });
 
+  const {
+    mutate: upsertContentVariant,
+    isLoading: isLoadingUpsertContentVariant,
+  } = api.contentVariant.upsert.useMutation({
+    onSuccess: (data) => {
+      toast.success("Content updated!");
+      void ctx.contentVariant.getContentVariants.invalidate({
+        contentId: content?.id,
+      });
+    },
+    onError: (e) => {
+      const errorMessage = e.data?.zodError?.fieldErrors;
+      if (errorMessage) {
+        toast.error("Some inputs are missing or invalid");
+      } else {
+        toast.error("Content Code taken. Please try again.");
+      }
+    },
+  });
+
+  //
+
   const { register, handleSubmit, reset } = useForm();
 
-  const [contentJson, setContentJson] = useState<{} | null>(null);
-  const [contentHtml, setcontentHtml] = useState<string>("");
-  const [loaded, setLoaded] = useState<boolean>(false);
+  const editor = new Editor({
+    //@ts-expect-error todo how to fix this
+    initialContent: content ? content.contentJson ?? undefined : undefined,
+  });
+  const [thisContent, setThisContent] = useState<any>();
 
+  // todo save variant
   function onSubmit(data: FieldValues) {
-    if (content) {
+    if (!content) return;
+
+    if (selectedCourseVariant && contentVariant) {
+      const updateContent = {
+        courseVariantId: selectedCourseVariant.id,
+        contentId: content.id,
+        contentVariantId: contentVariant.id,
+        title: data.title,
+        slt: data.slt ?? "",
+        videoUrl: data.videoUrl ?? "",
+        contentJson: editor.getJSON(),
+      };
+      upsertContentVariant(updateContent);
+    } else {
       const _content = {
         id: content.id,
         contentCode: data.contentCode,
         type: data.contentType,
         title: data.title,
-        description: data.description,
         slt: data.slt ?? "",
         videoUrl: data.videoUrl ?? "",
-        contentJson: contentJson,
-        contentHtml: contentHtml,
+        contentJson: editor.getJSON(),
+        live: data.live == "true",
       };
       update(_content);
     }
   }
 
   useEffect(() => {
-    if (content && !loaded) {
-      if (content.contentJson) setContentJson(content.contentJson);
-      if (content.contentHtml) setcontentHtml(content.contentHtml);
-      reset({
-        contentCode: content.contentCode,
-        type: content.type,
-        title: content.title,
-        description: content.description,
-        slt: content.slt,
-        videoUrl: content.videoUrl,
-      });
-      setLoaded(true);
-    }
-  }, [content]);
+    if (content) {
+      const _content = contentVariant
+        ? mergeObjects(contentVariant, content)
+        : content;
 
-  if (content === undefined) return <></>;
+      if (_content) {
+        reset({
+          contentCode: _content.contentCode,
+          type: _content.type,
+          title: _content.title,
+          description: _content.description,
+          slt: _content.slt,
+          videoUrl: _content.videoUrl,
+          live: _content.live ? _content.live : false,
+        });
+
+        if (_content.contentJson) editor.setContent(_content.contentJson);
+
+        setThisContent(_content);
+      }
+    }
+  }, [content, contentVariant]);
+
+  if (thisContent === undefined) return <></>;
 
   return (
     <StudioLayout>
@@ -99,12 +150,13 @@ export default function PageCourseContent({
           <div className="flex px-4 py-6 sm:px-6">
             <div className="grow">
               <h3 className="text-base font-semibold leading-7 text-gray-900">
-                {content.type} - {content.title}
+                {thisContent.type} - {thisContent.title}
               </h3>
               <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
-                {content.description}
+                {thisContent.description}
               </p>
             </div>
+
             <div>
               <div className="gap-2 sm:flex">
                 <Button
@@ -118,8 +170,10 @@ export default function PageCourseContent({
                 >
                   View Lesson
                 </Button>
-                <Button disabled={isLoadingUpdate}>
-                  {isLoadingUpdate ? (
+                <Button
+                  disabled={isLoadingUpdate || isLoadingUpsertContentVariant}
+                >
+                  {isLoadingUpdate || isLoadingUpsertContentVariant ? (
                     <ArrowPathIcon className="h-5 w-5 animate-spin" />
                   ) : (
                     "Save"
@@ -129,80 +183,106 @@ export default function PageCourseContent({
             </div>
           </div>
 
-          <div className="mx-6">
-            <dl className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-              <ContentInfoForm
-                register={register}
-                content={content}
-                courseCode={courseCode}
-              />
-
-              <ContentEditor
-                contentJson={contentJson}
-                setContentJson={setContentJson}
-                setcontentHtml={setcontentHtml}
-              />
-
-              {/* <div className="border-t border-gray-100 px-4 py-6 sm:col-span-2 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900">
-              Attachments
-            </dt>
-            <dd className="mt-2 text-sm text-gray-900">
-              <ul
-                role="list"
-                className="divide-y divide-gray-100 rounded-md border border-gray-200"
-              >
-                <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
-                  <div className="flex w-0 flex-1 items-center">
-                    <PaperClipIcon
-                      className="h-5 w-5 flex-shrink-0 text-gray-400"
-                      aria-hidden="true"
-                    />
-                    <div className="ml-4 flex min-w-0 flex-1 gap-2">
-                      <span className="truncate font-medium">
-                        resume_back_end_developer.pdf
-                      </span>
-                      <span className="flex-shrink-0 text-gray-400">2.4mb</span>
-                    </div>
-                  </div>
-                  <div className="ml-4 flex-shrink-0">
-                    <a
-                      href="#"
-                      className="font-medium text-indigo-600 hover:text-indigo-500"
-                    >
-                      Download
-                    </a>
-                  </div>
-                </li>
-                <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
-                  <div className="flex w-0 flex-1 items-center">
-                    <PaperClipIcon
-                      className="h-5 w-5 flex-shrink-0 text-gray-400"
-                      aria-hidden="true"
-                    />
-                    <div className="ml-4 flex min-w-0 flex-1 gap-2">
-                      <span className="truncate font-medium">
-                        coverletter_back_end_developer.pdf
-                      </span>
-                      <span className="flex-shrink-0 text-gray-400">4.5mb</span>
-                    </div>
-                  </div>
-                  <div className="ml-4 flex-shrink-0">
-                    <a
-                      href="#"
-                      className="font-medium text-indigo-600 hover:text-indigo-500"
-                    >
-                      Download
-                    </a>
-                  </div>
-                </li>
-              </ul>
-            </dd>
-          </div> */}
-            </dl>
+          <div className="px-4">
+            <Tabs
+              tabs={listCourseVariant}
+              current={selectedVariantName}
+              onChange={setSelectedVariantName}
+            />
           </div>
+
+          <div className="m-6">
+            <ContentInfoForm
+              register={register}
+              content={thisContent}
+              courseCode={courseCode}
+              disabledVariantFields={!!contentVariant}
+            />
+
+            <div className="relative w-full max-w-screen-lg">
+              {editor.render()}
+            </div>
+          </div>
+
+          {/* <ContentContainer
+          content={
+            contentVariant ? mergeObjects(contentVariant, content) : content
+          }
+          courseCode={courseCode}
+          update={update}
+        /> */}
         </div>
       </form>
     </StudioLayout>
   );
 }
+
+// function ContentContainer({
+//   content,
+//   courseCode,
+//   update,
+// }: {
+//   content: any;
+//   courseCode: string;
+//   update: any;
+// }) {
+//   const { register, handleSubmit, reset } = useForm();
+//   const editor = new Editor({
+//     initialContent: content.contentJson,
+//   });
+
+//   function onSubmit(data: FieldValues) {
+//     if (content) {
+//       const _content = {
+//         id: content.id,
+//         contentCode: data.contentCode,
+//         type: data.contentType,
+//         title: data.title,
+//         description: data.description,
+//         slt: data.slt ?? "",
+//         videoUrl: data.videoUrl ?? "",
+//         contentJson: editor.getJSON(),
+//       };
+//       update(_content);
+//     }
+//   }
+
+//   useEffect(() => {
+//     if (content) {
+//       reset({
+//         contentCode: content.contentCode,
+//         type: content.type,
+//         title: content.title,
+//         description: content.description,
+//         slt: content.slt,
+//         videoUrl: content.videoUrl,
+//       });
+//     }
+//   }, [content]);
+
+//   return (
+//     <form onSubmit={handleSubmit(onSubmit)}>
+//       <div className="mx-6">
+//         <div>
+//           <div className="gap-2 sm:flex">
+//             <Button disabled={false}>
+//               {false ? (
+//                 <ArrowPathIcon className="h-5 w-5 animate-spin" />
+//               ) : (
+//                 "Save"
+//               )}
+//             </Button>
+//           </div>
+//         </div>
+
+//         <ContentInfoForm
+//           register={register}
+//           content={content}
+//           courseCode={courseCode}
+//         />
+
+//         <div className="relative w-full max-w-screen-lg">{editor.render()}</div>
+//       </div>
+//     </form>
+//   );
+// }

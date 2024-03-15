@@ -56,8 +56,8 @@ export default function Page({ params }: { params: Props }) {
         <meta name="twitter:description" content="Andamio Blog" />
         <meta name="twitter:image" content={imageUrl} />
       </Head>
-      <div className="bg-primary text-primary-content p-2 md:p-5 m-1 md:m-5 shadow-lg grid grid-cols-1 md:grid-cols-3">
-        <div className="p-5">
+      <div className="bg-primary text-primary-content p-2 md:p-5 my-3 md:m-5 shadow-lg grid grid-cols-1 md:grid-cols-3">
+        <div className="p-1 md:p-5">
           <p className="text-sm font-bold text-info pb-3">ANDAMIO BLOG</p>
           <h1 className="text-xl md:text-4xl leading-[3.5rem] font-bold">{data?.title}</h1>
           <h3 className="uppercase text-sm py-3">published: {data?.date}</h3>

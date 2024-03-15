@@ -18,6 +18,7 @@ export default function PageStudio() {
         courseDialogOpen={courseDialogOpen}
         setCourseDialogOpen={setCourseDialogOpen}
       />
+
     </StudioLayout>
   );
 }

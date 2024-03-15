@@ -43,3 +43,6 @@ yarn-error.log*
 
 package-lock.json
 yarn.lock
+/.yarn
+.pnp.cjs
+.pnp.loader.mjs

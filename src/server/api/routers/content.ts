@@ -104,6 +104,17 @@ export const contentRouter = createTRPCRouter({
       });
     }),
 
+    // 2024-03-15 pick up here...
+  // createMany: protectedProcedure
+  //   .input(
+  //     z.object({}).array()
+  //   )
+  //   .mutation(async ({ ctx, input }) => {
+  //     return ctx.db.content.createMany({}[])
+  //   )
+
+  //   })
+
   delete: protectedProcedure
     .input(
       z.object({

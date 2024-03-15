@@ -198,6 +198,7 @@ model Course {
   managers    User[]          @relation("CourseManagers")
   joinedUsers User[]          @relation("CourseLearners")
   variants    CourseVariant[] @relation("CourseVariants")
+  onchainInstance CourseOnChainInstance[] @relation("CourseInstance")
 
   createdBy   User   @relation("CreatedCourses", fields: [createdById], references: [id])
   createdById String
@@ -233,4 +234,31 @@ model Subscription {
   createdById String
 
   @@index([createdById])
+}
+
+enum Network {
+  PREPROD
+  MAINNET
+  SANCHONET
+}
+
+model CourseOnChainInstance {
+  id                String @id @default(cuid())
+  onchainInstanceId String @unique
+
+  network              Network @default(PREPROD)
+  courseRefAddress     String?
+  assignmentAddress    String?
+  creatorCS            String?
+  facilitatorCS        String?
+  learnerCS            String?
+  moduleCS             String?
+  courseRefUTxO        String?
+  assignmentRefUTxO    String?
+  moduleMintingRefUTxO String?
+
+  withCourse Course @relation("CourseInstance", fields: [courseId], references: [id])
+  courseId   String
+
+  @@index([courseId])
 }

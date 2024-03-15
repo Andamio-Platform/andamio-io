@@ -72,6 +72,7 @@ model User {
   lessons        Lesson[]       @relation("CreatedLessons")
   // contents         Content[]        @relation("CreatedContents")
   // contentsVariants ContentVariant[] @relation("CreatedContentsVariants")
+  slts           SLT[]          @relation("CreatedSLTs")
   managedCourses Course[]       @relation("CourseManagers")
   joinedCourses  Course[]       @relation("CourseLearners")
   subscriptions  Subscription[] @relation("Subscriptions")
@@ -95,12 +96,16 @@ model SLT {
   module   Module @relation("ModuleSLTs", fields: [moduleId], references: [id])
 
   assignmentId String
-  assignment   Assignment @relation("AssignmentSLTs", fields: [assignmentId], references: [id])
+  assignment   Assignment? @relation("AssignmentSLTs", fields: [assignmentId], references: [id])
 
   lesson Lesson?
 
+  createdBy   User   @relation("CreatedSLTs", fields: [createdById], references: [id])
+  createdById String
+
   @@index([moduleId])
   @@index([assignmentId])
+  @@index([createdById])
   @@index([id])
 }
 

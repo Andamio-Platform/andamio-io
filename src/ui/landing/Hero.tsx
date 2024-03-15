@@ -19,7 +19,7 @@ export default function Hero() {
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-3xl text-center">
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-              Learning and Contribution Platform
+              Andamio Learning and Contribution Platform
             </h1>
             <p className="mt-6 text-lg leading-8 text-gray-600">
               The trusted network for Lorem ipsum dolor sit amet consectetur

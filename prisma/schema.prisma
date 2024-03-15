@@ -118,7 +118,7 @@ model Module {
 
   lessons Lesson[] @relation("ModuleLessons")
 
-  assignment Assignment?
+  assignment Assignment[] @relation("ModuleAssignments")
 
   variants ModuleVariant[] @relation("ModuleVariants")
   slts     SLT[]           @relation("ModuleSLTs")
@@ -274,7 +274,7 @@ model Assignment {
   slts  SLT[]  @relation("AssignmentSLTs")
 
   moduleId String
-  module   Module @relation(fields: [moduleId], references: [id])
+  module   Module @relation("ModuleAssignments", fields: [moduleId], references: [id])
 
   // variants ContentVariant[] @relation("ContentsVariants")
 

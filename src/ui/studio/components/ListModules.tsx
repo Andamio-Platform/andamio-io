@@ -5,7 +5,7 @@ import Loading from "~/components/loading";
 import Text from "~/components/typography/text";
 import { Course, Module } from "~/types/db";
 import { api } from "~/utils/api";
-import ListContent from "./ListContent";
+import ListContent from "./ListLessons";
 import DialogModule from "~/ui/studio/components/dialogs/DialogModule";
 import DialogContent from "~/ui/studio/components/dialogs/DialogContent";
 import DialogOptionModuleContent from "~/ui/studio/components/dialogs/DialogOptionModuleContent";
@@ -238,7 +238,7 @@ function ModuleContainer({
               </button> */}
             </div>
           }
-          c3={`${module.contents.length} Topics`}
+          c3={`${module.slts.length} Student Learning Targets`}
           c4={
             <div className="flex gap-2">
               <button
@@ -265,17 +265,17 @@ function ModuleContainer({
       {/* body */}
       {showContent && (
         <div className="grid w-full grid-cols-10 gap-y-4 border-t border-gray-200 py-4">
-          {module.contents.map((content, j) => (
+          {module.slts.map((slt, j) => (
             <Row
-              key={`${module.moduleCode}-${content.contentCode}`}
-              c1={`Content: ${content.contentCode}`}
+              key={`${module.moduleCode}-${slt.sltId}`}
+              c1={`Content: ${slt.sltText}`}
               c2={
                 <Link
-                  href={`/studio/${module.course.courseCode}/${module.moduleCode}/${content.contentCode}`}
+                  href={`/studio/${module.course.courseCode}/${module.moduleCode}/${slt.sltId}`}
                 >
                   <div className="flex flex-col gap-2">
-                    <p>{content.title}</p>
-                    <p className="text-sm text-gray-500">{content.slt}</p>
+                    <p>{slt.sltId}</p>
+                    <p className="text-sm text-gray-500">{slt.sltText}</p>
                   </div>
                 </Link>
               }

@@ -102,7 +102,7 @@ export default function DialogCourse({
           : "Creating a new course is easy. lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, consequuntur molestias numquam amet blanditiis voluptate sunt illo inventore atque hic, asperiores recusandae, reiciendis quae nostrum sit quis accusamus possimus quisquam?"}
       </DialogParagraph>
 
-      <div className="mt-4 grid grid-cols-1 gap-y-4">
+      <div className="mt-4 grid grid-cols-1 gap-4">
         <FormFieldset label="Course title">
           <Input name="title" register={register} />
         </FormFieldset>
@@ -126,6 +126,7 @@ export default function DialogCourse({
             disabled={course !== undefined}
           />
         </FormFieldset>
+
       </div>
     </DialogBox>
   );

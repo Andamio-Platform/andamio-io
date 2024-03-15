@@ -3,7 +3,6 @@ import StudioHeader from "./components/StudioHeader";
 import ListCourses from "./components/ListCourses";
 import DialogCourse from "./components/dialogs/DialogCourse";
 import StudioLayout from "./components/layout/StudioLayout";
-import CourseFileUploadTest from "./components/CourseFileUploadTest";
 
 export default function PageStudio() {
   const [courseDialogOpen, setCourseDialogOpen] = useState(false);
@@ -20,7 +19,6 @@ export default function PageStudio() {
         setCourseDialogOpen={setCourseDialogOpen}
       />
 
-      <CourseFileUploadTest />
     </StudioLayout>
   );
 }

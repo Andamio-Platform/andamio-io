@@ -1,4 +1,3 @@
-import { ContentType } from "@prisma/client";
 import { z } from "zod";
 
 import {
@@ -7,19 +6,19 @@ import {
   publicProcedure,
 } from "~/server/api/trpc";
 
-export const contentRouter = createTRPCRouter({
+export const sltRouter = createTRPCRouter({
   getContent: publicProcedure
     .input(
       z.object({
         courseCode: z.string(),
         moduleCode: z.string(),
-        contentCode: z.string(),
+        moduleId: z.string(),
       }),
     )
     .query(({ ctx, input }) => {
-      return ctx.db.content.findFirst({
+      return ctx.db.sLT.findFirst({
         where: {
-          contentCode: input.contentCode,
+          moduleId: input.moduleId,
           module: {
             moduleCode: input.moduleCode,
             course: {
@@ -30,10 +29,10 @@ export const contentRouter = createTRPCRouter({
       });
     }),
 
-  getModuleContents: publicProcedure
+  getModuleSLTs: publicProcedure
     .input(z.object({ courseCode: z.string(), moduleCode: z.string() }))
     .query(({ ctx, input }) => {
-      return ctx.db.content.findMany({
+      return ctx.db.sLT.findMany({
         where: {
           module: {
             moduleCode: input.moduleCode,
@@ -49,19 +48,16 @@ export const contentRouter = createTRPCRouter({
     .input(
       z.object({
         moduleId: z.string().min(1),
-        contentCode: z.string().min(1),
-        type: z.nativeEnum(ContentType),
+        sltId: z.string().min(1),
         title: z.string().min(1),
-        slt: z.string().optional(),
+        sltText: z.string().min(1),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.content.create({
+      return ctx.db.sLT.create({
         data: {
-          contentCode: input.contentCode,
-          type: input.type,
-          title: input.title,
-          slt: input.slt,
+          sltId: input.sltId,
+          sltText: input.sltText,
           createdBy: { connect: { id: ctx.session.user.id } },
           module: {
             connect: {
@@ -75,35 +71,32 @@ export const contentRouter = createTRPCRouter({
   update: protectedProcedure
     .input(
       z.object({
-        id: z.string().min(1),
-        contentCode: z.string().min(1),
-        type: z.nativeEnum(ContentType),
+        moduleId: z.string().min(1),
+        sltId: z.string().min(1),
         title: z.string().min(1),
-        slt: z.string().optional(),
-        imageUrl: z.string().optional(),
-        videoUrl: z.string().optional(),
-        contentJson: z.any().optional(),
-        live: z.boolean().optional(),
+        sltText: z.string().min(1),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.content.update({
+      return ctx.db.sLT.update({
         where: {
-          id: input.id,
+          id: input.sltId,
         },
         data: {
-          contentCode: input.contentCode,
-          type: input.type,
-          title: input.title,
-          slt: input.slt,
-          imageUrl: input.imageUrl,
-          videoUrl: input.videoUrl,
-          contentJson: input.contentJson,
-          live: input.live,
+          sltId: input.sltId,
+          sltText: input.sltText,
+          createdBy: { connect: { id: ctx.session.user.id } },
+          module: {
+            connect: {
+              id: input.moduleId,
+            },
+          },
         },
       });
     }),
 
+
+    // Todo
     // 2024-03-15 pick up here...
   // createMany: protectedProcedure
   //   .input(

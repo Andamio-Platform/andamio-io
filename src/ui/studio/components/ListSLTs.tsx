@@ -4,10 +4,10 @@ import CircleIcon from "~/components/icons/circle";
 import { Course, Module } from "~/types/db";
 import { RouterOutputs, api } from "~/utils/api";
 
-type Content =
-  RouterOutputs["module"]["getCourseModules"][number]["contents"][number];
+type SLT =
+  RouterOutputs["module"]["getCourseModules"][number]["slts"][number];
 
-export default function ListContent({
+export default function ListSLTs({
   course,
   module,
 }: {
@@ -16,20 +16,20 @@ export default function ListContent({
 }) {
   if (course == null) return null;
 
-  const { data: moduleContents, isLoading } =
-    api.content.getModuleContents.useQuery({
+  const { data: moduleSLTs, isLoading } =
+    api.slt.getModuleSLTs.useQuery({
       courseCode: course.courseCode,
       moduleCode: module.moduleCode,
     });
 
-  function sortBy(a: Content, b: Content) {
-    return a.contentCode > b.contentCode ? 1 : -1;
+  function sortBy(a: SLT, b: SLT) {
+    return a.sltId > b.sltId ? 1 : -1;
   }
 
   return (
     <ul role="list" className="divide-y divide-gray-100">
-      {moduleContents &&
-        moduleContents.sort(sortBy).map((content, i) => (
+      {moduleSLTs &&
+        moduleSLTs.sort(sortBy).map((slt, i) => (
           <li
             key={i}
             className="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 sm:flex-nowrap"
@@ -37,17 +37,15 @@ export default function ListContent({
             <div className="grow">
               <p className="flex items-center gap-x-2 text-sm font-semibold leading-6 text-gray-900">
                 <Link
-                  href={`/studio/${course.courseCode}/${module.moduleCode}/${content.contentCode}`}
+                  href={`/studio/${course.courseCode}/${module.moduleCode}/${slt.sltId}`}
                   className="hover:underline"
                 >
-                  <span>{content.title}</span>
+                  <span>{slt.sltText}</span>
                 </Link>
               </p>
               <div className="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
-                <span>{content.type}</span>
-                <span>{content.contentCode}</span>
+                <span>{slt.sltId}</span>
                 <CircleIcon />
-                <span>{content.slt}</span>
               </div>
             </div>
             <dl className="flex w-full flex-none justify-between gap-x-8 sm:w-auto">

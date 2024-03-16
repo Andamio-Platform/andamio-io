@@ -10,23 +10,23 @@ import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import Tabs from "~/components/tabs";
 import useCourseByOwner from "~/hooks/useCourseByOwner";
 import useCourseVariants from "~/hooks/useCourseVariants";
-import useContent from "~/hooks/useContent";
 import useContentVarient from "~/hooks/useContentVarient";
 import mergeObjects from "~/utils/mergeObjects";
 import Editor from "~/components/Editor";
+import useLesson from "~/hooks/useLesson";
 
-export default function PageCourseContent({
+export default function PageCourseLesson({
   courseCode,
   moduleCode,
-  contentCode,
+  lessonCode,
 }: {
   courseCode: string;
   moduleCode: string;
-  contentCode: string;
+  lessonCode: string;
 }) {
   const ctx = api.useUtils();
 
-  const { content } = useContent(courseCode, moduleCode, contentCode);
+  const { lesson } = useLesson(courseCode, moduleCode, lessonCode);
   const { course } = useCourseByOwner(courseCode);
   const {
     listCourseVariant,
@@ -35,15 +35,15 @@ export default function PageCourseContent({
     selectedCourseVariant,
   } = useCourseVariants(course?.id);
   const { contentVariant } = useContentVarient(
-    content?.id,
+    lesson?.id,
     selectedCourseVariant?.id,
   );
 
   const { mutate: update, isLoading: isLoadingUpdate } =
-    api.content.update.useMutation({
+    api.lesson.update.useMutation({
       onSuccess: (data) => {
         toast.success("Content updated!");
-        void ctx.content.getModuleContents.invalidate({
+        void ctx.lesson.getModuleContents.invalidate({
           moduleCode: moduleCode,
         });
       },
@@ -57,25 +57,26 @@ export default function PageCourseContent({
       },
     });
 
-  const {
-    mutate: upsertContentVariant,
-    isLoading: isLoadingUpsertContentVariant,
-  } = api.contentVariant.upsert.useMutation({
-    onSuccess: (data) => {
-      toast.success("Content updated!");
-      void ctx.contentVariant.getContentVariants.invalidate({
-        contentId: content?.id,
-      });
-    },
-    onError: (e) => {
-      const errorMessage = e.data?.zodError?.fieldErrors;
-      if (errorMessage) {
-        toast.error("Some inputs are missing or invalid");
-      } else {
-        toast.error("Content Code taken. Please try again.");
-      }
-    },
-  });
+    // James todo
+  // const {
+  //   mutate: upsertContentVariant,
+  //   isLoading: isLoadingUpsertContentVariant,
+  // } = api.contentVariant.upsert.useMutation({
+  //   onSuccess: (data) => {
+  //     toast.success("Content updated!");
+  //     void ctx.contentVariant.getContentVariants.invalidate({
+  //       contentId: content?.id,
+  //     });
+  //   },
+  //   onError: (e) => {
+  //     const errorMessage = e.data?.zodError?.fieldErrors;
+  //     if (errorMessage) {
+  //       toast.error("Some inputs are missing or invalid");
+  //     } else {
+  //       toast.error("Content Code taken. Please try again.");
+  //     }
+  //   },
+  // });
 
   //
 
@@ -89,32 +90,31 @@ export default function PageCourseContent({
 
   // todo save variant
   function onSubmit(data: FieldValues) {
-    if (!content) return;
+    if (!lesson) return;
 
-    if (selectedCourseVariant && contentVariant) {
-      const updateContent = {
-        courseVariantId: selectedCourseVariant.id,
-        contentId: content.id,
-        contentVariantId: contentVariant.id,
+    // if (selectedCourseVariant && contentVariant) {
+    //   const updateContent = {
+    //     courseVariantId: selectedCourseVariant.id,
+    //     contentId: content.id,
+    //     contentVariantId: contentVariant.id,
+    //     title: data.title,
+    //     slt: data.slt ?? "",
+    //     videoUrl: data.videoUrl ?? "",
+    //     contentJson: editor.getJSON(),
+    //   };
+    //   upsertContentVariant(updateContent);
+    // } else {
+      const _lesson = {
+        id: lesson.id,
+        lessonCode: data.lessonCode,
         title: data.title,
-        slt: data.slt ?? "",
+        sltId: data.sltId,
         videoUrl: data.videoUrl ?? "",
-        contentJson: editor.getJSON(),
-      };
-      upsertContentVariant(updateContent);
-    } else {
-      const _content = {
-        id: content.id,
-        contentCode: data.contentCode,
-        type: data.contentType,
-        title: data.title,
-        slt: data.slt ?? "",
-        videoUrl: data.videoUrl ?? "",
-        contentJson: editor.getJSON(),
+        lessonJson: editor.getJSON(),
         live: data.live == "true",
       };
-      update(_content);
-    }
+      update(_lesson);
+    // }
   }
 
   useEffect(() => {

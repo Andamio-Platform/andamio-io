@@ -6,19 +6,19 @@ import {
   publicProcedure,
 } from "~/server/api/trpc";
 
-export const sltsRouter = createTRPCRouter({
-  getContent: publicProcedure
+export const lessonRouter = createTRPCRouter({
+  getLesson: publicProcedure
     .input(
       z.object({
         courseCode: z.string(),
         moduleCode: z.string(),
-        moduleId: z.string(),
+        lessonCode: z.string(),
       }),
     )
     .query(({ ctx, input }) => {
-      return ctx.db.sLT.findFirst({
+      return ctx.db.lesson.findFirst({
         where: {
-          moduleId: input.moduleId,
+          lessonCode: input.lessonCode,
           module: {
             moduleCode: input.moduleCode,
             course: {
@@ -29,10 +29,10 @@ export const sltsRouter = createTRPCRouter({
       });
     }),
 
-  getModuleContents: publicProcedure
+  getModuleLessons: publicProcedure
     .input(z.object({ courseCode: z.string(), moduleCode: z.string() }))
     .query(({ ctx, input }) => {
-      return ctx.db.sLT.findMany({
+      return ctx.db.lesson.findMany({
         where: {
           module: {
             moduleCode: input.moduleCode,
@@ -48,16 +48,17 @@ export const sltsRouter = createTRPCRouter({
     .input(
       z.object({
         moduleId: z.string().min(1),
-        sltId: z.string().min(1),
+        lessonCode: z.string().min(1),
         title: z.string().min(1),
-        sltText: z.string().min(1),
+        sltId: z.string().min(1),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.sLT.create({
+      return ctx.db.lesson.create({
         data: {
-          sltId: input.sltId,
-          sltText: input.sltText,
+          lessonCode: input.lessonCode,
+          title: input.title,
+          slt: { connect: { id: input.sltId } },
           createdBy: { connect: { id: ctx.session.user.id } },
           module: {
             connect: {
@@ -71,31 +72,34 @@ export const sltsRouter = createTRPCRouter({
   update: protectedProcedure
     .input(
       z.object({
-        moduleId: z.string().min(1),
-        sltId: z.string().min(1),
+        id: z.string().min(1),
+        lessonCode: z.string().min(1),
         title: z.string().min(1),
-        sltText: z.string().min(1),
+        sltId: z.string().min(1),
+        imageUrl: z.string().optional(),
+        videoUrl: z.string().optional(),
+        contentJson: z.any().optional(),
+        live: z.boolean().optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.sLT.update({
+      return ctx.db.lesson.update({
         where: {
-          id: input.sltId,
+          id: input.id,
         },
         data: {
-          sltId: input.sltId,
-          sltText: input.sltText,
-          createdBy: { connect: { id: ctx.session.user.id } },
-          module: {
-            connect: {
-              id: input.moduleId,
-            },
-          },
+          lessonCode: input.lessonCode,
+          title: input.title,
+          slt: { connect: { id: input.sltId } },
+          imageUrl: input.imageUrl,
+          videoUrl: input.videoUrl,
+          contentJson: input.contentJson,
+          live: input.live,
         },
       });
     }),
 
-    // 2024-03-15 pick up here...
+  // 2024-03-15 pick up here...
   // createMany: protectedProcedure
   //   .input(
   //     z.object({}).array()
@@ -109,13 +113,13 @@ export const sltsRouter = createTRPCRouter({
   delete: protectedProcedure
     .input(
       z.object({
-        contentId: z.string().min(1, "Content ID is required"),
+        lessonId: z.string().min(1, "Lesson ID is required"),
       }),
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.db.module.delete({
         where: {
-          id: input.contentId,
+          id: input.lessonId,
         },
       });
     }),

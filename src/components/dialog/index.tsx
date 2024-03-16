@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
-import Button from "../button";
+import { Button } from "../ui/button";
 
 export default function DialogBox({
   children,
@@ -25,7 +25,7 @@ export default function DialogBox({
 }) {
   return (
     <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="relative z-60" onClose={setOpen}>
+      <Dialog as="div" className="z-60 relative" onClose={setOpen}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Card from "~/components/card";
-import Button from "~/components/button";
+import { Button } from "~/components/ui/button";
 import { Course, CourseVariant } from "~/types/db";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";

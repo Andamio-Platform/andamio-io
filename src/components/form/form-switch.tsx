@@ -1,0 +1,37 @@
+import type { InputHTMLAttributes } from "react";
+import {
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormDescription,
+  FormMessage,
+  FormField,
+} from "~/components/ui/form";
+import { Switch } from "~/components/ui/switch";
+
+interface SwitchProps extends InputHTMLAttributes<HTMLInputElement> {
+  label?: string;
+  form: any;
+  name: string;
+  info?: string;
+}
+
+export default function FormSwitch(props: SwitchProps) {
+  return (
+    <FormField
+      control={props.form.control}
+      name={props.name}
+      render={({ field }) => (
+        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+          <div className="space-y-0.5">
+            {props.label && <FormLabel>{props.label}</FormLabel>}
+            {props.info && <FormDescription>{props.info}</FormDescription>}
+          </div>
+          <FormControl>
+            <Switch checked={field.value} onCheckedChange={field.onChange} />
+          </FormControl>
+        </FormItem>
+      )}
+    />
+  );
+}

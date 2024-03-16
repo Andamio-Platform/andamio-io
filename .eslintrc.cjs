@@ -51,6 +51,7 @@ const config = {
     "react-hooks/rules-of-hooks": "warn",
     "@typescript-eslint/prefer-nullish-coalescing": "warn",
     "@typescript-eslint/no-unsafe-argument": "warn",
+    "@typescript-eslint/no-empty-interface": "warn",
   },
 };
 

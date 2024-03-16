@@ -76,6 +76,7 @@ export const contentRouter = createTRPCRouter({
     .input(
       z.object({
         id: z.string().min(1),
+        moduleId: z.string().min(1),
         contentCode: z.string().min(1),
         type: z.nativeEnum(ContentType),
         title: z.string().min(1),
@@ -100,11 +101,16 @@ export const contentRouter = createTRPCRouter({
           videoUrl: input.videoUrl,
           contentJson: input.contentJson,
           live: input.live,
+          module: {
+            connect: {
+              id: input.moduleId,
+            },
+          },
         },
       });
     }),
 
-    // 2024-03-15 pick up here...
+  // 2024-03-15 pick up here...
   // createMany: protectedProcedure
   //   .input(
   //     z.object({}).array()

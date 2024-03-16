@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Card from "~/components/card";
-import Button from "~/components/button";
+import { Button } from "~/components/ui/button";
 import { Course, CourseOnChainInstance, CourseVariant } from "~/types/db";
 import { api } from "~/utils/api";
 import { useSession } from "next-auth/react";

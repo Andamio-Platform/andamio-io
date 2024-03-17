@@ -18,8 +18,11 @@ export const moduleRouter = createTRPCRouter({
           slts: {
             select: {
               id: true,
-              sltId: true,
+              moduleIndex: true,
+              moduleId: true,
               sltText: true,
+              assignmentId: true,
+              createdById: true,
             },
           },
         },
@@ -44,17 +47,20 @@ export const moduleRouter = createTRPCRouter({
           slts: {
             select: {
               id: true,
-              sltId: true,
+              moduleIndex: true,
+              moduleId: true,
               sltText: true,
+              assignmentId: true,
+              createdById: true,
             },
           },
           lessons: {
             select: {
               id: true,
               title: true,
-              lessonCode: true
-            }
-          }
+              lessonCode: true,
+            },
+          },
         },
       });
     }),

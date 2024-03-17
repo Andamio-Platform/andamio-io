@@ -9,14 +9,14 @@ export default class Editor {
 
   constructor({
     editable = true,
-    initialContent = "<p>start typing...</p>",
+    initialLesson = "<p>start typing...</p>",
   }: {
     editable?: boolean;
-    initialContent?: Content;
+    initialLesson?: Content;
   }) {
     this.editor = useEditor({
       extensions: [...ExtensionKit()],
-      content: initialContent,
+      content: initialLesson,
       editorProps: {
         attributes: {
           class:
@@ -32,8 +32,8 @@ export default class Editor {
     if (this.editor) return this.editor.getJSON();
   }
 
-  setContent(content: Content) {
-    if (this.editor) this.editor.commands.setContent(content);
+  setContent(lesson: Content) {
+    if (this.editor) this.editor.commands.setContent(lesson);
   }
 
   render() {

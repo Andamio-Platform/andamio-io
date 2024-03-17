@@ -8,7 +8,7 @@ import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/outline";
 import Link from "~/components/link";
 import Card from "~/components/card";
 import CircleIcon from "~/components/icons/circle";
-import { CourseVariant, Module } from "~/types/db";
+import { CourseVariant, Module, ModuleSLT } from "~/types/db";
 import CourseLayout from "../components/layout/CourseLayout";
 import { signIn, useSession } from "next-auth/react";
 import { useCourseStore } from "~/lib/zustand/course";
@@ -108,8 +108,8 @@ export default function PageCourse({ courseCode }: { courseCode: string }) {
   );
 }
 
-type Content =
-  RouterOutputs["module"]["getCourseModules"][number]["contents"][number];
+type SLT =
+  RouterOutputs["module"]["getCourseModules"][number]["slts"][number];
 
 function ListModules({
   courseCode,
@@ -211,8 +211,8 @@ function ModuleContainer({
             </Disclosure.Button>
           </dt>
           <Disclosure.Panel as="dd" className="mt-2 border-t-2 px-12 pr-12">
-            <ListContent
-              contents={_module.contents}
+            <ListSLTs
+              slts={_module.slts}
               courseCode={courseCode}
               moduleCode={_module.moduleCode}
             />
@@ -223,41 +223,37 @@ function ModuleContainer({
   );
 }
 
-function ListContent({
-  contents,
+function ListSLTs({
+  slts,
   courseCode,
   moduleCode,
 }: {
-  contents: Content[];
+  slts: SLT[];
   courseCode: string;
   moduleCode: string;
 }) {
-  function sortBy(a: Content, b: Content) {
-    return a.contentCode > b.contentCode ? 1 : -1;
+  function sortBy(a: ModuleSLT, b: ModuleSLT) {
+    return a.moduleIndex > b.moduleIndex ? 1 : -1;
   }
 
   return (
     <ul role="list" className="divide-y divide-gray-100">
-      {contents
-        .sort(sortBy)
-        .filter((content) => {
-          return content.live == true;
-        })
-        .map((content, i) => (
+      {slts
+        .map((slt, i) => (
           <li
-            key={`content${i}`}
+            key={`slt${i}`}
             className="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 sm:flex-nowrap"
           >
             <Link
-              href={`/course/${courseCode}/${moduleCode}/${content.contentCode}`}
+              href={`/course/${courseCode}/${moduleCode}/${slt.moduleIndex}`}
             >
               <p className="flex items-center gap-x-2 text-sm font-semibold leading-6 text-gray-900">
-                <span>{content.contentCode}</span>
+                <span>{slt.moduleIndex}</span>
                 <CircleIcon />
-                {content.title}
+                {slt.sltText}
               </p>
               <div className="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
-                <p>{content.slt}</p>
+                <p>{slt.sltText}</p>
               </div>
             </Link>
           </li>

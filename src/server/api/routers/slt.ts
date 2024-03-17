@@ -7,18 +7,18 @@ import {
 } from "~/server/api/trpc";
 
 export const sltRouter = createTRPCRouter({
-  getContent: publicProcedure
+  getSLT: publicProcedure
     .input(
       z.object({
         courseCode: z.string(),
         moduleCode: z.string(),
-        moduleId: z.string(),
+        moduleIndex: z.number(),
       }),
     )
     .query(({ ctx, input }) => {
-      return ctx.db.sLT.findFirst({
+      return ctx.db.slt.findFirst({
         where: {
-          moduleId: input.moduleId,
+          moduleIndex: input.moduleIndex,
           module: {
             moduleCode: input.moduleCode,
             course: {
@@ -32,7 +32,7 @@ export const sltRouter = createTRPCRouter({
   getModuleSLTs: publicProcedure
     .input(z.object({ courseCode: z.string(), moduleCode: z.string() }))
     .query(({ ctx, input }) => {
-      return ctx.db.sLT.findMany({
+      return ctx.db.slt.findMany({
         where: {
           module: {
             moduleCode: input.moduleCode,
@@ -48,15 +48,15 @@ export const sltRouter = createTRPCRouter({
     .input(
       z.object({
         moduleId: z.string().min(1),
-        sltId: z.string().min(1),
-        title: z.string().min(1),
+        moduleIndex: z.number().min(1),
         sltText: z.string().min(1),
+        // todo: understand where this id comes from
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.sLT.create({
+      return ctx.db.slt.create({
         data: {
-          sltId: input.sltId,
+          moduleIndex: input.moduleIndex,
           sltText: input.sltText,
           createdBy: { connect: { id: ctx.session.user.id } },
           module: {
@@ -67,23 +67,26 @@ export const sltRouter = createTRPCRouter({
         },
       });
     }),
+
+  // Todo: implement update
 
   update: protectedProcedure
     .input(
       z.object({
         moduleId: z.string().min(1),
-        sltId: z.string().min(1),
-        title: z.string().min(1),
+        id: z.string().min(1),
+        moduleIndex: z.number().min(1),
         sltText: z.string().min(1),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.sLT.update({
+      return ctx.db.slt.update({
         where: {
-          id: input.sltId,
+          id: input.id,
         },
         data: {
-          sltId: input.sltId,
+          id: input.id,
+          moduleIndex: input.moduleIndex,
           sltText: input.sltText,
           createdBy: { connect: { id: ctx.session.user.id } },
           module: {
@@ -95,30 +98,25 @@ export const sltRouter = createTRPCRouter({
       });
     }),
 
-
-    // Todo
-    // 2024-03-15 pick up here...
-  // createMany: protectedProcedure
-  //   .input(
-  //     z.object({}).array()
-  //   )
-  //   .mutation(async ({ ctx, input }) => {
-  //     return ctx.db.content.createMany({}[])
-  //   )
-
-  //   })
-
   delete: protectedProcedure
     .input(
       z.object({
-        contentId: z.string().min(1, "Content ID is required"),
+        id: z.string().min(1, "Missing SLT ID"),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.module.delete({
+      return ctx.db.slt.delete({
         where: {
-          id: input.contentId,
+          id: input.id,
         },
       });
     }),
 });
+
+// Todo: implement createMany? -- think about if this is needed
+
+// Todo: implement updateMany - for re-ordering
+
+// Todo: implement change SLT from one Module to another
+
+// Todo: implement Lesson status icon

@@ -46,7 +46,7 @@ export default function ListContent({
               <div className="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
                 <span>{lesson.lessonCode}</span>
                 <CircleIcon />
-                <span>{lesson.sltID}</span>
+                <span>{lesson.sltId}</span>
               </div>
             </div>
             <dl className="flex w-full flex-none justify-between gap-x-8 sm:w-auto">

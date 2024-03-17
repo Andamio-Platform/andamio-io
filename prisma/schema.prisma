@@ -72,7 +72,7 @@ model User {
   lessons        Lesson[]       @relation("CreatedLessons")
   // contents         Content[]        @relation("CreatedContents")
   // contentsVariants ContentVariant[] @relation("CreatedContentsVariants")
-  slts           SLT[]          @relation("CreatedSLTs")
+  slts           Slt[]          @relation("CreatedSLTs")
   managedCourses Course[]       @relation("CourseManagers")
   joinedCourses  Course[]       @relation("CourseLearners")
   subscriptions  Subscription[] @relation("Subscriptions")
@@ -87,18 +87,19 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model SLT {
-  id      String @id @default(cuid())
-  sltId   String
-  sltText String
+model Slt {
+  id          String @id @default(cuid())
+  moduleIndex Int
 
   moduleId String
   module   Module @relation("ModuleSLTs", fields: [moduleId], references: [id])
 
-  assignmentId String
-  assignment   Assignment? @relation("AssignmentSLTs", fields: [assignmentId], references: [id])
+  sltText String
 
   lesson Lesson?
+
+  assignmentId String?
+  assignment   Assignment? @relation("AssignmentSLTs", fields: [assignmentId], references: [id])
 
   createdBy   User   @relation("CreatedSLTs", fields: [createdById], references: [id])
   createdById String
@@ -126,7 +127,7 @@ model Module {
   assignment Assignment[] @relation("ModuleAssignments")
 
   variants ModuleVariant[] @relation("ModuleVariants")
-  slts     SLT[]           @relation("ModuleSLTs")
+  slts     Slt[]           @relation("ModuleSLTs")
 
   @@unique([courseId, moduleCode])
   @@index([courseId])
@@ -241,8 +242,8 @@ model Lesson {
   videoUrl    String?
   live        Boolean?
 
-  sltID String
-  slt   SLT    @relation(fields: [sltID], references: [id])
+  sltId String
+  slt   Slt    @relation(fields: [sltId], references: [id])
 
   moduleId String
   module   Module @relation("ModuleLessons", fields: [moduleId], references: [id])
@@ -257,10 +258,10 @@ model Lesson {
   userId      String?
 
   @@unique([moduleId, lessonCode])
-  @@unique([sltID])
+  @@unique([sltId])
   @@index([createdById])
   @@index([moduleId])
-  @@index([sltID])
+  @@index([sltId])
   @@index([id])
 }
 
@@ -276,7 +277,7 @@ model Assignment {
   live        Boolean?
 
   sltID String
-  slts  SLT[]  @relation("AssignmentSLTs")
+  slts  Slt[]  @relation("AssignmentSLTs")
 
   moduleId String
   module   Module @relation("ModuleAssignments", fields: [moduleId], references: [id])

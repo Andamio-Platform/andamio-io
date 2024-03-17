@@ -73,7 +73,9 @@ function ContentPage() {
         </li>
       )}
 
-      {modules && (
+      {/* todo james */}
+
+      {/* {modules && (
         <>
           {modules.sort(sortBy).map((module, i) => (
             <li key={`module${i}`}>
@@ -89,40 +91,33 @@ function ContentPage() {
             </li>
           ))}
         </>
-      )}
+      )} */}
     </>
   );
 }
 
-type Content =
-  RouterOutputs["module"]["getCourseModules"][number]["contents"][number];
+type SLT = RouterOutputs["module"]["getCourseModules"][number]["slts"][number];
 
-function Content({
-  contents,
-  moduleCode,
-}: {
-  contents: Content[];
-  moduleCode: string;
-}) {
-  function sortBy(a: Content, b: Content) {
-    return a.contentCode > b.contentCode ? 1 : -1;
+function Content({ slts, moduleCode }: { slts: SLT[]; moduleCode: string }) {
+  function sortBy(a: SLT, b: SLT) {
+    return a.moduleIndex > b.moduleIndex ? 1 : -1;
   }
 
   const router = useRouter();
 
   return (
     <>
-      {contents
+      {slts
         .sort(sortBy)
-        .filter((content) => {
-          return content.live == true;
+        .filter((slt) => {
+          return slt.moduleIndex > 0;
         })
-        .map((content, i) => (
-          <li key={content.contentCode}>
+        .map((slt, i) => (
+          <li key={slt.moduleIndex}>
             <Link
-              href={`/course/${router.query.coursecode as string}/${moduleCode}/${content.contentCode}`}
+              href={`/course/${router.query.coursecode as string}/${moduleCode}/${slt.moduleIndex}`}
               className={classNames(
-                router.query.coursecode == content.contentCode
+                router.query.coursecode == slt.id
                   ? "bg-gray-50 text-indigo-600"
                   : "text-gray-700 hover:bg-gray-50 hover:text-indigo-600",
                 "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
@@ -130,17 +125,15 @@ function Content({
             >
               <span
                 className={classNames(
-                  router.query.coursecode == content.contentCode
+                  router.query.coursecode == slt.id
                     ? "border-indigo-600 text-indigo-600"
                     : "border-gray-200 text-gray-400 group-hover:border-indigo-600 group-hover:text-indigo-600",
                   "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border bg-white text-[0.625rem] font-medium",
                 )}
               >
-                {content.contentCode.length > 1
-                  ? content.contentCode.substring(0, 1)
-                  : content.contentCode}
+                {slt.moduleIndex > 0 && slt.moduleIndex}
               </span>
-              <span className="truncate">{content.title}</span>
+              <span className="truncate">{slt.sltText}</span>
             </Link>
           </li>
         ))}

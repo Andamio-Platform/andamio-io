@@ -51,6 +51,7 @@ export const lessonRouter = createTRPCRouter({
         lessonCode: z.string().min(1),
         title: z.string().min(1),
         sltId: z.string().min(1),
+        contentJson: z.any().optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -60,6 +61,7 @@ export const lessonRouter = createTRPCRouter({
           title: input.title,
           slt: { connect: { id: input.sltId } },
           createdBy: { connect: { id: ctx.session.user.id } },
+          contentJson: input.contentJson,
           module: {
             connect: {
               id: input.moduleId,
@@ -99,16 +101,48 @@ export const lessonRouter = createTRPCRouter({
       });
     }),
 
-  // 2024-03-15 pick up here...
-  // createMany: protectedProcedure
-  //   .input(
-  //     z.object({}).array()
-  //   )
-  //   .mutation(async ({ ctx, input }) => {
-  //     return ctx.db.content.createMany({}[])
-  //   )
-
-  //   })
+  upsert: protectedProcedure
+    .input(
+      z.object({
+        id: z.string().optional(),
+        moduleId: z.string().min(1),
+        lessonCode: z.string().min(1),
+        title: z.string().min(1),
+        sltID: z.string().min(1),
+        imageUrl: z.string().optional(),
+        videoUrl: z.string().optional(),
+        contentJson: z.any().optional(),
+        live: z.boolean().optional(),
+      })
+    )
+    .mutation(async ({ctx, input}) => {
+      return ctx.db.lesson.upsert({
+        where: {
+          id: input.id
+        },
+        create: {
+          lessonCode: input.lessonCode,
+          title: input.title,
+          sltId: input.sltID,
+          moduleId: input.moduleId,
+          imageUrl: input.imageUrl,
+          videoUrl: input.videoUrl,
+          contentJson: input.contentJson,
+          live: input.live,
+          createdById: ctx.session.user.id,
+        },
+        update: {
+          lessonCode: input.lessonCode,
+          title: input.title,
+          sltId: input.sltID,
+          moduleId: input.moduleId,
+          imageUrl: input.imageUrl,
+          videoUrl: input.videoUrl,
+          contentJson: input.contentJson,
+          live: input.live,
+        }
+      })
+    }),
 
   delete: protectedProcedure
     .input(

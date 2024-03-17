@@ -5,24 +5,27 @@ import { FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 // import dynamic from "next/dynamic";
 import StudioLayout from "~/ui/studio/components/layout/StudioLayout";
-import ContentInfoForm from "~/ui/studio/components/ContentInfoForm";
+// import ContentInfoForm from "~/ui/studio/components/ContentInfoForm";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import Tabs from "~/components/tabs";
 import useCourseByOwner from "~/hooks/useCourseByOwner";
 import useCourseVariants from "~/hooks/useCourseVariants";
-import useContentVarient from "~/hooks/useContentVarient";
+import useLesson from "~/hooks/useLesson";
+// import useContentVarient from "~/hooks/useContentVarient";
 import mergeObjects from "~/utils/mergeObjects";
 import Editor from "~/components/Editor";
-import useLesson from "~/hooks/useLesson";
+import { ModuleSLT } from "~/types/db";
 
-export default function PageCourseLesson({
+export default function PageCourseLessonContent({
   courseCode,
   moduleCode,
   lessonCode,
+  slt,
 }: {
   courseCode: string;
   moduleCode: string;
   lessonCode: string;
+  slt: ModuleSLT;
 }) {
   const ctx = api.useUtils();
 
@@ -34,18 +37,18 @@ export default function PageCourseLesson({
     setSelectedVariantName,
     selectedCourseVariant,
   } = useCourseVariants(course?.id);
-  const { contentVariant } = useContentVarient(
-    lesson?.id,
-    selectedCourseVariant?.id,
-  );
+  //   const { contentVariant } = useContentVarient(
+  //     lesson?.id,
+  //     selectedCourseVariant?.id,
+  //   );
 
   const { mutate: update, isLoading: isLoadingUpdate } =
     api.lesson.update.useMutation({
       onSuccess: (data) => {
         toast.success("Content updated!");
-        void ctx.lesson.getModuleContents.invalidate({
-          moduleCode: moduleCode,
-        });
+        // void ctx.lesson.getModuleContents.invalidate({
+        //   moduleCode: moduleCode,
+        // });
       },
       onError: (e) => {
         const errorMessage = e.data?.zodError?.fieldErrors;
@@ -57,26 +60,25 @@ export default function PageCourseLesson({
       },
     });
 
-    // James todo
-  // const {
-  //   mutate: upsertContentVariant,
-  //   isLoading: isLoadingUpsertContentVariant,
-  // } = api.contentVariant.upsert.useMutation({
-  //   onSuccess: (data) => {
-  //     toast.success("Content updated!");
-  //     void ctx.contentVariant.getContentVariants.invalidate({
-  //       contentId: content?.id,
-  //     });
-  //   },
-  //   onError: (e) => {
-  //     const errorMessage = e.data?.zodError?.fieldErrors;
-  //     if (errorMessage) {
-  //       toast.error("Some inputs are missing or invalid");
-  //     } else {
-  //       toast.error("Content Code taken. Please try again.");
-  //     }
-  //   },
-  // });
+  //   const {
+  //     mutate: upsertContentVariant,
+  //     isLoading: isLoadingUpsertContentVariant,
+  //   } = api.contentVariant.upsert.useMutation({
+  //     onSuccess: (data) => {
+  //       toast.success("Content updated!");
+  //       void ctx.contentVariant.getContentVariants.invalidate({
+  //         contentId: content?.id,
+  //       });
+  //     },
+  //     onError: (e) => {
+  //       const errorMessage = e.data?.zodError?.fieldErrors;
+  //       if (errorMessage) {
+  //         toast.error("Some inputs are missing or invalid");
+  //       } else {
+  //         toast.error("Content Code taken. Please try again.");
+  //       }
+  //     },
+  //   });
 
   //
 
@@ -86,7 +88,7 @@ export default function PageCourseLesson({
     //@ts-expect-error todo how to fix this
     initialContent: content ? content.contentJson ?? undefined : undefined,
   });
-  const [thisContent, setThisContent] = useState<any>();
+  const [thisLesson, setThisLesson] = useState<any>();
 
   // todo save variant
   function onSubmit(data: FieldValues) {
@@ -95,7 +97,7 @@ export default function PageCourseLesson({
     // if (selectedCourseVariant && contentVariant) {
     //   const updateContent = {
     //     courseVariantId: selectedCourseVariant.id,
-    //     contentId: content.id,
+    //     lessonCode: lesson.lessonCode,
     //     contentVariantId: contentVariant.id,
     //     title: data.title,
     //     slt: data.slt ?? "",
@@ -104,62 +106,67 @@ export default function PageCourseLesson({
     //   };
     //   upsertContentVariant(updateContent);
     // } else {
-      const _lesson = {
-        id: lesson.id,
-        lessonCode: data.lessonCode,
-        title: data.title,
-        sltId: data.sltId,
-        videoUrl: data.videoUrl ?? "",
-        lessonJson: editor.getJSON(),
-        live: data.live == "true",
-      };
-      update(_lesson);
+    const _lesson = {
+      id: lesson.id,
+      lessonCode: data.lessonCode,
+      type: data.contentType,
+      title: data.title,
+      sltId: slt.id,
+      videoUrl: data.videoUrl ?? "",
+      contentJson: editor.getJSON(),
+      live: data.live == "true",
+    };
+    update(_lesson);
     // }
   }
 
   useEffect(() => {
-    if (content) {
-      const _content = contentVariant
-        ? mergeObjects(contentVariant, content)
-        : content;
+    if (lesson) {
+      // const _lesson = lessonVariant
+      //   ? mergeObjects(lessonVariant, lesson)
+      //   : lesson;
 
-      if (_content) {
+      const _lesson = lesson;
+
+      if (_lesson) {
         reset({
-          contentCode: _content.contentCode,
-          type: _content.type,
-          title: _content.title,
-          description: _content.description,
-          slt: _content.slt,
-          videoUrl: _content.videoUrl,
-          live: _content.live ? _content.live : false,
+          lessonCode: _lesson.lessonCode,
+          title: _lesson.title,
+          description: _lesson.description,
+          sltId: _lesson.sltId,
+          videoUrl: _lesson.videoUrl,
+          live: _lesson.live ? _lesson.live : false,
         });
 
-        if (_content.contentJson) editor.setContent(_content.contentJson);
+        if (_lesson.contentJson) editor.setContent(_lesson.contentJson);
 
-        setThisContent(_content);
+        setThisLesson(_lesson);
       }
     }
-  }, [content, contentVariant]);
+    // }, [lesson, lessonVariant]);
+  }, [lesson]);
 
-  if (thisContent === undefined) return <></>;
+  if (thisLesson === undefined) return <>NO LESSON FOUND</>;
 
   return (
-    <StudioLayout>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="overflow-hidden shadow sm:rounded-lg">
-          <div className="flex px-4 py-6 sm:px-6">
-            <div className="grow">
+    <>
+      <p>ok you are in</p>
+      <StudioLayout>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="overflow-hidden shadow sm:rounded-lg">
+            <div className="flex px-4 py-6 sm:px-6">
+              {/* <div className="grow">
               <h3 className="text-base font-semibold leading-7 text-gray-900">
-                {thisContent.type} - {thisContent.title}
+                {thisLesson.type} - {thisLesson.title}
               </h3>
               <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
-                {thisContent.description}
+                {thisLesson.description}
               </p>
-            </div>
+            </div> */}
 
-            <div>
-              <div className="gap-2 sm:flex">
-                <Button
+              <div>
+                <div className="gap-2 sm:flex">
+                  {/* <Button
                   onClick={(e) => {
                     e.preventDefault();
                     window.open(
@@ -169,51 +176,50 @@ export default function PageCourseLesson({
                   }}
                 >
                   View Lesson
-                </Button>
-                <Button
-                  disabled={isLoadingUpdate || isLoadingUpsertContentVariant}
-                >
-                  {isLoadingUpdate || isLoadingUpsertContentVariant ? (
-                    <ArrowPathIcon className="h-5 w-5 animate-spin" />
-                  ) : (
-                    "Save"
-                  )}
-                </Button>
+                </Button> */}
+                  <Button disabled={isLoadingUpdate}>
+                    {isLoadingUpdate ? (
+                      <ArrowPathIcon className="h-5 w-5 animate-spin" />
+                    ) : (
+                      "Save"
+                    )}
+                  </Button>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="px-4">
-            <Tabs
-              tabs={listCourseVariant}
-              current={selectedVariantName}
-              onChange={setSelectedVariantName}
-            />
-          </div>
+            <div className="px-4">
+              <Tabs
+                tabs={listCourseVariant}
+                current={selectedVariantName}
+                onChange={setSelectedVariantName}
+              />
+            </div>
 
-          <div className="m-6">
-            <ContentInfoForm
+            <div className="m-6">
+              {/* <ContentInfoForm
               register={register}
-              content={thisContent}
+              lesson={thisLesson}
               courseCode={courseCode}
               disabledVariantFields={!!contentVariant}
-            />
+            /> */}
 
-            <div className="relative w-full max-w-screen-lg">
-              {editor.render()}
+              <div className="relative w-full max-w-screen-lg">
+                {editor.render()}
+              </div>
             </div>
-          </div>
 
-          {/* <ContentContainer
+            {/* <ContentContainer
           content={
             contentVariant ? mergeObjects(contentVariant, content) : content
           }
           courseCode={courseCode}
           update={update}
         /> */}
-        </div>
-      </form>
-    </StudioLayout>
+          </div>
+        </form>
+      </StudioLayout>
+    </>
   );
 }
 

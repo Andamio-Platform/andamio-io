@@ -3,12 +3,9 @@ import Card from "~/components/card";
 import Button from "~/components/button";
 import Loading from "~/components/loading";
 import Text from "~/components/typography/text";
-import { Course, Module } from "~/types/db";
+import { Course, Module, ModuleSLT, ModuleTest } from "~/types/db";
 import { api } from "~/utils/api";
-import ListContent from "./ListLessons";
 import DialogModule from "~/ui/studio/components/dialogs/DialogModule";
-import DialogContent from "~/ui/studio/components/dialogs/DialogContent";
-import DialogOptionModuleContent from "~/ui/studio/components/dialogs/DialogOptionModuleContent";
 import CircleIcon from "~/components/icons/circle";
 import CardButton from "~/components/buttons/CardButton";
 import {
@@ -18,11 +15,15 @@ import {
   PlusCircleIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
+import DialogSLT from "./dialogs/DialogSLT";
+import DialogSLTDelete from "./dialogs/DialogSLTDelete";
+import Row from "./rows/Row";
+import RowSLT from "./rows/RowSLT";
 
 export default function ListModules({ course }: { course: Course }) {
   const [optionsDialogOpen, setOptionsDialogOpen] = useState<boolean>(false);
   const [moduleDialogOpen, setModuleDialogOpen] = useState<boolean>(false);
-  const [contentDialogOpen, setContentDialogOpen] = useState<boolean>(false);
+  const [sltDialogOpen, setSltDialogOpen] = useState<boolean>(false);
   const [selectedModule, setSelectedModule] = useState<Module | undefined>(
     undefined,
   );
@@ -44,9 +45,10 @@ export default function ListModules({ course }: { course: Course }) {
   return (
     <>
       <NewMain
+        course={course}
         modules={modules}
         setSelectedModule={setSelectedModule}
-        setContentDialogOpen={setContentDialogOpen}
+        setSltDialogOpen={setSltDialogOpen}
         setModuleDialogOpen={setModuleDialogOpen}
       />
 
@@ -64,126 +66,36 @@ export default function ListModules({ course }: { course: Course }) {
         module={selectedModule}
       />
 
-      <DialogContent
-        contentDialogOpen={contentDialogOpen}
-        setContentDialogOpen={setContentDialogOpen}
-        course={course}
-        module={selectedModule}
-      />
+      {selectedModule && (
+        <DialogSLT
+          sltDialogOpen={sltDialogOpen}
+          setSltDialogOpen={setSltDialogOpen}
+          course={course}
+          module={selectedModule}
+        />
+      )}
 
-      <DialogOptionModuleContent
+      {/* <DialogOptionModuleContent
         optionDialogOpen={optionsDialogOpen}
         setOptionDialogOpen={setOptionsDialogOpen}
         setModuleDialogOpen={setModuleDialogOpen}
-        setContentDialogOpen={setContentDialogOpen}
-      />
-
-      {/* <Card>
-        {modules === undefined && isLoading && <Loading />}
-
-        {modules && (
-          <>
-            <div className="px-4 sm:px-6 lg:px-8">
-              <div className="flow-root">
-                <div className="-mx-4 -my-2 sm:-mx-6 lg:-mx-8">
-                  <div className="inline-block min-w-full py-2 align-middle">
-                    <table className="min-w-full border-separate border-spacing-0">
-                      <thead>
-                        <tr>
-                          <th
-                            scope="col"
-                            className="sticky top-0 z-10 border-b border-gray-300 bg-white bg-opacity-75 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter sm:pl-6 lg:pl-8"
-                          >
-                            Course Modules
-                          </th>
-                          <th
-                            scope="col"
-                            className="sticky top-0 z-10 hidden border-b border-gray-300 bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter sm:table-cell"
-                          >
-                            <div className="flex place-content-end">
-                              <Button
-                                onClick={() => {
-                                  setOptionsDialogOpen(true);
-                                }}
-                              >
-                                Add
-                              </Button>
-                            </div>
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-gray-200">
-                        {modules.length > 0 ? (
-                          modules.map((module, i) => (
-                            <Fragment key={i}>
-                              <tr>
-                                <td
-                                  className="py-5 pl-4 pr-3 text-sm sm:pl-0"
-                                  colSpan={2}
-                                >
-                                  <div className="font-medium text-gray-900">
-                                    <a
-                                      onClick={() => {
-                                        setSelectedModule(module);
-                                        setModuleDialogOpen(true);
-                                      }}
-                                      className="flex cursor-pointer items-center gap-x-2 hover:underline"
-                                    >
-                                      <span>{module.moduleCode}</span>
-                                      <CircleIcon />
-                                      <span>{module.title}</span>
-                                    </a>
-                                  </div>
-                                  <div className="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
-                                    <span className="break-normal">
-                                      {module.description}
-                                    </span>
-                                  </div>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td></td>
-                                <td className="px-3">
-                                  <ListContent
-                                    course={course}
-                                    module={module}
-                                  />
-                                </td>
-                              </tr>
-                            </Fragment>
-                          ))
-                        ) : (
-                          <tr>
-                            <td colSpan={4} className="py-5 text-center">
-                              <Text>
-                                No modules (to be replaced with illustrative
-                                picture)
-                              </Text>
-                            </td>
-                          </tr>
-                        )}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </>
-        )}
-      </Card> */}
+        setSltDialogOpen={setSltDialogOpen}
+      /> */}
     </>
   );
 }
 
 function NewMain({
+  course,
   modules,
   setSelectedModule,
-  setContentDialogOpen,
+  setSltDialogOpen,
   setModuleDialogOpen,
 }: {
+  course: Course;
   modules?: Module[];
   setSelectedModule: (module: Module) => void;
-  setContentDialogOpen: (open: boolean) => void;
+  setSltDialogOpen: (open: boolean) => void;
   setModuleDialogOpen: (open: boolean) => void;
 }) {
   return (
@@ -192,9 +104,10 @@ function NewMain({
         modules.map((module, i) => (
           <ModuleContainer
             key={i}
+            course={course}
             module={module}
             setSelectedModule={setSelectedModule}
-            setContentDialogOpen={setContentDialogOpen}
+            setSltDialogOpen={setSltDialogOpen}
             setModuleDialogOpen={setModuleDialogOpen}
           />
         ))}
@@ -204,13 +117,15 @@ function NewMain({
 
 function ModuleContainer({
   module,
+  course,
   setSelectedModule,
-  setContentDialogOpen,
+  setSltDialogOpen,
   setModuleDialogOpen,
 }: {
   module: Module;
+  course: Course;
   setSelectedModule: (module: Module) => void;
-  setContentDialogOpen: (open: boolean) => void;
+  setSltDialogOpen: (open: boolean) => void;
   setModuleDialogOpen: (open: boolean) => void;
 }) {
   const [showContent, setShowContent] = useState<boolean>(false);
@@ -265,22 +180,12 @@ function ModuleContainer({
       {/* body */}
       {showContent && (
         <div className="grid w-full grid-cols-10 gap-y-4 border-t border-gray-200 py-4">
-          {module.slts.map((slt, j) => (
-            <Row
-              key={`${module.moduleCode}-${slt.sltId}`}
-              c1={`Content: ${slt.sltText}`}
-              c2={
-                <Link
-                  href={`/studio/${module.course.courseCode}/${module.moduleCode}/${slt.sltId}`}
-                >
-                  <div className="flex flex-col gap-2">
-                    <p>{slt.sltId}</p>
-                    <p className="text-sm text-gray-500">{slt.sltText}</p>
-                  </div>
-                </Link>
-              }
-              c3={<></>}
-              c4={<></>}
+          {sortSLTsByIndex(module.slts).map((slt, j) => (
+            <RowSLT
+              course={course}
+              module={module}
+              slt={slt}
+              key={j}
             />
           ))}
 
@@ -289,12 +194,12 @@ function ModuleContainer({
               <CardButton
                 onClickHandler={() => {
                   setSelectedModule(module);
-                  setContentDialogOpen(true);
+                  setSltDialogOpen(true);
                 }}
                 className="w-full"
               >
                 <PlusCircleIcon className="h-6 w-6" />
-                Add Content
+                Add Student Learning Target
               </CardButton>
             }
           />
@@ -304,26 +209,6 @@ function ModuleContainer({
   );
 }
 
-// pretty hackish? but it works
-function Row({
-  c1,
-  c2,
-  c3,
-  c4,
-}: {
-  c1: React.ReactNode;
-  c2?: React.ReactNode;
-  c3?: React.ReactNode;
-  c4?: React.ReactNode;
-}) {
-  return (
-    <Fragment>
-      <div className={`${c2 ? "col-span-2" : "col-span-10"} text-gray-400`}>
-        {c1}
-      </div>
-      {c2 && <div className="col-span-6 items-start">{c2}</div>}
-      {c3 && <div className="col-span-1">{c3}</div>}
-      {c4 && <div className="col-span-1 justify-end">{c4}</div>}
-    </Fragment>
-  );
-}
+const sortSLTsByIndex = (slts: ModuleSLT[]) => {
+  return slts.slice().sort((a, b) => a.moduleIndex - b.moduleIndex);
+};

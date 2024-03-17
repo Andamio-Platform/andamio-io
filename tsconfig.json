@@ -50,5 +50,9 @@
   ],
   "exclude": [
     "node_modules"
-  ]
+  ],
+  "typedocOptions": {
+    "entryPoints": ["src/server/api/routers/slt.ts"],
+    "out": "docs"
+}
 }

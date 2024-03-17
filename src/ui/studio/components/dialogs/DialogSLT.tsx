@@ -11,15 +11,15 @@ import { Course, Module } from "~/types/db";
 import Select from "~/components/form/select";
 
 export default function DialogSLT({
-  contentDialogOpen,
-  setContentDialogOpen,
+  sltDialogOpen,
+  setSltDialogOpen,
   course,
   module,
 }: {
-  contentDialogOpen: boolean;
-  setContentDialogOpen: (open: boolean) => void;
+  sltDialogOpen: boolean;
+  setSltDialogOpen: (open: boolean) => void;
   course: Course;
-  module?: Module;
+  module: Module;
 }) {
   const ctx = api.useUtils();
 
@@ -34,13 +34,13 @@ export default function DialogSLT({
 
   const { register, handleSubmit, reset } = useForm();
 
-  const { mutate: contentCreate, isLoading: isLoadingCreate } =
-    api.content.create.useMutation({
+  const { mutate: sltCreate, isLoading: isLoadingCreate } =
+    api.slt.create.useMutation({
       onSuccess: (data) => {
-        setContentDialogOpen(false);
-        toast.success("Content created!");
+        setSltDialogOpen(false);
+        toast.success("Student Learning Target  created!");
         const _module = modules?.find((c) => c.id === data.moduleId);
-        void ctx.content.getModuleContents.invalidate({
+        void ctx.slt.getModuleSLTs.invalidate({
           moduleCode: _module?.moduleCode,
         });
         void ctx.module.getCourseModules.invalidate({
@@ -50,32 +50,30 @@ export default function DialogSLT({
       onError: (e) => {
         const errorMessage = e.data?.zodError?.fieldErrors;
         if (errorMessage) {
-          toast.error("Some inputs are missing or invalid");
+          toast.error("Some SLT inputs are missing or invalid");
         } else {
-          toast.error("Content Code taken. Please try again.");
+          toast.error("SLT ID taken. Please try again.");
         }
       },
     });
 
   function onSubmit(data: FieldValues) {
-    contentCreate({
+    sltCreate({
       moduleId: data.moduleId,
-      contentCode: data.contentCode,
-      type: data.contentType,
-      title: data.title,
-      slt: data.slt,
+      moduleIndex: module.slts.length + 1,
+      sltText: data.sltText,
     });
   }
 
   useEffect(() => {
     const _initial = {
+      index: 0,
       moduleId: "",
       moduleCode: "",
-      title: "",
-      slt: "",
+      sltText: "",
     };
 
-    if (contentDialogOpen) {
+    if (sltDialogOpen) {
       if (module) {
         _initial.moduleId = module.id;
         _initial.moduleCode = module.moduleCode;
@@ -83,38 +81,28 @@ export default function DialogSLT({
     }
 
     reset(_initial);
-  }, [contentDialogOpen]);
+  }, [sltDialogOpen]);
 
   return (
     <DialogBox
-      title="Create a new content"
+      title="Create a new Student Learning Target"
       isForm={{
         buttonLabel: "Create",
         buttonLoading: isLoadingCreate,
         buttonDisabled: isLoadingCreate,
         handleSubmit: handleSubmit((data) => onSubmit(data)),
       }}
-      open={contentDialogOpen}
-      setOpen={setContentDialogOpen}
+      open={sltDialogOpen}
+      setOpen={setSltDialogOpen}
     >
       <DialogParagraph>
-        Create a new module by filling in the details below.
+        Adding SLT {module.moduleCode}.{module.slts.length + 1}
       </DialogParagraph>
 
       <div className="mt-4 grid grid-cols-1 gap-y-4">
-        <FormFieldset label="Content title">
-          <Input name="title" register={register} />
+        <FormFieldset label="SLT Text">
+          <Textarea name="sltText" register={register} />
         </FormFieldset>
-
-        <FormFieldset label="Student learning target">
-          <Textarea name="slt" register={register} rows={8} />
-        </FormFieldset>
-
-        <FormFieldset label="Content code">
-          <Input name="contentCode" register={register} />
-        </FormFieldset>
-
-
 
         <FormFieldset label="Module">
           <Select

@@ -29,7 +29,11 @@ export default function PageCourseLessonContent({
 }) {
   const ctx = api.useUtils();
 
+  console.log("courseCode", courseCode)
+  console.log("moduleCode", moduleCode)
+  console.log("lessonCode", lessonCode)
   const { lesson } = useLesson(courseCode, moduleCode, lessonCode);
+  console.log("Check501", lesson)
   const { course } = useCourseByOwner(courseCode);
   const {
     listCourseVariant,
@@ -86,7 +90,7 @@ export default function PageCourseLessonContent({
 
   const editor = new Editor({
     //@ts-expect-error todo how to fix this
-    initialContent: content ? content.contentJson ?? undefined : undefined,
+    initialContent: lesson ? lesson.contentJson ?? undefined : undefined,
   });
   const [thisLesson, setThisLesson] = useState<any>();
 
@@ -138,7 +142,7 @@ export default function PageCourseLessonContent({
           live: _lesson.live ? _lesson.live : false,
         });
 
-        if (_lesson.contentJson) editor.setContent(_lesson.contentJson);
+        // if (_lesson.contentJson) editor.setContent(_lesson.contentJson);
 
         setThisLesson(_lesson);
       }
@@ -146,7 +150,7 @@ export default function PageCourseLessonContent({
     // }, [lesson, lessonVariant]);
   }, [lesson]);
 
-  if (thisLesson === undefined) return <>NO LESSON FOUND</>;
+  if (thisLesson === undefined) return <>NO LESSON FOUND - HOW WILL YOU CREATE ONE AT THIS STEP? 2024-03-18 TODO</>;
 
   return (
     <>

@@ -5,11 +5,11 @@ export default function useLesson(
   moduleCode: string,
   lessonCode: string,
 ) {
-  const { data: lessons, isLoading } = api.lesson.getModuleLessons.useQuery({
+  const { data: lesson, isLoading } = api.lesson.getLesson.useQuery({
     courseCode,
     moduleCode,
+    lessonCode
   });
-  const lesson = lessons?.find((c) => c.lessonCode === lessonCode);
 
   return { lesson, isLoading };
 }

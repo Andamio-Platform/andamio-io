@@ -32,8 +32,8 @@ export default class Editor {
     if (this.editor) return this.editor.getJSON();
   }
 
-  setContent(lesson: Content) {
-    if (this.editor) this.editor.commands.setContent(lesson);
+  setContent(content: Content) {
+    if (this.editor) this.editor.commands.setContent(content);
   }
 
   render() {

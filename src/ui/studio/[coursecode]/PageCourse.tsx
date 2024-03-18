@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Tabs from "~/components/tabs";
 import Loading from "~/components/loading";
 import StudioLayout from "~/ui/studio/components/layout/StudioLayout";
@@ -13,12 +13,15 @@ import ShowCourseOnchain from "../components/ShowCourseOnchain";
 import { Network } from "@prisma/client";
 import FormFieldset from "~/components/form/form-fieldset";
 import SelectNetwork from "~/components/select-network";
+import { CourseVariant } from "~/types/db";
 
 export default function PageCourse({ courseCode }: { courseCode: string }) {
-  
   const { course, isLoading } = useCourseByOwner(courseCode);
   const [currentTab, setCurrentTab] = useState<string>("modules");
   const [selectedNetwork, setSelectedNetwork] = useState<Network>("PREPROD");
+  const [selectedVariant, setSelectedVariant] = useState<
+    CourseVariant | undefined
+  >(undefined);
 
   const tabs = [
     { name: "Modules", value: "modules" },
@@ -27,7 +30,7 @@ export default function PageCourse({ courseCode }: { courseCode: string }) {
     { name: "On-Chain Info", value: "onchain" },
   ];
 
-  const handleSelectionChange = (
+  const handleNetworkSelectionChange = (
     event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
     const _network = event.target.value as Network;
@@ -42,7 +45,9 @@ export default function PageCourse({ courseCode }: { courseCode: string }) {
             <div className="flex flex-col gap-4">
               <CourseTitle course={course} />
               <Tabs tabs={tabs} current={currentTab} onChange={setCurrentTab} />
-              {currentTab === "modules" && <ListModules course={course} />}
+              {currentTab === "modules" && (
+                <ListModules course={course} variant={selectedVariant} />
+              )}
               {currentTab === "managers" && (
                 <ListCourseManagers course={course} />
               )}
@@ -50,7 +55,11 @@ export default function PageCourse({ courseCode }: { courseCode: string }) {
                 <ListCourseVariants course={course} />
               )}
               {selectedNetwork && currentTab === "onchain" && (
-                <ShowCourseOnchain key={selectedNetwork+course.id} course={course} network={selectedNetwork} />
+                <ShowCourseOnchain
+                  key={selectedNetwork + course.id}
+                  course={course}
+                  network={selectedNetwork}
+                />
               )}
             </div>
           </>
@@ -58,11 +67,11 @@ export default function PageCourse({ courseCode }: { courseCode: string }) {
           isLoading && <Loading />
         )}
       </>
-      <div className="flex w-full justify-end mt-10">
+      <div className="mt-10 flex w-full flex-row justify-between">
         <FormFieldset label="Network">
           <SelectNetwork
             name="network"
-            onChange={handleSelectionChange}
+            onChange={handleNetworkSelectionChange}
             options={Object.keys(Network).map((type) => ({
               value: type,
               label: type,

@@ -64,6 +64,7 @@ export const courseRouter = createTRPCRouter({
       },
       include: {
         managers: true,
+        variants: true,
       },
     });
   }),

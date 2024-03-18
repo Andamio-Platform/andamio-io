@@ -70,13 +70,11 @@ model User {
   posts          Post[]
   courses        Course[]       @relation("CreatedCourses")
   lessons        Lesson[]       @relation("CreatedLessons")
-  // contents         Content[]        @relation("CreatedContents")
-  // contentsVariants ContentVariant[] @relation("CreatedContentsVariants")
+  // lessonVariants LesssonVariant[] @relation("CreatedLessonVariants")
   slts           Slt[]          @relation("CreatedSLTs")
   managedCourses Course[]       @relation("CourseManagers")
   joinedCourses  Course[]       @relation("CourseLearners")
   subscriptions  Subscription[] @relation("Subscriptions")
-  // Lesson         Lesson[]
 }
 
 model VerificationToken {
@@ -104,9 +102,28 @@ model Slt {
   createdBy   User   @relation("CreatedSLTs", fields: [createdById], references: [id])
   createdById String
 
+  variants SltVariant[] @relation("SltVariants")
+
   @@index([moduleId])
   @@index([assignmentId])
   @@index([createdById])
+  @@index([id])
+}
+
+model SltVariant {
+  id String @id @default(cuid())
+
+  sltText String
+
+  // lessonVariant LessonVariant?
+
+  sltId           String
+  slt             Slt           @relation("SltVariants", fields: [sltId], references: [id])
+  moduleVariantId String
+  moduleVariant   ModuleVariant @relation("SltVariantsModuleVariant", fields: [moduleVariantId], references: [id])
+
+  @@index([moduleVariantId])
+  @@index([sltId])
   @@index([id])
 }
 
@@ -146,6 +163,8 @@ model ModuleVariant {
   module          Module        @relation("ModuleVariants", fields: [moduleId], references: [id])
   courseVariantId String
   courseVariant   CourseVariant @relation("ModuleVariantsCourseVariant", fields: [courseVariantId], references: [id])
+
+  sltVariants SltVariant[] @relation("SltVariantsModuleVariant")
 
   @@index([courseVariantId])
   @@index([moduleId])

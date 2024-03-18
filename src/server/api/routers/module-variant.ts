@@ -20,6 +20,26 @@ export const moduleVariantRouter = createTRPCRouter({
         },
         include: {
           courseVariant: true,
+          module: true
+        },
+      });
+    }),
+
+  getCourseModuleVariants: publicProcedure
+    .input(
+      z.object({
+        courseVariantId: z.string().min(1),
+      })
+    )
+    .query(({ ctx, input }) => {
+      return ctx.db.moduleVariant.findMany({
+        where: {
+          courseVariantId: input.courseVariantId,
+        },
+        include: {
+          courseVariant: true,
+          sltVariants: true,
+          module: true
         },
       });
     }),

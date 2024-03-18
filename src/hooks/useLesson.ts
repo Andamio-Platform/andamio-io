@@ -3,13 +3,19 @@ import { api } from "~/utils/api";
 export default function useLesson(
   courseCode: string,
   moduleCode: string,
-  lessonCode: string,
+  moduleIndex: number,
 ) {
-  const { data: lesson, isLoading } = api.lesson.getLesson.useQuery({
+  const {
+    data: lesson,
+    isLoading: isLoadingLesson,
+    isError: isErrorLesson,
+    error: errorLesson,
+    refetch: refetchLesson,
+  } = api.lesson.getLesson.useQuery({
     courseCode,
     moduleCode,
-    lessonCode
+    moduleIndex
   });
 
-  return { lesson, isLoading };
+  return { lesson, isLoadingLesson, isErrorLesson, errorLesson, refetchLesson };
 }

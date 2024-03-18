@@ -25,8 +25,6 @@ export default function RowSLT({
   const [editSltText, setEditSltText] = useState<boolean>(false);
   //   const [sltText, setSltText] = useState("");
 
-  const lessonCode = module.moduleCode + slt.moduleIndex
-
   const { mutate: sltTextUpdate, isLoading: isLoadingUpdate } =
     api.slt.update.useMutation({
       onSuccess: (data) => {
@@ -94,21 +92,34 @@ export default function RowSLT({
           c2={
             <>
               <div className="flex flex-row gap-2">
-                <Button onClick={() => setEditSltText(!editSltText)}>U</Button>
                 {editSltText ? (
                   <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="flex flex-row gap-5">
+                    <div className="flex flex-row w-full gap-5">
                       <Input name="sltText" register={register} />
-                      <Button type="submit">done</Button>
+                      <Button type="submit" className="rounded-md bg-green-900 px-2 text-xs text-green-300">done</Button>
                     </div>
                   </form>
                 ) : (
                   <p>{slt.sltText}</p>
                 )}
+                {!editSltText && (
+                  <Button
+                    onClick={() => setEditSltText(!editSltText)}
+                    className="rounded-md bg-green-900 px-2 text-xs text-green-300"
+                  >
+                    edit
+                  </Button>
+                )}
               </div>
             </>
           }
-          c3={<Link href={`/studio/${course.courseCode}/${module.moduleCode}/lesson/${lessonCode}`}><Button>Edit Lesson</Button></Link>}
+          c3={
+            <Link
+              href={`/studio/${course.courseCode}/${module.moduleCode}/lesson/${slt.moduleIndex}`}
+            >
+              <Button>Write Lesson</Button>
+            </Link>
+          }
           c4={
             <>
               <Button

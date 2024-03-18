@@ -232,10 +232,9 @@ model CourseOnChainInstance {
 }
 
 model Lesson {
-  id         String @id @default(cuid())
-  lessonCode String
+  id String @id @default(cuid())
 
-  title       String
+  title       String?
   description String?
   contentJson Json?
   imageUrl    String?
@@ -257,7 +256,6 @@ model Lesson {
   // User        User?    @relation(fields: [userId], references: [id])
   userId      String?
 
-  @@unique([moduleId, lessonCode])
   @@unique([sltId])
   @@index([createdById])
   @@index([moduleId])

@@ -12,13 +12,16 @@ export const lessonRouter = createTRPCRouter({
       z.object({
         courseCode: z.string(),
         moduleCode: z.string(),
-        lessonCode: z.string(),
+        moduleIndex: z.number(),
       }),
     )
     .query(({ ctx, input }) => {
+      console.log("check502 querying lesson...")
       return ctx.db.lesson.findFirst({
         where: {
-          lessonCode: input.lessonCode,
+          slt: {
+            moduleIndex: input.moduleIndex
+          },
           module: {
             moduleCode: input.moduleCode,
             course: {
@@ -48,20 +51,14 @@ export const lessonRouter = createTRPCRouter({
     .input(
       z.object({
         moduleId: z.string().min(1),
-        lessonCode: z.string().min(1),
-        title: z.string().min(1),
         sltId: z.string().min(1),
-        contentJson: z.any().optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.db.lesson.create({
         data: {
-          lessonCode: input.lessonCode,
-          title: input.title,
           slt: { connect: { id: input.sltId } },
           createdBy: { connect: { id: ctx.session.user.id } },
-          contentJson: input.contentJson,
           module: {
             connect: {
               id: input.moduleId,
@@ -75,9 +72,9 @@ export const lessonRouter = createTRPCRouter({
     .input(
       z.object({
         id: z.string().min(1),
-        lessonCode: z.string().min(1),
-        title: z.string().min(1),
         sltId: z.string().min(1),
+        title: z.string().min(1),
+        description: z.string().optional(),
         imageUrl: z.string().optional(),
         videoUrl: z.string().optional(),
         contentJson: z.any().optional(),
@@ -90,9 +87,9 @@ export const lessonRouter = createTRPCRouter({
           id: input.id,
         },
         data: {
-          lessonCode: input.lessonCode,
-          title: input.title,
           slt: { connect: { id: input.sltId } },
+          title: input.title,
+          description: input.description,
           imageUrl: input.imageUrl,
           videoUrl: input.videoUrl,
           contentJson: input.contentJson,
@@ -106,7 +103,6 @@ export const lessonRouter = createTRPCRouter({
       z.object({
         id: z.string().optional(),
         moduleId: z.string().min(1),
-        lessonCode: z.string().min(1),
         title: z.string().min(1),
         sltID: z.string().min(1),
         imageUrl: z.string().optional(),
@@ -121,7 +117,6 @@ export const lessonRouter = createTRPCRouter({
           id: input.id
         },
         create: {
-          lessonCode: input.lessonCode,
           title: input.title,
           sltId: input.sltID,
           moduleId: input.moduleId,
@@ -132,7 +127,6 @@ export const lessonRouter = createTRPCRouter({
           createdById: ctx.session.user.id,
         },
         update: {
-          lessonCode: input.lessonCode,
           title: input.title,
           sltId: input.sltID,
           moduleId: input.moduleId,

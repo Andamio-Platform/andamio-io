@@ -15,26 +15,33 @@ import useLesson from "~/hooks/useLesson";
 import mergeObjects from "~/utils/mergeObjects";
 import Editor from "~/components/Editor";
 import { ModuleSLT } from "~/types/db";
+import useModuleByCourse from "~/hooks/useModuleByCourse";
+import LessonInfoForm from "~/ui/studio/components/LessonInfoForm";
 
 export default function PageCourseLessonContent({
   courseCode,
   moduleCode,
-  lessonCode,
+  moduleIndex,
   slt,
 }: {
   courseCode: string;
   moduleCode: string;
-  lessonCode: string;
+  moduleIndex: number;
   slt: ModuleSLT;
 }) {
   const ctx = api.useUtils();
 
-  console.log("courseCode", courseCode)
-  console.log("moduleCode", moduleCode)
-  console.log("lessonCode", lessonCode)
-  const { lesson } = useLesson(courseCode, moduleCode, lessonCode);
-  console.log("Check501", lesson)
+  const { lesson, refetchLesson } = useLesson(
+    courseCode,
+    moduleCode,
+    moduleIndex,
+  );
+
   const { course } = useCourseByOwner(courseCode);
+  const { courseModule } = useModuleByCourse(courseCode, moduleCode);
+
+  console.log("Check503: check contentJson", lesson?.contentJson);
+
   const {
     listCourseVariant,
     selectedVariantName,
@@ -46,10 +53,35 @@ export default function PageCourseLessonContent({
   //     selectedCourseVariant?.id,
   //   );
 
+  const { mutate: lessonCreate, isLoading: isLoadingCreate } =
+    api.lesson.create.useMutation({
+      onSuccess: async (data) => {
+        toast.success("Lesson Created: Ready to Write?");
+        await refetchLesson();
+        // Todo - what to validate?
+        // const _module = modules?.find((c) => c.id === data.moduleId);
+        // void ctx.slt.getModuleSLTs.invalidate({
+        //   moduleCode: _module?.moduleCode,
+        // });
+        // void ctx.module.getCourseModules.invalidate({
+        //   courseCode: course.courseCode,
+        // });
+      },
+      onError: (e) => {
+        const errorMessage = e.data?.zodError?.fieldErrors;
+        if (errorMessage) {
+          toast.error("Some inputs are missing or invalid");
+        } else {
+          toast.error("Lesson could not be created. Please try again.");
+        }
+      },
+    });
+
   const { mutate: update, isLoading: isLoadingUpdate } =
     api.lesson.update.useMutation({
-      onSuccess: (data) => {
+      onSuccess: async (data) => {
         toast.success("Content updated!");
+        await refetchLesson();
         // void ctx.lesson.getModuleContents.invalidate({
         //   moduleCode: moduleCode,
         // });
@@ -64,27 +96,15 @@ export default function PageCourseLessonContent({
       },
     });
 
-  //   const {
-  //     mutate: upsertContentVariant,
-  //     isLoading: isLoadingUpsertContentVariant,
-  //   } = api.contentVariant.upsert.useMutation({
-  //     onSuccess: (data) => {
-  //       toast.success("Content updated!");
-  //       void ctx.contentVariant.getContentVariants.invalidate({
-  //         contentId: content?.id,
-  //       });
-  //     },
-  //     onError: (e) => {
-  //       const errorMessage = e.data?.zodError?.fieldErrors;
-  //       if (errorMessage) {
-  //         toast.error("Some inputs are missing or invalid");
-  //       } else {
-  //         toast.error("Content Code taken. Please try again.");
-  //       }
-  //     },
-  //   });
-
-  //
+  const handleCreateLesson = () => {
+    if (courseModule) {
+      const _lesson = {
+        moduleId: courseModule.id,
+        sltId: slt.id,
+      };
+      lessonCreate(_lesson);
+    }
+  };
 
   const { register, handleSubmit, reset } = useForm();
 
@@ -101,7 +121,6 @@ export default function PageCourseLessonContent({
     // if (selectedCourseVariant && contentVariant) {
     //   const updateContent = {
     //     courseVariantId: selectedCourseVariant.id,
-    //     lessonCode: lesson.lessonCode,
     //     contentVariantId: contentVariant.id,
     //     title: data.title,
     //     slt: data.slt ?? "",
@@ -112,10 +131,9 @@ export default function PageCourseLessonContent({
     // } else {
     const _lesson = {
       id: lesson.id,
-      lessonCode: data.lessonCode,
-      type: data.contentType,
-      title: data.title,
       sltId: slt.id,
+      title: data.title,
+      description: data.description,
       videoUrl: data.videoUrl ?? "",
       contentJson: editor.getJSON(),
       live: data.live == "true",
@@ -134,7 +152,6 @@ export default function PageCourseLessonContent({
 
       if (_lesson) {
         reset({
-          lessonCode: _lesson.lessonCode,
           title: _lesson.title,
           description: _lesson.description,
           sltId: _lesson.sltId,
@@ -142,7 +159,8 @@ export default function PageCourseLessonContent({
           live: _lesson.live ? _lesson.live : false,
         });
 
-        // if (_lesson.contentJson) editor.setContent(_lesson.contentJson);
+        if (_lesson.contentJson && typeof _lesson.contentJson === "object")
+          editor.setContent(_lesson.contentJson);
 
         setThisLesson(_lesson);
       }
@@ -150,37 +168,55 @@ export default function PageCourseLessonContent({
     // }, [lesson, lessonVariant]);
   }, [lesson]);
 
-  if (thisLesson === undefined) return <>NO LESSON FOUND - HOW WILL YOU CREATE ONE AT THIS STEP? 2024-03-18 TODO</>;
+  if (lesson === undefined || lesson === null)
+    return (
+      <StudioLayout>
+        <h1>Make Lesson todo 2024-03-18</h1>
+        <p>{courseCode}</p>
+        <p>{moduleCode}</p>
+        <p>{moduleIndex}</p>
+        <Button onClick={handleCreateLesson}>Ready to create a lesson?</Button>
+      </StudioLayout>
+    );
 
   return (
     <>
-      <p>ok you are in</p>
       <StudioLayout>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="overflow-hidden shadow sm:rounded-lg">
-            <div className="flex px-4 py-6 sm:px-6">
-              {/* <div className="grow">
-              <h3 className="text-base font-semibold leading-7 text-gray-900">
-                {thisLesson.type} - {thisLesson.title}
-              </h3>
-              <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
-                {thisLesson.description}
-              </p>
-            </div> */}
+            <div className="flex px-4 py-6">
+              <div className="grow">
+                <h3 className="mb-2leading-7 text-3xl font-semibold text-gray-900">
+                  {moduleCode}.{moduleIndex}:{" "}
+                  {lesson && lesson.title
+                    ? lesson.title
+                    : "Add a Title in the form below"}
+                </h3>
+                <p className="mb-5 mt-1 max-w-2xl text-sm leading-6 text-gray-500">
+                  {lesson && lesson.description
+                    ? lesson?.description
+                    : "Add a description in the form below"}
+                </p>
+                <div className="bg-gray-300 rounded-md p-3">
+                  <p className="font-semibold leading-7 text-gray-900">
+                    SLT {moduleCode}.{slt.moduleIndex}: {slt.sltText}
+                  </p>
+                </div>
+              </div>
 
               <div>
-                <div className="gap-2 sm:flex">
-                  {/* <Button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    window.open(
-                      `/course/${courseCode}/${moduleCode}/${contentCode}`,
-                      "_blank",
-                    );
-                  }}
-                >
-                  View Lesson
-                </Button> */}
+                <div className="gap-2 sm:flex flex-col px-10">
+                  <Button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      window.open(
+                        `/course/${courseCode}/${moduleCode}/lesson/${moduleIndex}`,
+                        "_blank",
+                      );
+                    }}
+                  >
+                    View Lesson
+                  </Button>
                   <Button disabled={isLoadingUpdate}>
                     {isLoadingUpdate ? (
                       <ArrowPathIcon className="h-5 w-5 animate-spin" />
@@ -201,14 +237,14 @@ export default function PageCourseLessonContent({
             </div>
 
             <div className="m-6">
-              {/* <ContentInfoForm
-              register={register}
-              lesson={thisLesson}
-              courseCode={courseCode}
-              disabledVariantFields={!!contentVariant}
-            /> */}
+              <LessonInfoForm
+                register={register}
+                lesson={thisLesson}
+                courseCode={courseCode}
+                disabledVariantFields={false}
+              />
 
-              <div className="relative w-full max-w-screen-lg">
+              <div className="relative w-full max-w-screen-lg bg-gray-200 p-5">
                 {editor.render()}
               </div>
             </div>
@@ -226,73 +262,3 @@ export default function PageCourseLessonContent({
     </>
   );
 }
-
-// function ContentContainer({
-//   content,
-//   courseCode,
-//   update,
-// }: {
-//   content: any;
-//   courseCode: string;
-//   update: any;
-// }) {
-//   const { register, handleSubmit, reset } = useForm();
-//   const editor = new Editor({
-//     initialContent: content.contentJson,
-//   });
-
-//   function onSubmit(data: FieldValues) {
-//     if (content) {
-//       const _content = {
-//         id: content.id,
-//         contentCode: data.contentCode,
-//         type: data.contentType,
-//         title: data.title,
-//         description: data.description,
-//         slt: data.slt ?? "",
-//         videoUrl: data.videoUrl ?? "",
-//         contentJson: editor.getJSON(),
-//       };
-//       update(_content);
-//     }
-//   }
-
-//   useEffect(() => {
-//     if (content) {
-//       reset({
-//         contentCode: content.contentCode,
-//         type: content.type,
-//         title: content.title,
-//         description: content.description,
-//         slt: content.slt,
-//         videoUrl: content.videoUrl,
-//       });
-//     }
-//   }, [content]);
-
-//   return (
-//     <form onSubmit={handleSubmit(onSubmit)}>
-//       <div className="mx-6">
-//         <div>
-//           <div className="gap-2 sm:flex">
-//             <Button disabled={false}>
-//               {false ? (
-//                 <ArrowPathIcon className="h-5 w-5 animate-spin" />
-//               ) : (
-//                 "Save"
-//               )}
-//             </Button>
-//           </div>
-//         </div>
-
-//         <ContentInfoForm
-//           register={register}
-//           content={content}
-//           courseCode={courseCode}
-//         />
-
-//         <div className="relative w-full max-w-screen-lg">{editor.render()}</div>
-//       </div>
-//     </form>
-//   );
-// }

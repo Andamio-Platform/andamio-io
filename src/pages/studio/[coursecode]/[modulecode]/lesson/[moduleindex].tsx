@@ -2,21 +2,21 @@ import { NextPageContext } from "next";
 import { useState } from "react";
 import useSLT from "~/hooks/useSLT";
 import { ModuleSLT } from "~/types/db";
-import PageCourseLessonContent from "~/ui/studio/[coursecode]/[modulecode]/lesson/[lessoncode]/PageCourseLessonContent";
+import PageCourseLessonContent from "~/ui/studio/[coursecode]/[modulecode]/lesson/[moduleindex]/PageCourseLessonContent";
 
 export default function LessonStudioPage({
   courseCode,
   moduleCode,
-  lessonCode,
+  moduleIndex,
 }: {
   courseCode: string;
   moduleCode: string;
-  lessonCode: string;
+  moduleIndex: string;
 }) {
   const [lessonSLT, setLessonSLT] = useState<ModuleSLT | undefined>(undefined);
 
-  if (lessonCode && typeof lessonCode == "string") {
-    const sltIndex = parseInt(lessonCode.substring(3));
+  if (moduleIndex && typeof moduleIndex == "string") {
+    const sltIndex = parseInt(moduleIndex);
     const { slt, isLoading } = useSLT(courseCode, moduleCode, sltIndex);
     return (
       <>
@@ -25,7 +25,7 @@ export default function LessonStudioPage({
             <PageCourseLessonContent
               courseCode={courseCode}
               moduleCode={moduleCode}
-              lessonCode={lessonCode}
+              moduleIndex={sltIndex}
               slt={slt}
             />
           </>
@@ -38,11 +38,11 @@ export default function LessonStudioPage({
 }
 
 LessonStudioPage.getInitialProps = async (ctx: NextPageContext) => {
-  const { coursecode, modulecode, lessoncode } = ctx.query;
+  const { coursecode, modulecode, moduleindex } = ctx.query;
 
   return {
     courseCode: coursecode,
     moduleCode: modulecode,
-    lessonCode: lessoncode,
+    moduleIndex: moduleindex,
   };
 };

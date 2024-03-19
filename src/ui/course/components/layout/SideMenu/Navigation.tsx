@@ -15,6 +15,10 @@ export default function Navigation() {
   const router = useRouter();
   const { data: sessionData } = useSession();
 
+  // Todo 2024-03-20 - share process with Nelson
+  // 1. build the LessonPage to replace <ContentPage />.
+  // 2. Replace the router.pathname with a new filepath.
+  // 3. Change any links
   return (
     <>
       {router.pathname == "/course/[coursecode]" && <CoursePage />}
@@ -28,6 +32,7 @@ export default function Navigation() {
 function ContentPage() {
   const router = useRouter();
 
+  // still have this useQuery - after setting up correct route, replace with useCourseModules()
   const { data: modules } = api.module.getCourseModules.useQuery(
     {
       courseCode: router.query.coursecode as string,
@@ -35,6 +40,7 @@ function ContentPage() {
     { enabled: router.query.coursecode ? true : false },
   );
 
+  // this should be ready for useCourse() hook - change after fixing everything above
   const { data: course } = api.course.getCourse.useQuery(
     {
       courseCode: router.query.coursecode as string,
@@ -75,7 +81,7 @@ function ContentPage() {
 
       {/* todo james */}
 
-      {/* {modules && (
+      {modules && (
         <>
           {modules.sort(sortBy).map((module, i) => (
             <li key={`module${i}`}>
@@ -83,22 +89,22 @@ function ContentPage() {
                 {module.title}
               </div>
               <ul role="list" className="-mx-2 mt-2 space-y-1">
-                <Content
-                  contents={module.contents}
+                <SLTs
+                  slts={module.slts}
                   moduleCode={module.moduleCode}
                 />
               </ul>
             </li>
           ))}
         </>
-      )} */}
+      )}
     </>
   );
 }
 
 type SLT = RouterOutputs["module"]["getCourseModules"][number]["slts"][number];
 
-function Content({ slts, moduleCode }: { slts: SLT[]; moduleCode: string }) {
+function SLTs({ slts, moduleCode }: { slts: SLT[]; moduleCode: string }) {
   function sortBy(a: SLT, b: SLT) {
     return a.moduleIndex > b.moduleIndex ? 1 : -1;
   }

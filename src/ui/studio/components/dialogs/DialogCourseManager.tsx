@@ -22,6 +22,7 @@ export default function DialogCourseManager({
   const [query, setQuery] = useState("");
   const [selectedPerson, setSelectedPerson] = useState<User | null>(null);
 
+  // Todo: make a hook?
   const { data: searchUsers, isLoading } = api.user.getUserByName.useQuery({
     search: query,
   });

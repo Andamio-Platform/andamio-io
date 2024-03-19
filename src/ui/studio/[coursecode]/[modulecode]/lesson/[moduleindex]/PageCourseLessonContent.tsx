@@ -5,7 +5,7 @@ import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { api } from "~/utils/api";
-import { ModuleSLT } from "~/types/db";
+import { Course, Module, ModuleSLT } from "~/types/db";
 import Editor from "~/components/Editor";
 import { Button } from "~/components/ui/button";
 import { Form } from "~/components/ui/form";
@@ -14,25 +14,26 @@ import useCourseByOwner from "~/hooks/useCourseByOwner";
 import useCourseVariants from "~/hooks/useCourseVariants";
 import useLesson from "~/hooks/useLesson";
 // import useContentVarient from "~/hooks/useContentVarient";
-import useModuleByCourse from "~/hooks/useModuleByCourse";
 import StudioLayout from "~/ui/studio/components/layout/StudioLayout";
 import LessonInfoForm from "~/ui/studio/components/LessonInfoForm";
 import mergeObjects from "~/utils/mergeObjects";
+import useModuleByCourse from "~/hooks/useModuleByCourse";
 
 export default function PageCourseLessonContent({
-  courseCode,
-  moduleCode,
+  course,
+  module,
   moduleIndex,
   slt,
 }: {
-  courseCode: string;
-  moduleCode: string;
+  course: Course;
+  module: Module;
   moduleIndex: number;
   slt: ModuleSLT;
 }) {
   const ctx = api.useUtils();
 
-  console.log("Check502")
+  const courseCode = course.courseCode
+  const moduleCode = module.moduleCode
 
   const { lesson, refetchLesson } = useLesson(
     courseCode,
@@ -40,8 +41,7 @@ export default function PageCourseLessonContent({
     moduleIndex,
   );
 
-  const { course } = useCourseByOwner(courseCode);
-  const { courseModule } = useModuleByCourse(courseCode, moduleCode);
+
 
   const {
     listCourseVariant,
@@ -61,14 +61,12 @@ export default function PageCourseLessonContent({
       onSuccess: async (data) => {
         toast.success("Lesson Created: Ready to Write?");
         await refetchLesson();
-        // Todo - what to validate?
-        // const _module = modules?.find((c) => c.id === data.moduleId);
-        // void ctx.slt.getModuleSLTs.invalidate({
-        //   moduleCode: _module?.moduleCode,
-        // });
-        // void ctx.module.getCourseModules.invalidate({
-        //   courseCode: course.courseCode,
-        // });
+        void ctx.slt.getModuleSLTs.invalidate({
+          moduleCode: moduleCode,
+        });
+        void ctx.module.getCourseModules.invalidate({
+          courseCode: course.courseCode,
+        });
       },
       onError: (e) => {
         const errorMessage = e.data?.zodError?.fieldErrors;
@@ -121,9 +119,9 @@ export default function PageCourseLessonContent({
   // });
 
   const handleCreateLesson = () => {
-    if (courseModule) {
+    if (module) {
       const _lesson = {
-        moduleId: courseModule.id,
+        moduleId: module.id,
         sltId: slt.id,
       };
       lessonCreate(_lesson);

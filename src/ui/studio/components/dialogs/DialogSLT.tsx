@@ -12,6 +12,8 @@ import { Form } from "~/components/ui/form";
 import FormInput from "~/components/form/form-input";
 import { useEffect } from "react";
 import FormSelect from "~/components/form/form-select";
+import useCourseModules from "~/hooks/useCourseModules";
+import Loading from "~/components/loading";
 
 export default function DialogSLT({
   sltDialogOpen,
@@ -26,14 +28,8 @@ export default function DialogSLT({
 }) {
   const ctx = api.useUtils();
 
-  // todo: replace with hook
-  const { data: modules, isLoading } = api.module.getCourseModules.useQuery(
-    {
-      courseCode: course ? course.courseCode : "",
-    },
-    {
-      enabled: !!course,
-    },
+  const { courseModules, isLoadingCourseModules } = useCourseModules(
+    course.courseCode,
   );
 
   const { mutate: sltCreate, isLoading: isLoadingCreate } =
@@ -41,7 +37,7 @@ export default function DialogSLT({
       onSuccess: (data) => {
         setSltDialogOpen(false);
         toast.success("Student Learning Target  created!");
-        const _module = modules?.find((c) => c.id === data.moduleId);
+        const _module = courseModules?.find((c) => c.id === data.moduleId);
         void ctx.slt.getModuleSLTs.invalidate({
           moduleCode: _module?.moduleCode,
         });
@@ -88,42 +84,47 @@ export default function DialogSLT({
   }, [sltDialogOpen]);
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <DialogBox
-          title="Create a new Student Learning Target"
-          isForm={{
-            buttonLabel: "Create",
-            buttonLoading: isLoadingCreate,
-            buttonDisabled: isLoadingCreate,
-          }}
-          open={sltDialogOpen}
-          setOpen={setSltDialogOpen}
-        >
-          <DialogParagraph>
-            Adding SLT {module.moduleCode}.{module.slts.length + 1}
-          </DialogParagraph>
-          {/* Todo: look at the line above. If a different module is selected from the menu below, then the SLT id should update dynamically */}
+    <>
+      {isLoadingCourseModules ? (
+        <Loading />
+      ) : (
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <DialogBox
+              title="Create a new Student Learning Target"
+              isForm={{
+                buttonLabel: "Create",
+                buttonLoading: isLoadingCreate,
+                buttonDisabled: isLoadingCreate,
+              }}
+              open={sltDialogOpen}
+              setOpen={setSltDialogOpen}
+            >
+              <DialogParagraph>
+                Adding SLT {module.moduleCode}.{module.slts.length + 1}
+              </DialogParagraph>
+              {/* Todo: look at the line above. If a different module is selected from the menu below, then the SLT id should update dynamically */}
 
+              <div className="mt-4 grid grid-cols-1 gap-y-4">
+                <FormInput name="sltText" label="Enter SLT Text" form={form} />
 
-          <div className="mt-4 grid grid-cols-1 gap-y-4">
-            <FormInput name="sltText" label="Enter SLT Text" form={form} />
-
-            <FormSelect
-              name="moduleId"
-              form={form}
-              options={
-                modules
-                  ? modules.map((module) => ({
-                      value: module.id,
-                      label: `${module.title} (${module.moduleCode})`,
-                    }))
-                  : []
-              }
-            />
-          </div>
-        </DialogBox>
-      </form>
-    </Form>
+                <FormSelect
+                  name="moduleId"
+                  form={form}
+                  options={
+                    courseModules
+                      ? courseModules.map((module) => ({
+                          value: module.id,
+                          label: `${module.title} (${module.moduleCode})`,
+                        }))
+                      : []
+                  }
+                />
+              </div>
+            </DialogBox>
+          </form>
+        </Form>
+      )}
+    </>
   );
 }

@@ -5,11 +5,11 @@ export default function useSLT(
   moduleCode: string,
   moduleIndex: number,
 ) {
-  const { data: slt, isLoading } = api.slt.getSLT.useQuery({
+  const { data: slt, isLoading: isLoadingSLT } = api.slt.getSLT.useQuery({
     courseCode,
     moduleCode,
     moduleIndex
   });
 
-  return { slt, isLoading };
+  return { slt, isLoadingSLT };
 }

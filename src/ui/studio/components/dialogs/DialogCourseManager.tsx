@@ -8,6 +8,8 @@ import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { Combobox } from "@headlessui/react";
 import { useState } from "react";
 
+// Todo: review forms
+
 export default function DialogCourseManager({
   dialogOpen,
   setDialogOpen,
@@ -147,25 +149,6 @@ export default function DialogCourseManager({
           )}
         </div>
       </Combobox>
-
-      {/* <div className="mt-4 grid grid-cols-1 gap-y-4">
-        <div className="flex flex-col gap-4">
-          <div className="relative mt-2 rounded-md shadow-sm">
-            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-              <MagnifyingGlassIcon
-                className="h-5 w-5 text-gray-400"
-                aria-hidden="true"
-              />
-            </div>
-            <input
-              className="block w-full rounded-md border-0 py-1.5 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              placeholder="search user by name"
-              onChange={(event) => setQuery(event.target.value)}
-              value={query}
-            />
-          </div>
-        </div>
-      </div> */}
     </DialogBox>
   );
 }

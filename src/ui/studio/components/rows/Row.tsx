@@ -15,7 +15,7 @@ export default function Row({
 }) {
   return (
     <Fragment>
-      <div className={`${c2 ? "col-span-2" : "col-span-10"} text-gray-400`}>
+      <div className={`${c2 ? "col-span-2" : "col-span-10"} text-slate-500`}>
         {c1}
       </div>
       {c2 && <div className="col-span-6 items-start">{c2}</div>}

@@ -1,14 +1,9 @@
-import { type FieldValues, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
-import { useEffect } from "react";
-import Textarea from "~/components/form/textarea";
 import DialogBox from "~/components/dialog";
 import DialogParagraph from "~/components/dialog/paragraph";
-import FormFieldset from "~/components/form/form-fieldset";
-import Input from "~/components/form/input";
 import { Course, Module, ModuleSLT } from "~/types/db";
-import Select from "~/components/form/select";
 
 export default function DialogSLTDelete({
   sltDeleteDialogOpen,
@@ -25,9 +20,7 @@ export default function DialogSLTDelete({
 }) {
   const ctx = api.useUtils();
 
-
-
-  const { register, handleSubmit, reset } = useForm();
+  const { handleSubmit } = useForm();
 
   const { mutate: sltDelete, isLoading: isLoadingDelete } =
     api.slt.delete.useMutation({

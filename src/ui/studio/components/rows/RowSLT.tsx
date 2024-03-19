@@ -8,6 +8,10 @@ import toast from "react-hot-toast";
 import { api } from "~/utils/api";
 import Input from "~/components/form/input";
 import Link from "next/link";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import FormInput from "~/components/form/form-input";
+import { Form } from "~/components/ui/form";
 
 export default function RowSLT({
   course,
@@ -19,11 +23,10 @@ export default function RowSLT({
   slt: ModuleSLT;
 }) {
   const ctx = api.useUtils();
-  const { register, handleSubmit, reset } = useForm();
+
   const [sltDeleteDialogOpen, setSltDeleteDialogOpen] =
     useState<boolean>(false);
   const [editSltText, setEditSltText] = useState<boolean>(false);
-  //   const [sltText, setSltText] = useState("");
 
   const { mutate: sltTextUpdate, isLoading: isLoadingUpdate } =
     api.slt.update.useMutation({
@@ -47,6 +50,17 @@ export default function RowSLT({
       },
     });
 
+  const FormSchema = z.object({
+    sltText: z.string().min(1),
+  });
+
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      sltText: "",
+    },
+  });
+
   // Bring back Field Values from react-hook-form + clean this up
   function onSubmit(data: FieldValues) {
     sltTextUpdate({
@@ -58,14 +72,9 @@ export default function RowSLT({
   }
 
   useEffect(() => {
-    const _currentSLT = {
-      moduleIndex: slt.moduleIndex,
-      moduleId: slt.moduleId,
-      moduleCode: module.moduleCode,
+    form.reset({
       sltText: slt.sltText,
-    };
-
-    reset(_currentSLT);
+    });
   }, [editSltText]);
 
   return (
@@ -81,7 +90,7 @@ export default function RowSLT({
         <Row
           key={`${module.moduleCode}-${slt.moduleIndex}`}
           c1={
-            <div className="flex flex-row gap-1">
+            <div className="flex flex-row gap-1 h-8 items-center">
               <button>up</button>
               <button>down</button>
               <p>
@@ -90,34 +99,40 @@ export default function RowSLT({
             </div>
           }
           c2={
-            <>
-              <div className="flex flex-row gap-2">
-                {editSltText ? (
-                  <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="flex flex-row w-full gap-5">
-                      <Input name="sltText" register={register} />
-                      <Button type="submit" className="rounded-md bg-green-900 px-2 text-xs text-green-300">done</Button>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)}>
+                <div className="flex flex-row gap-2 items-center justify-between pr-5">
+                  {editSltText ? (
+                    <div className="flex w-full flex-row justify-between">
+                      <FormInput name="sltText" form={form} />
+                      <Button
+                        size="sm"
+                        type="submit"
+                        className="bg-green-800"
+                      >
+                        OK
+                      </Button>
                     </div>
-                  </form>
-                ) : (
-                  <p>{slt.sltText}</p>
-                )}
-                {!editSltText && (
-                  <Button
-                    onClick={() => setEditSltText(!editSltText)}
-                    className="rounded-md bg-green-900 px-2 text-xs text-green-300"
-                  >
-                    edit
-                  </Button>
-                )}
-              </div>
-            </>
+                  ) : (
+                    <p>{slt.sltText}</p>
+                  )}
+                  {!editSltText && (
+                    <Button
+                      onClick={() => setEditSltText(!editSltText)}
+                      size="sm"
+                    >
+                      EDIT
+                    </Button>
+                  )}
+                </div>
+              </form>
+            </Form>
           }
           c3={
             <Link
               href={`/studio/${course.courseCode}/${module.moduleCode}/lesson/${slt.moduleIndex}`}
             >
-              <Button>Write Lesson</Button>
+              <Button size="sm">Write Lesson</Button>
             </Link>
           }
           c4={
@@ -126,6 +141,7 @@ export default function RowSLT({
                 onClick={() => {
                   setSltDeleteDialogOpen(true);
                 }}
+                size="sm"
               >
                 Delete SLT
               </Button>

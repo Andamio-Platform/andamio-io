@@ -230,8 +230,7 @@ enum Network {
 }
 
 model CourseOnChainInstance {
-  id                String @id @default(cuid())
-  onchainInstanceId String @unique
+  id String @id @default(cuid())
 
   network              Network @default(PREPROD)
   courseRefAddress     String?
@@ -244,8 +243,8 @@ model CourseOnChainInstance {
   assignmentRefUTxO    String?
   moduleMintingRefUTxO String?
 
-  withCourse Course @relation("CourseInstance", fields: [courseId], references: [id])
-  courseId   String
+  course   Course @relation("CourseInstance", fields: [courseId], references: [id])
+  courseId String
 
   @@index([courseId])
 }

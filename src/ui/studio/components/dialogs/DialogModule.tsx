@@ -1,15 +1,16 @@
 import { FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
-import Textarea from "~/components/form/textarea";
 import DialogBox from "~/components/dialog";
 import DialogParagraph from "~/components/dialog/paragraph";
-import FormFieldset from "~/components/form/form-fieldset";
-import Input from "~/components/form/input";
 import { Course, Module } from "~/types/db";
 import { Button } from "~/components/ui/button";
-import FormLabel from "~/components/form/form-label";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Form } from "~/components/ui/form";
+import FormInput from "~/components/form/form-input";
+import { useEffect } from "react";
 
 export default function DialogModule({
   moduleDialogOpen,
@@ -24,11 +25,7 @@ export default function DialogModule({
 }) {
   const ctx = api.useUtils();
 
-  const { register, handleSubmit, reset } = useForm();
-
-  const selectedVariantName = "main"
-  const currentCourseVariant = undefined
-
+  // Todo: Implement Course Variants
   // const [currentCourseVariant, setCurrentCourseVariant] = useState<
   //   CourseVariant | undefined
   // >(undefined);
@@ -105,6 +102,7 @@ export default function DialogModule({
       },
     });
 
+  // Implement Module Variants
   // const { mutate: moduleVariantUpsert, isLoading: isLoadingVariantUpsert } =
   //   api.moduleVariant.upsert.useMutation({
   //     onSuccess: () => {
@@ -124,29 +122,31 @@ export default function DialogModule({
   //     },
   //   });
 
+  const FormSchema = z.object({
+    moduleCode: z.string().min(3).max(3),
+    title: z.string().min(8),
+    description: z.string().optional(),
+  });
+
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      moduleCode: "",
+      title: "",
+      description: "",
+    },
+  });
+
   function onSubmit(data: FieldValues) {
     if (course) {
       if (module) {
-        if (selectedVariantName != "main" && currentCourseVariant) {
-          // moduleVariantUpsert({
-          //   courseVariantId: currentCourseVariant.id,
-          //   moduleId: module.id,
-          //   moduleVariantId: currentModuleVariant
-          //     ? currentModuleVariant.id
-          //     : "",
-          //   title: data.title,
-          //   description: data.description,
-          // });
-          console.log("Module variants coming soon")
-        } else {
-          moduleUpdate({
-            moduleId: module.id,
-            courseCode: course.courseCode,
-            moduleCode: data.moduleCode,
-            title: data.title,
-            description: data.description,
-          });
-        }
+        moduleUpdate({
+          moduleId: module.id,
+          courseCode: course.courseCode,
+          moduleCode: data.moduleCode,
+          title: data.title,
+          description: data.description,
+        });
       } else {
         moduleCreate({
           courseId: course.id,
@@ -158,81 +158,80 @@ export default function DialogModule({
     }
   }
 
-  function clearForm(moduleCode = "") {
-    reset({
-      moduleCode: moduleCode,
-      title: "",
-      description: "",
+  useEffect(() => {
+    form.reset({
+      moduleCode: module?.moduleCode ?? "",
+      title: module?.title ?? "",
+      description: module?.description ?? "",
     });
-  }
+  }, [moduleDialogOpen, module]);
 
   return (
-    <DialogBox
-      title={module ? `Editing ${module.title}` : "Create a new module"}
-      isForm={{
-        buttonLabel: module ? "Save" : "Create",
-        buttonLoading:
-          isLoadingCreate || isLoadingUpdate,
-        buttonDisabled:
-          isLoadingCreate || isLoadingUpdate,
-        handleSubmit: handleSubmit((data) => onSubmit(data)),
-      }}
-      open={moduleDialogOpen}
-      setOpen={setModuleDialogOpen}
-    >
-      <DialogParagraph>
-        {module
-          ? "You are editing a module. Make changes and click 'Save'."
-          : "Create a new module by filling in the details below."}
-      </DialogParagraph>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <DialogBox
+          title={module ? `Editing ${module.title}` : "Create a new module"}
+          isForm={{
+            buttonLabel: module ? "Save" : "Create",
+            buttonLoading: isLoadingCreate || isLoadingUpdate,
+            buttonDisabled: isLoadingCreate || isLoadingUpdate,
+          }}
+          open={moduleDialogOpen}
+          setOpen={setModuleDialogOpen}
+        >
+          <DialogParagraph>
+            {module
+              ? "You are editing a module. Make changes and click 'Save'."
+              : "Create a new module by filling in the details below."}
+          </DialogParagraph>
 
-      {/* <Tabs
+          {/* <Tabs
         tabs={listCourseVariant}
         current={selectedVariantName}
         onChange={setSelectedVariantName}
       /> */}
 
-      <div className="mt-4 grid grid-cols-1 gap-y-4">
-        <FormFieldset label="Module title">
-          <Input name="title" register={register} />
-        </FormFieldset>
+          <div className="mt-4 grid grid-cols-1 gap-y-4">
+            <FormInput name="title" label="Module Title" form={form} />
 
-        <FormFieldset label="Module description">
-          <Textarea name="description" register={register} rows={8} />
-        </FormFieldset>
+            <FormInput
+              name="description"
+              label="Module Description"
+              form={form}
+            />
 
-        <FormFieldset label="Module code">
-          <Input
-            name="moduleCode"
-            register={register}
-            disabled={selectedVariantName != "main"}
-          />
-        </FormFieldset>
+            <FormInput
+              name="moduleCode"
+              label="Module Code"
+              form={form}
+              disabled={false}
+            />
 
-        {module && (
-          <div className="flex items-center gap-2">
-            <FormLabel>Delete this module</FormLabel>
-            <div className="grow"></div>
-            <Button
-              type="button"
-              disabled={isLoadingDelete}
-              color="red"
-              onClick={() =>
-                // todo: change this is are you sure
-                moduleDelete({
-                  moduleId: module.id,
-                })
-              }
-            >
-              {isLoadingDelete ? (
-                <ArrowPathIcon className="h-5 w-5 animate-spin" />
-              ) : (
-                <>Delete</>
-              )}
-            </Button>
+            {module && (
+              <div className="flex items-center gap-2">
+                <div className="grow"></div>
+                <Button
+                  type="button"
+                  disabled={isLoadingDelete}
+                  color="red"
+                  onClick={() =>
+                    // todo: change this is are you sure
+                    moduleDelete({
+                      moduleId: module.id,
+                    })
+                  }
+                >
+                  {isLoadingDelete ? (
+                    <ArrowPathIcon className="h-5 w-5 animate-spin" />
+                  ) : (
+                    <>Delete</>
+                  )}
+                </Button>
+              </div>
+            )}
           </div>
-        )}
-      </div>
-    </DialogBox>
+        </DialogBox>
+      </form>
+    </Form>
   );
 }

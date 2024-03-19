@@ -6,6 +6,8 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   register: UseFormRegister<FieldValues>;
 }
 
+// Question 2024-03-20: Do we want to keep <Input />, <Select /> and <TextArea /> for any reason? Or can these styles be combined with <FormInput />, etc?
+
 export default function Input(props: InputProps) {
   return (
     <input

@@ -1,14 +1,17 @@
-import { type FieldValues, useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
-import { useEffect } from "react";
-import Textarea from "~/components/form/textarea";
 import DialogBox from "~/components/dialog";
 import DialogParagraph from "~/components/dialog/paragraph";
-import FormFieldset from "~/components/form/form-fieldset";
-import Input from "~/components/form/input";
 import { Course, Module } from "~/types/db";
-import Select from "~/components/form/select";
+import { Button } from "~/components/ui/button";
+import { ArrowPathIcon } from "@heroicons/react/24/outline";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Form } from "~/components/ui/form";
+import FormInput from "~/components/form/form-input";
+import { useEffect } from "react";
+import FormSelect from "~/components/form/form-select";
 
 export default function DialogSLT({
   sltDialogOpen,
@@ -23,6 +26,7 @@ export default function DialogSLT({
 }) {
   const ctx = api.useUtils();
 
+  // todo: replace with hook
   const { data: modules, isLoading } = api.module.getCourseModules.useQuery(
     {
       courseCode: course ? course.courseCode : "",
@@ -31,8 +35,6 @@ export default function DialogSLT({
       enabled: !!course,
     },
   );
-
-  const { register, handleSubmit, reset } = useForm();
 
   const { mutate: sltCreate, isLoading: isLoadingCreate } =
     api.slt.create.useMutation({
@@ -57,6 +59,19 @@ export default function DialogSLT({
       },
     });
 
+  const FormSchema = z.object({
+    sltText: z.string().min(6),
+    moduleId: z.string().min(1),
+  });
+
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      sltText: "",
+      moduleId: module.id,
+    },
+  });
+
   function onSubmit(data: FieldValues) {
     sltCreate({
       moduleId: data.moduleId,
@@ -66,59 +81,49 @@ export default function DialogSLT({
   }
 
   useEffect(() => {
-    const _initial = {
-      index: 0,
-      moduleId: "",
-      moduleCode: "",
+    form.reset({
       sltText: "",
-    };
-
-    if (sltDialogOpen) {
-      if (module) {
-        _initial.moduleId = module.id;
-        _initial.moduleCode = module.moduleCode;
-      }
-    }
-
-    reset(_initial);
+      moduleId: module.id ?? "",
+    });
   }, [sltDialogOpen]);
 
   return (
-    <DialogBox
-      title="Create a new Student Learning Target"
-      isForm={{
-        buttonLabel: "Create",
-        buttonLoading: isLoadingCreate,
-        buttonDisabled: isLoadingCreate,
-        handleSubmit: handleSubmit((data) => onSubmit(data)),
-      }}
-      open={sltDialogOpen}
-      setOpen={setSltDialogOpen}
-    >
-      <DialogParagraph>
-        Adding SLT {module.moduleCode}.{module.slts.length + 1}
-      </DialogParagraph>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <DialogBox
+          title="Create a new Student Learning Target"
+          isForm={{
+            buttonLabel: "Create",
+            buttonLoading: isLoadingCreate,
+            buttonDisabled: isLoadingCreate,
+          }}
+          open={sltDialogOpen}
+          setOpen={setSltDialogOpen}
+        >
+          <DialogParagraph>
+            Adding SLT {module.moduleCode}.{module.slts.length + 1}
+          </DialogParagraph>
+          {/* Todo: look at the line above. If a different module is selected from the menu below, then the SLT id should update dynamically */}
 
-      <div className="mt-4 grid grid-cols-1 gap-y-4">
-        <FormFieldset label="SLT Text">
-          <Textarea name="sltText" register={register} />
-        </FormFieldset>
 
-        <FormFieldset label="Module">
-          <Select
-            name="moduleId"
-            register={register}
-            options={
-              modules
-                ? modules.map((module) => ({
-                    value: module.id,
-                    label: `${module.title} (${module.moduleCode})`,
-                  }))
-                : []
-            }
-          />
-        </FormFieldset>
-      </div>
-    </DialogBox>
+          <div className="mt-4 grid grid-cols-1 gap-y-4">
+            <FormInput name="sltText" label="Enter SLT Text" form={form} />
+
+            <FormSelect
+              name="moduleId"
+              form={form}
+              options={
+                modules
+                  ? modules.map((module) => ({
+                      value: module.id,
+                      label: `${module.title} (${module.moduleCode})`,
+                    }))
+                  : []
+              }
+            />
+          </div>
+        </DialogBox>
+      </form>
+    </Form>
   );
 }

@@ -157,7 +157,7 @@ export default function ShowCourseOnchain({
                 </div>
                 <div className="mt-1 flex items-center gap-x-2 font-mono leading-5 text-gray-900">
                   <span className="break-normal">
-                    {selectedOnChainInstance.onchainInstanceId}
+                    {selectedOnChainInstance.id}
                   </span>
                 </div>
               </div>

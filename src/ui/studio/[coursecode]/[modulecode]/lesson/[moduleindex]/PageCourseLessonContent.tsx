@@ -1,22 +1,23 @@
-import { api } from "~/utils/api";
 import { useEffect, useState } from "react";
-import { Button } from "~/components/ui/button";
 import { FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-// import dynamic from "next/dynamic";
-import StudioLayout from "~/ui/studio/components/layout/StudioLayout";
-// import ContentInfoForm from "~/ui/studio/components/ContentInfoForm";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { api } from "~/utils/api";
+import { ModuleSLT } from "~/types/db";
+import Editor from "~/components/Editor";
+import { Button } from "~/components/ui/button";
+import { Form } from "~/components/ui/form";
 import Tabs from "~/components/tabs";
 import useCourseByOwner from "~/hooks/useCourseByOwner";
 import useCourseVariants from "~/hooks/useCourseVariants";
 import useLesson from "~/hooks/useLesson";
 // import useContentVarient from "~/hooks/useContentVarient";
-import mergeObjects from "~/utils/mergeObjects";
-import Editor from "~/components/Editor";
-import { ModuleSLT } from "~/types/db";
 import useModuleByCourse from "~/hooks/useModuleByCourse";
+import StudioLayout from "~/ui/studio/components/layout/StudioLayout";
 import LessonInfoForm from "~/ui/studio/components/LessonInfoForm";
+import mergeObjects from "~/utils/mergeObjects";
 
 export default function PageCourseLessonContent({
   courseCode,
@@ -30,6 +31,8 @@ export default function PageCourseLessonContent({
   slt: ModuleSLT;
 }) {
   const ctx = api.useUtils();
+
+  console.log("Check502")
 
   const { lesson, refetchLesson } = useLesson(
     courseCode,
@@ -46,6 +49,8 @@ export default function PageCourseLessonContent({
     setSelectedVariantName,
     selectedCourseVariant,
   } = useCourseVariants(course?.id);
+
+  // Todo: Implement Lesson Variants
   //   const { contentVariant } = useContentVarient(
   //     lesson?.id,
   //     selectedCourseVariant?.id,
@@ -80,19 +85,40 @@ export default function PageCourseLessonContent({
       onSuccess: async (data) => {
         toast.success("Content updated!");
         await refetchLesson();
-        // void ctx.lesson.getModuleContents.invalidate({
-        //   moduleCode: moduleCode,
-        // });
+        void ctx.lesson.getLesson.invalidate({
+          moduleCode: moduleCode,
+        });
       },
       onError: (e) => {
         const errorMessage = e.data?.zodError?.fieldErrors;
         if (errorMessage) {
           toast.error("Some inputs are missing or invalid");
         } else {
-          toast.error("Content Code taken. Please try again.");
+          toast.error("Lesson Code taken. Please try again.");
         }
       },
     });
+
+  // Todo: Implement upsertContentVariant
+  // const {
+  //   mutate: upsertContentVariant,
+  //   isLoading: isLoadingUpsertContentVariant,
+  // } = api.contentVariant.upsert.useMutation({
+  //   onSuccess: (data) => {
+  //     toast.success("Content updated!");
+  //     void ctx.contentVariant.getContentVariants.invalidate({
+  //       contentId: content?.id,
+  //     });
+  //   },
+  //   onError: (e) => {
+  //     const errorMessage = e.data?.zodError?.fieldErrors;
+  //     if (errorMessage) {
+  //       toast.error("Some inputs are missing or invalid");
+  //     } else {
+  //       toast.error("Content Code taken. Please try again.");
+  //     }
+  //   },
+  // });
 
   const handleCreateLesson = () => {
     if (courseModule) {
@@ -104,7 +130,44 @@ export default function PageCourseLessonContent({
     }
   };
 
-  const { register, handleSubmit, reset } = useForm();
+  const FormSchema = z.object({
+    title: z
+      .string()
+      .min(1, {
+        message: "Make sure to give this Lesson a title",
+      })
+      .max(60, { message: "Title must be less than 60 characters" }),
+    description: z.string().optional(),
+    videoUrl: z.string().optional(),
+    live: z.boolean().optional(),
+  });
+
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      title: "",
+      description: "",
+      videoUrl: "",
+      live: false,
+    },
+  });
+
+  function onSubmit(data: z.infer<typeof FormSchema>) {
+    console.log("Check501", data);
+
+    if (!lesson) return;
+
+    const _lesson = {
+      id: lesson.id,
+      sltId: slt.id,
+      title: data.title,
+      description: data.description ?? "",
+      videoUrl: data.videoUrl ?? "",
+      contentJson: editor.getJSON(),
+      live: data.live,
+    };
+    update(_lesson);
+  }
 
   const editor = new Editor({
     //@ts-expect-error todo how to fix this
@@ -112,36 +175,9 @@ export default function PageCourseLessonContent({
   });
   const [thisLesson, setThisLesson] = useState<any>();
 
-  // todo save variant
-  function onSubmit(data: FieldValues) {
-    if (!lesson) return;
-
-    // if (selectedCourseVariant && contentVariant) {
-    //   const updateContent = {
-    //     courseVariantId: selectedCourseVariant.id,
-    //     contentVariantId: contentVariant.id,
-    //     title: data.title,
-    //     slt: data.slt ?? "",
-    //     videoUrl: data.videoUrl ?? "",
-    //     contentJson: editor.getJSON(),
-    //   };
-    //   upsertContentVariant(updateContent);
-    // } else {
-    const _lesson = {
-      id: lesson.id,
-      sltId: slt.id,
-      title: data.title,
-      description: data.description,
-      videoUrl: data.videoUrl ?? "",
-      contentJson: editor.getJSON(),
-      live: data.live == "true",
-    };
-    update(_lesson);
-    // }
-  }
-
   useEffect(() => {
     if (lesson) {
+      // todo: implement lesson variant
       // const _lesson = lessonVariant
       //   ? mergeObjects(lessonVariant, lesson)
       //   : lesson;
@@ -149,11 +185,10 @@ export default function PageCourseLessonContent({
       const _lesson = lesson;
 
       if (_lesson) {
-        reset({
-          title: _lesson.title,
-          description: _lesson.description,
-          sltId: _lesson.sltId,
-          videoUrl: _lesson.videoUrl,
+        form.reset({
+          title: _lesson.title ?? "",
+          description: _lesson.description ?? "",
+          videoUrl: _lesson.videoUrl ?? "",
           live: _lesson.live ? _lesson.live : false,
         });
 
@@ -169,18 +204,22 @@ export default function PageCourseLessonContent({
   if (lesson === undefined || lesson === null)
     return (
       <StudioLayout>
-        <h1>Make Lesson todo 2024-03-18</h1>
+        <h1 className="mb-2leading-7 text-3xl font-semibold text-gray-900">
+          Ready to make a lesson?
+        </h1>
         <p>{courseCode}</p>
         <p>{moduleCode}</p>
         <p>{moduleIndex}</p>
-        <Button onClick={handleCreateLesson}>Ready to create a lesson?</Button>
+        <Button onClick={handleCreateLesson}>
+          Create Lesson {moduleCode}.{moduleIndex}
+        </Button>
       </StudioLayout>
     );
 
   return (
-    <>
-      <StudioLayout>
-        <form onSubmit={handleSubmit(onSubmit)}>
+    <StudioLayout>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="overflow-hidden shadow sm:rounded-lg">
             <div className="flex px-4 py-6">
               <div className="grow">
@@ -236,10 +275,10 @@ export default function PageCourseLessonContent({
 
             <div className="m-6">
               <LessonInfoForm
-                register={register}
                 lesson={thisLesson}
                 courseCode={courseCode}
                 disabledVariantFields={false}
+                form={form}
               />
 
               <div className="relative w-full max-w-screen-lg bg-gray-200 p-5">
@@ -256,7 +295,7 @@ export default function PageCourseLessonContent({
         /> */}
           </div>
         </form>
-      </StudioLayout>
-    </>
+      </Form>
+    </StudioLayout>
   );
 }

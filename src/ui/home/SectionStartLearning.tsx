@@ -1,9 +1,9 @@
 import Link from "~/components/link";
 import Loading from "~/components/loading";
-import { api } from "~/utils/api";
+import useCourses from "~/hooks/useCourses";
 
 export default function SectionStartLearning() {
-  const { data: courses, isLoading } = api.course.getCourses.useQuery();
+  const { courses, isLoadingCourses } = useCourses();
 
   return (
     <div className="mx-auto mt-32 max-w-7xl px-6 sm:mt-56 lg:px-8">
@@ -20,7 +20,7 @@ export default function SectionStartLearning() {
         </p>
       </div>
       <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
-        {isLoading && <Loading />}
+        {isLoadingCourses && <Loading />}
         {courses && (
           <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-3 lg:gap-y-16">
             {courses.map((course, i) => (

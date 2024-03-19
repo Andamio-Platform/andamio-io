@@ -6,9 +6,7 @@ import { api } from "~/utils/api";
 import { useSession } from "next-auth/react";
 import DialogCourseOnChain from "./dialogs/DialogCourseOnChain";
 import { Network } from "@prisma/client";
-import FormFieldset from "~/components/form/form-fieldset";
-import Select from "~/components/form/select";
-import SelectNetwork from "~/components/select-network";
+import useCourseOnchain from "~/hooks/useCourseOnchain";
 
 export default function ShowCourseOnchain({
   course,
@@ -23,16 +21,10 @@ export default function ShowCourseOnchain({
     CourseOnChainInstance | undefined
   >(undefined);
 
-  const ctx = api.useUtils();
-
   const { data: sessionData } = useSession();
   const isOwner = course.createdById === sessionData?.user?.id;
 
-  const { data: courseOnchain } =
-    api.courseOnChainInstance.getCourseOnchainInstances.useQuery({
-      courseId: course.id,
-      network: network,
-    });
+  const { courseOnchain, isLoadingCourseOnchain } = useCourseOnchain(course, network);
 
   useEffect(() => {
     if (courseOnchain) {

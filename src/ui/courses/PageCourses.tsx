@@ -1,10 +1,10 @@
 import Link from "~/components/link";
 import Loading from "~/components/loading";
 import MiddleScreen from "~/components/middle-screen";
-import { api } from "~/utils/api";
+import useCourses from "~/hooks/useCourses";
 
 export default function PageCourses() {
-  const { data: courses, isLoading } = api.course.getCourses.useQuery();
+  const { courses, isLoadingCourses } = useCourses();
 
   return (
     <div className="bg-white py-24 sm:py-32">
@@ -20,7 +20,7 @@ export default function PageCourses() {
             voluptate ad libero at architecto corporis eveniet!
           </p>
         </div>
-        {isLoading && (
+        {isLoadingCourses && (
           <MiddleScreen>
             <Loading />
           </MiddleScreen>

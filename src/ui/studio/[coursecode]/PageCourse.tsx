@@ -16,7 +16,7 @@ import SelectNetwork from "~/components/select-network";
 import { CourseVariant } from "~/types/db";
 
 export default function PageCourse({ courseCode }: { courseCode: string }) {
-  const { course, isLoading } = useCourseByOwner(courseCode);
+  const { course, isLoadingCourse } = useCourseByOwner(courseCode);
   const [currentTab, setCurrentTab] = useState<string>("modules");
   const [selectedNetwork, setSelectedNetwork] = useState<Network>("PREPROD");
   const [selectedVariant, setSelectedVariant] = useState<
@@ -64,7 +64,7 @@ export default function PageCourse({ courseCode }: { courseCode: string }) {
             </div>
           </>
         ) : (
-          isLoading && <Loading />
+          isLoadingCourse && <Loading />
         )}
       </>
       <div className="mt-10 flex w-full flex-row justify-between">

@@ -7,6 +7,8 @@ import { useSession } from "next-auth/react";
 
 export default function ListCourses() {
   const { data: sessionData } = useSession();
+
+  // Here is leftover useQuery :)
   const { data: courses, isLoading } = api.course.getCoursesByOwner.useQuery(
     undefined,
     { enabled: sessionData != null },

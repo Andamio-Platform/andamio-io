@@ -14,19 +14,19 @@ import { signIn, useSession } from "next-auth/react";
 import { useCourseStore } from "~/lib/zustand/course";
 import mergeObjects from "~/utils/mergeObjects";
 import useCourseVariants from "~/hooks/useCourseVariants";
+import useCourseModules from "~/hooks/useCourseModules";
+import useCourse from "~/hooks/useCourse";
 
 export default function PageCourse({ courseCode }: { courseCode: string }) {
   const { data: sessionData } = useSession();
 
-  const { data: course, isLoading } = api.course.getCourse.useQuery({
-    courseCode,
-  });
+  const { course, isLoadingCourse } = useCourse(courseCode);
   const { listCourseVariant, setSelectedVariantName, selectedCourseVariant } =
     useCourseVariants(course?.id);
 
   const setCourseVariant = useCourseStore((state) => state.setCourseVariant);
 
-  if (course === null && isLoading) {
+  if (course === null && isLoadingCourse) {
     return <Loading />;
   }
 
@@ -117,23 +117,22 @@ function ListModules({
   courseCode: string;
   _courseVariant: CourseVariant | undefined;
 }) {
-  const { data: modules, isLoading } = api.module.getCourseModules.useQuery({
-    courseCode,
-  });
+  const { courseModules, isLoadingCourseModules } =
+    useCourseModules(courseCode);
 
   function sortBy(a: Module, b: Module) {
     return a.moduleCode > b.moduleCode ? 1 : -1;
   }
 
-  if (modules == undefined) return <></>;
+  if (courseModules == undefined) return <></>;
 
   return (
     <div className="mx-auto w-full max-w-7xl px-6 lg:px-8">
       <div className="mx-auto max-w-4xl divide-y divide-gray-900/10">
         <Card>
           <dl className="space-y-6 divide-y divide-gray-900/10">
-            {isLoading && <Loading />}
-            {modules.sort(sortBy).map((module, i) => (
+            {isLoadingCourseModules && <Loading />}
+            {courseModules.sort(sortBy).map((module, i) => (
               <ModuleContainer
                 key={i}
                 module={module}
@@ -157,6 +156,7 @@ function ModuleContainer({
   courseCode: string;
   _courseVariant: CourseVariant | undefined;
 }) {
+  // Todo: When ready to implement variants, we can change this to a useModuleVariants hook:
   const { data: moduleVariants } = api.moduleVariant.getModuleVariants.useQuery(
     {
       moduleId: module.id,

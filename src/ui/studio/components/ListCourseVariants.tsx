@@ -18,6 +18,7 @@ export default function ListCourseVariants({ course }: { course: Course }) {
 
   const ctx = api.useUtils();
 
+  // Todo: replace this hook when we implement variants
   const { data: variants, isLoading: isLoadingVariants } =
     api.courseVariant.getCourseVariants.useQuery({
       courseId: course.id,

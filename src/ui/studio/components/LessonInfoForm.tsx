@@ -4,6 +4,8 @@ import FormSelect from "~/components/form/form-select";
 import FormSwitch from "~/components/form/form-switch";
 import { Lesson } from "~/types/db";
 import { api } from "~/utils/api";
+import useCourseModules from "~/hooks/useCourseModules";
+import LoadingCircle from "./ContentEditor/ui/icons/loading-circle";
 
 export default function LessonInfoForm({
   lesson,
@@ -16,9 +18,9 @@ export default function LessonInfoForm({
   form: any;
   disabledVariantFields: boolean;
 }) {
-  const { data: modules } = api.module.getCourseModules.useQuery({
-    courseCode: courseCode,
-  });
+  const { courseModules, isLoadingCourseModules } =
+    useCourseModules(courseCode);
+
   return (
     <div className="space-y-8 lg:max-w-2xl">
       <FormInput
@@ -45,21 +47,25 @@ export default function LessonInfoForm({
         info="e.g. youtube.com/watch?v=123456, enter 123456"
       />
 
-      <FormSelect
-        name="moduleId"
-        form={form}
-        options={
-          modules
-            ? modules.map((module) => ({
-                value: module.id,
-                label: `${module.title} (${module.moduleCode})`,
-              }))
-            : []
-        }
-        label="Module"
-        disabled={disabledVariantFields}
-        placeholder="Select the module"
-      />
+      {isLoadingCourseModules ? (
+        <LoadingCircle />
+      ) : (
+        <FormSelect
+          name="moduleId"
+          form={form}
+          options={
+            courseModules
+              ? courseModules.map((module) => ({
+                  value: module.id,
+                  label: `${module.title} (${module.moduleCode})`,
+                }))
+              : []
+          }
+          label="Module - Todo: this should change the SLT ID and Lesson ID"
+          disabled={disabledVariantFields}
+          placeholder="Select the module"
+        />
+      )}
 
       <FormSwitch
         name="live"

@@ -1,8 +1,12 @@
 import { NextPageContext } from "next";
 import { useState } from "react";
+import Loading from "~/components/loading";
+import useCourseByOwner from "~/hooks/useCourseByOwner";
+import useModuleByCourse from "~/hooks/useModuleByCourse";
 import useSLT from "~/hooks/useSLT";
 import { ModuleSLT } from "~/types/db";
 import PageCourseLessonContent from "~/ui/studio/[coursecode]/[modulecode]/lesson/[moduleindex]/PageCourseLessonContent";
+import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
 
 export default function LessonStudioPage({
   courseCode,
@@ -13,23 +17,36 @@ export default function LessonStudioPage({
   moduleCode: string;
   moduleIndex: string;
 }) {
-
   if (moduleIndex && typeof moduleIndex == "string") {
     const sltIndex = parseInt(moduleIndex);
-    const { slt, isLoading } = useSLT(courseCode, moduleCode, sltIndex);
+    const { slt, isLoadingSLT } = useSLT(courseCode, moduleCode, sltIndex);
+    const { course, isLoadingCourse } = useCourseByOwner(courseCode);
+    const { courseModule, isLoadingModule } = useModuleByCourse(
+      courseCode,
+      moduleCode,
+    );
+
     return (
       <>
-        {slt ? (
-          <>
-            <PageCourseLessonContent
-              courseCode={courseCode}
-              moduleCode={moduleCode}
-              moduleIndex={sltIndex}
-              slt={slt}
-            />
-          </>
+        {isLoadingSLT || isLoadingCourse || isLoadingModule ? (
+          <div className="flex min-h-screen w-full content-center items-center justify-center">
+            <Loading />
+          </div>
         ) : (
-          "no slt found"
+          <>
+            {slt && course && courseModule ? (
+              <PageCourseLessonContent
+                course={course}
+                module={courseModule}
+                moduleIndex={sltIndex}
+                slt={slt}
+              />
+            ) : (
+              <div>
+                Cannot load page content - todo: replace with error screen
+              </div>
+            )}
+          </>
         )}
       </>
     );

@@ -46,7 +46,7 @@ export default function PageCourse({ courseCode }: { courseCode: string }) {
               <CourseTitle course={course} />
               <Tabs tabs={tabs} current={currentTab} onChange={setCurrentTab} />
               {currentTab === "modules" && (
-                <ListModules course={course} variant={selectedVariant} />
+                <ListModules course={course} />
               )}
               {currentTab === "managers" && (
                 <ListCourseManagers course={course} />

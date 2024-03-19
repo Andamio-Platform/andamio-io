@@ -108,8 +108,7 @@ export default function PageCourse({ courseCode }: { courseCode: string }) {
   );
 }
 
-type SLT =
-  RouterOutputs["module"]["getCourseModules"][number]["slts"][number];
+type SLT = RouterOutputs["module"]["getCourseModules"][number]["slts"][number];
 
 function ListModules({
   courseCode,
@@ -158,7 +157,7 @@ function ModuleContainer({
   courseCode: string;
   _courseVariant: CourseVariant | undefined;
 }) {
-  const { data: moduleVariants } = api.moduleVariant.getmoduleVariants.useQuery(
+  const { data: moduleVariants } = api.moduleVariant.getModuleVariants.useQuery(
     {
       moduleId: module.id,
     },
@@ -238,26 +237,23 @@ function ListSLTs({
 
   return (
     <ul role="list" className="divide-y divide-gray-100">
-      {slts
-        .map((slt, i) => (
-          <li
-            key={`slt${i}`}
-            className="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 sm:flex-nowrap"
-          >
-            <Link
-              href={`/course/${courseCode}/${moduleCode}/${slt.moduleIndex}`}
-            >
-              <p className="flex items-center gap-x-2 text-sm font-semibold leading-6 text-gray-900">
-                <span>{slt.moduleIndex}</span>
-                <CircleIcon />
-                {slt.sltText}
-              </p>
-              <div className="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
-                <p>{slt.sltText}</p>
-              </div>
-            </Link>
-          </li>
-        ))}
+      {slts.map((slt, i) => (
+        <li
+          key={`slt${i}`}
+          className="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 sm:flex-nowrap"
+        >
+          <Link href={`/course/${courseCode}/${moduleCode}/${slt.moduleIndex}`}>
+            <p className="flex items-center gap-x-2 text-sm font-semibold leading-6 text-gray-900">
+              <span>{slt.moduleIndex}</span>
+              <CircleIcon />
+              {slt.sltText}
+            </p>
+            <div className="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
+              <p>{slt.sltText}</p>
+            </div>
+          </Link>
+        </li>
+      ))}
     </ul>
   );
 }

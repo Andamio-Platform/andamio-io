@@ -13,7 +13,6 @@ export default function LessonStudioPage({
   moduleCode: string;
   moduleIndex: string;
 }) {
-  const [lessonSLT, setLessonSLT] = useState<ModuleSLT | undefined>(undefined);
 
   if (moduleIndex && typeof moduleIndex == "string") {
     const sltIndex = parseInt(moduleIndex);

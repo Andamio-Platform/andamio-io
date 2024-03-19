@@ -7,7 +7,7 @@ import {
 } from "~/server/api/trpc";
 
 export const moduleVariantRouter = createTRPCRouter({
-  getmoduleVariants: publicProcedure
+  getModuleVariants: publicProcedure
     .input(
       z.object({
         moduleId: z.string().min(1),
@@ -42,6 +42,27 @@ export const moduleVariantRouter = createTRPCRouter({
           module: true
         },
       });
+    }),
+
+  getModuleVariant: publicProcedure
+    .input(
+      z.object({
+        courseVariantId: z.string().min(1),
+        moduleId: z.string().min(1)
+      })
+    )
+    .query(({ctx, input}) => {
+      return ctx.db.moduleVariant.findFirst({
+        where: {
+          moduleId: input.moduleId,
+          courseVariantId: input.courseVariantId
+        },
+        include: {
+          module: true,
+          courseVariant: true,
+          sltVariants: true
+        }
+      })
     }),
 
   upsert: protectedProcedure

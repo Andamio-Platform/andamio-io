@@ -7,6 +7,9 @@ import {
 } from "~/server/api/trpc";
 
 export const sltRouter = createTRPCRouter({
+
+  // get a specific SLT -> todo: in useSLT() hook
+
   getSLT: publicProcedure
     .input(
       z.object({
@@ -29,6 +32,8 @@ export const sltRouter = createTRPCRouter({
       });
     }),
 
+  // get all SLTs for a Module
+
   getModuleSLTs: publicProcedure
     .input(z.object({ courseCode: z.string(), moduleCode: z.string() }))
     .query(({ ctx, input }) => {
@@ -43,6 +48,8 @@ export const sltRouter = createTRPCRouter({
         },
       });
     }),
+
+  // create new SLT
 
   create: protectedProcedure
     .input(
@@ -68,7 +75,7 @@ export const sltRouter = createTRPCRouter({
       });
     }),
 
-  // Todo: implement update
+  // update SLT
 
   update: protectedProcedure
     .input(
@@ -98,6 +105,8 @@ export const sltRouter = createTRPCRouter({
       });
     }),
 
+  // delete SLT
+
   delete: protectedProcedure
     .input(
       z.object({
@@ -113,10 +122,9 @@ export const sltRouter = createTRPCRouter({
     }),
 });
 
-// Todo: implement createMany? -- think about if this is needed
 
-// Todo: implement updateMany - for re-ordering
+// Todo: feature implement updateMany - for re-ordering
 
-// Todo: implement change SLT from one Module to another
+// Todo: feature: implement change SLT from one Module to another
 
-// Todo: implement Lesson status icon
+// Todo: when integrating shadcn, implement Lesson status icon

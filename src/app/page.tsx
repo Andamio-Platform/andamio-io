@@ -29,14 +29,7 @@ export default function HomePage() {
       <div className="relative isolate overflow-hidden">
         <div className="mx-auto max-w-7xl px-6 pb-24 pt-10 sm:pb-32 lg:flex lg:px-8 lg:py-40">
           <div className="mx-auto max-w-2xl flex-shrink-0 lg:mx-0 lg:max-w-xl lg:pt-8">
-            <div className="mt-24 sm:mt-32 lg:mt-16">
-              <a href="#" className="inline-flex space-x-6">
-                <span className="inline-flex items-center space-x-2 text-sm font-medium leading-6 text-secondary-content">
-                  <span>Alpha v1.0 now live</span>
-                  <ChevronRightIcon className="h-5 w-5 text-gray-500" aria-hidden="true" />
-                </span>
-              </a>
-            </div>
+            
             <h1 className="text-4xl md:text-6xl my-5 md:my-10 font-bold md:leading-[5rem] text-secondary-content">
               Commit.
             </h1>
@@ -51,9 +44,9 @@ export default function HomePage() {
             </p>
             <div className="flex flex-row gap-5 my-5">
               <div className="btn btn-success btn-sm rounded-full">
-                <a href="/course" className="">
+                <Link href="/about" className="">
                   Learn More <span aria-hidden="true">→</span>
-                </a>
+                </Link>
               </div>
             </div>
           </div>

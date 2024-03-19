@@ -1,7 +1,7 @@
 import H1 from "~/components/typography/h1";
 import Text from "~/components/typography/text";
 import { Course } from "~/types/db";
-import Button from "~/components/button";
+import { Button } from "~/components/ui/button";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import DialogCourse from "~/ui/studio/components/dialogs/DialogCourse";

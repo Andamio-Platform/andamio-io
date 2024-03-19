@@ -1,4 +1,4 @@
-import Button from "~/components/button";
+import { Button } from "~/components/ui/button";
 import H1 from "~/components/typography/h1";
 
 export default function StudioHeader({

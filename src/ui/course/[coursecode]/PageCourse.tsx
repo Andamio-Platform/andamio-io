@@ -2,7 +2,7 @@ import H1 from "~/components/typography/h1";
 import { RouterOutputs, api } from "~/utils/api";
 import Loading from "~/components/loading";
 import VideoPlayer from "~/components/media/VideoPlayer";
-import Button from "~/components/button";
+import { Button } from "~/components/ui/button";
 import { Disclosure } from "@headlessui/react";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/outline";
 import Link from "~/components/link";

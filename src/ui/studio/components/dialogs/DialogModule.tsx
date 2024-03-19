@@ -8,7 +8,7 @@ import DialogParagraph from "~/components/dialog/paragraph";
 import FormFieldset from "~/components/form/form-fieldset";
 import Input from "~/components/form/input";
 import { Course, CourseVariant, Module, ModuleVariant } from "~/types/db";
-import Button from "~/components/button";
+import { Button } from "~/components/ui/button";
 import FormLabel from "~/components/form/form-label";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import Tabs from "~/components/tabs";

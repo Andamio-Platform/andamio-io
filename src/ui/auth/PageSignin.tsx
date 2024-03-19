@@ -1,5 +1,6 @@
 import DiscordIcon from "~/components/icons/discord";
 import { signIn } from "next-auth/react";
+// import { Button } from "~/components/ui/button";
 
 export default function PageSignin({ redirectUrl }: { redirectUrl?: string }) {
   // todo: hardcode providers for now, because on vercel, it's not working
@@ -17,9 +18,9 @@ export default function PageSignin({ redirectUrl }: { redirectUrl?: string }) {
         <div className="mb-6 flex items-center text-2xl font-semibold text-white drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]">
           Andamio Platform
         </div>
-        <div className="w-full rounded-lg bg-white shadow dark:bg-gray-800 sm:max-w-md md:mt-0 xl:p-0">
+        <div className="w-full rounded-lg bg-white shadow sm:max-w-md md:mt-0 xl:p-0">
           <div className="space-y-4 p-6 sm:p-8 md:space-y-6 lg:space-y-8">
-            <h1 className="text-center text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white md:text-2xl">
+            <h1 className="text-center text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
               Connect to start
               <br />
               Learning and Contributing
@@ -27,6 +28,10 @@ export default function PageSignin({ redirectUrl }: { redirectUrl?: string }) {
 
             <div className="flex flex-col items-center gap-2">
               {Object.values(_providers).map((provider) => (
+                //   <Button key={provider.name}>
+                //     {provider.id === "discord" && <DiscordIcon  />}
+                //    Sign in with {provider.name}
+                // </Button>
                 <div key={provider.name}>
                   <button
                     onClick={() =>

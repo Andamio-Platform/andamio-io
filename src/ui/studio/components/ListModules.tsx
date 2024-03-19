@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 import Card from "~/components/card";
-import Button from "~/components/button";
+import { Button } from "~/components/ui/button";
 import Loading from "~/components/loading";
 import Text from "~/components/typography/text";
 import { Course, Module } from "~/types/db";

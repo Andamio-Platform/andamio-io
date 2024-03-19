@@ -1,4 +1,3 @@
-import { ContentType } from "@prisma/client";
 import { z } from "zod";
 
 import {
@@ -7,19 +6,21 @@ import {
   publicProcedure,
 } from "~/server/api/trpc";
 
-export const contentRouter = createTRPCRouter({
-  getContent: publicProcedure
+export const lessonRouter = createTRPCRouter({
+  getLesson: publicProcedure
     .input(
       z.object({
         courseCode: z.string(),
         moduleCode: z.string(),
-        contentCode: z.string(),
+        moduleIndex: z.number(),
       }),
     )
     .query(({ ctx, input }) => {
-      return ctx.db.content.findFirst({
+      return ctx.db.lesson.findFirst({
         where: {
-          contentCode: input.contentCode,
+          slt: {
+            moduleIndex: input.moduleIndex
+          },
           module: {
             moduleCode: input.moduleCode,
             course: {
@@ -30,10 +31,10 @@ export const contentRouter = createTRPCRouter({
       });
     }),
 
-  getModuleContents: publicProcedure
+  getModuleLessons: publicProcedure
     .input(z.object({ courseCode: z.string(), moduleCode: z.string() }))
     .query(({ ctx, input }) => {
-      return ctx.db.content.findMany({
+      return ctx.db.lesson.findMany({
         where: {
           module: {
             moduleCode: input.moduleCode,
@@ -49,19 +50,13 @@ export const contentRouter = createTRPCRouter({
     .input(
       z.object({
         moduleId: z.string().min(1),
-        contentCode: z.string().min(1),
-        type: z.nativeEnum(ContentType),
-        title: z.string().min(1),
-        slt: z.string().optional(),
+        sltId: z.string().min(1),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.content.create({
+      return ctx.db.lesson.create({
         data: {
-          contentCode: input.contentCode,
-          type: input.type,
-          title: input.title,
-          slt: input.slt,
+          slt: { connect: { id: input.sltId } },
           createdBy: { connect: { id: ctx.session.user.id } },
           module: {
             connect: {
@@ -76,11 +71,9 @@ export const contentRouter = createTRPCRouter({
     .input(
       z.object({
         id: z.string().min(1),
-        moduleId: z.string().min(1),
-        contentCode: z.string().min(1),
-        type: z.nativeEnum(ContentType),
+        sltId: z.string().min(1),
         title: z.string().min(1),
-        slt: z.string().optional(),
+        description: z.string().optional(),
         imageUrl: z.string().optional(),
         videoUrl: z.string().optional(),
         contentJson: z.any().optional(),
@@ -88,49 +81,72 @@ export const contentRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.content.update({
+      return ctx.db.lesson.update({
         where: {
           id: input.id,
         },
         data: {
-          contentCode: input.contentCode,
-          type: input.type,
+          slt: { connect: { id: input.sltId } },
           title: input.title,
-          slt: input.slt,
+          description: input.description,
           imageUrl: input.imageUrl,
           videoUrl: input.videoUrl,
           contentJson: input.contentJson,
           live: input.live,
-          module: {
-            connect: {
-              id: input.moduleId,
-            },
-          },
         },
       });
     }),
 
-  // 2024-03-15 pick up here...
-  // createMany: protectedProcedure
-  //   .input(
-  //     z.object({}).array()
-  //   )
-  //   .mutation(async ({ ctx, input }) => {
-  //     return ctx.db.content.createMany({}[])
-  //   )
-
-  //   })
+  upsert: protectedProcedure
+    .input(
+      z.object({
+        id: z.string().optional(),
+        moduleId: z.string().min(1),
+        title: z.string().min(1),
+        sltID: z.string().min(1),
+        imageUrl: z.string().optional(),
+        videoUrl: z.string().optional(),
+        contentJson: z.any().optional(),
+        live: z.boolean().optional(),
+      })
+    )
+    .mutation(async ({ctx, input}) => {
+      return ctx.db.lesson.upsert({
+        where: {
+          id: input.id
+        },
+        create: {
+          title: input.title,
+          sltId: input.sltID,
+          moduleId: input.moduleId,
+          imageUrl: input.imageUrl,
+          videoUrl: input.videoUrl,
+          contentJson: input.contentJson,
+          live: input.live,
+          createdById: ctx.session.user.id,
+        },
+        update: {
+          title: input.title,
+          sltId: input.sltID,
+          moduleId: input.moduleId,
+          imageUrl: input.imageUrl,
+          videoUrl: input.videoUrl,
+          contentJson: input.contentJson,
+          live: input.live,
+        }
+      })
+    }),
 
   delete: protectedProcedure
     .input(
       z.object({
-        contentId: z.string().min(1, "Content ID is required"),
+        lessonId: z.string().min(1, "Lesson ID is required"),
       }),
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.db.module.delete({
         where: {
-          id: input.contentId,
+          id: input.lessonId,
         },
       });
     }),

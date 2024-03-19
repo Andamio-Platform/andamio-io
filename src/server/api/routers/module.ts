@@ -15,15 +15,14 @@ export const moduleRouter = createTRPCRouter({
           id: input.moduleId,
         },
         include: {
-          contents: {
+          slts: {
             select: {
               id: true,
-              title: true,
-              type: true,
-              description: true,
-              slt: true,
-              contentCode: true,
-              live: true,
+              moduleIndex: true,
+              moduleId: true,
+              sltText: true,
+              assignmentId: true,
+              createdById: true,
             },
           },
         },
@@ -45,15 +44,20 @@ export const moduleRouter = createTRPCRouter({
               courseCode: true,
             },
           },
-          contents: {
+          slts: {
+            select: {
+              id: true,
+              moduleIndex: true,
+              moduleId: true,
+              sltText: true,
+              assignmentId: true,
+              createdById: true,
+            },
+          },
+          lessons: {
             select: {
               id: true,
               title: true,
-              type: true,
-              description: true,
-              slt: true,
-              contentCode: true,
-              live: true,
             },
           },
         },

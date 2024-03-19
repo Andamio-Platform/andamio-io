@@ -1,18 +1,15 @@
 import { FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
-import { useEffect, useState } from "react";
 import Textarea from "~/components/form/textarea";
 import DialogBox from "~/components/dialog";
 import DialogParagraph from "~/components/dialog/paragraph";
 import FormFieldset from "~/components/form/form-fieldset";
 import Input from "~/components/form/input";
-import { Course, CourseVariant, Module, ModuleVariant } from "~/types/db";
+import { Course, Module } from "~/types/db";
 import { Button } from "~/components/ui/button";
 import FormLabel from "~/components/form/form-label";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
-import Tabs from "~/components/tabs";
-import useCourseVariants from "~/hooks/useCourseVariants";
 
 export default function DialogModule({
   moduleDialogOpen,
@@ -29,33 +26,27 @@ export default function DialogModule({
 
   const { register, handleSubmit, reset } = useForm();
 
-  const [currentCourseVariant, setCurrentCourseVariant] = useState<
-    CourseVariant | undefined
-  >(undefined);
-  const [currentModuleVariant, setCurrentModuleVariant] = useState<
-    ModuleVariant | undefined
-  >(undefined);
+  const selectedVariantName = "main"
+  const currentCourseVariant = undefined
 
-  const { data: courseVariants } = api.courseVariant.getCourseVariants.useQuery(
-    {
-      courseId: course ? course.id : "",
-    },
-    {
-      enabled: course ? true : false,
-    },
-  );
+  // const [currentCourseVariant, setCurrentCourseVariant] = useState<
+  //   CourseVariant | undefined
+  // >(undefined);
+  // const [currentModuleVariant, setCurrentModuleVariant] = useState<
+  //   ModuleVariant | undefined
+  // >(undefined);
 
-  const { listCourseVariant, selectedVariantName, setSelectedVariantName } =
-    useCourseVariants(course?.id);
+  // const { data: courseVariants } = api.courseVariant.getCourseVariants.useQuery(
+  //   {
+  //     courseId: course ? course.id : "",
+  //   },
+  //   {
+  //     enabled: course ? true : false,
+  //   },
+  // );
 
-  const { data: moduleVariants } = api.moduleVariant.getmoduleVariants.useQuery(
-    {
-      moduleId: module ? module.id : "",
-    },
-    {
-      enabled: module ? true : false,
-    },
-  );
+  // const { listCourseVariant, selectedVariantName, setSelectedVariantName } =
+  //   useCourseVariants(course?.id);
 
   const { mutate: moduleCreate, isLoading: isLoadingCreate } =
     api.module.create.useMutation({
@@ -114,38 +105,39 @@ export default function DialogModule({
       },
     });
 
-  const { mutate: moduleVariantUpsert, isLoading: isLoadingVariantUpsert } =
-    api.moduleVariant.upsert.useMutation({
-      onSuccess: () => {
-        setModuleDialogOpen(false);
-        toast.success("Module variant updated!");
-        void ctx.moduleVariant.getmoduleVariants.invalidate({
-          moduleId: module ? module.id : "",
-        });
-      },
-      onError: (e) => {
-        const errorMessage = e.data?.zodError?.fieldErrors;
-        if (errorMessage) {
-          toast.error("Some inputs are missing or invalid");
-        } else {
-          toast.error("Please try again.");
-        }
-      },
-    });
+  // const { mutate: moduleVariantUpsert, isLoading: isLoadingVariantUpsert } =
+  //   api.moduleVariant.upsert.useMutation({
+  //     onSuccess: () => {
+  //       setModuleDialogOpen(false);
+  //       toast.success("Module variant updated!");
+  //       void ctx.moduleVariant.getModuleVariants.invalidate({
+  //         moduleId: module ? module.id : "",
+  //       });
+  //     },
+  //     onError: (e) => {
+  //       const errorMessage = e.data?.zodError?.fieldErrors;
+  //       if (errorMessage) {
+  //         toast.error("Some inputs are missing or invalid");
+  //       } else {
+  //         toast.error("Please try again.");
+  //       }
+  //     },
+  //   });
 
   function onSubmit(data: FieldValues) {
     if (course) {
       if (module) {
         if (selectedVariantName != "main" && currentCourseVariant) {
-          moduleVariantUpsert({
-            courseVariantId: currentCourseVariant.id,
-            moduleId: module.id,
-            moduleVariantId: currentModuleVariant
-              ? currentModuleVariant.id
-              : "",
-            title: data.title,
-            description: data.description,
-          });
+          // moduleVariantUpsert({
+          //   courseVariantId: currentCourseVariant.id,
+          //   moduleId: module.id,
+          //   moduleVariantId: currentModuleVariant
+          //     ? currentModuleVariant.id
+          //     : "",
+          //   title: data.title,
+          //   description: data.description,
+          // });
+          console.log("Module variants coming soon")
         } else {
           moduleUpdate({
             moduleId: module.id,
@@ -174,57 +166,15 @@ export default function DialogModule({
     });
   }
 
-  useEffect(() => {
-    if (moduleDialogOpen) {
-      if (selectedVariantName != "main") {
-        let found = false;
-
-        if (courseVariants) {
-          courseVariants.find((x: CourseVariant) => {
-            if (x.variantCode === selectedVariantName) {
-              setCurrentCourseVariant(x);
-            }
-          });
-        }
-
-        if (moduleVariants) {
-          const _moduleVariant = moduleVariants.find(
-            (x: ModuleVariant) =>
-              x.courseVariant.variantCode == selectedVariantName,
-          );
-          if (_moduleVariant) {
-            reset(_moduleVariant);
-            setCurrentModuleVariant(_moduleVariant);
-            found = true;
-          }
-        }
-
-        if (!found) {
-          if (module) {
-            clearForm(module.moduleCode);
-          } else {
-            clearForm();
-          }
-        }
-      } else {
-        if (module) {
-          reset(module);
-        }
-      }
-    } else {
-      clearForm();
-    }
-  }, [moduleDialogOpen, selectedVariantName]);
-
   return (
     <DialogBox
       title={module ? `Editing ${module.title}` : "Create a new module"}
       isForm={{
         buttonLabel: module ? "Save" : "Create",
         buttonLoading:
-          isLoadingCreate || isLoadingUpdate || isLoadingVariantUpsert,
+          isLoadingCreate || isLoadingUpdate,
         buttonDisabled:
-          isLoadingCreate || isLoadingUpdate || isLoadingVariantUpsert,
+          isLoadingCreate || isLoadingUpdate,
         handleSubmit: handleSubmit((data) => onSubmit(data)),
       }}
       open={moduleDialogOpen}
@@ -236,11 +186,11 @@ export default function DialogModule({
           : "Create a new module by filling in the details below."}
       </DialogParagraph>
 
-      <Tabs
+      {/* <Tabs
         tabs={listCourseVariant}
         current={selectedVariantName}
         onChange={setSelectedVariantName}
-      />
+      /> */}
 
       <div className="mt-4 grid grid-cols-1 gap-y-4">
         <FormFieldset label="Module title">

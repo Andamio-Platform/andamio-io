@@ -9,7 +9,6 @@ import { Course, Module, ModuleSLT } from "~/types/db";
 import Editor from "~/components/Editor";
 import { Button } from "~/components/ui/button";
 import { Form } from "~/components/ui/form";
-import Tabs from "~/components/tabs";
 import useCourseByOwner from "~/hooks/useCourseByOwner";
 import useCourseVariants from "~/hooks/useCourseVariants";
 import useLesson from "~/hooks/useLesson";
@@ -263,13 +262,13 @@ export default function PageCourseLessonContent({
               </div>
             </div>
 
-            <div className="px-4">
+            {/* <div className="px-4">
               <Tabs
                 tabs={listCourseVariant}
                 current={selectedVariantName}
                 onChange={setSelectedVariantName}
               />
-            </div>
+            </div> */}
 
             <div className="m-6">
               <LessonInfoForm

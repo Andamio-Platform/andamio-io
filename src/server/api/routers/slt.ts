@@ -46,6 +46,9 @@ export const sltRouter = createTRPCRouter({
             },
           },
         },
+        include: {
+          lesson: true
+        }
       });
     }),
 

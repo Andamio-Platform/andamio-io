@@ -5,7 +5,6 @@ import { RouterOutputs, api } from "~/utils/api";
 import { useRouter } from "next/router";
 import { Module } from "~/types/db";
 import { useSession } from "next-auth/react";
-import Select from "~/components/form/select";
 
 export const courseNavigation = [
   { name: "Home", href: "/home", icon: HomeIcon, current: false },

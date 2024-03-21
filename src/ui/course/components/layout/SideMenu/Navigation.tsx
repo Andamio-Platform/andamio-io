@@ -5,9 +5,6 @@ import { RouterOutputs, api } from "~/utils/api";
 import { useRouter } from "next/router";
 import { Module } from "~/types/db";
 import { useSession } from "next-auth/react";
-import Select from "~/components/form/select";
-import useCourse from "~/hooks/useCourse";
-import { useEffect } from "react";
 import useCourseModules from "~/hooks/useCourseModules";
 
 export const courseNavigation = [

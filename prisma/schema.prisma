@@ -135,10 +135,13 @@ model Module {
   description String?
   imageUrl    String?
   videoUrl    String?
+  live        Boolean?
 
   courseId String
   course   Course @relation("CourseModules", fields: [courseId], references: [id])
 
+  // Todo
+  // do we really need Lesson[] here? Would it be better to get lessons from Slt[]?
   lessons Lesson[] @relation("ModuleLessons")
 
   assignment Assignment[] @relation("ModuleAssignments")
@@ -180,6 +183,7 @@ model Course {
   category    String?
   imageUrl    String?
   videoUrl    String?
+  live        Boolean?
 
   modules         Module[]                @relation("CourseModules")
   managers        User[]                  @relation("CourseManagers")
@@ -271,8 +275,6 @@ model Lesson {
   updatedAt   DateTime @updatedAt
   createdBy   User     @relation("CreatedLessons", fields: [createdById], references: [id])
   createdById String
-  // User        User?    @relation(fields: [userId], references: [id])
-  userId      String?
 
   @@unique([sltId])
   @@index([createdById])

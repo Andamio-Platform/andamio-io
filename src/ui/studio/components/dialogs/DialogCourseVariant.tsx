@@ -2,7 +2,6 @@ import { FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
 import { useEffect } from "react";
-import Textarea from "~/components/form/textarea";
 import DialogBox from "~/components/dialog";
 import DialogParagraph from "~/components/dialog/paragraph";
 import { Course, CourseVariant } from "~/types/db";

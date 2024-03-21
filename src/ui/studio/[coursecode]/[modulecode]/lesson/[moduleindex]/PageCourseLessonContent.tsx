@@ -9,7 +9,6 @@ import { Course, Module, ModuleSLT } from "~/types/db";
 import Editor from "~/components/Editor";
 import { Button } from "~/components/ui/button";
 import { Form } from "~/components/ui/form";
-import Tabs from "~/components/tabs";
 import useCourseByOwner from "~/hooks/useCourseByOwner";
 import useCourseVariants from "~/hooks/useCourseVariants";
 import useLesson from "~/hooks/useLesson";
@@ -18,6 +17,7 @@ import StudioLayout from "~/ui/studio/components/layout/StudioLayout";
 import LessonInfoForm from "~/ui/studio/components/LessonInfoForm";
 import mergeObjects from "~/utils/mergeObjects";
 import useModuleByCourse from "~/hooks/useModuleByCourse";
+import { ToggleEditableField } from "~/components/ui/toggle-editable-field";
 
 export default function PageCourseLessonContent({
   course,
@@ -32,8 +32,8 @@ export default function PageCourseLessonContent({
 }) {
   const ctx = api.useUtils();
 
-  const courseCode = course.courseCode
-  const moduleCode = module.moduleCode
+  const courseCode = course.courseCode;
+  const moduleCode = module.moduleCode;
 
   const { lesson, refetchLesson } = useLesson(
     courseCode,
@@ -41,7 +41,7 @@ export default function PageCourseLessonContent({
     moduleIndex,
   );
 
-
+  const [editLessonTitle, setEditLessonTitle] = useState<boolean>(false);
 
   const {
     listCourseVariant,
@@ -83,6 +83,7 @@ export default function PageCourseLessonContent({
       onSuccess: async (data) => {
         toast.success("Content updated!");
         await refetchLesson();
+        setEditLessonTitle(false);
         void ctx.lesson.getLesson.invalidate({
           moduleCode: moduleCode,
         });
@@ -167,6 +168,19 @@ export default function PageCourseLessonContent({
     update(_lesson);
   }
 
+  function onTitleSubmit(data: FieldValues) {
+    if (!lesson) return;
+    update({
+      id: lesson.id,
+      sltId: slt.id,
+      title: data.title,
+      description: data.description ?? "",
+      videoUrl: data.videoUrl ?? "",
+      contentJson: editor.getJSON(),
+      live: data.live,
+    });
+  }
+
   const editor = new Editor({
     //@ts-expect-error todo how to fix this
     initialContent: lesson ? lesson.contentJson ?? undefined : undefined,
@@ -216,17 +230,36 @@ export default function PageCourseLessonContent({
 
   return (
     <StudioLayout>
+      <div className="py-5 text-4xl">
+        <ToggleEditableField
+          name="title"
+          form={form}
+          intent="lesson"
+          formTextSize="xl"
+          onSubmit={onTitleSubmit}
+          editText={editLessonTitle}
+          setEditText={setEditLessonTitle}
+          text={lesson.title ?? "Edit this lesson title"}
+        />
+      </div>
+      <div className="py-3 text-xl">
+        <ToggleEditableField
+          name="description"
+          form={form}
+          intent="text"
+          formTextSize="lg"
+          onSubmit={onTitleSubmit}
+          editText={editLessonTitle}
+          setEditText={setEditLessonTitle}
+          text={lesson.description ?? "Edit description"}
+          hideButtons={true}
+        />
+      </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="overflow-hidden shadow sm:rounded-lg">
             <div className="flex px-4 py-6">
               <div className="grow">
-                <h3 className="mb-2leading-7 text-3xl font-semibold text-gray-900">
-                  {moduleCode}.{moduleIndex}:{" "}
-                  {lesson && lesson.title
-                    ? lesson.title
-                    : "Add a Title in the form below"}
-                </h3>
                 <p className="mb-5 mt-1 max-w-2xl text-sm leading-6 text-gray-500">
                   {lesson && lesson.description
                     ? lesson?.description
@@ -263,13 +296,13 @@ export default function PageCourseLessonContent({
               </div>
             </div>
 
-            <div className="px-4">
+            {/* <div className="px-4">
               <Tabs
                 tabs={listCourseVariant}
                 current={selectedVariantName}
                 onChange={setSelectedVariantName}
               />
-            </div>
+            </div> */}
 
             <div className="m-6">
               <LessonInfoForm

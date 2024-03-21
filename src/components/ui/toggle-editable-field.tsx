@@ -143,4 +143,6 @@ const ToggleEditableField = React.forwardRef<
   },
 );
 
+ToggleEditableField.displayName = "ToggleEditableField"
+
 export { ToggleEditableField, inputVariants };

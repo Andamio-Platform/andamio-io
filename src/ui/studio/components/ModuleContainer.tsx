@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { Course, Module, ModuleSLT, ModuleVariant } from "~/types/db";
 import CardButton from "~/components/buttons/CardButton";
 import {
@@ -88,7 +88,7 @@ export default function ModuleContainer({
           <>
             <div className="flex flex-col">
               {sortSLTsByIndex(module.slts).map((slt, j) => (
-                <RowSLT course={course} module={module} slt={slt} key={j} />
+                  <RowSLT course={course} module={module} slt={slt} key={j} />
               ))}
 
               <Row

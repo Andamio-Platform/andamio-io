@@ -51,16 +51,13 @@ export default function RowSLT({
       },
     });
 
-  const { mutate: updateSltIndex, isLoading: isLoadingIndexUpdate } =
-    api.slt.update.useMutation({
+  const { mutate: updateSltIndexes, isLoading: isLoadingIndexUpdate } =
+    api.slt.updateModuleIndexes.useMutation({
       onSuccess: (data) => {
-        void ctx.slt.getModuleSLTs.invalidate({
-          moduleCode: module.moduleCode,
-        });
+        toast.success("Updated ordering")
         void ctx.module.getCourseModules.invalidate({
           courseCode: course.courseCode,
         });
-        toast.success("Student Learning Targets moved");
       },
       onError: (e) => {
         const errorMessage = e.data?.zodError?.fieldErrors;
@@ -93,24 +90,56 @@ export default function RowSLT({
     });
   }
 
+  // function onMoveUp() {
+  //   console.log("up", `${module.moduleCode}.${slt.moduleIndex}`);
+  //   const _prevSlt = module.slts.find(
+  //     (x) => x.moduleIndex == slt.moduleIndex - 1,
+  //   );
+  //   if (slt.moduleIndex != 1 && _prevSlt) {
+  //     updateSltIndex({
+  //       id: slt.id,
+  //       moduleIndex: slt.moduleIndex - 1,
+  //     });
+  //     updateSltIndex({
+  //       id: _prevSlt.id,
+  //       moduleIndex: slt.moduleIndex,
+  //     });
+  //   }
+  // }
+
+  // function onMoveDown() {
+  //   console.log("down", `${module.moduleCode}.${slt.moduleIndex}`);
+  //   const _nextSlt = module.slts.find(
+  //     (x) => x.moduleIndex == slt.moduleIndex + 1,
+  //   );
+  //   if (slt.moduleIndex != module.slts.length && _nextSlt) {
+  //     updateSltIndex({
+  //       id: slt.id,
+  //       moduleIndex: slt.moduleIndex + 1,
+  //     });
+  //     updateSltIndex({
+  //       id: _nextSlt.id,
+  //       moduleIndex: slt.moduleIndex,
+  //     });
+  //   }
+  // }
+
   function onMoveUp() {
     console.log("up", `${module.moduleCode}.${slt.moduleIndex}`);
     const _prevSlt = module.slts.find(
       (x) => x.moduleIndex == slt.moduleIndex - 1,
     );
     if (slt.moduleIndex != 1 && _prevSlt) {
-      updateSltIndex({
-        id: slt.id,
-        moduleId: slt.moduleId,
-        moduleIndex: slt.moduleIndex - 1,
-        sltText: slt.sltText,
-      });
-      updateSltIndex({
-        id: _prevSlt.id,
-        moduleId: _prevSlt.moduleId,
-        moduleIndex: slt.moduleIndex,
-        sltText: _prevSlt.sltText,
-      });
+      updateSltIndexes([
+        {
+          id: slt.id,
+          moduleIndex: slt.moduleIndex - 1,
+        },
+        {
+          id: _prevSlt.id,
+          moduleIndex: slt.moduleIndex,
+        },
+      ]);
     }
   }
 
@@ -120,18 +149,16 @@ export default function RowSLT({
       (x) => x.moduleIndex == slt.moduleIndex + 1,
     );
     if (slt.moduleIndex != module.slts.length && _nextSlt) {
-      updateSltIndex({
-        id: slt.id,
-        moduleId: slt.moduleId,
-        moduleIndex: slt.moduleIndex + 1,
-        sltText: slt.sltText,
-      });
-      updateSltIndex({
-        id: _nextSlt.id,
-        moduleId: _nextSlt.moduleId,
-        moduleIndex: slt.moduleIndex,
-        sltText: _nextSlt.sltText,
-      });
+      updateSltIndexes([
+        {
+          id: slt.id,
+          moduleIndex: slt.moduleIndex + 1,
+        },
+        {
+          id: _nextSlt.id,
+          moduleIndex: slt.moduleIndex,
+        },
+      ]);
     }
   }
 
@@ -152,7 +179,7 @@ export default function RowSLT({
       />
       {module && (
         <div
-          className="grid w-full grid-cols-12 py-2"
+          className={`grid w-full grid-cols-12 py-2 ${isLoadingIndexUpdate && "opacity-50"}`}
           key={`${module.moduleCode}-${slt.moduleIndex}`}
         >
           <div className="col-span-1 flex h-8 flex-row items-center justify-center gap-1">

@@ -2,6 +2,7 @@ import { use, useEffect } from "react";
 import Editor from "~/components/Editor";
 import Loading from "~/components/loading";
 import useLesson from "~/hooks/useLesson";
+import useSLT from "~/hooks/useSLT";
 import CourseLayout from "~/ui/course/components/layout/CourseLayout";
 
 export default function PageCourseContent({
@@ -19,6 +20,8 @@ export default function PageCourseContent({
     parseInt(lessonCode),
   );
 
+  const { slt, isLoadingSLT } = useSLT(courseCode, moduleCode, parseInt(lessonCode));
+
   const editor = new Editor({
     editable: false,
     initialLesson: "",
@@ -29,13 +32,17 @@ export default function PageCourseContent({
       editor.setContent(lesson.contentJson);
   }, [lesson]);
 
+
+  // Add logic for Lesson doesn't exist
+  // Add logic for Lesson live === false
+
   return (
     <CourseLayout>
       {lesson ? (
         <div className="mx-auto flex max-w-3xl flex-col gap-4 text-base leading-7 text-gray-700">
           <div>
             <p className="text-base font-semibold leading-7 text-indigo-600">
-              TO-DO: add SLT here
+              TO-DO: add SLT here {slt?.sltText}
             </p>
             <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
               {lesson.title}

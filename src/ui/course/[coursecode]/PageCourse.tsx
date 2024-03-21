@@ -235,6 +235,8 @@ function ListSLTs({
     return a.moduleIndex > b.moduleIndex ? 1 : -1;
   }
 
+  // Badge for Lesson live === true
+
   return (
     <ul role="list" className="divide-y divide-gray-100">
       {slts.map((slt, i) => (

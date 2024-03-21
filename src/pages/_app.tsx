@@ -20,7 +20,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
     >
       <SessionProvider session={session}>
         <Toaster position="top-right" />
-        <Component {...pageProps} />
+        <div className="dark:bg-stone-950 min-h-screen dark:text-stone-200">
+          <Component {...pageProps} />
+        </div>
       </SessionProvider>
     </ThemeProvider>
   );

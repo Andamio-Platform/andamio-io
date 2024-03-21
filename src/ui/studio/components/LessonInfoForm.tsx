@@ -5,6 +5,7 @@ import { Lesson } from "~/types/db";
 import { api } from "~/utils/api";
 import useCourseModules from "~/hooks/useCourseModules";
 import LoadingCircle from "./ContentEditor/ui/icons/loading-circle";
+import { Card } from "~/components/ui/card";
 
 export default function LessonInfoForm({
   lesson,
@@ -21,22 +22,7 @@ export default function LessonInfoForm({
     useCourseModules(courseCode);
 
   return (
-    <div className="space-y-8 lg:max-w-2xl">
-      <FormInput
-        name="title"
-        label="Title"
-        form={form}
-        placeholder={`Title of this content`}
-        info="Give the lesson a catchy name"
-      />
-
-      <FormInput
-        name="description"
-        label="Description"
-        form={form}
-        placeholder={`Short description of this content`}
-        info="What is this Module about?"
-      />
+    <Card className="flex flex-row p-3 w-3/4 mx-auto justify-between">
 
       <FormInput
         name="videoUrl"
@@ -46,32 +32,12 @@ export default function LessonInfoForm({
         info="e.g. youtube.com/watch?v=123456, enter 123456"
       />
 
-      {isLoadingCourseModules ? (
-        <LoadingCircle />
-      ) : (
-        <FormSelect
-          name="moduleId"
-          form={form}
-          options={
-            courseModules
-              ? courseModules.map((module) => ({
-                  value: module.id,
-                  label: `${module.title} (${module.moduleCode})`,
-                }))
-              : []
-          }
-          label="Module - Todo: this should change the SLT ID and Lesson ID"
-          disabled={disabledVariantFields}
-          placeholder="Select the module"
-        />
-      )}
-
       <FormSwitch
         name="live"
         label="Content is live"
         form={form}
         info="You can toggle this to make the content live or not live"
       />
-    </div>
+    </Card>
   );
 }

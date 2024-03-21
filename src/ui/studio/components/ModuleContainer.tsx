@@ -54,15 +54,15 @@ export default function ModuleContainer({
     <>
       <AccordionItem value={module.moduleCode}>
         <AccordionTrigger className="flex w-full flex-row justify-between">
-          <Row
-            c1={`Module: ${module.moduleCode}`}
-            c2={
+          <div className="grid w-full grid-cols-12 py-2">
+            <div className="col-span-1">{module.moduleCode}</div>
+            <div className="col-span-2">
               <div className="flex gap-2">
                 <span>{module.title}</span>
               </div>
-            }
-            c3={`${module.slts.length} Student Learning Targets`}
-            c4={
+            </div>
+            <div className="col-span-2">{`${module.slts.length} Student Learning Targets`}</div>
+            <div className="col-start-12">
               <div className="flex gap-2">
                 <button
                   onClick={(e) => {
@@ -73,22 +73,16 @@ export default function ModuleContainer({
                 >
                   <Cog6ToothIcon className="h-6 w-6" />
                 </button>
-                <span>
-                  {showContent ? (
-                    <ChevronUpIcon className="h-6 w-6" />
-                  ) : (
-                    <ChevronDownIcon className="h-6 w-6" />
-                  )}
-                </span>
+              
               </div>
-            }
-          />
+            </div>
+          </div>
         </AccordionTrigger>
         <AccordionContent>
           <>
             <div className="flex flex-col">
               {sortSLTsByIndex(module.slts).map((slt, j) => (
-                  <RowSLT course={course} module={module} slt={slt} key={j} />
+                <RowSLT course={course} module={module} slt={slt} key={j} />
               ))}
 
               <Row

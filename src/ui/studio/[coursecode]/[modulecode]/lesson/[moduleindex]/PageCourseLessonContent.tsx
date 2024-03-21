@@ -260,13 +260,9 @@ export default function PageCourseLessonContent({
           <div className="overflow-hidden shadow sm:rounded-lg">
             <div className="flex px-4 py-6">
               <div className="grow">
-                <p className="mb-5 mt-1 max-w-2xl text-sm leading-6 text-gray-500">
-                  {lesson && lesson.description
-                    ? lesson?.description
-                    : "Add a description in the form below"}
-                </p>
-                <div className="rounded-md bg-gray-300 p-3">
-                  <p className="font-semibold leading-7 text-gray-900">
+              
+                <div className="rounded-md bg-slate-800 p-3">
+                  <p className="font-semibold leading-7 text-slate-300">
                     SLT {moduleCode}.{slt.moduleIndex}: {slt.sltText}
                   </p>
                 </div>

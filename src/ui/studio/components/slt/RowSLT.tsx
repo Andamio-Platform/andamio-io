@@ -54,7 +54,6 @@ export default function RowSLT({
   const { mutate: updateSltIndexes, isLoading: isLoadingIndexUpdate } =
     api.slt.updateModuleIndexes.useMutation({
       onSuccess: (data) => {
-        toast.success("Updated ordering")
         void ctx.module.getCourseModules.invalidate({
           courseCode: course.courseCode,
         });
@@ -66,6 +65,9 @@ export default function RowSLT({
         } else {
           toast.error("SLT ID taken. Please try again.");
         }
+      },
+      onSettled: () => {
+        toast.success("Updated ordering");
       },
     });
 

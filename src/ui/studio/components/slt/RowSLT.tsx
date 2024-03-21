@@ -12,6 +12,7 @@ import { Form } from "~/components/ui/form";
 import SltEditInput from "~/components/form/slt-edit-input";
 import LoadingCircle from "../ContentEditor/ui/icons/loading-circle";
 import { ArrowUpIcon, ArrowDownIcon } from "@radix-ui/react-icons";
+import { ToggleEditableField } from "~/components/ui/toggle-editable-field";
 
 export default function RowSLT({
   course,
@@ -188,7 +189,7 @@ export default function RowSLT({
                   <>
                     {editSltText ? (
                       <div className="flex w-full flex-row justify-between">
-                        <SltEditInput name="sltText" form={form} />
+                        <ToggleEditableField name="sltText" form={form} intent="slt" />
                         <div className="flex flex-row gap-3 px-3">
                           <Button
                             size="sm"

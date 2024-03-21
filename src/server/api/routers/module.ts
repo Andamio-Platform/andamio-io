@@ -23,11 +23,6 @@ export const moduleRouter = createTRPCRouter({
               sltText: true,
               assignmentId: true,
               createdById: true,
-              lesson: {
-                select: {
-                  title: true
-                }
-              }
             },
           },
         },

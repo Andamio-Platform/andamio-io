@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Course, Module, ModuleSLT, ModuleVariant, SLT } from "~/types/db";
+import { Course, Module, ModuleSLT, ModuleVariant } from "~/types/db";
 import CardButton from "~/components/buttons/CardButton";
 import {
   ChevronDownIcon,
@@ -16,7 +16,7 @@ import {
   AccordionTrigger,
 } from "~/components/ui/accordion";
 
-const sortSLTsByIndex = (slts: SLT[]) => {
+const sortSLTsByIndex = (slts: ModuleSLT[]) => {
   return slts.slice().sort((a, b) => a.moduleIndex - b.moduleIndex);
 };
 

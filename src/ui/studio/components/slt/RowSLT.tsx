@@ -24,8 +24,6 @@ export default function RowSLT({
 }) {
   const ctx = api.useUtils();
 
-  console.log("check 599", slt.lesson)
-
   const [sltDeleteDialogOpen, setSltDeleteDialogOpen] =
     useState<boolean>(false);
   const [editSltText, setEditSltText] = useState<boolean>(false);

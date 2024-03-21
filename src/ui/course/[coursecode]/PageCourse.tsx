@@ -242,7 +242,7 @@ function ListSLTs({
           key={`slt${i}`}
           className="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 sm:flex-nowrap"
         >
-          <Link href={`/course/${courseCode}/${moduleCode}/${slt.moduleIndex}`}>
+          <Link href={`/course/${courseCode}/${moduleCode}/lesson/${slt.moduleIndex}`}>
             <p className="flex items-center gap-x-2 text-sm font-semibold leading-6 text-gray-900">
               <span>{slt.moduleIndex}</span>
               <CircleIcon />

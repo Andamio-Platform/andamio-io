@@ -6,6 +6,9 @@ import { useRouter } from "next/router";
 import { Module } from "~/types/db";
 import { useSession } from "next-auth/react";
 import Select from "~/components/form/select";
+import useCourse from "~/hooks/useCourse";
+import { useEffect } from "react";
+import useCourseModules from "~/hooks/useCourseModules";
 
 export const courseNavigation = [
   { name: "Home", href: "/home", icon: HomeIcon, current: false },
@@ -13,6 +16,7 @@ export const courseNavigation = [
 
 export default function Navigation() {
   const router = useRouter();
+  const { coursecode } = router.query;
   const { data: sessionData } = useSession();
 
   // Todo 2024-03-20 - share process with Nelson
@@ -21,9 +25,12 @@ export default function Navigation() {
   // 3. Change any links
   return (
     <>
-      {router.pathname == "/course/[coursecode]" && <CoursePage />}
-      {router.pathname == "/course/[coursecode]/[modulecode]/[contentcode]" && (
-        <ContentPage />
+      {typeof coursecode === "string" &&
+        router.pathname == "/course/[coursecode]" && (
+          <CoursePage courseCode={coursecode} />
+        )}
+      {typeof coursecode === "string" && router.pathname == "/course/[coursecode]/[modulecode]/lesson/[lessoncode]" && (
+        <CoursePage courseCode={coursecode} />
       )}
     </>
   );
@@ -89,10 +96,7 @@ function ContentPage() {
                 {module.title}
               </div>
               <ul role="list" className="-mx-2 mt-2 space-y-1">
-                <SLTs
-                  slts={module.slts}
-                  moduleCode={module.moduleCode}
-                />
+                <SLTs slts={module.slts} moduleCode={module.moduleCode} />
               </ul>
             </li>
           ))}
@@ -147,13 +151,20 @@ function SLTs({ slts, moduleCode }: { slts: SLT[]; moduleCode: string }) {
   );
 }
 
-function CoursePage() {
+function CoursePage({ courseCode }: { courseCode: string }) {
   const router = useRouter();
   const { data: sessionData } = useSession();
   const { data: ownerCourses } = api.course.getCoursesByOwner.useQuery(
     undefined,
     { enabled: sessionData != null },
   );
+
+  const { courseModules, isLoadingCourseModules } =
+    useCourseModules(courseCode);
+
+  function sortBy(a: Module, b: Module) {
+    return a.moduleCode > b.moduleCode ? 1 : -1;
+  }
 
   return (
     <>
@@ -183,10 +194,41 @@ function CoursePage() {
               </Link>
             </li>
           ))}
+          {courseModules?.sort(sortBy).map((module, i) => {
+            return (
+              <>
+                <li
+                  className={classNames(
+                    "text-gray-700 hover:bg-gray-50 hover:text-indigo-600",
+                    "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
+                  )}
+                >
+                  {module.title}
+                </li>
+                {module.slts.map((slt) => {
+                  return (
+                    <Link
+                      href={`/course/${courseCode}/${module.moduleCode}/lesson/${slt.moduleIndex}`}
+                    >
+                      <p
+                        className={classNames(
+                          "text-gray-700 hover:bg-gray-50 hover:text-indigo-600",
+                          "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
+                        )}
+                      >
+                        <span>{slt.moduleIndex}</span>
+                        {slt.sltText}
+                      </p>
+                    </Link>
+                  );
+                })}
+              </>
+            );
+          })}
         </ul>
       </li>
 
-      {sessionData && (
+      {/* {sessionData && (
         <li>
           <div className="text-xs font-semibold leading-6 text-gray-400">
             Your courses
@@ -219,7 +261,7 @@ function CoursePage() {
             ))}
           </ul>
         </li>
-      )}
+      )} */}
     </>
   );
 }

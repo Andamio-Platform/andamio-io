@@ -183,49 +183,16 @@ export default function RowSLT({
             </p>
           </div>
           <div className="col-span-7">
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)}>
-                <div className="flex w-full flex-row items-center justify-between pr-5">
-                  <>
-                    {editSltText ? (
-                      <div className="flex w-full flex-row justify-between">
-                        <ToggleEditableField name="sltText" form={form} intent="slt" />
-                        <div className="flex flex-row gap-3 px-3">
-                          <Button
-                            size="sm"
-                            variant="lesson"
-                            type="submit"
-                            className="bg-green-800"
-                          >
-                            OK
-                          </Button>
-                          <Button
-                            size="sm"
-                            onClick={() => setEditSltText(false)}
-                            className="bg-red-800"
-                          >
-                            X
-                          </Button>
-                        </div>
-                      </div>
-                    ) : (
-                      <p>{slt.sltText}</p>
-                    )}
-                  </>
-                  <>
-                    {!editSltText && (
-                      <Button
-                        onClick={() => setEditSltText(!editSltText)}
-                        size="sm"
-                        variant="edit"
-                      >
-                        EDIT
-                      </Button>
-                    )}
-                  </>
-                </div>
-              </form>
-            </Form>
+            <ToggleEditableField
+              name="sltText"
+              form={form}
+              intent="slt"
+              formTextSize="md"
+              onSubmit={onSubmit}
+              editText={editSltText}
+              setEditText={setEditSltText}
+              text={slt.sltText}
+            />
           </div>
           <div className="col-span-1 col-start-11">
             <Link

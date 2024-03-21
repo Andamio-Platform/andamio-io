@@ -47,6 +47,7 @@ export interface ToggleEditableFieldProps
   editText: boolean;
   setEditText: React.Dispatch<React.SetStateAction<boolean>>;
   text: string;
+  hideButtons?: boolean;
 }
 
 const ToggleEditableField = React.forwardRef<
@@ -63,6 +64,7 @@ const ToggleEditableField = React.forwardRef<
       editText,
       setEditText,
       text,
+      hideButtons,
       ...props
     },
     ref,
@@ -99,30 +101,32 @@ const ToggleEditableField = React.forwardRef<
                     )}
                   />
 
-                  <div className="flex flex-row gap-3 px-3">
-                    <Button
-                      size="sm"
-                      variant="lesson"
-                      type="submit"
-                      className="bg-green-800"
-                    >
-                      OK
-                    </Button>
-                    <Button
-                      size="sm"
-                      onClick={() => setEditText(false)}
-                      className="bg-red-800"
-                    >
-                      X
-                    </Button>
-                  </div>
+                  {!hideButtons && (
+                    <div className="flex flex-row gap-3 px-3">
+                      <Button
+                        size="sm"
+                        variant="lesson"
+                        type="submit"
+                        className="bg-green-800"
+                      >
+                        OK
+                      </Button>
+                      <Button
+                        size="sm"
+                        onClick={() => setEditText(false)}
+                        className="bg-red-800"
+                      >
+                        X
+                      </Button>
+                    </div>
+                  )}
                 </div>
               ) : (
                 <p>{text}</p>
               )}
             </>
             <>
-              {!editText && (
+              {!editText && !hideButtons && (
                 <Button
                   onClick={() => setEditText(!editText)}
                   size="sm"

@@ -230,7 +230,7 @@ export default function PageCourseLessonContent({
 
   return (
     <StudioLayout>
-      <div className="text-4xl">
+      <div className="py-5 text-4xl">
         <ToggleEditableField
           name="title"
           form={form}
@@ -240,6 +240,19 @@ export default function PageCourseLessonContent({
           editText={editLessonTitle}
           setEditText={setEditLessonTitle}
           text={lesson.title ?? "Edit this lesson title"}
+        />
+      </div>
+      <div className="py-3 text-xl">
+        <ToggleEditableField
+          name="description"
+          form={form}
+          intent="text"
+          formTextSize="lg"
+          onSubmit={onTitleSubmit}
+          editText={editLessonTitle}
+          setEditText={setEditLessonTitle}
+          text={lesson.description ?? "Edit description"}
+          hideButtons={true}
         />
       </div>
       <Form {...form}>

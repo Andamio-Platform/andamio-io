@@ -140,6 +140,8 @@ model Module {
   courseId String
   course   Course @relation("CourseModules", fields: [courseId], references: [id])
 
+  // Todo
+  // do we really need Lesson[] here? Would it be better to get lessons from Slt[]?
   lessons Lesson[] @relation("ModuleLessons")
 
   assignment Assignment[] @relation("ModuleAssignments")

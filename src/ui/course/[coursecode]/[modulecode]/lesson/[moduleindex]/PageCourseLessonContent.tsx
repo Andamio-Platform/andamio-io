@@ -8,19 +8,25 @@ import CourseLayout from "~/ui/course/components/layout/CourseLayout";
 export default function PageCourseContent({
   courseCode,
   moduleCode,
-  lessonCode,
+  moduleIndex,
 }: {
   courseCode: string;
   moduleCode: string;
-  lessonCode: string;
+  moduleIndex: string;
 }) {
-  const { lesson, refetchLesson } = useLesson(
+  const { lesson, isLoadingLesson } = useLesson(
     courseCode,
     moduleCode,
-    parseInt(lessonCode),
+    parseInt(moduleIndex),
   );
 
-  const { slt, isLoadingSLT } = useSLT(courseCode, moduleCode, parseInt(lessonCode));
+  console.log("lesson", lesson);
+
+  const { slt, isLoadingSLT } = useSLT(
+    courseCode,
+    moduleCode,
+    parseInt(moduleIndex),
+  );
 
   const editor = new Editor({
     editable: false,
@@ -32,17 +38,13 @@ export default function PageCourseContent({
       editor.setContent(lesson.contentJson);
   }, [lesson]);
 
-
-  // Add logic for Lesson doesn't exist
-  // Add logic for Lesson live === false
-
   return (
     <CourseLayout>
-      {lesson ? (
+      {lesson && lesson.live ? (
         <div className="mx-auto flex max-w-3xl flex-col gap-4 text-base leading-7 text-gray-700">
           <div>
             <p className="text-base font-semibold leading-7 text-indigo-600">
-              TO-DO: add SLT here {slt?.sltText}
+              {slt?.sltText}
             </p>
             <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
               {lesson.title}
@@ -51,9 +53,13 @@ export default function PageCourseContent({
           </div>
           {lesson.contentJson && editor.render()}
         </div>
-      ) : (
+      ) : lesson && !lesson.live ? (
+        <div className="mx-auto flex max-w-3xl flex-col gap-4 text-base leading-7 text-gray-700">Lesson is not live</div>
+      ) : isLoadingLesson || isLoadingSLT ? (
         <Loading />
+      ) : (
+        <div className="mx-auto flex max-w-3xl flex-col gap-4 text-base leading-7 text-gray-700">Lesson is not written yet</div>
       )}
-    </CourseLayout>
+    </CourseLayout> 
   );
 }

@@ -16,6 +16,12 @@ import mergeObjects from "~/utils/mergeObjects";
 import useCourseVariants from "~/hooks/useCourseVariants";
 import useCourseModules from "~/hooks/useCourseModules";
 import useCourse from "~/hooks/useCourse";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "~/components/ui/accordion";
 
 export default function PageCourse({ courseCode }: { courseCode: string }) {
   const { data: sessionData } = useSession();
@@ -130,7 +136,7 @@ function ListModules({
     <div className="mx-auto w-full max-w-7xl px-6 lg:px-8">
       <div className="mx-auto max-w-4xl divide-y divide-gray-900/10">
         <Card>
-          <dl className="space-y-6 divide-y divide-gray-900/10">
+          <dl className="divide-gray-900/10">
             {isLoadingCourseModules && <Loading />}
             {courseModules.sort(sortBy).map((module, i) => (
               <ModuleContainer
@@ -182,80 +188,45 @@ function ModuleContainer({
   const _module = getModule();
 
   return (
-    <Disclosure as="div" className="pt-6">
-      {({ open }) => (
-        <>
-          <dt>
-            <Disclosure.Button className="flex w-full items-start justify-between gap-4 text-left text-gray-900">
-              <span className="text-5xl font-semibold leading-7">
-                {_module.moduleCode}
-              </span>
-              <span className="grow">
-                <div>
-                  <p className="text-base font-semibold leading-7 text-gray-900">
-                    {_module.title}
-                  </p>
-                  <div className="mt-1 flex items-center gap-x-2 text-sm leading-5 text-gray-500">
-                    <p>{_module.description}</p>
-                  </div>
-                </div>
-              </span>
-              <span className="ml-6 flex h-7 items-center">
-                {open ? (
-                  <ChevronUpIcon className="h-6 w-6" aria-hidden="true" />
-                ) : (
-                  <ChevronDownIcon className="h-6 w-6" aria-hidden="true" />
-                )}
-              </span>
-            </Disclosure.Button>
-          </dt>
-          <Disclosure.Panel as="dd" className="mt-2 border-t-2 px-12 pr-12">
-            <ListSLTs
-              slts={_module.slts}
-              courseCode={courseCode}
-              moduleCode={_module.moduleCode}
-            />
-          </Disclosure.Panel>
-        </>
-      )}
-    </Disclosure>
-  );
-}
-
-function ListSLTs({
-  slts,
-  courseCode,
-  moduleCode,
-}: {
-  slts: SLT[];
-  courseCode: string;
-  moduleCode: string;
-}) {
-  function sortBy(a: ModuleSLT, b: ModuleSLT) {
-    return a.moduleIndex > b.moduleIndex ? 1 : -1;
-  }
-
-  // Badge for Lesson live === true
-
-  return (
-    <ul role="list" className="divide-y divide-gray-100">
-      {slts.map((slt, i) => (
-        <li
-          key={`slt${i}`}
-          className="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 sm:flex-nowrap"
-        >
-          <Link href={`/course/${courseCode}/${moduleCode}/lesson/${slt.moduleIndex}`}>
-            <p className="flex items-center gap-x-2 text-sm font-semibold leading-6 text-gray-900">
-              <span>{slt.moduleIndex}</span>
-              <CircleIcon />
-              {slt.sltText}
-            </p>
-            <div className="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
-              <p>{slt.sltText}</p>
+    <Accordion type="single" collapsible>
+      <AccordionItem value="item-1">
+        <AccordionTrigger className="flex w-full items-start justify-between gap-4 text-left text-gray-900 hover:no-underline hover:text-indigo-600">
+          <span className="text-5xl font-semibold leading-7">
+            {_module.moduleCode}
+          </span>
+          <span className="grow">
+            <div>
+              <p className="text-base font-semibold leading-7">
+                {_module.title}
+              </p>
+              <div className="mt-1 flex items-center gap-x-2 text-sm leading-5 text-gray-500">
+                <p>{_module.description}</p>
+              </div>
             </div>
-          </Link>
-        </li>
-      ))}
-    </ul>
+          </span>
+        </AccordionTrigger>
+        <div className="mt-2 px-12 pr-12">
+          {_module.slts.map((slt, i) => (
+            <AccordionContent
+              key={`slt${i}`}
+              className="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 sm:flex-nowrap text-gray-900 hover:text-indigo-600"
+            >
+              <Link
+                href={`/course/${courseCode}/${_module.moduleCode}/lesson/${slt.moduleIndex}`}
+              >
+                <p className="flex items-center gap-x-2 text-sm font-semibold leading-6 ">
+                  <span>{slt.moduleIndex}</span>
+                  <CircleIcon />
+                  {slt.sltText}
+                </p>
+                <div className="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
+                  <p>{slt.sltText}</p>
+                </div>
+              </Link>
+            </AccordionContent>
+          ))}
+        </div>
+      </AccordionItem>
+    </Accordion>
   );
 }

@@ -1,29 +1,29 @@
 import { NextPageContext } from "next";
-import PageCourseContent from "~/ui/course/[coursecode]/[modulecode]/[contentcode]/PageCourseContent";
+import PageCourseContent from "~/ui/course/[coursecode]/[modulecode]/lesson/[moduleindex]/PageCourseLessonContent";
 
 export default function Page({
   courseCode,
   moduleCode,
-  lessonCode,
+  moduleIndex,
 }: {
   courseCode: string;
   moduleCode: string;
-  lessonCode: string;
+  moduleIndex: string;
 }) {
   return (
     <PageCourseContent
       courseCode={courseCode}
       moduleCode={moduleCode}
-      lessonCode={lessonCode}
+      moduleIndex={moduleIndex}
     />
   );
 }
 
 Page.getInitialProps = async (ctx: NextPageContext) => {
-  const { coursecode, modulecode, lessoncode } = ctx.query;
+  const { coursecode, modulecode, moduleindex } = ctx.query;
   return {
     courseCode: coursecode,
     moduleCode: modulecode,
-    lessonCode: lessoncode,
+    moduleIndex: moduleindex,
   };
 };

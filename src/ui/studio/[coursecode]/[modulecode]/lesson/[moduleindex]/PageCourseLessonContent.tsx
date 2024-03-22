@@ -18,9 +18,14 @@ import mergeObjects from "~/utils/mergeObjects";
 import useModuleByCourse from "~/hooks/useModuleByCourse";
 import { ToggleEditableField } from "~/components/ui/toggle-editable-field";
 import { Sheet, SheetContent, SheetTrigger } from "~/components/ui/sheet";
-import { Pencil2Icon } from "@radix-ui/react-icons";
+import { DoubleArrowLeftIcon, DoubleArrowRightIcon, Pencil2Icon, QuestionMarkCircledIcon } from "@radix-ui/react-icons";
 import FormInput from "~/components/form/form-input";
 import FormSwitch from "~/components/form/form-switch";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "~/components/ui/collapsible";
 
 export default function PageCourseLessonContent({
   course,
@@ -45,6 +50,7 @@ export default function PageCourseLessonContent({
   );
 
   const [editLessonTitle, setEditLessonTitle] = useState<boolean>(false);
+  const [detailsOpen, setDetailsOpen] = useState<boolean>(true);
 
   const {
     listCourseVariant,
@@ -233,53 +239,103 @@ export default function PageCourseLessonContent({
 
   return (
     <StudioLayout>
-      <div className="flex w-full justify-start">
-        <div className="mb-3 flex justify-end border-b border-black pb-3">
-          <p className="text-xl font-semibold leading-7">
-            SLT {moduleCode}.{slt.moduleIndex}: {slt.sltText}
-          </p>
-        </div>
-      </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="py-5 text-4xl">
-            <ToggleEditableField
-              name="title"
-              form={form}
-              intent="lesson"
-              formTextSize="xl"
-              onSubmit={onTitleSubmit}
-              editText={editLessonTitle}
-              setEditText={setEditLessonTitle}
-              text={lesson.title ?? "Edit this lesson title"}
-              hasForm={true}
-            />
-          </div>
-          <div className="py-3 text-xl">
-            <ToggleEditableField
-              name="description"
-              form={form}
-              intent="text"
-              formTextSize="lg"
-              onSubmit={onTitleSubmit}
-              editText={editLessonTitle}
-              setEditText={setEditLessonTitle}
-              text={lesson.description ?? "Edit description"}
-              hideButtons={true}
-              hasForm={true}
-            />
-          </div>
-          <div className="flex flex-row justify-between">
-            <div></div>
+          <div className="grid grid-cols-12">
+            <div className="col-span-9">
+              <div className="flex w-full justify-start">
+                <div className="mb-3 flex justify-end border-b border-black pb-3">
+                  <p className="text-xl font-semibold leading-7">
+                    SLT {moduleCode}.{slt.moduleIndex}: {slt.sltText}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="col-span-3">
+              <div className="flex flex-row items-center justify-center gap-2">
+                <Button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.open(
+                      `/course/${courseCode}/${moduleCode}/lesson/${moduleIndex}`,
+                      "_blank",
+                    );
+                  }}
+                  size="sm"
+                >
+                  View Lesson
+                </Button>
+                <Button disabled={isLoadingUpdate} size="sm">
+                  {isLoadingUpdate ? (
+                    <ArrowPathIcon className="h-5 w-5 animate-spin" />
+                  ) : (
+                    "Save"
+                  )}
+                </Button>
+                <div className="flex flex-row justify-end">
             <div>
               <Sheet>
                 <SheetTrigger>
                   <div className="flex flex-row items-center gap-2">
-                    <Pencil2Icon />
-                    <p>Lesson Details</p>
+                    <QuestionMarkCircledIcon />
+                    <p>Help</p>
                   </div>
                 </SheetTrigger>
                 <SheetContent className="">
+                  <p>Put help content, links, docs, etc here</p>
+                </SheetContent>
+              </Sheet>
+            </div>
+          </div>
+              </div>
+            </div>
+            <div className="col-span-7">
+              <div className="py-5 text-4xl">
+                <ToggleEditableField
+                  name="title"
+                  form={form}
+                  intent="lesson"
+                  formTextSize="xl"
+                  onSubmit={onTitleSubmit}
+                  editText={editLessonTitle}
+                  setEditText={setEditLessonTitle}
+                  text={lesson.title ?? "Edit this lesson title"}
+                  hideButtons={true}
+                  hasForm={true}
+                />
+              </div>
+              <div className="py-3 text-xl">
+                <ToggleEditableField
+                  name="description"
+                  form={form}
+                  intent="text"
+                  formTextSize="lg"
+                  onSubmit={onTitleSubmit}
+                  editText={editLessonTitle}
+                  setEditText={setEditLessonTitle}
+                  text={lesson.description ?? "Edit description"}
+                  hideButtons={true}
+                  hasForm={true}
+                />
+              </div>
+            </div>
+            <div className="col-span-5 h-48">
+              <Collapsible className="flex flex-row items-start justify-end" open={detailsOpen} onOpenChange={setDetailsOpen}>
+                <CollapsibleTrigger>{detailsOpen ?( <div className="pt-3 pr-3">
+
+                  <DoubleArrowRightIcon /> 
+                </div> 
+                  ): 
+                  (
+                    <div className="flex flex-row items-center gap-3">
+                      <DoubleArrowLeftIcon />
+                      <p>Show lesson details</p>
+                    </div>
+                  )
+                  
+                  }</CollapsibleTrigger>
+                <CollapsibleContent>
+                <p>Lesson Details</p>
                   <FormInput
                     name="videoUrl"
                     label="Video URL"
@@ -290,22 +346,16 @@ export default function PageCourseLessonContent({
 
                   <FormSwitch
                     name="live"
-                    label="Content is live"
+                    label="Publish"
                     form={form}
-                    info="You can toggle this to make the content live or not live"
+                    info="You can toggle this to make this lesson so that students can see it"
                   />
-                  <Button disabled={isLoadingUpdate} size="sm">
-                      {isLoadingUpdate ? (
-                        <ArrowPathIcon className="h-5 w-5 animate-spin" />
-                      ) : (
-                        "Save"
-                      )}
-                    </Button>
-                  
-                </SheetContent>
-              </Sheet>
+                </CollapsibleContent>
+              </Collapsible>
             </div>
           </div>
+
+          
 
           {/* <div className="px-4">
               <Tabs
@@ -315,30 +365,9 @@ export default function PageCourseLessonContent({
               />
             </div> */}
 
-          <div className="">
+          <div className="border-t border-neutral-500">
             <div className="relative mx-auto w-full p-5">{editor.render()}</div>
           </div>
-          <div className="flex flex-row gap-2 items-center justify-center mt-10">
-                    <Button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        window.open(
-                          `/course/${courseCode}/${moduleCode}/lesson/${moduleIndex}`,
-                          "_blank",
-                        );
-                      }}
-                      size="sm"
-                    >
-                      View Lesson
-                    </Button>
-                    <Button disabled={isLoadingUpdate} size="sm">
-                      {isLoadingUpdate ? (
-                        <ArrowPathIcon className="h-5 w-5 animate-spin" />
-                      ) : (
-                        "Save"
-                      )}
-                    </Button>
-                  </div>
 
           {/* <ContentContainer
           content={

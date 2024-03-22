@@ -19,9 +19,9 @@ const inputVariants = cva(
   {
     variants: {
       intent: {
-        lesson: "bg-neutral-200 text-primary-foreground",
-        slt: "flex font-mono w-full border border-slate-400",
-        text: "bg-neutral-200 text-primary-foreground",
+        lesson: "bg-neutral-100 border border-neutral-400 text-primary-foreground",
+        slt: "flex font-mono w-full border border-neutral-400",
+        text: "bg-neutral-100 border border-neutral-400 text-primary-foreground",
       },
       formTextSize: {
         xl: "text-4xl py-8 font-mono text-black",
@@ -124,7 +124,9 @@ const ToggleEditableField = React.forwardRef<
                   )}
                 </div>
               ) : (
-                <p>{text}</p>
+                <Button variant="ghost" size={formTextSize} onClick={() => setEditText(true)}>
+                  <p>{text}</p>
+                </Button>
               )}
             </>
             <>

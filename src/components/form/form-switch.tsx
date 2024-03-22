@@ -8,6 +8,12 @@ import {
   FormField,
 } from "~/components/ui/form";
 import { Switch } from "~/components/ui/switch";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/tooltip";
 
 interface SwitchProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -25,11 +31,23 @@ export default function FormSwitch(props: SwitchProps) {
         <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
           <div className="space-y-0.5">
             {props.label && <FormLabel>{props.label}</FormLabel>}
-            {props.info && <FormDescription>{props.info}</FormDescription>}
           </div>
-          <FormControl>
-            <Switch checked={field.value} onCheckedChange={field.onChange} />
-          </FormControl>
+
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <FormControl>
+                  <Switch
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>{props.info}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </FormItem>
       )}
     />

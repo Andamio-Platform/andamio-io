@@ -79,6 +79,11 @@ export default function PageCourseLessonContent({
         void ctx.module.getCourseModules.invalidate({
           courseCode: course.courseCode,
         });
+        void ctx.lesson.getLesson.invalidate({
+          moduleCode: moduleCode,
+          moduleIndex: moduleIndex,
+          courseCode: courseCode,
+        });
       },
       onError: (e) => {
         const errorMessage = e.data?.zodError?.fieldErrors;
@@ -94,15 +99,16 @@ export default function PageCourseLessonContent({
     api.lesson.update.useMutation({
       onSuccess: async (data) => {
         toast.success("Content updated!");
-        await refetchLesson();
         setEditLesson(false);
         void ctx.lesson.getLesson.invalidate({
           moduleCode: moduleCode,
           moduleIndex: moduleIndex,
+          courseCode: courseCode,
         });
         void ctx.lesson.getModuleLessons.invalidate({
           moduleCode: moduleCode,
         });
+        await refetchLesson();
       },
       onError: (e) => {
         const errorMessage = e.data?.zodError?.fieldErrors;
@@ -210,7 +216,7 @@ export default function PageCourseLessonContent({
 
   const editor = new Editor({
     //@ts-expect-error todo how to fix this
-    initialContent: undefined,
+    initialContent: lesson?.contentJson,
   });
 
   useEffect(() => {
@@ -228,6 +234,8 @@ export default function PageCourseLessonContent({
 
       const _lesson = lesson;
 
+      console.log("check1", lesson);
+
       if (_lesson) {
         form.reset({
           title: _lesson.title ?? "",
@@ -236,12 +244,21 @@ export default function PageCourseLessonContent({
           live: _lesson.live ? _lesson.live : false,
         });
 
-        if (_lesson.contentJson && typeof _lesson.contentJson === "object")
+        if (_lesson.contentJson && typeof _lesson.contentJson === "object") {
+          console.log("check2", _lesson);
           editor.setContent(_lesson.contentJson);
+        }
       }
     }
     // }, [lesson, lessonVariant]);
   }, [lesson]);
+
+  useEffect(() => {
+    if (lesson?.contentJson && typeof lesson.contentJson === "object") {
+      console.log("check2", lesson);
+      editor.setContent(lesson.contentJson);
+    }
+  }, [editLesson])
 
   if (lesson === undefined || lesson === null)
     return (

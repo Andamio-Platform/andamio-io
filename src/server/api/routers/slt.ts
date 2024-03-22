@@ -7,9 +7,6 @@ import {
 } from "~/server/api/trpc";
 
 export const sltRouter = createTRPCRouter({
-
-  // get a specific SLT -> todo: in useSLT() hook
-
   getSLT: publicProcedure
     .input(
       z.object({
@@ -32,8 +29,6 @@ export const sltRouter = createTRPCRouter({
       });
     }),
 
-  // get all SLTs for a Module
-
   getModuleSLTs: publicProcedure
     .input(z.object({ courseCode: z.string(), moduleCode: z.string() }))
     .query(({ ctx, input }) => {
@@ -48,8 +43,6 @@ export const sltRouter = createTRPCRouter({
         },
       });
     }),
-
-  // create new SLT
 
   create: protectedProcedure
     .input(
@@ -74,8 +67,6 @@ export const sltRouter = createTRPCRouter({
         },
       });
     }),
-
-  // update SLT
 
   update: protectedProcedure
     .input(
@@ -105,7 +96,43 @@ export const sltRouter = createTRPCRouter({
       });
     }),
 
-  // delete SLT
+  updateModuleIndex: protectedProcedure
+    .input(
+      z.object({
+        id: z.string().min(1),
+        moduleIndex: z.number().min(1),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.slt.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          id: input.id,
+          moduleIndex: input.moduleIndex,
+        },
+      });
+    }),
+
+  updateModuleIndexes: protectedProcedure
+    .input(
+      z.array(
+        z.object({
+          id: z.string().min(1),
+          moduleIndex: z.number().min(1),
+        }),
+      ),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const updates = input.map(async ({ id, moduleIndex }) => {
+        return ctx.db.slt.update({
+          where: { id },
+          data: { moduleIndex },
+        });
+      });
+      return Promise.all(updates);
+    }),
 
   delete: protectedProcedure
     .input(
@@ -121,7 +148,6 @@ export const sltRouter = createTRPCRouter({
       });
     }),
 });
-
 
 // Todo: feature implement updateMany - for re-ordering
 

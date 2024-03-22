@@ -104,7 +104,7 @@ model Slt {
 
   variants SltVariant[] @relation("SltVariants")
 
-  @@index([moduleId])
+  @@index([moduleId, moduleIndex])
   @@index([assignmentId])
   @@index([createdById])
   @@index([id])
@@ -137,9 +137,13 @@ model Module {
   videoUrl    String?
   live        Boolean?
 
+  // Todo
+  // Should we simply start by assuming that there will be a many-to-many relation between Course[] and Module[]?
   courseId String
   course   Course @relation("CourseModules", fields: [courseId], references: [id])
 
+  // Todo
+  // do we really need Lesson[] here? Would it be better to get lessons from Slt[]?
   lessons Lesson[] @relation("ModuleLessons")
 
   assignment Assignment[] @relation("ModuleAssignments")

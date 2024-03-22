@@ -1,7 +1,10 @@
+import Editor from "~/components/Editor";
 
 export default function DebugUiPage() {
-  return (
-    <>
-    </>
-  );
+
+  const editor = new Editor({
+    initialContent: '',
+  });
+
+  return <> {editor.render()}</>;
 }

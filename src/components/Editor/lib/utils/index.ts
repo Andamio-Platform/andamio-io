@@ -12,3 +12,4 @@ export function randomElement(array: Array<any>) {
 export * from './cssVar'
 export * from './isCustomNodeSelected'
 export * from './isTextSelected'
+export * from './getRenderContainer'

@@ -9,14 +9,14 @@ export default class Editor {
 
   constructor({
     editable = true,
-    initialLesson = "<p>start typing...</p>",
+    initialContent = "<p>start typing...</p>",
   }: {
     editable?: boolean;
-    initialLesson?: Content;
+    initialContent?: Content;
   }) {
     this.editor = useEditor({
       extensions: [...ExtensionKit()],
-      content: initialLesson,
+      content: initialContent,
       editorProps: {
         attributes: {
           class:

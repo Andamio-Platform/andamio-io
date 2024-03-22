@@ -36,6 +36,10 @@ export default class Editor {
     if (this.editor) this.editor.commands.setContent(content);
   }
 
+  isFocused() {
+    if (this.editor) return this.editor.isFocused.valueOf();
+  }
+
   render() {
     if (this.editor) {
       return (

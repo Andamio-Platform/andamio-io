@@ -9,16 +9,19 @@ import { Course, Module, ModuleSLT } from "~/types/db";
 import Editor from "~/components/Editor";
 import { Button } from "~/components/ui/button";
 import { Form } from "~/components/ui/form";
-import useCourseByOwner from "~/hooks/useCourseByOwner";
-import useCourseVariants from "~/hooks/useCourseVariants";
+// import useCourseByOwner from "~/hooks/useCourseByOwner";
+// import useCourseVariants from "~/hooks/useCourseVariants";
 import useLesson from "~/hooks/useLesson";
 // import useContentVarient from "~/hooks/useContentVarient";
 import StudioLayout from "~/ui/studio/components/layout/StudioLayout";
-import mergeObjects from "~/utils/mergeObjects";
-import useModuleByCourse from "~/hooks/useModuleByCourse";
 import { ToggleEditableField } from "~/components/ui/toggle-editable-field";
 import { Sheet, SheetContent, SheetTrigger } from "~/components/ui/sheet";
-import { DoubleArrowLeftIcon, DoubleArrowRightIcon, Pencil2Icon, QuestionMarkCircledIcon } from "@radix-ui/react-icons";
+import {
+  DoubleArrowLeftIcon,
+  DoubleArrowRightIcon,
+  Pencil2Icon,
+  QuestionMarkCircledIcon,
+} from "@radix-ui/react-icons";
 import FormInput from "~/components/form/form-input";
 import FormSwitch from "~/components/form/form-switch";
 import {
@@ -43,21 +46,21 @@ export default function PageCourseLessonContent({
   const courseCode = course.courseCode;
   const moduleCode = module.moduleCode;
 
-  const { lesson, refetchLesson } = useLesson(
+  const { lesson, refetchLesson, isLoadingLesson } = useLesson(
     courseCode,
     moduleCode,
     moduleIndex,
   );
 
-  const [editLessonTitle, setEditLessonTitle] = useState<boolean>(false);
+  const [editLesson, setEditLesson] = useState<boolean>(false);
   const [detailsOpen, setDetailsOpen] = useState<boolean>(true);
 
-  const {
-    listCourseVariant,
-    selectedVariantName,
-    setSelectedVariantName,
-    selectedCourseVariant,
-  } = useCourseVariants(course?.id);
+  // const {
+  //   listCourseVariant,
+  //   selectedVariantName,
+  //   setSelectedVariantName,
+  //   selectedCourseVariant,
+  // } = useCourseVariants(course?.id);
 
   // Todo: Implement Lesson Variants
   //   const { contentVariant } = useContentVarient(
@@ -92,8 +95,12 @@ export default function PageCourseLessonContent({
       onSuccess: async (data) => {
         toast.success("Content updated!");
         await refetchLesson();
-        setEditLessonTitle(false);
+        setEditLesson(false);
         void ctx.lesson.getLesson.invalidate({
+          moduleCode: moduleCode,
+          moduleIndex: moduleIndex,
+        });
+        void ctx.lesson.getModuleLessons.invalidate({
           moduleCode: moduleCode,
         });
       },
@@ -177,6 +184,17 @@ export default function PageCourseLessonContent({
     update(_lesson);
   }
 
+  function onCancel() {
+    setEditLesson(false);
+    if (
+      lesson &&
+      lesson.contentJson &&
+      typeof lesson.contentJson === "object"
+    ) {
+      editor.setContent(lesson.contentJson);
+    }
+  }
+
   function onTitleSubmit(data: FieldValues) {
     if (!lesson) return;
     update({
@@ -192,9 +210,14 @@ export default function PageCourseLessonContent({
 
   const editor = new Editor({
     //@ts-expect-error todo how to fix this
-    initialContent: lesson ? lesson.contentJson ?? undefined : undefined,
+    initialContent: undefined,
   });
-  const [thisLesson, setThisLesson] = useState<any>();
+
+  useEffect(() => {
+    if (editor.isFocused()) {
+      setEditLesson(true);
+    }
+  }, [editor.isFocused()]);
 
   useEffect(() => {
     if (lesson) {
@@ -215,8 +238,6 @@ export default function PageCourseLessonContent({
 
         if (_lesson.contentJson && typeof _lesson.contentJson === "object")
           editor.setContent(_lesson.contentJson);
-
-        setThisLesson(_lesson);
       }
     }
     // }, [lesson, lessonVariant]);
@@ -242,7 +263,7 @@ export default function PageCourseLessonContent({
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="grid grid-cols-12">
-            <div className="col-span-9">
+            <div className="col-span-7">
               <div className="flex w-full justify-start">
                 <div className="mb-3 flex justify-end border-b border-black pb-3">
                   <p className="text-xl font-semibold leading-7">
@@ -251,42 +272,59 @@ export default function PageCourseLessonContent({
                 </div>
               </div>
             </div>
-            <div className="col-span-3">
-              <div className="flex flex-row items-center justify-center gap-2">
+            <div className="col-span-5">
+              <div className="grid grid-cols-4 items-center gap-10">
                 <Button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    window.open(
-                      `/course/${courseCode}/${moduleCode}/lesson/${moduleIndex}`,
-                      "_blank",
-                    );
-                  }}
+                  disabled={isLoadingUpdate}
                   size="sm"
+                  className={`${editLesson ? "bg-red-600" : "bg-green-600"}`}
                 >
-                  View Lesson
-                </Button>
-                <Button disabled={isLoadingUpdate} size="sm">
                   {isLoadingUpdate ? (
                     <ArrowPathIcon className="h-5 w-5 animate-spin" />
                   ) : (
-                    "Save"
+                    <>{editLesson ? "Save" : "Content Saved"}</>
                   )}
                 </Button>
-                <div className="flex flex-row justify-end">
-            <div>
-              <Sheet>
-                <SheetTrigger>
-                  <div className="flex flex-row items-center gap-2">
-                    <QuestionMarkCircledIcon />
-                    <p>Help</p>
+                <>
+                  {editLesson && (
+                    <Button
+                      size="sm"
+                      onClick={onCancel}
+                      className="bg-orange-500"
+                    >
+                      Cancel
+                    </Button>
+                  )}
+                </>
+                <div className="col-start-3">
+                  <Button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      window.open(
+                        `/course/${courseCode}/${moduleCode}/lesson/${moduleIndex}`,
+                        "_blank",
+                      );
+                    }}
+                    size="sm"
+                  >
+                    View Lesson
+                  </Button>
+                </div>
+                <div className="col-start-4 flex flex-row justify-end">
+                  <div>
+                    <Sheet>
+                      <SheetTrigger>
+                        <div className="flex flex-row items-center gap-2">
+                          <QuestionMarkCircledIcon />
+                          <p>Help</p>
+                        </div>
+                      </SheetTrigger>
+                      <SheetContent className="">
+                        <p>Put help content, links, docs, etc here</p>
+                      </SheetContent>
+                    </Sheet>
                   </div>
-                </SheetTrigger>
-                <SheetContent className="">
-                  <p>Put help content, links, docs, etc here</p>
-                </SheetContent>
-              </Sheet>
-            </div>
-          </div>
+                </div>
               </div>
             </div>
             <div className="col-span-7">
@@ -297,8 +335,8 @@ export default function PageCourseLessonContent({
                   intent="lesson"
                   formTextSize="xl"
                   onSubmit={onTitleSubmit}
-                  editText={editLessonTitle}
-                  setEditText={setEditLessonTitle}
+                  editText={editLesson}
+                  setEditText={setEditLesson}
                   text={lesson.title ?? "Edit this lesson title"}
                   hideButtons={true}
                   hasForm={true}
@@ -311,31 +349,35 @@ export default function PageCourseLessonContent({
                   intent="text"
                   formTextSize="lg"
                   onSubmit={onTitleSubmit}
-                  editText={editLessonTitle}
-                  setEditText={setEditLessonTitle}
+                  editText={editLesson}
+                  setEditText={setEditLesson}
                   text={lesson.description ?? "Edit description"}
                   hideButtons={true}
                   hasForm={true}
                 />
               </div>
             </div>
-            <div className="col-span-5 h-48">
-              <Collapsible className="flex flex-row items-start justify-end" open={detailsOpen} onOpenChange={setDetailsOpen}>
-                <CollapsibleTrigger>{detailsOpen ?( <div className="pt-3 pr-3">
-
-                  <DoubleArrowRightIcon /> 
-                </div> 
-                  ): 
-                  (
+            <div className="col-span-5 h-60">
+              <Collapsible
+                className="flex flex-row items-start justify-end"
+                open={detailsOpen}
+                onOpenChange={setDetailsOpen}
+              >
+                <CollapsibleTrigger>
+                  {detailsOpen ? (
+                    <div className="pr-3 pt-3">
+                      <DoubleArrowRightIcon />
+                    </div>
+                  ) : (
                     <div className="flex flex-row items-center gap-3">
                       <DoubleArrowLeftIcon />
-                      <p>Show lesson details</p>
+                      <p className="text-lg font-bold">Lesson Details</p>
                     </div>
-                  )
-                  
-                  }</CollapsibleTrigger>
+                  )}
+                </CollapsibleTrigger>
                 <CollapsibleContent>
-                <p>Lesson Details</p>
+                  <p className="text-lg font-bold">Lesson Details</p>
+                  <div className="my-2 border border-neutral-300" />
                   <FormInput
                     name="videoUrl"
                     label="Video URL"
@@ -343,19 +385,18 @@ export default function PageCourseLessonContent({
                     placeholder={`Video ID from YouTube`}
                     info="e.g. youtube.com/watch?v=123456, enter 123456"
                   />
+                  <div className="mt-5 border border-neutral-300" />
 
                   <FormSwitch
                     name="live"
                     label="Publish"
                     form={form}
-                    info="You can toggle this to make this lesson so that students can see it"
+                    info={`Use this toggle to publish content. When content is published, everyone enrolled in ${course.title} will be able to see it.`}
                   />
                 </CollapsibleContent>
               </Collapsible>
             </div>
           </div>
-
-          
 
           {/* <div className="px-4">
               <Tabs

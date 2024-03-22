@@ -15,19 +15,19 @@ import { cn } from "~/utils/shadcn";
 import { Button } from "./button";
 
 const inputVariants = cva(
-  "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
+  "flex h-9 w-full rounded-sm border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
   {
     variants: {
       intent: {
-        lesson: "bg-neutral-400 text-primary-foreground",
+        lesson: "bg-neutral-200 text-primary-foreground",
         slt: "flex font-mono w-full border border-slate-400",
-        text: "bg-neutral-400 text-primary-foreground",
+        text: "bg-neutral-200 text-primary-foreground",
       },
       formTextSize: {
-        xl: "text-4xl py-5",
-        lg: "text-2xl py-3",
-        md: "text-md py-2",
-        sm: "text-sm py-1",
+        xl: "text-4xl py-8 font-mono text-black",
+        lg: "text-2xl py-4 font-mono text-black",
+        md: "text-md pt-2 font-mono text-black",
+        sm: "text-sm p-1 font-mono text-black",
       },
     },
     defaultVariants: {
@@ -48,6 +48,7 @@ export interface ToggleEditableFieldProps
   setEditText: React.Dispatch<React.SetStateAction<boolean>>;
   text: string;
   hideButtons?: boolean;
+  hasForm?: boolean;
 }
 
 const ToggleEditableField = React.forwardRef<
@@ -65,13 +66,14 @@ const ToggleEditableField = React.forwardRef<
       setEditText,
       text,
       hideButtons,
+      hasForm,
       ...props
     },
     ref,
   ) => {
     return (
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+      <>
+        {hasForm ? (
           <div className="flex w-full flex-row items-center justify-between pr-5">
             <>
               {editText ? (
@@ -137,12 +139,82 @@ const ToggleEditableField = React.forwardRef<
               )}
             </>
           </div>
-        </form>
-      </Form>
+        ) : (
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              <div className="flex w-full flex-row items-center justify-between pr-5">
+                <>
+                  {editText ? (
+                    <div className="flex w-full flex-row justify-between">
+                      <FormField
+                        control={form.control}
+                        name={props.name}
+                        render={({ field }) => (
+                          <FormItem className="flex w-11/12 ">
+                            <FormControl className="flex w-full">
+                              <input
+                                {...field}
+                                placeholder={props.placeholder}
+                                className={cn(
+                                  inputVariants({
+                                    intent,
+                                    formTextSize,
+                                    className,
+                                  }),
+                                )}
+                                ref={ref}
+                                {...props}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      {!hideButtons && (
+                        <div className="flex flex-row gap-3 px-3">
+                          <Button
+                            size="sm"
+                            variant="lesson"
+                            type="submit"
+                            className="bg-green-800"
+                          >
+                            OK
+                          </Button>
+                          <Button
+                            size="sm"
+                            onClick={() => setEditText(false)}
+                            className="bg-red-800"
+                          >
+                            X
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <p>{text}</p>
+                  )}
+                </>
+                <>
+                  {!editText && !hideButtons && (
+                    <Button
+                      onClick={() => setEditText(!editText)}
+                      size="sm"
+                      variant="edit"
+                    >
+                      EDIT
+                    </Button>
+                  )}
+                </>
+              </div>
+            </form>
+          </Form>
+        )}
+      </>
     );
   },
 );
 
-ToggleEditableField.displayName = "ToggleEditableField"
+ToggleEditableField.displayName = "ToggleEditableField";
 
 export { ToggleEditableField, inputVariants };

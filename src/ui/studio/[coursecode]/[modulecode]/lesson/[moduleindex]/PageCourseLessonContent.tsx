@@ -14,10 +14,13 @@ import useCourseVariants from "~/hooks/useCourseVariants";
 import useLesson from "~/hooks/useLesson";
 // import useContentVarient from "~/hooks/useContentVarient";
 import StudioLayout from "~/ui/studio/components/layout/StudioLayout";
-import LessonInfoForm from "~/ui/studio/components/LessonInfoForm";
 import mergeObjects from "~/utils/mergeObjects";
 import useModuleByCourse from "~/hooks/useModuleByCourse";
 import { ToggleEditableField } from "~/components/ui/toggle-editable-field";
+import { Sheet, SheetContent, SheetTrigger } from "~/components/ui/sheet";
+import { Pencil2Icon } from "@radix-ui/react-icons";
+import FormInput from "~/components/form/form-input";
+import FormSwitch from "~/components/form/form-switch";
 
 export default function PageCourseLessonContent({
   course,
@@ -230,69 +233,81 @@ export default function PageCourseLessonContent({
 
   return (
     <StudioLayout>
-      <div className="py-5 text-4xl">
-        <ToggleEditableField
-          name="title"
-          form={form}
-          intent="lesson"
-          formTextSize="xl"
-          onSubmit={onTitleSubmit}
-          editText={editLessonTitle}
-          setEditText={setEditLessonTitle}
-          text={lesson.title ?? "Edit this lesson title"}
-        />
-      </div>
-      <div className="py-3 text-xl">
-        <ToggleEditableField
-          name="description"
-          form={form}
-          intent="text"
-          formTextSize="lg"
-          onSubmit={onTitleSubmit}
-          editText={editLessonTitle}
-          setEditText={setEditLessonTitle}
-          text={lesson.description ?? "Edit description"}
-          hideButtons={true}
-        />
+      <div className="flex w-full justify-start">
+        <div className="mb-3 flex justify-end border-b border-black pb-3">
+          <p className="text-xl font-semibold leading-7">
+            SLT {moduleCode}.{slt.moduleIndex}: {slt.sltText}
+          </p>
+        </div>
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="overflow-hidden shadow sm:rounded-lg">
-            <div className="flex px-4 py-6">
-              <div className="grow">
-              
-                <div className="rounded-md bg-slate-800 p-3">
-                  <p className="font-semibold leading-7 text-slate-300">
-                    SLT {moduleCode}.{slt.moduleIndex}: {slt.sltText}
-                  </p>
-                </div>
-              </div>
+          <div className="py-5 text-4xl">
+            <ToggleEditableField
+              name="title"
+              form={form}
+              intent="lesson"
+              formTextSize="xl"
+              onSubmit={onTitleSubmit}
+              editText={editLessonTitle}
+              setEditText={setEditLessonTitle}
+              text={lesson.title ?? "Edit this lesson title"}
+              hasForm={true}
+            />
+          </div>
+          <div className="py-3 text-xl">
+            <ToggleEditableField
+              name="description"
+              form={form}
+              intent="text"
+              formTextSize="lg"
+              onSubmit={onTitleSubmit}
+              editText={editLessonTitle}
+              setEditText={setEditLessonTitle}
+              text={lesson.description ?? "Edit description"}
+              hideButtons={true}
+              hasForm={true}
+            />
+          </div>
+          <div className="flex flex-row justify-between">
+            <div></div>
+            <div>
+              <Sheet>
+                <SheetTrigger>
+                  <div className="flex flex-row items-center gap-2">
+                    <Pencil2Icon />
+                    <p>Lesson Details</p>
+                  </div>
+                </SheetTrigger>
+                <SheetContent className="">
+                  <FormInput
+                    name="videoUrl"
+                    label="Video URL"
+                    form={form}
+                    placeholder={`Video ID from YouTube`}
+                    info="e.g. youtube.com/watch?v=123456, enter 123456"
+                  />
 
-              <div>
-                <div className="flex-col gap-2 px-10 sm:flex">
-                  <Button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      window.open(
-                        `/course/${courseCode}/${moduleCode}/lesson/${moduleIndex}`,
-                        "_blank",
-                      );
-                    }}
-                  >
-                    View Lesson
-                  </Button>
-                  <Button disabled={isLoadingUpdate}>
-                    {isLoadingUpdate ? (
-                      <ArrowPathIcon className="h-5 w-5 animate-spin" />
-                    ) : (
-                      "Save"
-                    )}
-                  </Button>
-                </div>
-              </div>
+                  <FormSwitch
+                    name="live"
+                    label="Content is live"
+                    form={form}
+                    info="You can toggle this to make the content live or not live"
+                  />
+                  <Button disabled={isLoadingUpdate} size="sm">
+                      {isLoadingUpdate ? (
+                        <ArrowPathIcon className="h-5 w-5 animate-spin" />
+                      ) : (
+                        "Save"
+                      )}
+                    </Button>
+                  
+                </SheetContent>
+              </Sheet>
             </div>
+          </div>
 
-            {/* <div className="px-4">
+          {/* <div className="px-4">
               <Tabs
                 tabs={listCourseVariant}
                 current={selectedVariantName}
@@ -300,27 +315,38 @@ export default function PageCourseLessonContent({
               />
             </div> */}
 
-            <div className="m-6">
-              <LessonInfoForm
-                lesson={thisLesson}
-                courseCode={courseCode}
-                disabledVariantFields={false}
-                form={form}
-              />
+          <div className="">
+            <div className="relative mx-auto w-full p-5">{editor.render()}</div>
+          </div>
+          <div className="flex flex-row gap-2 items-center justify-center mt-10">
+                    <Button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        window.open(
+                          `/course/${courseCode}/${moduleCode}/lesson/${moduleIndex}`,
+                          "_blank",
+                        );
+                      }}
+                      size="sm"
+                    >
+                      View Lesson
+                    </Button>
+                    <Button disabled={isLoadingUpdate} size="sm">
+                      {isLoadingUpdate ? (
+                        <ArrowPathIcon className="h-5 w-5 animate-spin" />
+                      ) : (
+                        "Save"
+                      )}
+                    </Button>
+                  </div>
 
-              <div className="relative w-full max-w-screen-lg bg-gray-200 p-5">
-                {editor.render()}
-              </div>
-            </div>
-
-            {/* <ContentContainer
+          {/* <ContentContainer
           content={
             contentVariant ? mergeObjects(contentVariant, content) : content
           }
           courseCode={courseCode}
           update={update}
         /> */}
-          </div>
         </form>
       </Form>
     </StudioLayout>

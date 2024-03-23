@@ -18,10 +18,12 @@ export default function RowSLT({
   course,
   module,
   slt,
+  isLoadingIndexUpdate
 }: {
   course: Course;
   module: Module;
   slt: ModuleSLT;
+  isLoadingIndexUpdate: boolean
 }) {
   const ctx = api.useUtils();
 
@@ -48,26 +50,6 @@ export default function RowSLT({
         } else {
           toast.error("SLT ID taken. Please try again.");
         }
-      },
-    });
-
-  const { mutate: updateSltIndexes, isLoading: isLoadingIndexUpdate } =
-    api.slt.updateModuleIndexes.useMutation({
-      onSuccess: (data) => {
-        void ctx.module.getCourseModules.invalidate({
-          courseCode: course.courseCode,
-        });
-      },
-      onError: (e) => {
-        const errorMessage = e.data?.zodError?.fieldErrors;
-        if (errorMessage) {
-          toast.error("Some SLT inputs are missing or invalid");
-        } else {
-          toast.error("SLT ID taken. Please try again.");
-        }
-      },
-      onSettled: () => {
-        toast.success("Updated ordering");
       },
     });
 
@@ -126,44 +108,6 @@ export default function RowSLT({
   //   }
   // }
 
-  function onMoveUp() {
-    console.log("up", `${module.moduleCode}.${slt.moduleIndex}`);
-    const _prevSlt = module.slts.find(
-      (x) => x.moduleIndex == slt.moduleIndex - 1,
-    );
-    if (slt.moduleIndex != 1 && _prevSlt) {
-      updateSltIndexes([
-        {
-          id: slt.id,
-          moduleIndex: slt.moduleIndex - 1,
-        },
-        {
-          id: _prevSlt.id,
-          moduleIndex: slt.moduleIndex,
-        },
-      ]);
-    }
-  }
-
-  function onMoveDown() {
-    console.log("down", `${module.moduleCode}.${slt.moduleIndex}`);
-    const _nextSlt = module.slts.find(
-      (x) => x.moduleIndex == slt.moduleIndex + 1,
-    );
-    if (slt.moduleIndex != module.slts.length && _nextSlt) {
-      updateSltIndexes([
-        {
-          id: slt.id,
-          moduleIndex: slt.moduleIndex + 1,
-        },
-        {
-          id: _nextSlt.id,
-          moduleIndex: slt.moduleIndex,
-        },
-      ]);
-    }
-  }
-
   useEffect(() => {
     form.reset({
       sltText: slt.sltText,
@@ -185,26 +129,7 @@ export default function RowSLT({
           key={`${module.moduleCode}-${slt.moduleIndex}`}
         >
           <div className="col-span-1 flex h-8 flex-row items-center justify-center gap-1">
-            {isLoadingIndexUpdate ? (
-              <LoadingCircle />
-            ) : (
-              <div className="grid grid-cols-2 gap-5">
-                <div className="col-start-1">
-                  {slt.moduleIndex != 1 && (
-                    <button onClick={onMoveUp}>
-                      <ArrowUpIcon className="mx-1 rounded-xl bg-blue-300 text-blue-700 hover:bg-blue-400" />
-                    </button>
-                  )}
-                </div>
-                <div className="col-start-2">
-                  {slt.moduleIndex != module.slts.length && (
-                    <button onClick={onMoveDown}>
-                      <ArrowDownIcon className="mx-1 rounded-xl bg-blue-300 text-blue-700 hover:bg-blue-400" />
-                    </button>
-                  )}
-                </div>
-              </div>
-            )}
+            hamburger
           </div>
           <div className="col-span-1">
             <p className="px-2 font-semibold tracking-wide">

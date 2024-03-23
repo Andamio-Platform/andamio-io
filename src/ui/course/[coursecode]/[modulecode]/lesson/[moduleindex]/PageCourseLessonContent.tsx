@@ -30,7 +30,6 @@ export default function PageCourseContent({
 
   const editor = new Editor({
     editable: false,
-    initialLesson: "",
   });
 
   useEffect(() => {

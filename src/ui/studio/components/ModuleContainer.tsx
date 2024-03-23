@@ -1,4 +1,9 @@
-import { Suspense, useEffect, useState } from "react";
+// todo 2024-03-23
+// 1. Fix Delete Button
+// 2. Fix Edit Button
+// 3. When SLT is Deleted, Lesson should be Deleted too. User should be warned and confirmed.
+
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { Course, Module, ModuleSLT, ModuleVariant } from "~/types/db";
 import CardButton from "~/components/buttons/CardButton";
 import {
@@ -9,64 +14,25 @@ import {
 } from "@heroicons/react/24/outline";
 import DialogSLT from "./dialogs/DialogSLT";
 import Row from "../../../components/ui/row";
-import RowSLT from "./slt/RowSLT";
+import { DragHandle, SortableSLT } from "./slt/RowSLT";
 import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "~/components/ui/accordion";
 
-import { DndContext, closestCenter } from "@dnd-kit/core";
+import { DndContext, closestCenter, Active, DragOverlay } from "@dnd-kit/core";
+import { createSnapModifier, restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import {
   SortableContext,
   arrayMove,
   useSortable,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
 
-type sltI = { slt: ModuleSLT; sltIndex: number };
-
-function SortableSLT({
-  slt,
-  module,
-  course,
-  index,
-  isLoading,
-}: {
-  slt: ModuleSLT;
-  module: Module;
-  course: Course;
-  index: number;
-  isLoading: boolean;
-}) {
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: slt.id });
-
-  const style = {
-    transition,
-    transform: CSS.Transform.toString(transform),
-  };
-  return (
-    <div
-      ref={setNodeRef}
-      {...attributes}
-      {...listeners}
-      style={style}
-      className="slt"
-    >
-      {index}
-      <RowSLT
-        course={course}
-        module={module}
-        slt={slt}
-        isLoadingIndexUpdate={isLoading}
-      />
-    </div>
-  );
-}
+type sltI = { slt: ModuleSLT; sltIndex: number; id: string };
 
 export default function ModuleContainer({
   module,
@@ -90,12 +56,21 @@ export default function ModuleContainer({
   const [sltIndexes, setSltIndexes] = useState<sltI[]>([]);
   const [orderChanged, setOrderChanged] = useState<boolean>(false);
 
+  const [activeSLT, setActiveSLT] = useState<Active | null>(null);
+
+  // How does this help?
+  // Figure out how to only invoke dnd when hamburger is touched
+  const activeItem = useMemo(
+    () => sltIndexes.find((s) => s.slt.id === activeSLT?.id),
+    [activeSLT, sltIndexes],
+  );
+
   useEffect(() => {
     const _slts: sltI[] = [];
 
     if (module) {
       module.slts.forEach((slt) => {
-        _slts.push({ slt: slt, sltIndex: slt.moduleIndex });
+        _slts.push({ slt: slt, sltIndex: slt.moduleIndex, id: slt.id });
       });
 
       const sortedSlts = _slts.slice().sort((a, b) => a.sltIndex - b.sltIndex);
@@ -108,15 +83,14 @@ export default function ModuleContainer({
 
   const tabs = [{ name: "Student Learning Targets", value: "main" }];
 
-  // Todo 2024-03-19: This logic doesn't work - we get the same variant tab on each module.
+  // Todo = Variant Epic: This logic doesn't work - we get the same variant tab on each module.
   // However, the problem is more than this - module variants are not updating correctly.
-
-  if (variants) {
-    variants.forEach((v) => {
-      const _tab = { name: v.title, value: v.title };
-      tabs.push(_tab);
-    });
-  }
+  // if (variants) {
+  //   variants.forEach((v) => {
+  //     const _tab = { name: v.title, value: v.title };
+  //     tabs.push(_tab);
+  //   });
+  // }
 
   const onDragEnd = (event: { active: any; over: any }) => {
     const { active, over } = event;
@@ -125,9 +99,9 @@ export default function ModuleContainer({
     }
 
     setSltIndexes((slts) => {
-      const draggedSLT = sltIndexes.findIndex((s) => s.slt.id === active.id);
-      const replacedSLT = sltIndexes.findIndex((s) => s.slt.id === over.id);
-      return arrayMove(slts, draggedSLT, replacedSLT);
+      const activeSLT = sltIndexes.findIndex((s) => s.slt.id === active.id);
+      const overIndex = sltIndexes.findIndex((s) => s.slt.id === over.id);
+      return arrayMove(slts, activeSLT, overIndex);
     });
 
     setOrderChanged(true);
@@ -168,7 +142,7 @@ export default function ModuleContainer({
   function onUpdateSltList() {
     const _updateSlts: { id: string; moduleIndex: number }[] = [];
     sltIndexes.forEach((s, i) => {
-      _updateSlts.push({ id: s.slt.id, moduleIndex: i+1 });
+      _updateSlts.push({ id: s.slt.id, moduleIndex: i + 1 });
     });
 
     console.log("check602", _updateSlts);
@@ -207,23 +181,29 @@ export default function ModuleContainer({
             <div className="flex flex-col">
               <DndContext
                 collisionDetection={closestCenter}
+                onDragStart={({ active }) => {
+                  setActiveSLT(active);
+                }}
                 onDragEnd={onDragEnd}
+                modifiers={[restrictToVerticalAxis]}
               >
                 <SortableContext
-                  items={module.slts}
+                  items={sltIndexes}
                   strategy={verticalListSortingStrategy}
                 >
-                  {sltIndexes.map((sI, i) => (
-                    <SortableSLT
-                      slt={sI.slt}
-                      module={module}
-                      course={course}
-                      key={sI.slt.id}
-                      index={i}
-                      isLoading={false}
-                    />
+                  {sltIndexes.map((sI) => (
+                    <>
+                      <SortableSLT
+                        slt={sI.slt}
+                        module={module}
+                        course={course}
+                        key={sI.slt.id}
+                        isLoading={false}
+                      />
+                    </>
                   ))}
                 </SortableContext>
+                {/* todo 2024-03-23 - look at codesandbox example - can imagine extracting this component and adding overlay */}
               </DndContext>
 
               <Row

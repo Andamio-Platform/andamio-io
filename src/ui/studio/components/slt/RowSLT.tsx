@@ -1,7 +1,7 @@
 import { Button } from "~/components/ui/button";
 import { Course, Module, ModuleSLT } from "~/types/db";
 import DialogSLTDelete from "../dialogs/DialogSLTDelete";
-import { useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { type FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
@@ -11,20 +11,49 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "~/components/ui/form";
 import SltEditInput from "~/components/form/slt-edit-input";
 import LoadingCircle from "../ContentEditor/ui/icons/loading-circle";
-import { ArrowUpIcon, ArrowDownIcon } from "@radix-ui/react-icons";
+import {
+  ArrowUpIcon,
+  ArrowDownIcon,
+  HamburgerMenuIcon,
+  DragHandleDots2Icon,
+} from "@radix-ui/react-icons";
 import { ToggleEditableField } from "~/components/ui/toggle-editable-field";
+import { DraggableSyntheticListeners, UniqueIdentifier } from "@dnd-kit/core";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
-export default function RowSLT({
+interface Props {
+  id: UniqueIdentifier;
+}
+
+interface Context {
+  attributes: Record<string, any>;
+  listeners: DraggableSyntheticListeners;
+  ref(node: HTMLElement | null): void;
+}
+
+const SortableSltContext = createContext<Context>({
+  attributes: {},
+  listeners: undefined,
+  ref() {},
+});
+
+// RowSLT is exported for use outside of a Draggable Element
+export function RowSLT({
   course,
   module,
   slt,
-  isLoadingIndexUpdate
+  isLoadingIndexUpdate,
+  setNodeRef
 }: {
   course: Course;
   module: Module;
   slt: ModuleSLT;
-  isLoadingIndexUpdate: boolean
+  isLoadingIndexUpdate: boolean;
+  setNodeRef: (node: HTMLElement | null) => void
 }) {
+  const { attributes, listeners, ref } = useContext(SortableSltContext);
+
   const ctx = api.useUtils();
 
   const [sltDeleteDialogOpen, setSltDeleteDialogOpen] =
@@ -115,7 +144,7 @@ export default function RowSLT({
   }, [editSltText]);
 
   return (
-    <>
+    <div ref={setNodeRef}>
       <DialogSLTDelete
         sltDeleteDialogOpen={sltDeleteDialogOpen}
         setSltDeleteDialogOpen={setSltDeleteDialogOpen}
@@ -128,9 +157,6 @@ export default function RowSLT({
           className={`grid w-full grid-cols-12 py-2 ${isLoadingIndexUpdate && "opacity-50"}`}
           key={`${module.moduleCode}-${slt.moduleIndex}`}
         >
-          <div className="col-span-1 flex h-8 flex-row items-center justify-center gap-1">
-            hamburger
-          </div>
           <div className="col-span-1">
             <p className="px-2 font-semibold tracking-wide">
               {module.moduleCode}.{slt.moduleIndex}
@@ -168,8 +194,83 @@ export default function RowSLT({
               Delete SLT
             </Button>
           </div>
+          
         </div>
       )}
-    </>
+    </div>
   );
 }
+
+// SortableSLT
+export function SortableSLT({
+  slt,
+  module,
+  course,
+  isLoading,
+}: {
+  slt: ModuleSLT;
+  module: Module;
+  course: Course;
+  isLoading: boolean;
+}) {
+  const {
+    attributes,
+    isDragging,
+    listeners,
+    setNodeRef,
+    setActivatorNodeRef,
+    transform,
+    transition,
+  } = useSortable({
+    id: slt.id,
+    transition: { duration: 500, easing: "ease-in" },
+  });
+
+  const context = useMemo(
+    () => ({
+      attributes,
+      listeners,
+      ref: setActivatorNodeRef,
+    }),
+    [attributes, listeners, setActivatorNodeRef],
+  );
+
+  const style = {
+    transition,
+    transform: CSS.Transform.toString(transform),
+  };
+  return (
+    <SortableSltContext.Provider value={context}>
+      <div style={style} className="slt">
+        <div className="flex flex-row gap-1">
+          <DragHandle />
+          <RowSLT
+            course={course}
+            module={module}
+            slt={slt}
+            isLoadingIndexUpdate={isLoading}
+            {...attributes}
+            {...listeners}
+            setNodeRef={setNodeRef}
+          />
+        </div>
+      </div>
+    </SortableSltContext.Provider>
+  );
+}
+
+// DragHandle
+export function DragHandle() {
+  const { attributes, listeners, ref } = useContext(SortableSltContext);
+
+  return (
+    <button className="hover:bg-gray-200 transition-colors duration-500 ease-in-out rounded-md px-1" {...attributes} {...listeners} ref={ref}>
+      <DragHandleDots2Icon />
+    </button>
+  );
+}
+
+
+{/* <button class="bg-blue-500 hover:bg-red-500 text-white font-bold py-2 px-4 rounded transition-colors duration-500 ease-in-out">
+  Hover over me
+</button> */}

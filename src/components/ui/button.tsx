@@ -29,7 +29,7 @@ const buttonVariants = cva(
         md: "text-md pt-2 font-mono text-black",
         lg: "text-2xl text-black",
         xl: "text-4xl text-black",
-        icon: "h-9 w-9",
+        icon: "flex px-1",
       },
     },
     defaultVariants: {

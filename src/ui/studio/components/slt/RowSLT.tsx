@@ -1,20 +1,39 @@
 import { Button } from "~/components/ui/button";
-import { Course, Module, ModuleSLT } from "~/types/db";
+import type { Course, Module, ModuleSLT } from "~/types/db";
 import DialogSLTDelete from "../dialogs/DialogSLTDelete";
-import { useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { type FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
 import Link from "next/link";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form } from "~/components/ui/form";
-import SltEditInput from "~/components/form/slt-edit-input";
-import LoadingCircle from "../ContentEditor/ui/icons/loading-circle";
-import { ArrowUpIcon, ArrowDownIcon } from "@radix-ui/react-icons";
+import { DragHandleDots2Icon } from "@radix-ui/react-icons";
 import { ToggleEditableField } from "~/components/ui/toggle-editable-field";
+import type { DraggableSyntheticListeners } from "@dnd-kit/core";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
-export default function RowSLT({
+interface Context {
+  attributes: Record<string, any>;
+  listeners: DraggableSyntheticListeners;
+  ref(node: HTMLElement | null): void;
+  setNodeRef: (node: HTMLElement | null) => void;
+}
+
+const SortableSltContext = createContext<Context>({
+  attributes: {},
+  listeners: undefined,
+  ref: () => {
+    return;
+  },
+  setNodeRef: () => {
+    return;
+  },
+});
+
+// RowSLT is exported for use outside of a Draggable Element
+export function RowSLT({
   course,
   module,
   slt,
@@ -24,6 +43,7 @@ export default function RowSLT({
   slt: ModuleSLT;
 }) {
   const ctx = api.useUtils();
+  const { setNodeRef } = useContext(SortableSltContext);
 
   const [sltDeleteDialogOpen, setSltDeleteDialogOpen] =
     useState<boolean>(false);
@@ -31,7 +51,7 @@ export default function RowSLT({
 
   const { mutate: sltTextUpdate, isLoading: isLoadingUpdate } =
     api.slt.update.useMutation({
-      onSuccess: (data) => {
+      onSuccess: () => {
         toast.success("Student Learning Target updated!");
         setEditSltText(false);
         void ctx.slt.getModuleSLTs.invalidate({
@@ -51,26 +71,6 @@ export default function RowSLT({
       },
     });
 
-  const { mutate: updateSltIndexes, isLoading: isLoadingIndexUpdate } =
-    api.slt.updateModuleIndexes.useMutation({
-      onSuccess: (data) => {
-        void ctx.module.getCourseModules.invalidate({
-          courseCode: course.courseCode,
-        });
-      },
-      onError: (e) => {
-        const errorMessage = e.data?.zodError?.fieldErrors;
-        if (errorMessage) {
-          toast.error("Some SLT inputs are missing or invalid");
-        } else {
-          toast.error("SLT ID taken. Please try again.");
-        }
-      },
-      onSettled: () => {
-        toast.success("Updated ordering");
-      },
-    });
-
   const FormSchema = z.object({
     sltText: z.string().min(1),
   });
@@ -82,7 +82,6 @@ export default function RowSLT({
     },
   });
 
-  // Bring back Field Values from react-hook-form + clean this up
   function onSubmit(data: FieldValues) {
     sltTextUpdate({
       id: slt.id,
@@ -92,86 +91,16 @@ export default function RowSLT({
     });
   }
 
-  // function onMoveUp() {
-  //   console.log("up", `${module.moduleCode}.${slt.moduleIndex}`);
-  //   const _prevSlt = module.slts.find(
-  //     (x) => x.moduleIndex == slt.moduleIndex - 1,
-  //   );
-  //   if (slt.moduleIndex != 1 && _prevSlt) {
-  //     updateSltIndex({
-  //       id: slt.id,
-  //       moduleIndex: slt.moduleIndex - 1,
-  //     });
-  //     updateSltIndex({
-  //       id: _prevSlt.id,
-  //       moduleIndex: slt.moduleIndex,
-  //     });
-  //   }
-  // }
-
-  // function onMoveDown() {
-  //   console.log("down", `${module.moduleCode}.${slt.moduleIndex}`);
-  //   const _nextSlt = module.slts.find(
-  //     (x) => x.moduleIndex == slt.moduleIndex + 1,
-  //   );
-  //   if (slt.moduleIndex != module.slts.length && _nextSlt) {
-  //     updateSltIndex({
-  //       id: slt.id,
-  //       moduleIndex: slt.moduleIndex + 1,
-  //     });
-  //     updateSltIndex({
-  //       id: _nextSlt.id,
-  //       moduleIndex: slt.moduleIndex,
-  //     });
-  //   }
-  // }
-
-  function onMoveUp() {
-    console.log("up", `${module.moduleCode}.${slt.moduleIndex}`);
-    const _prevSlt = module.slts.find(
-      (x) => x.moduleIndex == slt.moduleIndex - 1,
-    );
-    if (slt.moduleIndex != 1 && _prevSlt) {
-      updateSltIndexes([
-        {
-          id: slt.id,
-          moduleIndex: slt.moduleIndex - 1,
-        },
-        {
-          id: _prevSlt.id,
-          moduleIndex: slt.moduleIndex,
-        },
-      ]);
-    }
-  }
-
-  function onMoveDown() {
-    console.log("down", `${module.moduleCode}.${slt.moduleIndex}`);
-    const _nextSlt = module.slts.find(
-      (x) => x.moduleIndex == slt.moduleIndex + 1,
-    );
-    if (slt.moduleIndex != module.slts.length && _nextSlt) {
-      updateSltIndexes([
-        {
-          id: slt.id,
-          moduleIndex: slt.moduleIndex + 1,
-        },
-        {
-          id: _nextSlt.id,
-          moduleIndex: slt.moduleIndex,
-        },
-      ]);
-    }
-  }
-
   useEffect(() => {
-    form.reset({
-      sltText: slt.sltText,
-    });
+    if (form && slt.sltText) {
+      form.reset({
+        sltText: slt.sltText,
+      });
+    }
   }, [editSltText]);
 
   return (
-    <>
+    <div ref={setNodeRef}>
       <DialogSLTDelete
         sltDeleteDialogOpen={sltDeleteDialogOpen}
         setSltDeleteDialogOpen={setSltDeleteDialogOpen}
@@ -181,31 +110,9 @@ export default function RowSLT({
       />
       {module && (
         <div
-          className={`grid w-full grid-cols-12 py-2 ${isLoadingIndexUpdate && "opacity-50"}`}
+          className={`grid w-full grid-cols-12 py-2 ${isLoadingUpdate && "opacity-50"}`}
           key={`${module.moduleCode}-${slt.moduleIndex}`}
         >
-          <div className="col-span-1 flex h-8 flex-row items-center justify-center gap-1">
-            {isLoadingIndexUpdate ? (
-              <LoadingCircle />
-            ) : (
-              <div className="grid grid-cols-2 gap-5">
-                <div className="col-start-1">
-                  {slt.moduleIndex != 1 && (
-                    <button onClick={onMoveUp}>
-                      <ArrowUpIcon className="mx-1 rounded-xl bg-blue-300 text-blue-700 hover:bg-blue-400" />
-                    </button>
-                  )}
-                </div>
-                <div className="col-start-2">
-                  {slt.moduleIndex != module.slts.length && (
-                    <button onClick={onMoveDown}>
-                      <ArrowDownIcon className="mx-1 rounded-xl bg-blue-300 text-blue-700 hover:bg-blue-400" />
-                    </button>
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
           <div className="col-span-1">
             <p className="px-2 font-semibold tracking-wide">
               {module.moduleCode}.{slt.moduleIndex}
@@ -245,6 +152,78 @@ export default function RowSLT({
           </div>
         </div>
       )}
-    </>
+    </div>
+  );
+}
+
+// SortableSLT
+export function SortableSLT({
+  slt,
+  module,
+  course,
+  isLoading, // todo
+}: {
+  slt: ModuleSLT;
+  module: Module;
+  course: Course;
+  isLoading: boolean;
+}) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    setActivatorNodeRef,
+    transform,
+    transition,
+  } = useSortable({
+    id: slt.id,
+    transition: { duration: 500, easing: "ease-in" },
+  });
+
+  const context = useMemo(
+    () => ({
+      attributes,
+      listeners,
+      ref: setActivatorNodeRef,
+      setNodeRef: setNodeRef,
+    }),
+    [attributes, listeners, setActivatorNodeRef, setNodeRef],
+  );
+
+  const style = {
+    transition,
+    transform: CSS.Transform.toString(transform),
+  };
+  return (
+    <SortableSltContext.Provider value={context}>
+      <div style={style} className="slt">
+        <div className="flex flex-row gap-1">
+          <DragHandle />
+          <RowSLT
+            course={course}
+            module={module}
+            slt={slt}
+            {...attributes}
+            {...listeners}
+          />
+        </div>
+      </div>
+    </SortableSltContext.Provider>
+  );
+}
+
+// DragHandle
+export function DragHandle() {
+  const { attributes, listeners, setNodeRef } = useContext(SortableSltContext);
+
+  return (
+    <button
+      className="rounded-md px-1 transition-colors duration-500 ease-in-out hover:bg-gray-200"
+      {...attributes}
+      {...listeners}
+      ref={setNodeRef}
+    >
+      <DragHandleDots2Icon />
+    </button>
   );
 }

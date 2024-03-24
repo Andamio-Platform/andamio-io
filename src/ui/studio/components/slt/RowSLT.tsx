@@ -22,10 +22,6 @@ import { DraggableSyntheticListeners, UniqueIdentifier } from "@dnd-kit/core";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
-interface Props {
-  id: UniqueIdentifier;
-}
-
 interface Context {
   attributes: Record<string, any>;
   listeners: DraggableSyntheticListeners;
@@ -35,7 +31,7 @@ interface Context {
 const SortableSltContext = createContext<Context>({
   attributes: {},
   listeners: undefined,
-  ref() {},
+  ref: () => {return}
 });
 
 // RowSLT is exported for use outside of a Draggable Element
@@ -52,8 +48,6 @@ export function RowSLT({
   isLoadingIndexUpdate: boolean;
   setNodeRef: (node: HTMLElement | null) => void
 }) {
-  const { attributes, listeners, ref } = useContext(SortableSltContext);
-
   const ctx = api.useUtils();
 
   const [sltDeleteDialogOpen, setSltDeleteDialogOpen] =
@@ -269,8 +263,3 @@ export function DragHandle() {
     </button>
   );
 }
-
-
-{/* <button class="bg-blue-500 hover:bg-red-500 text-white font-bold py-2 px-4 rounded transition-colors duration-500 ease-in-out">
-  Hover over me
-</button> */}

@@ -58,6 +58,7 @@ export default function ModuleContainer({
 
   const [activeSLT, setActiveSLT] = useState<Active | null>(null);
 
+  // Todo
   // How does this help?
   // Figure out how to only invoke dnd when hamburger is touched
   const activeItem = useMemo(
@@ -81,10 +82,10 @@ export default function ModuleContainer({
     }
   }, [module]);
 
-  const tabs = [{ name: "Student Learning Targets", value: "main" }];
-
+  
   // Todo = Variant Epic: This logic doesn't work - we get the same variant tab on each module.
   // However, the problem is more than this - module variants are not updating correctly.
+  // const tabs = [{ name: "Student Learning Targets", value: "main" }];
   // if (variants) {
   //   variants.forEach((v) => {
   //     const _tab = { name: v.title, value: v.title };
@@ -114,10 +115,8 @@ export default function ModuleContainer({
     }
   }, [sltIndexes]);
 
-  // done: Need to store a current list of id -> index relationships
-  // 2. Then it's that list that gets updated in the if below
-  // 3. Then we should be able to use that list as the input to update function
-  // 4. After that works, read the docs: how to handle multiple changes, not just swap!
+  // Todo: "Autosave"
+  // Implement delay logic so that save doesn't happen right away
 
   const { mutate: updateSltIndexes, isLoading: isLoadingIndexUpdate } =
     api.slt.updateModuleIndexes.useMutation({

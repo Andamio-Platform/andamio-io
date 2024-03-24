@@ -9,8 +9,8 @@ export default function CardButton({
 }) {
   return (
     <button onClick={onClickHandler} className={className}>
-      <div className="flex w-full	items-center justify-center rounded-md border-2 border-dotted	border-indigo-200 py-6">
-        <div className="flex items-center gap-2 text-indigo-600">{children}</div>
+      <div className="flex w-11/12 mx-auto items-center justify-center py-3 hover:bg-neutral-400 rounded-md transition-colors ease-in-out duration-300">
+        <div className="flex items-center gap-2 text-neutral-900">{children}</div>
       </div>
     </button>
   );

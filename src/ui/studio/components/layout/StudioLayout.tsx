@@ -19,8 +19,11 @@ export default function StudioLayout({
     <div>
       <SideMenu />
       <main className="py-10 lg:pl-72">
-        <div className="px-4 sm:px-6 lg:px-8">{children}</div>
+        <div className="w-full lg:w-[900px] xl:w-[950px] mx-auto">{children}</div>
       </main>
     </div>
   );
 }
+
+
+// mx-auto grid w-[300px] md:w-[600px] lg:w-[800px] xl:w-[1100px] 2xl:w-[1600px]

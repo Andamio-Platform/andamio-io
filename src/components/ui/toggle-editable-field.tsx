@@ -13,7 +13,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "~/utils/shadcn";
 import { Button } from "./button";
-import { CheckCircledIcon, CrossCircledIcon, Pencil2Icon } from "@radix-ui/react-icons";
+import { CheckCircledIcon, CrossCircledIcon, Pencil1Icon } from "@radix-ui/react-icons";
 
 const inputVariants = cva(
   "flex h-9 w-full rounded-sm border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
@@ -137,7 +137,7 @@ const ToggleEditableField = React.forwardRef<
                   size="icon"
                   variant="ghost"
                 >
-                  <Pencil2Icon />
+                  <Pencil1Icon />
                 </Button>
               )}
             </>
@@ -145,7 +145,7 @@ const ToggleEditableField = React.forwardRef<
         ) : (
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
-              <div className="flex flex-row items-center justify-between pr-5">
+              <div className="flex flex-row w-full items-center justify-between pr-5">
                 <>
                   {editText ? (
                     <div className="flex w-full flex-row justify-between">
@@ -181,14 +181,14 @@ const ToggleEditableField = React.forwardRef<
                             type="submit"
                             size="icon"
                           >
-                            <CheckCircledIcon className="text-green-900" />
+                            <CheckCircledIcon className="bg-green-900 text-white rounded-full" />
                           </Button>
                           <Button
                             onClick={() => setEditText(false)}
                             variant="ghost"
                             size="icon"
                           >
-                            <CrossCircledIcon className="text-red-900" />
+                            <CrossCircledIcon className="bg-red-900 text-white rounded-full" />
                           </Button>
                         </div>
                       )}
@@ -204,7 +204,7 @@ const ToggleEditableField = React.forwardRef<
                       size="icon"
                       variant="ghost"
                     >
-                      <Pencil2Icon />
+                      <Pencil1Icon />
                     </Button>
                   )}
                 </>

@@ -8,7 +8,11 @@ import { api } from "~/utils/api";
 import Link from "next/link";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { DragHandleDots2Icon } from "@radix-ui/react-icons";
+import {
+  CrossCircledIcon,
+  DragHandleDots2Icon,
+  FileIcon,
+} from "@radix-ui/react-icons";
 import { ToggleEditableField } from "~/components/ui/toggle-editable-field";
 import type { DraggableSyntheticListeners } from "@dnd-kit/core";
 import { useSortable } from "@dnd-kit/sortable";
@@ -31,6 +35,62 @@ const SortableSltContext = createContext<Context>({
     return;
   },
 });
+
+// SortableSLT
+export function SortableSLT({
+  slt,
+  module,
+  course,
+  isLoading, // todo
+}: {
+  slt: ModuleSLT;
+  module: Module;
+  course: Course;
+  isLoading: boolean;
+}) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    setActivatorNodeRef,
+    transform,
+    transition,
+  } = useSortable({
+    id: slt.id,
+    transition: { duration: 350, easing: "ease-in" },
+  });
+
+  const context = useMemo(
+    () => ({
+      attributes,
+      listeners,
+      ref: setActivatorNodeRef,
+      setNodeRef: setNodeRef,
+    }),
+    [attributes, listeners, setActivatorNodeRef, setNodeRef],
+  );
+
+  const style = {
+    transition,
+    transform: CSS.Transform.toString(transform),
+  };
+  return (
+    <SortableSltContext.Provider value={context}>
+      <div style={style}>
+        <div className="mx-auto my-1 flex w-11/12 flex-row gap-1">
+          <DragHandle />
+          <RowSLT
+            course={course}
+            module={module}
+            slt={slt}
+            {...attributes}
+            {...listeners}
+          />
+        </div>
+      </div>
+    </SortableSltContext.Provider>
+  );
+}
 
 // RowSLT is exported for use outside of a Draggable Element
 export function RowSLT({
@@ -110,15 +170,15 @@ export function RowSLT({
       />
       {module && (
         <div
-          className={`grid w-full grid-cols-12 py-2 ${isLoadingUpdate && "opacity-50"}`}
+          className={`mx-auto my-1 grid w-[300px] grid-cols-12 py-2 sm:w-[535px] md:w-[645px] lg:w-[735px] xl:w-[825px] ${isLoadingUpdate && "opacity-50"}`}
           key={`${module.moduleCode}-${slt.moduleIndex}`}
         >
-          <div className="col-span-1">
+          <div className="col-span-1 flex items-center">
             <p className="px-2 font-semibold tracking-wide">
               {module.moduleCode}.{slt.moduleIndex}
             </p>
           </div>
-          <div className="col-span-7">
+          <div className="items center col-span-9">
             <ToggleEditableField
               name="sltText"
               form={form}
@@ -130,85 +190,28 @@ export function RowSLT({
               text={slt.sltText}
             />
           </div>
-          <div className="col-span-1 col-start-11">
+
+          <div className="col-span-2 col-start-11 flex items-center justify-center gap-3">
             <Link
               href={`/studio/${course.courseCode}/${module.moduleCode}/lesson/${slt.moduleIndex}`}
             >
-              <Button variant="lesson" size="sm">
-                Write Lesson
+              <Button variant="ghost" size="icon">
+                <FileIcon />
               </Button>
             </Link>
-          </div>
-          <div className="col-span-1 col-start-12">
             <Button
               onClick={() => {
                 setSltDeleteDialogOpen(true);
               }}
-              variant="delete"
-              size="sm"
+              variant="ghost"
+              size="icon"
             >
-              Delete SLT
+              <CrossCircledIcon />
             </Button>
           </div>
         </div>
       )}
     </div>
-  );
-}
-
-// SortableSLT
-export function SortableSLT({
-  slt,
-  module,
-  course,
-  isLoading, // todo
-}: {
-  slt: ModuleSLT;
-  module: Module;
-  course: Course;
-  isLoading: boolean;
-}) {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    setActivatorNodeRef,
-    transform,
-    transition,
-  } = useSortable({
-    id: slt.id,
-    transition: { duration: 500, easing: "ease-in" },
-  });
-
-  const context = useMemo(
-    () => ({
-      attributes,
-      listeners,
-      ref: setActivatorNodeRef,
-      setNodeRef: setNodeRef,
-    }),
-    [attributes, listeners, setActivatorNodeRef, setNodeRef],
-  );
-
-  const style = {
-    transition,
-    transform: CSS.Transform.toString(transform),
-  };
-  return (
-    <SortableSltContext.Provider value={context}>
-      <div style={style} className="slt">
-        <div className="flex flex-row gap-1">
-          <DragHandle />
-          <RowSLT
-            course={course}
-            module={module}
-            slt={slt}
-            {...attributes}
-            {...listeners}
-          />
-        </div>
-      </div>
-    </SortableSltContext.Provider>
   );
 }
 

@@ -31,6 +31,7 @@ import {
 } from "@dnd-kit/sortable";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
+import { GearIcon, PlusCircledIcon } from "@radix-ui/react-icons";
 
 type sltI = { slt: ModuleSLT; sltIndex: number; id: string };
 
@@ -144,9 +145,9 @@ export default function ModuleContainer({
   }
 
   return (
-    <>
+    <div className="my-3 rounded-md border border-neutral-900 p-1 w-full sm:w-[630px] md:w-[750px] lg:w-[850px] xl:w-[950px] mx-5 sm:mx-auto">
       <AccordionItem value={module.moduleCode}>
-        <AccordionTrigger className="flex w-full flex-row justify-between">
+        <AccordionTrigger className="flex w-full flex-row justify-between rounded-md bg-neutral-900 px-3 text-white">
           <div className="grid w-full grid-cols-12 py-2">
             <div className="col-span-1">{module.moduleCode}</div>
             <div className="col-span-2">
@@ -154,7 +155,7 @@ export default function ModuleContainer({
                 <span>{module.title}</span>
               </div>
             </div>
-            <div className="col-span-2">{`${module.slts.length} Student Learning Targets`}</div>
+            <div className="col-span-3">{`${module.slts.length} SLTs + ${module.lessons.length} Lessons`}</div>
             <div className="col-start-12">
               <div className="flex gap-2">
                 <button
@@ -164,7 +165,7 @@ export default function ModuleContainer({
                     setModuleDialogOpen(true);
                   }}
                 >
-                  <Cog6ToothIcon className="h-6 w-6" />
+                  <GearIcon />
                 </button>
               </div>
             </div>
@@ -172,7 +173,7 @@ export default function ModuleContainer({
         </AccordionTrigger>
         <AccordionContent>
           <>
-            <div className="flex flex-col">
+            <div className="flex flex-col pt-3">
               <DndContext
                 collisionDetection={closestCenter}
                 onDragStart={({ active }) => {
@@ -200,19 +201,15 @@ export default function ModuleContainer({
                 {/* todo 2024-03-23 - look at codesandbox example - can imagine extracting this component and adding overlay */}
               </DndContext>
 
-              <Row
-                c1={
-                  <CardButton
-                    onClickHandler={() => {
-                      setSltDialogOpen(true);
-                    }}
-                    className="w-full"
-                  >
-                    <PlusCircleIcon className="h-6 w-6" />
-                    Add Student Learning Target
-                  </CardButton>
-                }
-              />
+              <CardButton
+                onClickHandler={() => {
+                  setSltDialogOpen(true);
+                }}
+                className="w-full"
+              >
+                <PlusCircledIcon />
+                Add Student Learning Target
+              </CardButton>
             </div>
           </>
         </AccordionContent>
@@ -225,6 +222,6 @@ export default function ModuleContainer({
           module={module}
         />
       )}
-    </>
+    </div>
   );
 }

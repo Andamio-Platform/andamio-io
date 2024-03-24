@@ -1,5 +1,5 @@
 import { Button } from "~/components/ui/button";
-import { Course, Module, ModuleSLT } from "~/types/db";
+import type { Course, Module, ModuleSLT } from "~/types/db";
 import DialogSLTDelete from "../dialogs/DialogSLTDelete";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { type FieldValues, useForm } from "react-hook-form";
@@ -8,17 +8,9 @@ import { api } from "~/utils/api";
 import Link from "next/link";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form } from "~/components/ui/form";
-import SltEditInput from "~/components/form/slt-edit-input";
-import LoadingCircle from "../ContentEditor/ui/icons/loading-circle";
-import {
-  ArrowUpIcon,
-  ArrowDownIcon,
-  HamburgerMenuIcon,
-  DragHandleDots2Icon,
-} from "@radix-ui/react-icons";
+import { DragHandleDots2Icon } from "@radix-ui/react-icons";
 import { ToggleEditableField } from "~/components/ui/toggle-editable-field";
-import { DraggableSyntheticListeners, UniqueIdentifier } from "@dnd-kit/core";
+import type { DraggableSyntheticListeners } from "@dnd-kit/core";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
@@ -26,12 +18,18 @@ interface Context {
   attributes: Record<string, any>;
   listeners: DraggableSyntheticListeners;
   ref(node: HTMLElement | null): void;
+  setNodeRef: (node: HTMLElement | null) => void;
 }
 
 const SortableSltContext = createContext<Context>({
   attributes: {},
   listeners: undefined,
-  ref: () => {return}
+  ref: () => {
+    return;
+  },
+  setNodeRef: () => {
+    return;
+  },
 });
 
 // RowSLT is exported for use outside of a Draggable Element
@@ -39,16 +37,13 @@ export function RowSLT({
   course,
   module,
   slt,
-  isLoadingIndexUpdate,
-  setNodeRef
 }: {
   course: Course;
   module: Module;
   slt: ModuleSLT;
-  isLoadingIndexUpdate: boolean;
-  setNodeRef: (node: HTMLElement | null) => void
 }) {
   const ctx = api.useUtils();
+  const { setNodeRef } = useContext(SortableSltContext);
 
   const [sltDeleteDialogOpen, setSltDeleteDialogOpen] =
     useState<boolean>(false);
@@ -56,7 +51,7 @@ export function RowSLT({
 
   const { mutate: sltTextUpdate, isLoading: isLoadingUpdate } =
     api.slt.update.useMutation({
-      onSuccess: (data) => {
+      onSuccess: () => {
         toast.success("Student Learning Target updated!");
         setEditSltText(false);
         void ctx.slt.getModuleSLTs.invalidate({
@@ -87,7 +82,6 @@ export function RowSLT({
     },
   });
 
-  // Bring back Field Values from react-hook-form + clean this up
   function onSubmit(data: FieldValues) {
     sltTextUpdate({
       id: slt.id,
@@ -97,44 +91,12 @@ export function RowSLT({
     });
   }
 
-  // function onMoveUp() {
-  //   console.log("up", `${module.moduleCode}.${slt.moduleIndex}`);
-  //   const _prevSlt = module.slts.find(
-  //     (x) => x.moduleIndex == slt.moduleIndex - 1,
-  //   );
-  //   if (slt.moduleIndex != 1 && _prevSlt) {
-  //     updateSltIndex({
-  //       id: slt.id,
-  //       moduleIndex: slt.moduleIndex - 1,
-  //     });
-  //     updateSltIndex({
-  //       id: _prevSlt.id,
-  //       moduleIndex: slt.moduleIndex,
-  //     });
-  //   }
-  // }
-
-  // function onMoveDown() {
-  //   console.log("down", `${module.moduleCode}.${slt.moduleIndex}`);
-  //   const _nextSlt = module.slts.find(
-  //     (x) => x.moduleIndex == slt.moduleIndex + 1,
-  //   );
-  //   if (slt.moduleIndex != module.slts.length && _nextSlt) {
-  //     updateSltIndex({
-  //       id: slt.id,
-  //       moduleIndex: slt.moduleIndex + 1,
-  //     });
-  //     updateSltIndex({
-  //       id: _nextSlt.id,
-  //       moduleIndex: slt.moduleIndex,
-  //     });
-  //   }
-  // }
-
   useEffect(() => {
-    form.reset({
-      sltText: slt.sltText,
-    });
+    if (form && slt.sltText) {
+      form.reset({
+        sltText: slt.sltText,
+      });
+    }
   }, [editSltText]);
 
   return (
@@ -148,7 +110,7 @@ export function RowSLT({
       />
       {module && (
         <div
-          className={`grid w-full grid-cols-12 py-2 ${isLoadingIndexUpdate && "opacity-50"}`}
+          className={`grid w-full grid-cols-12 py-2 ${isLoadingUpdate && "opacity-50"}`}
           key={`${module.moduleCode}-${slt.moduleIndex}`}
         >
           <div className="col-span-1">
@@ -188,7 +150,6 @@ export function RowSLT({
               Delete SLT
             </Button>
           </div>
-          
         </div>
       )}
     </div>
@@ -200,7 +161,7 @@ export function SortableSLT({
   slt,
   module,
   course,
-  isLoading,
+  isLoading, // todo
 }: {
   slt: ModuleSLT;
   module: Module;
@@ -209,7 +170,6 @@ export function SortableSLT({
 }) {
   const {
     attributes,
-    isDragging,
     listeners,
     setNodeRef,
     setActivatorNodeRef,
@@ -225,8 +185,9 @@ export function SortableSLT({
       attributes,
       listeners,
       ref: setActivatorNodeRef,
+      setNodeRef: setNodeRef,
     }),
-    [attributes, listeners, setActivatorNodeRef],
+    [attributes, listeners, setActivatorNodeRef, setNodeRef],
   );
 
   const style = {
@@ -242,10 +203,8 @@ export function SortableSLT({
             course={course}
             module={module}
             slt={slt}
-            isLoadingIndexUpdate={isLoading}
             {...attributes}
             {...listeners}
-            setNodeRef={setNodeRef}
           />
         </div>
       </div>
@@ -255,10 +214,15 @@ export function SortableSLT({
 
 // DragHandle
 export function DragHandle() {
-  const { attributes, listeners, ref } = useContext(SortableSltContext);
+  const { attributes, listeners, setNodeRef } = useContext(SortableSltContext);
 
   return (
-    <button className="hover:bg-gray-200 transition-colors duration-500 ease-in-out rounded-md px-1" {...attributes} {...listeners} ref={ref}>
+    <button
+      className="rounded-md px-1 transition-colors duration-500 ease-in-out hover:bg-gray-200"
+      {...attributes}
+      {...listeners}
+      ref={setNodeRef}
+    >
       <DragHandleDots2Icon />
     </button>
   );

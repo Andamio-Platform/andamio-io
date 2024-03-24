@@ -76,13 +76,9 @@ export default function ModuleContainer({
 
       const sortedSlts = _slts.slice().sort((a, b) => a.sltIndex - b.sltIndex);
       setSltIndexes(sortedSlts);
-      if (module.moduleCode == "101") {
-        console.log("check600", sortedSlts);
-      }
     }
   }, [module]);
 
-  
   // Todo = Variant Epic: This logic doesn't work - we get the same variant tab on each module.
   // However, the problem is more than this - module variants are not updating correctly.
   // const tabs = [{ name: "Student Learning Targets", value: "main" }];
@@ -144,7 +140,6 @@ export default function ModuleContainer({
       _updateSlts.push({ id: s.slt.id, moduleIndex: i + 1 });
     });
 
-    console.log("check602", _updateSlts);
     updateSltIndexes(_updateSlts);
   }
 

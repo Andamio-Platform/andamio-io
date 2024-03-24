@@ -13,6 +13,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "~/utils/shadcn";
 import { Button } from "./button";
+import { CheckCircledIcon, CrossCircledIcon, Pencil2Icon } from "@radix-ui/react-icons";
 
 const inputVariants = cva(
   "flex h-9 w-full rounded-sm border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
@@ -111,14 +112,14 @@ const ToggleEditableField = React.forwardRef<
                         type="submit"
                         className="bg-green-800"
                       >
-                        OK
+                        <CheckCircledIcon />
                       </Button>
                       <Button
                         size="sm"
                         onClick={() => setEditText(false)}
                         className="bg-red-800"
                       >
-                        X
+                        <CrossCircledIcon />
                       </Button>
                     </div>
                   )}
@@ -133,10 +134,10 @@ const ToggleEditableField = React.forwardRef<
               {!editText && !hideButtons && (
                 <Button
                   onClick={() => setEditText(!editText)}
-                  size="sm"
-                  variant="edit"
+                  size="icon"
+                  variant="ghost"
                 >
-                  EDIT
+                  <Pencil2Icon />
                 </Button>
               )}
             </>
@@ -144,7 +145,7 @@ const ToggleEditableField = React.forwardRef<
         ) : (
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
-              <div className="flex w-full flex-row items-center justify-between pr-5">
+              <div className="flex flex-row items-center justify-between pr-5">
                 <>
                   {editText ? (
                     <div className="flex w-full flex-row justify-between">
@@ -174,21 +175,20 @@ const ToggleEditableField = React.forwardRef<
                       />
 
                       {!hideButtons && (
-                        <div className="flex flex-row gap-3 px-3">
+                        <div className="flex flex-row justify-end">
                           <Button
-                            size="sm"
-                            variant="lesson"
+                            variant="ghost"
                             type="submit"
-                            className="bg-green-800"
+                            size="icon"
                           >
-                            OK
+                            <CheckCircledIcon className="text-green-900" />
                           </Button>
                           <Button
-                            size="sm"
                             onClick={() => setEditText(false)}
-                            className="bg-red-800"
+                            variant="ghost"
+                            size="icon"
                           >
-                            X
+                            <CrossCircledIcon className="text-red-900" />
                           </Button>
                         </div>
                       )}
@@ -201,10 +201,10 @@ const ToggleEditableField = React.forwardRef<
                   {!editText && !hideButtons && (
                     <Button
                       onClick={() => setEditText(!editText)}
-                      size="sm"
-                      variant="edit"
+                      size="icon"
+                      variant="ghost"
                     >
-                      EDIT
+                      <Pencil2Icon />
                     </Button>
                   )}
                 </>

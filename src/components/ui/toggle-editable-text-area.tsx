@@ -20,37 +20,28 @@ import {
 } from "@radix-ui/react-icons";
 
 const inputVariants = cva(
-  "flex h-9 w-full bg-transparent px-3 py-1 shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50",
+  "flex min-h-[60px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
   {
     variants: {
       intent: {
-        lesson:
+        description:
           "bg-neutral-100 border-b border-neutral-400 text-primary-foreground",
-        title: "border-b border-neutral-400 text-primary-foreground",
-        slt: "flex w-full border-b border-neutral-400",
-        text: "bg-neutral-100 border-b border-neutral-400 text-primary-foreground",
       },
       formTextSize: {
-        xl: "text-4xl py-8 text-black",
-        lg: "text-2xl py-4 text-black",
         md: "text-md pt-2 text-black",
-        sm: "text-sm p-1 text-black",
       },
     },
     defaultVariants: {
-      intent: "text",
+      intent: "description",
       formTextSize: "md",
     },
   },
 );
 
-const textVariants = cva("flex h-9 w-full px-3 py-1 file:border-0 file:bg-transparent file:text-sm file:font-medium", {
+const textVariants = cva("flex min-h-[60px] w-full ", {
   variants: {
     formTextSize: {
-      xl: "text-4xl py-8 text-black",
-      lg: "text-2xl py-4 text-black",
       md: "text-md pt-2 text-black",
-      sm: "text-sm p-1 text-black",
     },
   },
   defaultVariants: {
@@ -58,8 +49,8 @@ const textVariants = cva("flex h-9 w-full px-3 py-1 file:border-0 file:bg-transp
   },
 });
 
-export interface ToggleEditableFieldProps
-  extends React.InputHTMLAttributes<HTMLInputElement>,
+export interface ToggleEditableTextAreaProps
+  extends React.TextareaHTMLAttributes<HTMLTextAreaElement>,
     VariantProps<typeof inputVariants> {
   label?: string;
   form: any;
@@ -72,9 +63,9 @@ export interface ToggleEditableFieldProps
   hasForm?: boolean;
 }
 
-const ToggleEditableField = React.forwardRef<
-  HTMLInputElement,
-  ToggleEditableFieldProps
+const ToggleEditableTextArea = React.forwardRef<
+  HTMLTextAreaElement,
+  ToggleEditableTextAreaProps
 >(
   (
     {
@@ -105,7 +96,7 @@ const ToggleEditableField = React.forwardRef<
                     render={({ field }) => (
                       <FormItem className="flex w-11/12 ">
                         <FormControl className="flex w-full">
-                          <input
+                          <textarea
                             {...field}
                             placeholder={props.placeholder}
                             className={cn(
@@ -184,7 +175,7 @@ const ToggleEditableField = React.forwardRef<
                         render={({ field }) => (
                           <FormItem className="flex w-11/12 ">
                             <FormControl className="flex w-full">
-                              <input
+                              <textarea
                                 {...field}
                                 placeholder={props.placeholder}
                                 className={cn(
@@ -258,6 +249,6 @@ const ToggleEditableField = React.forwardRef<
   },
 );
 
-ToggleEditableField.displayName = "ToggleEditableField";
+ToggleEditableTextArea.displayName = "ToggleEditableTextArea";
 
-export { ToggleEditableField, inputVariants };
+export { ToggleEditableTextArea, inputVariants };

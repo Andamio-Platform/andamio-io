@@ -17,10 +17,16 @@ import StudioLayout from "~/ui/studio/components/layout/StudioLayout";
 import { ToggleEditableField } from "~/components/ui/toggle-editable-field";
 import { Sheet, SheetContent, SheetTrigger } from "~/components/ui/sheet";
 import {
+  CheckCircledIcon,
+  CrossCircledIcon,
   DoubleArrowLeftIcon,
   DoubleArrowRightIcon,
+  ExclamationTriangleIcon,
+  FileIcon,
+  GlobeIcon,
   Pencil2Icon,
   QuestionMarkCircledIcon,
+  SymbolIcon,
 } from "@radix-ui/react-icons";
 import FormInput from "~/components/form/form-input";
 import FormSwitch from "~/components/form/form-switch";
@@ -29,6 +35,8 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "~/components/ui/collapsible";
+import { Textarea } from "~/components/ui/textarea";
+import { ToggleEditableTextArea } from "~/components/ui/toggle-editable-text-area";
 
 export default function PageCourseLessonContent({
   course,
@@ -174,7 +182,6 @@ export default function PageCourseLessonContent({
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log("Check501", data);
 
     if (!lesson) return;
 
@@ -219,6 +226,9 @@ export default function PageCourseLessonContent({
     initialContent: lesson?.contentJson,
   });
 
+  // todo 2024-03-25
+  // Add autosave
+
   useEffect(() => {
     if (editor.isFocused()) {
       setEditLesson(true);
@@ -234,7 +244,6 @@ export default function PageCourseLessonContent({
 
       const _lesson = lesson;
 
-      console.log("check1", lesson);
 
       if (_lesson) {
         form.reset({
@@ -245,7 +254,6 @@ export default function PageCourseLessonContent({
         });
 
         if (_lesson.contentJson && typeof _lesson.contentJson === "object") {
-          console.log("check2", _lesson);
           editor.setContent(_lesson.contentJson);
         }
       }
@@ -258,7 +266,7 @@ export default function PageCourseLessonContent({
       console.log("check2", lesson);
       editor.setContent(lesson.contentJson);
     }
-  }, [editLesson])
+  }, [editLesson]);
 
   if (lesson === undefined || lesson === null)
     return (
@@ -279,8 +287,8 @@ export default function PageCourseLessonContent({
     <StudioLayout>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="grid grid-cols-12">
-            <div className="col-span-7">
+          <div className="grid grid-cols-12 gap-5">
+            <div className="col-span-8">
               <div className="flex w-full justify-start">
                 <div className="mb-3 flex justify-end border-b border-black pb-3">
                   <p className="text-xl font-semibold leading-7">
@@ -289,31 +297,47 @@ export default function PageCourseLessonContent({
                 </div>
               </div>
             </div>
-            <div className="col-span-5">
-              <div className="grid grid-cols-4 items-center gap-10">
-                <Button
-                  disabled={isLoadingUpdate}
-                  size="sm"
-                  className={`${editLesson ? "bg-red-600" : "bg-green-600"}`}
-                >
-                  {isLoadingUpdate ? (
-                    <ArrowPathIcon className="h-5 w-5 animate-spin" />
-                  ) : (
-                    <>{editLesson ? "Save" : "Content Saved"}</>
-                  )}
-                </Button>
-                <>
+            <div className="col-span-4 flex w-full items-center justify-end">
+              <div className="grid grid-cols-4 gap-10">
+                <div>
                   {editLesson && (
-                    <Button
-                      size="sm"
-                      onClick={onCancel}
-                      className="bg-orange-500"
-                    >
-                      Cancel
+                    <Button variant="ghost" size="icon" onClick={onCancel}>
+                      <CrossCircledIcon width="22" height="22" />
                     </Button>
                   )}
-                </>
-                <div className="col-start-3">
+                </div>
+                <div>
+                  <Button
+                    disabled={isLoadingUpdate}
+                    size="icon"
+                    variant="ghost"
+                  >
+                    {isLoadingUpdate ? (
+                      <SymbolIcon
+                        className="animate-spin"
+                        width="22"
+                        height="22"
+                      />
+                    ) : (
+                      <>
+                        {editLesson ? (
+                          <ExclamationTriangleIcon
+                            className="text-yellow-800"
+                            width="22"
+                            height="22"
+                          />
+                        ) : (
+                          <CheckCircledIcon
+                            className="rounded-full bg-green-900 text-white"
+                            width="22"
+                            height="22"
+                          />
+                        )}
+                      </>
+                    )}
+                  </Button>
+                </div>
+                <div>
                   <Button
                     onClick={(e) => {
                       e.preventDefault();
@@ -322,9 +346,10 @@ export default function PageCourseLessonContent({
                         "_blank",
                       );
                     }}
-                    size="sm"
+                    size="icon"
+                    variant="ghost"
                   >
-                    View Lesson
+                    <GlobeIcon width="22" height="22" />
                   </Button>
                 </div>
                 <div className="col-start-4 flex flex-row justify-end">
@@ -332,8 +357,7 @@ export default function PageCourseLessonContent({
                     <Sheet>
                       <SheetTrigger>
                         <div className="flex flex-row items-center gap-2">
-                          <QuestionMarkCircledIcon />
-                          <p>Help</p>
+                          <QuestionMarkCircledIcon width="22" height="22" />
                         </div>
                       </SheetTrigger>
                       <SheetContent className="">
@@ -345,26 +369,25 @@ export default function PageCourseLessonContent({
               </div>
             </div>
             <div className="col-span-7">
-              <div className="py-5 text-4xl">
+              <div className="py-5">
                 <ToggleEditableField
                   name="title"
                   form={form}
-                  intent="lesson"
-                  formTextSize="xl"
+                  intent="title"
+                  formTextSize="lg"
                   onSubmit={onTitleSubmit}
                   editText={editLesson}
                   setEditText={setEditLesson}
                   text={lesson.title ?? "Edit this lesson title"}
-                  hideButtons={true}
                   hasForm={true}
                 />
               </div>
               <div className="py-3 text-xl">
-                <ToggleEditableField
+                <ToggleEditableTextArea
                   name="description"
                   form={form}
-                  intent="text"
-                  formTextSize="lg"
+                  intent="description"
+                  formTextSize="md"
                   onSubmit={onTitleSubmit}
                   editText={editLesson}
                   setEditText={setEditLesson}
@@ -374,27 +397,23 @@ export default function PageCourseLessonContent({
                 />
               </div>
             </div>
-            <div className="col-span-5 h-60">
+            <div className="col-span-5 mb-2 h-64">
               <Collapsible
-                className="flex flex-row items-start justify-end"
+                className="flex flex-col items-end justify-end"
                 open={detailsOpen}
                 onOpenChange={setDetailsOpen}
               >
                 <CollapsibleTrigger>
-                  {detailsOpen ? (
-                    <div className="pr-3 pt-3">
-                      <DoubleArrowRightIcon />
-                    </div>
-                  ) : (
-                    <div className="flex flex-row items-center gap-3">
+                  <div className="flex flex-row items-center gap-3">
+                    <div
+                      className={`${detailsOpen ? "rotate-180 transform transition-transform duration-300" : ""}`}
+                    >
                       <DoubleArrowLeftIcon />
-                      <p className="text-lg font-bold">Lesson Details</p>
                     </div>
-                  )}
+                    <p className="text-lg font-bold">Lesson Details</p>
+                  </div>
                 </CollapsibleTrigger>
-                <CollapsibleContent>
-                  <p className="text-lg font-bold">Lesson Details</p>
-                  <div className="my-2 border border-neutral-300" />
+                <CollapsibleContent className="CollapsibleContent rounded-l-md border bg-neutral-700 text-white px-3 py-3">
                   <FormInput
                     name="videoUrl"
                     label="Video URL"
@@ -402,8 +421,7 @@ export default function PageCourseLessonContent({
                     placeholder={`Video ID from YouTube`}
                     info="e.g. youtube.com/watch?v=123456, enter 123456"
                   />
-                  <div className="mt-5 border border-neutral-300" />
-
+                  <div className="my-5" />
                   <FormSwitch
                     name="live"
                     label="Publish"

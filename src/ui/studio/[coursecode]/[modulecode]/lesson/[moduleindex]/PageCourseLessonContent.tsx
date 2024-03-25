@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
@@ -20,11 +20,8 @@ import {
   CheckCircledIcon,
   CrossCircledIcon,
   DoubleArrowLeftIcon,
-  DoubleArrowRightIcon,
   ExclamationTriangleIcon,
-  FileIcon,
   GlobeIcon,
-  Pencil2Icon,
   QuestionMarkCircledIcon,
   SymbolIcon,
 } from "@radix-ui/react-icons";
@@ -35,8 +32,14 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "~/components/ui/collapsible";
-import { Textarea } from "~/components/ui/textarea";
 import { ToggleEditableTextArea } from "~/components/ui/toggle-editable-text-area";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "~/components/ui/tooltip";
+import { useAutosave } from 'react-autosave';
 
 export default function PageCourseLessonContent({
   course,
@@ -62,6 +65,7 @@ export default function PageCourseLessonContent({
 
   const [editLesson, setEditLesson] = useState<boolean>(false);
   const [detailsOpen, setDetailsOpen] = useState<boolean>(true);
+  const [isSaving, setIsSaving] = useState<boolean>(false);
 
   // const {
   //   listCourseVariant,
@@ -182,7 +186,6 @@ export default function PageCourseLessonContent({
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-
     if (!lesson) return;
 
     const _lesson = {
@@ -208,26 +211,10 @@ export default function PageCourseLessonContent({
     }
   }
 
-  function onTitleSubmit(data: FieldValues) {
-    if (!lesson) return;
-    update({
-      id: lesson.id,
-      sltId: slt.id,
-      title: data.title,
-      description: data.description ?? "",
-      videoUrl: data.videoUrl ?? "",
-      contentJson: editor.getJSON(),
-      live: data.live,
-    });
-  }
-
   const editor = new Editor({
     //@ts-expect-error todo how to fix this
     initialContent: lesson?.contentJson,
   });
-
-  // todo 2024-03-25
-  // Add autosave
 
   useEffect(() => {
     if (editor.isFocused()) {
@@ -243,7 +230,6 @@ export default function PageCourseLessonContent({
       //   : lesson;
 
       const _lesson = lesson;
-
 
       if (_lesson) {
         form.reset({
@@ -301,9 +287,22 @@ export default function PageCourseLessonContent({
               <div className="grid grid-cols-4 gap-10">
                 <div>
                   {editLesson && (
-                    <Button variant="ghost" size="icon" onClick={onCancel}>
-                      <CrossCircledIcon width="22" height="22" />
-                    </Button>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={onCancel}
+                          >
+                            <CrossCircledIcon width="22" height="22" />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Cancel changes</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                   )}
                 </div>
                 <div>
@@ -319,39 +318,70 @@ export default function PageCourseLessonContent({
                         height="22"
                       />
                     ) : (
-                      <>
+                      <TooltipProvider>
                         {editLesson ? (
-                          <ExclamationTriangleIcon
-                            className="text-yellow-800"
-                            width="22"
-                            height="22"
-                          />
+                          <Tooltip>
+                            <TooltipTrigger>
+                              <ExclamationTriangleIcon
+                                className="text-yellow-800"
+                                width="22"
+                                height="22"
+                              />
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Click to save lesson</p>
+                            </TooltipContent>
+                          </Tooltip>
                         ) : (
-                          <CheckCircledIcon
-                            className="rounded-full bg-green-900 text-white"
-                            width="22"
-                            height="22"
-                          />
+                          <Tooltip>
+                            <TooltipTrigger>
+                              <CheckCircledIcon
+                                className="rounded-full bg-green-900 text-white"
+                                width="22"
+                                height="22"
+                              />
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Lesson is saved</p>
+                            </TooltipContent>
+                          </Tooltip>
                         )}
-                      </>
+                      </TooltipProvider>
                     )}
                   </Button>
                 </div>
-                <div>
-                  <Button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      window.open(
-                        `/course/${courseCode}/${moduleCode}/lesson/${moduleIndex}`,
-                        "_blank",
-                      );
-                    }}
-                    size="icon"
-                    variant="ghost"
-                  >
-                    <GlobeIcon width="22" height="22" />
-                  </Button>
-                </div>
+
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <Button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          window.open(
+                            `/course/${courseCode}/${moduleCode}/lesson/${moduleIndex}`,
+                            "_blank",
+                          );
+                        }}
+                        size="icon"
+                        variant="ghost"
+                      >
+                        <GlobeIcon
+                          width="22"
+                          height="22"
+                          className={`${lesson.live ? "text-green-900" : "text-neutral-600"}`}
+                        />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>
+                        {lesson.live
+                          ? "This lesson is published!"
+                          : "This lesson is not published. To publish the lesson, tap the Publish button below."}
+                      </p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+
                 <div className="col-start-4 flex flex-row justify-end">
                   <div>
                     <Sheet>
@@ -368,27 +398,27 @@ export default function PageCourseLessonContent({
                 </div>
               </div>
             </div>
-            <div className="col-span-7">
+            <div className="col-span-7 h-[300px]">
               <div className="py-5">
                 <ToggleEditableField
                   name="title"
                   form={form}
                   intent="title"
-                  formTextSize="lg"
-                  onSubmit={onTitleSubmit}
+                  formTextSize="xl"
+                  onSubmit={form.handleSubmit(onSubmit)}
                   editText={editLesson}
                   setEditText={setEditLesson}
                   text={lesson.title ?? "Edit this lesson title"}
                   hasForm={true}
                 />
               </div>
-              <div className="py-3 text-xl">
+              <div className="py-3">
                 <ToggleEditableTextArea
                   name="description"
                   form={form}
                   intent="description"
                   formTextSize="md"
-                  onSubmit={onTitleSubmit}
+                  onSubmit={form.handleSubmit(onSubmit)}
                   editText={editLesson}
                   setEditText={setEditLesson}
                   text={lesson.description ?? "Edit description"}
@@ -413,7 +443,7 @@ export default function PageCourseLessonContent({
                     <p className="text-lg font-bold">Lesson Details</p>
                   </div>
                 </CollapsibleTrigger>
-                <CollapsibleContent className="CollapsibleContent rounded-l-md border bg-neutral-700 text-white px-3 py-3">
+                <CollapsibleContent className="CollapsibleContent h-[250px] rounded-l-md border border-neutral-900 px-3 py-3 text-white">
                   <FormInput
                     name="videoUrl"
                     label="Video URL"

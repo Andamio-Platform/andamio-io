@@ -19,7 +19,7 @@ export default function StudioLayout({
     <div>
       <SideMenu />
       <main className="py-10 lg:pl-72">
-        <div className="w-full lg:w-[900px] xl:w-[950px] mx-auto">{children}</div>
+        <div className="w-full lg:w-11/12 xl:w-11/12 mx-auto">{children}</div>
       </main>
     </div>
   );

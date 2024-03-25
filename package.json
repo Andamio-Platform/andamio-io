@@ -61,6 +61,7 @@
     "next-themes": "^0.2.1",
     "novel": "0.2.6",
     "react": "18.2.0",
+    "react-autosave": "^0.4.4",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.51.0",
     "react-hot-toast": "^2.4.1",

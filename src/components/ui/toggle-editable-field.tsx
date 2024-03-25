@@ -159,7 +159,7 @@ const ToggleEditableField = React.forwardRef<
                 {renderTextField({formTextSize, text, setEditText})}
                 {!editText && !hideButtons && (
                   <Button onClick={() => setEditText(!editText)} size="icon" variant="ghost">
-                    <Pencil1Icon />
+                    <Pencil1Icon className="rounded-full bg-white text-blue-900 m-1" width="20" height="20" />
                   </Button>
                 )}
               </>

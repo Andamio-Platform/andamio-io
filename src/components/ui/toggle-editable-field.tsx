@@ -72,6 +72,36 @@ export interface ToggleEditableFieldProps
   hasForm?: boolean;
 }
 
+interface RenderEditButtonsProps {
+  hideButtons: boolean | undefined;
+  setEditText: (editText: boolean) => void;
+}
+
+interface RenderTextFieldProps {
+  formTextSize: 'sm' | 'md' | 'lg' | 'xl' | null | undefined
+  text: string;
+  setEditText: (editText: boolean) => void;
+}
+
+const renderEditButtons = ({hideButtons, setEditText}: RenderEditButtonsProps) =>
+  !hideButtons && (
+    <div className="flex flex-row gap-3 px-3">
+      <Button size="icon" variant="ghost" type="submit">
+        <CheckCircledIcon className="rounded-full bg-green-900 text-white" width="22" height="22" />
+      </Button>
+      <Button size="icon" variant="ghost" onClick={() => setEditText(false)}>
+        <CrossCircledIcon className="rounded-full bg-red-900 text-white" width="22" height="22" />
+      </Button>
+    </div>
+  );
+
+const renderTextField = ({formTextSize, text, setEditText}: RenderTextFieldProps) => (
+  <Button variant="ghost" size={formTextSize} onClick={() => setEditText(true)}>
+    <div className={cn(textVariants({ formTextSize }))}>{text}</div>
+  </Button>
+);
+
+
 const ToggleEditableField = React.forwardRef<
   HTMLInputElement,
   ToggleEditableFieldProps
@@ -92,163 +122,68 @@ const ToggleEditableField = React.forwardRef<
     },
     ref,
   ) => {
+
+    const renderField = () => (
+      <FormField
+        control={form.control}
+        name={props.name}
+        render={({ field }) => (
+          <FormItem className="flex w-11/12 ">
+            <FormControl className="flex w-full">
+              <input
+                {...field}
+                placeholder={props.placeholder}
+                className={cn(inputVariants({ intent, formTextSize, className }))}
+                ref={ref}
+                {...props}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    );
+
+
     return (
       <>
         {hasForm ? (
           <div className="flex w-full flex-row items-center justify-between pr-5">
-            <>
-              {editText ? (
-                <div className="flex w-full flex-row justify-between">
-                  <FormField
-                    control={form.control}
-                    name={props.name}
-                    render={({ field }) => (
-                      <FormItem className="flex w-11/12 ">
-                        <FormControl className="flex w-full">
-                          <input
-                            {...field}
-                            placeholder={props.placeholder}
-                            className={cn(
-                              inputVariants({
-                                intent,
-                                formTextSize,
-                                className,
-                              }),
-                            )}
-                            ref={ref}
-                            {...props}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  {!hideButtons && (
-                    <div className="flex flex-row gap-3 px-3">
-                      <Button size="icon" variant="ghost" type="submit">
-                        <CheckCircledIcon
-                          className="rounded-full bg-green-900 text-white"
-                          width="22"
-                          height="22"
-                        />
-                      </Button>
-                      <Button
-                        size="icon"
-                        variant="ghost"
-                        onClick={() => setEditText(false)}
-                      >
-                        <CrossCircledIcon
-                          className="rounded-full bg-red-900 text-white"
-                          width="22"
-                          height="22"
-                        />
-                      </Button>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <Button
-                  variant="ghost"
-                  size={formTextSize}
-                  onClick={() => setEditText(true)}
-                >
-                  <div className={cn(textVariants({ formTextSize }))}>
-                    {text}
-                  </div>
-                </Button>
-              )}
-            </>
-            <>
-              {!editText && !hideButtons && (
-                <Button
-                  onClick={() => setEditText(!editText)}
-                  size="icon"
-                  variant="ghost"
-                >
-                  <Pencil1Icon />
-                </Button>
-              )}
-            </>
+            {editText ? (
+              <>
+                {renderField()}
+                {renderEditButtons({hideButtons, setEditText})}
+              </>
+            ) : (
+              <>
+                {renderTextField({formTextSize, text, setEditText})}
+                {!editText && !hideButtons && (
+                  <Button onClick={() => setEditText(!editText)} size="icon" variant="ghost">
+                    <Pencil1Icon />
+                  </Button>
+                )}
+              </>
+            )}
           </div>
         ) : (
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <div className="flex w-full flex-row items-center justify-between pr-5">
-                <>
-                  {editText ? (
-                    <div className="flex w-full flex-row justify-between">
-                      <FormField
-                        control={form.control}
-                        name={props.name}
-                        render={({ field }) => (
-                          <FormItem className="flex w-11/12 ">
-                            <FormControl className="flex w-full">
-                              <input
-                                {...field}
-                                placeholder={props.placeholder}
-                                className={cn(
-                                  inputVariants({
-                                    intent,
-                                    formTextSize,
-                                    className,
-                                  }),
-                                )}
-                                ref={ref}
-                                {...props}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      {!hideButtons && (
-                        <div className="flex flex-row justify-end">
-                          <Button variant="ghost" type="submit" size="icon">
-                            <CheckCircledIcon
-                              className="rounded-full bg-green-900 text-white"
-                              width="22"
-                              height="22"
-                            />
-                          </Button>
-                          <Button
-                            onClick={() => setEditText(false)}
-                            variant="ghost"
-                            size="icon"
-                          >
-                            <CrossCircledIcon
-                              className="rounded-full bg-red-900 text-white"
-                              width="22"
-                              height="22"
-                            />
-                          </Button>
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <Button
-                      variant="ghost"
-                      size={formTextSize}
-                      onClick={() => setEditText(true)}
-                    >
-                      <div className={cn(textVariants({ formTextSize }))}>
-                        {text}
-                      </div>
-                    </Button>
-                  )}
-                </>
-                <>
-                  {!editText && !hideButtons && (
-                    <Button
-                      onClick={() => setEditText(!editText)}
-                      size="icon"
-                      variant="ghost"
-                    >
-                      <Pencil1Icon />
-                    </Button>
-                  )}
-                </>
+                {editText ? (
+                  <>
+                    {renderField()}
+                    {renderEditButtons({hideButtons, setEditText})}
+                  </>
+                ) : (
+                  <>
+                    {renderTextField({formTextSize, text, setEditText})}
+                    {!editText && !hideButtons && (
+                      <Button onClick={() => setEditText(!editText)} size="icon" variant="ghost">
+                        <Pencil1Icon />
+                      </Button>
+                    )}
+                  </>
+                )}
               </div>
             </form>
           </Form>

@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -48,12 +48,45 @@
     --ring: 224.3 76.3% 48%;
   }
 }
- 
+
 @layer base {
   * {
     @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+.CollapsibleContent {
+  overflow: hidden;
+  white-space: nowrap;
+}
+.CollapsibleContent[data-state='open'] {
+  animation: slideIn 300ms ease-out;
+}
+.CollapsibleContent[data-state='closed'] {
+  animation: slideOut 300ms ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    width: 0;
+    opacity: 0;
+  }
+  to {
+    width: var(--radix-collapsible-content-width);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    width: var(--radix-collapsible-content-width);
+    opacity: 1;
+  }
+  to {
+    width: 0;
+    opacity: 0;
   }
 }

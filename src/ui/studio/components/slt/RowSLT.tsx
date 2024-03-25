@@ -170,7 +170,7 @@ export function RowSLT({
       />
       {module && (
         <div
-          className={`mx-auto my-1 grid w-[300px] grid-cols-12 py-2 sm:w-[535px] md:w-[645px] lg:w-[735px] xl:w-[825px] ${isLoadingUpdate && "opacity-50"}`}
+          className={`mx-auto my-1 grid w-full h-[55px] grid-cols-12 py-2 sm:w-[535px] md:w-[645px] lg:w-[735px] xl:w-[825px] ${isLoadingUpdate && "opacity-50"}`}
           key={`${module.moduleCode}-${slt.moduleIndex}`}
         >
           <div className="col-span-1 flex items-center">
@@ -178,12 +178,12 @@ export function RowSLT({
               {module.moduleCode}.{slt.moduleIndex}
             </p>
           </div>
-          <div className="items center col-span-9">
+          <div className="col-span-9 flex w-full items-center">
             <ToggleEditableField
               name="sltText"
               form={form}
               intent="slt"
-              formTextSize="md"
+              formTextSize="slt"
               onSubmit={onSubmit}
               editText={editSltText}
               setEditText={setEditSltText}
@@ -191,14 +191,14 @@ export function RowSLT({
             />
           </div>
 
-          <div className="col-span-2 col-start-11 flex items-center justify-center gap-3">
-            <Link
-              href={`/studio/${course.courseCode}/${module.moduleCode}/lesson/${slt.moduleIndex}`}
-            >
-              <Button variant="ghost" size="icon">
-                <FileIcon />
-              </Button>
-            </Link>
+          <div className="col-span-2 col-start-11 flex items-center justify-between px-8">
+            <Button variant="ghost" size="icon">
+              <Link
+                href={`/studio/${course.courseCode}/${module.moduleCode}/lesson/${slt.moduleIndex}`}
+              >
+                <FileIcon width="18" height="18" />
+              </Link>
+            </Button>
             <Button
               onClick={() => {
                 setSltDeleteDialogOpen(true);
@@ -206,7 +206,7 @@ export function RowSLT({
               variant="ghost"
               size="icon"
             >
-              <CrossCircledIcon />
+              <CrossCircledIcon width="18" height="18" />
             </Button>
           </div>
         </div>

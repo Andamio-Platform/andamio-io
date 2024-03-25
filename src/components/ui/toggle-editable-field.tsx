@@ -1,7 +1,7 @@
 import React from "react";
 import {
   FormItem,
-  FormLabel,
+  FormLabel, // todo
   FormControl,
   FormDescription,
   FormMessage,
@@ -13,11 +13,9 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "~/utils/shadcn";
 import { Button } from "./button";
-import {
-  CheckCircledIcon,
-  CrossCircledIcon,
-  Pencil1Icon,
-} from "@radix-ui/react-icons";
+import { Pencil1Icon } from "@radix-ui/react-icons";
+import FormEditButtons from "../form/form-edit-buttons";
+import FormEditableField from "../form/form-editable-field";
 
 const inputVariants = cva(
   "flex h-9 w-full bg-transparent px-3 py-1 shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50",
@@ -27,14 +25,15 @@ const inputVariants = cva(
         lesson:
           "bg-neutral-100 border-b border-neutral-400 text-primary-foreground",
         title: "border-b border-neutral-400 text-primary-foreground",
-        slt: "flex w-full border-b border-neutral-400",
+        slt: "flex w-[500px] border-b border-neutral-400",
         text: "bg-neutral-100 border-b border-neutral-400 text-primary-foreground",
       },
       formTextSize: {
-        xl: "text-4xl py-8 text-black",
-        lg: "text-2xl py-4 text-black",
-        md: "text-md pt-2 text-black",
-        sm: "text-sm p-1 text-black",
+        xl: "text-4xl text-black",
+        lg: "text-2xl text-black",
+        md: "text-md text-black",
+        sm: "text-sm text-black",
+        slt: "text-md text-black sm:w-[350px] md:w-[400px] lg:w-[450px] xl:w-[550px]", //sm:w-[535px] md:w-[645px] lg:w-[735px] xl:w-[825px]
       },
     },
     defaultVariants: {
@@ -43,20 +42,6 @@ const inputVariants = cva(
     },
   },
 );
-
-const textVariants = cva("flex h-9 w-full px-3 py-1 file:border-0 file:bg-transparent file:text-sm file:font-medium", {
-  variants: {
-    formTextSize: {
-      xl: "text-4xl py-8 text-black",
-      lg: "text-2xl py-4 text-black",
-      md: "text-md pt-2 text-black",
-      sm: "text-sm p-1 text-black",
-    },
-  },
-  defaultVariants: {
-    formTextSize: "md",
-  },
-});
 
 export interface ToggleEditableFieldProps
   extends React.InputHTMLAttributes<HTMLInputElement>,
@@ -71,36 +56,6 @@ export interface ToggleEditableFieldProps
   hideButtons?: boolean;
   hasForm?: boolean;
 }
-
-interface RenderEditButtonsProps {
-  hideButtons: boolean | undefined;
-  setEditText: (editText: boolean) => void;
-}
-
-interface RenderTextFieldProps {
-  formTextSize: 'sm' | 'md' | 'lg' | 'xl' | null | undefined
-  text: string;
-  setEditText: (editText: boolean) => void;
-}
-
-const renderEditButtons = ({hideButtons, setEditText}: RenderEditButtonsProps) =>
-  !hideButtons && (
-    <div className="flex flex-row gap-3 px-3">
-      <Button size="icon" variant="ghost" type="submit">
-        <CheckCircledIcon className="rounded-full bg-green-900 text-white" width="22" height="22" />
-      </Button>
-      <Button size="icon" variant="ghost" onClick={() => setEditText(false)}>
-        <CrossCircledIcon className="rounded-full bg-red-900 text-white" width="22" height="22" />
-      </Button>
-    </div>
-  );
-
-const renderTextField = ({formTextSize, text, setEditText}: RenderTextFieldProps) => (
-  <Button variant="ghost" size={formTextSize} onClick={() => setEditText(true)}>
-    <div className={cn(textVariants({ formTextSize }))}>{text}</div>
-  </Button>
-);
-
 
 const ToggleEditableField = React.forwardRef<
   HTMLInputElement,
@@ -122,7 +77,6 @@ const ToggleEditableField = React.forwardRef<
     },
     ref,
   ) => {
-
     const renderField = () => (
       <FormField
         control={form.control}
@@ -133,7 +87,9 @@ const ToggleEditableField = React.forwardRef<
               <input
                 {...field}
                 placeholder={props.placeholder}
-                className={cn(inputVariants({ intent, formTextSize, className }))}
+                className={cn(
+                  inputVariants({ intent, formTextSize, className }),
+                )}
                 ref={ref}
                 {...props}
               />
@@ -144,22 +100,36 @@ const ToggleEditableField = React.forwardRef<
       />
     );
 
-
     return (
       <>
         {hasForm ? (
-          <div className="flex w-full flex-row items-center justify-between pr-5">
+          <div className="flex w-full flex-row items-center gap-5 pr-5">
             {editText ? (
               <>
                 {renderField()}
-                {renderEditButtons({hideButtons, setEditText})}
+                <FormEditButtons
+                  hideButtons={hideButtons}
+                  setEditText={setEditText}
+                />
               </>
             ) : (
               <>
-                {renderTextField({formTextSize, text, setEditText})}
+                <FormEditableField
+                  formTextSize={formTextSize}
+                  text={text}
+                  setEditText={setEditText}
+                />
                 {!editText && !hideButtons && (
-                  <Button onClick={() => setEditText(!editText)} size="icon" variant="ghost">
-                    <Pencil1Icon className="rounded-full bg-white text-blue-900 m-1" width="20" height="20" />
+                  <Button
+                    onClick={() => setEditText(!editText)}
+                    size="icon"
+                    variant="lesson"
+                  >
+                    <Pencil1Icon
+                      className="rounded-full text-blue-900 bg-white m-1"
+                      width="22"
+                      height="22"
+                    />
                   </Button>
                 )}
               </>
@@ -168,18 +138,29 @@ const ToggleEditableField = React.forwardRef<
         ) : (
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
-              <div className="flex w-full flex-row items-center justify-between pr-5">
+              <div className="flex w-full flex-row items-center justify-between">
                 {editText ? (
                   <>
                     {renderField()}
-                    {renderEditButtons({hideButtons, setEditText})}
+                    <FormEditButtons
+                      hideButtons={hideButtons}
+                      setEditText={setEditText}
+                    />
                   </>
                 ) : (
                   <>
-                    {renderTextField({formTextSize, text, setEditText})}
+                    <FormEditableField
+                      formTextSize={formTextSize}
+                      text={text}
+                      setEditText={setEditText}
+                    />
                     {!editText && !hideButtons && (
-                      <Button onClick={() => setEditText(!editText)} size="icon" variant="ghost">
-                        <Pencil1Icon />
+                      <Button
+                        onClick={() => setEditText(!editText)}
+                        size="icon"
+                        variant="ghost"
+                      >
+                        <Pencil1Icon width="18" height="18" />
                       </Button>
                     )}
                   </>

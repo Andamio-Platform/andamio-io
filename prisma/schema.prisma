@@ -70,6 +70,7 @@ model User {
   posts          Post[]
   courses        Course[]       @relation("CreatedCourses")
   lessons        Lesson[]       @relation("CreatedLessons")
+  assignments    Assignment[]   @relation("CreatedAssignments")
   // lessonVariants LesssonVariant[] @relation("CreatedLessonVariants")
   slts           Slt[]          @relation("CreatedSLTs")
   managedCourses Course[]       @relation("CourseManagers")
@@ -97,7 +98,7 @@ model Slt {
   lesson Lesson?
 
   assignmentId String?
-  assignment   Assignment? @relation("AssignmentSLTs", fields: [assignmentId], references: [id])
+  assignment   Assignment[]
 
   createdBy   User   @relation("CreatedSLTs", fields: [createdById], references: [id])
   createdById String
@@ -146,7 +147,7 @@ model Module {
   // do we really need Lesson[] here? Would it be better to get lessons from Slt[]?
   lessons Lesson[] @relation("ModuleLessons")
 
-  assignment Assignment[] @relation("ModuleAssignments")
+  assignments Assignment[] @relation("ModuleAssignments")
 
   variants ModuleVariant[] @relation("ModuleVariants")
   slts     Slt[]           @relation("ModuleSLTs")
@@ -287,7 +288,7 @@ model Lesson {
 
 model Assignment {
   id             String @id @default(cuid())
-  assignmentCode String
+  assignmentCode String // temporary to start - todo - think about on-chain connection
 
   title       String
   description String?
@@ -296,27 +297,25 @@ model Assignment {
   videoUrl    String?
   live        Boolean?
 
-  sltID String
-  slts  Slt[]  @relation("AssignmentSLTs")
+  slts Slt[]
 
   moduleId String
   module   Module @relation("ModuleAssignments", fields: [moduleId], references: [id])
 
   // variants ContentVariant[] @relation("ContentsVariants")
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  // createdBy   User     @relation("CreatedLessons", fields: [createdById], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  createdBy   User    @relation("CreatedAssignments", fields: [createdById], references: [id])
   createdById String
   // User        User?    @relation(fields: [userId], references: [id])
   userId      String?
 
   @@unique([moduleId, assignmentCode])
-  @@unique([sltID])
   @@unique([moduleId])
   @@index([createdById])
   @@index([moduleId])
-  @@index([sltID])
   @@index([id])
 }
 

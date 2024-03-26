@@ -25,6 +25,7 @@ export const moduleRouter = createTRPCRouter({
               createdById: true,
             },
           },
+          assignments: true
         },
       });
     }),
@@ -60,6 +61,7 @@ export const moduleRouter = createTRPCRouter({
               title: true,
             },
           },
+          assignments: true
         },
       });
     }),

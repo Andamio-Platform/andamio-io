@@ -7,6 +7,7 @@ import { moduleVariantRouter } from "./routers/module-variant";
 import { courseOnChainInstanceRouter } from "./routers/course-onChainInstance";
 import { sltRouter } from "./routers/slt";
 import { lessonRouter } from "./routers/lesson";
+import { assignmentRouter } from "./routers/assignment";
 
 /**
  * This is the primary router for your server.
@@ -22,7 +23,8 @@ export const appRouter = createTRPCRouter({
   moduleVariant: moduleVariantRouter,
   courseOnChainInstance: courseOnChainInstanceRouter,
   slt: sltRouter,
-  lesson: lessonRouter
+  lesson: lessonRouter,
+  assignment: assignmentRouter
 });
 
 // export type definition of API

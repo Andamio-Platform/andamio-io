@@ -28,7 +28,7 @@ export default function FormSwitch(props: SwitchProps) {
       control={props.form.control}
       name={props.name}
       render={({ field }) => (
-        <FormItem className="flex flex-row items-center my-12 gap-5 text-black">
+        <FormItem className="flex flex-row items-center gap-5 text-black">
           <div>
             {props.label && <FormLabel>{props.label}</FormLabel>}
           </div>

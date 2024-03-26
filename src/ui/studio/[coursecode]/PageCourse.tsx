@@ -42,13 +42,19 @@ export default function PageCourse({ courseCode }: { courseCode: string }) {
       <>
         {course ? (
           <>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 sm:mx-auto sm:w-[630px] md:w-[750px] lg:w-[850px] xl:w-[950px]">
               <CourseTitle course={course} />
               <Tabs defaultValue="modules">
-                <TabsList>
-                  <TabsTrigger value="modules" className="px-10">Modules</TabsTrigger>
-                  <TabsTrigger value="managers" className="px-10">Course Creators</TabsTrigger>
-                  <TabsTrigger value="variants" className="px-10">Variants</TabsTrigger>
+                <TabsList className="my-3 w-full rounded-md border border-neutral-900 p-1">
+                  <TabsTrigger value="modules" className="px-10">
+                    Modules
+                  </TabsTrigger>
+                  <TabsTrigger value="managers" className="px-10">
+                    Course Creators
+                  </TabsTrigger>
+                  <TabsTrigger value="variants" className="px-10">
+                    Variants
+                  </TabsTrigger>
                   <TabsTrigger value="onchain" className="px-10">
                     On-Chain Configuration
                   </TabsTrigger>
@@ -70,24 +76,24 @@ export default function PageCourse({ courseCode }: { courseCode: string }) {
                   />
                 </TabsContent>
               </Tabs>
+              <div className="mt-10 flex w-full flex-row justify-between">
+                <FormFieldset label="Network">
+                  <SelectNetwork
+                    name="network"
+                    onChange={handleNetworkSelectionChange}
+                    options={Object.keys(Network).map((type) => ({
+                      value: type,
+                      label: type,
+                    }))}
+                  />
+                </FormFieldset>
+              </div>
             </div>
           </>
         ) : (
           isLoadingCourse && <Loading />
         )}
       </>
-      <div className="mt-10 flex w-full flex-row justify-between">
-        <FormFieldset label="Network">
-          <SelectNetwork
-            name="network"
-            onChange={handleNetworkSelectionChange}
-            options={Object.keys(Network).map((type) => ({
-              value: type,
-              label: type,
-            }))}
-          />
-        </FormFieldset>
-      </div>
     </StudioLayout>
   );
 }

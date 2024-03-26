@@ -46,6 +46,9 @@ export default function DialogAssignment({
         void ctx.module.getCourseModules.invalidate({
           courseCode: course.courseCode,
         });
+        void ctx.assignment.getModuleAssignments.invalidate({
+          moduleId: module.id,
+        });
       },
       onError: (e) => {
         const errorMessage = e.data?.zodError?.fieldErrors;

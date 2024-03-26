@@ -25,6 +25,9 @@ export const assignmentRouter = createTRPCRouter({
             },
           },
         },
+        include: {
+          slts: true
+        }
       });
     }),
 
@@ -34,17 +37,17 @@ export const assignmentRouter = createTRPCRouter({
   getModuleAssignments: publicProcedure
     .input(
       z.object({
-        courseCode: z.string(),
-        moduleCode: z.string(),
+        courseId: z.string(),
+        moduleId: z.string(),
       }),
     )
     .query(({ ctx, input }) => {
       return ctx.db.assignment.findMany({
         where: {
           module: {
-            moduleCode: input.moduleCode,
+            id: input.moduleId,
             course: {
-              courseCode: input.courseCode,
+              id: input.courseId,
             },
           },
         },
@@ -82,6 +85,7 @@ export const assignmentRouter = createTRPCRouter({
         await ctx.db.slt.update({
           where: { id: slt },
           data: {
+            assignmentId: newAssignment.id,
             assignment: {
               connect: { id: newAssignment.id },
             },
@@ -92,35 +96,33 @@ export const assignmentRouter = createTRPCRouter({
       return newAssignment
     }),
 
-  // update: protectedProcedure
-  //   .input(
-  //     z.object({
-  //       id: z.string().min(1),
-  //       sltId: z.string().min(1),
-  //       title: z.string().min(1),
-  //       description: z.string().optional(),
-  //       imageUrl: z.string().optional(),
-  //       videoUrl: z.string().optional(),
-  //       contentJson: z.any().optional(),
-  //       live: z.boolean().optional(),
-  //     }),
-  //   )
-  //   .mutation(async ({ ctx, input }) => {
-  //     return ctx.db.assignment.update({
-  //       where: {
-  //         id: input.id,
-  //       },
-  //       data: {
-  //         slt: { connect: { id: input.sltId } },
-  //         title: input.title,
-  //         description: input.description,
-  //         imageUrl: input.imageUrl,
-  //         videoUrl: input.videoUrl,
-  //         contentJson: input.contentJson,
-  //         live: input.live,
-  //       },
-  //     });
-  //   }),
+  update: protectedProcedure
+    .input(
+      z.object({
+        id: z.string().min(1),
+        title: z.string().min(1),
+        description: z.string().optional(),
+        imageUrl: z.string().optional(),
+        videoUrl: z.string().optional(),
+        contentJson: z.any().optional(),
+        live: z.boolean().optional(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.assignment.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          title: input.title,
+          description: input.description,
+          imageUrl: input.imageUrl,
+          videoUrl: input.videoUrl,
+          contentJson: input.contentJson,
+          live: input.live,
+        },
+      });
+    }),
 
 
 

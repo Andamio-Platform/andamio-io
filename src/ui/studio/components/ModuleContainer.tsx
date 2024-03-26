@@ -1,20 +1,20 @@
-// todo 2024-03-23
+// todo 2024-03-26
 // 1. Fix Delete Button
 // 2. Fix Edit Button
 // 3. When SLT is Deleted, Lesson should be Deleted too. User should be warned and confirmed.
 
-import { Suspense, useEffect, useMemo, useState } from "react";
-import { Course, Module, ModuleSLT, ModuleVariant } from "~/types/db";
-import CardButton from "~/components/buttons/CardButton";
+import { useEffect, useMemo, useState } from "react";
 import {
-  ChevronDownIcon,
-  ChevronUpIcon,
-  Cog6ToothIcon,
-  PlusCircleIcon,
-} from "@heroicons/react/24/outline";
+  Assignment,
+  Course,
+  Module,
+  ModuleSLT,
+  ModuleVariant,
+} from "~/types/db";
+import CardButton from "~/components/buttons/CardButton";
+import DialogAssignment from "./dialogs/DialogAssignment";
 import DialogSLT from "./dialogs/DialogSLT";
-import Row from "../../../components/ui/row";
-import { DragHandle, SortableSLT } from "./slt/RowSLT";
+import { SortableSLT } from "./slt/RowSLT";
 import {
   AccordionContent,
   AccordionItem,
@@ -22,17 +22,18 @@ import {
 } from "~/components/ui/accordion";
 
 import { DndContext, closestCenter, Active, DragOverlay } from "@dnd-kit/core";
-import { createSnapModifier, restrictToVerticalAxis } from "@dnd-kit/modifiers";
+import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import {
   SortableContext,
   arrayMove,
-  useSortable,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
 import { GearIcon, PlusCircledIcon } from "@radix-ui/react-icons";
-import DialogAssignment from "./dialogs/DialogAssignment";
+import AssignmentContainer from "./AssignmentContainer";
+import useAssignments from "~/hooks/useAssignments";
+import Link from "next/link";
 
 type sltI = { slt: ModuleSLT; sltIndex: number; id: string };
 
@@ -57,10 +58,13 @@ export default function ModuleContainer({
   const [sltDialogOpen, setSltDialogOpen] = useState<boolean>(false);
   const [assignmentDialogOpen, setAssignmentDialogOpen] =
     useState<boolean>(false);
+
   const [sltIndexes, setSltIndexes] = useState<sltI[]>([]);
   const [orderChanged, setOrderChanged] = useState<boolean>(false);
 
   const [activeSLT, setActiveSLT] = useState<Active | null>(null);
+
+  const { assignments } = useAssignments(course.id, module.id);
 
   // Todo
   // How does this help?
@@ -211,6 +215,15 @@ export default function ModuleContainer({
                 <PlusCircledIcon />
                 Add Student Learning Target
               </CardButton>
+              {/* todo - map this: */}
+              {assignments && assignments[0] && (
+                <Link
+                  href={`/studio/${course.courseCode}/${module.moduleCode}/assignment/${assignments[0].assignmentCode}`}
+                >
+                  <AssignmentContainer assignment={assignments[0]} />
+                </Link>
+              )}
+
               <CardButton
                 onClickHandler={() => {
                   setAssignmentDialogOpen(true);
@@ -218,7 +231,10 @@ export default function ModuleContainer({
                 className="w-full"
               >
                 <PlusCircledIcon />
-                Add Assignment
+                Add Assignment{" "}
+                {assignments &&
+                  assignments.length > 0 &&
+                  "Is multiple assignments a premium feature?"}
               </CardButton>
             </div>
           </>

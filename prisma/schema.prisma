@@ -147,7 +147,7 @@ model Module {
   // do we really need Lesson[] here? Would it be better to get lessons from Slt[]?
   lessons Lesson[] @relation("ModuleLessons")
 
-  assignment Assignment[] @relation("ModuleAssignments")
+  assignments Assignment[] @relation("ModuleAssignments")
 
   variants ModuleVariant[] @relation("ModuleVariants")
   slts     Slt[]           @relation("ModuleSLTs")

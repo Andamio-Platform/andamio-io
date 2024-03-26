@@ -32,6 +32,7 @@ import {
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
 import { GearIcon, PlusCircledIcon } from "@radix-ui/react-icons";
+import DialogAssignment from "./dialogs/DialogAssignment";
 
 type sltI = { slt: ModuleSLT; sltIndex: number; id: string };
 
@@ -54,6 +55,8 @@ export default function ModuleContainer({
   // const [typeOfModule, setTypeOfModule] = useState<boolean>(true);
   // const [currentTab, setCurrentTab] = useState<string>("main");
   const [sltDialogOpen, setSltDialogOpen] = useState<boolean>(false);
+  const [assignmentDialogOpen, setAssignmentDialogOpen] =
+    useState<boolean>(false);
   const [sltIndexes, setSltIndexes] = useState<sltI[]>([]);
   const [orderChanged, setOrderChanged] = useState<boolean>(false);
 
@@ -145,7 +148,7 @@ export default function ModuleContainer({
   }
 
   return (
-    <div className="my-3 rounded-md border border-neutral-900 p-1 w-full sm:w-[630px] md:w-[750px] lg:w-[850px] xl:w-[950px] mx-5 sm:mx-auto">
+    <div className="mx-5 my-3 w-full rounded-md border border-neutral-900 p-1 sm:mx-auto sm:w-[630px] md:w-[750px] lg:w-[850px] xl:w-[950px]">
       <AccordionItem value={module.moduleCode}>
         <AccordionTrigger className="flex w-full flex-row justify-between rounded-md bg-neutral-900 px-3 text-white">
           <div className="grid w-full grid-cols-12 py-2">
@@ -187,15 +190,13 @@ export default function ModuleContainer({
                   strategy={verticalListSortingStrategy}
                 >
                   {sltIndexes.map((sI) => (
-                    <>
-                      <SortableSLT
-                        slt={sI.slt}
-                        module={module}
-                        course={course}
-                        key={sI.slt.id}
-                        isLoading={false}
-                      />
-                    </>
+                    <SortableSLT
+                      slt={sI.slt}
+                      module={module}
+                      course={course}
+                      key={sI.slt.id}
+                      isLoading={false}
+                    />
                   ))}
                 </SortableContext>
                 {/* todo 2024-03-23 - look at codesandbox example - can imagine extracting this component and adding overlay */}
@@ -210,6 +211,15 @@ export default function ModuleContainer({
                 <PlusCircledIcon />
                 Add Student Learning Target
               </CardButton>
+              <CardButton
+                onClickHandler={() => {
+                  setAssignmentDialogOpen(true);
+                }}
+                className="w-full"
+              >
+                <PlusCircledIcon />
+                Add Assignment
+              </CardButton>
             </div>
           </>
         </AccordionContent>
@@ -218,6 +228,14 @@ export default function ModuleContainer({
         <DialogSLT
           sltDialogOpen={sltDialogOpen}
           setSltDialogOpen={setSltDialogOpen}
+          course={course}
+          module={module}
+        />
+      )}
+      {module && (
+        <DialogAssignment
+          assignmentDialogOpen={assignmentDialogOpen}
+          setAssignmentDialogOpen={setAssignmentDialogOpen}
           course={course}
           module={module}
         />

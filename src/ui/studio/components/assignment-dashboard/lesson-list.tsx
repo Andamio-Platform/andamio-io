@@ -5,7 +5,7 @@ export default function LessonList({ module }: { module: Module }) {
     <div className="col-span-4 rounded-md border border-neutral-900 p-3">
       <p>LESSONS</p>
       {module.lessons.map((l) => (
-        <p>{l.title}</p>
+        <p key={l.id}>{l.title}</p>
       ))}
     </div>
   );

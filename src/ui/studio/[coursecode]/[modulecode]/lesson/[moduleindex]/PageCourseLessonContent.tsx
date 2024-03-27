@@ -18,6 +18,7 @@ import ControlPanel from "~/ui/studio/components/form-sections/ControlPanel";
 import CardSLT from "~/ui/studio/components/slt/CardSLT";
 import PublishToggle from "~/ui/studio/components/form-sections/PublishToggle";
 import VideoLink from "~/ui/studio/components/form-sections/VideoLink";
+import { Card } from "~/components/ui/card";
 
 export default function PageCourseLessonContent({
   course,
@@ -32,7 +33,7 @@ export default function PageCourseLessonContent({
 }) {
   const ctx = api.useUtils();
 
-  if(!course) return <div>no can do</div>
+  if (!course) return <div>no can do</div>;
 
   const courseCode = course.courseCode;
   const moduleCode = module.moduleCode;
@@ -237,15 +238,18 @@ export default function PageCourseLessonContent({
   if (lesson === undefined || lesson === null)
     return (
       <StudioLayout>
-        <h1 className="mb-2leading-7 text-3xl font-semibold text-gray-900">
-          Ready to make a lesson?
-        </h1>
-        <p>{courseCode}</p>
-        <p>{moduleCode}</p>
-        <p>{moduleIndex}</p>
-        <Button onClick={handleCreateLesson}>
-          Create Lesson {moduleCode}.{moduleIndex}
-        </Button>
+        <div className="flex h-[50vh] w-full items-center justify-center">
+          <Card className="border border-foreground p-10 w-1/2">
+            <h1 className="text-4xl text-foreground my-10">
+              Ready to create a lesson?
+            </h1>
+            <p>Course: {course.title} | Module: {module.title}</p>
+            <p className="py-5 font-bold">SLT {moduleCode}.{moduleIndex}: {slt.sltText}</p>
+            <Button onClick={handleCreateLesson} intent="module" className="mt-20">
+              Yes! Create Lesson {moduleCode}.{moduleIndex}
+            </Button>
+          </Card>
+        </div>
       </StudioLayout>
     );
 
@@ -256,12 +260,12 @@ export default function PageCourseLessonContent({
           <div className="grid grid-cols-12 gap-5">
             <div className="col-span-12 flex w-full items-center justify-center rounded-md border border-secondary-foreground py-3">
               <ControlPanel
-                editAssignment={editLesson}
+                editContent={editLesson}
                 isLoadingUpdate={isLoadingUpdate}
                 onCancel={onCancel}
                 courseCode={courseCode}
                 moduleCode={moduleCode}
-                contentCode={slt.moduleIndex.toString()}
+                contentPath={`lesson/${slt.moduleIndex.toString()}`}
                 live={lesson.live}
               />
             </div>

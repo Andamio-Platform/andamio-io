@@ -23,7 +23,7 @@ const buttonVariants = cva(
         delete: "bg-red-900 hover:bg-red-800 text-red-100",
         edit: "bg-slate-700 hover:bg-slate-800 text-slate-100",
         module: "flex flex-col w-1/3 mx-auto py-3 gap-2 items-center justify-center hover:bg-primary hover:text-primary-foreground rounded-md transition-colors ease-in-out duration-300",
-        dialog: "border border-input bg-secondary-foreground text-secondary shadow-sm hover:bg-accent-foreground hover:text-accent"
+        dialog: "border border-input bg-foreground text-background shadow-sm hover:bg-accent-foreground hover:text-accent"
       },
       size: {
         default: "p-1",

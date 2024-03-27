@@ -1,6 +1,5 @@
 import Link from "~/components/link";
 import Loading from "~/components/loading";
-import MiddleScreen from "~/components/middle-screen";
 import useCourses from "~/hooks/useCourses";
 
 export default function PageCourses() {
@@ -20,11 +19,7 @@ export default function PageCourses() {
             voluptate ad libero at architecto corporis eveniet!
           </p>
         </div>
-        {isLoadingCourses && (
-          <MiddleScreen>
-            <Loading />
-          </MiddleScreen>
-        )}
+        {isLoadingCourses && <Loading />}
         {courses && (
           <ul
             role="list"

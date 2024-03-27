@@ -65,7 +65,7 @@ import {
 } from "novel";
 import { ImageResizer } from "novel/extensions";
 import { defaultExtensions } from "./extensions";
-import { Separator } from "./ui/separator";
+import { Separator } from "../../../../components/ui/separator";
 import { NodeSelector } from "./selectors/node-selector";
 import { LinkSelector } from "./selectors/link-selector";
 import { ColorSelector } from "./selectors/color-selector";

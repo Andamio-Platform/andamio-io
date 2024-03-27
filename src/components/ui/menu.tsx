@@ -5,10 +5,10 @@
 // import { FontDefault, FontSerif, FontMono } from "@/ui/icons";
 import { Check, Menu as MenuIcon, Monitor, Moon, SunDim } from "lucide-react";
 import { useTheme } from "next-themes";
-import { Popover, PopoverContent, PopoverTrigger } from "./popover";
-import { cn } from "../utils";
+import { cn } from "../../ui/studio/components/ContentEditor/utils";
 import { cva } from "class-variance-authority";
-import { Button } from "./button";
+import { Button } from "~/components/ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "~/components/ui/popover";
 
 // const fonts = [
 //   {

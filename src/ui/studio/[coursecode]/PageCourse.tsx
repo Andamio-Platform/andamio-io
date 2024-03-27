@@ -17,7 +17,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 
 export default function PageCourse({ courseCode }: { courseCode: string }) {
   const { course, isLoadingCourse } = useCourseByOwner(courseCode);
-  const [currentTab, setCurrentTab] = useState<string>("modules");
   const [selectedNetwork, setSelectedNetwork] = useState<Network>("PREPROD");
   const [selectedVariant, setSelectedVariant] = useState<
     CourseVariant | undefined
@@ -91,7 +90,7 @@ export default function PageCourse({ courseCode }: { courseCode: string }) {
             </div>
           </>
         ) : (
-          isLoadingCourse && <Loading />
+          isLoadingCourse && <div className="flex min-h-[90vh] items-center"><Loading size={50} /></div>
         )}
       </>
     </StudioLayout>

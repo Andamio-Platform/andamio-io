@@ -158,12 +158,12 @@ export default function PageCourseAssignmentContent({
           <div className="grid grid-cols-12 gap-3">
             <div className="col-span-12 flex w-full items-center justify-center rounded-md border border-secondary-foreground py-3">
               <ControlPanel
-                editAssignment={editAssignment}
+                editContent={editAssignment}
                 isLoadingUpdate={isLoadingUpdate}
                 onCancel={onCancel}
                 courseCode={courseCode}
                 moduleCode={moduleCode}
-                contentCode={assignment.assignmentCode}
+                contentPath={`assignment/${assignment.assignmentCode}`}
                 live={assignment.live}
               />
             </div>

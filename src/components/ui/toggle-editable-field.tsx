@@ -126,7 +126,7 @@ const ToggleEditableField = React.forwardRef<
                     intent="lesson"
                   >
                     <Pencil1Icon
-                      className="rounded-full text-blue-900 bg-white m-1"
+                      className="rounded-full text-primary bg-white m-1"
                       width="22"
                       height="22"
                     />

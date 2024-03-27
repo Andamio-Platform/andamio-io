@@ -9,21 +9,12 @@ import { Form } from "~/components/ui/form";
 import FormInput from "~/components/form/form-input";
 import DialogForm from "~/components/form/dialog-form";
 
-export default function DialogCourse({
-  courseDialogOpen,
-  setCourseDialogOpen,
-  course,
-}: {
-  courseDialogOpen: boolean;
-  setCourseDialogOpen: (open: boolean) => void;
-  course?: Course;
-}) {
+export default function DialogCourse({ course }: { course?: Course }) {
   const ctx = api.useUtils();
 
   const { mutate: create, isLoading: isLoadingCreate } =
     api.course.create.useMutation({
       onSuccess: () => {
-        setCourseDialogOpen(false); // close the dialog
         toast.success("Course created!"); // trigger notification in top right
         void ctx.course.getCoursesByOwner.invalidate(); // make the new course appear on the page
       },
@@ -40,7 +31,6 @@ export default function DialogCourse({
   const { mutate: update, isLoading: isLoadingUpdate } =
     api.course.update.useMutation({
       onSuccess: () => {
-        setCourseDialogOpen(false);
         toast.success("Course updated!");
         void ctx.course.getCoursesByOwner.invalidate();
       },
@@ -98,7 +88,7 @@ export default function DialogCourse({
   }
 
   useEffect(() => {
-    if (courseDialogOpen && course) {
+    if (course) {
       form.reset({
         courseCode: course.courseCode,
         title: course.title,
@@ -108,7 +98,7 @@ export default function DialogCourse({
         videoUrl: course.videoUrl ?? "",
       });
     }
-  }, [courseDialogOpen, course]);
+  }, [course]);
 
   return (
     <Form {...form}>

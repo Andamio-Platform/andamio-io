@@ -1,10 +1,9 @@
-import { ArrowPathIcon } from "@heroicons/react/24/outline";
-import MiddleScreen from "./middle-screen";
+import { UpdateIcon } from "@radix-ui/react-icons";
 
-export default function Loading({ size = 8 }: { size?: number }) {
+export default function Loading({ size = 25 }: { size?: number }) {
   return (
-    <MiddleScreen>
-      <ArrowPathIcon className={`h-${size} w-${size} animate-spin`} />
-    </MiddleScreen>
+    <div className="flex w-full justify-center items-center py-5">
+      <UpdateIcon width={size} height={size} className="animate-spin" />
+    </div>
   );
 }

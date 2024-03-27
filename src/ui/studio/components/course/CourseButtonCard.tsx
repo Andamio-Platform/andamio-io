@@ -11,9 +11,9 @@ export default function CourseButtonCard({
 }) {
   return (
     <Link href={link}>
-      <Card>
-        <p className="text-sm font-medium text-gray-900">{course?.title}</p>
-        <p className="mt-1 text-sm text-gray-500">{course?.description}</p>
+      <Card className="min-h-[200px] border border-foreground bg-background px-5 py-3 text-foreground hover:bg-secondary hover:text-secondary-foreground">
+        <p className="text-sm font-medium">{course?.title}</p>
+        <p className="mt-1 text-sm">{course?.description}</p>
       </Card>
     </Link>
   );

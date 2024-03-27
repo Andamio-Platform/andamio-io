@@ -17,26 +17,28 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from "~/components/ui/sheet";
 
 export default function ControlPanel({
-  editAssignment,
+  editContent,
   isLoadingUpdate,
   onCancel,
   courseCode,
   moduleCode,
-  contentCode,
+  contentPath,
   live,
 }: {
-  editAssignment: boolean;
+  editContent: boolean;
   isLoadingUpdate: boolean;
   onCancel: () => void;
   courseCode: string;
   moduleCode: string;
-  contentCode: string;
+  contentPath: string;
   live: boolean | null;
 }) {
+  const publishedLink = `/course/${courseCode}/${moduleCode}/${contentPath}`;
+
   return (
     <div className="grid grid-cols-4 gap-10">
       <div>
-        {editAssignment && (
+        {editContent && (
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
@@ -57,7 +59,7 @@ export default function ControlPanel({
             <SymbolIcon className="animate-spin" width="22" height="22" />
           ) : (
             <TooltipProvider>
-              {editAssignment ? (
+              {editContent ? (
                 <Tooltip>
                   <TooltipTrigger>
                     <>
@@ -96,10 +98,7 @@ export default function ControlPanel({
             <Button
               onClick={(e) => {
                 e.preventDefault();
-                window.open(
-                  `/course/${courseCode}/${moduleCode}/lesson/${contentCode}`,
-                  "_blank",
-                );
+                window.open(publishedLink, "_blank");
               }}
               size="bigIcon"
               intent="ghost"

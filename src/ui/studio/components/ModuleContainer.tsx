@@ -11,7 +11,6 @@ import {
   ModuleSLT,
   ModuleVariant,
 } from "~/types/db";
-import CardButton from "~/components/buttons/CardButton";
 import DialogAssignment from "./dialogs/DialogAssignment";
 import DialogSLT from "./dialogs/DialogSLT";
 import { SortableSLT } from "./slt/RowSLT";
@@ -34,6 +33,8 @@ import { GearIcon, PlusCircledIcon } from "@radix-ui/react-icons";
 import AssignmentContainer from "./AssignmentContainer";
 import useAssignments from "~/hooks/useAssignments";
 import Link from "next/link";
+import { Card } from "~/components/ui/card";
+import { Button } from "~/components/ui/button";
 
 type sltI = { slt: ModuleSLT; sltIndex: number; id: string };
 
@@ -50,7 +51,7 @@ export default function ModuleContainer({
   setSelectedModule: (module: Module) => void;
   setModuleDialogOpen: (open: boolean) => void;
 }) {
-  if (!course) return
+  if (!course) return;
 
   const ctx = api.useUtils();
 
@@ -208,15 +209,16 @@ export default function ModuleContainer({
                 {/* todo 2024-03-23 - look at codesandbox example - can imagine extracting this component and adding overlay */}
               </DndContext>
 
-              <CardButton
-                onClickHandler={() => {
+              <Button
+                onClick={() => {
                   setSltDialogOpen(true);
                 }}
                 className="w-full"
+                variant="module"
               >
                 <PlusCircledIcon />
-                Add Student Learning Target
-              </CardButton>
+                <p>Add Student Learning Target</p>
+              </Button>
               {/* todo - map this: */}
               {assignments && assignments[0] && (
                 <Link
@@ -226,18 +228,19 @@ export default function ModuleContainer({
                 </Link>
               )}
 
-              <CardButton
-                onClickHandler={() => {
+              <Button
+                onClick={() => {
                   setAssignmentDialogOpen(true);
                 }}
                 className="w-full"
+                variant="module"
               >
                 <PlusCircledIcon />
                 Add Assignment{" "}
                 {assignments &&
                   assignments.length > 0 &&
                   "Is multiple assignments a premium feature?"}
-              </CardButton>
+              </Button>
             </div>
           </>
         </AccordionContent>

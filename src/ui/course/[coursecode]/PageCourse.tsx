@@ -1,4 +1,3 @@
-import H1 from "~/components/typography/h1";
 import { RouterOutputs, api } from "~/utils/api";
 import Loading from "~/components/loading";
 import VideoPlayer from "~/components/media/VideoPlayer";
@@ -61,7 +60,7 @@ export default function PageCourse({ courseCode }: { courseCode: string }) {
   if (_course === null) {
     return (
       <CourseLayout>
-        <H1>Course not found</H1>
+        <h1>Course not found</h1>
       </CourseLayout>
     );
   }
@@ -69,7 +68,7 @@ export default function PageCourse({ courseCode }: { courseCode: string }) {
   return (
     <CourseLayout>
       <div className="flex flex-col gap-8">
-        <H1>{_course.title}</H1>
+        <h1>{_course.title}</h1>
 
         <div className="flex gap-4">
           {listCourseVariant?.map((variant) => (

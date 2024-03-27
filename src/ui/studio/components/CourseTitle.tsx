@@ -1,5 +1,3 @@
-import H1 from "~/components/typography/h1";
-import Text from "~/components/typography/text";
 import { Course } from "~/types/db";
 import { Button } from "~/components/ui/button";
 import { useState } from "react";
@@ -18,8 +16,8 @@ export default function CourseTitle({ course }: { course: Course }) {
     <>
       <div className="flex">
         <div className="flex flex-grow flex-col gap-2">
-          <H1>{course.title}</H1>
-          <Text>{course.description}</Text>
+          <h1>{course.title}</h1>
+          <p>{course.description}</p>
         </div>
         {isOwner && (
           <div>

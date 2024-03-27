@@ -21,7 +21,8 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
         lesson: "border border-blue-900 hover:bg-blue-200",
         delete: "bg-red-900 hover:bg-red-800 text-red-100",
-        edit: "bg-slate-700 hover:bg-slate-800 text-slate-100"
+        edit: "bg-slate-700 hover:bg-slate-800 text-slate-100",
+        module: "flex flex-col w-1/3 mx-auto py-3 gap-2 items-center justify-center hover:bg-primary hover:text-primary-foreground rounded-md transition-colors ease-in-out duration-300"
       },
       size: {
         default: "p-1",

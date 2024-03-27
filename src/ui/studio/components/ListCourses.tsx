@@ -1,5 +1,4 @@
 import { api } from "~/utils/api";
-import Text from "~/components/typography/text";
 import MiddleScreen from "~/components/middle-screen";
 import Loading from "~/components/loading";
 import CourseButtonCard from "./CourseButtonCard";
@@ -33,7 +32,7 @@ export default function ListCourses() {
             </div>
           ) : (
             <MiddleScreen>
-              <Text>No courses (to be replaced with illustrative picture)</Text>
+              <p>No courses (to be replaced with illustrative picture)</p>
             </MiddleScreen>
           )}
         </>

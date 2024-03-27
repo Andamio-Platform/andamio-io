@@ -1,10 +1,9 @@
-import Editor from "~/components/Editor";
+import { DialogReportSupport } from "~/ui/site/DialogReportSupport";
 
 export default function DebugUiPage() {
-
-  const editor = new Editor({
-    initialContent: '',
-  });
-
-  return <> {editor.render()}</>;
+  return (
+    <>
+      <DialogReportSupport />
+    </>
+  );
 }

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Card from "~/components/card";
 import { Button } from "~/components/ui/button";
 import { Course } from "~/types/db";
 import { api } from "~/utils/api";
@@ -7,6 +6,7 @@ import toast from "react-hot-toast";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
 import DialogCourseManager from "~/ui/studio/components/dialogs/DialogCourseManager";
+import { Card } from "~/components/ui/card";
 
 export default function ListCourseManagers({ course }: { course: Course }) {
   const [showAddManagerDialog, setShowAddManagerDialog] =

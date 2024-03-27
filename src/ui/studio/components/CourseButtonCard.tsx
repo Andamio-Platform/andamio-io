@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Card from "~/components/card";
+import { Card } from "~/components/ui/card";
 import type { Course } from "~/types/db";
 
 export default function CourseButtonCard({

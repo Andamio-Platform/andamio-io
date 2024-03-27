@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Card from "~/components/card";
 import { Button } from "~/components/ui/button";
 import { Course, CourseOnChainInstance, CourseVariant } from "~/types/db";
 import { api } from "~/utils/api";
@@ -7,6 +6,7 @@ import { useSession } from "next-auth/react";
 import DialogCourseOnChain from "./dialogs/DialogCourseOnChain";
 import { Network } from "@prisma/client";
 import useCourseOnchain from "~/hooks/useCourseOnchain";
+import { Card } from "~/components/ui/card";
 
 export default function ShowCourseOnchain({
   course,

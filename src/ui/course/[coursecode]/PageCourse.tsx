@@ -6,7 +6,6 @@ import { Button } from "~/components/ui/button";
 import { Disclosure } from "@headlessui/react";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/outline";
 import Link from "~/components/link";
-import Card from "~/components/card";
 import CircleIcon from "~/components/icons/circle";
 import { CourseVariant, Module, ModuleSLT } from "~/types/db";
 import CourseLayout from "../components/layout/CourseLayout";
@@ -22,6 +21,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "~/components/ui/accordion";
+import { Card } from "~/components/ui/card";
 
 export default function PageCourse({ courseCode }: { courseCode: string }) {
   const { data: sessionData } = useSession();

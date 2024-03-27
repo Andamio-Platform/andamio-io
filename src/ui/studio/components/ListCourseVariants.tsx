@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Card from "~/components/card";
 import { Button } from "~/components/ui/button";
 import { Course, CourseVariant } from "~/types/db";
 import { api } from "~/utils/api";
@@ -9,6 +8,7 @@ import { useSession } from "next-auth/react";
 import DialogCourseManager from "~/ui/studio/components/dialogs/DialogCourseManager";
 import DialogCourseVariant from "./dialogs/DialogCourseVariant";
 import CircleIcon from "~/components/icons/circle";
+import { Card } from "~/components/ui/card";
 
 export default function ListCourseVariants({ course }: { course: Course }) {
   const [showDialog, setShowDialog] = useState<boolean>(false);

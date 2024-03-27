@@ -18,20 +18,20 @@ import { FormCheckboxes } from "~/components/form/form-checkboxes";
 export default function DialogAssignment({
   assignmentDialogOpen,
   setAssignmentDialogOpen,
-  course,
+  courseCode,
   module,
   assignment,
 }: {
   assignmentDialogOpen: boolean;
   setAssignmentDialogOpen: (open: boolean) => void;
-  course: Course;
+  courseCode: string;
   module: Module;
   assignment?: Assignment;
 }) {
   const ctx = api.useUtils();
 
   const { courseModules, isLoadingCourseModules } = useCourseModules(
-    course.courseCode,
+    courseCode,
   );
 
   const { mutate: assignmentCreate, isLoading: isLoadingAssignmentCreate } =
@@ -44,7 +44,7 @@ export default function DialogAssignment({
           moduleCode: _module?.moduleCode,
         });
         void ctx.module.getCourseModules.invalidate({
-          courseCode: course.courseCode,
+          courseCode: courseCode,
         });
         void ctx.assignment.getModuleAssignments.invalidate({
           moduleId: module.id,

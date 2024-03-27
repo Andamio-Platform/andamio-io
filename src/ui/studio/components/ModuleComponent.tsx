@@ -16,6 +16,8 @@ export default function ModuleComponent({ course }: { course: Course }) {
     undefined,
   );
 
+  if(!course) return
+
   const { modules, moduleVariants, isLoading, refetch } =
     useCourseModulesAndVariants(course.courseCode, course.variants);
 

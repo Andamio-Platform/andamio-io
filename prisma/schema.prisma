@@ -16,18 +16,8 @@ datasource db {
   relationMode = "prisma"
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  createdBy   User   @relation(fields: [createdById], references: [id])
-  createdById String
-
-  @@index([name])
-  @@index([createdById])
-}
+// Possible todo:
+// - add Comment model for Lesson and/or Assignment
 
 // Necessary for Next auth
 model Account {
@@ -60,22 +50,16 @@ model Session {
 }
 
 model User {
-  id             String         @id @default(cuid())
-  name           String?
-  email          String?        @unique
-  emailVerified  DateTime?
-  image          String?
-  accounts       Account[]
-  sessions       Session[]
-  posts          Post[]
-  courses        Course[]       @relation("CreatedCourses")
-  lessons        Lesson[]       @relation("CreatedLessons")
-  assignments    Assignment[]   @relation("CreatedAssignments")
-  // lessonVariants LesssonVariant[] @relation("CreatedLessonVariants")
-  slts           Slt[]          @relation("CreatedSLTs")
-  managedCourses Course[]       @relation("CourseManagers")
-  joinedCourses  Course[]       @relation("CourseLearners")
-  subscriptions  Subscription[] @relation("Subscriptions")
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+
+  learner Learner?
+  creator Creator?
 }
 
 model VerificationToken {
@@ -97,16 +81,14 @@ model Slt {
 
   lesson Lesson?
 
-  assignmentId String?
-  assignment   Assignment[]
+  assignments Assignment[] @relation("AssignmentSLTs")
 
-  createdBy   User   @relation("CreatedSLTs", fields: [createdById], references: [id])
+  createdBy   Creator @relation("CreatedSLTs", fields: [createdById], references: [id])
   createdById String
 
   variants SltVariant[] @relation("SltVariants")
 
   @@index([moduleId, moduleIndex])
-  @@index([assignmentId])
   @@index([createdById])
   @@index([id])
 }
@@ -129,8 +111,9 @@ model SltVariant {
 }
 
 model Module {
-  id         String @id @default(cuid())
+  id         String  @id @default(cuid())
   moduleCode String
+  moduleHash String?
 
   title       String
   description String?
@@ -138,19 +121,15 @@ model Module {
   videoUrl    String?
   live        Boolean?
 
-  // Todo
-  // Should we simply start by assuming that there will be a many-to-many relation between Course[] and Module[]?
-  courseId String
-  course   Course @relation("CourseModules", fields: [courseId], references: [id])
+  courseId       String
+  originalCourse Course @relation("CourseModules", fields: [courseId], references: [id])
+  // Feature: Add copiedToCourses Course[] for re-use of Modules in different courses.
 
-  // Todo
-  // do we really need Lesson[] here? Would it be better to get lessons from Slt[]?
-  lessons Lesson[] @relation("ModuleLessons")
-
+  slts        Slt[]        @relation("ModuleSLTs")
+  lessons     Lesson[]     @relation("ModuleLessons")
   assignments Assignment[] @relation("ModuleAssignments")
 
   variants ModuleVariant[] @relation("ModuleVariants")
-  slts     Slt[]           @relation("ModuleSLTs")
 
   @@unique([courseId, moduleCode])
   @@index([courseId])
@@ -181,6 +160,9 @@ model Course {
   id         String @id @default(cuid())
   courseCode String
 
+  createdBy   Creator @relation("CreatedCourses", fields: [createdById], references: [id])
+  createdById String
+
   title       String
   description String?
   category    String?
@@ -188,14 +170,13 @@ model Course {
   videoUrl    String?
   live        Boolean?
 
-  modules         Module[]                @relation("CourseModules")
-  managers        User[]                  @relation("CourseManagers")
-  joinedUsers     User[]                  @relation("CourseLearners")
+  modules Module[] @relation("CourseModules")
+
+  contributors  Creator[] @relation("CourseContributors")
+  enrolledUsers Learner[] @relation("LearnerCourses")
+
   variants        CourseVariant[]         @relation("CourseVariants")
   onchainInstance CourseOnChainInstance[] @relation("CourseInstance")
-
-  createdBy   User   @relation("CreatedCourses", fields: [createdById], references: [id])
-  createdById String
 
   @@unique([courseCode])
   @@index([createdById])
@@ -218,16 +199,6 @@ model CourseVariant {
 
   @@index([courseId])
   @@index([id])
-}
-
-model Subscription {
-  id String @id @default(cuid())
-
-  createdAt   DateTime @default(now())
-  createdBy   User     @relation("Subscriptions", fields: [createdById], references: [id])
-  createdById String
-
-  @@index([createdById])
 }
 
 enum Network {
@@ -276,8 +247,10 @@ model Lesson {
 
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  createdBy   User     @relation("CreatedLessons", fields: [createdById], references: [id])
+  createdBy   Creator  @relation("CreatedLessons", fields: [createdById], references: [id])
   createdById String
+
+  learners Learner[] @relation("LearnerLessons")
 
   @@unique([sltId])
   @@index([createdById])
@@ -287,8 +260,9 @@ model Lesson {
 }
 
 model Assignment {
-  id             String @id @default(cuid())
+  id             String  @id @default(cuid())
   assignmentCode String // temporary to start - todo - think about on-chain connection
+  assignmentHash String?
 
   title       String
   description String?
@@ -297,7 +271,7 @@ model Assignment {
   videoUrl    String?
   live        Boolean?
 
-  slts Slt[]
+  slts Slt[] @relation("AssignmentSLTs")
 
   moduleId String
   module   Module @relation("ModuleAssignments", fields: [moduleId], references: [id])
@@ -307,10 +281,10 @@ model Assignment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  createdBy   User    @relation("CreatedAssignments", fields: [createdById], references: [id])
+  createdBy   Creator @relation("CreatedAssignments", fields: [createdById], references: [id])
   createdById String
-  // User        User?    @relation(fields: [userId], references: [id])
-  userId      String?
+
+  learners Learner[] @relation("LearnerAssignments")
 
   @@unique([moduleId, assignmentCode])
   @@unique([moduleId])
@@ -319,6 +293,40 @@ model Assignment {
   @@index([id])
 }
 
+model Creator {
+  id String @id @default(cuid())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  courses            Course[] @relation("CreatedCourses")
+  contributorCourses Course[] @relation("CourseContributors")
+
+  slts        Slt[]        @relation("CreatedSLTs")
+  lessons     Lesson[]     @relation("CreatedLessons")
+  assignments Assignment[] @relation("CreatedAssignments")
+  // lessonVariants LesssonVariant[] @relation("CreatedLessonVariants")
+
+  @@unique([userId])
+}
+
+model Learner {
+  id String @id @default(cuid())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  enrolledCourses Course[]     @relation("LearnerCourses")
+  lessons         Lesson[]     @relation("LearnerLessons")
+  assignments     Assignment[] @relation("LearnerAssignments")
+  // For Learners, Module completion goes on-chain, so we skip adding it here
+
+  @@unique([userId])
+}
+
+// ---------------- END OF CURRENT SCHEMA -------------------------
+
+// Keeping for reference when we implement variants:
 // model Content {
 //   id          String @id @default(cuid())
 //   contentCode String
@@ -374,4 +382,16 @@ model Assignment {
 //   @@index([createdById])
 //   @@index([contentId])
 //   @@index([id])
+// }
+
+// Consider Posts, Comments, or Subscriptions
+// model Subscription {
+//   id String @id @default(cuid())
+
+//   createdAt   DateTime @default(now())
+//   createdBy   Learner?     @relation("Subscriptions", fields: [createdById], references: [id])
+//   createdBy   Creator?     @relation("Subscriptions", fields: [createdById], references: [id])
+//   createdById String
+
+//   @@index([createdById])
 // }

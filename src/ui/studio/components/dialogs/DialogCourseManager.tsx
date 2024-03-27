@@ -24,7 +24,7 @@ export default function DialogCourseManager({
 
   // Todo: make a hook?
   const { data: searchUsers, isLoading } = api.user.getUserByName.useQuery({
-    search: query,
+    username: query,
   });
   const filteredPeople = query === "" ? [] : searchUsers ?? [];
 

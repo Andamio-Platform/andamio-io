@@ -9,6 +9,8 @@ export default function AssignmentDetails({
   module: Module;
   assignment: Assignment;
 }) {
+  if (!course) return
+
   return (
     <div className="col-span-4 rounded-md border border-neutral-900 p-3">
       <p>Course: {course.title}</p>

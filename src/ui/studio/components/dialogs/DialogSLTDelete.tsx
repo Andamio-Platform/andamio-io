@@ -10,13 +10,13 @@ export default function DialogSLTDelete({
   setSltDeleteDialogOpen,
   slt,
   module,
-  course,
+  courseCode,
 }: {
   sltDeleteDialogOpen: boolean;
   setSltDeleteDialogOpen: (open: boolean) => void;
   slt: ModuleSLT;
   module: Module;
-  course: Course;
+  courseCode: string;
 }) {
   const ctx = api.useUtils();
 
@@ -31,7 +31,7 @@ export default function DialogSLTDelete({
           moduleCode: module.moduleCode,
         });
         void ctx.module.getCourseModules.invalidate({
-          courseCode: course.courseCode,
+          courseCode: courseCode,
         });
       },
       onError: (e) => {

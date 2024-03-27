@@ -21,7 +21,7 @@ export const sltRouter = createTRPCRouter({
           moduleIndex: input.moduleIndex,
           module: {
             moduleCode: input.moduleCode,
-            course: {
+            originalCourse: {
               courseCode: input.courseCode,
             },
           },
@@ -36,7 +36,7 @@ export const sltRouter = createTRPCRouter({
         where: {
           module: {
             moduleCode: input.moduleCode,
-            course: {
+            originalCourse: {
               courseCode: input.courseCode,
             },
           },
@@ -50,15 +50,18 @@ export const sltRouter = createTRPCRouter({
         moduleId: z.string().min(1),
         moduleIndex: z.number().min(1),
         sltText: z.string().min(1),
-        // todo: understand where this id comes from
       }),
     )
     .mutation(async ({ ctx, input }) => {
+      if (!ctx.session.user.creatorId) {
+        throw new Error('User does not have Creator role.');
+      }
+
       return ctx.db.slt.create({
         data: {
           moduleIndex: input.moduleIndex,
           sltText: input.sltText,
-          createdBy: { connect: { id: ctx.session.user.id } },
+          createdBy: { connect: { id: ctx.session.user.creatorId } },
           module: {
             connect: {
               id: input.moduleId,
@@ -78,6 +81,11 @@ export const sltRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
+      // todo: should we protect this endpoint for Creators only?
+      // benefits: security
+      // drawbacks: slower query
+      // :: learn more about context or session
+      // this question generalizes across the application
       return ctx.db.slt.update({
         where: {
           id: input.id,
@@ -86,7 +94,6 @@ export const sltRouter = createTRPCRouter({
           id: input.id,
           moduleIndex: input.moduleIndex,
           sltText: input.sltText,
-          createdBy: { connect: { id: ctx.session.user.id } },
           module: {
             connect: {
               id: input.moduleId,
@@ -148,9 +155,3 @@ export const sltRouter = createTRPCRouter({
       });
     }),
 });
-
-// Todo: feature implement updateMany - for re-ordering
-
-// Todo: feature: implement change SLT from one Module to another
-
-// Todo: when integrating shadcn, implement Lesson status icon

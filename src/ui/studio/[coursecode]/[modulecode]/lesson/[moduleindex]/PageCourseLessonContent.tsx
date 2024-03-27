@@ -32,6 +32,8 @@ export default function PageCourseLessonContent({
 }) {
   const ctx = api.useUtils();
 
+  if(!course) return <div>no can do</div>
+
   const courseCode = course.courseCode;
   const moduleCode = module.moduleCode;
 

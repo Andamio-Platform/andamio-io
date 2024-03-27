@@ -20,7 +20,7 @@ export const assignmentRouter = createTRPCRouter({
         where: {
           module: {
             moduleCode: input.moduleCode,
-            course: {
+            originalCourse: {
               courseCode: input.courseCode,
             },
           },
@@ -46,7 +46,7 @@ export const assignmentRouter = createTRPCRouter({
         where: {
           module: {
             id: input.moduleId,
-            course: {
+            originalCourse: {
               id: input.courseId,
             },
           },
@@ -56,9 +56,6 @@ export const assignmentRouter = createTRPCRouter({
         }
       });
     }),
-
-
-    // TEST ME!!!
 
   create: protectedProcedure
     .input(
@@ -70,28 +67,19 @@ export const assignmentRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
+      if (!ctx.session.user.creatorId) {
+        throw new Error('User does not have Creator role.');
+      }
+
       const newAssignment = await ctx.db.assignment.create({
         data: {
           assignmentCode: input.assignmentCode,
           title: input.title,
           module: { connect: { id: input.moduleId }},
-          createdBy: { connect: { id: ctx.session.user.id }},
+          createdBy: { connect: { id: ctx.session.user.creatorId  }},
           slts: { connect: input.sltIds.map(id => ({ id })) }
         },
       })
-
-      // Connect the Lesson to the Modules
-      await Promise.all(input.sltIds.map(async (slt: string) => {
-        await ctx.db.slt.update({
-          where: { id: slt },
-          data: {
-            assignmentId: newAssignment.id,
-            assignment: {
-              connect: { id: newAssignment.id },
-            },
-          },
-        });
-      }));
 
       return newAssignment
     }),

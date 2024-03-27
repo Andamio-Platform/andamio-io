@@ -23,6 +23,7 @@ export default function DialogModule({
   module?: Module;
   course: Course;
 }) {
+  if(!course) return
   const ctx = api.useUtils();
 
   // Todo: Implement Course Variants

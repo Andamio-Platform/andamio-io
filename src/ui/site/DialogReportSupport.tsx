@@ -51,7 +51,7 @@ export function DialogReportSupport() {
                 />
               </div>
               <div className="grid w-full gap-1.5">
-                <Label>What's the problem?</Label>
+                <Label>What&apos;s the problem?</Label>
                 <Textarea
                   placeholder="I am having trouble with..."
                   rows={6}

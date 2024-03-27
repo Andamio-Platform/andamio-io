@@ -15,6 +15,8 @@ export default function ShowCourseOnchain({
   course: Course;
   network: Network;
 }) {
+  if (!course) return
+
   const [showDialog, setShowDialog] = useState<boolean>(false);
 
   const [selectedOnChainInstance, setSelectedOnchainInstance] = useState<
@@ -24,7 +26,7 @@ export default function ShowCourseOnchain({
   const { data: sessionData } = useSession();
   const isOwner = course.createdById === sessionData?.user?.id;
 
-  const { courseOnchain, isLoadingCourseOnchain } = useCourseOnchain(course, network);
+  const { courseOnchain, isLoadingCourseOnchain } = useCourseOnchain(course.id, network);
 
   useEffect(() => {
     if (courseOnchain) {

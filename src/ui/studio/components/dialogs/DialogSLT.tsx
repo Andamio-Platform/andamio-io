@@ -18,18 +18,18 @@ import Loading from "~/components/loading";
 export default function DialogSLT({
   sltDialogOpen,
   setSltDialogOpen,
-  course,
+  courseCode,
   module,
 }: {
   sltDialogOpen: boolean;
   setSltDialogOpen: (open: boolean) => void;
-  course: Course;
+  courseCode: string;
   module: Module;
 }) {
   const ctx = api.useUtils();
 
   const { courseModules, isLoadingCourseModules } = useCourseModules(
-    course.courseCode,
+    courseCode,
   );
 
   const { mutate: sltCreate, isLoading: isLoadingCreate } =
@@ -42,7 +42,7 @@ export default function DialogSLT({
           moduleCode: _module?.moduleCode,
         });
         void ctx.module.getCourseModules.invalidate({
-          courseCode: course.courseCode,
+          courseCode: courseCode,
         });
       },
       onError: (e) => {

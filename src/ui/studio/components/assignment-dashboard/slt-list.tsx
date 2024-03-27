@@ -6,7 +6,7 @@ export default function SltList({ slts }: { slts: ModuleSLT[] }) {
       <p>SLTs - Color Coded!</p>
       {slts.map((s) => (
         <p key={s.id}>
-          {s.sltText} is {s.assignmentId ? "included" : "not included"}
+          {s.sltText} - SHOW STATUS
         </p>
       ))}
     </div>

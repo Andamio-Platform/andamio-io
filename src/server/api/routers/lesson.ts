@@ -23,7 +23,7 @@ export const lessonRouter = createTRPCRouter({
           },
           module: {
             moduleCode: input.moduleCode,
-            course: {
+            originalCourse: {
               courseCode: input.courseCode,
             },
           },
@@ -38,7 +38,7 @@ export const lessonRouter = createTRPCRouter({
         where: {
           module: {
             moduleCode: input.moduleCode,
-            course: {
+            originalCourse: {
               courseCode: input.courseCode,
             },
           },
@@ -54,10 +54,14 @@ export const lessonRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
+      if (!ctx.session.user.creatorId) {
+        throw new Error('User does not have Creator role.');
+      }
+
       return ctx.db.lesson.create({
         data: {
           slt: { connect: { id: input.sltId } },
-          createdBy: { connect: { id: ctx.session.user.id } },
+          createdBy: { connect: { id: ctx.session.user.creatorId } },
           module: {
             connect: {
               id: input.moduleId,
@@ -111,6 +115,10 @@ export const lessonRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ctx, input}) => {
+      if (!ctx.session.user.creatorId) {
+        throw new Error('User does not have Creator role.');
+      }
+
       return ctx.db.lesson.upsert({
         where: {
           id: input.id
@@ -123,7 +131,7 @@ export const lessonRouter = createTRPCRouter({
           videoUrl: input.videoUrl,
           contentJson: input.contentJson,
           live: input.live,
-          createdById: ctx.session.user.id,
+          createdById: ctx.session.user.creatorId,
         },
         update: {
           title: input.title,

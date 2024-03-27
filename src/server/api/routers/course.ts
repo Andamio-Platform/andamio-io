@@ -24,7 +24,12 @@ export const courseRouter = createTRPCRouter({
         },
         include: {
           modules: true,
-          managers: true,
+          contributors: {
+            include: {
+              user: true
+            }
+          },
+          variants: true
         },
       });
     }),
@@ -41,6 +46,11 @@ export const courseRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
+
+      if (!ctx.session.user.creatorId) {
+        throw new Error('User does not have Creator role.');
+      }
+
       return ctx.db.course.create({
         data: {
           courseCode: input.courseCode,
@@ -49,7 +59,7 @@ export const courseRouter = createTRPCRouter({
           category: input.category,
           imageUrl: input.imageUrl,
           videoUrl: input.videoUrl,
-          createdBy: { connect: { id: ctx.session.user.id } },
+          createdBy: { connect: { id: ctx.session.user.creatorId } },
         },
       });
     }),
@@ -58,12 +68,17 @@ export const courseRouter = createTRPCRouter({
     return ctx.db.course.findMany({
       where: {
         OR: [
-          { createdBy: { id: ctx.session.user.id } },
-          { managers: { some: { id: ctx.session.user.id } } },
+          { createdBy: { id: ctx.session.user.creatorId } },
+          { contributors: { some: { id: ctx.session.user.creatorId } } },
         ],
       },
       include: {
-        managers: true,
+        modules: true,
+        contributors: {
+          include: {
+            user: true
+          }
+        },
         variants: true,
       },
     });
@@ -108,12 +123,12 @@ export const courseRouter = createTRPCRouter({
           courseCode: input.courseCode,
         },
         data: {
-          managers: {
+          contributors: {
             connect: { id: input.userId },
           },
         },
         include: {
-          managers: true,
+          contributors: true,
         },
       });
     }),
@@ -131,12 +146,12 @@ export const courseRouter = createTRPCRouter({
           courseCode: input.courseCode,
         },
         data: {
-          managers: {
+          contributors: {
             disconnect: { id: input.userId },
           },
         },
         include: {
-          managers: true,
+          contributors: true,
         },
       });
     }),

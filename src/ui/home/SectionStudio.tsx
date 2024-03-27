@@ -18,7 +18,7 @@ export default function SectionStudio() {
       <div className="mt-10 flex items-center justify-center gap-x-6">
         <Link href={`/studio`}>
           <span className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-            Go to Studio
+            Go to Studio (Hide this for non-Creators)
           </span>
         </Link>
         {/* <a href="#" className="text-sm font-semibold leading-6 text-gray-900">

@@ -2,10 +2,11 @@ import { Network } from "@prisma/client";
 import { Course } from "~/types/db";
 import { api } from "~/utils/api";
 
-export default function useCourseOnchain(course: Course, network: Network) {
+export default function useCourseOnchain(courseId: string, network: Network) {
+
   const { data: courseOnchain, isLoading: isLoadingCourseOnchain } =
     api.courseOnChainInstance.getCourseOnchainInstances.useQuery({
-      courseId: course.id,
+      courseId: courseId,
       network: network,
     });
 

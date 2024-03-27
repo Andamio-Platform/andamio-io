@@ -50,6 +50,8 @@ export default function ModuleContainer({
   setSelectedModule: (module: Module) => void;
   setModuleDialogOpen: (open: boolean) => void;
 }) {
+  if (!course) return
+
   const ctx = api.useUtils();
 
   // const [showContent, setShowContent] = useState<boolean>(false);
@@ -197,7 +199,7 @@ export default function ModuleContainer({
                     <SortableSLT
                       slt={sI.slt}
                       module={module}
-                      course={course}
+                      courseCode={course.courseCode}
                       key={sI.slt.id}
                       isLoading={false}
                     />
@@ -244,7 +246,7 @@ export default function ModuleContainer({
         <DialogSLT
           sltDialogOpen={sltDialogOpen}
           setSltDialogOpen={setSltDialogOpen}
-          course={course}
+          courseCode={course.courseCode}
           module={module}
         />
       )}
@@ -252,7 +254,7 @@ export default function ModuleContainer({
         <DialogAssignment
           assignmentDialogOpen={assignmentDialogOpen}
           setAssignmentDialogOpen={setAssignmentDialogOpen}
-          course={course}
+          courseCode={course.courseCode}
           module={module}
         />
       )}

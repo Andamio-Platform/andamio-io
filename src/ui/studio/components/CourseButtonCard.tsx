@@ -12,8 +12,8 @@ export default function CourseButtonCard({
   return (
     <Link href={link}>
       <Card>
-        <p className="text-sm font-medium text-gray-900">{course.title}</p>
-        <p className="mt-1 text-sm text-gray-500">{course.description}</p>
+        <p className="text-sm font-medium text-gray-900">{course?.title}</p>
+        <p className="mt-1 text-sm text-gray-500">{course?.description}</p>
       </Card>
     </Link>
   );

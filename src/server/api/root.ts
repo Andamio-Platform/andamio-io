@@ -8,6 +8,8 @@ import { courseOnChainInstanceRouter } from "./routers/course-onChainInstance";
 import { sltRouter } from "./routers/slt";
 import { lessonRouter } from "./routers/lesson";
 import { assignmentRouter } from "./routers/assignment";
+import { creatorRouter } from "./routers/creator";
+import { learnerRouter } from "./routers/learner";
 
 /**
  * This is the primary router for your server.
@@ -16,6 +18,8 @@ import { assignmentRouter } from "./routers/assignment";
  */
 export const appRouter = createTRPCRouter({
   user: userRouter,
+  creator: creatorRouter,
+  learner: learnerRouter,
 
   course: courseRouter,
   module: moduleRouter,

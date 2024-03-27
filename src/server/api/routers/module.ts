@@ -21,11 +21,11 @@ export const moduleRouter = createTRPCRouter({
               moduleIndex: true,
               moduleId: true,
               sltText: true,
-              assignmentId: true,
+              assignments: true,
               createdById: true,
             },
           },
-          assignments: true
+          assignments: true,
         },
       });
     }),
@@ -35,12 +35,12 @@ export const moduleRouter = createTRPCRouter({
     .query(({ ctx, input }) => {
       return ctx.db.module.findMany({
         where: {
-          course: {
+          originalCourse: {
             courseCode: input.courseCode,
           },
         },
         include: {
-          course: {
+          originalCourse: {
             select: {
               courseCode: true,
             },
@@ -51,7 +51,7 @@ export const moduleRouter = createTRPCRouter({
               moduleIndex: true,
               moduleId: true,
               sltText: true,
-              assignmentId: true,
+              assignments: true,
               createdById: true,
             },
           },
@@ -61,7 +61,7 @@ export const moduleRouter = createTRPCRouter({
               title: true,
             },
           },
-          assignments: true
+          assignments: true,
         },
       });
     }),
@@ -76,12 +76,16 @@ export const moduleRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
+      if (!ctx.session.user.creatorId) {
+        throw new Error("User does not have Creator role.");
+      }
+
       return ctx.db.module.create({
         data: {
           moduleCode: input.moduleCode,
           title: input.title,
           description: input.description,
-          course: {
+          originalCourse: {
             connect: {
               id: input.courseId,
             },

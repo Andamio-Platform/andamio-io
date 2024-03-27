@@ -40,12 +40,12 @@ const SortableSltContext = createContext<Context>({
 export function SortableSLT({
   slt,
   module,
-  course,
+  courseCode,
   isLoading, // todo
 }: {
   slt: ModuleSLT;
   module: Module;
-  course: Course;
+  courseCode: string;
   isLoading: boolean;
 }) {
   const {
@@ -80,7 +80,7 @@ export function SortableSLT({
         <div className="mx-auto my-1 flex w-11/12 flex-row gap-1">
           <DragHandle />
           <RowSLT
-            course={course}
+            courseCode={courseCode}
             module={module}
             slt={slt}
             {...attributes}
@@ -94,11 +94,11 @@ export function SortableSLT({
 
 // RowSLT is exported for use outside of a Draggable Element
 export function RowSLT({
-  course,
+  courseCode,
   module,
   slt,
 }: {
-  course: Course;
+  courseCode: string;
   module: Module;
   slt: ModuleSLT;
 }) {
@@ -118,7 +118,7 @@ export function RowSLT({
           moduleCode: module.moduleCode,
         });
         void ctx.module.getCourseModules.invalidate({
-          courseCode: course.courseCode,
+          courseCode: courseCode,
         });
       },
       onError: (e) => {
@@ -165,7 +165,7 @@ export function RowSLT({
         sltDeleteDialogOpen={sltDeleteDialogOpen}
         setSltDeleteDialogOpen={setSltDeleteDialogOpen}
         slt={slt}
-        course={course}
+        courseCode={courseCode}
         module={module}
       />
       {module && (
@@ -194,7 +194,7 @@ export function RowSLT({
           <div className="col-span-2 col-start-11 flex items-center justify-between px-8">
             <Button variant="ghost" size="icon">
               <Link
-                href={`/studio/${course.courseCode}/${module.moduleCode}/lesson/${slt.moduleIndex}`}
+                href={`/studio/${courseCode}/${module.moduleCode}/lesson/${slt.moduleIndex}`}
               >
                 <FileIcon width="18" height="18" />
               </Link>

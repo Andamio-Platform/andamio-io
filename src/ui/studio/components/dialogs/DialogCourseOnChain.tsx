@@ -23,6 +23,7 @@ export default function DialogCourseOnChain({
   courseOnchain?: CourseOnChainInstance;
   selectedNetwork: Network;
 }) {
+  if (!course) return
   const ctx = api.useUtils();
 
   const { mutate: create, isLoading: isLoadingCreate } =
@@ -91,6 +92,8 @@ export default function DialogCourseOnChain({
 
   function onSubmit(data: FieldValues) {
     console.log(data);
+
+    if(!course) return
 
     if (courseOnchain && courseOnchain.id) {
       update({

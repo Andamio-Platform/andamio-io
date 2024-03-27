@@ -31,6 +31,8 @@ export default function PageCourseAssignmentContent({
 }) {
   const ctx = api.useUtils();
 
+  if(!course) return <div>ERROR - sorry!</div>
+
   const courseCode = course.courseCode;
   const moduleCode = module.moduleCode;
 

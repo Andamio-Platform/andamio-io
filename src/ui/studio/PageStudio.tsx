@@ -5,20 +5,12 @@ import DialogCourse from "./components/dialogs/DialogCourse";
 import StudioLayout from "./components/layout/StudioLayout";
 
 export default function PageStudio() {
-  const [courseDialogOpen, setCourseDialogOpen] = useState(false);
-
   return (
     <StudioLayout>
       <div className="flex flex-col gap-4">
-        <StudioHeader setCourseDialogOpen={setCourseDialogOpen} />
+        <StudioHeader />
         <ListCourses />
       </div>
-
-      <DialogCourse
-        courseDialogOpen={courseDialogOpen}
-        setCourseDialogOpen={setCourseDialogOpen}
-      />
-
     </StudioLayout>
   );
 }

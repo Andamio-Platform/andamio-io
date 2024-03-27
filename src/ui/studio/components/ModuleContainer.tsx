@@ -11,7 +11,6 @@ import {
   ModuleSLT,
   ModuleVariant,
 } from "~/types/db";
-import CardButton from "~/components/buttons/CardButton";
 import DialogAssignment from "./dialogs/DialogAssignment";
 import DialogSLT from "./dialogs/DialogSLT";
 import { SortableSLT } from "./slt/RowSLT";
@@ -34,6 +33,8 @@ import { GearIcon, PlusCircledIcon } from "@radix-ui/react-icons";
 import AssignmentContainer from "./AssignmentContainer";
 import useAssignments from "~/hooks/useAssignments";
 import Link from "next/link";
+import { Card } from "~/components/ui/card";
+import { Button } from "~/components/ui/button";
 
 type sltI = { slt: ModuleSLT; sltIndex: number; id: string };
 
@@ -50,7 +51,7 @@ export default function ModuleContainer({
   setSelectedModule: (module: Module) => void;
   setModuleDialogOpen: (open: boolean) => void;
 }) {
-  if (!course) return
+  if (!course) return;
 
   const ctx = api.useUtils();
 
@@ -154,9 +155,9 @@ export default function ModuleContainer({
   }
 
   return (
-    <div className="mx-5 my-3 w-full rounded-md border border-neutral-900 p-1 sm:mx-auto sm:w-[630px] md:w-[750px] lg:w-[850px] xl:w-[950px]">
+    <div className="mx-5 my-3 w-full rounded-md border border-secondary-foreground p-1 sm:mx-auto sm:w-[630px] md:w-[750px] lg:w-[850px] xl:w-[950px]">
       <AccordionItem value={module.moduleCode}>
-        <AccordionTrigger className="flex w-full flex-row justify-between rounded-md bg-neutral-900 px-3 text-white">
+        <AccordionTrigger className="flex w-full flex-row justify-between rounded-md bg-foreground px-3 text-background">
           <div className="grid w-full grid-cols-12 py-2">
             <div className="col-span-1">{module.moduleCode}</div>
             <div className="col-span-2">
@@ -208,15 +209,6 @@ export default function ModuleContainer({
                 {/* todo 2024-03-23 - look at codesandbox example - can imagine extracting this component and adding overlay */}
               </DndContext>
 
-              <CardButton
-                onClickHandler={() => {
-                  setSltDialogOpen(true);
-                }}
-                className="w-full"
-              >
-                <PlusCircledIcon />
-                Add Student Learning Target
-              </CardButton>
               {/* todo - map this: */}
               {assignments && assignments[0] && (
                 <Link
@@ -225,39 +217,23 @@ export default function ModuleContainer({
                   <AssignmentContainer assignment={assignments[0]} />
                 </Link>
               )}
-
-              <CardButton
-                onClickHandler={() => {
-                  setAssignmentDialogOpen(true);
-                }}
-                className="w-full"
-              >
-                <PlusCircledIcon />
-                Add Assignment{" "}
-                {assignments &&
-                  assignments.length > 0 &&
-                  "Is multiple assignments a premium feature?"}
-              </CardButton>
+              <DialogSLT
+                sltDialogOpen={sltDialogOpen}
+                setSltDialogOpen={setSltDialogOpen}
+                courseCode={course.courseCode}
+                module={module}
+              />
+              <div className="my-1" />
+              <DialogAssignment
+                assignmentDialogOpen={assignmentDialogOpen}
+                setAssignmentDialogOpen={setAssignmentDialogOpen}
+                courseCode={course.courseCode}
+                module={module}
+              />
             </div>
           </>
         </AccordionContent>
       </AccordionItem>
-      {module && (
-        <DialogSLT
-          sltDialogOpen={sltDialogOpen}
-          setSltDialogOpen={setSltDialogOpen}
-          courseCode={course.courseCode}
-          module={module}
-        />
-      )}
-      {module && (
-        <DialogAssignment
-          assignmentDialogOpen={assignmentDialogOpen}
-          setAssignmentDialogOpen={setAssignmentDialogOpen}
-          courseCode={course.courseCode}
-          module={module}
-        />
-      )}
     </div>
   );
 }

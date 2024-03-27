@@ -1,16 +1,11 @@
-import H1 from "~/components/typography/h1";
-import Text from "~/components/typography/text";
 import { Course } from "~/types/db";
-import { Button } from "~/components/ui/button";
-import { useState } from "react";
 import { useSession } from "next-auth/react";
 import DialogCourse from "~/ui/studio/components/dialogs/DialogCourse";
 
 export default function CourseTitle({ course }: { course: Course }) {
-  const [courseDialogOpen, setCourseDialogOpen] = useState(false);
   const { data: sessionData } = useSession();
 
-  if (!course) return
+  if (!course) return;
 
   const isOwner = course.createdById === sessionData?.user?.creatorId;
 
@@ -18,26 +13,15 @@ export default function CourseTitle({ course }: { course: Course }) {
     <>
       <div className="flex">
         <div className="flex flex-grow flex-col gap-2">
-          <H1>{course.title}</H1>
-          <Text>{course.description}</Text>
+          <h1>{course.title}</h1>
+          <p>{course.description}</p>
         </div>
         {isOwner && (
-          <div>
-            <Button
-              onClick={() => {
-                setCourseDialogOpen(true);
-              }}
-            >
-              Edit course
-            </Button>
-          </div>
+          <DialogCourse
+            course={course}
+          />
         )}
       </div>
-      <DialogCourse
-        courseDialogOpen={courseDialogOpen}
-        setCourseDialogOpen={setCourseDialogOpen}
-        course={course}
-      />
     </>
   );
 }

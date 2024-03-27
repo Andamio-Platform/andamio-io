@@ -5,10 +5,10 @@
 // import { FontDefault, FontSerif, FontMono } from "@/ui/icons";
 import { Check, Menu as MenuIcon, Monitor, Moon, SunDim } from "lucide-react";
 import { useTheme } from "next-themes";
-import { Popover, PopoverContent, PopoverTrigger } from "./popover";
-import { cn } from "../utils";
+import { cn } from "../../ui/studio/components/ContentEditor/utils";
 import { cva } from "class-variance-authority";
-import { Button } from "./button";
+import { Button } from "~/components/ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "~/components/ui/popover";
 
 // const fonts = [
 //   {
@@ -45,7 +45,7 @@ export default function Menu() {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="ghost" size="icon">
+        <Button intent="ghost" size="icon">
           <MenuIcon width={16} />
         </Button>
       </PopoverTrigger>
@@ -75,7 +75,7 @@ export default function Menu() {
         </p>
         {appearances.map(({ theme, icon }) => (
           <Button
-            variant="ghost"
+            intent="ghost"
             key={theme}
             className="flex w-full items-center justify-between rounded px-2 py-1.5 text-sm"
             onClick={() => {

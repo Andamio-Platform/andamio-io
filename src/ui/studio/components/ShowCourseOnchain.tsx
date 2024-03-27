@@ -15,7 +15,7 @@ export default function ShowCourseOnchain({
   course: Course;
   network: Network;
 }) {
-  if (!course) return
+  if (!course) return;
 
   const [showDialog, setShowDialog] = useState<boolean>(false);
 
@@ -26,7 +26,10 @@ export default function ShowCourseOnchain({
   const { data: sessionData } = useSession();
   const isOwner = course.createdById === sessionData?.user?.id;
 
-  const { courseOnchain, isLoadingCourseOnchain } = useCourseOnchain(course.id, network);
+  const { courseOnchain, isLoadingCourseOnchain } = useCourseOnchain(
+    course.id,
+    network,
+  );
 
   useEffect(() => {
     if (courseOnchain) {
@@ -43,13 +46,13 @@ export default function ShowCourseOnchain({
               <tr>
                 <th
                   scope="col"
-                  className="sticky top-0 z-10 border-b border-gray-300 bg-white bg-opacity-75 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter sm:pl-6 lg:pl-8"
+                  className="sticky top-0 z-10 border-b border-gray-300 bg-secondary bg-opacity-75 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter sm:pl-6 lg:pl-8"
                 >
                   On Chain Info (Network: {selectedOnChainInstance.network})
                 </th>
                 <th
                   scope="col"
-                  className="sticky top-0 z-10 hidden border-b border-gray-300 bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter sm:table-cell"
+                  className="sticky top-0 z-10 hidden border-b border-gray-300 bg-secondary bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter sm:table-cell"
                 >
                   {isOwner && (
                     <div className="flex place-content-end">
@@ -159,26 +162,14 @@ export default function ShowCourseOnchain({
           </table>
         </Card>
       ) : (
-        <>
-          <div className="flex place-content-end">
-            <Button
-              onClick={() => {
-                setShowDialog(true);
-              }}
-            >
-              Add On-Chain Info
-            </Button>
-          </div>
-        </>
+        <DialogCourseOnChain
+          dialogOpen={showDialog}
+          setDialogOpen={setShowDialog}
+          course={course}
+          courseOnchain={selectedOnChainInstance}
+          selectedNetwork={network}
+        />
       )}
-
-      <DialogCourseOnChain
-        dialogOpen={showDialog}
-        setDialogOpen={setShowDialog}
-        course={course}
-        courseOnchain={selectedOnChainInstance}
-        selectedNetwork={network}
-      />
     </>
   );
 }

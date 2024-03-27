@@ -23,10 +23,10 @@ const inputVariants = cva(
     variants: {
       intent: {
         lesson:
-          "bg-neutral-100 border-b border-neutral-400 text-primary-foreground",
+          "bg-primary border-b border-neutral-400 text-primary-foreground",
         title: "border-b border-neutral-400 text-primary-foreground",
         slt: "flex w-[500px] border-b border-neutral-400",
-        text: "bg-neutral-100 border-b border-neutral-400 text-primary-foreground",
+        text: "bg-primary border-b border-neutral-400 text-primary-foreground",
       },
       formTextSize: {
         xl: "text-4xl text-black",
@@ -123,10 +123,10 @@ const ToggleEditableField = React.forwardRef<
                   <Button
                     onClick={() => setEditText(!editText)}
                     size="icon"
-                    variant="lesson"
+                    intent="lesson"
                   >
                     <Pencil1Icon
-                      className="rounded-full text-blue-900 bg-white m-1"
+                      className="rounded-full text-primary bg-white m-1"
                       width="22"
                       height="22"
                     />
@@ -158,7 +158,7 @@ const ToggleEditableField = React.forwardRef<
                       <Button
                         onClick={() => setEditText(!editText)}
                         size="icon"
-                        variant="ghost"
+                        intent="ghost"
                       >
                         <Pencil1Icon width="18" height="18" />
                       </Button>

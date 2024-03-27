@@ -1,24 +1,14 @@
-import { Button } from "~/components/ui/button";
-import H1 from "~/components/typography/h1";
+import { useState } from "react";
+import DialogCourse from "./dialogs/DialogCourse";
 
-export default function StudioHeader({
-  setCourseDialogOpen,
-}: {
-  setCourseDialogOpen: (open: boolean) => void;
-}) {
+export default function StudioHeader() {
   return (
     <div className="flex">
       <div className="flex-grow">
-        <H1>Your Courses</H1>
+        <h1>Your Courses</h1>
       </div>
       <div>
-        <Button
-          onClick={() => {
-            setCourseDialogOpen(true);
-          }}
-        >
-          New course
-        </Button>
+        <DialogCourse />
       </div>
     </div>
   );

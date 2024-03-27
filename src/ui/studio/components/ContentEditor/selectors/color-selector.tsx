@@ -2,8 +2,8 @@ import { Check, ChevronDown } from "lucide-react";
 import type { Dispatch, SetStateAction } from "react";
 import { EditorBubbleItem, useEditor } from "novel";
 
-import { PopoverTrigger, Popover, PopoverContent } from "../ui/popover";
-import { Button } from "../ui/button";
+import { Button } from "~/components/ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "~/components/ui/popover";
 export interface BubbleColorMenuItem {
   name: string;
   color: string;
@@ -118,7 +118,7 @@ export const ColorSelector = ({
   return (
     <Popover modal={true} open={open} onOpenChange={onOpenChange}>
       <PopoverTrigger asChild>
-        <Button className="gap-2 rounded-none" variant="ghost">
+        <Button className="gap-2 rounded-none" intent="ghost">
           <span
             className="rounded-sm px-1"
             style={{

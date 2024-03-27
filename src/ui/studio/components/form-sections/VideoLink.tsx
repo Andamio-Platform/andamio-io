@@ -8,7 +8,7 @@ export default function VideoLink({
   form: FieldValues;
 }) {
   return (
-    <div className="col-span-4 rounded-md border border-neutral-900 p-5">
+    <div className="col-span-4 rounded-md border border-secondary-foreground p-5">
       <FormInput
         name="videoUrl"
         label="Video URL"

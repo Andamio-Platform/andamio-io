@@ -12,7 +12,7 @@ export default function AssignmentDetails({
   if (!course) return
 
   return (
-    <div className="col-span-4 rounded-md border border-neutral-900 p-3">
+    <div className="col-span-4 rounded-md border border-secondary-foreground p-3">
       <p>Course: {course.title}</p>
       <p>Module: {module.title}</p>
       <p>Assignment: {assignment.title}</p>

@@ -1,8 +1,6 @@
 import { FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
-import DialogBox from "~/components/dialog";
-import DialogParagraph from "~/components/dialog/paragraph";
 import { Course, Module } from "~/types/db";
 import { Button } from "~/components/ui/button";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
@@ -14,6 +12,7 @@ import { useEffect } from "react";
 import FormSelect from "~/components/form/form-select";
 import useCourseModules from "~/hooks/useCourseModules";
 import Loading from "~/components/loading";
+import DialogForm from "~/components/form/dialog-form";
 
 export default function DialogSLT({
   sltDialogOpen,
@@ -28,9 +27,8 @@ export default function DialogSLT({
 }) {
   const ctx = api.useUtils();
 
-  const { courseModules, isLoadingCourseModules } = useCourseModules(
-    courseCode,
-  );
+  const { courseModules, isLoadingCourseModules } =
+    useCourseModules(courseCode);
 
   const { mutate: sltCreate, isLoading: isLoadingCreate } =
     api.slt.create.useMutation({
@@ -89,40 +87,37 @@ export default function DialogSLT({
         <Loading />
       ) : (
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <DialogBox
-              title="Create a new Student Learning Target"
-              isForm={{
-                buttonLabel: "Create",
-                buttonLoading: isLoadingCreate,
-                buttonDisabled: isLoadingCreate,
-              }}
-              open={sltDialogOpen}
-              setOpen={setSltDialogOpen}
-            >
-              <DialogParagraph>
-                Adding SLT {module.moduleCode}.{module.slts.length + 1}
-              </DialogParagraph>
-              {/* Todo: look at the line above. If a different module is selected from the menu below, then the SLT id should update dynamically */}
+          <DialogForm
+            openButton="Add SLT"
+            openButtonIntent="dialog"
+            title="Create a new Student Learning Target"
+            buttonLabel="Add SLT"
+            buttonLoading={isLoadingCreate}
+            buttonDisabled={isLoadingCreate}
+            handleSubmit={form.handleSubmit(onSubmit)}
+          >
+            <p>
+              Adding SLT {module.moduleCode}.{module.slts.length + 1}
+            </p>
+            {/* Todo: look at the line above. If a different module is selected from the menu below, then the SLT id should update dynamically */}
 
-              <div className="mt-4 grid grid-cols-1 gap-y-4">
-                <FormInput name="sltText" label="Enter SLT Text" form={form} />
+            <div className="mt-4 grid grid-cols-1 gap-y-4">
+              <FormInput name="sltText" label="Enter SLT Text" form={form} />
 
-                <FormSelect
-                  name="moduleId"
-                  form={form}
-                  options={
-                    courseModules
-                      ? courseModules.map((module) => ({
-                          value: module.id,
-                          label: `${module.title} (${module.moduleCode})`,
-                        }))
-                      : []
-                  }
-                />
-              </div>
-            </DialogBox>
-          </form>
+              <FormSelect
+                name="moduleId"
+                form={form}
+                options={
+                  courseModules
+                    ? courseModules.map((module) => ({
+                        value: module.id,
+                        label: `${module.title} (${module.moduleCode})`,
+                      }))
+                    : []
+                }
+              />
+            </div>
+          </DialogForm>
         </Form>
       )}
     </>

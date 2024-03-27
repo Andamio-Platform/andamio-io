@@ -1,8 +1,6 @@
 import { FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
-import DialogBox from "~/components/dialog";
-import DialogParagraph from "~/components/dialog/paragraph";
 import { Course, Module } from "~/types/db";
 import { Button } from "~/components/ui/button";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
@@ -11,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "~/components/ui/form";
 import FormInput from "~/components/form/form-input";
 import { useEffect } from "react";
+import DialogForm from "~/components/form/dialog-form";
 
 export default function DialogModule({
   moduleDialogOpen,
@@ -23,7 +22,7 @@ export default function DialogModule({
   module?: Module;
   course: Course;
 }) {
-  if(!course) return
+  if (!course) return;
   const ctx = api.useUtils();
 
   // Todo: Implement Course Variants
@@ -169,70 +168,61 @@ export default function DialogModule({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <DialogBox
-          title={module ? `Editing ${module.title}` : "Create a new module"}
-          isForm={{
-            buttonLabel: module ? "Save" : "Create",
-            buttonLoading: isLoadingCreate || isLoadingUpdate,
-            buttonDisabled: isLoadingCreate || isLoadingUpdate,
-          }}
-          open={moduleDialogOpen}
-          setOpen={setModuleDialogOpen}
-        >
-          <DialogParagraph>
-            {module
-              ? "You are editing a module. Make changes and click 'Save'."
-              : "Create a new module by filling in the details below."}
-          </DialogParagraph>
+      <DialogForm
+        openButton="Add Module"
+        openButtonIntent="dialog"
+        title={module ? `Editing ${module.title}` : "Create a new module"}
+        buttonLabel={module ? "Save" : "Create"}
+        buttonLoading={isLoadingCreate || isLoadingUpdate}
+        buttonDisabled={isLoadingCreate || isLoadingUpdate}
+        handleSubmit={form.handleSubmit(onSubmit)}
+      >
+        <p>
+          {module
+            ? "You are editing a module. Make changes and click 'Save'."
+            : "Create a new module by filling in the details below."}
+        </p>
 
-          {/* <Tabs
-        tabs={listCourseVariant}
-        current={selectedVariantName}
-        onChange={setSelectedVariantName}
-      /> */}
+        <div className="mt-4 grid grid-cols-1 gap-y-4">
+          <FormInput name="title" label="Module Title" form={form} />
 
-          <div className="mt-4 grid grid-cols-1 gap-y-4">
-            <FormInput name="title" label="Module Title" form={form} />
+          <FormInput
+            name="description"
+            label="Module Description"
+            form={form}
+          />
 
-            <FormInput
-              name="description"
-              label="Module Description"
-              form={form}
-            />
+          <FormInput
+            name="moduleCode"
+            label="Module Code"
+            form={form}
+            disabled={false}
+          />
 
-            <FormInput
-              name="moduleCode"
-              label="Module Code"
-              form={form}
-              disabled={false}
-            />
-
-            {module && (
-              <div className="flex items-center gap-2">
-                <div className="grow"></div>
-                <Button
-                  type="button"
-                  disabled={isLoadingDelete}
-                  color="red"
-                  onClick={() =>
-                    // todo: change this is are you sure
-                    moduleDelete({
-                      moduleId: module.id,
-                    })
-                  }
-                >
-                  {isLoadingDelete ? (
-                    <ArrowPathIcon className="h-5 w-5 animate-spin" />
-                  ) : (
-                    <>Delete</>
-                  )}
-                </Button>
-              </div>
-            )}
-          </div>
-        </DialogBox>
-      </form>
+          {module && (
+            <div className="flex items-center gap-2">
+              <div className="grow"></div>
+              <Button
+                type="button"
+                disabled={isLoadingDelete}
+                color="red"
+                onClick={() =>
+                  // todo: change this is are you sure
+                  moduleDelete({
+                    moduleId: module.id,
+                  })
+                }
+              >
+                {isLoadingDelete ? (
+                  <ArrowPathIcon className="h-5 w-5 animate-spin" />
+                ) : (
+                  <>Delete</>
+                )}
+              </Button>
+            </div>
+          )}
+        </div>
+      </DialogForm>
     </Form>
   );
 }

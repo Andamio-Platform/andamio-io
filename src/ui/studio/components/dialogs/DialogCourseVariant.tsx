@@ -2,13 +2,12 @@ import { FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
 import { useEffect } from "react";
-import DialogBox from "~/components/dialog";
-import DialogParagraph from "~/components/dialog/paragraph";
 import { Course, CourseVariant } from "~/types/db";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import FormInput from "~/components/form/form-input";
 import { Form } from "~/components/ui/form";
+import DialogForm from "~/components/form/dialog-form";
 
 export default function DialogCourseVariant({
   dialogOpen,
@@ -108,42 +107,39 @@ export default function DialogCourseVariant({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <DialogBox
-          title={
-            courseVariant
-              ? `Editing ${courseVariant.variantCode}`
-              : "Create a new course variant"
-          }
-          isForm={{
-            buttonLabel: courseVariant ? "Save" : "Create",
-            buttonLoading: isLoadingCreate || isLoadingUpdate,
-            buttonDisabled: isLoadingCreate || isLoadingUpdate,
-          }}
-          open={dialogOpen}
-          setOpen={setDialogOpen}
-        >
-          <DialogParagraph>
-            {courseVariant
-              ? "You are editing an existing variant. Make changes and click 'Save'."
-              : "Creating a new variant is easy. lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, consequuntur molestias numquam amet blanditiis voluptate sunt illo inventore atque hic, asperiores recusandae, reiciendis quae nostrum sit quis accusamus possimus quisquam?"}
-          </DialogParagraph>
+      <DialogForm
+        openButton="Add a Variant"
+        openButtonIntent="dialog"
+        title={
+          courseVariant
+            ? `Editing ${courseVariant.variantCode}`
+            : "Create a new course variant"
+        }
+        buttonLabel={courseVariant ? "Save" : "Create"}
+        buttonLoading={isLoadingCreate || isLoadingUpdate}
+        buttonDisabled={isLoadingCreate || isLoadingUpdate}
+        handleSubmit={form.handleSubmit(onSubmit)}
+      >
+        <p>
+          {courseVariant
+            ? "You are editing an existing variant. Make changes and click 'Save'."
+            : "Creating a new variant is easy. lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, consequuntur molestias numquam amet blanditiis voluptate sunt illo inventore atque hic, asperiores recusandae, reiciendis quae nostrum sit quis accusamus possimus quisquam?"}
+        </p>
 
-          <div className="mt-4 grid grid-cols-1 gap-y-4">
-            <FormInput name="title" label="Variant Title" form={form} />
+        <div className="mt-4 grid grid-cols-1 gap-y-4">
+          <FormInput name="title" label="Variant Title" form={form} />
 
-            <FormInput
-              name="description"
-              label="Variant Description"
-              form={form}
-            />
+          <FormInput
+            name="description"
+            label="Variant Description"
+            form={form}
+          />
 
-            <FormInput name="videoUrl" label="Variant Video URL" form={form} />
+          <FormInput name="videoUrl" label="Variant Video URL" form={form} />
 
-            <FormInput name="variantCode" label="Variant Code" form={form} />
-          </div>
-        </DialogBox>
-      </form>
+          <FormInput name="variantCode" label="Variant Code" form={form} />
+        </div>
+      </DialogForm>
     </Form>
   );
 }

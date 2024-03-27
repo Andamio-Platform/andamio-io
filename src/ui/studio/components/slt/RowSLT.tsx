@@ -161,20 +161,13 @@ export function RowSLT({
 
   return (
     <div ref={setNodeRef}>
-      <DialogSLTDelete
-        sltDeleteDialogOpen={sltDeleteDialogOpen}
-        setSltDeleteDialogOpen={setSltDeleteDialogOpen}
-        slt={slt}
-        courseCode={courseCode}
-        module={module}
-      />
       {module && (
         <div
-          className={`mx-auto my-1 grid w-full h-[55px] grid-cols-12 py-2 sm:w-[535px] md:w-[645px] lg:w-[735px] xl:w-[825px] ${isLoadingUpdate && "opacity-50"}`}
+          className={`mx-auto my-1 grid h-[55px] w-full grid-cols-12 py-2 sm:w-[535px] md:w-[645px] lg:w-[735px] xl:w-[825px] ${isLoadingUpdate && "opacity-50"}`}
           key={`${module.moduleCode}-${slt.moduleIndex}`}
         >
           <div className="col-span-1 flex items-center">
-            <p className="px-2 font-semibold tracking-wide">
+            <p className="px-2 tracking-wide">
               {module.moduleCode}.{slt.moduleIndex}
             </p>
           </div>
@@ -192,22 +185,20 @@ export function RowSLT({
           </div>
 
           <div className="col-span-2 col-start-11 flex items-center justify-between px-8">
-            <Button variant="ghost" size="icon">
+            <Button intent="ghost" size="icon">
               <Link
                 href={`/studio/${courseCode}/${module.moduleCode}/lesson/${slt.moduleIndex}`}
               >
                 <FileIcon width="18" height="18" />
               </Link>
             </Button>
-            <Button
-              onClick={() => {
-                setSltDeleteDialogOpen(true);
-              }}
-              variant="ghost"
-              size="icon"
-            >
-              <CrossCircledIcon width="18" height="18" />
-            </Button>
+            <DialogSLTDelete
+              sltDeleteDialogOpen={sltDeleteDialogOpen}
+              setSltDeleteDialogOpen={setSltDeleteDialogOpen}
+              slt={slt}
+              courseCode={courseCode}
+              module={module}
+            />
           </div>
         </div>
       )}
@@ -221,7 +212,7 @@ export function DragHandle() {
 
   return (
     <button
-      className="rounded-md px-1 transition-colors duration-500 ease-in-out hover:bg-gray-200"
+      className="rounded-md px-1 transition-colors duration-500 ease-in-out hover:bg-accent"
       {...attributes}
       {...listeners}
       ref={setNodeRef}

@@ -27,7 +27,7 @@ const inputVariants = cva(
     variants: {
       intent: {
         description:
-          "bg-neutral-100 border-b border-neutral-400 text-primary-foreground ",
+          "bg-primary border-b border-neutral-400 text-primary-foreground ",
       },
       formTextSize: {
         md: "w-[500px] min-h-[190px] text-left text-pretty text-black",
@@ -79,8 +79,8 @@ const ToggleEditableTextArea = React.forwardRef<
         control={form.control}
         name={props.name}
         render={({ field }) => (
-          <FormItem className="flex w-11/12 ">
-            <FormControl className="flex w-full">
+          <FormItem className="flex w-full ">
+            <FormControl className="flex w-full bg-secondary">
               <textarea
                 {...field}
                 placeholder={props.placeholder}
@@ -124,10 +124,10 @@ const ToggleEditableTextArea = React.forwardRef<
                   <Button
                     onClick={() => setEditText(!editText)}
                     size="icon"
-                    variant="ghost"
+                    intent="ghost"
                   >
                     <Pencil1Icon
-                      className="m-1 rounded-full bg-white text-blue-900"
+                      className="m-1 rounded-full bg-background text-primary"
                       width="20"
                       height="20"
                     />
@@ -159,10 +159,10 @@ const ToggleEditableTextArea = React.forwardRef<
                       <Button
                         onClick={() => setEditText(!editText)}
                         size="icon"
-                        variant="ghost"
+                        intent="ghost"
                       >
                         <Pencil1Icon
-                          className="m-1 rounded-full bg-white text-blue-900"
+                          className="m-1 rounded-full bg-white text-primary"
                           width="20"
                           height="20"
                         />

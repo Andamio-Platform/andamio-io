@@ -2,13 +2,11 @@ import { useEffect, useState } from "react";
 import Loading from "~/components/loading";
 import { Course, Module, ModuleVariant } from "~/types/db";
 import DialogModule from "~/ui/studio/components/dialogs/DialogModule";
-import CardButton from "~/components/buttons/CardButton";
-import {
-  PlusCircleIcon,
-} from "@heroicons/react/24/outline";
+import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import useCourseModulesAndVariants from "~/hooks/useCourseModulesAndVariants";
 import ModuleContainer from "./ModuleContainer";
 import { Accordion } from "~/components/ui/accordion";
+import { Button } from "~/components/ui/button";
 
 export default function ModuleComponent({ course }: { course: Course }) {
   const [moduleDialogOpen, setModuleDialogOpen] = useState<boolean>(false);
@@ -16,7 +14,7 @@ export default function ModuleComponent({ course }: { course: Course }) {
     undefined,
   );
 
-  if(!course) return
+  if (!course) return;
 
   const { modules, moduleVariants, isLoading, refetch } =
     useCourseModulesAndVariants(course.courseCode, course.variants);
@@ -43,17 +41,14 @@ export default function ModuleComponent({ course }: { course: Course }) {
 
       {modules === undefined && isLoading && <Loading />}
 
-      <CardButton onClickHandler={addNewModule} className="w-full">
-        <PlusCircleIcon className="h-6 w-6" />
-        Add Module
-      </CardButton>
-
-      <DialogModule
-        moduleDialogOpen={moduleDialogOpen}
-        setModuleDialogOpen={setModuleDialogOpen}
-        course={course}
-        module={selectedModule}
-      />
+      <div className="flex w-full justify-center">
+        <DialogModule
+          moduleDialogOpen={moduleDialogOpen}
+          setModuleDialogOpen={setModuleDialogOpen}
+          course={course}
+          module={selectedModule}
+        />
+      </div>
     </>
   );
 }

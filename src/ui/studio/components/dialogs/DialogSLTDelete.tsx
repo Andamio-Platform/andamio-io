@@ -1,9 +1,8 @@
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
-import DialogBox from "~/components/dialog";
-import DialogParagraph from "~/components/dialog/paragraph";
 import { Course, Module, ModuleSLT } from "~/types/db";
+import DialogForm from "~/components/form/dialog-form";
 
 export default function DialogSLTDelete({
   sltDeleteDialogOpen,
@@ -53,18 +52,16 @@ export default function DialogSLTDelete({
   }
 
   return (
-    <DialogBox
+    <DialogForm
+      openButton="delete"
+      openButtonIntent="dialog"
       title="Confirm Delete Student Learning Target"
-      isForm={{
-        buttonLabel: "Delete",
-        buttonLoading: isLoadingDelete,
-        buttonDisabled: isLoadingDelete,
-        handleSubmit: handleSubmit(() => onSubmit()),
-      }}
-      open={sltDeleteDialogOpen}
-      setOpen={setSltDeleteDialogOpen}
+      buttonLabel="Delete"
+      buttonLoading={isLoadingDelete}
+      buttonDisabled={isLoadingDelete}
+      handleSubmit={handleSubmit(() => onSubmit())}
     >
-      <DialogParagraph>Are you sure?</DialogParagraph>
-    </DialogBox>
+      <p>Are you sure?</p>
+    </DialogForm>
   );
 }

@@ -7,7 +7,7 @@ import { api } from "~/utils/api";
 
 export default function AboutUser() {
   const ctx = api.useUtils();
-  const { data: sessionData } = useSession();
+  const { data: sessionData, update: updateSession } = useSession();
 
   // ok make some buttons so that user can become
   // then test it
@@ -19,10 +19,6 @@ export default function AboutUser() {
     api.creator.create.useMutation({
       onSuccess: (data) => {
         toast.success("Ok, you are a Creator!");
-        void ctx.user.getUserByName.invalidate({
-          username:
-            sessionData && sessionData.user.name ? sessionData.user.name : "",
-        });
       },
       onError: (e) => {
         const errorMessage = e.data?.zodError?.fieldErrors;
@@ -38,10 +34,6 @@ export default function AboutUser() {
     api.learner.create.useMutation({
       onSuccess: (data) => {
         toast.success("Ok, you are a Learner!");
-        void ctx.user.getUserByName.invalidate({
-          username:
-            sessionData && sessionData.user.name ? sessionData.user.name : "",
-        });
       },
       onError: (e) => {
         const errorMessage = e.data?.zodError?.fieldErrors;
@@ -69,7 +61,7 @@ export default function AboutUser() {
     }
   }
 
-  if (!sessionData) return;
+  if (!sessionData) return <>NO SESSION DATA</>;
 
   return (
     <div className="mx-auto my-10 grid w-3/4 grid-cols-3 gap-3">

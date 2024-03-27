@@ -1,11 +1,8 @@
 import { Course } from "~/types/db";
-import { Button } from "~/components/ui/button";
-import { useState } from "react";
 import { useSession } from "next-auth/react";
 import DialogCourse from "~/ui/studio/components/dialogs/DialogCourse";
 
 export default function CourseTitle({ course }: { course: Course }) {
-  const [courseDialogOpen, setCourseDialogOpen] = useState(false);
   const { data: sessionData } = useSession();
 
   if (!course) return;
@@ -21,8 +18,6 @@ export default function CourseTitle({ course }: { course: Course }) {
         </div>
         {isOwner && (
           <DialogCourse
-            courseDialogOpen={courseDialogOpen}
-            setCourseDialogOpen={setCourseDialogOpen}
             course={course}
           />
         )}

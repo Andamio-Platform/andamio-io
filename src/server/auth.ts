@@ -41,12 +41,9 @@ declare module "next-auth" {
 export const authOptions: NextAuthOptions = {
   callbacks: {
     session: async ({ session, user }) => {
-      const creator = await db.creator.findUnique({
-        where: { userId: user.id },
-      });
-
-      const learner = await db.learner.findUnique({
-        where: { userId: user.id },
+      const _user = await db.user.findUnique({
+        where: { id: user.id },
+        include: { creator: true, learner: true },
       });
 
       return {
@@ -54,8 +51,8 @@ export const authOptions: NextAuthOptions = {
         user: {
           ...session.user,
           id: user.id,
-          creatorId: creator ? creator.id : undefined,
-          learnerId: learner ? learner.id : undefined
+          creatorId: _user && _user.creator ? _user.creator.id : undefined,
+          learnerId: _user && _user.learner ? _user.learner.id : undefined,
         },
       };
     },

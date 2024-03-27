@@ -40,7 +40,7 @@ export default function ControlPanel({
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
-                <Button variant="ghost" size="bigIcon" onClick={onCancel}>
+                <Button intent="ghost" size="bigIcon" onClick={onCancel}>
                   <CrossCircledIcon width="22" height="22" />
                 </Button>
               </TooltipTrigger>
@@ -52,7 +52,7 @@ export default function ControlPanel({
         )}
       </div>
       <div>
-        <Button disabled={isLoadingUpdate} size="bigIcon" variant="ghost">
+        <Button disabled={isLoadingUpdate} size="bigIcon" intent="ghost">
           {isLoadingUpdate ? (
             <SymbolIcon className="animate-spin" width="22" height="22" />
           ) : (
@@ -102,12 +102,12 @@ export default function ControlPanel({
                 );
               }}
               size="bigIcon"
-              variant="ghost"
+              intent="ghost"
             >
               <GlobeIcon
                 width="22"
                 height="22"
-                className={`${live ? "text-green-900" : "text-neutral-600"}`}
+                className={`${live ? "text-green-900" : "text-secondary-foreground"}`}
               />
             </Button>
           </TooltipTrigger>

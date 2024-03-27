@@ -23,7 +23,7 @@ export default function MobileTopbar({
       </div>
       <span className="sr-only">Your profile</span>
       <img
-        className="h-8 w-8 rounded-full bg-gray-50"
+        className="h-8 w-8 rounded-full bg-accent"
         src={sessionData?.user?.image ?? ""}
         alt=""
       />

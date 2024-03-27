@@ -45,7 +45,7 @@ export default function PageCourse({ courseCode }: { courseCode: string }) {
             <div className="flex flex-col gap-4 sm:mx-auto sm:w-[630px] md:w-[750px] lg:w-[850px] xl:w-[950px]">
               <CourseTitle course={course} />
               <Tabs defaultValue="modules">
-                <TabsList className="my-3 w-full rounded-md border border-neutral-900 p-1">
+                <TabsList className="my-3 w-full rounded-md border border-secondary-foreground p-1">
                   <TabsTrigger value="modules" className="px-10">
                     Modules
                   </TabsTrigger>

@@ -1,12 +1,11 @@
 import { FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
-import DialogBox from "~/components/dialog";
-import DialogParagraph from "~/components/dialog/paragraph";
 import { Course, User } from "~/types/db";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { Combobox } from "@headlessui/react";
 import { useState } from "react";
+import DialogForm from "~/components/form/dialog-form";
 
 // Todo: review forms
 
@@ -63,25 +62,21 @@ export default function DialogCourseManager({
   }
 
   return (
-    <DialogBox
+    <DialogForm
+      openButton="Add Course Contributor"
+      openButtonIntent="dialog"
       title="Add course manager"
-      isForm={{
-        buttonLabel: "Add",
-        buttonDisabled: selectedPerson === null,
-        buttonLoading: isLoadingAddCourseManager,
-        handleSubmit: handleSubmit((data) => onSubmit(data)),
-      }}
-      open={dialogOpen}
-      setOpen={setDialogOpen}
+      buttonLabel="Add"
+      buttonDisabled={selectedPerson === null}
+      buttonLoading={isLoadingAddCourseManager}
+      handleSubmit={handleSubmit((data) => onSubmit(data))}
     >
-      <DialogParagraph>
-        A course manager can add and edit modules and contents.
-      </DialogParagraph>
+      <p>A course manager can add and edit modules and contents.</p>
 
       <Combobox as="div" value={selectedPerson} onChange={setSelectedPerson}>
         <div className="relative mt-2">
           <Combobox.Input
-            className="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            className="w-full rounded-md border-0 bg-secondary py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             onChange={(event) => setQuery(event.target.value)}
             //@ts-expect-error todo how to fix this
             displayValue={(person: User) => person?.name}
@@ -94,7 +89,7 @@ export default function DialogCourseManager({
           </Combobox.Button>
 
           {filteredPeople.length > 0 && (
-            <Combobox.Options className="absolute z-60 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+            <Combobox.Options className="z-60 absolute mt-1 max-h-56 w-full overflow-auto rounded-md bg-secondary py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
               {searchUsers &&
                 searchUsers.map((person) => {
                   return (
@@ -150,6 +145,6 @@ export default function DialogCourseManager({
           )}
         </div>
       </Combobox>
-    </DialogBox>
+    </DialogForm>
   );
 }

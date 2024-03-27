@@ -35,7 +35,7 @@ export default function FormEditableField({
 }: FormEditableFieldProps) {
   return (
     <Button
-      variant="ghost"
+      intent="ghost"
       size={formTextSize}
       onClick={() => setEditText(true)}
     >

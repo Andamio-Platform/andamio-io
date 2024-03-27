@@ -27,7 +27,7 @@ const inputVariants = cva(
     variants: {
       intent: {
         description:
-          "bg-neutral-100 border-b border-neutral-400 text-primary-foreground ",
+          "bg-primary border-b border-neutral-400 text-primary-foreground ",
       },
       formTextSize: {
         md: "w-[500px] min-h-[190px] text-left text-pretty text-black",
@@ -124,7 +124,7 @@ const ToggleEditableTextArea = React.forwardRef<
                   <Button
                     onClick={() => setEditText(!editText)}
                     size="icon"
-                    variant="ghost"
+                    intent="ghost"
                   >
                     <Pencil1Icon
                       className="m-1 rounded-full bg-white text-blue-900"
@@ -159,7 +159,7 @@ const ToggleEditableTextArea = React.forwardRef<
                       <Button
                         onClick={() => setEditText(!editText)}
                         size="icon"
-                        variant="ghost"
+                        intent="ghost"
                       >
                         <Pencil1Icon
                           className="m-1 rounded-full bg-white text-blue-900"

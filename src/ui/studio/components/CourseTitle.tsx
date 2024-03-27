@@ -8,7 +8,7 @@ export default function CourseTitle({ course }: { course: Course }) {
   const [courseDialogOpen, setCourseDialogOpen] = useState(false);
   const { data: sessionData } = useSession();
 
-  if (!course) return
+  if (!course) return;
 
   const isOwner = course.createdById === sessionData?.user?.creatorId;
 
@@ -20,22 +20,13 @@ export default function CourseTitle({ course }: { course: Course }) {
           <p>{course.description}</p>
         </div>
         {isOwner && (
-          <div>
-            <Button
-              onClick={() => {
-                setCourseDialogOpen(true);
-              }}
-            >
-              Edit course
-            </Button>
-          </div>
+          <DialogCourse
+            courseDialogOpen={courseDialogOpen}
+            setCourseDialogOpen={setCourseDialogOpen}
+            course={course}
+          />
         )}
       </div>
-      <DialogCourse
-        courseDialogOpen={courseDialogOpen}
-        setCourseDialogOpen={setCourseDialogOpen}
-        course={course}
-      />
     </>
   );
 }

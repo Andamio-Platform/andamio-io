@@ -8,7 +8,7 @@ const buttonVariants = cva(
   "inline-flex items-center justify-center whitespace-nowrap rounded-sm text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
-      variant: {
+      intent: {
         default:
           "bg-primary text-primary-foreground shadow hover:bg-primary/90",
         destructive:
@@ -22,7 +22,8 @@ const buttonVariants = cva(
         lesson: "border border-blue-900 hover:bg-blue-200",
         delete: "bg-red-900 hover:bg-red-800 text-red-100",
         edit: "bg-slate-700 hover:bg-slate-800 text-slate-100",
-        module: "flex flex-col w-1/3 mx-auto py-3 gap-2 items-center justify-center hover:bg-primary hover:text-primary-foreground rounded-md transition-colors ease-in-out duration-300"
+        module: "flex flex-col w-1/3 mx-auto py-3 gap-2 items-center justify-center hover:bg-primary hover:text-primary-foreground rounded-md transition-colors ease-in-out duration-300",
+        dialog: "border border-input bg-secondary-foreground text-secondary shadow-sm hover:bg-accent-foreground hover:text-accent"
       },
       size: {
         default: "p-1",
@@ -32,11 +33,12 @@ const buttonVariants = cva(
         xl: "text-4xl text-black",
         slt: "text-md text-black",
         icon: "rounded-full",
-        bigIcon: "h-[30px] w-[30px]"
+        bigIcon: "h-[30px] w-[30px]",
+        dialog: "h-[30px] rounded-sm w-[150px] text-xs",
       },
     },
     defaultVariants: {
-      variant: "default",
+      intent: "default",
       size: "default",
     },
   },
@@ -49,11 +51,11 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  ({ className, intent, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
     return (
       <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
+        className={cn(buttonVariants({ intent, size, className }))}
         ref={ref}
         {...props}
       />

@@ -45,7 +45,7 @@ export default function Menu() {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="ghost" size="icon">
+        <Button intent="ghost" size="icon">
           <MenuIcon width={16} />
         </Button>
       </PopoverTrigger>
@@ -75,7 +75,7 @@ export default function Menu() {
         </p>
         {appearances.map(({ theme, icon }) => (
           <Button
-            variant="ghost"
+            intent="ghost"
             key={theme}
             className="flex w-full items-center justify-between rounded px-2 py-1.5 text-sm"
             onClick={() => {

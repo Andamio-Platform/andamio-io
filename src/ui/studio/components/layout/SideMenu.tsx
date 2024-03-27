@@ -80,7 +80,7 @@ export default function SideMenu() {
                   </div>
                 </Transition.Child>
 
-                <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-2">
+                <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-secondary px-6 pb-2">
                   <div className="flex h-16 shrink-0 items-center">
                     <img
                       className="h-8 w-auto"
@@ -98,8 +98,8 @@ export default function SideMenu() {
                                 href={item.href}
                                 className={classNames(
                                   item.current
-                                    ? "bg-gray-50 text-indigo-600"
-                                    : "text-gray-700 hover:bg-gray-50 hover:text-indigo-600",
+                                    ? "bg-accent text-indigo-600"
+                                    : "text-gray-700 hover:bg-accent hover:text-indigo-600",
                                   "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
                                 )}
                               >
@@ -129,8 +129,8 @@ export default function SideMenu() {
                                 href={`/studio/${course.courseCode}`}
                                 className={classNames(
                                   router.query.coursecode == course.courseCode
-                                    ? "bg-gray-50 text-indigo-600"
-                                    : "text-gray-700 hover:bg-gray-50 hover:text-indigo-600",
+                                    ? "bg-accent text-indigo-600"
+                                    : "text-gray-700 hover:bg-accent hover:text-indigo-600",
                                   "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
                                 )}
                               >
@@ -139,7 +139,7 @@ export default function SideMenu() {
                                     router.query.coursecode == course.courseCode
                                       ? "border-indigo-600 text-indigo-600"
                                       : "border-gray-200 text-gray-400 group-hover:border-indigo-600 group-hover:text-indigo-600",
-                                    "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border bg-white text-[0.625rem] font-medium",
+                                    "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border bg-secondary text-[0.625rem] font-medium",
                                   )}
                                 >
                                   {course.title.substring(0, 1)}
@@ -162,7 +162,7 @@ export default function SideMenu() {
       {/* Static sidebar for desktop */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
         {/* Sidebar component, swap this element with another sidebar if you like */}
-        <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6">
+        <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-secondary px-6">
           <div className="flex h-16 shrink-0 items-center">
             <img className="h-8 w-auto" src="/andamio.png" alt="Andamio" />
           </div>
@@ -176,8 +176,8 @@ export default function SideMenu() {
                         href={item.href}
                         className={classNames(
                           item.current
-                            ? "bg-gray-50 text-indigo-600"
-                            : "text-gray-700 hover:bg-gray-50 hover:text-indigo-600",
+                            ? "bg-accent text-indigo-600"
+                            : "text-gray-700 hover:bg-accent hover:text-indigo-600",
                           "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
                         )}
                       >
@@ -207,8 +207,8 @@ export default function SideMenu() {
                         href={`/studio/${course.courseCode}`}
                         className={classNames(
                           router.query.coursecode == course.courseCode
-                            ? "bg-gray-50 text-indigo-600"
-                            : "text-gray-700 hover:bg-gray-50 hover:text-indigo-600",
+                            ? "bg-accent text-indigo-600"
+                            : "text-gray-700 hover:bg-accent hover:text-indigo-600",
                           "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
                         )}
                       >
@@ -217,7 +217,7 @@ export default function SideMenu() {
                             router.query.coursecode == course.courseCode
                               ? "border-indigo-600 text-indigo-600"
                               : "border-gray-200 text-gray-400 group-hover:border-indigo-600 group-hover:text-indigo-600",
-                            "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border bg-white text-[0.625rem] font-medium",
+                            "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border bg-secondary text-[0.625rem] font-medium",
                           )}
                         >
                           {course.title.substring(0, 1)}
@@ -233,7 +233,7 @@ export default function SideMenu() {
                   {isProfileMenuOpen && (
                     <button
                       onClick={() => void signOut({ callbackUrl: "/" })}
-                      className="block w-full px-6 py-3 text-left text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-50 focus:outline-none"
+                      className="block w-full px-6 py-3 text-left text-sm font-semibold leading-6 text-gray-900 hover:bg-accent focus:outline-none"
                     >
                       Sign Out
                     </button>
@@ -242,10 +242,10 @@ export default function SideMenu() {
                     onClick={() =>
                       setIsProfileMenuOpen((prevState) => !prevState)
                     }
-                    className="flex cursor-pointer items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-50"
+                    className="flex cursor-pointer items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-accent"
                   >
                     <img
-                      className="h-8 w-8 rounded-full bg-gray-50"
+                      className="h-8 w-8 rounded-full bg-accent"
                       src={sessionData.user?.image ?? ""}
                       alt=""
                     />
@@ -259,7 +259,7 @@ export default function SideMenu() {
         </div>
       </div>
 
-      <div className="sticky top-0 z-40 flex items-center gap-x-6 bg-white px-4 py-4 shadow-sm sm:px-6 lg:hidden">
+      <div className="sticky top-0 z-40 flex items-center gap-x-6 bg-secondary px-4 py-4 shadow-sm sm:px-6 lg:hidden">
         <button
           type="button"
           className="-m-2.5 p-2.5 text-gray-700 lg:hidden"
@@ -273,7 +273,7 @@ export default function SideMenu() {
         </div>
         <span className="sr-only">Your profile</span>
         <img
-          className="h-8 w-8 rounded-full bg-gray-50"
+          className="h-8 w-8 rounded-full bg-accent"
           src={sessionData?.user?.image ?? ""}
           alt=""
         />

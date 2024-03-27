@@ -156,7 +156,7 @@ export default function PageCourseAssignmentContent({
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="grid grid-cols-12 gap-3">
-            <div className="col-span-12 flex w-full items-center justify-center rounded-md border border-neutral-900 py-3">
+            <div className="col-span-12 flex w-full items-center justify-center rounded-md border border-secondary-foreground py-3">
               <ControlPanel
                 editAssignment={editAssignment}
                 isLoadingUpdate={isLoadingUpdate}
@@ -167,7 +167,7 @@ export default function PageCourseAssignmentContent({
                 live={assignment.live}
               />
             </div>
-            <div className="col-span-8 flex w-full items-center justify-center rounded-md border border-neutral-900 py-3">
+            <div className="col-span-8 flex w-full items-center justify-center rounded-md border border-secondary-foreground py-3">
               What kind of dashboard can this page be?
             </div>
             <AssignmentDetails
@@ -176,7 +176,7 @@ export default function PageCourseAssignmentContent({
               assignment={assignment}
             />
 
-            <div className="col-span-8 row-span-5 rounded-md border border-neutral-900 p-5">
+            <div className="col-span-8 row-span-5 rounded-md border border-secondary-foreground p-5">
               <TitleAndDescription
                 form={form}
                 id={assignment.id}
@@ -191,7 +191,7 @@ export default function PageCourseAssignmentContent({
             <VideoLink form={form} />
             <LessonList module={module} />
             <PublishToggle form={form} title={course.title} />
-            <div className="col-span-12 rounded-md border border-neutral-900">
+            <div className="col-span-12 rounded-md border border-secondary-foreground">
               <div className="relative mx-auto w-full p-5">
                 {editor.render()}
               </div>

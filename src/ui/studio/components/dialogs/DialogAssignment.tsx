@@ -1,8 +1,6 @@
 import { FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
-import DialogBox from "~/components/dialog";
-import DialogParagraph from "~/components/dialog/paragraph";
 import { Assignment, Course, Module } from "~/types/db";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,6 +10,7 @@ import { useEffect } from "react";
 import useCourseModules from "~/hooks/useCourseModules";
 import Loading from "~/components/loading";
 import { FormCheckboxes } from "~/components/form/form-checkboxes";
+import DialogForm from "~/components/form/dialog-form";
 
 // TEST assignment.ts here!
 
@@ -30,9 +29,8 @@ export default function DialogAssignment({
 }) {
   const ctx = api.useUtils();
 
-  const { courseModules, isLoadingCourseModules } = useCourseModules(
-    courseCode,
-  );
+  const { courseModules, isLoadingCourseModules } =
+    useCourseModules(courseCode);
 
   const { mutate: assignmentCreate, isLoading: isLoadingAssignmentCreate } =
     api.assignment.create.useMutation({
@@ -98,47 +96,42 @@ export default function DialogAssignment({
         <Loading />
       ) : (
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <DialogBox
-              title="Create a new Assignment"
-              isForm={{
-                buttonLabel: "Create",
-                buttonLoading: isLoadingAssignmentCreate,
-                buttonDisabled: isLoadingAssignmentCreate,
-              }}
-              open={assignmentDialogOpen}
-              setOpen={setAssignmentDialogOpen}
-            >
-              <DialogParagraph>
-                Adding Assignment to Module {module.moduleCode}
-              </DialogParagraph>
+          <DialogForm
+            openButton="Add Assignment"
+            openButtonIntent="dialog"
+            title="Create a new Assignment"
+            buttonLabel="Create"
+            buttonLoading={isLoadingAssignmentCreate}
+            buttonDisabled={isLoadingAssignmentCreate}
+            handleSubmit={form.handleSubmit(onSubmit)}
+          >
+            <p>Adding Assignment to Module {module.moduleCode}</p>
 
-              <div className="mt-4 grid grid-cols-1 gap-y-4">
-                <FormInput
-                  name="assignmentTitle"
-                  label="Enter Assignment Title"
-                  form={form}
-                />
-                <FormInput
-                  name="assignmentCode"
-                  label="Enter Assignment Code"
-                  form={form}
-                />
+            <div className="mt-4 grid grid-cols-1 gap-y-4">
+              <FormInput
+                name="assignmentTitle"
+                label="Enter Assignment Title"
+                form={form}
+              />
+              <FormInput
+                name="assignmentCode"
+                label="Enter Assignment Code"
+                form={form}
+              />
 
-                <FormCheckboxes
-                  name="sltIds"
-                  label="Select SLTs"
-                  form={form}
-                  info="About this form..."
-                  options={module.slts.map((s) => ({
-                    id: s.id,
-                    value: s.sltText,
-                    label: `${module.moduleCode}.${s.moduleIndex.toString()}`,
-                  }))}
-                />
-              </div>
-            </DialogBox>
-          </form>
+              <FormCheckboxes
+                name="sltIds"
+                label="Select SLTs"
+                form={form}
+                info="About this form..."
+                options={module.slts.map((s) => ({
+                  id: s.id,
+                  value: s.sltText,
+                  label: `${module.moduleCode}.${s.moduleIndex.toString()}`,
+                }))}
+              />
+            </div>
+          </DialogForm>
         </Form>
       )}
     </>

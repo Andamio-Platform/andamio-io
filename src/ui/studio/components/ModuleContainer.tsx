@@ -155,9 +155,9 @@ export default function ModuleContainer({
   }
 
   return (
-    <div className="mx-5 my-3 w-full rounded-md border border-neutral-900 p-1 sm:mx-auto sm:w-[630px] md:w-[750px] lg:w-[850px] xl:w-[950px]">
+    <div className="mx-5 my-3 w-full rounded-md border border-secondary-foreground p-1 sm:mx-auto sm:w-[630px] md:w-[750px] lg:w-[850px] xl:w-[950px]">
       <AccordionItem value={module.moduleCode}>
-        <AccordionTrigger className="flex w-full flex-row justify-between rounded-md bg-neutral-900 px-3 text-white">
+        <AccordionTrigger className="flex w-full flex-row justify-between rounded-md bg-secondary-foreground px-3 text-secondary">
           <div className="grid w-full grid-cols-12 py-2">
             <div className="col-span-1">{module.moduleCode}</div>
             <div className="col-span-2">
@@ -209,16 +209,6 @@ export default function ModuleContainer({
                 {/* todo 2024-03-23 - look at codesandbox example - can imagine extracting this component and adding overlay */}
               </DndContext>
 
-              <Button
-                onClick={() => {
-                  setSltDialogOpen(true);
-                }}
-                className="w-full"
-                variant="module"
-              >
-                <PlusCircledIcon />
-                <p>Add Student Learning Target</p>
-              </Button>
               {/* todo - map this: */}
               {assignments && assignments[0] && (
                 <Link
@@ -227,40 +217,23 @@ export default function ModuleContainer({
                   <AssignmentContainer assignment={assignments[0]} />
                 </Link>
               )}
-
-              <Button
-                onClick={() => {
-                  setAssignmentDialogOpen(true);
-                }}
-                className="w-full"
-                variant="module"
-              >
-                <PlusCircledIcon />
-                Add Assignment{" "}
-                {assignments &&
-                  assignments.length > 0 &&
-                  "Is multiple assignments a premium feature?"}
-              </Button>
+              <DialogSLT
+                sltDialogOpen={sltDialogOpen}
+                setSltDialogOpen={setSltDialogOpen}
+                courseCode={course.courseCode}
+                module={module}
+              />
+              <div className="my-1" />
+              <DialogAssignment
+                assignmentDialogOpen={assignmentDialogOpen}
+                setAssignmentDialogOpen={setAssignmentDialogOpen}
+                courseCode={course.courseCode}
+                module={module}
+              />
             </div>
           </>
         </AccordionContent>
       </AccordionItem>
-      {module && (
-        <DialogSLT
-          sltDialogOpen={sltDialogOpen}
-          setSltDialogOpen={setSltDialogOpen}
-          courseCode={course.courseCode}
-          module={module}
-        />
-      )}
-      {module && (
-        <DialogAssignment
-          assignmentDialogOpen={assignmentDialogOpen}
-          setAssignmentDialogOpen={setAssignmentDialogOpen}
-          courseCode={course.courseCode}
-          module={module}
-        />
-      )}
     </div>
   );
 }

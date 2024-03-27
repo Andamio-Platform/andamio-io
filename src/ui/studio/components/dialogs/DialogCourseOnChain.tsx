@@ -2,13 +2,13 @@ import { FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
 import { useEffect } from "react";
-import DialogBox from "~/components/dialog";
 import { Course, CourseOnChainInstance } from "~/types/db";
 import { Network } from "@prisma/client";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormInput from "~/components/form/form-input";
 import { Form } from "~/components/ui/form";
+import DialogForm from "~/components/form/dialog-form";
 
 export default function DialogCourseOnChain({
   dialogOpen,
@@ -23,7 +23,7 @@ export default function DialogCourseOnChain({
   courseOnchain?: CourseOnChainInstance;
   selectedNetwork: Network;
 }) {
-  if (!course) return
+  if (!course) return;
   const ctx = api.useUtils();
 
   const { mutate: create, isLoading: isLoadingCreate } =
@@ -93,7 +93,7 @@ export default function DialogCourseOnChain({
   function onSubmit(data: FieldValues) {
     console.log(data);
 
-    if(!course) return
+    if (!course) return;
 
     if (courseOnchain && courseOnchain.id) {
       update({
@@ -147,123 +147,120 @@ export default function DialogCourseOnChain({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <DialogBox
-          title={
-            courseOnchain
-              ? `Editing On-Chain Course Config ${courseOnchain.course.courseCode} ${courseOnchain.network} (${courseOnchain?.id})`
-              : "On-Chain Course Config"
-          }
-          isForm={{
-            buttonLabel: courseOnchain ? "Save" : "Create",
-            buttonLoading: isLoadingCreate || isLoadingUpdate,
-            buttonDisabled: isLoadingCreate || isLoadingUpdate,
-          }}
-          open={dialogOpen}
-          setOpen={setDialogOpen}
-        >
-          {courseOnchain && courseOnchain ? (
-            <div className="mt-4 grid grid-cols-1 gap-y-4">
-              <p className="text-xl font-bold">Network: {selectedNetwork}</p>
-              <FormInput
-                name="courseRefAddress"
-                label="Course Reference Address"
-                form={form}
-              />
-              <FormInput
-                name="assignmentAddress"
-                label="Assignment Address"
-                form={form}
-              />
-              <FormInput
-                name="creatorCS"
-                label="Creator Currency Symbol"
-                form={form}
-              />
-              <FormInput
-                name="facilitatorCS"
-                label="Facilitator Currency Symbol"
-                form={form}
-              />
-              <FormInput
-                name="learnerCS"
-                label="Learning Currency Symbol"
-                form={form}
-              />
-              <FormInput
-                name="moduleCS"
-                label="Module Currency Symbol"
-                form={form}
-              />
-              <FormInput
-                name="courseRefUTxO"
-                label="Course Reference Reference UTxO"
-                form={form}
-              />
-              <FormInput
-                name="assignmentRefUTxO"
-                label="Assignment Reference UTxO"
-                form={form}
-              />
-              <FormInput
-                name="moduleMintingRefUTxO"
-                label="Module Minting Reference UTxO"
-                form={form}
-              />
-              <p>Onchain Instance Id: {courseOnchain.id}</p>
-            </div>
-          ) : (
-            <div className="mt-4 grid grid-cols-1 gap-y-4">
-              <p className="text-xl font-bold">Network: {selectedNetwork}</p>
-              <FormInput
-                name="courseRefAddress"
-                label="Course Reference Address"
-                form={form}
-              />
-              <FormInput
-                name="assignmentAddress"
-                label="Assignment Address"
-                form={form}
-              />
-              <FormInput
-                name="creatorCS"
-                label="Creator Currency Symbol"
-                form={form}
-              />
-              <FormInput
-                name="facilitatorCS"
-                label="Facilitator Currency Symbol"
-                form={form}
-              />
-              <FormInput
-                name="learnerCS"
-                label="Learning Currency Symbol"
-                form={form}
-              />
-              <FormInput
-                name="moduleCS"
-                label="Module Currency Symbol"
-                form={form}
-              />
-              <FormInput
-                name="courseRefUTxO"
-                label="Course Reference Reference UTxO"
-                form={form}
-              />
-              <FormInput
-                name="assignmentRefUTxO"
-                label="Assignment Reference UTxO"
-                form={form}
-              />
-              <FormInput
-                name="moduleMintingRefUTxO"
-                label="Module Minting Reference UTxO"
-                form={form}
-              />
-            </div>
-          )}
-        </DialogBox>
-      </form>
+      <DialogForm
+        openButton="Add On Chain Info"
+        openButtonIntent="dialog"
+        title={
+          courseOnchain
+            ? `Editing On-Chain Course Config ${courseOnchain.course.courseCode} ${courseOnchain.network} (${courseOnchain?.id})`
+            : "On-Chain Course Config"
+        }
+        buttonLabel={courseOnchain ? "Save" : "Create"}
+        buttonLoading={isLoadingCreate || isLoadingUpdate}
+        buttonDisabled={isLoadingCreate || isLoadingUpdate}
+        handleSubmit={form.handleSubmit(onSubmit)}
+      >
+        {courseOnchain && courseOnchain ? (
+          <div className="mt-4 grid grid-cols-1 gap-y-4">
+            <p className="text-xl font-bold">Network: {selectedNetwork}</p>
+            <FormInput
+              name="courseRefAddress"
+              label="Course Reference Address"
+              form={form}
+            />
+            <FormInput
+              name="assignmentAddress"
+              label="Assignment Address"
+              form={form}
+            />
+            <FormInput
+              name="creatorCS"
+              label="Creator Currency Symbol"
+              form={form}
+            />
+            <FormInput
+              name="facilitatorCS"
+              label="Facilitator Currency Symbol"
+              form={form}
+            />
+            <FormInput
+              name="learnerCS"
+              label="Learning Currency Symbol"
+              form={form}
+            />
+            <FormInput
+              name="moduleCS"
+              label="Module Currency Symbol"
+              form={form}
+            />
+            <FormInput
+              name="courseRefUTxO"
+              label="Course Reference Reference UTxO"
+              form={form}
+            />
+            <FormInput
+              name="assignmentRefUTxO"
+              label="Assignment Reference UTxO"
+              form={form}
+            />
+            <FormInput
+              name="moduleMintingRefUTxO"
+              label="Module Minting Reference UTxO"
+              form={form}
+            />
+            <p>Onchain Instance Id: {courseOnchain.id}</p>
+          </div>
+        ) : (
+          <div className="mt-4 grid grid-cols-1 gap-y-4">
+            <p className="text-xl font-bold">Network: {selectedNetwork}</p>
+            <FormInput
+              name="courseRefAddress"
+              label="Course Reference Address"
+              form={form}
+            />
+            <FormInput
+              name="assignmentAddress"
+              label="Assignment Address"
+              form={form}
+            />
+            <FormInput
+              name="creatorCS"
+              label="Creator Currency Symbol"
+              form={form}
+            />
+            <FormInput
+              name="facilitatorCS"
+              label="Facilitator Currency Symbol"
+              form={form}
+            />
+            <FormInput
+              name="learnerCS"
+              label="Learning Currency Symbol"
+              form={form}
+            />
+            <FormInput
+              name="moduleCS"
+              label="Module Currency Symbol"
+              form={form}
+            />
+            <FormInput
+              name="courseRefUTxO"
+              label="Course Reference Reference UTxO"
+              form={form}
+            />
+            <FormInput
+              name="assignmentRefUTxO"
+              label="Assignment Reference UTxO"
+              form={form}
+            />
+            <FormInput
+              name="moduleMintingRefUTxO"
+              label="Module Minting Reference UTxO"
+              form={form}
+            />
+          </div>
+        )}
+      </DialogForm>
     </Form>
   );
 }

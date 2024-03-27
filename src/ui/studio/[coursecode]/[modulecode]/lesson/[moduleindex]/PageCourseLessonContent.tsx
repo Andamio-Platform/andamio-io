@@ -254,7 +254,7 @@ export default function PageCourseLessonContent({
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="grid grid-cols-12 gap-5">
-            <div className="col-span-12 flex w-full items-center justify-center rounded-md border border-neutral-900 py-3">
+            <div className="col-span-12 flex w-full items-center justify-center rounded-md border border-secondary-foreground py-3">
               <ControlPanel
                 editAssignment={editLesson}
                 isLoadingUpdate={isLoadingUpdate}
@@ -265,7 +265,7 @@ export default function PageCourseLessonContent({
                 live={lesson.live}
               />
             </div>
-            <div className="col-span-8 row-span-3 rounded-md border border-neutral-900 p-5">
+            <div className="col-span-8 row-span-3 rounded-md border border-secondary-foreground p-5">
               <TitleAndDescription
                 form={form}
                 id={lesson.id}
@@ -285,7 +285,7 @@ export default function PageCourseLessonContent({
             </div>
             <VideoLink form={form} />
             <PublishToggle form={form} title={course.title} />
-            <div className="col-span-12 rounded-md border border-neutral-900">
+            <div className="col-span-12 rounded-md border border-secondary-foreground">
               <div className="relative mx-auto w-full p-5">
                 {editor.render()}
               </div>

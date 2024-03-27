@@ -20,7 +20,7 @@ export default function DesktopMenu() {
                 {isProfileMenuOpen && (
                   <button
                     onClick={() => void signOut({ callbackUrl: "/" })}
-                    className="block w-full px-6 py-3 text-left text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-50 focus:outline-none"
+                    className="block w-full px-6 py-3 text-left text-sm font-semibold leading-6 text-gray-900 hover:bg-accent focus:outline-none"
                   >
                     Sign Out
                   </button>
@@ -29,10 +29,10 @@ export default function DesktopMenu() {
                   onClick={() =>
                     setIsProfileMenuOpen((prevState) => !prevState)
                   }
-                  className="flex cursor-pointer items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-50"
+                  className="flex cursor-pointer items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-accent"
                 >
                   <img
-                    className="h-8 w-8 rounded-full bg-gray-50"
+                    className="h-8 w-8 rounded-full bg-accent"
                     src={sessionData.user?.image ?? ""}
                     alt=""
                   />

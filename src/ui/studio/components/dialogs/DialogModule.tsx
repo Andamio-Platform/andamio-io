@@ -169,7 +169,7 @@ export default function DialogModule({
   return (
     <Form {...form}>
       <DialogForm
-        openButton="Add Module"
+        openButton={module ? "moduleSettings" : "Add Module"}
         openButtonIntent="dialog"
         title={module ? `Editing ${module.title}` : "Create a new module"}
         buttonLabel={module ? "Save" : "Create"}

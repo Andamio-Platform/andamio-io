@@ -36,61 +36,32 @@ export default function ControlPanel({
   const publishedLink = `/course/${courseCode}/${moduleCode}/${contentPath}`;
 
   return (
-    <div className="grid grid-cols-4 gap-10">
-      <div>
-        {editContent && (
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger>
-                <Button intent="ghost" size="bigIcon" onClick={onCancel}>
-                  <CrossCircledIcon width="22" height="22" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Cancel Changes</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        )}
-      </div>
-      <div>
-        <Button disabled={isLoadingUpdate} size="bigIcon" intent="ghost">
-          {isLoadingUpdate ? (
-            <SymbolIcon className="animate-spin" width="22" height="22" />
-          ) : (
-            <TooltipProvider>
-              {editContent ? (
-                <Tooltip>
-                  <TooltipTrigger>
-                    <>
-                      <ExclamationTriangleIcon
-                        className="text-yellow-800"
-                        width="22"
-                        height="22"
-                      />
-                    </>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Click to Save</p>
-                  </TooltipContent>
-                </Tooltip>
-              ) : (
-                <Tooltip>
-                  <TooltipTrigger>
-                    <CheckCircledIcon
-                      className="rounded-full bg-green-900 text-white"
+    <div className="grid grid-cols-4 gap-10 lg:gap-24">
+      <div className="flex h-[30px] w-[30px] items-center justify-center">
+        <TooltipProvider>
+          <>
+            {editContent && (
+              <Tooltip>
+                <TooltipTrigger>
+                  <Button
+                    disabled={isLoadingUpdate || !editContent}
+                    size="bigIcon"
+                    intent="ghost"
+                  >
+                    <ExclamationTriangleIcon
+                      className="text-yellow-800"
                       width="22"
                       height="22"
                     />
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Everything is Saved</p>
-                  </TooltipContent>
-                </Tooltip>
-              )}
-            </TooltipProvider>
-          )}
-        </Button>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Click to save your work</p>
+                </TooltipContent>
+              </Tooltip>
+            )}
+          </>
+        </TooltipProvider>
       </div>
       <TooltipProvider>
         <Tooltip>
@@ -119,10 +90,10 @@ export default function ControlPanel({
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
-      <div className="col-start-4 flex flex-row justify-end">
+      <div className="col-start-3 flex flex-row justify-end">
         <Sheet>
           <SheetTrigger>
-            <div className="h-[30px] w-[30px]">
+            <div className="flex h-[30px] w-[30px] items-center justify-center">
               <QuestionMarkCircledIcon width="22" height="22" />
             </div>
           </SheetTrigger>
@@ -134,6 +105,39 @@ export default function ControlPanel({
             </p>
           </SheetContent>
         </Sheet>
+      </div>
+      <div className="flex h-[30px] w-[30px] items-center justify-center">
+        {isLoadingUpdate ? (
+          <SymbolIcon className="animate-spin" width="22" height="22" />
+        ) : (
+          <TooltipProvider>
+            {editContent ? (
+              <Tooltip>
+                <TooltipTrigger>
+                  <Button intent="ghost" size="bigIcon" onClick={onCancel}>
+                    <CrossCircledIcon width="22" height="22" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Cancel Changes</p>
+                </TooltipContent>
+              </Tooltip>
+            ) : (
+              <Tooltip>
+                <TooltipTrigger>
+                  <CheckCircledIcon
+                    className="rounded-full bg-green-900 text-white"
+                    width="22"
+                    height="22"
+                  />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Your work is saved</p>
+                </TooltipContent>
+              </Tooltip>
+            )}
+          </TooltipProvider>
+        )}
       </div>
     </div>
   );

@@ -35,6 +35,7 @@ import useAssignments from "~/hooks/useAssignments";
 import Link from "next/link";
 import { Card } from "~/components/ui/card";
 import { Button } from "~/components/ui/button";
+import DialogModule from "./dialogs/DialogModule";
 
 type sltI = { slt: ModuleSLT; sltIndex: number; id: string };
 
@@ -43,12 +44,14 @@ export default function ModuleContainer({
   course,
   variants,
   setSelectedModule,
+  moduleDialogOpen,
   setModuleDialogOpen,
 }: {
   module: Module;
   course: Course;
   variants?: ModuleVariant[];
   setSelectedModule: (module: Module) => void;
+  moduleDialogOpen: boolean;
   setModuleDialogOpen: (open: boolean) => void;
 }) {
   if (!course) return;
@@ -168,15 +171,12 @@ export default function ModuleContainer({
             <div className="col-span-3">{`${module.slts.length} SLTs + ${module.lessons.length} Lessons`}</div>
             <div className="col-start-12">
               <div className="flex gap-2">
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSelectedModule(module);
-                    setModuleDialogOpen(true);
-                  }}
-                >
-                  <GearIcon />
-                </button>
+                <DialogModule
+                  moduleDialogOpen={moduleDialogOpen}
+                  setModuleDialogOpen={setModuleDialogOpen}
+                  course={course}
+                  module={module}
+                />
               </div>
             </div>
           </div>

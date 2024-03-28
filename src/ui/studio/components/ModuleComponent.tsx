@@ -36,6 +36,7 @@ export default function ModuleComponent({ course }: { course: Course }) {
         modules={modules}
         variants={moduleVariants}
         setSelectedModule={setSelectedModule}
+        moduleDialogOpen={moduleDialogOpen}
         setModuleDialogOpen={setModuleDialogOpen}
       />
 
@@ -58,12 +59,14 @@ function ModuleList({
   modules,
   variants,
   setSelectedModule,
+  moduleDialogOpen,
   setModuleDialogOpen,
 }: {
   course: Course;
   modules?: Module[];
   variants?: ModuleVariant[];
   setSelectedModule: (module: Module) => void;
+  moduleDialogOpen: boolean;
   setModuleDialogOpen: (open: boolean) => void;
 }) {
   return (
@@ -77,6 +80,7 @@ function ModuleList({
               module={module}
               variants={variants}
               setSelectedModule={setSelectedModule}
+              moduleDialogOpen={moduleDialogOpen}
               setModuleDialogOpen={setModuleDialogOpen}
             />
           ))}

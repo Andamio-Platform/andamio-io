@@ -13,10 +13,10 @@ export default function AssignmentDetails({
 
   return (
     <div className="col-span-4 rounded-md border border-secondary-foreground p-3">
-      <p>Course: {course.title}</p>
-      <p>Module: {module.title}</p>
-      <p>Assignment: {assignment.title}</p>
-      <p>{assignment.assignmentCode}</p>
+      <p><span className="uppercase text-xs font-mono">Course:</span> {course.title}</p>
+      <p><span className="uppercase text-xs font-mono">Module:</span> {module.title}</p>
+      <p><span className="uppercase text-xs font-mono">Assignment:</span> {assignment.title}</p>
+      <p><span className="uppercase text-xs font-mono">Code:</span> {assignment.assignmentCode}</p>
     </div>
   );
 }

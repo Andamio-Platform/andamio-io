@@ -1,14 +1,49 @@
-import { ModuleSLT } from "~/types/db";
+import StatusDot from "~/components/ui/status-dot";
+import { Assignment, Module } from "~/types/db";
 
-export default function SltList({ slts }: { slts: ModuleSLT[] }) {
+export default function SltList({
+  module,
+  assignment,
+}: {
+  module: Module;
+  assignment: Assignment;
+}) {
+  const statuses:any = [];
+
+  module.slts.forEach((s) => {
+    const assessed = assignment.slts.find((t) => t.id == s.id)
+    statuses.push({...s, assessed})
+  })
+
   return (
-    <div className="col-span-4 rounded-md border border-secondary-foreground p-3">
-      <p>SLTs - Color Coded!</p>
-      {slts.map((s) => (
-        <p key={s.id}>
-          {s.sltText} - SHOW STATUS
+    <div className="col-span-4 rounded-md border border-secondary-foreground text-sm">
+      <div className="flex w-full flex-row justify-between rounded-t-md bg-foreground px-3 py-1 text-background">
+        <p>Learning Targets (Module {module.moduleCode})</p>
+      </div>
+      <div className="px-2 py-1">
+
+      {statuses.map((s: any) => (
+        <p key={s.id} className="">
+          <StatusDot status={s.assessed ? "ASSESS" : "SUPPORT"} /> {module.moduleCode}.{s.moduleIndex}:{" "}
+          {s.sltText}
         </p>
       ))}
+
+      {/* {assignment.slts.map((s) => (
+        <p key={s.id} className="">
+          <StatusDot status="SUPPORT" /> {module.moduleCode}.{s.moduleIndex}:{" "}
+          {s.sltText}
+        </p>
+      ))} */}
+      </div>
+      <div className="flex w-full flex-col xl:flex-row justify-between rounded-b-md bg-foreground px-5 py-1 text-background">
+        <p className="text-xs uppercase">
+          <StatusDot status="ASSESS" /> Assigment SLT
+        </p>
+        <p className="text-xs uppercase">
+          <StatusDot status="SUPPORT" /> Supporting SLT
+        </p>
+      </div>
     </div>
   );
 }

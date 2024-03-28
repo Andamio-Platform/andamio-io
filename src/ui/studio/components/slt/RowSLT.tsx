@@ -57,7 +57,7 @@ export function SortableSLT({
     transition,
   } = useSortable({
     id: slt.id,
-    transition: { duration: 350, easing: "ease-in" },
+    transition: { duration: 150, easing: "ease-in" },
   });
 
   const context = useMemo(

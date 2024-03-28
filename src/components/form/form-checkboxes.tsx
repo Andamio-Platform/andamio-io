@@ -25,10 +25,10 @@ export function FormCheckboxes(props: SelectProps) {
       control={props.form.control}
       name={props.name}
       render={() => (
-        <FormItem>
-          <div className="mb-4">
+        <FormItem className="text-foreground">
+          <div className="mb-1 text-foreground">
             <FormLabel className="text-base">{props.label}</FormLabel>
-            <FormDescription>
+            <FormDescription className="">
               {props.info}
             </FormDescription>
           </div>
@@ -41,7 +41,7 @@ export function FormCheckboxes(props: SelectProps) {
                 return (
                   <FormItem
                     key={item.id}
-                    className="flex flex-row items-start space-x-3 space-y-0"
+                    className="flex flex-row items-center space-x-3 py-1"
                   >
                     <FormControl>
                       <Checkbox

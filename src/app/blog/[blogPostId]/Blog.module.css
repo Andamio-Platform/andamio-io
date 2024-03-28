@@ -5,7 +5,7 @@
 }
 
 .blogPostContainer h1 {
-  @apply text-3xl my-5 font-bold text-info
+  @apply text-3xl my-5 font-bold text-info border-t border-info pt-5
 }
 
 .blogPostContainer h2 {
@@ -13,7 +13,7 @@
 }
 
 .blogPostContainer h3 {
-  @apply text-xl md:text-2xl mt-5 mb-5 text-blue-200 font-bold
+  @apply text-xl md:text-2xl mt-[32px] mb-[12px] text-blue-200 font-bold
 }
 
 .blogPostContainer h4 {
@@ -57,9 +57,13 @@
 }
 
 .blogPostContainer blockquote {
-  @apply bg-gray-300 p-3 border-l-[15px] border-info
+  @apply bg-neutral-800 px-3 pb-1 pt-2 border-l-[15px] border-y-[1px] border-r-[1px] border-info mb-3
 }
 
 .blogPostContainer .slt {
   @apply bg-primary text-primary-content font-bold text-lg mb-3 p-3 align-middle
+}
+
+.blogPostContainer img {
+  @apply w-full md:w-3/4 lg:w-2/3
 }

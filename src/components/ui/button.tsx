@@ -33,7 +33,7 @@ const buttonVariants = cva(
         xl: "text-4xl text-black",
         slt: "text-md text-black",
         icon: "rounded-full",
-        bigIcon: "h-[30px] w-[30px]",
+        bigIcon: "flex h-[30px] w-[30px] items-center justify-center",
         dialog: "h-[30px] rounded-sm w-[150px] text-xs",
       },
     },

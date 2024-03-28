@@ -21,11 +21,15 @@ export default async function handler(
 ) {
   const form = formidable({});
 
+  console.log("Uploading file....", req)
+
   form.parse(req, async (err, _fields, files) => {
     if (err) {
       res.status(500).json({ message: "Error parsing the form data." });
       return;
     }
+
+    console.log("file....", files)
 
     if (!files.file) {
       res

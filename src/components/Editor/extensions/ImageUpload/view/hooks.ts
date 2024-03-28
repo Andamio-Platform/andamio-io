@@ -23,13 +23,21 @@ export const useUploader = ({
         formData.append("file", newFile);
         formData.append("name", newFile.name);
 
-        const res: any = await axios.post("/api/gcp/upload", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
+        try {
+          const response = await fetch("/api/gcp/upload", {
+            method: "POST",
+            body: formData,
+          });
+          if (response.ok) {
+            const data = await response.json();
+            onUpload(data.url);
+          } else {
+            throw new Error("Upload failed");
+          }
+        } catch (error) {
+          toast.error((error as Error).message || "Something went wrong");
+        }
 
-        onUpload(res.data.url);
       } catch (errPayload: any) {
         const error =
           errPayload?.response?.data?.error || "Something went wrong";

@@ -1,11 +1,11 @@
 import { Storage } from "@google-cloud/storage";
 import { NextApiRequest, NextApiResponse } from "next";
 import formidable from "formidable";
-import { BUCKET_NAME, KEY_FILENAME, PROJECT_ID } from "~/config/gcp";
+import { BUCKET_NAME, CREDENTIALS, PROJECT_ID } from "~/config/gcp";
 
 const storage = new Storage({
   projectId: PROJECT_ID,
-  keyFilename: KEY_FILENAME,
+  credentials: CREDENTIALS
 });
 const bucket = storage.bucket(BUCKET_NAME);
 

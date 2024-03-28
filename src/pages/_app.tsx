@@ -6,6 +6,7 @@ import { Toaster } from "react-hot-toast";
 
 import "~/styles/globals.css";
 import { ThemeProvider } from "~/components/theme-provider";
+import DebugUiPage from "./debug/ui";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -22,6 +23,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
         <Toaster position="top-right" />
         <div className="bg-stone-100 min-h-screen text-stone-950">
           <Component {...pageProps} />
+          <DebugUiPage />
         </div>
       </SessionProvider>
     </ThemeProvider>

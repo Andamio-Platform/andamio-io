@@ -27,7 +27,7 @@ export function DialogReportSupport() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button intent="outline">Andamio Customer Support</Button>
+        <Button intent="outline" className="fixed bottom-5 right-5 z-50">Andamio Customer Support</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

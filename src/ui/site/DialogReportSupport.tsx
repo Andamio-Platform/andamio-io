@@ -13,6 +13,7 @@ import { Textarea } from "~/components/ui/textarea";
 import { Input } from "~/components/ui/input";
 import axios from "axios";
 import { useState } from "react";
+import { WrenchScrewdriverIcon } from "@heroicons/react/24/outline";
 
 export function DialogReportSupport() {
   const [title, setTitle] = useState("");
@@ -22,12 +23,25 @@ export function DialogReportSupport() {
   async function handleReport() {
     await axios.post("/api/github/issue", { title, body });
     setSent(true);
+    console.log("reporting issue");
+  }
+
+  function resetForm() {
+    console.log("resetting form");
+    setSent(false);
+    setTitle("");
+    setBody("");
   }
 
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button intent="outline" className="fixed bottom-5 right-5 z-50">Andamio Customer Support</Button>
+      <DialogTrigger asChild onClick={resetForm}>
+        <Button
+          intent="outline"
+          className="fixed bottom-5 right-5 z-50 rounded-full p-3"
+        >
+          <WrenchScrewdriverIcon className="h-6 w-6 shrink-0" />
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -61,7 +75,9 @@ export function DialogReportSupport() {
               </div>
             </div>
             <DialogFooter>
-              <Button onClick={() => handleReport()}>Report</Button>
+              <Button className="px-3 py-2" onClick={() => handleReport()}>
+                Report
+              </Button>
             </DialogFooter>
           </>
         )}

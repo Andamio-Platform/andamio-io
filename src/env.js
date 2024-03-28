@@ -31,6 +31,7 @@ export const env = createEnv({
     DISCORD_CLIENT_ID: z.string(),
     DISCORD_CLIENT_SECRET: z.string(),
     GITHUB_TOKEN: z.string(),
+    GCP_STORAGE: z.string(),
   },
 
   /**
@@ -54,6 +55,7 @@ export const env = createEnv({
     DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
     DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
     GITHUB_TOKEN: process.env.GITHUB_TOKEN,
+    GCP_STORAGE: process.env.GCP_STORAGE,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

@@ -38,11 +38,9 @@ export default function ControlPanel({
   return (
     <div className="grid grid-cols-4 gap-10 lg:gap-24">
       <div className="flex h-[30px] w-[30px] items-center justify-center">
-        {isLoadingUpdate ? (
-          <SymbolIcon className="animate-spin" width="22" height="22" />
-        ) : (
-          <TooltipProvider>
-            {editContent ? (
+        <TooltipProvider>
+          <>
+            {editContent && (
               <Tooltip>
                 <TooltipTrigger>
                   <Button
@@ -61,22 +59,9 @@ export default function ControlPanel({
                   <p>Click to save your work</p>
                 </TooltipContent>
               </Tooltip>
-            ) : (
-              <Tooltip>
-                <TooltipTrigger>
-                  <CheckCircledIcon
-                    className="rounded-full bg-green-900 text-white"
-                    width="22"
-                    height="22"
-                  />
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Your work is saved</p>
-                </TooltipContent>
-              </Tooltip>
             )}
-          </TooltipProvider>
-        )}
+          </>
+        </TooltipProvider>
       </div>
       <TooltipProvider>
         <Tooltip>
@@ -122,18 +107,35 @@ export default function ControlPanel({
         </Sheet>
       </div>
       <div className="flex h-[30px] w-[30px] items-center justify-center">
-        {editContent && (
+        {isLoadingUpdate ? (
+          <SymbolIcon className="animate-spin" width="22" height="22" />
+        ) : (
           <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger>
-                <Button intent="ghost" size="bigIcon" onClick={onCancel}>
-                  <CrossCircledIcon width="22" height="22" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Cancel Changes</p>
-              </TooltipContent>
-            </Tooltip>
+            {editContent ? (
+              <Tooltip>
+                <TooltipTrigger>
+                  <Button intent="ghost" size="bigIcon" onClick={onCancel}>
+                    <CrossCircledIcon width="22" height="22" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Cancel Changes</p>
+                </TooltipContent>
+              </Tooltip>
+            ) : (
+              <Tooltip>
+                <TooltipTrigger>
+                  <CheckCircledIcon
+                    className="rounded-full bg-green-900 text-white"
+                    width="22"
+                    height="22"
+                  />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Your work is saved</p>
+                </TooltipContent>
+              </Tooltip>
+            )}
           </TooltipProvider>
         )}
       </div>

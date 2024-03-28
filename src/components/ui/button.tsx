@@ -22,11 +22,11 @@ const buttonVariants = cva(
         lesson: "border border-blue-900 hover:bg-blue-200",
         delete: "bg-red-900 hover:bg-red-800 text-red-100",
         edit: "bg-slate-700 hover:bg-slate-800 text-slate-100",
-        module: "flex flex-col w-1/3 mx-auto py-3 gap-2 items-center justify-center hover:bg-primary hover:text-primary-foreground rounded-md transition-colors ease-in-out duration-300",
+        module: "flex flex-col min-w-1/3 mx-auto py-3 gap-2 items-center justify-center hover:bg-primary hover:text-primary-foreground rounded-md transition-colors ease-in-out duration-300",
         dialog: "border border-input bg-foreground text-background shadow-sm hover:bg-accent-foreground hover:text-accent"
       },
       size: {
-        default: "p-1",
+        default: "p-1 px-3 bg-foreground text-background",
         sm: "h-5 rounded-sm p-2 text-xs",
         md: "text-md pt-2 text-black",
         lg: "text-2xl text-black",

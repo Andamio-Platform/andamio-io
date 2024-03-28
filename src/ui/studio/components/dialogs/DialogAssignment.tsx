@@ -121,13 +121,13 @@ export default function DialogAssignment({
 
               <FormCheckboxes
                 name="sltIds"
-                label="Select SLTs"
+                label="Assignment Student Learning Targets"
                 form={form}
-                info="About this form..."
+                info="This Assignment is an assement of the following learning targets:"
                 options={module.slts.map((s) => ({
                   id: s.id,
                   value: s.sltText,
-                  label: `${module.moduleCode}.${s.moduleIndex.toString()}`,
+                  label: `${module.moduleCode}.${s.moduleIndex.toString()}: ${s.sltText}`,
                 }))}
               />
             </div>

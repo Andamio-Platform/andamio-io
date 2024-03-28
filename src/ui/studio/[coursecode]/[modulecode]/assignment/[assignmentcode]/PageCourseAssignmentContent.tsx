@@ -167,14 +167,22 @@ export default function PageCourseAssignmentContent({
                 live={assignment.live}
               />
             </div>
-            <div className="col-span-8 flex w-full items-center justify-center rounded-md border border-secondary-foreground py-3">
+            <div className="col-span-3 flex flex-col w-full items-center justify-center rounded-md border border-secondary-foreground py-3">
+              <p className="text-2xl">25</p>
+              <p className="">Completions</p>
+            </div>
+            <div className="col-span-3 flex flex-col w-full items-center justify-center rounded-md border border-secondary-foreground py-3">
+            <p className="text-2xl">8</p>
+              <p className="">In Progress</p>
+            </div>
+            <div className="col-span-3 flex flex-col w-full items-center justify-center rounded-md border border-secondary-foreground py-3">
+            <p className="text-2xl">4</p>
+              <p className="">Prerequisites</p>
+            </div>
+            <div className="col-span-3 flex flex-col w-full items-center justify-center rounded-md border border-secondary-foreground p-3">
               What kind of dashboard can this page be?
             </div>
-            <AssignmentDetails
-              course={course}
-              module={module}
-              assignment={assignment}
-            />
+            
 
             <div className="col-span-8 row-span-5 rounded-md border border-secondary-foreground p-5">
               <TitleAndDescription
@@ -187,7 +195,12 @@ export default function PageCourseAssignmentContent({
                 onSubmit={() => onSubmit}
               />
             </div>
-            <SltList slts={module.slts} />
+            <SltList module={module} assignment={assignment} />
+            <AssignmentDetails
+              course={course}
+              module={module}
+              assignment={assignment}
+            />
             <VideoLink form={form} />
             <LessonList module={module} />
             <PublishToggle form={form} title={course.title} />

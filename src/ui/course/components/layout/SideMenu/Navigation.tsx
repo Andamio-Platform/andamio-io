@@ -28,12 +28,7 @@ export default function Navigation() {
   return (
     <>
       {typeof coursecode === "string" &&
-        router.pathname == "/course/[coursecode]" && (
-          <CoursePage courseCode={coursecode} />
-        )}
-      {typeof coursecode === "string" &&
-        router.pathname ==
-          "/course/[coursecode]/[modulecode]/lesson/[moduleindex]" && (
+        router.pathname.includes("/course/[coursecode]") && (
           <CoursePage courseCode={coursecode} />
         )}
     </>
@@ -136,6 +131,33 @@ function CoursePage({ courseCode }: { courseCode: string }) {
                           </AccordionContent>
                         );
                       })}
+
+                      {module.assignments.map((assignment) => {
+                        return (
+                          <AccordionContent
+                            key={assignment.assignmentCode}
+                            className={classNames(
+                              "text-gray-700 hover:bg-accent hover:text-indigo-600",
+                              "rounded-md p-2",
+                            )}
+                          >
+                            <Link
+                              href={`/course/${courseCode}/${module.moduleCode}/assignment/${assignment.assignmentCode}`}
+                            >
+                              <p
+                                className={classNames(
+                                  "group flex gap-x-3 text-sm font-semibold leading-6",
+                                )}
+                              >
+                                <span>{assignment.title}</span>
+                              </p>
+                            </Link>
+                          </AccordionContent>
+                        )
+                      }
+                      )
+                    }
+
                   </AccordionItem>
                 </Accordion>
               </>

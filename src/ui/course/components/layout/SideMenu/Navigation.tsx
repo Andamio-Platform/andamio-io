@@ -13,11 +13,15 @@ import {
   AccordionTrigger,
 } from "~/components/ui/accordion";
 import useCourse from "~/hooks/useCourse";
-import { useEffect } from "react";
+import { use, useEffect } from "react";
+import useValidateCreator from "~/hooks/useValidateCreator";
+import { PenTool } from "lucide-react";
+import { Lesson, Slt } from "@prisma/client";
+import useLesson from "~/hooks/useLesson";
 
-export const courseNavigation = [
+export const navigationItems = [
   { name: "Home", href: "/home", icon: HomeIcon, current: false },
-  { name: "...", href: "#", icon: AcademicCapIcon, current: false },
+  { name: "Studio", href: "/studio", icon: PenTool, current: false },
 ];
 
 export default function Navigation() {
@@ -25,35 +29,77 @@ export default function Navigation() {
   const { coursecode } = router.query;
   const { data: sessionData } = useSession();
 
+  const { isCreator } = useValidateCreator(sessionData);
+
   return (
     <>
       {typeof coursecode === "string" &&
         router.pathname.includes("/course/[coursecode]") && (
-          <CoursePage courseCode={coursecode} />
+          <>
+            <NavigationItems isCreator={isCreator} />
+            <CoursePage courseCode={coursecode} />
+          </>
         )}
     </>
   );
 }
 
-function CoursePage({ courseCode }: { courseCode: string }) {
-  const router = useRouter();
-  const { data: sessionData } = useSession();
-  const { data: ownerCourses } = api.course.getCoursesByOwner.useQuery(
-    undefined,
-    { enabled: sessionData != null },
+function NavigationItems({ isCreator }: { isCreator: boolean }) {
+  return (
+    <ul role="list" className="-mx-2 space-y-1">
+      {navigationItems.map((item) => {
+        if (item.name === "Studio" && !isCreator) {
+          return null;
+        }
+        return (
+          <li key={item.name}>
+            <Link
+              href={item.href}
+              className={classNames(
+                item.current
+                  ? "bg-accent text-indigo-600"
+                  : "text-gray-700 hover:bg-accent hover:text-indigo-600",
+                "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
+              )}
+            >
+              <item.icon
+                className={classNames(
+                  item.current
+                    ? "text-indigo-600"
+                    : "text-gray-400 group-hover:text-indigo-600",
+                  "h-6 w-6 shrink-0",
+                )}
+                aria-hidden="true"
+              />
+              {item.name}
+            </Link>
+          </li>
+        );
+      })}
+    </ul>
   );
+}
 
+function CoursePage({ courseCode }: { courseCode: string }) {
+  // const router = useRouter();
+  // const { data: sessionData } = useSession();
+  // const { data: ownerCourses } = api.course.getCoursesByOwner.useQuery(
+  //   undefined,
+  //   { enabled: sessionData != null },
+  // );
+  const { data: sessionData } = useSession();
   const { course, isLoadingCourse } = useCourse(courseCode);
-  useEffect(() => {
-    if (course) {
-      courseNavigation[1] = {
-        name: course.title,
-        href: `/course/${course.courseCode}`,
-        icon: AcademicCapIcon,
-        current: false,
-      };
-    }
-  }, [course]);
+  const { isCreator } = useValidateCreator(sessionData);
+  // useEffect(() => {
+  //   if (course) {
+  //     navigationItems.push( {
+  //       name: course.title,
+  //       href: `/course/${course.courseCode}`,
+  //       icon: AcademicCapIcon,
+  //       current: false,
+  //     })
+  //   }
+  // }, [course]);
 
   const { courseModules, isLoadingCourseModules } =
     useCourseModules(courseCode);
@@ -66,30 +112,25 @@ function CoursePage({ courseCode }: { courseCode: string }) {
     <>
       <li>
         <ul role="list" className="-mx-2 space-y-1">
-          {courseNavigation.map((item) => (
-            <li key={item.name}>
-              <Link
-                href={item.href}
+          <li>
+            <Link
+              href={`/course/${course?.courseCode}`}
+              className={classNames(
+                "text-gray-700 hover:bg-accent hover:text-indigo-600",
+                "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
+              )}
+            >
+              <AcademicCapIcon
                 className={classNames(
-                  item.current
-                    ? "bg-accent text-primary"
-                    : "text-gray-700 hover:bg-accent hover:text-primary",
-                  "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
+                  "text-gray-400 group-hover:text-indigo-600",
+                  "h-6 w-6 shrink-0",
                 )}
-              >
-                <item.icon
-                  className={classNames(
-                    item.current
-                      ? "text-primary"
-                      : "text-gray-400 group-hover:text-primary",
-                    "h-6 w-6 shrink-0",
-                  )}
-                  aria-hidden="true"
-                />
-                {item.name}
-              </Link>
-            </li>
-          ))}
+                aria-hidden="true"
+              />
+              {course?.title}
+            </Link>
+          </li>
+
           {courseModules?.sort(sortBy).map((module, i) => {
             return (
               <>
@@ -117,7 +158,13 @@ function CoursePage({ courseCode }: { courseCode: string }) {
                             )}
                           >
                             <Link
-                              href={`/course/${courseCode}/${module.moduleCode}/lesson/${slt.moduleIndex}`}
+                              href={isLessonLive(
+                                module.lessons,
+                                slt,
+                                isCreator,
+                                courseCode,
+                                module,
+                              )}
                             >
                               <p
                                 className={classNames(
@@ -132,32 +179,33 @@ function CoursePage({ courseCode }: { courseCode: string }) {
                         );
                       })}
 
-                      {module.assignments.map((assignment) => {
-                        return (
-                          <AccordionContent
-                            key={assignment.assignmentCode}
-                            className={classNames(
-                              "text-gray-700 hover:bg-accent hover:text-indigo-600",
-                              "rounded-md p-2",
-                            )}
+                    {module.assignments.map((assignment) => {
+                      return (
+                        <AccordionContent
+                          key={assignment.assignmentCode}
+                          className={classNames(
+                            "text-gray-700 hover:bg-accent hover:text-indigo-600",
+                            "rounded-md p-2",
+                          )}
+                        >
+                          <Link
+                            href={
+                              assignment.live || isCreator
+                                ? `/course/${courseCode}/${module.moduleCode}/assignment/${assignment.assignmentCode}`
+                                : "#"
+                            }
                           >
-                            <Link
-                              href={`/course/${courseCode}/${module.moduleCode}/assignment/${assignment.assignmentCode}`}
+                            <p
+                              className={classNames(
+                                "group flex gap-x-3 text-sm font-semibold leading-6",
+                              )}
                             >
-                              <p
-                                className={classNames(
-                                  "group flex gap-x-3 text-sm font-semibold leading-6",
-                                )}
-                              >
-                                <span>{assignment.title}</span>
-                              </p>
-                            </Link>
-                          </AccordionContent>
-                        )
-                      }
-                      )
-                    }
-
+                              <span>{assignment.title}</span>
+                            </p>
+                          </Link>
+                        </AccordionContent>
+                      );
+                    })}
                   </AccordionItem>
                 </Accordion>
               </>
@@ -318,3 +366,18 @@ function CoursePage({ courseCode }: { courseCode: string }) {
 //     </>
 //   );
 // }
+
+function isLessonLive(
+  lessons: Partial<Lesson>[],
+  slt: Slt,
+  isCreator: boolean,
+  courseCode: string,
+  module: Module,
+) {
+  const lesson = lessons.find((lesson) => lesson.sltId === slt.id);
+
+  if ((lesson && lesson.live) || isCreator) {
+    return `/course/${courseCode}/${module.moduleCode}/lesson/${slt.moduleIndex}`;
+  }
+  return "#";
+}

@@ -48,10 +48,10 @@ export const LinkEditorPanel = ({ onSetLink, initialOpenInNewTab, initialUrl }: 
     <Surface className="p-2">
       <form onSubmit={state.handleSubmit} className="flex items-center gap-2">
         <label className="flex items-center gap-2 p-2 rounded-lg bg-neutral-100 dark:bg-neutral-900 cursor-text">
-          <Icon name="Link" className="flex-none text-black dark:text-white" />
+          <Icon name="Link" className="flex-none text-foreground dark:text-background" />
           <input
             type="url"
-            className="flex-1 bg-transparent outline-none min-w-[12rem] text-black text-sm dark:text-white"
+            className="flex-1 bg-transparent outline-none min-w-[12rem] text-foreground text-sm dark:text-background"
             placeholder="Enter URL"
             value={state.url}
             onChange={state.onChange}

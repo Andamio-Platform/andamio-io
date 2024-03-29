@@ -29,7 +29,7 @@ Panel.displayName = 'Panel'
 
 export const PanelDivider = forwardRef<HTMLDivElement, { asChild?: boolean } & React.HTMLAttributes<HTMLDivElement>>(
   ({ asChild, className, children, ...rest }, ref) => {
-    const dividerClass = cn('border-b border-b-black/10 mb-2 pb-2', className)
+    const dividerClass = cn('border-b border-bforground mb-2 pb-2', className)
 
     const Comp = asChild ? Slot : 'div'
 
@@ -45,7 +45,7 @@ PanelDivider.displayName = 'PanelDivider'
 
 export const PanelHeader = forwardRef<HTMLDivElement, { asChild?: boolean } & React.HTMLAttributes<HTMLDivElement>>(
   ({ asChild, className, children, ...rest }, ref) => {
-    const headerClass = cn('border-b border-b-black/10 text-sm mb-2 pb-2', className)
+    const headerClass = cn('border-b border-bforground text-sm mb-2 pb-2', className)
 
     const Comp = asChild ? Slot : 'div'
 
@@ -77,7 +77,7 @@ PanelSection.displayName = 'PanelSection'
 
 export const PanelHeadline = forwardRef<HTMLDivElement, { asChild?: boolean } & React.HTMLAttributes<HTMLDivElement>>(
   ({ asChild, className, children, ...rest }, ref) => {
-    const headlineClass = cn('text-black/80 dark:text-white/80 text-xs font-medium mb-2 ml-1.5', className)
+    const headlineClass = cn('text-forground dark:text-background text-xs font-medium mb-2 ml-1.5', className)
 
     const Comp = asChild ? Slot : 'div'
 
@@ -93,7 +93,7 @@ PanelHeadline.displayName = 'PanelHeadline'
 
 export const PanelFooter = forwardRef<HTMLDivElement, { asChild?: boolean } & React.HTMLAttributes<HTMLDivElement>>(
   ({ asChild, className, children, ...rest }, ref) => {
-    const footerClass = cn('border-t border-black/10 text-sm mt-2 pt-2', className)
+    const footerClass = cn('border-t borderforground text-sm mt-2 pt-2', className)
 
     const Comp = asChild ? Slot : 'div'
 

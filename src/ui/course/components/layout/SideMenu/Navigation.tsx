@@ -77,16 +77,16 @@ function CoursePage({ courseCode }: { courseCode: string }) {
                 href={item.href}
                 className={classNames(
                   item.current
-                    ? "bg-accent text-indigo-600"
-                    : "text-gray-700 hover:bg-accent hover:text-indigo-600",
+                    ? "bg-accent text-primary"
+                    : "text-gray-700 hover:bg-accent hover:text-primary",
                   "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
                 )}
               >
                 <item.icon
                   className={classNames(
                     item.current
-                      ? "text-indigo-600"
-                      : "text-gray-400 group-hover:text-indigo-600",
+                      ? "text-primary"
+                      : "text-gray-400 group-hover:text-primary",
                     "h-6 w-6 shrink-0",
                   )}
                   aria-hidden="true"
@@ -102,7 +102,7 @@ function CoursePage({ courseCode }: { courseCode: string }) {
                   <AccordionItem value="item-1">
                     <AccordionTrigger
                       className={classNames(
-                        "text-gray-700 hover:bg-accent hover:text-indigo-600",
+                        "text-gray-700 hover:bg-accent hover:text-primary",
                         "text-sm font-semibold",
                         "hover:no-underline",
                       )}
@@ -117,7 +117,7 @@ function CoursePage({ courseCode }: { courseCode: string }) {
                           <AccordionContent
                             key={slt.id}
                             className={classNames(
-                              "text-gray-700 hover:bg-accent hover:text-indigo-600",
+                              "text-gray-700 hover:bg-accent hover:text-primary",
                               "rounded-md p-2",
                             )}
                           >
@@ -156,17 +156,17 @@ function CoursePage({ courseCode }: { courseCode: string }) {
                   href={`/course/${course.courseCode}`}
                   className={classNames(
                     router.query.coursecode == course.courseCode
-                      ? "bg-accent text-indigo-600"
-                      : "text-gray-700 hover:bg-accent hover:text-indigo-600",
+                      ? "bg-accent text-primary"
+                      : "text-gray-700 hover:bg-accent hover:text-primary",
                     "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
                   )}
                 >
                   <span
                     className={classNames(
                       router.query.coursecode == course.courseCode
-                        ? "border-indigo-600 text-indigo-600"
-                        : "border-gray-200 text-gray-400 group-hover:border-indigo-600 group-hover:text-indigo-600",
-                      "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border bg-white text-[0.625rem] font-medium",
+                        ? "border-primary text-primary"
+                        : "border-gray-200 text-gray-400 group-hover:border-primary group-hover:text-primary",
+                      "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border bg-foreground text-[0.625rem] font-medium",
                     )}
                   >
                     {course.title.substring(0, 1)}
@@ -214,13 +214,13 @@ function CoursePage({ courseCode }: { courseCode: string }) {
 //               <Link
 //                 href={`/course/${course.courseCode}`}
 //                 className={classNames(
-//                   "text-gray-700 hover:bg-accent hover:text-indigo-600",
+//                   "text-gray-700 hover:bg-accent hover:text-primary",
 //                   "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
 //                 )}
 //               >
 //                 <HomeIcon
 //                   className={classNames(
-//                     "text-gray-400 group-hover:text-indigo-600",
+//                     "text-gray-400 group-hover:text-primary",
 //                     "h-6 w-6 shrink-0",
 //                   )}
 //                   aria-hidden="true"
@@ -274,17 +274,17 @@ function CoursePage({ courseCode }: { courseCode: string }) {
 //               href={`/course/${router.query.coursecode as string}/${moduleCode}/${slt.moduleIndex}`}
 //               className={classNames(
 //                 router.query.coursecode == slt.id
-//                   ? "bg-accent text-indigo-600"
-//                   : "text-gray-700 hover:bg-accent hover:text-indigo-600",
+//                   ? "bg-accent text-primary"
+//                   : "text-gray-700 hover:bg-accent hover:text-primary",
 //                 "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
 //               )}
 //             >
 //               <span
 //                 className={classNames(
 //                   router.query.coursecode == slt.id
-//                     ? "border-indigo-600 text-indigo-600"
-//                     : "border-gray-200 text-gray-400 group-hover:border-indigo-600 group-hover:text-indigo-600",
-//                   "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border bg-white text-[0.625rem] font-medium",
+//                     ? "border-primary text-primary"
+//                     : "border-gray-200 text-gray-400 group-hover:border-primary group-hover:text-primary",
+//                   "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border bg-foreground text-[0.625rem] font-medium",
 //                 )}
 //               >
 //                 {slt.moduleIndex > 0 && slt.moduleIndex}

@@ -30,7 +30,7 @@ const inputVariants = cva(
           "bg-primary border-b border-neutral-400 text-primary-foreground ",
       },
       formTextSize: {
-        md: "w-[500px] min-h-[190px] text-left text-pretty text-black",
+        md: "w-[500px] min-h-[190px] text-left text-pretty text-foreground",
       },
     },
     defaultVariants: {
@@ -162,7 +162,7 @@ const ToggleEditableTextArea = React.forwardRef<
                         intent="ghost"
                       >
                         <Pencil1Icon
-                          className="m-1 rounded-full bg-white text-primary"
+                          className="m-1 rounded-full bg-foreground text-primary"
                           width="20"
                           height="20"
                         />

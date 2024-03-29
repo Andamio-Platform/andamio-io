@@ -8,10 +8,10 @@ export default function SectionStartLearning() {
   return (
     <div className="mx-auto mt-32 max-w-7xl px-6 sm:mt-56 lg:px-8">
       <div className="mx-auto max-w-2xl lg:text-center">
-        <h2 className="text-base font-semibold leading-7 text-indigo-600">
+        <h2 className="text-base font-semibold leading-7 text-primary">
           Start learning today
         </h2>
-        <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+        <p className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
           Everything you need to aquire new skills
         </p>
         <p className="mt-6 text-lg leading-8 text-gray-600">
@@ -34,7 +34,7 @@ export default function SectionStartLearning() {
                   }
                   alt=""
                 />
-                <h3 className="mt-6 text-lg font-semibold leading-8 tracking-tight text-gray-900">
+                <h3 className="mt-6 text-lg font-semibold leading-8 tracking-tight text-foreground">
                   {course.title}
                 </h3>
                 <p className="text-base leading-7 text-gray-600">

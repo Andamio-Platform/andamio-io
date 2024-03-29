@@ -8,7 +8,7 @@ export default function DesktopMenu() {
 
   return (
     <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-      <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6">
+      <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-foreground px-6">
         <div className="flex h-16 shrink-0 items-center">
           <img className="h-8 w-auto" src="/andamio.png" alt="Andamio" />
         </div>
@@ -20,7 +20,7 @@ export default function DesktopMenu() {
                 {isProfileMenuOpen && (
                   <button
                     onClick={() => void signOut({ callbackUrl: "/" })}
-                    className="block w-full px-6 py-3 text-left text-sm font-semibold leading-6 text-gray-900 hover:bg-accent focus:outline-none"
+                    className="block w-full px-6 py-3 text-left text-sm font-semibold leading-6 text-foreground hover:bg-accent focus:outline-none"
                   >
                     Sign Out
                   </button>
@@ -29,7 +29,7 @@ export default function DesktopMenu() {
                   onClick={() =>
                     setIsProfileMenuOpen((prevState) => !prevState)
                   }
-                  className="flex cursor-pointer items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-accent"
+                  className="flex cursor-pointer items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-foreground hover:bg-accent"
                 >
                   <img
                     className="h-8 w-8 rounded-full bg-accent"

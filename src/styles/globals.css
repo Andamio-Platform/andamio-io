@@ -90,3 +90,11 @@
     opacity: 0;
   }
 }
+
+h1 {
+  @apply text-4xl pb-5
+}
+
+h2 {
+  @apply text-2xl py-3
+}

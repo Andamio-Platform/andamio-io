@@ -126,7 +126,7 @@ export default function ControlPanel({
               <Tooltip>
                 <TooltipTrigger>
                   <CheckCircledIcon
-                    className="rounded-full bg-green-900 text-white"
+                    className="rounded-full bg-green-900 text-background"
                     width="22"
                     height="22"
                   />

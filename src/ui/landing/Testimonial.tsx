@@ -1,13 +1,13 @@
 export default function Testimonial() {
   return (
     <div className="mx-auto mt-32 max-w-7xl sm:mt-56 sm:px-6 lg:px-8">
-      <div className="relative overflow-hidden bg-gray-900 px-6 py-20 shadow-xl sm:rounded-3xl sm:px-10 sm:py-24 md:px-12 lg:px-20">
+      <div className="relative overflow-hidden bg-foreground px-6 py-20 shadow-xl sm:rounded-3xl sm:px-10 sm:py-24 md:px-12 lg:px-20">
         <img
           className="absolute inset-0 h-full w-full object-cover brightness-150 saturate-0"
           src="https://meshjs.dev/logo-mesh/mesh.png"
           alt=""
         />
-        <div className="absolute inset-0 bg-gray-900/90 mix-blend-multiply" />
+        <div className="absolute inset-0 bg-forground mix-blend-multiply" />
         <div
           className="absolute -left-80 -top-56 transform-gpu blur-3xl"
           aria-hidden="true"
@@ -35,11 +35,11 @@ export default function Testimonial() {
         <div className="relative mx-auto max-w-2xl lg:mx-0">
           <img
             className="h-12 w-auto"
-            src="https://meshjs.dev/logo-mesh/white/logo-mesh-white-512x512.png"
+            src="https://meshjs.dev/logo-mesh/white/logo-meshbackground-512x512.png"
             alt=""
           />
           <figure>
-            <blockquote className="mt-6 text-lg font-semibold text-white sm:text-xl sm:leading-8">
+            <blockquote className="mt-6 text-lg font-semibold text-foreground sm:text-xl sm:leading-8">
               <p>
                 “Mesh SDK grew in contributors and scaled massively to support
                 Cardano blockchain developer ecosystem. Amet amet eget
@@ -48,7 +48,7 @@ export default function Testimonial() {
                 consequat at.”
               </p>
             </blockquote>
-            <figcaption className="mt-6 text-base text-white">
+            <figcaption className="mt-6 text-base text-foreground">
               <div className="font-semibold">Abdelkrim</div>
               <div className="mt-1">Founder of Mesh SDK</div>
             </figcaption>

@@ -42,10 +42,10 @@ export default function PageCourseContent({
       {lesson && lesson.live ? (
         <div className="mx-auto flex max-w-3xl flex-col gap-4 text-base leading-7 text-gray-700">
           <div>
-            <p className="text-base font-semibold leading-7 text-indigo-600">
+            <p className="text-base font-semibold leading-7 text-primary">
               {slt?.sltText}
             </p>
-            <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+            <h1 className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
               {lesson.title}
             </h1>
             <p className="text-xl leading-8">{lesson.description}</p>

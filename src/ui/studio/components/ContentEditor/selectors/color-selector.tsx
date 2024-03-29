@@ -17,7 +17,7 @@ interface ColorSelectorProps {
 const TEXT_COLORS: BubbleColorMenuItem[] = [
   {
     name: "Default",
-    color: "var(--novel-black)",
+    color: "var(--novelforeground)",
   },
   {
     name: "Purple",

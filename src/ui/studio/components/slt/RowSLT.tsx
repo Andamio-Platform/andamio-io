@@ -212,7 +212,7 @@ export function DragHandle() {
 
   return (
     <button
-      className="rounded-md px-1 transition-colors duration-500 ease-in-out hover:bg-accent"
+      className="rounded-md px-1 transition-colors duration-250 ease-in-out hover:bg-accent"
       {...attributes}
       {...listeners}
       ref={setNodeRef}

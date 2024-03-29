@@ -23,9 +23,9 @@ export default function FormInput(props: InputProps) {
       name={props.name}
       render={({ field }) => (
         <FormItem>
-          {props.label && <FormLabel className="text-black">{props.label}</FormLabel>}
+          {props.label && <FormLabel className="text-foreground">{props.label}</FormLabel>}
           <FormControl>
-            <Input {...field} placeholder={props.placeholder} className="border-b border-black my-3" />
+            <Input {...field} placeholder={props.placeholder} className="border-b borderforeground my-3" />
           </FormControl>
           {props.info && <FormDescription>{props.info}</FormDescription>}
           <FormMessage />

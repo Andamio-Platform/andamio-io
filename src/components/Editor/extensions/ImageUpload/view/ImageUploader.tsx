@@ -45,7 +45,7 @@ export const ImageUploader = ({
     >
       <Icon
         name="Image"
-        className="mb-4 h-12 w-12 text-black opacity-20 dark:text-white"
+        className="mb-4 h-12 w-12 text-foreground opacity-20 dark:text-background"
       />
       <div className="flex flex-col items-center justify-center gap-2">
         <div className="text-center text-sm font-medium text-neutral-400 dark:text-neutral-500">

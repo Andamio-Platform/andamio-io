@@ -6,10 +6,10 @@ export default function PageCourses() {
   const { courses, isLoadingCourses } = useCourses();
 
   return (
-    <div className="bg-white py-24 sm:py-32">
+    <div className="bg-foreground py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl lg:mx-0">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+          <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
             Courses
           </h2>
           <p className="mt-6 text-lg leading-8 text-gray-600">
@@ -37,7 +37,7 @@ export default function PageCourses() {
                     }
                     alt=""
                   />
-                  <h3 className="mt-6 text-lg font-semibold leading-8 tracking-tight text-gray-900">
+                  <h3 className="mt-6 text-lg font-semibold leading-8 tracking-tight text-foreground">
                     {course.title}
                   </h3>
                   <p className="text-base leading-7 text-gray-600">

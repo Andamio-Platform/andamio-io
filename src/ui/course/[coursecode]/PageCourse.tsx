@@ -133,9 +133,9 @@ function ListModules({
 
   return (
     <div className="mx-auto w-full max-w-7xl px-6 lg:px-8">
-      <div className="mx-auto max-w-4xl divide-y divide-gray-900/10">
+      <div className="mx-auto max-w-4xl divide-y divide-forground">
         <Card>
-          <dl className="divide-gray-900/10">
+          <dl className="divide-forground">
             {isLoadingCourseModules && <Loading />}
             {courseModules.sort(sortBy).map((module, i) => (
               <ModuleContainer
@@ -189,7 +189,7 @@ function ModuleContainer({
   return (
     <Accordion type="single" collapsible>
       <AccordionItem value="item-1">
-        <AccordionTrigger className="flex w-full items-start justify-between gap-4 text-left text-gray-900 hover:no-underline hover:text-indigo-600">
+        <AccordionTrigger className="flex w-full items-start justify-between gap-4 text-left text-foreground hover:no-underline hover:text-primary">
           <span className="text-5xl font-semibold leading-7">
             {_module.moduleCode}
           </span>
@@ -208,7 +208,7 @@ function ModuleContainer({
           {_module.slts.map((slt, i) => (
             <AccordionContent
               key={`slt${i}`}
-              className="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 sm:flex-nowrap text-gray-900 hover:text-indigo-600"
+              className="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 sm:flex-nowrap text-foreground hover:text-primary"
             >
               <Link
                 href={`/course/${courseCode}/${_module.moduleCode}/lesson/${slt.moduleIndex}`}

@@ -37,7 +37,7 @@ const footerNavigation = {
 
 export default function PageLanding() {
   return (
-    <div className="bg-white">
+    <div className="bg-foreground">
       <MenuBar />
 
       <main className="isolate">
@@ -62,7 +62,7 @@ export default function PageLanding() {
       <div className="mx-auto mt-32 max-w-7xl px-6 lg:px-8">
         <footer
           aria-labelledby="footer-heading"
-          className="relative border-t border-gray-900/10 py-24 sm:mt-56 sm:py-32"
+          className="relative border-t border-foreground py-24 sm:mt-56 sm:py-32"
         >
           <h2 id="footer-heading" className="sr-only">
             Footer
@@ -76,7 +76,7 @@ export default function PageLanding() {
             <div className="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
               <div className="md:grid md:grid-cols-2 md:gap-8">
                 <div>
-                  <h3 className="text-sm font-semibold leading-6 text-gray-900">
+                  <h3 className="text-sm font-semibold leading-6 text-foreground">
                     Solutions
                   </h3>
                   <ul role="list" className="mt-6 space-y-4">
@@ -84,7 +84,7 @@ export default function PageLanding() {
                       <li key={item.name}>
                         <a
                           href={item.href}
-                          className="text-sm leading-6 text-gray-600 hover:text-gray-900"
+                          className="text-sm leading-6 text-gray-600 hover:text-foreground"
                         >
                           {item.name}
                         </a>
@@ -93,7 +93,7 @@ export default function PageLanding() {
                   </ul>
                 </div>
                 <div className="mt-10 md:mt-0">
-                  <h3 className="text-sm font-semibold leading-6 text-gray-900">
+                  <h3 className="text-sm font-semibold leading-6 text-foreground">
                     Support
                   </h3>
                   <ul role="list" className="mt-6 space-y-4">
@@ -101,7 +101,7 @@ export default function PageLanding() {
                       <li key={item.name}>
                         <a
                           href={item.href}
-                          className="text-sm leading-6 text-gray-600 hover:text-gray-900"
+                          className="text-sm leading-6 text-gray-600 hover:text-foreground"
                         >
                           {item.name}
                         </a>
@@ -112,7 +112,7 @@ export default function PageLanding() {
               </div>
               <div className="md:grid md:grid-cols-2 md:gap-8">
                 <div>
-                  <h3 className="text-sm font-semibold leading-6 text-gray-900">
+                  <h3 className="text-sm font-semibold leading-6 text-foreground">
                     Company
                   </h3>
                   <ul role="list" className="mt-6 space-y-4">
@@ -120,7 +120,7 @@ export default function PageLanding() {
                       <li key={item.name}>
                         <a
                           href={item.href}
-                          className="text-sm leading-6 text-gray-600 hover:text-gray-900"
+                          className="text-sm leading-6 text-gray-600 hover:text-foreground"
                         >
                           {item.name}
                         </a>
@@ -129,7 +129,7 @@ export default function PageLanding() {
                   </ul>
                 </div>
                 <div className="mt-10 md:mt-0">
-                  <h3 className="text-sm font-semibold leading-6 text-gray-900">
+                  <h3 className="text-sm font-semibold leading-6 text-foreground">
                     Legal
                   </h3>
                   <ul role="list" className="mt-6 space-y-4">
@@ -137,7 +137,7 @@ export default function PageLanding() {
                       <li key={item.name}>
                         <a
                           href={item.href}
-                          className="text-sm leading-6 text-gray-600 hover:text-gray-900"
+                          className="text-sm leading-6 text-gray-600 hover:text-foreground"
                         >
                           {item.name}
                         </a>

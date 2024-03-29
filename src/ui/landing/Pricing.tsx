@@ -64,10 +64,10 @@ export default function Pricing() {
     <div className="py-24 sm:pt-48">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
-          <h2 className="text-base font-semibold leading-7 text-indigo-600">
+          <h2 className="text-base font-semibold leading-7 text-primary">
             Pricing
           </h2>
-          <p className="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
+          <p className="mt-2 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
             Pricing plans for teams of&nbsp;all&nbsp;sizes
           </p>
         </div>
@@ -86,7 +86,7 @@ export default function Pricing() {
                 tierIdx < tiers.length - 1 && tierIdx > 0
                   ? "lg:rounded-none"
                   : "",
-                "flex flex-col justify-between rounded-3xl bg-white p-8 ring-1 ring-gray-200 xl:p-10",
+                "flex flex-col justify-between rounded-3xl bg-foreground p-8 ring-1 ring-gray-200 xl:p-10",
               )}
             >
               <div>
@@ -94,14 +94,14 @@ export default function Pricing() {
                   <h3
                     id={tier.id}
                     className={classNames(
-                      tier.mostPopular ? "text-indigo-600" : "text-gray-900",
+                      tier.mostPopular ? "text-primary" : "text-foreground",
                       "text-lg font-semibold leading-8",
                     )}
                   >
                     {tier.name}
                   </h3>
                   {tier.mostPopular ? (
-                    <p className="rounded-full bg-indigo-600/10 px-2.5 py-1 text-xs font-semibold leading-5 text-indigo-600">
+                    <p className="rounded-full bg-primary/10 px-2.5 py-1 text-xs font-semibold leading-5 text-primary">
                       Most popular
                     </p>
                   ) : null}
@@ -110,7 +110,7 @@ export default function Pricing() {
                   {tier.description}
                 </p>
                 <p className="mt-6 flex items-baseline gap-x-1">
-                  <span className="text-4xl font-bold tracking-tight text-gray-900">
+                  <span className="text-4xl font-bold tracking-tight text-foreground">
                     {tier.priceMonthly}
                   </span>
                   <span className="text-sm font-semibold leading-6 text-gray-600">
@@ -124,7 +124,7 @@ export default function Pricing() {
                   {tier.features.map((feature) => (
                     <li key={feature} className="flex gap-x-3">
                       <CheckIcon
-                        className="h-6 w-5 flex-none text-indigo-600"
+                        className="h-6 w-5 flex-none text-primary"
                         aria-hidden="true"
                       />
                       {feature}
@@ -137,9 +137,9 @@ export default function Pricing() {
                 aria-describedby={tier.id}
                 className={classNames(
                   tier.mostPopular
-                    ? "bg-indigo-600 text-white shadow-sm hover:bg-indigo-500"
-                    : "text-indigo-600 ring-1 ring-inset ring-indigo-200 hover:ring-indigo-300",
-                  "mt-8 block rounded-md px-3 py-2 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600",
+                    ? "bg-primary text-foreground shadow-sm hover:bg-primary"
+                    : "text-primary ring-1 ring-inset ring-primary hover:ring-primary",
+                  "mt-8 block rounded-md px-3 py-2 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
                 )}
               >
                 Buy plan

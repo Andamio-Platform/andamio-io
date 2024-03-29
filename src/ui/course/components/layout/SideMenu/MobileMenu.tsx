@@ -29,7 +29,7 @@ export default function MobileMenu({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-gray-900/80" />
+          <div className="fixed inset-0 bg-forground" />
         </Transition.Child>
 
         <div className="fixed inset-0 flex">
@@ -60,14 +60,14 @@ export default function MobileMenu({
                   >
                     <span className="sr-only">Close sidebar</span>
                     <XMarkIcon
-                      className="h-6 w-6 text-white"
+                      className="h-6 w-6 text-background"
                       aria-hidden="true"
                     />
                   </button>
                 </div>
               </Transition.Child>
 
-              <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-2">
+              <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-foreground px-6 pb-2">
                 <div className="flex h-16 shrink-0 items-center">
                   <img
                     className="h-8 w-auto"

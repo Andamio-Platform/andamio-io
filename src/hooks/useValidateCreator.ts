@@ -2,21 +2,34 @@ import { Session } from "next-auth";
 import { api } from "~/utils/api";
 
 export default function useValidateCreator(
-  courseCode: string,
   sessionData: Session | null,
+  courseCode?: string,
 ) {
-  const { data: ownerCourses, isLoading: isValidatingCreator } =
-    api.course.getCoursesByOwner.useQuery(undefined, {
-      enabled: sessionData != null,
-    });
+  if (!courseCode) {
+    const userId = sessionData?.user.id;
 
-  const courseFound = ownerCourses?.find(
-    (course) => course.courseCode === courseCode,
-  );
+    const { data: user, isLoading: isValidatingCreator } =
+      api.user.getUserById.useQuery({ id: userId ? userId : "" });
 
-  if (courseFound) {
-    return { isCreator: true, isValidatingCreator };
+    if (user?.creator) {
+      return { isCreator: true, isValidatingCreator: isValidatingCreator };
+    } else {
+      return { isCreator: false, isValidatingCreator: isValidatingCreator };
+    }
   } else {
-    return { isCreator: false, isValidatingCreator };
+    const { data: ownerCourses, isLoading: isValidatingCreator } =
+      api.course.getCoursesByOwner.useQuery(undefined, {
+        enabled: sessionData != null,
+      });
+
+    const courseFound = ownerCourses?.find(
+      (course) => course.courseCode === courseCode,
+    );
+
+    if (courseFound) {
+      return { isCreator: true, isValidatingCreator };
+    } else {
+      return { isCreator: false, isValidatingCreator };
+    }
   }
 }

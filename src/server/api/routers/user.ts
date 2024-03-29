@@ -19,14 +19,34 @@ export const userRouter = createTRPCRouter({
         },
         include: {
           creator: true,
-          learner: true
-        }
+          learner: true,
+        },
       });
 
       if (users === undefined) {
         return [];
       } else {
         return users as Promise<User[]>;
+      }
+    }),
+
+  getUserById: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const user = await ctx.db.user.findUnique({
+        where: {
+          id: input.id,
+        },
+        include: {
+          creator: true,
+          learner: true,
+        },
+      });
+
+      if (user === null) {
+        throw new Error("User not found");
+      } else {
+        return user;
       }
     }),
 });

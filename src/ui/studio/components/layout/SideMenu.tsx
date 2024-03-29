@@ -1,10 +1,11 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Bars3Icon, HomeIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { useSession, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import SessionProfile from "~/ui/auth/SessionProfile";
 
 const navigation = [
   { name: "Studio", href: "/studio", icon: HomeIcon, current: false },
@@ -17,7 +18,7 @@ function classNames(...classes: string[]) {
 export default function SideMenu() {
   const { data: sessionData } = useSession();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+
   const { data: ownerCourses, isLoading } =
     api.course.getCoursesByOwner.useQuery(undefined, {
       enabled: sessionData != null,
@@ -228,32 +229,7 @@ export default function SideMenu() {
                   ))}
                 </ul>
               </li>
-              {sessionData && (
-                <li className="-mx-6 mt-auto">
-                  {isProfileMenuOpen && (
-                    <button
-                      onClick={() => void signOut({ callbackUrl: "/" })}
-                      className="block w-full px-6 py-3 text-left text-sm font-semibold leading-6 text-gray-900 hover:bg-accent focus:outline-none"
-                    >
-                      Sign Out
-                    </button>
-                  )}
-                  <a
-                    onClick={() =>
-                      setIsProfileMenuOpen((prevState) => !prevState)
-                    }
-                    className="flex cursor-pointer items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-accent"
-                  >
-                    <img
-                      className="h-8 w-8 rounded-full bg-accent"
-                      src={sessionData.user?.image ?? ""}
-                      alt=""
-                    />
-                    <span className="sr-only">Your profile</span>
-                    <span aria-hidden="true">{sessionData.user?.name}</span>
-                  </a>
-                </li>
-              )}
+              {sessionData && <SessionProfile />}
             </ul>
           </nav>
         </div>

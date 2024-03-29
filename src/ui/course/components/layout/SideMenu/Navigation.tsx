@@ -1,23 +1,16 @@
 import { HomeIcon, AcademicCapIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import classNames from "~/utils/classnames";
-import { RouterOutputs, api } from "~/utils/api";
 import { useRouter } from "next/router";
-import { Module } from "~/types/db";
 import { useSession } from "next-auth/react";
-import useCourseModules from "~/hooks/useCourseModules";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "~/components/ui/accordion";
 import useCourse from "~/hooks/useCourse";
-import { useEffect } from "react";
+import useValidateCreator from "~/hooks/useValidateCreator";
+import { PenTool } from "lucide-react";
+import CourseOutline from "./CourseOutline";
 
-export const courseNavigation = [
+export const navigationItems = [
   { name: "Home", href: "/home", icon: HomeIcon, current: false },
-  { name: "...", href: "#", icon: AcademicCapIcon, current: false },
+  { name: "Studio", href: "/studio", icon: PenTool, current: false },
 ];
 
 export default function Navigation() {
@@ -25,145 +18,103 @@ export default function Navigation() {
   const { coursecode } = router.query;
   const { data: sessionData } = useSession();
 
+  const { isCreator } = useValidateCreator(sessionData);
+
   return (
     <>
       {typeof coursecode === "string" &&
         router.pathname.includes("/course/[coursecode]") && (
-          <CoursePage courseCode={coursecode} />
+          <>
+            <NavigationItems isCreator={isCreator} />
+            <CoursePage courseCode={coursecode} />
+          </>
         )}
     </>
   );
 }
 
-function CoursePage({ courseCode }: { courseCode: string }) {
-  const router = useRouter();
-  const { data: sessionData } = useSession();
-  const { data: ownerCourses } = api.course.getCoursesByOwner.useQuery(
-    undefined,
-    { enabled: sessionData != null },
+function NavigationItems({ isCreator }: { isCreator: boolean }) {
+  return (
+    <ul role="list" className="-mx-2 space-y-1">
+      {navigationItems.map((item) => {
+        if (item.name === "Studio" && !isCreator) {
+          return null;
+        }
+        return (
+          <li key={item.name}>
+            <Link
+              href={item.href}
+              className={classNames(
+                item.current
+                  ? "bg-accent text-indigo-600"
+                  : "text-gray-700 hover:bg-accent hover:text-indigo-600",
+                "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
+              )}
+            >
+              <item.icon
+                className={classNames(
+                  item.current
+                    ? "text-indigo-600"
+                    : "text-gray-400 group-hover:text-indigo-600",
+                  "h-6 w-6 shrink-0",
+                )}
+                aria-hidden="true"
+              />
+              {item.name}
+            </Link>
+          </li>
+        );
+      })}
+    </ul>
   );
+}
 
+function CoursePage({ courseCode }: { courseCode: string }) {
+  // const router = useRouter();
+  // const { data: sessionData } = useSession();
+  // const { data: ownerCourses } = api.course.getCoursesByOwner.useQuery(
+  //   undefined,
+  //   { enabled: sessionData != null },
+  // );
+  const { data: sessionData } = useSession();
   const { course, isLoadingCourse } = useCourse(courseCode);
-  useEffect(() => {
-    if (course) {
-      courseNavigation[1] = {
-        name: course.title,
-        href: `/course/${course.courseCode}`,
-        icon: AcademicCapIcon,
-        current: false,
-      };
-    }
-  }, [course]);
-
-  const { courseModules, isLoadingCourseModules } =
-    useCourseModules(courseCode);
-
-  function sortBy(a: Module, b: Module) {
-    return a.moduleCode > b.moduleCode ? 1 : -1;
-  }
+  const { isCreator } = useValidateCreator(sessionData);
+  // useEffect(() => {
+  //   if (course) {
+  //     navigationItems.push( {
+  //       name: course.title,
+  //       href: `/course/${course.courseCode}`,
+  //       icon: AcademicCapIcon,
+  //       current: false,
+  //     })
+  //   }
+  // }, [course]);
 
   return (
     <>
       <li>
         <ul role="list" className="-mx-2 space-y-1">
-          {courseNavigation.map((item) => (
-            <li key={item.name}>
-              <Link
-                href={item.href}
+          <li>
+            <Link
+              href={`/course/${course?.courseCode}`}
+              className={classNames(
+                "text-gray-700 hover:bg-accent hover:text-indigo-600",
+                "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
+              )}
+            >
+              <AcademicCapIcon
                 className={classNames(
-                  item.current
-                    ? "bg-accent text-indigo-600"
-                    : "text-gray-700 hover:bg-accent hover:text-indigo-600",
-                  "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
+                  "text-gray-400 group-hover:text-indigo-600",
+                  "h-6 w-6 shrink-0",
                 )}
-              >
-                <item.icon
-                  className={classNames(
-                    item.current
-                      ? "text-indigo-600"
-                      : "text-gray-400 group-hover:text-indigo-600",
-                    "h-6 w-6 shrink-0",
-                  )}
-                  aria-hidden="true"
-                />
-                {item.name}
-              </Link>
-            </li>
-          ))}
-          {courseModules?.sort(sortBy).map((module, i) => {
-            return (
-              <>
-                <Accordion key={module.moduleCode} type="single" collapsible>
-                  <AccordionItem value="item-1">
-                    <AccordionTrigger
-                      className={classNames(
-                        "text-gray-700 hover:bg-accent hover:text-indigo-600",
-                        "text-sm font-semibold",
-                        "hover:no-underline",
-                      )}
-                    >
-                      {module.title}
-                    </AccordionTrigger>
+                aria-hidden="true"
+              />
+              {course?.title}
+            </Link>
+          </li>
 
-                    {module.slts
-                      .sort((a, b) => a.moduleIndex - b.moduleIndex)
-                      .map((slt) => {
-                        return (
-                          <AccordionContent
-                            key={slt.id}
-                            className={classNames(
-                              "text-gray-700 hover:bg-accent hover:text-indigo-600",
-                              "rounded-md p-2",
-                            )}
-                          >
-                            <Link
-                              href={`/course/${courseCode}/${module.moduleCode}/lesson/${slt.moduleIndex}`}
-                            >
-                              <p
-                                className={classNames(
-                                  "group flex gap-x-3 text-sm font-semibold leading-6",
-                                )}
-                              >
-                                <span>{slt.moduleIndex}</span>
-                                {slt.sltText}
-                              </p>
-                            </Link>
-                          </AccordionContent>
-                        );
-                      })}
-
-                      {module.assignments.map((assignment) => {
-                        return (
-                          <AccordionContent
-                            key={assignment.assignmentCode}
-                            className={classNames(
-                              "text-gray-700 hover:bg-accent hover:text-indigo-600",
-                              "rounded-md p-2",
-                            )}
-                          >
-                            <Link
-                              href={`/course/${courseCode}/${module.moduleCode}/assignment/${assignment.assignmentCode}`}
-                            >
-                              <p
-                                className={classNames(
-                                  "group flex gap-x-3 text-sm font-semibold leading-6",
-                                )}
-                              >
-                                <span>{assignment.title}</span>
-                              </p>
-                            </Link>
-                          </AccordionContent>
-                        )
-                      }
-                      )
-                    }
-
-                  </AccordionItem>
-                </Accordion>
-              </>
-            );
-          })}
         </ul>
+          <CourseOutline courseCode={courseCode} isCreator={isCreator} />
       </li>
 
       {/* {sessionData && (

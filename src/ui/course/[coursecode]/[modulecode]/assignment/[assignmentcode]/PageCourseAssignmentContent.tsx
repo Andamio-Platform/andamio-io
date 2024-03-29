@@ -25,8 +25,8 @@ export default function PageCourseAssignmentContent({
   );
 
   const { isCreator } = useValidateCreator(
-    courseCode,
     sessionData,
+    courseCode,
   );
 
   return (

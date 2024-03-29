@@ -28,7 +28,7 @@ export default function PageCourseContent({
     parseInt(moduleIndex),
   );
 
-  const { isCreator } = useValidateCreator(courseCode, sessionData);
+  const { isCreator } = useValidateCreator(sessionData, courseCode);
 
   const { slt, isLoadingSLT } = useSLT(
     courseCode,

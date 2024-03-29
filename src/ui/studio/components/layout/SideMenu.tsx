@@ -1,10 +1,11 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Bars3Icon, HomeIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { useSession, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import SessionProfile from "~/ui/auth/SessionProfile";
 
 const navigation = [
   { name: "Studio", href: "/studio", icon: HomeIcon, current: false },
@@ -17,7 +18,7 @@ function classNames(...classes: string[]) {
 export default function SideMenu() {
   const { data: sessionData } = useSession();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+
   const { data: ownerCourses, isLoading } =
     api.course.getCoursesByOwner.useQuery(undefined, {
       enabled: sessionData != null,
@@ -228,6 +229,7 @@ export default function SideMenu() {
                   ))}
                 </ul>
               </li>
+<<<<<<< HEAD
               {sessionData && (
                 <li className="-mx-6 mt-auto">
                   {isProfileMenuOpen && (
@@ -254,6 +256,9 @@ export default function SideMenu() {
                   </a>
                 </li>
               )}
+=======
+              {sessionData && <SessionProfile />}
+>>>>>>> 19b1b73 (refactor session profile)
             </ul>
           </nav>
         </div>

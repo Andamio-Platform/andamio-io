@@ -24,10 +24,7 @@ export default function PageCourseAssignmentContent({
     moduleCode,
   );
 
-  const { isCreator } = useValidateCreator(
-    sessionData,
-    courseCode,
-  );
+  const { isCreator } = useValidateCreator(sessionData, courseCode);
 
   return (
     <CourseLayout>
@@ -58,14 +55,13 @@ function Page(assignment: { slts: Slt[] } & Assignment) {
     editable: false,
   });
 
-  useEffect(() => {
-    if (
-      assignment &&
-      assignment.contentJson &&
-      typeof assignment.contentJson === "object"
-    )
-      editor.setContent(assignment.contentJson);
-  }, [assignment]);
+  if (
+    assignment &&
+    assignment.contentJson &&
+    typeof assignment.contentJson === "object"
+  ) {
+    editor.setContent(assignment.contentJson);
+  }
 
   return (
     <>

@@ -1,23 +1,12 @@
 import { HomeIcon, AcademicCapIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import classNames from "~/utils/classnames";
-import { RouterOutputs, api } from "~/utils/api";
 import { useRouter } from "next/router";
-import { Module } from "~/types/db";
 import { useSession } from "next-auth/react";
-import useCourseModules from "~/hooks/useCourseModules";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "~/components/ui/accordion";
 import useCourse from "~/hooks/useCourse";
-import { use, useEffect } from "react";
 import useValidateCreator from "~/hooks/useValidateCreator";
 import { PenTool } from "lucide-react";
-import { Lesson, Slt } from "@prisma/client";
-import useLesson from "~/hooks/useLesson";
+import CourseOutline from "./CourseOutline";
 
 export const navigationItems = [
   { name: "Home", href: "/home", icon: HomeIcon, current: false },
@@ -101,13 +90,6 @@ function CoursePage({ courseCode }: { courseCode: string }) {
   //   }
   // }, [course]);
 
-  const { courseModules, isLoadingCourseModules } =
-    useCourseModules(courseCode);
-
-  function sortBy(a: Module, b: Module) {
-    return a.moduleCode > b.moduleCode ? 1 : -1;
-  }
-
   return (
     <>
       <li>
@@ -131,87 +113,8 @@ function CoursePage({ courseCode }: { courseCode: string }) {
             </Link>
           </li>
 
-          {courseModules?.sort(sortBy).map((module, i) => {
-            return (
-              <>
-                <Accordion key={module.moduleCode} type="single" collapsible>
-                  <AccordionItem value="item-1">
-                    <AccordionTrigger
-                      className={classNames(
-                        "text-gray-700 hover:bg-accent hover:text-indigo-600",
-                        "text-sm font-semibold",
-                        "hover:no-underline",
-                      )}
-                    >
-                      {module.title}
-                    </AccordionTrigger>
-
-                    {module.slts
-                      .sort((a, b) => a.moduleIndex - b.moduleIndex)
-                      .map((slt) => {
-                        return (
-                          <AccordionContent
-                            key={slt.id}
-                            className={classNames(
-                              "text-gray-700 hover:bg-accent hover:text-indigo-600",
-                              "rounded-md p-2",
-                            )}
-                          >
-                            <Link
-                              href={isLessonLive(
-                                module.lessons,
-                                slt,
-                                isCreator,
-                                courseCode,
-                                module,
-                              )}
-                            >
-                              <p
-                                className={classNames(
-                                  "group flex gap-x-3 text-sm font-semibold leading-6",
-                                )}
-                              >
-                                <span>{slt.moduleIndex}</span>
-                                {slt.sltText}
-                              </p>
-                            </Link>
-                          </AccordionContent>
-                        );
-                      })}
-
-                    {module.assignments.map((assignment) => {
-                      return (
-                        <AccordionContent
-                          key={assignment.assignmentCode}
-                          className={classNames(
-                            "text-gray-700 hover:bg-accent hover:text-indigo-600",
-                            "rounded-md p-2",
-                          )}
-                        >
-                          <Link
-                            href={
-                              assignment.live || isCreator
-                                ? `/course/${courseCode}/${module.moduleCode}/assignment/${assignment.assignmentCode}`
-                                : "#"
-                            }
-                          >
-                            <p
-                              className={classNames(
-                                "group flex gap-x-3 text-sm font-semibold leading-6",
-                              )}
-                            >
-                              <span>{assignment.title}</span>
-                            </p>
-                          </Link>
-                        </AccordionContent>
-                      );
-                    })}
-                  </AccordionItem>
-                </Accordion>
-              </>
-            );
-          })}
         </ul>
+          <CourseOutline courseCode={courseCode} isCreator={isCreator} />
       </li>
 
       {/* {sessionData && (
@@ -366,18 +269,3 @@ function CoursePage({ courseCode }: { courseCode: string }) {
 //     </>
 //   );
 // }
-
-function isLessonLive(
-  lessons: Partial<Lesson>[],
-  slt: Slt,
-  isCreator: boolean,
-  courseCode: string,
-  module: Module,
-) {
-  const lesson = lessons.find((lesson) => lesson.sltId === slt.id);
-
-  if ((lesson && lesson.live) || isCreator) {
-    return `/course/${courseCode}/${module.moduleCode}/lesson/${slt.moduleIndex}`;
-  }
-  return "#";
-}

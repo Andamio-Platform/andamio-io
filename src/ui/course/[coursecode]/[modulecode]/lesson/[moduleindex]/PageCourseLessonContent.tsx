@@ -36,19 +36,12 @@ export default function PageCourseContent({
     parseInt(moduleIndex),
   );
 
-  const editor = new Editor({
-    editable: false,
-  });
-
-  useEffect(() => {
-    if (lesson && lesson.contentJson && typeof lesson.contentJson === "object")
-      editor.setContent(lesson.contentJson);
-  }, [lesson]);
-
   return (
     <CourseLayout>
       {lesson && lesson.live ? (
-        <Page slt={slt} lesson={lesson} />
+        <div className="mx-auto flex max-w-3xl flex-col gap-4 text-base leading-7 text-gray-700">
+          <Page slt={slt} lesson={lesson} />
+        </div>
       ) : lesson && !lesson.live ? (
         <div className="mx-auto flex max-w-3xl flex-col gap-4 text-base leading-7 text-gray-700">
           <Alert variant="warning">
@@ -91,10 +84,9 @@ function Page({
     editable: false,
   });
 
-  useEffect(() => {
-    if (lesson && lesson.contentJson && typeof lesson.contentJson === "object")
-      editor.setContent(lesson.contentJson);
-  }, [lesson]);
+  if (lesson && lesson.contentJson && typeof lesson.contentJson === "object") {
+    editor.setContent(lesson.contentJson);
+  }
 
   return (
     <>

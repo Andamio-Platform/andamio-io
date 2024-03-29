@@ -78,7 +78,7 @@ function CoursePage({ courseCode }: { courseCode: string }) {
   // );
   const { data: sessionData } = useSession();
   const { course, isLoadingCourse } = useCourse(courseCode);
-  const { isCreator } = useValidateCreator(sessionData);
+  const { isCreator } = useValidateCreator(sessionData, courseCode);
   // useEffect(() => {
   //   if (course) {
   //     navigationItems.push( {

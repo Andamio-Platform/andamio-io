@@ -37,7 +37,7 @@ const footerNavigation = {
 
 export default function PageLanding() {
   return (
-    <div className="bg-foreground">
+    <div className="bg-primary">
       <MenuBar />
 
       <main className="isolate">

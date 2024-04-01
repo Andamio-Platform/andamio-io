@@ -99,7 +99,7 @@ export default function DialogCourseManager({
                       className={({ active }) =>
                         classNames(
                           "relative cursor-default select-none py-2 pl-3 pr-9",
-                          active ? "bg-primary text-background" : "text-foreground",
+                          active ? "bg-primary text-primary-foreground" : "text-foreground",
                         )
                       }
                     >
@@ -127,7 +127,7 @@ export default function DialogCourseManager({
                             <span
                               className={classNames(
                                 "absolute inset-y-0 right-0 flex items-center pr-4",
-                                active ? "text-background" : "text-primary",
+                                active ? "text-primary-foreground" : "text-primary",
                               )}
                             >
                               <CheckIcon

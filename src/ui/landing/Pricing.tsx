@@ -86,7 +86,7 @@ export default function Pricing() {
                 tierIdx < tiers.length - 1 && tierIdx > 0
                   ? "lg:rounded-none"
                   : "",
-                "flex flex-col justify-between rounded-3xl bg-foreground p-8 ring-1 ring-gray-200 xl:p-10",
+                "flex flex-col justify-between rounded-3xl bg-primary p-8 ring-1 ring-gray-200 xl:p-10",
               )}
             >
               <div>

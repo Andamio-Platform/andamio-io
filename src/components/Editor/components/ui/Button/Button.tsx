@@ -21,7 +21,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
       variant === 'primary' &&
         cn(
-          'text-background bg-foreground borderforeground dark:text-foreground dark:bg-foreground dark:borderbackground',
+          'text-primary-foreground bg-primary borderforeground dark:text-foreground dark:bg-primary dark:borderbackground',
           !disabled &&
             !active &&
             'hover:bg-neutral-800 active:bg-neutral-900 dark:hover:bg-neutral-200 dark:active:bg-neutral-300',
@@ -30,7 +30,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
       variant === 'secondary' &&
         cn(
-          'text-neutral-900 dark:text-background',
+          'text-neutral-900 dark:text-primary-foreground',
           !disabled &&
             !active &&
             'hover:bg-neutral-100 active:bg-neutral-200 dark:hover:bg-neutral-900 dark:active:bg-neutral-800',
@@ -39,7 +39,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
       variant === 'tertiary' &&
         cn(
-          'bg-neutral-50 text-neutral-900 dark:bg-neutral-900 dark:text-background dark:border-neutral-900',
+          'bg-neutral-50 text-neutral-900 dark:bg-neutral-900 dark:text-primary-foreground dark:border-neutral-900',
           !disabled &&
             !active &&
             'hover:bg-neutral-100 active:bg-neutral-200 dark:hover:bg-neutral-800 dark:active:bg-neutral-700',

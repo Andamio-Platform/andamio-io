@@ -160,7 +160,7 @@ export default function ModuleContainer({
   return (
     <div className="mx-5 my-3 w-full rounded-md border border-secondary-foreground p-1 sm:mx-auto sm:w-[630px] md:w-[750px] lg:w-[850px] xl:w-[950px]">
       <AccordionItem value={module.moduleCode}>
-        <AccordionTrigger className="flex w-full flex-row justify-between rounded-md bg-foreground px-3 text-background">
+        <AccordionTrigger className="flex w-full flex-row justify-between rounded-md bg-primary px-3 text-primary-foreground">
           <div className="grid w-full grid-cols-12 py-2">
             <div className="col-span-1">{module.moduleCode}</div>
             <div className="col-span-2">

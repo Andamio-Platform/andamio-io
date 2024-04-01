@@ -127,7 +127,7 @@ const ToggleEditableTextArea = React.forwardRef<
                     intent="ghost"
                   >
                     <Pencil1Icon
-                      className="m-1 rounded-full bg-background text-primary"
+                      className="m-1 rounded-full bg-primary text-primary-foreground"
                       width="20"
                       height="20"
                     />
@@ -162,7 +162,7 @@ const ToggleEditableTextArea = React.forwardRef<
                         intent="ghost"
                       >
                         <Pencil1Icon
-                          className="m-1 rounded-full bg-foreground text-primary"
+                          className="m-1 rounded-full bg-primary text-primary-foreground"
                           width="20"
                           height="20"
                         />

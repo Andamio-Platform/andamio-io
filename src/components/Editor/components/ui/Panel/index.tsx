@@ -77,7 +77,7 @@ PanelSection.displayName = 'PanelSection'
 
 export const PanelHeadline = forwardRef<HTMLDivElement, { asChild?: boolean } & React.HTMLAttributes<HTMLDivElement>>(
   ({ asChild, className, children, ...rest }, ref) => {
-    const headlineClass = cn('text-forground dark:text-background text-xs font-medium mb-2 ml-1.5', className)
+    const headlineClass = cn('text-forground dark:text-primary-foreground text-xs font-medium mb-2 ml-1.5', className)
 
     const Comp = asChild ? Slot : 'div'
 

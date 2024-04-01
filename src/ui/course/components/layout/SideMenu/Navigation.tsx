@@ -139,7 +139,7 @@ function CoursePage({ courseCode }: { courseCode: string }) {
                       router.query.coursecode == course.courseCode
                         ? "border-primary text-primary"
                         : "border-gray-200 text-gray-400 group-hover:border-primary group-hover:text-primary",
-                      "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border bg-foreground text-[0.625rem] font-medium",
+                      "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border bg-primary text-[0.625rem] font-medium",
                     )}
                   >
                     {course.title.substring(0, 1)}
@@ -257,7 +257,7 @@ function CoursePage({ courseCode }: { courseCode: string }) {
 //                   router.query.coursecode == slt.id
 //                     ? "border-primary text-primary"
 //                     : "border-gray-200 text-gray-400 group-hover:border-primary group-hover:text-primary",
-//                   "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border bg-foreground text-[0.625rem] font-medium",
+//                   "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border bg-primary text-[0.625rem] font-medium",
 //                 )}
 //               >
 //                 {slt.moduleIndex > 0 && slt.moduleIndex}

@@ -17,7 +17,7 @@ export default function SltList({
 
   return (
     <div className="col-span-4 rounded-md border border-secondary-foreground text-sm">
-      <div className="flex w-full flex-row justify-between rounded-t-md bg-foreground px-3 py-1 text-background">
+      <div className="flex w-full flex-row justify-between rounded-t-md bg-primary px-3 py-1 text-primary-foreground">
         <p>Learning Targets (Module {module.moduleCode})</p>
       </div>
       <div className="px-2 py-1">
@@ -36,7 +36,7 @@ export default function SltList({
         </p>
       ))} */}
       </div>
-      <div className="flex w-full flex-col xl:flex-row justify-between rounded-b-md bg-foreground px-5 py-1 text-background">
+      <div className="flex w-full flex-col xl:flex-row justify-between rounded-b-md bg-primary px-5 py-1 text-primary-foreground">
         <p className="text-xs uppercase">
           <StatusDot status="ASSESS" /> Assigment SLT
         </p>

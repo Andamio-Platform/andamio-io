@@ -1,7 +1,7 @@
 export default function Testimonial() {
   return (
     <div className="mx-auto mt-32 max-w-7xl sm:mt-56 sm:px-6 lg:px-8">
-      <div className="relative overflow-hidden bg-foreground px-6 py-20 shadow-xl sm:rounded-3xl sm:px-10 sm:py-24 md:px-12 lg:px-20">
+      <div className="relative overflow-hidden bg-primary px-6 py-20 shadow-xl sm:rounded-3xl sm:px-10 sm:py-24 md:px-12 lg:px-20">
         <img
           className="absolute inset-0 h-full w-full object-cover brightness-150 saturate-0"
           src="https://meshjs.dev/logo-mesh/mesh.png"

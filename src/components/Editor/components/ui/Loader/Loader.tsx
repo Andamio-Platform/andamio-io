@@ -4,7 +4,7 @@ import { LoaderProps, LoadingWrapperProps } from './types'
 
 const LoadingWrapper = ({ label }: LoadingWrapperProps) => {
   return (
-    <div className="flex flex-col items-center justify-center gap-2 p-4 text-background bg-foreground rounded-lg shadow-2xl dark:text-foreground dark:bg-foreground">
+    <div className="flex flex-col items-center justify-center gap-2 p-4 text-primary-foreground bg-primary rounded-lg shadow-2xl dark:text-foreground dark:bg-primary">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
@@ -17,7 +17,7 @@ const LoadingWrapper = ({ label }: LoadingWrapperProps) => {
       >
         <path d="M21 12a9 9 0 1 1-6.219-8.56" />
       </svg>
-      {label && <p className="text-sm font-semibold leading-tight text-background dark:text-foreground">{label}</p>}
+      {label && <p className="text-sm font-semibold leading-tight text-primary-foreground dark:text-foreground">{label}</p>}
     </div>
   )
 }

@@ -5,7 +5,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, React.TextareaHTMLAttrib
   ({ className, ...rest }, ref) => {
     const textAreaClassName = cn(
       'bg-background border-0 rounded-lg caretforeground block text-foreground text-sm font-medium h-[4.5rem] px-2 py-1 w-full',
-      'dark:bg-forground dark:text-background dark:caretbackground',
+      'dark:bg-forground dark:text-primary-foreground dark:caretbackground',
       'hover:bg-forground',
       'dark:hover:bg-forground',
       'focus:bg-transparent active:bg-transparent focus:outline focus:outlineforeground active:outline active:outlineforeground',

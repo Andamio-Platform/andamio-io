@@ -36,7 +36,7 @@ export const Tooltip = ({
   const renderTooltip = useCallback(
     (attrs: TippyProps) => (
       <span
-        className="flex items-center gap-2 px-2.5 py-1 bg-foreground border border-neutral-100 rounded-lg shadow-sm z-[999]"
+        className="flex items-center gap-2 px-2.5 py-1 bg-primary border border-neutral-100 rounded-lg shadow-sm z-[999]"
         tabIndex={-1}
         data-placement={attrs['data-placement']}
         data-reference-hidden={attrs['data-reference-hidden']}

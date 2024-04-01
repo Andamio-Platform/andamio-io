@@ -60,14 +60,14 @@ export default function MobileMenu({
                   >
                     <span className="sr-only">Close sidebar</span>
                     <XMarkIcon
-                      className="h-6 w-6 text-background"
+                      className="h-6 w-6 text-primary-foreground"
                       aria-hidden="true"
                     />
                   </button>
                 </div>
               </Transition.Child>
 
-              <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-foreground px-6 pb-2">
+              <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-primary px-6 pb-2">
                 <div className="flex h-16 shrink-0 items-center">
                   <img
                     className="h-8 w-auto"

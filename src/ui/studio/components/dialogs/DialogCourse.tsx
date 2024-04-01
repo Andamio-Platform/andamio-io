@@ -45,7 +45,7 @@ export default function DialogCourse({ course }: { course?: Course }) {
     });
 
   const FormSchema = z.object({
-    courseCode: z.string().min(6),
+    courseCode: z.string().min(4),
     title: z.string().min(8),
     description: z.string().optional(),
     category: z.string().optional(),

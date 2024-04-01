@@ -13,7 +13,7 @@ const textVariants = cva(
         lg: "text-2xl text-foreground",
         md: "w-[500px] min-h-[200px] text-left text-pretty",
         sm: "text-sm text-foreground",
-        slt: "text-md text-foreground sm:w-[350px] md:w-[430px] lg:w-[480px] xl:w-[580px]" // todo
+        slt: "text-md text-foreground sm:w-[350px] md:w-[430px] lg:w-[480px] xl:w-[580px] text-wrap text-left pr-3 lg:pr-10" // todo
       },
     },
     defaultVariants: {

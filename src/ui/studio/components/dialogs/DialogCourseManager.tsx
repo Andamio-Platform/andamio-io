@@ -32,7 +32,7 @@ export default function DialogCourseManager({
   const { register, handleSubmit, reset } = useForm();
 
   const { mutate, isLoading: isLoadingAddCourseManager } =
-    api.course.addCourseManager.useMutation({
+    api.course.addCourseContributor.useMutation({
       onSuccess: () => {
         setDialogOpen(false);
         toast.success("Course manager added!");
@@ -52,7 +52,7 @@ export default function DialogCourseManager({
     if (course && selectedPerson) {
       mutate({
         courseCode: course.courseCode,
-        userId: selectedPerson.id,
+        creatorId: selectedPerson.id
       });
     }
   }
@@ -65,13 +65,13 @@ export default function DialogCourseManager({
     <DialogForm
       openButton="Add Course Contributor"
       openButtonIntent="dialog"
-      title="Add course manager"
+      title="Add Course Contributor"
       buttonLabel="Add"
       buttonDisabled={selectedPerson === null}
       buttonLoading={isLoadingAddCourseManager}
       handleSubmit={handleSubmit((data) => onSubmit(data))}
     >
-      <p>A course manager can add and edit modules and contents.</p>
+      <p>A Contributor can add and edit Modules, Assignments and Lessons.</p>
 
       <Combobox as="div" value={selectedPerson} onChange={setSelectedPerson}>
         <div className="relative mt-2">

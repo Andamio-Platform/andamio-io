@@ -1,0 +1,67 @@
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { api } from "~/utils/api";
+import { Course, Module, ModuleSLT } from "~/types/db";
+import DialogForm from "~/components/form/dialog-form";
+
+export default function DialogSLTDelete({
+  sltDeleteDialogOpen,
+  setSltDeleteDialogOpen,
+  slt,
+  module,
+  courseCode,
+}: {
+  sltDeleteDialogOpen: boolean;
+  setSltDeleteDialogOpen: (open: boolean) => void;
+  slt: ModuleSLT;
+  module: Module;
+  courseCode: string;
+}) {
+  const ctx = api.useUtils();
+
+  const { handleSubmit } = useForm();
+
+  const { mutate: sltDelete, isLoading: isLoadingDelete } =
+    api.slt.delete.useMutation({
+      onSuccess: (data) => {
+        setSltDeleteDialogOpen(false);
+        toast.success("Student Learning Target deleted");
+        void ctx.slt.getModuleSLTs.invalidate({
+          moduleCode: module.moduleCode,
+        });
+        void ctx.module.getCourseModules.invalidate({
+          courseCode: courseCode,
+        });
+      },
+      onError: (e) => {
+        const errorMessage = e.data?.zodError?.fieldErrors;
+        if (errorMessage) {
+          toast.error("Some SLT inputs are missing or invalid");
+        } else {
+          toast.error("That did not work. Please try again.");
+        }
+      },
+    });
+
+  function onSubmit() {
+    if (slt) {
+      sltDelete({
+        id: slt.id,
+      });
+    }
+  }
+
+  return (
+    <DialogForm
+      openButton="delete"
+      openButtonIntent="dialog"
+      title="Confirm Delete Student Learning Target"
+      buttonLabel="Delete"
+      buttonLoading={isLoadingDelete}
+      buttonDisabled={isLoadingDelete}
+      handleSubmit={handleSubmit(() => onSubmit())}
+    >
+      <p>Are you sure?</p>
+    </DialogForm>
+  );
+}

@@ -1,4 +1,4 @@
-import { cn } from '../../utils'
+import { cn } from '../../lib/utils'
 import { memo, useCallback } from 'react'
 import { Editor } from '@tiptap/react'
 // import { TableOfContents } from '../TableOfContents'
@@ -12,8 +12,8 @@ export const Sidebar = memo(
     }, [onClose])
 
     const windowClassName = cn(
-      'absolute top-0 left-0 bg-white lg:bg-white/30 lg:backdrop-blur-xl h-full lg:h-auto lg:relative z-[999] w-0 duration-300 transition-all',
-      'dark:bg-black lg:dark:bg-black/30',
+      'absolute top-0 left-0 bg-primary lg:bg-forground lg:backdrop-blur-xl h-full lg:h-auto lg:relative z-[999] w-0 duration-300 transition-all',
+      'dark:bg-primary lg:dark:bg-forground',
       !isOpen && 'border-r-transparent',
       isOpen && 'w-80 border-r border-r-neutral-200 dark:border-r-neutral-800',
     )

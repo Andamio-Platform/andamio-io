@@ -9,13 +9,17 @@ import {
 
 export const userRouter = createTRPCRouter({
   getUserByName: publicProcedure
-    .input(z.object({ search: z.string().min(3) }))
+    .input(z.object({ username: z.string().min(3) }))
     .query(({ ctx, input }) => {
       const users = ctx.db.user.findMany({
         where: {
           name: {
-            contains: input.search,
+            contains: input.username,
           },
+        },
+        include: {
+          creator: true,
+          learner: true,
         },
       });
 
@@ -23,6 +27,26 @@ export const userRouter = createTRPCRouter({
         return [];
       } else {
         return users as Promise<User[]>;
+      }
+    }),
+
+  getUserById: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const user = await ctx.db.user.findUnique({
+        where: {
+          id: input.id,
+        },
+        include: {
+          creator: true,
+          learner: true,
+        },
+      });
+
+      if (user === null) {
+        throw new Error("User not found");
+      } else {
+        return user;
       }
     }),
 });

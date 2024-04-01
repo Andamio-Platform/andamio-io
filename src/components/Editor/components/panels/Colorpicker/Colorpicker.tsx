@@ -39,7 +39,7 @@ export const ColorPicker = ({ color, onChange, onClear }: ColorPickerProps) => {
   //     <HexColorPicker className="w-full" color={color || ''} onChange={onChange} />
   //     <input
   //       type="text"
-  //       className="w-full p-2 text-black bg-white border rounded dark:bg-black dark:text-white border-neutral-200 dark:border-neutral-800 focus:outline-1 focus:ring-0 focus:outline-neutral-300 dark:focus:outline-neutral-700"
+  //       className="w-full p-2 text-foreground bg-primary border rounded dark:bg-primary dark:text-primary-foreground border-neutral-200 dark:border-neutral-800 focus:outline-1 focus:ring-0 focus:outline-neutral-300 dark:focus:outline-neutral-700"
   //       placeholder="#000000"
   //       value={colorInputValue}
   //       onChange={handleColorUpdate}

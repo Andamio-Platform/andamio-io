@@ -2,12 +2,12 @@ import { FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
 import { useEffect } from "react";
-import Textarea from "~/components/form/textarea";
-import DialogBox from "~/components/dialog";
-import DialogParagraph from "~/components/dialog/paragraph";
-import FormFieldset from "~/components/form/form-fieldset";
-import Input from "~/components/form/input";
 import { Course, CourseVariant } from "~/types/db";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import FormInput from "~/components/form/form-input";
+import { Form } from "~/components/ui/form";
+import DialogForm from "~/components/form/dialog-form";
 
 export default function DialogCourseVariant({
   dialogOpen,
@@ -21,8 +21,6 @@ export default function DialogCourseVariant({
   courseVariant?: CourseVariant;
 }) {
   const ctx = api.useUtils();
-
-  const { register, handleSubmit, reset } = useForm();
 
   const { mutate: create, isLoading: isLoadingCreate } =
     api.courseVariant.create.useMutation({
@@ -58,6 +56,23 @@ export default function DialogCourseVariant({
       },
     });
 
+  const FormSchema = z.object({
+    variantCode: z.string().min(1),
+    title: z.string().min(1),
+    description: z.string().optional(),
+    videoUrl: z.string().optional(),
+  });
+
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      variantCode: "",
+      title: "",
+      description: "",
+      videoUrl: "",
+    },
+  });
+
   function onSubmit(data: FieldValues) {
     if (course) {
       if (courseVariant) {
@@ -82,50 +97,49 @@ export default function DialogCourseVariant({
   }
 
   useEffect(() => {
-    if (dialogOpen && courseVariant) {
-      reset(courseVariant);
-    }
+    form.reset({
+      variantCode: courseVariant?.variantCode ?? "",
+      title: courseVariant?.title ?? "",
+      description: courseVariant?.description ?? "",
+      videoUrl: courseVariant?.videoUrl ?? "",
+    });
   }, [dialogOpen]);
 
   return (
-    <DialogBox
-      title={
-        courseVariant
-          ? `Editing ${courseVariant.variantCode}`
-          : "Create a new course variant"
-      }
-      isForm={{
-        buttonLabel: courseVariant ? "Save" : "Create",
-        buttonLoading: isLoadingCreate || isLoadingUpdate,
-        buttonDisabled: isLoadingCreate || isLoadingUpdate,
-        handleSubmit: handleSubmit((data) => onSubmit(data)),
-      }}
-      open={dialogOpen}
-      setOpen={setDialogOpen}
-    >
-      <DialogParagraph>
-        {courseVariant
-          ? "You are editing an existing variant. Make changes and click 'Save'."
-          : "Creating a new variant is easy. lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, consequuntur molestias numquam amet blanditiis voluptate sunt illo inventore atque hic, asperiores recusandae, reiciendis quae nostrum sit quis accusamus possimus quisquam?"}
-      </DialogParagraph>
+    <Form {...form}>
+      <DialogForm
+        openButton="Add a Variant"
+        openButtonIntent="dialog"
+        title={
+          courseVariant
+            ? `Editing ${courseVariant.variantCode}`
+            : "Create a new course variant"
+        }
+        buttonLabel={courseVariant ? "Save" : "Create"}
+        buttonLoading={isLoadingCreate || isLoadingUpdate}
+        buttonDisabled={isLoadingCreate || isLoadingUpdate}
+        handleSubmit={form.handleSubmit(onSubmit)}
+      >
+        <p>
+          {courseVariant
+            ? "You are editing an existing variant. Make changes and click 'Save'."
+            : "Creating a new variant is easy. lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, consequuntur molestias numquam amet blanditiis voluptate sunt illo inventore atque hic, asperiores recusandae, reiciendis quae nostrum sit quis accusamus possimus quisquam?"}
+        </p>
 
-      <div className="mt-4 grid grid-cols-1 gap-y-4">
-        <FormFieldset label="Course title">
-          <Input name="title" register={register} />
-        </FormFieldset>
+        <div className="mt-4 grid grid-cols-1 gap-y-4">
+          <FormInput name="title" label="Variant Title" form={form} />
 
-        <FormFieldset label="Course description">
-          <Textarea name="description" register={register} rows={8} />
-        </FormFieldset>
+          <FormInput
+            name="description"
+            label="Variant Description"
+            form={form}
+          />
 
-        <FormFieldset label="Intro Video">
-          <Input name="videoUrl" register={register} />
-        </FormFieldset>
+          <FormInput name="videoUrl" label="Variant Video URL" form={form} />
 
-        <FormFieldset label="Variant code">
-          <Input name="variantCode" register={register} />
-        </FormFieldset>
-      </div>
-    </DialogBox>
+          <FormInput name="variantCode" label="Variant Code" form={form} />
+        </div>
+      </DialogForm>
+    </Form>
   );
 }

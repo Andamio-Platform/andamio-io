@@ -22,6 +22,9 @@ export const courseOnChainInstanceRouter = createTRPCRouter({
           courseId: input.courseId,
           network: input.network
         },
+        include: {
+          course: true
+        },
       });
     }),
 
@@ -29,7 +32,6 @@ export const courseOnChainInstanceRouter = createTRPCRouter({
     .input(
       z.object({
         courseId: z.string().min(1),
-        onchainInstanceId: z.string().min(1),
         network: z.nativeEnum(Network),
         courseRefAddress: z.string().optional(),
         assignmentAddress: z.string().optional(),
@@ -45,7 +47,6 @@ export const courseOnChainInstanceRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       return ctx.db.courseOnChainInstance.create({
         data: {
-          onchainInstanceId: input.onchainInstanceId,
           network: input.network,
           courseRefAddress: input.courseRefAddress,
           assignmentAddress: input.assignmentAddress,
@@ -56,7 +57,7 @@ export const courseOnChainInstanceRouter = createTRPCRouter({
           courseRefUTxO: input.courseRefUTxO,
           assignmentRefUTxO: input.assignmentRefUTxO,
           moduleMintingRefUTxO: input.moduleMintingRefUTxO,
-          withCourse: {
+          course: {
             connect: {
               id: input.courseId,
             },
@@ -68,7 +69,8 @@ export const courseOnChainInstanceRouter = createTRPCRouter({
   update: protectedProcedure
     .input(
       z.object({
-        onchainInstanceId: z.string().min(1),
+        id: z.string().min(1),
+        courseId: z.string().min(1),
         network: z.nativeEnum(Network),
         courseRefAddress: z.string().optional(),
         assignmentAddress: z.string().optional(),
@@ -84,9 +86,10 @@ export const courseOnChainInstanceRouter = createTRPCRouter({
     .mutation(async ({ctx, input}) => {
       return ctx.db.courseOnChainInstance.update({
         where: {
-          onchainInstanceId: input.onchainInstanceId
+          id: input.id,
         },
         data: {
+          course: { connect: { id: input.courseId }},
           network: input.network,
           courseRefAddress: input.courseRefAddress,
           assignmentAddress: input.assignmentAddress,

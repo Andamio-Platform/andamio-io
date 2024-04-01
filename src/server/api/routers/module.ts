@@ -15,17 +15,17 @@ export const moduleRouter = createTRPCRouter({
           id: input.moduleId,
         },
         include: {
-          contents: {
+          slts: {
             select: {
               id: true,
-              title: true,
-              type: true,
-              description: true,
-              slt: true,
-              contentCode: true,
-              live: true,
+              moduleIndex: true,
+              moduleId: true,
+              sltText: true,
+              assignments: true,
+              createdById: true,
             },
           },
+          assignments: true,
         },
       });
     }),
@@ -35,27 +35,35 @@ export const moduleRouter = createTRPCRouter({
     .query(({ ctx, input }) => {
       return ctx.db.module.findMany({
         where: {
-          course: {
+          originalCourse: {
             courseCode: input.courseCode,
           },
         },
         include: {
-          course: {
+          originalCourse: {
             select: {
               courseCode: true,
             },
           },
-          contents: {
+          slts: {
+            select: {
+              id: true,
+              moduleIndex: true,
+              moduleId: true,
+              sltText: true,
+              assignments: true,
+              createdById: true,
+            },
+          },
+          lessons: {
             select: {
               id: true,
               title: true,
-              type: true,
-              description: true,
-              slt: true,
-              contentCode: true,
               live: true,
+              sltId: true
             },
           },
+          assignments: true,
         },
       });
     }),
@@ -70,12 +78,16 @@ export const moduleRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
+      if (!ctx.session.user.creatorId) {
+        throw new Error("User does not have Creator role.");
+      }
+
       return ctx.db.module.create({
         data: {
           moduleCode: input.moduleCode,
           title: input.title,
           description: input.description,
-          course: {
+          originalCourse: {
             connect: {
               id: input.courseId,
             },

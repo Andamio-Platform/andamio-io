@@ -9,8 +9,8 @@ import {
   useRef,
 } from "react";
 import { Popover, PopoverTrigger } from "@radix-ui/react-popover";
-import { Button } from "../ui/button";
-import { PopoverContent } from "../ui/popover";
+import { PopoverContent } from "../../../../../components/ui/popover";
+import { Button } from "~/components/ui/button";
 
 export function isValidUrl(url: string) {
   try {
@@ -48,7 +48,7 @@ export const LinkSelector = ({ open, onOpenChange }: LinkSelectorProps) => {
   return (
     <Popover modal={true} open={open} onOpenChange={onOpenChange}>
       <PopoverTrigger asChild>
-        <Button variant="ghost" className="gap-2 rounded-none border-none">
+        <Button intent="ghost" className="gap-2 rounded-none border-none">
           <p className="text-base">↗</p>
           <p
             className={cn("underline decoration-stone-400 underline-offset-4", {
@@ -80,7 +80,7 @@ export const LinkSelector = ({ open, onOpenChange }: LinkSelectorProps) => {
           {editor.getAttributes("link").href ? (
             <Button
               size="icon"
-              variant="outline"
+              intent="outline"
               type="button"
               className="flex h-8 items-center rounded-sm p-1 text-red-600 transition-all hover:bg-red-100 dark:hover:bg-red-800"
               onClick={(e) => {

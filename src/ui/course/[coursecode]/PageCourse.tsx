@@ -1,32 +1,37 @@
-import H1 from "~/components/typography/h1";
 import { RouterOutputs, api } from "~/utils/api";
 import Loading from "~/components/loading";
 import VideoPlayer from "~/components/media/VideoPlayer";
-import Button from "~/components/button";
+import { Button } from "~/components/ui/button";
 import { Disclosure } from "@headlessui/react";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/outline";
 import Link from "~/components/link";
-import Card from "~/components/card";
 import CircleIcon from "~/components/icons/circle";
-import { CourseVariant, Module } from "~/types/db";
+import { CourseVariant, Module, ModuleSLT } from "~/types/db";
 import CourseLayout from "../components/layout/CourseLayout";
 import { signIn, useSession } from "next-auth/react";
 import { useCourseStore } from "~/lib/zustand/course";
 import mergeObjects from "~/utils/mergeObjects";
 import useCourseVariants from "~/hooks/useCourseVariants";
+import useCourseModules from "~/hooks/useCourseModules";
+import useCourse from "~/hooks/useCourse";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "~/components/ui/accordion";
+import { Card } from "~/components/ui/card";
 
 export default function PageCourse({ courseCode }: { courseCode: string }) {
   const { data: sessionData } = useSession();
 
-  const { data: course, isLoading } = api.course.getCourse.useQuery({
-    courseCode,
-  });
+  const { course, isLoadingCourse } = useCourse(courseCode);
   const { listCourseVariant, setSelectedVariantName, selectedCourseVariant } =
     useCourseVariants(course?.id);
 
   const setCourseVariant = useCourseStore((state) => state.setCourseVariant);
 
-  if (course === null && isLoading) {
+  if (course === null && isLoadingCourse) {
     return <Loading />;
   }
 
@@ -55,7 +60,7 @@ export default function PageCourse({ courseCode }: { courseCode: string }) {
   if (_course === null) {
     return (
       <CourseLayout>
-        <H1>Course not found</H1>
+        <h1>Course not found</h1>
       </CourseLayout>
     );
   }
@@ -63,7 +68,7 @@ export default function PageCourse({ courseCode }: { courseCode: string }) {
   return (
     <CourseLayout>
       <div className="flex flex-col gap-8">
-        <H1>{_course.title}</H1>
+        <h1>{_course.title}</h1>
 
         <div className="flex gap-4">
           {listCourseVariant?.map((variant) => (
@@ -108,8 +113,7 @@ export default function PageCourse({ courseCode }: { courseCode: string }) {
   );
 }
 
-type Content =
-  RouterOutputs["module"]["getCourseModules"][number]["contents"][number];
+type SLT = RouterOutputs["module"]["getCourseModules"][number]["slts"][number];
 
 function ListModules({
   courseCode,
@@ -118,23 +122,22 @@ function ListModules({
   courseCode: string;
   _courseVariant: CourseVariant | undefined;
 }) {
-  const { data: modules, isLoading } = api.module.getCourseModules.useQuery({
-    courseCode,
-  });
+  const { courseModules, isLoadingCourseModules } =
+    useCourseModules(courseCode);
 
   function sortBy(a: Module, b: Module) {
     return a.moduleCode > b.moduleCode ? 1 : -1;
   }
 
-  if (modules == undefined) return <></>;
+  if (courseModules == undefined) return <></>;
 
   return (
     <div className="mx-auto w-full max-w-7xl px-6 lg:px-8">
-      <div className="mx-auto max-w-4xl divide-y divide-gray-900/10">
+      <div className="mx-auto max-w-4xl divide-y divide-forground">
         <Card>
-          <dl className="space-y-6 divide-y divide-gray-900/10">
-            {isLoading && <Loading />}
-            {modules.sort(sortBy).map((module, i) => (
+          <dl className="divide-forground">
+            {isLoadingCourseModules && <Loading />}
+            {courseModules.sort(sortBy).map((module, i) => (
               <ModuleContainer
                 key={i}
                 module={module}
@@ -158,7 +161,8 @@ function ModuleContainer({
   courseCode: string;
   _courseVariant: CourseVariant | undefined;
 }) {
-  const { data: moduleVariants } = api.moduleVariant.getmoduleVariants.useQuery(
+  // Todo: When ready to implement variants, we can change this to a useModuleVariants hook:
+  const { data: moduleVariants } = api.moduleVariant.getModuleVariants.useQuery(
     {
       moduleId: module.id,
     },
@@ -183,85 +187,45 @@ function ModuleContainer({
   const _module = getModule();
 
   return (
-    <Disclosure as="div" className="pt-6">
-      {({ open }) => (
-        <>
-          <dt>
-            <Disclosure.Button className="flex w-full items-start justify-between gap-4 text-left text-gray-900">
-              <span className="text-5xl font-semibold leading-7">
-                {_module.moduleCode}
-              </span>
-              <span className="grow">
-                <div>
-                  <p className="text-base font-semibold leading-7 text-gray-900">
-                    {_module.title}
-                  </p>
-                  <div className="mt-1 flex items-center gap-x-2 text-sm leading-5 text-gray-500">
-                    <p>{_module.description}</p>
-                  </div>
-                </div>
-              </span>
-              <span className="ml-6 flex h-7 items-center">
-                {open ? (
-                  <ChevronUpIcon className="h-6 w-6" aria-hidden="true" />
-                ) : (
-                  <ChevronDownIcon className="h-6 w-6" aria-hidden="true" />
-                )}
-              </span>
-            </Disclosure.Button>
-          </dt>
-          <Disclosure.Panel as="dd" className="mt-2 border-t-2 px-12 pr-12">
-            <ListContent
-              contents={_module.contents}
-              courseCode={courseCode}
-              moduleCode={_module.moduleCode}
-            />
-          </Disclosure.Panel>
-        </>
-      )}
-    </Disclosure>
-  );
-}
-
-function ListContent({
-  contents,
-  courseCode,
-  moduleCode,
-}: {
-  contents: Content[];
-  courseCode: string;
-  moduleCode: string;
-}) {
-  function sortBy(a: Content, b: Content) {
-    return a.contentCode > b.contentCode ? 1 : -1;
-  }
-
-  return (
-    <ul role="list" className="divide-y divide-gray-100">
-      {contents
-        .sort(sortBy)
-        .filter((content) => {
-          return content.live == true;
-        })
-        .map((content, i) => (
-          <li
-            key={`content${i}`}
-            className="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 sm:flex-nowrap"
-          >
-            <Link
-              href={`/course/${courseCode}/${moduleCode}/${content.contentCode}`}
-            >
-              <p className="flex items-center gap-x-2 text-sm font-semibold leading-6 text-gray-900">
-                <span>{content.contentCode}</span>
-                <CircleIcon />
-                {content.title}
+    <Accordion type="single" collapsible>
+      <AccordionItem value="item-1">
+        <AccordionTrigger className="flex w-full items-start justify-between gap-4 text-left text-foreground hover:no-underline hover:text-primary">
+          <span className="text-5xl font-semibold leading-7">
+            {_module.moduleCode}
+          </span>
+          <span className="grow">
+            <div>
+              <p className="text-base font-semibold leading-7">
+                {_module.title}
               </p>
-              <div className="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
-                <p>{content.slt}</p>
+              <div className="mt-1 flex items-center gap-x-2 text-sm leading-5 text-gray-500">
+                <p>{_module.description}</p>
               </div>
-            </Link>
-          </li>
-        ))}
-    </ul>
+            </div>
+          </span>
+        </AccordionTrigger>
+        <div className="mt-2 px-12 pr-12">
+          {_module.slts.map((slt, i) => (
+            <AccordionContent
+              key={`slt${i}`}
+              className="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 sm:flex-nowrap text-foreground hover:text-primary"
+            >
+              <Link
+                href={`/course/${courseCode}/${_module.moduleCode}/lesson/${slt.moduleIndex}`}
+              >
+                <p className="flex items-center gap-x-2 text-sm font-semibold leading-6 ">
+                  <span>{slt.moduleIndex}</span>
+                  <CircleIcon />
+                  {slt.sltText}
+                </p>
+                <div className="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
+                  <p>{slt.sltText}</p>
+                </div>
+              </Link>
+            </AccordionContent>
+          ))}
+        </div>
+      </AccordionItem>
+    </Accordion>
   );
 }

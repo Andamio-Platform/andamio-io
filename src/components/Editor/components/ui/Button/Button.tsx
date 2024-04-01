@@ -1,4 +1,4 @@
-import { cn } from '../../../utils'
+import { cn } from '../../../lib/utils'
 import React from 'react'
 
 export type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'quaternary' | 'ghost'
@@ -21,7 +21,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
       variant === 'primary' &&
         cn(
-          'text-white bg-black border-black dark:text-black dark:bg-white dark:border-white',
+          'text-primary-foreground bg-primary borderforeground dark:text-foreground dark:bg-primary dark:borderbackground',
           !disabled &&
             !active &&
             'hover:bg-neutral-800 active:bg-neutral-900 dark:hover:bg-neutral-200 dark:active:bg-neutral-300',
@@ -30,7 +30,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
       variant === 'secondary' &&
         cn(
-          'text-neutral-900 dark:text-white',
+          'text-neutral-900 dark:text-primary-foreground',
           !disabled &&
             !active &&
             'hover:bg-neutral-100 active:bg-neutral-200 dark:hover:bg-neutral-900 dark:active:bg-neutral-800',
@@ -39,7 +39,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
       variant === 'tertiary' &&
         cn(
-          'bg-neutral-50 text-neutral-900 dark:bg-neutral-900 dark:text-white dark:border-neutral-900',
+          'bg-neutral-50 text-neutral-900 dark:bg-neutral-900 dark:text-primary-foreground dark:border-neutral-900',
           !disabled &&
             !active &&
             'hover:bg-neutral-100 active:bg-neutral-200 dark:hover:bg-neutral-800 dark:active:bg-neutral-700',
@@ -51,8 +51,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           'bg-transparent border-transparent text-neutral-500 dark:text-neutral-400',
           !disabled &&
             !active &&
-            'hover:bg-black/5 hover:text-neutral-700 active:bg-black/10 active:text-neutral-800 dark:hover:bg-white/10 dark:hover:text-neutral-300 dark:active:text-neutral-200',
-          active && cn('bg-black/10 text-neutral-800 dark:bg-white/20 dark:text-neutral-200', activeClassname),
+            'hover:bg-forground hover:text-neutral-700 active:bg-forground active:text-neutral-800 dark:hover:bg-forground dark:hover:text-neutral-300 dark:active:text-neutral-200',
+          active && cn('bg-forground text-neutral-800 dark:bg-forground dark:text-neutral-200', activeClassname),
         ),
 
       buttonSize === 'medium' && 'py-2 px-3',

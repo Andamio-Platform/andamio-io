@@ -1,13 +1,14 @@
 import { FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
-import { useEffect, useState } from "react";
-import DialogBox from "~/components/dialog";
-import FormFieldset from "~/components/form/form-fieldset";
-import Input from "~/components/form/input";
+import { useEffect } from "react";
 import { Course, CourseOnChainInstance } from "~/types/db";
 import { Network } from "@prisma/client";
-import Select from "~/components/form/select";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import FormInput from "~/components/form/form-input";
+import { Form } from "~/components/ui/form";
+import DialogForm from "~/components/form/dialog-form";
 
 export default function DialogCourseOnChain({
   dialogOpen,
@@ -22,9 +23,8 @@ export default function DialogCourseOnChain({
   courseOnchain?: CourseOnChainInstance;
   selectedNetwork: Network;
 }) {
+  if (!course) return;
   const ctx = api.useUtils();
-
-  const { register, handleSubmit, reset } = useForm();
 
   const { mutate: create, isLoading: isLoadingCreate } =
     api.courseOnChainInstance.create.useMutation({
@@ -60,12 +60,45 @@ export default function DialogCourseOnChain({
       },
     });
 
+  // Todo: Add validation for CS, Addr, and UTxO types
+  const FormSchema = z.object({
+    network: z.nativeEnum(Network),
+    courseRefAddress: z.string().optional(),
+    assignmentAddress: z.string().optional(),
+    creatorCS: z.string().optional(),
+    facilitatorCS: z.string().optional(),
+    learnerCS: z.string().optional(),
+    moduleCS: z.string().optional(),
+    courseRefUTxO: z.string().optional(),
+    assignmentRefUTxO: z.string().optional(),
+    moduleMintingRefUTxO: z.string().optional(),
+  });
+
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      network: "PREPROD",
+      courseRefAddress: "",
+      assignmentAddress: "",
+      creatorCS: "",
+      facilitatorCS: "",
+      learnerCS: "",
+      moduleCS: "",
+      courseRefUTxO: "",
+      assignmentRefUTxO: "",
+      moduleMintingRefUTxO: "",
+    },
+  });
+
   function onSubmit(data: FieldValues) {
     console.log(data);
 
-    if (courseOnchain && courseOnchain.onchainInstanceId) {
+    if (!course) return;
+
+    if (courseOnchain && courseOnchain.id) {
       update({
-        onchainInstanceId: selectedNetwork,
+        id: courseOnchain.id,
+        courseId: course.id,
         network: data.network,
         courseRefAddress: data.courseRefAddress,
         assignmentAddress: data.assignmentAddress,
@@ -80,7 +113,6 @@ export default function DialogCourseOnChain({
     } else {
       const _data = {
         courseId: course.id,
-        onchainInstanceId: data.onchainInstanceId,
         network: selectedNetwork,
         courseRefAddress: data.courseRefAddress,
         assignmentAddress: data.assignmentAddress,
@@ -98,94 +130,137 @@ export default function DialogCourseOnChain({
 
   useEffect(() => {
     if (dialogOpen && courseOnchain) {
-      console.log("check1", courseOnchain);
-      reset(courseOnchain);
+      form.reset({
+        network: courseOnchain.network ?? "PREPROD",
+        courseRefAddress: courseOnchain.courseRefAddress ?? "",
+        assignmentAddress: courseOnchain.assignmentAddress ?? "",
+        creatorCS: courseOnchain.creatorCS ?? "",
+        facilitatorCS: courseOnchain.facilitatorCS ?? "",
+        learnerCS: courseOnchain.learnerCS ?? "",
+        moduleCS: courseOnchain.moduleCS ?? "",
+        courseRefUTxO: courseOnchain.courseRefUTxO ?? "",
+        assignmentRefUTxO: courseOnchain.assignmentRefUTxO ?? "",
+        moduleMintingRefUTxO: courseOnchain.moduleMintingRefUTxO ?? "",
+      });
     }
   }, [dialogOpen]);
 
   return (
-    <DialogBox
-      title={
-        courseOnchain
-          ? `Editing On-Chain Course Config ${courseOnchain?.onchainInstanceId}`
-          : "On-Chain Course Config"
-      }
-      isForm={{
-        buttonLabel: courseOnchain ? "Save" : "Create",
-        buttonLoading: isLoadingCreate || isLoadingUpdate,
-        buttonDisabled: isLoadingCreate || isLoadingUpdate,
-        handleSubmit: handleSubmit((data) => onSubmit(data)),
-      }}
-      open={dialogOpen}
-      setOpen={setDialogOpen}
-    >
-      {courseOnchain && courseOnchain ? (
-        <div className="mt-4 grid grid-cols-1 gap-y-4">
-          <p className="text-xl font-bold">Network: {selectedNetwork}</p>
-          <FormFieldset label="Course Validator Address">
-            <Input name="courseRefAddress" register={register} />
-          </FormFieldset>
-          <FormFieldset label="Assignment Validator Address">
-            <Input name="assignmentAddress" register={register} />
-          </FormFieldset>
-          <FormFieldset label="Course Creator CS">
-            <Input name="creatorCS" register={register} />
-          </FormFieldset>
-          <FormFieldset label="Course Facilitator CS">
-            <Input name="facilitatorCS" register={register} />
-          </FormFieldset>
-          <FormFieldset label="Learner CS">
-            <Input name="learnerCS" register={register} />
-          </FormFieldset>
-          <FormFieldset label="Module CS">
-            <Input name="moduleCS" register={register} />
-          </FormFieldset>
-          <FormFieldset label="Course Reference UTxO">
-            <Input name="courseRefUTxO" register={register} />
-          </FormFieldset>
-          <FormFieldset label="Assignment Reference UTxO">
-            <Input name="assignmentRefUTxO" register={register} />
-          </FormFieldset>
-          <FormFieldset label="Module Minting Reference UTxO">
-            <Input name="moduleMintingRefUTxO" register={register} />
-          </FormFieldset>
-          <p>Onchain Instance Id: {courseOnchain.onchainInstanceId}</p>
-        </div>
-      ) : (
-        <div className="mt-4 grid grid-cols-1 gap-y-4">
-          <p className="text-xl font-bold">Network: {selectedNetwork}</p>
-          <FormFieldset label="Course Validator Address">
-            <Input name="courseRefAddress" register={register} />
-          </FormFieldset>
-          <FormFieldset label="Assignment Validator Address">
-            <Input name="assignmentAddress" register={register} />
-          </FormFieldset>
-          <FormFieldset label="Course Creator CS">
-            <Input name="creatorCS" register={register} />
-          </FormFieldset>
-          <FormFieldset label="Course Facilitator CS">
-            <Input name="facilitatorCS" register={register} />
-          </FormFieldset>
-          <FormFieldset label="Learner CS">
-            <Input name="learnerCS" register={register} />
-          </FormFieldset>
-          <FormFieldset label="Module CS">
-            <Input name="moduleCS" register={register} />
-          </FormFieldset>
-          <FormFieldset label="Course Reference UTxO">
-            <Input name="courseRefUTxO" register={register} />
-          </FormFieldset>
-          <FormFieldset label="Assignment Reference UTxO">
-            <Input name="assignmentRefUTxO" register={register} />
-          </FormFieldset>
-          <FormFieldset label="Module Minting Reference UTxO">
-            <Input name="moduleMintingRefUTxO" register={register} />
-          </FormFieldset>
-          <FormFieldset label="Onchain Instance ID">
-            <Input name="onchainInstanceId" register={register} />
-          </FormFieldset>
-        </div>
-      )}
-    </DialogBox>
+    <Form {...form}>
+      <DialogForm
+        openButton="Add On Chain Info"
+        openButtonIntent="dialog"
+        title={
+          courseOnchain
+            ? `Editing On-Chain Course Config ${courseOnchain.course.courseCode} ${courseOnchain.network} (${courseOnchain?.id})`
+            : "On-Chain Course Config"
+        }
+        buttonLabel={courseOnchain ? "Save" : "Create"}
+        buttonLoading={isLoadingCreate || isLoadingUpdate}
+        buttonDisabled={isLoadingCreate || isLoadingUpdate}
+        handleSubmit={form.handleSubmit(onSubmit)}
+      >
+        {courseOnchain && courseOnchain ? (
+          <div className="mt-4 grid grid-cols-1 gap-y-4">
+            <p className="text-xl font-bold">Network: {selectedNetwork}</p>
+            <FormInput
+              name="courseRefAddress"
+              label="Course Reference Address"
+              form={form}
+            />
+            <FormInput
+              name="assignmentAddress"
+              label="Assignment Address"
+              form={form}
+            />
+            <FormInput
+              name="creatorCS"
+              label="Creator Currency Symbol"
+              form={form}
+            />
+            <FormInput
+              name="facilitatorCS"
+              label="Facilitator Currency Symbol"
+              form={form}
+            />
+            <FormInput
+              name="learnerCS"
+              label="Learning Currency Symbol"
+              form={form}
+            />
+            <FormInput
+              name="moduleCS"
+              label="Module Currency Symbol"
+              form={form}
+            />
+            <FormInput
+              name="courseRefUTxO"
+              label="Course Reference Reference UTxO"
+              form={form}
+            />
+            <FormInput
+              name="assignmentRefUTxO"
+              label="Assignment Reference UTxO"
+              form={form}
+            />
+            <FormInput
+              name="moduleMintingRefUTxO"
+              label="Module Minting Reference UTxO"
+              form={form}
+            />
+            <p>Onchain Instance Id: {courseOnchain.id}</p>
+          </div>
+        ) : (
+          <div className="mt-4 grid grid-cols-1 gap-y-4">
+            <p className="text-xl font-bold">Network: {selectedNetwork}</p>
+            <FormInput
+              name="courseRefAddress"
+              label="Course Reference Address"
+              form={form}
+            />
+            <FormInput
+              name="assignmentAddress"
+              label="Assignment Address"
+              form={form}
+            />
+            <FormInput
+              name="creatorCS"
+              label="Creator Currency Symbol"
+              form={form}
+            />
+            <FormInput
+              name="facilitatorCS"
+              label="Facilitator Currency Symbol"
+              form={form}
+            />
+            <FormInput
+              name="learnerCS"
+              label="Learning Currency Symbol"
+              form={form}
+            />
+            <FormInput
+              name="moduleCS"
+              label="Module Currency Symbol"
+              form={form}
+            />
+            <FormInput
+              name="courseRefUTxO"
+              label="Course Reference Reference UTxO"
+              form={form}
+            />
+            <FormInput
+              name="assignmentRefUTxO"
+              label="Assignment Reference UTxO"
+              form={form}
+            />
+            <FormInput
+              name="moduleMintingRefUTxO"
+              label="Module Minting Reference UTxO"
+              form={form}
+            />
+          </div>
+        )}
+      </DialogForm>
+    </Form>
   );
 }

@@ -65,7 +65,7 @@ import {
 } from "novel";
 import { ImageResizer } from "novel/extensions";
 import { defaultExtensions } from "./extensions";
-import { Separator } from "./ui/separator";
+import { Separator } from "../../../../components/ui/separator";
 import { NodeSelector } from "./selectors/node-selector";
 import { LinkSelector } from "./selectors/link-selector";
 import { ColorSelector } from "./selectors/color-selector";
@@ -135,7 +135,7 @@ function New({
           }}
           slotAfter={<ImageResizer />}
         >
-          <EditorCommand className="border-muted z-50 h-auto max-h-[330px] w-72 overflow-y-auto rounded-md border bg-white px-1 py-2 shadow-md transition-all">
+          <EditorCommand className="border-muted z-50 h-auto max-h-[330px] w-72 overflow-y-auto rounded-md border bg-foreground px-1 py-2 shadow-md transition-all">
             <EditorCommandEmpty className="text-muted-foreground px-2">
               No results
             </EditorCommandEmpty>
@@ -165,7 +165,7 @@ function New({
             tippyOptions={{
               placement: "top",
             }}
-            className="border-muted flex w-fit max-w-[90vw] overflow-hidden rounded border bg-white shadow-xl"
+            className="border-muted flex w-fit max-w-[90vw] overflow-hidden rounded border bg-foreground shadow-xl"
           >
             <Separator orientation="vertical" />
             <NodeSelector open={openNode} onOpenChange={setOpenNode} />

@@ -8,7 +8,7 @@ import {
   CodeIcon,
 } from "lucide-react";
 import type { SelectorItem } from "./node-selector";
-import { Button } from "../ui/button";
+import { Button } from "~/components/ui/button";
 
 export const TextButtons = () => {
   const { editor } = useEditor();
@@ -54,7 +54,7 @@ export const TextButtons = () => {
             item.command(editor);
           }}
         >
-          <Button size="icon" className="rounded-none" variant="ghost">
+          <Button size="icon" className="rounded-none" intent="ghost">
             <item.icon
               className={cn("h-4 w-4", {
                 "text-blue-500": item.isActive(editor),

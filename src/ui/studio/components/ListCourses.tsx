@@ -1,12 +1,13 @@
 import { api } from "~/utils/api";
-import Text from "~/components/typography/text";
-import MiddleScreen from "~/components/middle-screen";
 import Loading from "~/components/loading";
-import CourseButtonCard from "./CourseButtonCard";
+import CourseButtonCard from "./course/CourseButtonCard";
 import { useSession } from "next-auth/react";
+import { Card } from "~/components/ui/card";
 
 export default function ListCourses() {
   const { data: sessionData } = useSession();
+
+  // Here is leftover useQuery :)
   const { data: courses, isLoading } = api.course.getCoursesByOwner.useQuery(
     undefined,
     { enabled: sessionData != null },
@@ -14,11 +15,11 @@ export default function ListCourses() {
 
   return (
     <>
-      {courses === undefined && isLoading && <Loading />}
+      {courses === undefined && isLoading && <div className="flex min-h-[90vh] items-center"><Loading /></div>}
       {courses && (
         <>
           {courses.length > 0 ? (
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-4 md:grid-cols-2">
               {courses.map((course) => {
                 return (
                   <CourseButtonCard
@@ -30,9 +31,9 @@ export default function ListCourses() {
               })}
             </div>
           ) : (
-            <MiddleScreen>
-              <Text>No courses (to be replaced with illustrative picture)</Text>
-            </MiddleScreen>
+            <Card className="min-h-[200px] border border-foreground bg-background px-5 py-3 text-foreground hover:bg-secondary hover:text-secondary-foreground">
+              <p>No courses yet, want to make one? (todo - replace with illustrative picture)</p>
+            </Card>
           )}
         </>
       )}

@@ -24,7 +24,12 @@ export const courseRouter = createTRPCRouter({
         },
         include: {
           modules: true,
-          managers: true,
+          contributors: {
+            include: {
+              user: true
+            }
+          },
+          variants: true
         },
       });
     }),
@@ -34,13 +39,18 @@ export const courseRouter = createTRPCRouter({
       z.object({
         courseCode: z.string().min(1, "Course code is required"),
         title: z.string().min(1, "Title is required"),
-        description: z.string().min(1, "Description is required"),
+        description: z.string().optional(),
         category: z.string().optional(),
         imageUrl: z.string().optional(),
         videoUrl: z.string().optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
+
+      if (!ctx.session.user.creatorId) {
+        throw new Error('User does not have Creator role.');
+      }
+
       return ctx.db.course.create({
         data: {
           courseCode: input.courseCode,
@@ -49,7 +59,7 @@ export const courseRouter = createTRPCRouter({
           category: input.category,
           imageUrl: input.imageUrl,
           videoUrl: input.videoUrl,
-          createdBy: { connect: { id: ctx.session.user.id } },
+          createdBy: { connect: { id: ctx.session.user.creatorId } },
         },
       });
     }),
@@ -58,12 +68,18 @@ export const courseRouter = createTRPCRouter({
     return ctx.db.course.findMany({
       where: {
         OR: [
-          { createdBy: { id: ctx.session.user.id } },
-          { managers: { some: { id: ctx.session.user.id } } },
+          { createdBy: { id: ctx.session.user.creatorId } },
+          { contributors: { some: { id: ctx.session.user.creatorId } } },
         ],
       },
       include: {
-        managers: true,
+        modules: true,
+        contributors: {
+          include: {
+            user: true
+          }
+        },
+        variants: true,
       },
     });
   }),
@@ -107,12 +123,12 @@ export const courseRouter = createTRPCRouter({
           courseCode: input.courseCode,
         },
         data: {
-          managers: {
+          contributors: {
             connect: { id: input.userId },
           },
         },
         include: {
-          managers: true,
+          contributors: true,
         },
       });
     }),
@@ -130,12 +146,12 @@ export const courseRouter = createTRPCRouter({
           courseCode: input.courseCode,
         },
         data: {
-          managers: {
+          contributors: {
             disconnect: { id: input.userId },
           },
         },
         include: {
-          managers: true,
+          contributors: true,
         },
       });
     }),

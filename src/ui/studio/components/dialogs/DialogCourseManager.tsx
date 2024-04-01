@@ -1,12 +1,13 @@
 import { FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
-import DialogBox from "~/components/dialog";
-import DialogParagraph from "~/components/dialog/paragraph";
 import { Course, User } from "~/types/db";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { Combobox } from "@headlessui/react";
 import { useState } from "react";
+import DialogForm from "~/components/form/dialog-form";
+
+// Todo: review forms
 
 export default function DialogCourseManager({
   dialogOpen,
@@ -20,8 +21,9 @@ export default function DialogCourseManager({
   const [query, setQuery] = useState("");
   const [selectedPerson, setSelectedPerson] = useState<User | null>(null);
 
+  // Todo: make a hook?
   const { data: searchUsers, isLoading } = api.user.getUserByName.useQuery({
-    search: query,
+    username: query,
   });
   const filteredPeople = query === "" ? [] : searchUsers ?? [];
 
@@ -60,25 +62,21 @@ export default function DialogCourseManager({
   }
 
   return (
-    <DialogBox
+    <DialogForm
+      openButton="Add Course Contributor"
+      openButtonIntent="dialog"
       title="Add course manager"
-      isForm={{
-        buttonLabel: "Add",
-        buttonDisabled: selectedPerson === null,
-        buttonLoading: isLoadingAddCourseManager,
-        handleSubmit: handleSubmit((data) => onSubmit(data)),
-      }}
-      open={dialogOpen}
-      setOpen={setDialogOpen}
+      buttonLabel="Add"
+      buttonDisabled={selectedPerson === null}
+      buttonLoading={isLoadingAddCourseManager}
+      handleSubmit={handleSubmit((data) => onSubmit(data))}
     >
-      <DialogParagraph>
-        A course manager can add and edit modules and contents.
-      </DialogParagraph>
+      <p>A course manager can add and edit modules and contents.</p>
 
       <Combobox as="div" value={selectedPerson} onChange={setSelectedPerson}>
         <div className="relative mt-2">
           <Combobox.Input
-            className="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-12 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            className="w-full rounded-md border-0 bg-secondary py-1.5 pl-3 pr-12 text-foreground shadow-sm ring-1 ring-inset ring-accent-foreground focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
             onChange={(event) => setQuery(event.target.value)}
             //@ts-expect-error todo how to fix this
             displayValue={(person: User) => person?.name}
@@ -91,7 +89,7 @@ export default function DialogCourseManager({
           </Combobox.Button>
 
           {filteredPeople.length > 0 && (
-            <Combobox.Options className="absolute z-60 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+            <Combobox.Options className="z-60 absolute mt-1 max-h-56 w-full overflow-auto rounded-md bg-secondary py-1 text-base shadow-lg ring-1 ringforeground ring-opacity-5 focus:outline-none sm:text-sm">
               {searchUsers &&
                 searchUsers.map((person) => {
                   return (
@@ -101,7 +99,7 @@ export default function DialogCourseManager({
                       className={({ active }) =>
                         classNames(
                           "relative cursor-default select-none py-2 pl-3 pr-9",
-                          active ? "bg-indigo-600 text-white" : "text-gray-900",
+                          active ? "bg-primary text-primary-foreground" : "text-foreground",
                         )
                       }
                     >
@@ -129,7 +127,7 @@ export default function DialogCourseManager({
                             <span
                               className={classNames(
                                 "absolute inset-y-0 right-0 flex items-center pr-4",
-                                active ? "text-white" : "text-indigo-600",
+                                active ? "text-primary-foreground" : "text-primary",
                               )}
                             >
                               <CheckIcon
@@ -147,25 +145,6 @@ export default function DialogCourseManager({
           )}
         </div>
       </Combobox>
-
-      {/* <div className="mt-4 grid grid-cols-1 gap-y-4">
-        <div className="flex flex-col gap-4">
-          <div className="relative mt-2 rounded-md shadow-sm">
-            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-              <MagnifyingGlassIcon
-                className="h-5 w-5 text-gray-400"
-                aria-hidden="true"
-              />
-            </div>
-            <input
-              className="block w-full rounded-md border-0 py-1.5 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              placeholder="search user by name"
-              onChange={(event) => setQuery(event.target.value)}
-              value={query}
-            />
-          </div>
-        </div>
-      </div> */}
-    </DialogBox>
+    </DialogForm>
   );
 }

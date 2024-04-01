@@ -1,17 +1,17 @@
 import { useState } from "react";
-import Card from "~/components/card";
-import Button from "~/components/button";
+import { Button } from "~/components/ui/button";
 import { Course } from "~/types/db";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
 import DialogCourseManager from "~/ui/studio/components/dialogs/DialogCourseManager";
+import { Card } from "~/components/ui/card";
 
 export default function ListCourseManagers({ course }: { course: Course }) {
   const [showAddManagerDialog, setShowAddManagerDialog] =
     useState<boolean>(false);
-    
+
   const ctx = api.useUtils();
 
   const { mutate: removeCourseManager, isLoading } =
@@ -37,13 +37,13 @@ export default function ListCourseManagers({ course }: { course: Course }) {
             <tr>
               <th
                 scope="col"
-                className="sticky top-0 z-10 border-b border-gray-300 bg-white bg-opacity-75 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter sm:pl-6 lg:pl-8"
+                className="sticky top-0 z-10 border-b border-accent-foreground bg-secondary bg-opacity-75 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-foreground backdrop-blur backdrop-filter sm:pl-6 lg:pl-8"
               >
                 Course Managers
               </th>
               <th
                 scope="col"
-                className="sticky top-0 z-10 hidden border-b border-gray-300 bg-white bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter sm:table-cell"
+                className="sticky top-0 z-10 hidden border-b border-accent-foreground bg-secondary bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-foreground backdrop-blur backdrop-filter sm:table-cell"
               >
                 {isOwner && (
                   <div className="flex place-content-end">
@@ -60,22 +60,22 @@ export default function ListCourseManagers({ course }: { course: Course }) {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {course?.managers?.map((manager, i) => (
+            {course?.contributors?.map((contributor, i) => (
               <tr key={i}>
                 <td className="py-5 pl-4 pr-3 text-sm sm:pl-0">
                   <div className="flex items-center">
-                    {manager.image && (
+                    {contributor.user.image && (
                       <div className="h-11 w-11 flex-shrink-0">
                         <img
                           className="h-11 w-11 rounded-full"
-                          src={manager.image}
+                          src={contributor.user.image}
                           alt=""
                         />
                       </div>
                     )}
                     <div className="ml-4">
-                      <div className="font-medium text-gray-900">
-                        {manager.name}
+                      <div className="font-medium text-foreground">
+                        {contributor.user.name}
                       </div>
                     </div>
                   </div>
@@ -87,7 +87,7 @@ export default function ListCourseManagers({ course }: { course: Course }) {
                       onClick={() =>
                         removeCourseManager({
                           courseCode: course.courseCode,
-                          userId: manager.id,
+                          userId: contributor.id,
                         })
                       }
                       disabled={isLoading}

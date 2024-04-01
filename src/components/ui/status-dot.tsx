@@ -7,7 +7,7 @@ export default function StatusDot({
     case "ASSESS":
       return <span className="h-[8px] w-[8px] mx-1 inline-block rounded-full bg-green-600" />;
     case "SUPPORT":
-      return <span className="h-[8px] w-[8px] mx-1 inline-block rounded-full bg-orange-600" />;
+      return <span className="h-[8px] w-[8px] mx-1 inline-block rounded-full bg-warning" />;
     default:
       return <span className="h-[8px] w-[8px] mx-1 inline-block rounded-full bg-neutral-600" />;
   }

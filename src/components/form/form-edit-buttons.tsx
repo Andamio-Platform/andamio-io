@@ -17,7 +17,7 @@ export default function FormEditButtons({
         <div className="flex flex-row gap-3 px-3">
           <Button size="icon" intent="ghost" type="submit">
             <CheckCircledIcon
-              className="rounded-full bg-green-900 text-primary-foreground"
+              className="rounded-full bg-success text-primary-foreground"
               width="22"
               height="22"
             />
@@ -28,7 +28,7 @@ export default function FormEditButtons({
             onClick={() => setEditText(false)}
           >
             <CrossCircledIcon
-              className="rounded-full bg-red-900 text-primary-foreground"
+              className="rounded-full bg-warning text-primary-foreground"
               width="22"
               height="22"
             />

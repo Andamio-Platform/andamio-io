@@ -7,6 +7,7 @@ import { Toaster } from "react-hot-toast";
 import "~/styles/globals.css";
 import { ThemeProvider } from "~/components/theme-provider";
 import DebugUiPage from "./debug/ui";
+import { LightDarkToggle } from "~/ui/site/LightDarkToggle";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -21,9 +22,10 @@ const MyApp: AppType<{ session: Session | null }> = ({
     >
       <SessionProvider session={session}>
         <Toaster position="top-right" />
-        <div className="bg-stone-100 min-h-screen text-stone-950">
+        <div className="bg-background min-h-screen text-foreground">
           <Component {...pageProps} />
           <DebugUiPage />
+          <LightDarkToggle />
         </div>
       </SessionProvider>
     </ThemeProvider>

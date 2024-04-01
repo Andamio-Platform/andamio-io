@@ -7,7 +7,7 @@ export default function DesktopMenu() {
 
   return (
     <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-      <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6">
+      <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-primary px-6">
         <div className="flex h-16 shrink-0 items-center">
           <img className="h-8 w-auto" src="/andamio-logo.svg" alt="Andamio" />
         </div>

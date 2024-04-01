@@ -9,11 +9,11 @@ const textVariants = cva(
   {
     variants: {
       formTextSize: {
-        xl: "text-4xl text-black",
-        lg: "text-2xl text-black",
+        xl: "text-4xl text-foreground",
+        lg: "text-2xl text-foreground",
         md: "w-[500px] min-h-[200px] text-left text-pretty",
-        sm: "text-sm text-black",
-        slt: "text-md text-black sm:w-[350px] md:w-[430px] lg:w-[480px] xl:w-[580px]" // todo
+        sm: "text-sm text-foreground",
+        slt: "text-md text-foreground sm:w-[350px] md:w-[430px] lg:w-[480px] xl:w-[580px] text-wrap text-left pr-3 lg:pr-10" // todo
       },
     },
     defaultVariants: {

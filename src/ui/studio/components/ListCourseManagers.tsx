@@ -37,13 +37,13 @@ export default function ListCourseManagers({ course }: { course: Course }) {
             <tr>
               <th
                 scope="col"
-                className="sticky top-0 z-10 border-b border-gray-300 bg-secondary bg-opacity-75 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter sm:pl-6 lg:pl-8"
+                className="sticky top-0 z-10 border-b border-accent-foreground bg-secondary bg-opacity-75 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-foreground backdrop-blur backdrop-filter sm:pl-6 lg:pl-8"
               >
                 Course Managers
               </th>
               <th
                 scope="col"
-                className="sticky top-0 z-10 hidden border-b border-gray-300 bg-secondary bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter sm:table-cell"
+                className="sticky top-0 z-10 hidden border-b border-accent-foreground bg-secondary bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-foreground backdrop-blur backdrop-filter sm:table-cell"
               >
                 {isOwner && (
                   <div className="flex place-content-end">
@@ -74,7 +74,7 @@ export default function ListCourseManagers({ course }: { course: Course }) {
                       </div>
                     )}
                     <div className="ml-4">
-                      <div className="font-medium text-gray-900">
+                      <div className="font-medium text-foreground">
                         {contributor.user.name}
                       </div>
                     </div>

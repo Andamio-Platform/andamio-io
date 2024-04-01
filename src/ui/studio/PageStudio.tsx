@@ -7,7 +7,7 @@ import StudioLayout from "./components/layout/StudioLayout";
 export default function PageStudio() {
   return (
     <StudioLayout>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 sm:mx-auto sm:w-[630px] md:w-[750px] lg:w-[850px] xl:w-[950px]">
         <StudioHeader />
         <ListCourses />
       </div>

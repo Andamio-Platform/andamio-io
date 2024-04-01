@@ -29,11 +29,11 @@ const inputVariants = cva(
         text: "bg-primary border-b border-neutral-400 text-primary-foreground",
       },
       formTextSize: {
-        xl: "text-4xl text-black",
-        lg: "text-2xl text-black",
-        md: "text-md text-black",
-        sm: "text-sm text-black",
-        slt: "text-md text-black sm:w-[350px] md:w-[400px] lg:w-[450px] xl:w-[550px]", //sm:w-[535px] md:w-[645px] lg:w-[735px] xl:w-[825px]
+        xl: "text-4xl text-foreground",
+        lg: "text-2xl text-foreground",
+        md: "text-md text-foreground",
+        sm: "text-sm text-foreground",
+        slt: "text-md text-foreground sm:w-[350px] md:w-[400px] lg:w-[450px] xl:w-[550px]", //sm:w-[535px] md:w-[645px] lg:w-[735px] xl:w-[825px]
       },
     },
     defaultVariants: {
@@ -126,7 +126,7 @@ const ToggleEditableField = React.forwardRef<
                     intent="lesson"
                   >
                     <Pencil1Icon
-                      className="rounded-full text-primary bg-white m-1"
+                      className="rounded-full text-primary-foreground bg-primary m-1"
                       width="22"
                       height="22"
                     />

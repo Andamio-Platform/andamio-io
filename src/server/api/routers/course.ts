@@ -110,11 +110,11 @@ export const courseRouter = createTRPCRouter({
       });
     }),
 
-  addCourseManager: protectedProcedure
+  addCourseContributor: protectedProcedure
     .input(
       z.object({
         courseCode: z.string().min(1, "Course code is required"),
-        userId: z.string().min(1, "User ID is required"),
+        creatorId: z.string().min(1, "Creator ID is required"),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -124,7 +124,7 @@ export const courseRouter = createTRPCRouter({
         },
         data: {
           contributors: {
-            connect: { id: input.userId },
+            connect: { userId: input.creatorId },
           },
         },
         include: {

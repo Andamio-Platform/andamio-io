@@ -18,7 +18,13 @@ export const userRouter = createTRPCRouter({
           },
         },
         include: {
-          creator: true,
+          creator: {
+            select: {
+              id: true,
+              userId: true,
+              courses: true
+            }
+          },
           learner: true,
         },
       });

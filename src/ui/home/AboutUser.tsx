@@ -65,24 +65,21 @@ export default function AboutUser() {
 
   return (
     <div className="mx-auto my-10 grid w-3/4 grid-cols-3 gap-3">
-        <Card className="col-span-3 flex items-center justify-center bg-orange-300 py-3">
-            Imagine the transactions
-        </Card>
-      <Card className="flex items-center justify-center h-24 bg-orange-300">
+      <Card className="flex items-center justify-center h-24 bg-primary text-primary-foreground">
         {sessionData.user.creatorId ? (
           <Link href="/studio">YOU ARE A CREATOR - GO BUILD A COURSE</Link>
         ) : (
           <Button onClick={onEnableCreator}>Be A Creator</Button>
         )}
       </Card>
-      <Card className="flex items-center justify-center h-24 bg-orange-300">
+      <Card className="flex items-center justify-center h-24 bg-primary text-primary-foreground">
         {sessionData.user.learnerId ? (
           <p className="mx-5">YOU ARE A LEARNER - GO LEARN (BELOW FOR NOW)</p>
         ) : (
           <Button onClick={onEnableLearner}>Be A Learner</Button>
         )}
       </Card>
-      <Card className="flex items-center justify-center h-24 bg-orange-300">User Name: {sessionData.user.name}</Card>
+      <Card className="flex items-center justify-center h-24 bg-primary text-primary-foreground">User Name: {sessionData.user.name}</Card>
     </div>
   );
 }

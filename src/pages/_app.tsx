@@ -8,6 +8,7 @@ import "~/styles/globals.css";
 import { ThemeProvider } from "~/components/theme-provider";
 import DebugUiPage from "./debug/ui";
 import { LightDarkToggle } from "~/ui/site/LightDarkToggle";
+import MenuBar from "~/ui/landing/MenuBar";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -22,10 +23,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
     >
       <SessionProvider session={session}>
         <Toaster position="top-right" />
-        <div className="bg-background min-h-screen text-foreground">
+        <div className="min-h-screen bg-background text-foreground">
           <Component {...pageProps} />
           <DebugUiPage />
-          <LightDarkToggle />
         </div>
       </SessionProvider>
     </ThemeProvider>

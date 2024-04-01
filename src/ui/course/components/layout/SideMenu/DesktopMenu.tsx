@@ -14,36 +14,7 @@ export default function DesktopMenu() {
         <nav className="flex flex-1 flex-col">
           <ul role="list" className="flex flex-1 flex-col gap-y-7">
             <Navigation />
-<<<<<<< HEAD
-            {sessionData && (
-              <li className="-mx-6 mt-auto">
-                {isProfileMenuOpen && (
-                  <button
-                    onClick={() => void signOut({ callbackUrl: "/" })}
-                    className="block w-full px-6 py-3 text-left text-sm font-semibold leading-6 text-foreground hover:bg-accent focus:outline-none"
-                  >
-                    Sign Out
-                  </button>
-                )}
-                <a
-                  onClick={() =>
-                    setIsProfileMenuOpen((prevState) => !prevState)
-                  }
-                  className="flex cursor-pointer items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-foreground hover:bg-accent"
-                >
-                  <img
-                    className="h-8 w-8 rounded-full bg-accent"
-                    src={sessionData.user?.image ?? ""}
-                    alt=""
-                  />
-                  <span className="sr-only">Your profile</span>
-                  <span aria-hidden="true">{sessionData.user?.name}</span>
-                </a>
-              </li>
-            )}
-=======
             {sessionData && <SessionProfile />}
->>>>>>> 19b1b73 (refactor session profile)
           </ul>
         </nav>
       </div>

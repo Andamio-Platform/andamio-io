@@ -1,10 +1,10 @@
-import { useCallback, useEffect, useState } from "react";
-import { FieldValues, useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { api } from "~/utils/api";
-import { Assignment, Course, Introduction, Module, ModuleSLT } from "~/types/db";
+import { Course, Module } from "~/types/db";
 import Editor from "~/components/Editor";
 import { Form } from "~/components/ui/form";
 import StudioLayout from "~/ui/studio/components/layout/StudioLayout";
@@ -14,23 +14,26 @@ import ControlPanel from "~/ui/studio/components/form-sections/ControlPanel";
 import VideoLink from "~/ui/studio/components/form-sections/VideoLink";
 import PublishToggle from "~/ui/studio/components/form-sections/PublishToggle";
 import LessonList from "~/ui/studio/components/assignment-dashboard/lesson-list";
+import useIntroduction from "~/hooks/useIntroduction";
+import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
+import { Button } from "~/components/ui/button";
 
 export default function PageModuleIntroContent({
   course,
   module,
-  introduction,
 }: {
   course: Course;
   module: Module;
-  introduction: Introduction;
 }) {
   const ctx = api.useUtils();
 
-  if(!introduction || !course) return <div>ERROR - sorry!</div>
+  if (!course) return <div>NO COURSE</div>;
 
   const courseCode = course.courseCode;
   const moduleCode = module.moduleCode;
-
+  const { introduction, isLoadingIntro, refetchIntro } = useIntroduction(
+    module.id,
+  );
   const [editIntroduction, setEditIntroduction] = useState<boolean>(false);
 
   const { mutate: update, isLoading: isLoadingUpdate } =
@@ -134,16 +137,30 @@ export default function PageModuleIntroContent({
         }
       }
     }
-    // todo:
-    // }, [introduction, introductionVariant]);
-  }, [introduction]);
+  }, [introduction, isLoadingIntro]);
 
   useEffect(() => {
-    if (introduction?.contentJson && typeof introduction.contentJson === "object") {
+    if (
+      introduction?.contentJson &&
+      typeof introduction.contentJson === "object"
+    ) {
       console.log("check2", introduction);
       editor.setContent(introduction.contentJson);
     }
   }, [editIntroduction]);
+
+  if (isLoadingIntro) {
+    return <LoadingCircle />;
+  }
+
+  if (!introduction) {
+    return (
+      <StudioLayout>
+        <h1>Write an Introduction to Module {moduleCode}</h1>
+        <Button onClick={() => refetchIntro()}>Get Started</Button>
+      </StudioLayout>
+    );
+  }
 
   return (
     <StudioLayout>
@@ -162,8 +179,10 @@ export default function PageModuleIntroContent({
               />
             </div>
 
-
-            <div className="col-span-8 row-span-5 rounded-md border border-secondary-foreground p-5">
+            <div className="col-span-4 row-span-2 rounded-md border border-secondary-foreground p-5">
+              STUDENT LEARNING TARGETS
+            </div>
+            <div className="col-span-8 row-span-2 rounded-md border border-secondary-foreground p-5">
               <TitleAndDescription
                 form={form}
                 id={introduction.id}
@@ -174,7 +193,6 @@ export default function PageModuleIntroContent({
                 onSubmit={() => onSubmit}
               />
             </div>
-
 
             <VideoLink form={form} />
             <LessonList module={module} />

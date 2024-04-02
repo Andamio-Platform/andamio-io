@@ -8,7 +8,7 @@ export default function AssignmentContainer({
   assignment: Assignment;
 }) {
   return (
-    <Card className="mx-auto my-5 flex flex-row justify-between rounded-md bg-primary hover:secondary-foreground px-10 py-3 text-primary-foreground">
+    <Card className="w-11/12 mx-auto my-5 flex flex-row justify-between rounded-md bg-primary hover:secondary-foreground px-10 py-3 text-primary-foreground">
       <div>
         Assignment {assignment.assignmentCode}: {assignment.title}
       </div>

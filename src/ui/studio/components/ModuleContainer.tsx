@@ -36,6 +36,7 @@ import Link from "next/link";
 import { Card } from "~/components/ui/card";
 import { Button } from "~/components/ui/button";
 import DialogModule from "./dialogs/DialogModule";
+import IntroductionContainer from "./IntroductionContainer";
 
 type sltI = { slt: ModuleSLT; sltIndex: number; id: string };
 
@@ -184,6 +185,12 @@ export default function ModuleContainer({
         <AccordionContent>
           <>
             <div className="flex flex-col pt-3">
+              <IntroductionContainer
+                moduleId={module.id}
+                courseCode={course.courseCode}
+                moduleCode={module.moduleCode}
+              />
+
               <DndContext
                 collisionDetection={closestCenter}
                 onDragStart={({ active }) => {

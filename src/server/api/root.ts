@@ -10,6 +10,7 @@ import { lessonRouter } from "./routers/lesson";
 import { assignmentRouter } from "./routers/assignment";
 import { creatorRouter } from "./routers/creator";
 import { learnerRouter } from "./routers/learner";
+import { userWalletRouter } from "./routers/user-wallet";
 
 /**
  * This is the primary router for your server.
@@ -18,6 +19,7 @@ import { learnerRouter } from "./routers/learner";
  */
 export const appRouter = createTRPCRouter({
   user: userRouter,
+  userWallet: userWalletRouter,
   creator: creatorRouter,
   learner: learnerRouter,
 
@@ -28,7 +30,7 @@ export const appRouter = createTRPCRouter({
   courseOnChainInstance: courseOnChainInstanceRouter,
   slt: sltRouter,
   lesson: lessonRouter,
-  assignment: assignmentRouter
+  assignment: assignmentRouter,
 });
 
 // export type definition of API

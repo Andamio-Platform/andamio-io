@@ -180,7 +180,15 @@ export default function PageModuleIntroContent({
             </div>
 
             <div className="col-span-4 row-span-2 rounded-md border border-secondary-foreground p-5">
-              STUDENT LEARNING TARGETS
+              <h3>Student Learning Targets (SLTs)</h3>
+              {module.slts.map((s) => (
+                <>
+                  <p className="pt-2">
+                    {module.moduleCode}.{s.moduleIndex}
+                  </p>
+                  <p className="pb-2">{s.sltText}</p>
+                </>
+              ))}
             </div>
             <div className="col-span-8 row-span-2 rounded-md border border-secondary-foreground p-5">
               <TitleAndDescription

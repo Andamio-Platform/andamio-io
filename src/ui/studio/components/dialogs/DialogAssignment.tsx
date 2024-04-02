@@ -59,7 +59,7 @@ export default function DialogAssignment({
     });
 
   const FormSchema = z.object({
-    assignmentCode: z.string().min(6),
+    assignmentCode: z.string().min(4),
     assignmentTitle: z.string().min(1),
     sltIds: z.array(z.string().min(1)),
   });

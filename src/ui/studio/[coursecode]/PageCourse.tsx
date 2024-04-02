@@ -49,7 +49,7 @@ export default function PageCourse({ courseCode }: { courseCode: string }) {
                     Modules
                   </TabsTrigger>
                   <TabsTrigger value="managers" className="px-10">
-                    Course Creators
+                    Course Contributors
                   </TabsTrigger>
                   <TabsTrigger value="variants" className="px-10">
                     Variants

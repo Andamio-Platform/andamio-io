@@ -54,7 +54,7 @@ export default function DialogSLT({
     });
 
   const FormSchema = z.object({
-    sltText: z.string().min(6),
+    sltText: z.string().min(4),
     moduleId: z.string().min(1),
   });
 

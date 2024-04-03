@@ -58,8 +58,9 @@ model User {
   accounts      Account[]
   sessions      Session[]
 
-  learner Learner?
-  creator Creator?
+  learner    Learner?
+  creator    Creator?
+  userWallet UserWallet?
 }
 
 model VerificationToken {
@@ -343,6 +344,18 @@ model Learner {
   lessons         Lesson[]     @relation("LearnerLessons")
   assignments     Assignment[] @relation("LearnerAssignments")
   // For Learners, Module completion goes on-chain, so we skip adding it here
+
+  @@unique([userId])
+}
+
+model UserWallet {
+  id String @id @default(cuid())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  walletAddress String
+  stakeAddress  String
 
   @@unique([userId])
 }

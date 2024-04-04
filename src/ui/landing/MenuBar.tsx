@@ -6,7 +6,7 @@ import Link from "~/components/link";
 const navigation = [
   { name: "Courses", href: "/courses" },
   { name: "Contributions", href: "#" },
-  { name: "Network", href: "#" },
+  { name: "Network Access Token", href: "/network" },
   { name: "About", href: "#" },
 ];
 

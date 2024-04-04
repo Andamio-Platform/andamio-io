@@ -79,7 +79,7 @@ export default function DialogSLT({
       sltText: "",
       moduleId: module.id ?? "",
     });
-  }, [sltDialogOpen]);
+  }, [sltDialogOpen, isLoadingCreate]);
 
   return (
     <>

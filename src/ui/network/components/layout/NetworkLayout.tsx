@@ -33,7 +33,10 @@ export default function NetworkLayout({
             <Link href="/network/access-token/mint">Mint</Link>
           </div>
           <div className="rounded-sm bg-primary p-[2px] text-center text-primary-foreground opacity-90 hover:opacity-100">
-            <Link href="/network">Dashboard</Link>
+            <Link href="/network/dashboard">Dashboard</Link>
+          </div>
+          <div className="rounded-sm bg-primary p-[2px] text-center text-primary-foreground opacity-90 hover:opacity-100">
+            <Link href="/network/access-token/list">List</Link>
           </div>
         </div>
         <div className="lg:w-11/12 xl:w-11/12">{children}</div>

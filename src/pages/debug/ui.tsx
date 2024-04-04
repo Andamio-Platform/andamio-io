@@ -5,6 +5,7 @@ import { CardanoWallet } from "@meshsdk/react";
 import { checkSignature, generateNonce } from "@meshsdk/core";
 import toast from "react-hot-toast";
 import { Button } from "~/components/ui/button";
+import Test from "./test";
 
 export default function Page() {
   const ctx = api.useUtils();
@@ -76,9 +77,12 @@ export default function Page() {
           >
             Link wallet
           </Button>
+          <Test wallet={wallet} />
         </>
       ) : (
+        <>
         <CardanoWallet />
+        </>
       )}
     </div>
   );

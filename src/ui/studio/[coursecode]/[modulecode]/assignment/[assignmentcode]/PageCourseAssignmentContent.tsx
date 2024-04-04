@@ -167,22 +167,11 @@ export default function PageCourseAssignmentContent({
                 live={assignment.live}
               />
             </div>
-            <div className="col-span-3 flex flex-col w-full items-center justify-center rounded-md border border-secondary-foreground py-3">
-              <p className="text-2xl">25</p>
-              <p className="">Completions</p>
+
+            <div className="col-span-12 flex flex-col w-full items-center justify-center rounded-md border border-secondary-foreground p-3">
+              Coming Soon: Assignment Dashboard
             </div>
-            <div className="col-span-3 flex flex-col w-full items-center justify-center rounded-md border border-secondary-foreground py-3">
-            <p className="text-2xl">8</p>
-              <p className="">In Progress</p>
-            </div>
-            <div className="col-span-3 flex flex-col w-full items-center justify-center rounded-md border border-secondary-foreground py-3">
-            <p className="text-2xl">4</p>
-              <p className="">Prerequisites</p>
-            </div>
-            <div className="col-span-3 flex flex-col w-full items-center justify-center rounded-md border border-secondary-foreground p-3">
-              What kind of dashboard can this page be?
-            </div>
-            
+
 
             <div className="col-span-8 row-span-5 rounded-md border border-secondary-foreground p-5">
               <TitleAndDescription

@@ -32,6 +32,8 @@ export default function DialogAssignment({
   const { courseModules, isLoadingCourseModules } =
     useCourseModules(courseCode);
 
+  const sortedSlts = module.slts.slice().sort((a, b) => a.moduleIndex - b.moduleIndex);
+
   const { mutate: assignmentCreate, isLoading: isLoadingAssignmentCreate } =
     api.assignment.create.useMutation({
       onSuccess: (data) => {
@@ -124,7 +126,7 @@ export default function DialogAssignment({
                 label="Assignment Student Learning Targets"
                 form={form}
                 info="This Assignment is an assement of the following learning targets:"
-                options={module.slts.map((s) => ({
+                options={sortedSlts.map((s) => ({
                   id: s.id,
                   value: s.sltText,
                   label: `${module.moduleCode}.${s.moduleIndex.toString()}: ${s.sltText}`,

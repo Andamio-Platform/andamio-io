@@ -19,6 +19,7 @@ import CardSLT from "~/ui/studio/components/slt/CardSLT";
 import PublishToggle from "~/ui/studio/components/form-sections/PublishToggle";
 import VideoLink from "~/ui/studio/components/form-sections/VideoLink";
 import { Card } from "~/components/ui/card";
+import Link from "next/link";
 
 export default function PageCourseLessonContent({
   course,
@@ -239,13 +240,21 @@ export default function PageCourseLessonContent({
     return (
       <StudioLayout>
         <div className="flex h-[50vh] w-full items-center justify-center">
-          <Card className="border border-foreground p-10 w-1/2">
-            <h1 className="text-4xl text-foreground my-10">
+          <Card className="w-1/2 border border-foreground p-10">
+            <h1 className="my-10 text-4xl text-foreground">
               Ready to create a lesson?
             </h1>
-            <p>Course: {course.title} | Module: {module.title}</p>
-            <p className="py-5 font-bold">SLT {moduleCode}.{moduleIndex}: {slt.sltText}</p>
-            <Button onClick={handleCreateLesson} intent="module" className="mt-20">
+            <p>
+              Course: {course.title} | Module: {module.title}
+            </p>
+            <p className="py-5 font-bold">
+              SLT {moduleCode}.{moduleIndex}: {slt.sltText}
+            </p>
+            <Button
+              onClick={handleCreateLesson}
+              intent="module"
+              className="mt-20"
+            >
               Yes! Create Lesson {moduleCode}.{moduleIndex}
             </Button>
           </Card>
@@ -269,7 +278,8 @@ export default function PageCourseLessonContent({
                 live={lesson.live}
               />
             </div>
-            <div className="col-span-8 row-span-3 rounded-md border border-secondary-foreground p-5">
+
+            <div className="col-span-8 row-span-4 rounded-md border border-secondary-foreground p-5">
               <TitleAndDescription
                 form={form}
                 id={lesson.id}
@@ -287,6 +297,31 @@ export default function PageCourseLessonContent({
                 sltText={slt.sltText}
               />
             </div>
+            <Card className="col-span-4 flex w-full flex-row items-center justify-between border border-secondary-foreground p-3">
+              <div>
+                {moduleIndex > 1 && (
+                  <Button>
+                    <Link
+                      href={`/studio/${courseCode}/${moduleCode}/lesson/${moduleIndex - 1}`}
+                    >
+                      GO TO LESSON {moduleCode}.{moduleIndex - 1}
+                    </Link>
+                  </Button>
+                )}
+              </div>
+              <div>
+                {moduleIndex < module.slts.length && (
+                  <Button>
+                    <Link
+                      href={`/studio/${courseCode}/${moduleCode}/lesson/${moduleIndex + 1}`}
+                    >
+                      GO TO LESSON {moduleCode}.{moduleIndex + 1}
+                    </Link>
+                  </Button>
+                )}
+              </div>
+            </Card>
+
             <VideoLink form={form} />
             <PublishToggle form={form} title={course.title} />
             <div className="col-span-12 rounded-md border border-secondary-foreground">

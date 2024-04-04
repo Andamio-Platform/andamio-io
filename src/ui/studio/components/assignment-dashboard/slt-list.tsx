@@ -10,7 +10,9 @@ export default function SltList({
 }) {
   const statuses:any = [];
 
-  module.slts.forEach((s) => {
+  const sortedSlts = module.slts.slice().sort((a, b) => a.moduleIndex - b.moduleIndex);
+
+  sortedSlts.forEach((s) => {
     const assessed = assignment.slts.find((t) => t.id == s.id)
     statuses.push({...s, assessed})
   })

@@ -8,7 +8,7 @@ export default function CardSLT({
   sltText: string;
 }) {
   return (
-    <div className="flex w-full justify-start rounded-md border border-secondary-foreground p-5 h-24">
+    <div className="flex w-full justify-start rounded-md border border-secondary-foreground p-5 min-h-24">
       <p className="text-xl font-semibold leading-7">
         SLT {moduleCode}.{moduleIndex}: {sltText}
       </p>

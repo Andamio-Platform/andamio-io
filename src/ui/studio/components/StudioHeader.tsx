@@ -5,7 +5,7 @@ export default function StudioHeader() {
   return (
     <div className="flex items-start min-h-[150px]">
       <div className="flex-grow">
-        <h1>Your Courses</h1>
+        <h1 className="text-2xl md:text-6xl font-bold">Your Courses</h1>
       </div>
       <div>
         <DialogCourse />

@@ -159,6 +159,8 @@ export default function DialogCourseOnChain({
         buttonLoading={isLoadingCreate || isLoadingUpdate}
         buttonDisabled={isLoadingCreate || isLoadingUpdate}
         handleSubmit={form.handleSubmit(onSubmit)}
+        isOpen={dialogOpen}
+        setIsOpen={setDialogOpen}
       >
         {courseOnchain && courseOnchain ? (
           <div className="mt-4 grid grid-cols-1 gap-y-4">

@@ -119,6 +119,8 @@ export default function DialogCourseVariant({
         buttonLoading={isLoadingCreate || isLoadingUpdate}
         buttonDisabled={isLoadingCreate || isLoadingUpdate}
         handleSubmit={form.handleSubmit(onSubmit)}
+        isOpen={dialogOpen}
+        setIsOpen={setDialogOpen}
       >
         <p>
           {courseVariant

@@ -60,6 +60,8 @@ export default function DialogSLTDelete({
       buttonLoading={isLoadingDelete}
       buttonDisabled={isLoadingDelete}
       handleSubmit={handleSubmit(() => onSubmit())}
+      isOpen={sltDeleteDialogOpen}
+      setIsOpen={setSltDeleteDialogOpen}
     >
       <p>Are you sure?</p>
     </DialogForm>

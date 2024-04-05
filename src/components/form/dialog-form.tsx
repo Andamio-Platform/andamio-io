@@ -19,6 +19,8 @@ export default function DialogForm({
   buttonLoading,
   buttonDisabled,
   handleSubmit,
+  isOpen,
+  setIsOpen
 }: {
   children: React.ReactNode;
   openButton: string;
@@ -28,12 +30,11 @@ export default function DialogForm({
   buttonLoading: boolean;
   buttonDisabled: boolean;
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  isOpen: boolean,
+  setIsOpen: (open: boolean) => void;
 }) {
 
-  const [isOpen, setIsOpen] = useState(false)
   const hasIconButton = openButton == "delete" || openButton == "moduleSettings"
-
-
 
   return (
     <Dialog open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
@@ -54,7 +55,7 @@ export default function DialogForm({
             <form onSubmit={handleSubmit}>
               {children}
               <div className="mt-5 gap-2 sm:mt-4 sm:flex">
-                <Button type="submit" disabled={buttonDisabled} intent="default" onClick={() => setIsOpen(false)}>
+                <Button type="submit" disabled={buttonDisabled} intent="default">
                   {buttonLoading ? (
                     <SymbolIcon className="h-5 w-5 animate-spin" />
                   ) : (

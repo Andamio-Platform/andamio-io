@@ -95,6 +95,8 @@ export default function DialogSLT({
             buttonLoading={isLoadingCreate}
             buttonDisabled={isLoadingCreate}
             handleSubmit={form.handleSubmit(onSubmit)}
+            isOpen={sltDialogOpen}
+            setIsOpen={setSltDialogOpen}
           >
             <p>
               Adding SLT {module.moduleCode}.{module.slts.length + 1}

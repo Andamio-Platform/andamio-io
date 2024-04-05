@@ -49,7 +49,7 @@ export default function ControlPanel({
                     intent="ghost"
                   >
                     <ExclamationTriangleIcon
-                      className="text-yellow-800"
+                      className="text-warning"
                       width="22"
                       height="22"
                     />
@@ -77,7 +77,7 @@ export default function ControlPanel({
               <GlobeIcon
                 width="22"
                 height="22"
-                className={`${live ? "text-green-900" : "text-secondary-foreground"}`}
+                className={`${live ? "text-success" : "text-secondary-foreground"}`}
               />
             </Button>
           </TooltipTrigger>

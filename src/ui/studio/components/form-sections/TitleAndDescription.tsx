@@ -33,6 +33,7 @@ export default function TitleAndDescription({
           setEditText={setEdit}
           text={title ?? "Edit this lesson title"}
           hasForm={true}
+          placeholder='Lesson Title'
         />
       </div>
       <div className="my-3">
@@ -47,6 +48,7 @@ export default function TitleAndDescription({
           text={description ?? "Edit description"}
           hideButtons={true}
           hasForm={true}
+          placeholder='Add an optional lesson description here. When you are planning a lesson, this is a good place to write your first ideas.'
         />
       </div>
     </div>

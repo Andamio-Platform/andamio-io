@@ -67,8 +67,10 @@ export default function PageCourse({ courseCode }: { courseCode: string }) {
 
   return (
     <CourseLayout>
-      <div className="flex flex-col gap-8">
-        <h1>{_course.title}</h1>
+      <div className="flex flex-col w-full md:w-11/12 lg:w-1/2 mx-auto gap-5">
+        <h1 className="text-[5rem] font-bold leading-[5rem]">
+          {_course.title}
+        </h1>
 
         <div className="flex gap-4">
           {listCourseVariant?.map((variant) => (
@@ -132,22 +134,20 @@ function ListModules({
   if (courseModules == undefined) return <></>;
 
   return (
-    <div className="mx-auto w-full max-w-7xl px-6 lg:px-8">
-      <div className="mx-auto max-w-4xl divide-y divide-forground">
-        <Card>
-          <dl className="divide-forground">
-            {isLoadingCourseModules && <Loading />}
-            {courseModules.sort(sortBy).map((module, i) => (
-              <ModuleContainer
-                key={i}
-                module={module}
-                courseCode={courseCode}
-                _courseVariant={_courseVariant}
-              />
-            ))}
-          </dl>
-        </Card>
-      </div>
+    <div className="mx-auto flex w-full">
+      <Card intent="none">
+        <dl className="divide-forground">
+          {isLoadingCourseModules && <Loading />}
+          {courseModules.sort(sortBy).map((module, i) => (
+            <ModuleContainer
+              key={i}
+              module={module}
+              courseCode={courseCode}
+              _courseVariant={_courseVariant}
+            />
+          ))}
+        </dl>
+      </Card>
     </div>
   );
 }
@@ -189,37 +189,39 @@ function ModuleContainer({
   return (
     <Accordion type="single" collapsible>
       <AccordionItem value="item-1">
-        <AccordionTrigger className="flex w-full items-start justify-between gap-4 text-left text-foreground hover:no-underline hover:text-primary">
-          <span className="text-5xl font-semibold leading-7">
+        <AccordionTrigger className="flex w-full items-start justify-between gap-4 text-left text-foreground hover:text-primary hover:no-underline">
+          <span className="text-base font-semibold leading-7">
             {_module.moduleCode}
           </span>
           <span className="grow">
             <div>
-              <p className="text-base font-semibold leading-7">
+              <p className="text-3xl font-semibold leading-7">
                 {_module.title}
               </p>
-              <div className="mt-1 flex items-center gap-x-2 text-sm leading-5 text-gray-500">
+              <div className="mt-1 flex items-center gap-x-2 text-sm leading-5 text-accent-foreground">
                 <p>{_module.description}</p>
               </div>
             </div>
           </span>
         </AccordionTrigger>
-        <div className="mt-2 px-12 pr-12">
+        <div className="mb-5 ml-10 mt-2">
           {_module.slts.map((slt, i) => (
             <AccordionContent
               key={`slt${i}`}
-              className="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 sm:flex-nowrap text-foreground hover:text-primary"
+              className="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 py-5 text-foreground hover:text-primary sm:flex-nowrap"
             >
               <Link
                 href={`/course/${courseCode}/${_module.moduleCode}/lesson/${slt.moduleIndex}`}
               >
                 <p className="flex items-center gap-x-2 text-sm font-semibold leading-6 ">
-                  <span>{slt.moduleIndex}</span>
+                  <span>
+                    {_module.moduleCode}.{slt.moduleIndex}
+                  </span>
                   <CircleIcon />
                   {slt.sltText}
                 </p>
-                <div className="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500">
-                  <p>{slt.sltText}</p>
+                <div className="mt-1 flex items-center gap-x-2 text-xs leading-5 text-accent-foreground">
+                  LESSON STATUS
                 </div>
               </Link>
             </AccordionContent>

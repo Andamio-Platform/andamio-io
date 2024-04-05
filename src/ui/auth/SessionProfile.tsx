@@ -14,7 +14,7 @@ export default function SessionProfile() {
       {isProfileMenuOpen && (
         <button
           onClick={() => void signOut({ callbackUrl: "/" })}
-          className="block w-full px-6 py-3 text-left text-sm font-semibold leading-6 text-gray-900 hover:bg-accent focus:outline-none"
+          className="block w-full px-6 py-3 text-left text-sm font-semibold leading-6 text-foreground hover:bg-accent focus:outline-none"
         >
           Sign Out
         </button>
@@ -23,7 +23,7 @@ export default function SessionProfile() {
         onClick={() =>
           setIsProfileMenuOpen((prevState) => !prevState)
         }
-        className="flex cursor-pointer items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-accent"
+        className="flex cursor-pointer items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-foreground hover:bg-accent"
       >
         <img
           className="h-8 w-8 rounded-full bg-accent"

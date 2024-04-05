@@ -28,7 +28,7 @@ export default async function MintAccessToken(
     }
 
     const responseData = await response.json();
-    return responseData;
+    return responseData.unsignedTxCBOR;
   } catch (error) {
     console.error("Error:", error);
     return null; 

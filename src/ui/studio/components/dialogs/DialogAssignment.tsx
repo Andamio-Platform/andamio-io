@@ -32,12 +32,13 @@ export default function DialogAssignment({
   const { courseModules, isLoadingCourseModules } =
     useCourseModules(courseCode);
 
-  const sortedSlts = module.slts.slice().sort((a, b) => a.moduleIndex - b.moduleIndex);
+  const sortedSlts = module.slts
+    .slice()
+    .sort((a, b) => a.moduleIndex - b.moduleIndex);
 
   const { mutate: assignmentCreate, isLoading: isLoadingAssignmentCreate } =
     api.assignment.create.useMutation({
       onSuccess: (data) => {
-        setAssignmentDialogOpen(false);
         toast.success("Assignment created!");
         const _module = courseModules?.find((c) => c.id === data.moduleId);
         void ctx.slt.getModuleSLTs.invalidate({
@@ -49,6 +50,7 @@ export default function DialogAssignment({
         void ctx.assignment.getModuleAssignments.invalidate({
           moduleId: module.id,
         });
+        setAssignmentDialogOpen(false);
       },
       onError: (e) => {
         const errorMessage = e.data?.zodError?.fieldErrors;

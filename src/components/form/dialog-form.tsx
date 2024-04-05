@@ -19,6 +19,8 @@ export default function DialogForm({
   buttonLoading,
   buttonDisabled,
   handleSubmit,
+  isOpen,
+  setIsOpen
 }: {
   children: React.ReactNode;
   openButton: string;
@@ -28,12 +30,11 @@ export default function DialogForm({
   buttonLoading: boolean;
   buttonDisabled: boolean;
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  isOpen: boolean,
+  setIsOpen: (open: boolean) => void;
 }) {
 
-  const [isOpen, setIsOpen] = useState(false)
   const hasIconButton = openButton == "delete" || openButton == "moduleSettings"
-
-
 
   return (
     <Dialog open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>

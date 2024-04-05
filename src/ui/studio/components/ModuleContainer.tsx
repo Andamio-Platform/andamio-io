@@ -164,8 +164,8 @@ export default function ModuleContainer({
         <AccordionTrigger className="flex w-full flex-row justify-between rounded-md bg-primary px-3 text-primary-foreground">
           <div className="grid w-full grid-cols-12 py-1">
             <div className="col-span-1">{module.moduleCode}</div>
-            <div className="col-span-2">
-              <div className="flex gap-2">
+            <div className="col-span-3">
+              <div className="flex gap-2 text-left">
                 <span>{module.title}</span>
               </div>
             </div>

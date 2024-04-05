@@ -176,6 +176,8 @@ export default function DialogModule({
         buttonLoading={isLoadingCreate || isLoadingUpdate}
         buttonDisabled={isLoadingCreate || isLoadingUpdate}
         handleSubmit={form.handleSubmit(onSubmit)}
+        isOpen={moduleDialogOpen}
+        setIsOpen={setModuleDialogOpen}
       >
         <p>
           {module

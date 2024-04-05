@@ -108,6 +108,8 @@ export default function DialogAssignment({
             buttonLoading={isLoadingAssignmentCreate}
             buttonDisabled={isLoadingAssignmentCreate}
             handleSubmit={form.handleSubmit(onSubmit)}
+            isOpen={assignmentDialogOpen}
+            setIsOpen={setAssignmentDialogOpen}
           >
             <p>Adding Assignment to Module {module.moduleCode}</p>
 

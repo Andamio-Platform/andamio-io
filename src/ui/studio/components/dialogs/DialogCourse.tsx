@@ -1,7 +1,7 @@
 import { FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Course } from "~/types/db";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,9 +12,12 @@ import DialogForm from "~/components/form/dialog-form";
 export default function DialogCourse({ course }: { course?: Course }) {
   const ctx = api.useUtils();
 
+  const [isOpen, setIsOpen ] = useState<boolean>(false)
+
   const { mutate: create, isLoading: isLoadingCreate } =
     api.course.create.useMutation({
       onSuccess: () => {
+        setIsOpen(false)
         toast.success("Course created!"); // trigger notification in top right
         void ctx.course.getCoursesByOwner.invalidate(); // make the new course appear on the page
       },
@@ -31,6 +34,7 @@ export default function DialogCourse({ course }: { course?: Course }) {
   const { mutate: update, isLoading: isLoadingUpdate } =
     api.course.update.useMutation({
       onSuccess: () => {
+        setIsOpen(false)
         toast.success("Course updated!");
         void ctx.course.getCoursesByOwner.invalidate();
       },
@@ -110,6 +114,8 @@ export default function DialogCourse({ course }: { course?: Course }) {
         buttonLoading={isLoadingCreate || isLoadingUpdate}
         buttonDisabled={isLoadingCreate || isLoadingUpdate}
         handleSubmit={form.handleSubmit(onSubmit)}
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
       >
         <p>
           {course

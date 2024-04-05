@@ -52,7 +52,7 @@ export default function DialogCourseManager({
     if (course && selectedPerson) {
       mutate({
         courseCode: course.courseCode,
-        creatorId: selectedPerson.id
+        creatorId: selectedPerson.id,
       });
     }
   }
@@ -70,6 +70,8 @@ export default function DialogCourseManager({
       buttonDisabled={selectedPerson === null}
       buttonLoading={isLoadingAddCourseManager}
       handleSubmit={handleSubmit((data) => onSubmit(data))}
+      isOpen={dialogOpen}
+      setIsOpen={setDialogOpen}
     >
       <p>A Contributor can add and edit Modules, Assignments and Lessons.</p>
 
@@ -89,7 +91,7 @@ export default function DialogCourseManager({
           </Combobox.Button>
 
           {filteredPeople.length > 0 && (
-            <Combobox.Options className="z-60 absolute mt-1 max-h-56 w-full overflow-auto rounded-md bg-secondary py-1 text-base shadow-lg ring-1 ringforeground ring-opacity-5 focus:outline-none sm:text-sm">
+            <Combobox.Options className="z-60 ringforeground absolute mt-1 max-h-56 w-full overflow-auto rounded-md bg-secondary py-1 text-base shadow-lg ring-1 ring-opacity-5 focus:outline-none sm:text-sm">
               {searchUsers &&
                 searchUsers.map((person) => {
                   return (
@@ -99,7 +101,9 @@ export default function DialogCourseManager({
                       className={({ active }) =>
                         classNames(
                           "relative cursor-default select-none py-2 pl-3 pr-9",
-                          active ? "bg-primary text-primary-foreground" : "text-foreground",
+                          active
+                            ? "bg-primary text-primary-foreground"
+                            : "text-foreground",
                         )
                       }
                     >
@@ -127,7 +131,9 @@ export default function DialogCourseManager({
                             <span
                               className={classNames(
                                 "absolute inset-y-0 right-0 flex items-center pr-4",
-                                active ? "text-primary-foreground" : "text-primary",
+                                active
+                                  ? "text-primary-foreground"
+                                  : "text-primary",
                               )}
                             >
                               <CheckIcon

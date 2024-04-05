@@ -54,7 +54,7 @@ export default function DialogForm({
             <form onSubmit={handleSubmit}>
               {children}
               <div className="mt-5 gap-2 sm:mt-4 sm:flex">
-                <Button type="submit" disabled={buttonDisabled} intent="default" onClick={() => setIsOpen(false)}>
+                <Button type="submit" disabled={buttonDisabled} intent="default">
                   {buttonLoading ? (
                     <SymbolIcon className="h-5 w-5 animate-spin" />
                   ) : (

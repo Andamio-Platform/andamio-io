@@ -9,7 +9,7 @@ export default class Editor {
 
   constructor({
     editable = true,
-    initialContent = "<p>start typing...</p>",
+    initialContent = "Write your content here. Try pressing / on a new line!",
   }: {
     editable?: boolean;
     initialContent?: Content;

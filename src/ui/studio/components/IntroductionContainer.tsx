@@ -6,6 +6,8 @@ import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
 import useIntroduction from "~/hooks/useIntroduction";
 import { Button } from "~/components/ui/button";
+import Loading from "~/components/loading";
+import LoadingCircle from "./ContentEditor/ui/icons/loading-circle";
 
 export default function IntroductionContainer({
   moduleId,
@@ -56,14 +58,24 @@ export default function IntroductionContainer({
   }
 
   return (
-    <Card className="hover:secondary-foreground mx-auto my-5 flex w-11/12 flex-row justify-between rounded-md bg-primary px-10 py-3 text-primary-foreground">
+    <Card intent="module" size="wide">
       <div>Introduction</div>
       {hasIntro ? (
         <Link href={`/studio/${courseCode}/${moduleCode}/intro`}>
           Go to Intro
         </Link>
       ) : (
-        <Button onClick={handleCreateIntroduction}>Create Intro</Button>
+        <>
+          {isLoadingIntroCreate ? (
+            <div className="pr-5">
+              <LoadingCircle />
+            </div>
+          ) : (
+            <Button onClick={handleCreateIntroduction} size="sm">
+              Create Intro
+            </Button>
+          )}
+        </>
       )}
     </Card>
   );

@@ -297,7 +297,7 @@ export default function PageCourseLessonContent({
                 sltText={slt.sltText}
               />
             </div>
-            <Card className="col-span-4 flex w-full flex-row items-center justify-between border border-secondary-foreground p-3">
+            <Card className="col-span-4 flex w-full flex-row items-center justify-between border border-secondary-foreground p-3" size="md">
               <div>
                 {moduleIndex > 1 && (
                   <Button>

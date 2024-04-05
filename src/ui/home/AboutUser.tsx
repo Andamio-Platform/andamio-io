@@ -42,17 +42,17 @@ export default function AboutUser() {
 
   return (
     <div className="mx-auto mt-24 grid w-3/4 grid-cols-3 gap-3 lg:w-1/2">
-      <Card className="flex h-12 items-center justify-center bg-primary text-primary-foreground">
+      <Card className="" intent="status" size="md">
         User Name: {sessionData.user.name}
       </Card>
-      <Card className="flex h-12 items-center justify-center bg-primary text-primary-foreground">
+      <Card className="" intent="status" size="md">
         {sessionData.user.learnerId ? (
           <p className="mx-5">YOU ARE A LEARNER</p>
         ) : (
           <Button onClick={onEnableLearner}>Be A Learner</Button>
         )}
       </Card>
-      <Card className="flex h-12 items-center justify-center bg-primary text-primary-foreground">
+      <Card className="" intent="status" size="md">
         {sessionData.user.creatorId && (
           <Link href="/studio">YOU ARE A CREATOR</Link>
         )}

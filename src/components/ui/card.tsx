@@ -6,11 +6,12 @@ import { cn } from "~/utils/shadcn";
 const cardVariants = cva("", {
   variants: {
     intent: {
-      default: "rounded-xl border bg-card text-card-foreground shadow",
+      default: "rounded-xl border border-foreground bg-card text-card-foreground shadow",
       course:
         "border border-foreground bg-background text-foreground hover:bg-secondary hover:text-secondary-foreground rounded-xl",
       status: "flex items-center justify-center bg-primary text-primary-foreground",
-      module: "flex flex-row justify-between rounded-md bg-primary text-primary-foreground hover:secondary-foreground "
+      module: "flex flex-row justify-between rounded-md bg-primary text-primary-foreground hover:secondary-foreground",
+      none: "flex w-full items-center justify-between"
     },
     size: {
       default: "min-h-[200px] px-5 py-3",

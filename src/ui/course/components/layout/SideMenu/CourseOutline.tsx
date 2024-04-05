@@ -28,7 +28,7 @@ export default function CourseOutline({courseCode, isCreator}:{courseCode: strin
                   <AccordionItem value="item-1">
                     <AccordionTrigger
                       className={classNames(
-                        "text-gray-700 px-3 rounded-sm hover:bg-accent hover:text-indigo-600",
+                        "text-foreground px-3 rounded-sm hover:bg-accent hover:text-accent-foreground-foreground",
                         "text-sm font-semibold",
                         "hover:no-underline",
                       )}
@@ -43,7 +43,7 @@ export default function CourseOutline({courseCode, isCreator}:{courseCode: strin
                           <AccordionContent
                             key={slt.id}
                             className={classNames(
-                              "text-gray-700 hover:bg-accent hover:text-indigo-600",
+                              "text-foreground hover:bg-accent hover:text-accent-foreground-foreground",
                               "rounded-md p-2",
                             )}
                           >
@@ -74,7 +74,7 @@ export default function CourseOutline({courseCode, isCreator}:{courseCode: strin
                         <AccordionContent
                           key={assignment.assignmentCode}
                           className={classNames(
-                            "text-gray-700 hover:bg-accent hover:text-indigo-600",
+                            "text-foreground hover:bg-accent hover:text-accent-foreground-foreground",
                             "rounded-md p-2",
                           )}
                         >
@@ -115,10 +115,9 @@ function isLessonLive(
     module: Module,
   ) {
     const lesson = lessons.find((lesson) => lesson.sltId === slt.id);
-  
+
     if ((lesson && lesson.live) || isCreator) {
       return `/course/${courseCode}/${module.moduleCode}/lesson/${slt.moduleIndex}`;
     }
     return "#";
   }
-  

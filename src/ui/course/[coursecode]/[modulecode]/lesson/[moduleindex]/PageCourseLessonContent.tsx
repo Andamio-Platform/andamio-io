@@ -39,11 +39,11 @@ export default function PageCourseContent({
   return (
     <CourseLayout>
       {lesson && lesson.live ? (
-        <div className="mx-auto flex max-w-3xl flex-col gap-4 text-base leading-7 text-gray-700">
+        <div className="mx-auto flex max-w-3xl flex-col gap-4 text-base leading-7 text-foreground">
           <Page slt={slt} lesson={lesson} />
         </div>
       ) : lesson && !lesson.live ? (
-        <div className="mx-auto flex max-w-3xl flex-col gap-4 text-base leading-7 text-gray-700">
+        <div className="mx-auto flex max-w-3xl flex-col gap-4 text-base leading-7 text-foreground">
           <Alert variant="warning">
             <AlertTriangle className="h-4 w-4" />
             <AlertTitle>Lesson is not Live!</AlertTitle>
@@ -56,7 +56,7 @@ export default function PageCourseContent({
       ) : isLoadingLesson || isLoadingSLT ? (
         <Loading />
       ) : (
-        <div className="mx-auto flex max-w-3xl flex-col gap-4 text-base leading-7 text-gray-700">
+        <div className="mx-auto flex max-w-3xl flex-col gap-4 text-base leading-7 text-foreground">
           <Alert variant="success">
             <Leaf className="h-4 w-4" />
             <AlertTitle>
@@ -91,10 +91,10 @@ function Page({
   return (
     <>
       <div>
-        <p className="text-base font-semibold leading-7 text-indigo-600">
+        <p className="text-base font-semibold leading-7 text-accent-foreground">
           {slt?.sltText}
         </p>
-        <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+        <h1 className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
           {lesson.title}
         </h1>
         <p className="text-xl leading-8">{lesson.description}</p>

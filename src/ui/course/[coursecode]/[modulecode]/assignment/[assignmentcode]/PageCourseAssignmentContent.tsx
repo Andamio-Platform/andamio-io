@@ -29,11 +29,11 @@ export default function PageCourseAssignmentContent({
   return (
     <CourseLayout>
       {assignment && assignment.live ? (
-        <div className="mx-auto flex max-w-3xl flex-col gap-4 text-base leading-7 text-gray-700">
+        <div className="mx-auto flex max-w-3xl flex-col gap-4 text-base leading-7 text-foreground">
           <Page {...assignment} />
         </div>
       ) : assignment && !assignment.live ? (
-        <div className="mx-auto flex max-w-3xl flex-col gap-4 text-base leading-7 text-gray-700">
+        <div className="mx-auto flex max-w-3xl flex-col gap-4 text-base leading-7 text-foreground">
           <Alert variant="warning">
             <AlertTriangle className="h-4 w-4" />
             <AlertTitle>Assignment is not Live!</AlertTitle>
@@ -69,12 +69,12 @@ function Page(assignment: { slts: Slt[] } & Assignment) {
         {assignment.slts.map((slt) => (
           <p
             key={slt.moduleIndex}
-            className="text-base font-semibold leading-7 text-indigo-600"
+            className="text-base font-semibold leading-7 text-accent-foreground"
           >
             {slt.moduleIndex} {slt.sltText}
           </p>
         ))}
-        <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+        <h1 className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
           {assignment.title}
         </h1>
         <p className="text-xl leading-8">{assignment.description}</p>

@@ -46,16 +46,16 @@ function NavigationItems({ isCreator }: { isCreator: boolean }) {
               href={item.href}
               className={classNames(
                 item.current
-                  ? "bg-accent text-indigo-600"
-                  : "text-gray-700 hover:bg-accent hover:text-indigo-600",
+                  ? "bg-accent text-accent-foreground-foreground"
+                  : "text-foreground hover:bg-accent hover:text-accent-foreground-foreground",
                 "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
               )}
             >
               <item.icon
                 className={classNames(
                   item.current
-                    ? "text-indigo-600"
-                    : "text-gray-400 group-hover:text-indigo-600",
+                    ? "text-accent-foreground-foreground"
+                    : "text-accent-foreground-foreground group-hover:text-accent-foreground-foreground",
                   "h-6 w-6 shrink-0",
                 )}
                 aria-hidden="true"
@@ -98,13 +98,13 @@ function CoursePage({ courseCode }: { courseCode: string }) {
             <Link
               href={`/course/${course?.courseCode}`}
               className={classNames(
-                "text-gray-700 hover:bg-accent hover:text-indigo-600",
+                "text-foreground hover:bg-accent hover:text-accent-foreground-foreground",
                 "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
               )}
             >
               <AcademicCapIcon
                 className={classNames(
-                  "text-gray-400 group-hover:text-indigo-600",
+                  "text-accent-foreground-foreground group-hover:text-accent-foreground-foreground",
                   "h-6 w-6 shrink-0",
                 )}
                 aria-hidden="true"
@@ -119,7 +119,7 @@ function CoursePage({ courseCode }: { courseCode: string }) {
 
       {/* {sessionData && (
         <li>
-          <div className="text-xs font-semibold leading-6 text-gray-400">
+          <div className="text-xs font-semibold leading-6 text-accent-foreground-foreground">
             Your courses
           </div>
           <ul role="list" className="-mx-2 mt-2 space-y-1">
@@ -130,7 +130,7 @@ function CoursePage({ courseCode }: { courseCode: string }) {
                   className={classNames(
                     router.query.coursecode == course.courseCode
                       ? "bg-accent text-primary"
-                      : "text-gray-700 hover:bg-accent hover:text-primary",
+                      : "text-foreground hover:bg-accent hover:text-primary",
                     "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
                   )}
                 >
@@ -138,7 +138,7 @@ function CoursePage({ courseCode }: { courseCode: string }) {
                     className={classNames(
                       router.query.coursecode == course.courseCode
                         ? "border-primary text-primary"
-                        : "border-gray-200 text-gray-400 group-hover:border-primary group-hover:text-primary",
+                        : "border-gray-200 text-accent-foreground-foreground group-hover:border-primary group-hover:text-primary",
                       "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border bg-primary text-[0.625rem] font-medium",
                     )}
                   >
@@ -187,13 +187,13 @@ function CoursePage({ courseCode }: { courseCode: string }) {
 //               <Link
 //                 href={`/course/${course.courseCode}`}
 //                 className={classNames(
-//                   "text-gray-700 hover:bg-accent hover:text-primary",
+//                   "text-foreground hover:bg-accent hover:text-primary",
 //                   "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
 //                 )}
 //               >
 //                 <HomeIcon
 //                   className={classNames(
-//                     "text-gray-400 group-hover:text-primary",
+//                     "text-accent-foreground-foreground group-hover:text-primary",
 //                     "h-6 w-6 shrink-0",
 //                   )}
 //                   aria-hidden="true"
@@ -211,7 +211,7 @@ function CoursePage({ courseCode }: { courseCode: string }) {
 //         <>
 //           {modules.sort(sortBy).map((module, i) => (
 //             <li key={`module${i}`}>
-//               <div className="text-xs font-semibold leading-6 text-gray-400">
+//               <div className="text-xs font-semibold leading-6 text-accent-foreground-foreground">
 //                 {module.title}
 //               </div>
 //               <ul role="list" className="-mx-2 mt-2 space-y-1">
@@ -248,7 +248,7 @@ function CoursePage({ courseCode }: { courseCode: string }) {
 //               className={classNames(
 //                 router.query.coursecode == slt.id
 //                   ? "bg-accent text-primary"
-//                   : "text-gray-700 hover:bg-accent hover:text-primary",
+//                   : "text-foreground hover:bg-accent hover:text-primary",
 //                 "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
 //               )}
 //             >
@@ -256,7 +256,7 @@ function CoursePage({ courseCode }: { courseCode: string }) {
 //                 className={classNames(
 //                   router.query.coursecode == slt.id
 //                     ? "border-primary text-primary"
-//                     : "border-gray-200 text-gray-400 group-hover:border-primary group-hover:text-primary",
+//                     : "border-gray-200 text-accent-foreground-foreground group-hover:border-primary group-hover:text-primary",
 //                   "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border bg-primary text-[0.625rem] font-medium",
 //                 )}
 //               >

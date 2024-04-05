@@ -31,7 +31,7 @@ export default function ListCourses() {
               })}
             </div>
           ) : (
-            <Card className="min-h-[200px] border border-foreground bg-background px-5 py-3 text-foreground hover:bg-secondary hover:text-secondary-foreground">
+            <Card intent="course">
               <p>No courses yet, want to make one? (todo - replace with illustrative picture)</p>
             </Card>
           )}

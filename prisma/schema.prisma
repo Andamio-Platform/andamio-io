@@ -58,9 +58,10 @@ model User {
   accounts      Account[]
   sessions      Session[]
 
-  learner    Learner?
-  creator    Creator?
-  userWallet UserWallet?
+  learner     Learner?
+  creator     Creator?
+  userWallet  UserWallet?
+  accessToken String?     @unique
 }
 
 model VerificationToken {

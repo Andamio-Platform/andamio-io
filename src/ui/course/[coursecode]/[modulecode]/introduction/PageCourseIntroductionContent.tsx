@@ -101,7 +101,7 @@ function Page({
         <div className="bg-accent px-3 pt-2 pb-1">
           <h2>Student Learning Targets</h2>
           {slts.map((slt) => (
-            <Card intent="slt" size="md">
+            <Card intent="slt" size="md" key={slt.id}>
               <p>
                 {moduleCode}.{slt.moduleIndex}{" "}
               </p>

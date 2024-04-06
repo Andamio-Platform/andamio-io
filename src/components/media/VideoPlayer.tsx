@@ -2,7 +2,7 @@ import YouTube from "react-youtube";
 
 export default function VideoPlayer({ videoId }: { videoId: string }) {
   let _videoId = videoId
-  if (videoId.substring(0,32) == "https://www.youtube.com/watch?v=") {
+  if (videoId.startsWith("https://www.youtube.com/watch?v=")) {
     _videoId = videoId.substring(32)
   }
 

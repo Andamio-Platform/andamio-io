@@ -45,6 +45,8 @@ export default function DialogModule({
   // const { listCourseVariant, selectedVariantName, setSelectedVariantName } =
   //   useCourseVariants(course?.id);
 
+  console.log("check902", module)
+
   const { mutate: moduleCreate, isLoading: isLoadingCreate } =
     api.module.create.useMutation({
       onSuccess: () => {
@@ -159,6 +161,7 @@ export default function DialogModule({
   }
 
   useEffect(() => {
+    console.log("check901")
     form.reset({
       moduleCode: module?.moduleCode ?? "",
       title: module?.title ?? "",

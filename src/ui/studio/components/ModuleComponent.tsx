@@ -47,7 +47,7 @@ export default function ModuleComponent({ course }: { course: Course }) {
           moduleDialogOpen={moduleDialogOpen}
           setModuleDialogOpen={setModuleDialogOpen}
           course={course}
-          module={selectedModule}
+          moduleCode=""
         />
       </div>
     </>

@@ -71,7 +71,9 @@ export default function ModuleContainer({
 
   const [activeSLT, setActiveSLT] = useState<Active | null>(null);
 
-  const { assignments } = useAssignments(course.id, module.id);
+  // WIP 2024-04-08 - courseId is redundant, remove it.
+  // Then get assignments working again along with current changes
+  const { assignments } = useAssignments(course.courseCode, module.moduleCode);
 
   // Todo
   // How does this help?
@@ -176,7 +178,7 @@ export default function ModuleContainer({
                   moduleDialogOpen={moduleDialogOpen}
                   setModuleDialogOpen={setModuleDialogOpen}
                   course={course}
-                  module={module}
+                  moduleCode={module.moduleCode}
                 />
               </div>
             </div>

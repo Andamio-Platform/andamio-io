@@ -1,5 +1,7 @@
 import { api } from "~/utils/api";
 
+
+// WIP 2024-04-08 - courseId is redundant, remove it.
 export default function useAssignments(
   courseId: string,
   moduleId: string,

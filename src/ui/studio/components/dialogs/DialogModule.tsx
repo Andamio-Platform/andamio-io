@@ -8,22 +8,37 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "~/components/ui/form";
 import FormInput from "~/components/form/form-input";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import DialogForm from "~/components/form/dialog-form";
+import FormSelect from "~/components/form/form-select";
+import useModule from "~/hooks/useModule";
+import useModuleByCourse from "~/hooks/useModuleByCourse";
+import useCourseModules from "~/hooks/useCourseModules";
+
+type ModuleOption = {
+  value: string;
+  label: string;
+};
 
 export default function DialogModule({
   moduleDialogOpen,
   setModuleDialogOpen,
-  module,
+  moduleCode,
   course,
 }: {
   moduleDialogOpen: boolean;
   setModuleDialogOpen: (open: boolean) => void;
-  module?: Module;
+  moduleCode: string;
   course: Course;
 }) {
   if (!course) return;
   const ctx = api.useUtils();
+
+  // 2024-03-08
+  // MUST FIX THIS TYPE
+  const { courseModule, isLoadingModule } = useModuleByCourse(course.courseCode, moduleCode)
+  const { courseModules } = useCourseModules(course.courseCode)
+  const [newModuleCodeOptions, setNewModuleCodeOptions] = useState<ModuleOption[]>([])
 
   // Todo: Implement Course Variants
   // const [currentCourseVariant, setCurrentCourseVariant] = useState<
@@ -45,7 +60,7 @@ export default function DialogModule({
   // const { listCourseVariant, selectedVariantName, setSelectedVariantName } =
   //   useCourseVariants(course?.id);
 
-  console.log("check902", module)
+  console.log("check902", module);
 
   const { mutate: moduleCreate, isLoading: isLoadingCreate } =
     api.module.create.useMutation({
@@ -53,6 +68,9 @@ export default function DialogModule({
         setModuleDialogOpen(false);
         toast.success("Module created!");
         void ctx.module.getCourseModules.invalidate({
+          courseCode: course.courseCode,
+        });
+        void ctx.course.getCourse.invalidate({
           courseCode: course.courseCode,
         });
       },
@@ -160,22 +178,47 @@ export default function DialogModule({
     }
   }
 
+  // Given a list of currentModuleCodes like this:
+  // currentModuleCodes = ["101", "102", "201", "301", "302"]
+  // Create a set of options in a drop-down menu for moduleCode, in the format
+  // newModuleCodeOptions: {value: string, label: string}[] = []
+  // Options should be:
+  // - the next 100-level module
+  // - the next 200-level module
+  // - the next 300-level module
+  // - a custom choice
+  //
+  // Example:
+  // If the current list of modules is ["101", "102", "201"], then the output should be:
+  // [{value: "103", label: "103"}, {value: "202", label: "202"}, {value: "301", label: "301"}]
+
   useEffect(() => {
-    console.log("check901")
+    if(courseModules) {
+      const currentModuleCodes = courseModules.map((m) => m.moduleCode);
+      const _newModuleCodeOptions = makeModuleOptions(currentModuleCodes);
+      if(_newModuleCodeOptions) {
+        setNewModuleCodeOptions(_newModuleCodeOptions)
+      }
+    }
+  }, [moduleDialogOpen, courseModules, courseModule, course]);
+
+
+  useEffect(() => {
     form.reset({
-      moduleCode: module?.moduleCode ?? "",
-      title: module?.title ?? "",
-      description: module?.description ?? "",
+      moduleCode: courseModule?.moduleCode ?? "",
+      title: courseModule?.title ?? "",
+      description: courseModule?.description ?? "",
     });
-  }, [moduleDialogOpen, module]);
+  }, [moduleDialogOpen, courseModule, newModuleCodeOptions]);
+
 
   return (
     <Form {...form}>
       <DialogForm
-        openButton={module ? "moduleSettings" : "Add Module"}
+        openButton={moduleCode ? "moduleSettings" : "Add Module"}
         openButtonIntent="dialog"
-        title={module ? `Editing ${module.title}` : "Create a new module"}
-        buttonLabel={module ? "Save" : "Create"}
+        title={courseModule ? `Editing ${courseModule?.title}` : "Create a new module"}
+        buttonLabel={courseModule ? "Save" : "Create"}
         buttonLoading={isLoadingCreate || isLoadingUpdate}
         buttonDisabled={isLoadingCreate || isLoadingUpdate}
         handleSubmit={form.handleSubmit(onSubmit)}
@@ -197,9 +240,16 @@ export default function DialogModule({
             form={form}
           />
 
+          <FormSelect
+            name="moduleCode"
+            label="Select a suggested Module Code"
+            form={form}
+            options={newModuleCodeOptions}
+          />
           <FormInput
             name="moduleCode"
-            label="Module Code"
+            label="Or write your own custom code"
+            info="The Module Code is a 3-character string that appears in the course URL"
             form={form}
             disabled={false}
           />
@@ -230,4 +280,59 @@ export default function DialogModule({
       </DialogForm>
     </Form>
   );
+}
+
+
+
+function incrementCode(code: string): string {
+  const lastChar = code.charAt(code.length - 1);
+  let newLastChar;
+  if (/\d/.test(lastChar)) {
+    // If the last character is a digit
+    newLastChar = String.fromCharCode(lastChar.charCodeAt(0) + 1);
+  } else if (/[A-Y]/.test(lastChar)) {
+    // If the last character is a letter from A to Y
+    newLastChar = String.fromCharCode(lastChar.charCodeAt(0) + 1);
+  } else {
+    newLastChar = "H";
+  }
+  return code.substring(0, code.length - 1) + newLastChar;
+}
+
+function makeModuleOptions(currentModuleCodes: string[]): ModuleOption[] {
+
+  if (currentModuleCodes.length === 0) {
+    return [
+      { value: "101", label: "101" },
+      { value: "201", label: "201" },
+      { value: "301", label: "301" },
+    ];
+  }
+
+  const sortedCodes = currentModuleCodes.sort();
+  const uniqueCategories = [
+    ...new Set(sortedCodes.map((code) => code.substring(0, 2))),
+  ];
+
+
+
+  const newModuleCodeOptions: ModuleOption[] = uniqueCategories.map(
+    (category) => {
+      const codesInCategory = sortedCodes.filter((code) =>
+        code.startsWith(category),
+      );
+      const lastCode = codesInCategory[codesInCategory.length - 1] ?? "";
+      const nextCode = incrementCode(lastCode);
+      return { value: nextCode, label: nextCode };
+    },
+  );
+
+  const lastCode = sortedCodes[sortedCodes.length - 1];
+  if (lastCode && lastCode.startsWith("1")) {
+    newModuleCodeOptions.push({ value: "201", label: "201" }, { value: "301", label: "301" });
+  } else if (lastCode && lastCode.startsWith("2")) {
+    newModuleCodeOptions.push({ value: "301", label: "301" });
+  }
+
+  return newModuleCodeOptions;
 }

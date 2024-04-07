@@ -34,6 +34,9 @@ export const assignmentRouter = createTRPCRouter({
   // Get all Assignments
   // getAssignment and getModuleAssignments might be redundant for now - don't delete yet
   // Think about how Assigments might not need "Variants"?
+
+
+  // WIP 2024-04-08 - courseId is redundant, remove it.
   getModuleAssignments: publicProcedure
     .input(
       z.object({

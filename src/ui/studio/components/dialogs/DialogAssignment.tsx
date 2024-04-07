@@ -63,7 +63,7 @@ export default function DialogAssignment({
     });
 
   const FormSchema = z.object({
-    assignmentCode: z.string().min(4),
+    assignmentCode: z.string().min(3),
     assignmentTitle: z.string().min(1),
     sltIds: z.array(z.string().min(1)),
   });
@@ -71,7 +71,7 @@ export default function DialogAssignment({
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      assignmentCode: "",
+      assignmentCode: `assignment${module.moduleCode}`,
       assignmentTitle: "",
       sltIds: [],
     },
@@ -88,7 +88,7 @@ export default function DialogAssignment({
 
   useEffect(() => {
     form.reset({
-      assignmentCode: assignment?.assignmentCode ?? "",
+      assignmentCode: assignment?.assignmentCode ?? `assignment${module.moduleCode}`,
       assignmentTitle: assignment?.title ?? "",
       sltIds: assignment?.slts.map((s) => s.id) ?? [],
     });
@@ -117,11 +117,13 @@ export default function DialogAssignment({
               <FormInput
                 name="assignmentTitle"
                 label="Enter Assignment Title"
+                info="You can change this later"
                 form={form}
               />
               <FormInput
                 name="assignmentCode"
                 label="Enter Assignment Code"
+                info="Optionally, customize the assignment code. It is used in the direct url for this assignment."
                 form={form}
               />
 

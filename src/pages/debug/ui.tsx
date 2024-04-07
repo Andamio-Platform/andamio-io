@@ -130,7 +130,7 @@ function EditorSection() {
         <div className="bg-white">
           {/* editor here */}
           {[...Array(50)].map((_, i) => (
-            <p>
+            <p key={i}>
               Lorem ipsum dolor sit amet, consectetur adipisicing elit.
               Voluptatem ipsa veritatis quidem? Doloremque ea, consectetur
               officia excepturi reiciendis in necessitatibus sed deleniti

@@ -69,23 +69,28 @@ function ModuleList({
   moduleDialogOpen: boolean;
   setModuleDialogOpen: (open: boolean) => void;
 }) {
-  return (
-    <>
-      {modules && variants && (
-        <Accordion type="multiple">
-          {modules.map((module, i) => (
-            <ModuleContainer
-              key={i}
-              course={course}
-              module={module}
-              variants={variants}
-              setSelectedModule={setSelectedModule}
-              moduleDialogOpen={moduleDialogOpen}
-              setModuleDialogOpen={setModuleDialogOpen}
-            />
-          ))}
-        </Accordion>
-      )}
-    </>
-  );
+
+  if(!!modules) {
+    const sortedModules = modules.slice().sort((a,b) => a.moduleCode.localeCompare(b.moduleCode));
+    return (
+      <>
+        {modules && variants && (
+          <Accordion type="multiple">
+            {sortedModules.map((module, i) => (
+              <ModuleContainer
+                key={i}
+                course={course}
+                module={module}
+                variants={variants}
+                setSelectedModule={setSelectedModule}
+                moduleDialogOpen={moduleDialogOpen}
+                setModuleDialogOpen={setModuleDialogOpen}
+              />
+            ))}
+          </Accordion>
+        )}
+      </>
+    );
+  }
+
 }

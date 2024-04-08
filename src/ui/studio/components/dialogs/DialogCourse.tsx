@@ -12,12 +12,12 @@ import DialogForm from "~/components/form/dialog-form";
 export default function DialogCourse({ course }: { course?: Course }) {
   const ctx = api.useUtils();
 
-  const [isOpen, setIsOpen ] = useState<boolean>(false)
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const { mutate: create, isLoading: isLoadingCreate } =
     api.course.create.useMutation({
       onSuccess: () => {
-        setIsOpen(false)
+        setIsOpen(false);
         toast.success("Course created!"); // trigger notification in top right
         void ctx.course.getCoursesByOwner.invalidate(); // make the new course appear on the page
       },
@@ -34,7 +34,7 @@ export default function DialogCourse({ course }: { course?: Course }) {
   const { mutate: update, isLoading: isLoadingUpdate } =
     api.course.update.useMutation({
       onSuccess: () => {
-        setIsOpen(false)
+        setIsOpen(false);
         toast.success("Course updated!");
         void ctx.course.getCoursesByOwner.invalidate();
       },
@@ -104,6 +104,12 @@ export default function DialogCourse({ course }: { course?: Course }) {
     }
   }, [course]);
 
+  useEffect(() => {
+    const courseTitle = form.getValues("title");
+    const abbrev = getFirstLetters(courseTitle)
+    form.setValue("courseCode", abbrev + "2024")
+  }, [form.getValues("title")]);
+
   return (
     <Form {...form}>
       <DialogForm
@@ -120,7 +126,7 @@ export default function DialogCourse({ course }: { course?: Course }) {
         <p>
           {course
             ? "You are editing an existing course. Make changes and click 'Save'."
-            : "Creating a new course is easy. lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia, consequuntur molestias numquam amet blanditiis voluptate sunt illo inventore atque hic, asperiores recusandae, reiciendis quae nostrum sit quis accusamus possimus quisquam?"}
+            : "To create a new course, give it a title and a unique Course Code. You can change the title and all other details later."}
         </p>
 
         <div className="mt-4 grid grid-cols-1 gap-4">
@@ -144,6 +150,7 @@ export default function DialogCourse({ course }: { course?: Course }) {
           <FormInput
             name="courseCode"
             label="Course Code"
+            info="The Course Code is a unique string that appears in the course URL, and can be used as a shorthand title for your course."
             form={form}
             disabled={course !== undefined}
           />
@@ -151,4 +158,11 @@ export default function DialogCourse({ course }: { course?: Course }) {
       </DialogForm>
     </Form>
   );
+}
+
+function getFirstLetters(input: string): string {
+  return input
+    .split(" ")
+    .map((word) => word[0]?.toLowerCase())
+    .join("");
 }

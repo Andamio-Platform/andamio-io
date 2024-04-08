@@ -43,11 +43,11 @@ export default function PageCourseAssignmentContent({
       onSuccess: async (data) => {
         toast.success("Assignment updated!");
         setEditAssignment(false);
-        void ctx.assignment.getAssignment.invalidate({
+        void ctx.assignment.getAssignmentByCourseModuleCodes.invalidate({
           moduleCode: moduleCode,
           courseCode: courseCode,
         });
-        void ctx.assignment.getModuleAssignments.invalidate({
+        void ctx.assignment.getAssignmentByModuleId.invalidate({
           moduleId: module.id,
         });
       },
@@ -150,6 +150,8 @@ export default function PageCourseAssignmentContent({
       editor.setContent(assignment.contentJson);
     }
   }, [editAssignment]);
+
+  if(!assignment) return
 
   return (
     <StudioLayout>

@@ -1,10 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import {
-  Course,
-  Module,
-  ModuleSLT,
-  ModuleVariant,
-} from "~/types/db";
+import { Course, Module, ModuleSLT, ModuleVariant } from "~/types/db";
 import DialogAssignment from "./dialogs/DialogAssignment";
 import DialogSLT from "./dialogs/DialogSLT";
 import { SortableSLT } from "./slt/RowSLT";
@@ -28,25 +23,26 @@ import useAssignmentByModule from "~/hooks/useAssignmentByModule";
 import Link from "next/link";
 import DialogModule from "./dialogs/DialogModule";
 import IntroductionContainer from "./IntroductionContainer";
+import useSLTs from "~/hooks/useSLTs";
 
 type sltI = { slt: ModuleSLT; sltIndex: number; id: string };
 
 export default function ModuleContainer({
   currentModule,
   course,
-  variants,
+  // variants,
 }: {
   currentModule: Module;
   course: Course;
-  variants?: ModuleVariant[];
+  // variants?: ModuleVariant[];
 }) {
   if (!course) return;
 
-  console.log("check870", currentModule)
+  console.log("check870", currentModule);
 
   const ctx = api.useUtils();
 
-  const [moduleDialogOpen, setModuleDialogOpen] = useState<boolean>(false)
+  const [moduleDialogOpen, setModuleDialogOpen] = useState<boolean>(false);
 
   const [sltDialogOpen, setSltDialogOpen] = useState<boolean>(false);
   const [assignmentDialogOpen, setAssignmentDialogOpen] =
@@ -57,30 +53,22 @@ export default function ModuleContainer({
 
   const [activeSLT, setActiveSLT] = useState<Active | null>(null);
 
-  // WIP 2024-04-08 - courseId is redundant, remove it.
-  // Then get assignments working again along with current changes
-  const { assignment, isLoadingAssignment } = useAssignmentByModule(module.id);
+  const { assignment, isLoadingAssignment } = useAssignmentByModule(
+    currentModule.id,
+  );
+
+  const { slts, isLoadingSLTs, isFetchedSLTs } = useSLTs(
+    course.courseCode,
+    currentModule.moduleCode,
+  );
 
   // Todo - implement the rest of dnd-kit
   // How does this help?
   // Figure out how to only invoke dnd when hamburger is touched
-  // const activeItem = useMemo(
-  //   () => sltIndexes.find((s) => s.slt.id === activeSLT?.id),
-  //   [activeSLT, sltIndexes],
-  // );
-
-  useEffect(() => {
-    const _slts: sltI[] = [];
-
-    if (currentModule) {
-      currentModule.slts.forEach((slt) => {
-        _slts.push({ slt: slt, sltIndex: slt.moduleIndex, id: slt.id });
-      });
-
-      const sortedSlts = _slts.slice().sort((a, b) => a.sltIndex - b.sltIndex);
-      setSltIndexes(sortedSlts);
-    }
-  }, [module]);
+  const activeItem = useMemo(
+    () => sltIndexes.find((s) => s.slt.id === activeSLT?.id),
+    [activeSLT, sltIndexes],
+  );
 
   // Todo = Variant Epic: This logic doesn't work - we get the same variant tab on each module.
   // However, the problem is more than this - module variants are not updating correctly.
@@ -123,6 +111,10 @@ export default function ModuleContainer({
         void ctx.module.getCourseModules.invalidate({
           courseCode: course.courseCode,
         });
+        void ctx.slt.getModuleSLTs.invalidate({
+          courseCode: course.courseCode,
+          moduleCode: currentModule.moduleCode
+        })
       },
       onError: (e) => {
         const errorMessage = e.data?.zodError?.fieldErrors;
@@ -137,6 +129,19 @@ export default function ModuleContainer({
       },
     });
 
+  useEffect(() => {
+    const _slts: sltI[] = [];
+
+    if (slts) {
+      slts.forEach((slt) => {
+        _slts.push({ slt: slt, sltIndex: slt.moduleIndex, id: slt.id });
+      });
+
+      const sortedSlts = _slts.slice().sort((a, b) => a.sltIndex - b.sltIndex);
+      setSltIndexes(sortedSlts);
+    }
+  }, [slts, isFetchedSLTs]);
+
   function onUpdateSltList() {
     const _updateSlts: { id: string; moduleIndex: number }[] = [];
     sltIndexes.forEach((s, i) => {
@@ -147,7 +152,10 @@ export default function ModuleContainer({
   }
 
   return (
-    <div className="mx-5 my-3 w-full rounded-md border border-secondary-foreground p-1 sm:mx-auto sm:w-[630px] md:w-[750px] lg:w-[850px] xl:w-[950px]" key={`${course.courseCode}-${currentModule.moduleCode}`}>
+    <div
+      className="mx-5 my-3 w-full rounded-md border border-secondary-foreground p-1 sm:mx-auto sm:w-[630px] md:w-[750px] lg:w-[850px] xl:w-[950px]"
+      key={`${course.courseCode}-${currentModule.moduleCode}`}
+    >
       <AccordionItem value={currentModule.moduleCode}>
         <AccordionTrigger className="flex w-full flex-row justify-between rounded-md bg-primary px-3 text-primary-foreground">
           <div className="grid w-full grid-cols-12 py-1">
@@ -203,28 +211,27 @@ export default function ModuleContainer({
                 </SortableContext>
                 {/* todo implelment the rest of dnd-kit - look at codesandbox example - can imagine extracting this component and adding overlay */}
               </DndContext>
+              <DialogSLT
+                sltDialogOpen={sltDialogOpen}
+                setSltDialogOpen={setSltDialogOpen}
+                courseCode={course.courseCode}
+                currentModule={currentModule}
+              />
 
-              {/* todo - map this: */}
-              {assignment && (
+              {assignment ? (
                 <Link
                   href={`/studio/${course.courseCode}/${currentModule.moduleCode}/assignment/${assignment.assignmentCode}`}
                 >
                   <AssignmentContainer assignment={assignment} />
                 </Link>
+              ) : (
+                <DialogAssignment
+                  assignmentDialogOpen={assignmentDialogOpen}
+                  setAssignmentDialogOpen={setAssignmentDialogOpen}
+                  courseCode={course.courseCode}
+                  module={currentModule}
+                />
               )}
-              <DialogSLT
-                sltDialogOpen={sltDialogOpen}
-                setSltDialogOpen={setSltDialogOpen}
-                courseCode={course.courseCode}
-                module={currentModule}
-              />
-              <div className="my-1" />
-              <DialogAssignment
-                assignmentDialogOpen={assignmentDialogOpen}
-                setAssignmentDialogOpen={setAssignmentDialogOpen}
-                courseCode={course.courseCode}
-                module={currentModule}
-              />
             </div>
           </>
         </AccordionContent>

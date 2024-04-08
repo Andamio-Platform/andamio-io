@@ -49,7 +49,7 @@ export default function Page() {
 
       // set database
       if (result) {
-        await updateWalletAddresses({
+        updateWalletAddresses({
           walletAddress: userWalletAddress,
           stakeAddress: userStakeAddress,
         });

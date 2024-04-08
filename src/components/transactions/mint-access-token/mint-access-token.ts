@@ -1,12 +1,12 @@
 import UTxOi from "~/components/transactions/model";
 
 interface Request {
-    address: string;
-    changeAddress: string;
-    UserUTxOs: UTxOi[];
-    CollateralUTxO: UTxOi;
-    AccessTokenName: string;
-    UserInfo: string;
+  address: string;
+  changeAddress: string;
+  UserUTxOs: UTxOi[];
+  CollateralUTxO: UTxOi;
+  AccessTokenName: string;
+  UserInfo: string;
 }
 
 export default async function MintAccessToken(
@@ -31,6 +31,38 @@ export default async function MintAccessToken(
     return responseData.unsignedTxCBOR;
   } catch (error) {
     console.error("Error:", error);
-    return null; 
+    return null;
   }
 }
+
+export const CheckTokenAliasAvailability = async (tokenAlias: string) => {
+  const response = await fetch(
+    `${process.env.GCP_BACKEND}/api/v1/tx/check+access+token+name+aveliblity/${tokenAlias}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(""),
+    },
+  );
+  const data = await response.json();
+
+  return !data.IsUsed && !data.isExist;
+};
+
+// export const ConfirmTx = async (txId: string) => {
+//   const response = await fetch(
+//     `${process.env.GCP_BACKEND}/api/v1/tx/confirm+access+token+was+minted/${txId}`,
+//     {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify(""),
+//     },
+//   );
+//   const data = await response.json();
+
+//   return data.IsConfirmed;
+// };

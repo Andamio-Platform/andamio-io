@@ -15,7 +15,7 @@ export default function Test({ wallet }: { wallet: BrowserWallet }) {
     const addr = await wallet.getChangeAddress();
     // sum utxos with mininum ADA 10
     const userUTxOs = await wallet.getUtxos();
-    let UserUTxOs: UTxOi[] = [];
+    const UserUTxOs: UTxOi[] = [];
     userUTxOs.forEach((utxo: UTxO) => {
       UserUTxOs.push({
         TxID: utxo.input.txHash,
@@ -23,7 +23,7 @@ export default function Test({ wallet }: { wallet: BrowserWallet }) {
       });
     });
     const coll_utxo = await wallet.getCollateral();
-    let CollateralUTxO: UTxOi = {
+    const CollateralUTxO: UTxOi = {
       TxID: coll_utxo[0].input.txHash,
       TxIDIndex: coll_utxo[0].input.outputIndex,
     };

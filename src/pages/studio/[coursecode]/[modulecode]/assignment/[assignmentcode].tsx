@@ -1,14 +1,8 @@
 import { NextPageContext } from "next";
-import { useState } from "react";
-import Loading from "~/components/loading";
-import useAssignment from "~/hooks/useAssignment";
+import useAssignmentByCourseModule from "~/hooks/useAssignmentByCourseModule";
 import useCourseByOwner from "~/hooks/useCourseByOwner";
 import useModuleByCourse from "~/hooks/useModuleByCourse";
-import useSLT from "~/hooks/useSLT";
-import { ModuleSLT } from "~/types/db";
 import PageCourseAssignmentContent from "~/ui/studio/[coursecode]/[modulecode]/assignment/[assignmentcode]/PageCourseAssignmentContent";
-import PageCourseLessonContent from "~/ui/studio/[coursecode]/[modulecode]/lesson/[moduleindex]/PageCourseLessonContent";
-import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
 
 export default function AssignmentStudioPage({
   courseCode,
@@ -21,7 +15,7 @@ export default function AssignmentStudioPage({
 }) {
   if (assignmentCode) {
 
-    const { assignment, isLoadingAssignment } = useAssignment(courseCode, moduleCode);
+    const { assignment, isLoadingAssignment } = useAssignmentByCourseModule(courseCode, moduleCode);
     const { course, isLoadingCourse } = useCourseByOwner(courseCode);
     const { courseModule, isLoadingModule } = useModuleByCourse(
       courseCode,

@@ -1,12 +1,10 @@
 import { Assignment, Slt } from "@prisma/client";
 import { AlertTriangle } from "lucide-react";
 import { useSession } from "next-auth/react";
-import { use, useEffect } from "react";
 import Editor from "~/components/Editor";
 import Loading from "~/components/loading";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
-import useAssignment from "~/hooks/useAssignment";
-import useSLT from "~/hooks/useSLT";
+import useAssignmentByCourseModule from "~/hooks/useAssignmentByCourseModule";
 import useValidateCreator from "~/hooks/useValidateCreator";
 import CourseLayout from "~/ui/course/components/layout/CourseLayout";
 
@@ -19,7 +17,7 @@ export default function PageCourseAssignmentContent({
 }) {
   const { data: sessionData } = useSession();
 
-  const { assignment, isLoadingAssignment } = useAssignment(
+  const { assignment, isLoadingAssignment } = useAssignmentByCourseModule(
     courseCode,
     moduleCode,
   );

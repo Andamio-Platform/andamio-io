@@ -2,52 +2,38 @@ import { useEffect, useState } from "react";
 import Loading from "~/components/loading";
 import { Course, Module, ModuleVariant } from "~/types/db";
 import DialogModule from "~/ui/studio/components/dialogs/DialogModule";
-import { PlusCircleIcon } from "@heroicons/react/24/outline";
-import useCourseModulesAndVariants from "~/hooks/useCourseModulesAndVariants";
+// import useCourseModulesAndVariants from "~/hooks/useCourseModulesAndVariants";
 import ModuleContainer from "./ModuleContainer";
 import { Accordion } from "~/components/ui/accordion";
-import { Button } from "~/components/ui/button";
+import useCourseModules from "~/hooks/useCourseModules";
 
 export default function ModuleComponent({ course }: { course: Course }) {
   const [moduleDialogOpen, setModuleDialogOpen] = useState<boolean>(false);
-  const [selectedModule, setSelectedModule] = useState<Module | undefined>(
-    undefined,
-  );
+
 
   if (!course) return;
 
-  const { modules, moduleVariants, isLoading, refetch } =
-    useCourseModulesAndVariants(course.courseCode, course.variants);
+  // const { modules, moduleVariants, isLoading, refetch } =
+  //   useCourseModulesAndVariants(course.courseCode, course.variants);
 
-  useEffect(() => {
-    if (moduleDialogOpen == false) {
-      setSelectedModule(undefined);
-    }
-  }, [moduleDialogOpen]);
+    const { courseModules, isLoadingCourseModules, refetchCourseModules } = useCourseModules(course.courseCode);
 
-  function addNewModule() {
-    setModuleDialogOpen(true);
-  }
 
   return (
     <>
       <ModuleList
         course={course}
-        modules={modules}
-        variants={moduleVariants}
-        setSelectedModule={setSelectedModule}
-        moduleDialogOpen={moduleDialogOpen}
-        setModuleDialogOpen={setModuleDialogOpen}
+        courseModules={courseModules}
       />
 
-      {modules === undefined && isLoading && <Loading />}
+      {courseModules === undefined && isLoadingCourseModules && <Loading />}
 
       <div className="flex w-full justify-center">
         <DialogModule
           moduleDialogOpen={moduleDialogOpen}
           setModuleDialogOpen={setModuleDialogOpen}
           course={course}
-          module={selectedModule}
+          moduleCode=""
         />
       </div>
     </>
@@ -56,36 +42,29 @@ export default function ModuleComponent({ course }: { course: Course }) {
 
 function ModuleList({
   course,
-  modules,
-  variants,
-  setSelectedModule,
-  moduleDialogOpen,
-  setModuleDialogOpen,
+  courseModules,
 }: {
   course: Course;
-  modules?: Module[];
-  variants?: ModuleVariant[];
-  setSelectedModule: (module: Module) => void;
-  moduleDialogOpen: boolean;
-  setModuleDialogOpen: (open: boolean) => void;
+  courseModules?: Module[];
 }) {
-  return (
-    <>
-      {modules && variants && (
-        <Accordion type="multiple">
-          {modules.map((module, i) => (
-            <ModuleContainer
-              key={i}
-              course={course}
-              module={module}
-              variants={variants}
-              setSelectedModule={setSelectedModule}
-              moduleDialogOpen={moduleDialogOpen}
-              setModuleDialogOpen={setModuleDialogOpen}
-            />
-          ))}
-        </Accordion>
-      )}
-    </>
-  );
+
+  if(!!courseModules) {
+    const sortedCourseModules = courseModules.slice().sort((a,b) => a.moduleCode.localeCompare(b.moduleCode));
+    return (
+      <>
+        {courseModules && (
+          <Accordion type="multiple">
+            {sortedCourseModules.map((module, i) => (
+              <ModuleContainer
+                key={i}
+                course={course}
+                currentModule={module}
+              />
+            ))}
+          </Accordion>
+        )}
+      </>
+    );
+  }
+
 }

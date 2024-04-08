@@ -102,6 +102,8 @@ export function RowSLT({
   module: Module;
   slt: ModuleSLT;
 }) {
+  if(!module) return
+
   const ctx = api.useUtils();
   const { setNodeRef } = useContext(SortableSltContext);
 

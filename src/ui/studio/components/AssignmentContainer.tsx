@@ -7,6 +7,8 @@ export default function AssignmentContainer({
 }: {
   assignment: Assignment;
 }) {
+  if(!assignment) return;
+
   return (
     <Card intent="module" size="wide">
       <div>

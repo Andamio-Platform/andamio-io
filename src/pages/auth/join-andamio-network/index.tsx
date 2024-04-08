@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { UTxO } from "@meshsdk/core";
 import { CardanoWallet, useWallet } from "@meshsdk/react";
 import Link from "next/link";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { set, z } from "zod";
 import FormInput from "~/components/form/form-input";
@@ -25,6 +25,7 @@ import { Form } from "~/components/ui/form";
 import { useRouter } from "next/router";
 import Loading from "~/components/loading";
 import MintAccessToken from "~/components/transactions/mint-access-token/mint-access-token";
+import debounce from 'lodash.debounce';
 
 export default function JoinAndamioNetwork() {
   const router = useRouter();
@@ -38,12 +39,49 @@ export default function JoinAndamioNetwork() {
     }),
   });
 
+  const checkTokenAliasAvailability = async (tokenAlias: string) => {
+    const response = await fetch(`${process.env.GCP_BACKEND}/api/v1/tx/check+access+token+name+aveliblity/${tokenAlias}`, {
+      method: 'POST',
+      headers: {
+      'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(""),
+    });
+    const data = await response.json();
+    console.log("here", data.IsUsed, data.isExist)
+    return !data.IsUsed && !data.isExist;
+  };
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       tokenAlias: "",
     },
   });
+
+  const { register, setError, clearErrors, watch } = form;
+
+    // Debounced API call
+    const validateTokenAlias = useCallback(debounce(async (tokenAlias) => {
+      const isAvailable = await checkTokenAliasAvailability(tokenAlias);
+      if (!isAvailable) {
+        setError('tokenAlias', {
+          type: 'availability',
+          message: 'This alias is already taken.',
+        });
+      } else {
+        clearErrors('tokenAlias');
+      }
+    }, 500), []);
+
+    // Watch for changes in tokenAlias field
+  const tokenAlias = watch('tokenAlias');
+
+  useEffect(() => {
+    if (tokenAlias.length >= 2) { // Avoid checking for very short strings or empty
+      validateTokenAlias(tokenAlias);
+    }
+  }, [tokenAlias, validateTokenAlias]);
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     setIsLoading(true);
@@ -111,6 +149,7 @@ export default function JoinAndamioNetwork() {
                           <Form {...form}>
                             <form onSubmit={form.handleSubmit(onSubmit)}>
                               <FormInput
+                              {...register('tokenAlias')}
                                 name="tokenAlias"
                                 placeholder="Token Alias"
                                 form={form}

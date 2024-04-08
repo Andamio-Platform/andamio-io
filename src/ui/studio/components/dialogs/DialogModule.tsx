@@ -28,7 +28,7 @@ export default function DialogModule({
 }: {
   moduleDialogOpen: boolean;
   setModuleDialogOpen: (open: boolean) => void;
-  moduleCode: string;
+  moduleCode?: string;
   course: Course;
 }) {
   if (!course) return;
@@ -36,8 +36,8 @@ export default function DialogModule({
 
   // 2024-03-08
   // MUST FIX THIS TYPE
-  const { courseModule, isLoadingModule } = useModuleByCourse(course.courseCode, moduleCode)
   const { courseModules } = useCourseModules(course.courseCode)
+  const [currentCourseModule, setCurrentCourseModule] = useState<Module | undefined>(undefined)
   const [newModuleCodeOptions, setNewModuleCodeOptions] = useState<ModuleOption[]>([])
 
   // Todo: Implement Course Variants
@@ -59,8 +59,6 @@ export default function DialogModule({
 
   // const { listCourseVariant, selectedVariantName, setSelectedVariantName } =
   //   useCourseVariants(course?.id);
-
-  console.log("check902", module);
 
   const { mutate: moduleCreate, isLoading: isLoadingCreate } =
     api.module.create.useMutation({
@@ -200,16 +198,26 @@ export default function DialogModule({
         setNewModuleCodeOptions(_newModuleCodeOptions)
       }
     }
-  }, [moduleDialogOpen, courseModules, courseModule, course]);
+  }, [moduleDialogOpen, courseModules, currentCourseModule, course]);
 
 
   useEffect(() => {
     form.reset({
-      moduleCode: courseModule?.moduleCode ?? "",
-      title: courseModule?.title ?? "",
-      description: courseModule?.description ?? "",
+      moduleCode: moduleCode ?? "",
+      title: currentCourseModule?.title ?? "",
+      description: currentCourseModule?.description ?? "",
     });
-  }, [moduleDialogOpen, courseModule, newModuleCodeOptions]);
+  }, [moduleDialogOpen, currentCourseModule, newModuleCodeOptions, moduleCode]);
+
+  useEffect(() => {
+    if(courseModules && moduleCode) {
+      const _module = courseModules.find((m) => m.moduleCode == moduleCode)
+      if(_module) {
+        setCurrentCourseModule(_module)
+      }
+    }
+
+  }, [course, moduleCode])
 
 
   return (
@@ -217,8 +225,8 @@ export default function DialogModule({
       <DialogForm
         openButton={moduleCode ? "moduleSettings" : "Add Module"}
         openButtonIntent="dialog"
-        title={courseModule ? `Editing ${courseModule?.title}` : "Create a new module"}
-        buttonLabel={courseModule ? "Save" : "Create"}
+        title={currentCourseModule ? `Editing ${currentCourseModule?.title}` : "Create a new module"}
+        buttonLabel={currentCourseModule ? "Save" : "Create"}
         buttonLoading={isLoadingCreate || isLoadingUpdate}
         buttonDisabled={isLoadingCreate || isLoadingUpdate}
         handleSubmit={form.handleSubmit(onSubmit)}
@@ -226,7 +234,7 @@ export default function DialogModule({
         setIsOpen={setModuleDialogOpen}
       >
         <p>
-          {module
+          {currentCourseModule
             ? "You are editing a module. Make changes and click 'Save'."
             : "Create a new module by filling in the details below."}
         </p>
@@ -254,7 +262,7 @@ export default function DialogModule({
             disabled={false}
           />
 
-          {module && (
+          {currentCourseModule && (
             <div className="flex items-center gap-2">
               <div className="grow"></div>
               <Button
@@ -264,7 +272,7 @@ export default function DialogModule({
                 onClick={() =>
                   // todo: change this is are you sure
                   moduleDelete({
-                    moduleId: module.id,
+                    moduleId: currentCourseModule.id,
                   })
                 }
               >

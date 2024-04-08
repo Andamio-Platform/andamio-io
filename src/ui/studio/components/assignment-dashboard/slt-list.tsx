@@ -8,6 +8,8 @@ export default function SltList({
   module: Module;
   assignment: Assignment;
 }) {
+  if(!assignment) return
+
   const statuses:any = [];
 
   const sortedSlts = module.slts.slice().sort((a, b) => a.moduleIndex - b.moduleIndex);

@@ -1,6 +1,6 @@
 import { api } from "~/utils/api";
 
-export default function useAssignment(
+export default function useAssignmentByCourseModule(
   courseCode: string,
   moduleCode: string,
 ) {
@@ -10,11 +10,10 @@ export default function useAssignment(
     isError: isErrorAssignment,
     error: errorAssignment,
     refetch: refetchAssignment,
-  } = api.assignment.getAssignment.useQuery({
+  } = api.assignment.getAssignmentByCourseModuleCodes.useQuery({
     courseCode,
     moduleCode,
   });
-  console.log("Check2", assignment)
 
   return { assignment, isLoadingAssignment, isErrorAssignment, errorAssignment, refetchAssignment };
 }

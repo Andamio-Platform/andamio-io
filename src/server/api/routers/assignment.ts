@@ -8,7 +8,7 @@ import {
 
 // Get one Assignment
 export const assignmentRouter = createTRPCRouter({
-  getAssignment: publicProcedure
+  getAssignmentByCourseModuleCodes: publicProcedure
     .input(
       z.object({
         courseCode: z.string(),
@@ -32,26 +32,22 @@ export const assignmentRouter = createTRPCRouter({
     }),
 
   // Get all Assignments
-  // getAssignment and getModuleAssignments might be redundant for now - don't delete yet
+  // getAssignmentByCourseModuleCodes and getAssignmentByModuleId might be redundant for now - don't delete yet
   // Think about how Assigments might not need "Variants"?
 
 
   // WIP 2024-04-08 - courseId is redundant, remove it.
-  getModuleAssignments: publicProcedure
+  getAssignmentByModuleId: publicProcedure
     .input(
       z.object({
-        courseId: z.string(),
         moduleId: z.string(),
       }),
     )
     .query(({ ctx, input }) => {
-      return ctx.db.assignment.findMany({
+      return ctx.db.assignment.findFirst({
         where: {
           module: {
             id: input.moduleId,
-            originalCourse: {
-              id: input.courseId,
-            },
           },
         },
         include: {

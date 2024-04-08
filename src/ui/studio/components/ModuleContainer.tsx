@@ -1,11 +1,5 @@
-// todo 2024-03-26
-// 1. Fix Delete Button
-// 2. Fix Edit Button
-// 3. When SLT is Deleted, Lesson should be Deleted too. User should be warned and confirmed.
-
 import { useEffect, useMemo, useState } from "react";
 import {
-  Assignment,
   Course,
   Module,
   ModuleSLT,
@@ -20,7 +14,7 @@ import {
   AccordionTrigger,
 } from "~/components/ui/accordion";
 
-import { DndContext, closestCenter, Active, DragOverlay } from "@dnd-kit/core";
+import { DndContext, closestCenter, Active } from "@dnd-kit/core";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import {
   SortableContext,
@@ -29,26 +23,23 @@ import {
 } from "@dnd-kit/sortable";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
-import { GearIcon, PlusCircledIcon } from "@radix-ui/react-icons";
 import AssignmentContainer from "./AssignmentContainer";
-import useAssignments from "~/hooks/useAssignments";
+import useAssignmentByModule from "~/hooks/useAssignmentByModule";
 import Link from "next/link";
-import { Card } from "~/components/ui/card";
-import { Button } from "~/components/ui/button";
 import DialogModule from "./dialogs/DialogModule";
 import IntroductionContainer from "./IntroductionContainer";
 
 type sltI = { slt: ModuleSLT; sltIndex: number; id: string };
 
 export default function ModuleContainer({
-  module,
+  currentModule,
   course,
   variants,
   setSelectedModule,
   moduleDialogOpen,
   setModuleDialogOpen,
 }: {
-  module: Module;
+  currentModule: Module;
   course: Course;
   variants?: ModuleVariant[];
   setSelectedModule: (module: Module) => void;
@@ -59,9 +50,6 @@ export default function ModuleContainer({
 
   const ctx = api.useUtils();
 
-  // const [showContent, setShowContent] = useState<boolean>(false);
-  // const [typeOfModule, setTypeOfModule] = useState<boolean>(true);
-  // const [currentTab, setCurrentTab] = useState<string>("main");
   const [sltDialogOpen, setSltDialogOpen] = useState<boolean>(false);
   const [assignmentDialogOpen, setAssignmentDialogOpen] =
     useState<boolean>(false);
@@ -73,21 +61,21 @@ export default function ModuleContainer({
 
   // WIP 2024-04-08 - courseId is redundant, remove it.
   // Then get assignments working again along with current changes
-  const { assignments } = useAssignments(course.courseCode, module.moduleCode);
+  const { assignment, isLoadingAssignment } = useAssignmentByModule(module.id);
 
-  // Todo
+  // Todo - implement the rest of dnd-kit
   // How does this help?
   // Figure out how to only invoke dnd when hamburger is touched
-  const activeItem = useMemo(
-    () => sltIndexes.find((s) => s.slt.id === activeSLT?.id),
-    [activeSLT, sltIndexes],
-  );
+  // const activeItem = useMemo(
+  //   () => sltIndexes.find((s) => s.slt.id === activeSLT?.id),
+  //   [activeSLT, sltIndexes],
+  // );
 
   useEffect(() => {
     const _slts: sltI[] = [];
 
-    if (module) {
-      module.slts.forEach((slt) => {
+    if (currentModule) {
+      currentModule.slts.forEach((slt) => {
         _slts.push({ slt: slt, sltIndex: slt.moduleIndex, id: slt.id });
       });
 
@@ -161,24 +149,24 @@ export default function ModuleContainer({
   }
 
   return (
-    <div className="mx-5 my-3 w-full rounded-md border border-secondary-foreground p-1 sm:mx-auto sm:w-[630px] md:w-[750px] lg:w-[850px] xl:w-[950px]">
-      <AccordionItem value={module.moduleCode}>
+    <div className="mx-5 my-3 w-full rounded-md border border-secondary-foreground p-1 sm:mx-auto sm:w-[630px] md:w-[750px] lg:w-[850px] xl:w-[950px]" key={`${course.courseCode}-${currentModule.moduleCode}`}>
+      <AccordionItem value={currentModule.moduleCode}>
         <AccordionTrigger className="flex w-full flex-row justify-between rounded-md bg-primary px-3 text-primary-foreground">
           <div className="grid w-full grid-cols-12 py-1">
-            <div className="col-span-1">{module.moduleCode}</div>
+            <div className="col-span-1">{currentModule.moduleCode}</div>
             <div className="col-span-3">
               <div className="flex gap-2 text-left">
-                <span>{module.title}</span>
+                <span>{currentModule.title}</span>
               </div>
             </div>
-            <div className="col-span-3">{`${module.slts.length} SLTs + ${module.lessons.length} Lessons`}</div>
+            <div className="col-span-3">{`${currentModule.slts.length} SLTs + ${currentModule.lessons.length} Lessons`}</div>
             <div className="col-start-12">
               <div className="flex gap-2">
                 <DialogModule
                   moduleDialogOpen={moduleDialogOpen}
                   setModuleDialogOpen={setModuleDialogOpen}
                   course={course}
-                  moduleCode={module.moduleCode}
+                  moduleCode={currentModule.moduleCode}
                 />
               </div>
             </div>
@@ -190,7 +178,7 @@ export default function ModuleContainer({
               <IntroductionContainer
                 moduleId={module.id}
                 courseCode={course.courseCode}
-                moduleCode={module.moduleCode}
+                moduleCode={currentModule.moduleCode}
               />
 
               <DndContext
@@ -208,36 +196,36 @@ export default function ModuleContainer({
                   {sltIndexes.map((sI) => (
                     <SortableSLT
                       slt={sI.slt}
-                      module={module}
+                      module={currentModule}
                       courseCode={course.courseCode}
                       key={sI.slt.id}
                       isLoading={false}
                     />
                   ))}
                 </SortableContext>
-                {/* todo 2024-03-23 - look at codesandbox example - can imagine extracting this component and adding overlay */}
+                {/* todo implelment the rest of dnd-kit - look at codesandbox example - can imagine extracting this component and adding overlay */}
               </DndContext>
 
               {/* todo - map this: */}
-              {assignments && assignments[0] && (
+              {assignment && (
                 <Link
-                  href={`/studio/${course.courseCode}/${module.moduleCode}/assignment/${assignments[0].assignmentCode}`}
+                  href={`/studio/${course.courseCode}/${currentModule.moduleCode}/assignment/${assignment.assignmentCode}`}
                 >
-                  <AssignmentContainer assignment={assignments[0]} />
+                  <AssignmentContainer assignment={assignment} />
                 </Link>
               )}
               <DialogSLT
                 sltDialogOpen={sltDialogOpen}
                 setSltDialogOpen={setSltDialogOpen}
                 courseCode={course.courseCode}
-                module={module}
+                module={currentModule}
               />
               <div className="my-1" />
               <DialogAssignment
                 assignmentDialogOpen={assignmentDialogOpen}
                 setAssignmentDialogOpen={setAssignmentDialogOpen}
                 courseCode={course.courseCode}
-                module={module}
+                module={currentModule}
               />
             </div>
           </>

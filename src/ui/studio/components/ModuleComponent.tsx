@@ -2,11 +2,9 @@ import { useEffect, useState } from "react";
 import Loading from "~/components/loading";
 import { Course, Module, ModuleVariant } from "~/types/db";
 import DialogModule from "~/ui/studio/components/dialogs/DialogModule";
-import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import useCourseModulesAndVariants from "~/hooks/useCourseModulesAndVariants";
 import ModuleContainer from "./ModuleContainer";
 import { Accordion } from "~/components/ui/accordion";
-import { Button } from "~/components/ui/button";
 
 export default function ModuleComponent({ course }: { course: Course }) {
   const [moduleDialogOpen, setModuleDialogOpen] = useState<boolean>(false);
@@ -80,7 +78,7 @@ function ModuleList({
               <ModuleContainer
                 key={i}
                 course={course}
-                module={module}
+                currentModule={module}
                 variants={variants}
                 setSelectedModule={setSelectedModule}
                 moduleDialogOpen={moduleDialogOpen}

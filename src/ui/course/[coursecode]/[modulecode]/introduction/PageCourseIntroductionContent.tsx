@@ -6,7 +6,7 @@ import Editor from "~/components/Editor";
 import Loading from "~/components/loading";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { Card } from "~/components/ui/card";
-import useAssignment from "~/hooks/useAssignment";
+import useAssignment from "~/hooks/useAssignmentByCourseModule";
 import useIntroduction from "~/hooks/useIntroduction";
 import useSLT from "~/hooks/useSLT";
 import useValidateCreator from "~/hooks/useValidateCreator";

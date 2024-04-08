@@ -36,9 +36,13 @@ export default function DialogModule({
 
   // 2024-03-08
   // MUST FIX THIS TYPE
-  const { courseModules } = useCourseModules(course.courseCode)
-  const [currentCourseModule, setCurrentCourseModule] = useState<Module | undefined>(undefined)
-  const [newModuleCodeOptions, setNewModuleCodeOptions] = useState<ModuleOption[]>([])
+  const { courseModules } = useCourseModules(course.courseCode);
+  const [currentCourseModule, setCurrentCourseModule] = useState<
+    Module | undefined
+  >(undefined);
+  const [newModuleCodeOptions, setNewModuleCodeOptions] = useState<
+    ModuleOption[]
+  >([]);
 
   // Todo: Implement Course Variants
   // const [currentCourseVariant, setCurrentCourseVariant] = useState<
@@ -157,9 +161,9 @@ export default function DialogModule({
 
   function onSubmit(data: FieldValues) {
     if (course) {
-      if (module) {
+      if (currentCourseModule) {
         moduleUpdate({
-          moduleId: module.id,
+          moduleId: currentCourseModule.id,
           courseCode: course.courseCode,
           moduleCode: data.moduleCode,
           title: data.title,
@@ -191,15 +195,14 @@ export default function DialogModule({
   // [{value: "103", label: "103"}, {value: "202", label: "202"}, {value: "301", label: "301"}]
 
   useEffect(() => {
-    if(courseModules) {
+    if (courseModules) {
       const currentModuleCodes = courseModules.map((m) => m.moduleCode);
       const _newModuleCodeOptions = makeModuleOptions(currentModuleCodes);
-      if(_newModuleCodeOptions) {
-        setNewModuleCodeOptions(_newModuleCodeOptions)
+      if (_newModuleCodeOptions) {
+        setNewModuleCodeOptions(_newModuleCodeOptions);
       }
     }
   }, [moduleDialogOpen, courseModules, currentCourseModule, course]);
-
 
   useEffect(() => {
     form.reset({
@@ -210,22 +213,24 @@ export default function DialogModule({
   }, [moduleDialogOpen, currentCourseModule, newModuleCodeOptions, moduleCode]);
 
   useEffect(() => {
-    if(courseModules && moduleCode) {
-      const _module = courseModules.find((m) => m.moduleCode == moduleCode)
-      if(_module) {
-        setCurrentCourseModule(_module)
+    if (courseModules && moduleCode) {
+      const _module = courseModules.find((m) => m.moduleCode == moduleCode);
+      if (_module) {
+        setCurrentCourseModule(_module);
       }
     }
-
-  }, [course, moduleCode])
-
+  }, [course, moduleCode]);
 
   return (
     <Form {...form}>
       <DialogForm
         openButton={moduleCode ? "moduleSettings" : "Add Module"}
         openButtonIntent="dialog"
-        title={currentCourseModule ? `Editing ${currentCourseModule?.title}` : "Create a new module"}
+        title={
+          currentCourseModule
+            ? `Editing ${currentCourseModule?.title}`
+            : "Create a new module"
+        }
         buttonLabel={currentCourseModule ? "Save" : "Create"}
         buttonLoading={isLoadingCreate || isLoadingUpdate}
         buttonDisabled={isLoadingCreate || isLoadingUpdate}
@@ -248,15 +253,17 @@ export default function DialogModule({
             form={form}
           />
 
-          <FormSelect
-            name="moduleCode"
-            label="Select a suggested Module Code"
-            form={form}
-            options={newModuleCodeOptions}
-          />
+          {!currentCourseModule && (
+            <FormSelect
+              name="moduleCode"
+              label="Select a suggested Module Code"
+              form={form}
+              options={newModuleCodeOptions}
+            />
+          )}
           <FormInput
             name="moduleCode"
-            label="Or write your own custom code"
+            label={currentCourseModule ? "Edit Module Code" : "Or write your own custom code"}
             info="The Module Code is a 3-character string that appears in the course URL"
             form={form}
             disabled={false}
@@ -290,8 +297,6 @@ export default function DialogModule({
   );
 }
 
-
-
 function incrementCode(code: string): string {
   const lastChar = code.charAt(code.length - 1);
   let newLastChar;
@@ -308,7 +313,6 @@ function incrementCode(code: string): string {
 }
 
 function makeModuleOptions(currentModuleCodes: string[]): ModuleOption[] {
-
   if (currentModuleCodes.length === 0) {
     return [
       { value: "101", label: "101" },
@@ -321,8 +325,6 @@ function makeModuleOptions(currentModuleCodes: string[]): ModuleOption[] {
   const uniqueCategories = [
     ...new Set(sortedCodes.map((code) => code.substring(0, 2))),
   ];
-
-
 
   const newModuleCodeOptions: ModuleOption[] = uniqueCategories.map(
     (category) => {
@@ -337,7 +339,10 @@ function makeModuleOptions(currentModuleCodes: string[]): ModuleOption[] {
 
   const lastCode = sortedCodes[sortedCodes.length - 1];
   if (lastCode && lastCode.startsWith("1")) {
-    newModuleCodeOptions.push({ value: "201", label: "201" }, { value: "301", label: "301" });
+    newModuleCodeOptions.push(
+      { value: "201", label: "201" },
+      { value: "301", label: "301" },
+    );
   } else if (lastCode && lastCode.startsWith("2")) {
     newModuleCodeOptions.push({ value: "301", label: "301" });
   }

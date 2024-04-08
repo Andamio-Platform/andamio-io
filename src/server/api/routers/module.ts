@@ -77,7 +77,6 @@ export const moduleRouter = createTRPCRouter({
               sltId: true
             },
           },
-          assignments: true,
           introduction: true
         },
       });

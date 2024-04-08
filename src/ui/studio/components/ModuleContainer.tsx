@@ -35,20 +35,18 @@ export default function ModuleContainer({
   currentModule,
   course,
   variants,
-  setSelectedModule,
-  moduleDialogOpen,
-  setModuleDialogOpen,
 }: {
   currentModule: Module;
   course: Course;
   variants?: ModuleVariant[];
-  setSelectedModule: (module: Module) => void;
-  moduleDialogOpen: boolean;
-  setModuleDialogOpen: (open: boolean) => void;
 }) {
   if (!course) return;
 
+  console.log("check870", currentModule)
+
   const ctx = api.useUtils();
+
+  const [moduleDialogOpen, setModuleDialogOpen] = useState<boolean>(false)
 
   const [sltDialogOpen, setSltDialogOpen] = useState<boolean>(false);
   const [assignmentDialogOpen, setAssignmentDialogOpen] =

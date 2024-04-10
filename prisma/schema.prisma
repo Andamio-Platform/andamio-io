@@ -158,6 +158,12 @@ model ModuleVariant {
   @@index([id])
 }
 
+enum AccessTier {
+  FREE
+  PREMIUM
+  NETWORK
+}
+
 model Course {
   id         String @id @default(cuid())
   courseCode String
@@ -179,6 +185,8 @@ model Course {
 
   variants        CourseVariant[]         @relation("CourseVariants")
   onchainInstance CourseOnChainInstance[] @relation("CourseInstance")
+
+  accessTier AccessTier?
 
   @@unique([courseCode])
   @@index([createdById])

@@ -6,6 +6,7 @@ import useModuleByCourse from "~/hooks/useModuleByCourse";
 import useSLT from "~/hooks/useSLT";
 import { ModuleSLT } from "~/types/db";
 import PageCourseLessonContent from "~/ui/studio/[coursecode]/[modulecode]/lesson/[moduleindex]/PageCourseLessonContent";
+import PageCourseLessonContentV2 from "~/ui/studio/[coursecode]/[modulecode]/lesson/[moduleindex]/PageCourseLessonContentV2";
 import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
 
 export default function LessonStudioPage({
@@ -35,9 +36,9 @@ export default function LessonStudioPage({
         ) : (
           <>
             {slt && course && courseModule ? (
-              <PageCourseLessonContent
+              <PageCourseLessonContentV2
                 course={course}
-                module={courseModule}
+                courseModule={courseModule}
                 moduleIndex={sltIndex}
                 slt={slt}
               />

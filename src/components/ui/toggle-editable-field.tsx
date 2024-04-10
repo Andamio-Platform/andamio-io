@@ -119,19 +119,7 @@ const ToggleEditableField = React.forwardRef<
                   text={text}
                   setEditText={setEditText}
                 />
-                {!editText && !hideButtons && (
-                  <Button
-                    onClick={() => setEditText(!editText)}
-                    size="icon"
-                    intent="lesson"
-                  >
-                    <Pencil1Icon
-                      className="rounded-full text-primary-foreground bg-primary m-1"
-                      width="22"
-                      height="22"
-                    />
-                  </Button>
-                )}
+
               </>
             )}
           </div>

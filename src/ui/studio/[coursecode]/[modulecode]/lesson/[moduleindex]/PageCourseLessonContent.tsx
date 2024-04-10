@@ -20,15 +20,16 @@ import PublishToggle from "~/ui/studio/components/form-sections/PublishToggle";
 import VideoLink from "~/ui/studio/components/form-sections/VideoLink";
 import { Card } from "~/components/ui/card";
 import Link from "next/link";
+import { ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons";
 
 export default function PageCourseLessonContent({
   course,
-  module,
+  courseModule,
   moduleIndex,
   slt,
 }: {
   course: Course;
-  module: Module;
+  courseModule: Module;
   moduleIndex: number;
   slt: ModuleSLT;
 }) {
@@ -37,7 +38,7 @@ export default function PageCourseLessonContent({
   if (!course) return <div>no can do</div>;
 
   const courseCode = course.courseCode;
-  const moduleCode = module.moduleCode;
+  const moduleCode = courseModule.moduleCode;
 
   const { lesson, refetchLesson, isLoadingLesson } = useLesson(
     courseCode,
@@ -245,7 +246,7 @@ export default function PageCourseLessonContent({
               Ready to create a lesson?
             </h1>
             <p>
-              Course: {course.title} | Module: {module.title}
+              Course: {course.title} | Module: {courseModule.title}
             </p>
             <p className="py-5 font-bold">
               SLT {moduleCode}.{moduleIndex}: {slt.sltText}
@@ -304,18 +305,18 @@ export default function PageCourseLessonContent({
                     <Link
                       href={`/studio/${courseCode}/${moduleCode}/lesson/${moduleIndex - 1}`}
                     >
-                      GO TO LESSON {moduleCode}.{moduleIndex - 1}
+                      <ArrowLeftIcon /> {moduleCode}.{moduleIndex - 1}
                     </Link>
                   </Button>
                 )}
               </div>
               <div>
-                {moduleIndex < module.slts.length && (
+                {moduleIndex < courseModule.slts.length && (
                   <Button>
                     <Link
                       href={`/studio/${courseCode}/${moduleCode}/lesson/${moduleIndex + 1}`}
                     >
-                      GO TO LESSON {moduleCode}.{moduleIndex + 1}
+                      <ArrowRightIcon /> {moduleCode}.{moduleIndex + 1}
                     </Link>
                   </Button>
                 )}

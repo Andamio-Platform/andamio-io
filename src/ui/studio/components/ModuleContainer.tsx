@@ -182,7 +182,7 @@ export default function ModuleContainer({
           <>
             <div className="flex flex-col pt-3">
               <IntroductionContainer
-                moduleId={module.id}
+                moduleId={currentModule.id}
                 courseCode={course.courseCode}
                 moduleCode={currentModule.moduleCode}
               />

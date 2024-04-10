@@ -19,6 +19,7 @@ export default function IntroductionContainer({
   moduleCode: string;
 }) {
   const ctx = api.useUtils();
+  console.log("check711", moduleId)
 
   const [hasIntro, setHasIntro] = useState<boolean>(false);
   const { introduction } = useIntroduction(moduleId);

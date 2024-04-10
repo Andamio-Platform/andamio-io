@@ -77,7 +77,7 @@ export default function DialogSLT({
   useEffect(() => {
     form.reset({
       sltText: "",
-      moduleId: module.id ?? "",
+      moduleId: currentModule.id ?? "",
     });
   }, [sltDialogOpen, isLoadingCreate]);
 

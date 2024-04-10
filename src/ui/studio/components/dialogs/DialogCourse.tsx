@@ -105,9 +105,11 @@ export default function DialogCourse({ course }: { course?: Course }) {
   }, [course]);
 
   useEffect(() => {
-    const courseTitle = form.getValues("title");
-    const abbrev = getFirstLetters(courseTitle)
-    form.setValue("courseCode", abbrev + "2024")
+    if(!course) {
+      const courseTitle = form.getValues("title");
+      const abbrev = getFirstLetters(courseTitle);
+      form.setValue("courseCode", abbrev + "2024");
+    }
   }, [form.getValues("title")]);
 
   return (

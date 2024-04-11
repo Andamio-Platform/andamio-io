@@ -22,28 +22,28 @@ import { ToggleEditableField } from "~/components/ui/toggle-editable-field";
 export default function HeaderSection({
     form,
     course,
+    courseModule,
     editContent,
     setEditContent,
     isLoadingUpdate,
     onCancel,
     onSubmit,
-    courseCode,
-    moduleCode,
     slt,
     lesson,
   }: {
     form: FieldValues;
     course: Course;
+    courseModule: Module;
     editContent: boolean;
     setEditContent: React.Dispatch<React.SetStateAction<boolean>>;
     isLoadingUpdate: boolean;
     onCancel: () => void;
     onSubmit: () => void;
-    courseCode: string;
-    moduleCode: string;
     slt: ModuleSLT;
     lesson: Lesson;
   }) {
+    if(!course) return
+
     const handleCheckboxChange = (checked: boolean) => {
       form.setValue("live", checked);
       onSubmit();
@@ -66,7 +66,7 @@ export default function HeaderSection({
             />
           </div>
           <CardSLT
-            moduleCode={moduleCode}
+            moduleCode={courseModule.moduleCode}
             moduleIndex={slt.moduleIndex}
             sltText={slt.sltText}
           />
@@ -105,29 +105,35 @@ export default function HeaderSection({
             <MenubarMenu>
               <MenubarTrigger>Go To Lesson</MenubarTrigger>
               <MenubarContent>
-                <MenubarItem>Lesson 101.1</MenubarItem>
-                <MenubarItem>Lesson 101.2</MenubarItem>
-                <MenubarItem>Lesson 101.3</MenubarItem>
+                {courseModule.slts.sort((a, b) => a.moduleIndex - b.moduleIndex).map((s) => (
+                    <MenubarItem key={s.id}>
+                        <Link href={`/studio/${course.courseCode}/${courseModule.moduleCode}/lesson/${s.moduleIndex}`}>
+                        Lesson {courseModule.moduleCode}.{s.moduleIndex}
+                        </Link>
+                        </MenubarItem>
+
+                ))}
+               
               </MenubarContent>
             </MenubarMenu>
-            <MenubarMenu>
+            {/* <MenubarMenu>
               <MenubarTrigger>Go To Module</MenubarTrigger>
               <MenubarContent>
                 <MenubarItem>Lesson 101.1</MenubarItem>
                 <MenubarItem>Lesson 101.2</MenubarItem>
                 <MenubarItem>Lesson 101.3</MenubarItem>
               </MenubarContent>
-            </MenubarMenu>
-            <MenubarMenu>
+            </MenubarMenu> */}
+            {/* <MenubarMenu>
               <MenubarTrigger>Import Lesson</MenubarTrigger>
               <MenubarContent>
                 <MenubarItem>From My Course</MenubarItem>
                 <MenubarItem>From Andamio Marketplace</MenubarItem>
               </MenubarContent>
-            </MenubarMenu>
+            </MenubarMenu> */}
             <MenubarMenu>
               <MenubarTrigger>
-                <Link href={`/studio/${courseCode}`}>Back to Course Page</Link>
+                <Link href={`/studio/${course.courseCode}`}>Back to Course Page</Link>
               </MenubarTrigger>
             </MenubarMenu>
           </Menubar>
@@ -135,8 +141,8 @@ export default function HeaderSection({
             editContent={editContent}
             isLoadingUpdate={isLoadingUpdate}
             onCancel={onCancel}
-            courseCode={courseCode}
-            moduleCode={moduleCode}
+            courseCode={course.courseCode}
+            moduleCode={courseModule.moduleCode}
             contentPath={`lesson/${slt.moduleIndex.toString()}`}
             live={lesson.live}
           />

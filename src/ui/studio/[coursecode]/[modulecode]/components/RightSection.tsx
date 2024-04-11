@@ -50,7 +50,7 @@ export default function RightSection({
   if (!course) return;
 
   return (
-    <div className="mx-auto my-5 mr-5 flex w-full flex-col gap-2">
+    <div className="my-5 mr-5 pr-5 flex w-full flex-col gap-2">
       <Accordion
         type="single"
         collapsible

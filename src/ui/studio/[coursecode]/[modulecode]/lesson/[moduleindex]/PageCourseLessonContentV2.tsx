@@ -32,13 +32,15 @@ import { useForm, FieldValues } from "react-hook-form";
 import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
 import LoadingContentEditor from "~/ui/studio/components/ContentEditor/ui/LoadingContentEditor";
 import Link from "next/link";
-import { Form } from "~/components/ui/form";
+import { Form, FormControl, FormField, FormItem } from "~/components/ui/form";
 import ControlPanel from "~/ui/studio/components/form-sections/ControlPanel";
 import CardSLT from "~/ui/studio/components/slt/CardSLT";
 import { Button } from "~/components/ui/button";
 import { ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons";
 import VideoLink from "~/ui/studio/components/form-sections/VideoLink";
 import { ToggleEditableField } from "~/components/ui/toggle-editable-field";
+import HeaderSection from "../../components/HeaderSection";
+import RightSection from "../../components/RightSection";
 
 export default function PageCourseLessonContentV2({
   course,
@@ -244,7 +246,7 @@ export default function PageCourseLessonContentV2({
               setEditContent={setEditLesson}
               isLoadingUpdate={isLoadingUpdate}
               onCancel={onCancel}
-              onSubmit={() => onSubmit}
+              onSubmit={form.handleSubmit(onSubmit)}
               courseCode={courseCode}
               moduleCode={moduleCode}
               slt={slt}
@@ -264,162 +266,15 @@ export default function PageCourseLessonContentV2({
                 courseModule={courseModule}
                 slt={slt}
               />
-              <LightDarkToggle />
             </div>
           </form>
         </Form>
+        <LightDarkToggle />
       </div>
     );
   }
 }
 
-function HeaderSection({
-  form,
-  course,
-  editContent,
-  setEditContent,
-  isLoadingUpdate,
-  onCancel,
-  onSubmit,
-  courseCode,
-  moduleCode,
-  slt,
-  lesson,
-}: {
-  form: FieldValues;
-  course: Course;
-  editContent: boolean;
-  setEditContent: React.Dispatch<React.SetStateAction<boolean>>;
-  isLoadingUpdate: boolean;
-  onCancel: () => void;
-  onSubmit: (data: FieldValues) => void;
-  courseCode: string;
-  moduleCode: string;
-  slt: ModuleSLT;
-  lesson: Lesson;
-}) {
-  function handleSelect() {
-    console.log("selected again")
-  }
 
-  return (
-    <div className="flex flex-col">
-      <div className="flex min-h-[100px] flex-row items-center justify-between bg-card p-5">
-        <div className="flex items-center">
-          <ToggleEditableField
-            name="title"
-            form={form}
-            intent="title"
-            formTextSize="lg"
-            onSubmit={form.handleSubmit(onSubmit)}
-            editText={editContent}
-            setEditText={setEditContent}
-            text={lesson.title ?? "Edit this lesson title"}
-            hasForm={true}
-            placeholder="Lesson Title"
-          />
-        </div>
-        <ControlPanel
-          editContent={editContent}
-          isLoadingUpdate={isLoadingUpdate}
-          onCancel={onCancel}
-          courseCode={courseCode}
-          moduleCode={moduleCode}
-          contentPath={`lesson/${slt.moduleIndex.toString()}`}
-          live={lesson.live}
-        />
-      </div>
-      <Menubar className="rounded-none border-none bg-primary text-primary-foreground shadow-none">
-        <MenubarMenu>
-          <MenubarTrigger>File</MenubarTrigger>
-          <MenubarContent>
-            <MenubarItem onSelect={handleSelect}>
-              Save
-            </MenubarItem>
-          </MenubarContent>
-        </MenubarMenu>
-        <MenubarMenu>
-          <MenubarTrigger>Publish</MenubarTrigger>
-          <MenubarContent>
-            <MenubarCheckboxItem checked>Publish</MenubarCheckboxItem>
-            <MenubarItem>See lesson page</MenubarItem>
-          </MenubarContent>
-        </MenubarMenu>
-        <MenubarMenu>
-          <MenubarTrigger>
-            <Link href={`/studio/${courseCode}`}>Back to Course Page</Link>
-          </MenubarTrigger>
-        </MenubarMenu>
-      </Menubar>
-    </div>
-  );
-}
 
-function RightSection({
-  form,
-  course,
-  courseModule,
-  slt,
-}: {
-  form: FieldValues;
-  course: Course;
-  courseModule: Module;
-  slt: ModuleSLT;
-}) {
-  if (!course) return;
 
-  return (
-    <div className="my-5 flex w-96 flex-col gap-2 px-2">
-      <CardSLT
-        moduleCode={courseModule.moduleCode}
-        moduleIndex={slt.moduleIndex}
-        sltText={slt.sltText}
-      />
-
-      <Card className="min-h-0 p-0">
-        <CardHeader>
-          <CardTitle>Lesson Description</CardTitle>
-          <CardDescription>A brief description of the lesson</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col space-y-1.5">
-              <Textarea placeholder="A brief description" />
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      <VideoLink form={form} />
-      <Card
-        className="col-span-4 flex w-full flex-row items-center justify-between border border-secondary-foreground p-3"
-        size="md"
-      >
-        <div>
-          {slt.moduleIndex > 1 && (
-            <Button>
-              <Link
-                href={`/studio/${course.courseCode}/${courseModule.moduleCode}/lesson/${slt.moduleIndex - 1}`}
-              >
-                <ArrowLeftIcon /> {courseModule.moduleCode}.
-                {slt.moduleIndex - 1}
-              </Link>
-            </Button>
-          )}
-        </div>
-        <div>
-          {slt.moduleIndex < courseModule.slts.length && (
-            <Button>
-              <Link
-                href={`/studio/${course.courseCode}/${courseModule.moduleCode}/lesson/${slt.moduleIndex + 1}`}
-              >
-                <ArrowRightIcon /> {courseModule.moduleCode}.
-                {slt.moduleIndex + 1}
-              </Link>
-            </Button>
-          )}
-        </div>
-      </Card>
-    </div>
-  );
-}

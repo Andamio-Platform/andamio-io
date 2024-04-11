@@ -36,7 +36,7 @@ export default function ControlPanel({
   const publishedLink = `/course/${courseCode}/${moduleCode}/${contentPath}`;
 
   return (
-    <div className="grid grid-cols-4 gap-10 lg:gap-24">
+    <div className="grid grid-cols-4 gap-10 lg:gap-24 px-5">
       <div className="flex h-[30px] w-[30px] items-center justify-center">
         <TooltipProvider>
           <>
@@ -77,7 +77,7 @@ export default function ControlPanel({
               <GlobeIcon
                 width="22"
                 height="22"
-                className={`${live ? "text-success" : "text-secondary-foreground"}`}
+                className={`${live ? "text-success" : "text-primary-foreground"}`}
               />
             </Button>
           </TooltipTrigger>

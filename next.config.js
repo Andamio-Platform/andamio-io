@@ -17,6 +17,16 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+  webpack: function (config, options) {
+    config.experiments = {
+      asyncWebAssembly: true,
+      layers: true,
+    };
+    return config;
+  },
+  env: {
+    GCP_BACKEND: process.env.GCP_BACKEND,
+  },
 };
 
 export default config;

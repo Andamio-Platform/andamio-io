@@ -146,7 +146,6 @@ export default function PageCourseAssignmentContent({
 
   useEffect(() => {
     if (assignment?.contentJson && typeof assignment.contentJson === "object") {
-      console.log("check2", assignment);
       editor.setContent(assignment.contentJson);
     }
   }, [editAssignment]);

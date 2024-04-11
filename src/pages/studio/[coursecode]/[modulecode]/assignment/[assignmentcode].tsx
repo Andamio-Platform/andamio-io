@@ -22,7 +22,6 @@ export default function AssignmentStudioPage({
       moduleCode,
     );
 
-    console.log("check1", assignment)
 
 
     if (course && courseModule && assignment) {

@@ -232,7 +232,6 @@ export default function PageCourseLessonContent({
 
   useEffect(() => {
     if (lesson?.contentJson && typeof lesson.contentJson === "object") {
-      console.log("check2", lesson);
       editor.setContent(lesson.contentJson);
     }
   }, [editLesson]);

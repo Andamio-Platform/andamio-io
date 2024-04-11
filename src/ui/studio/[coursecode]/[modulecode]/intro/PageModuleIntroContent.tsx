@@ -144,7 +144,6 @@ export default function PageModuleIntroContent({
       introduction?.contentJson &&
       typeof introduction.contentJson === "object"
     ) {
-      console.log("check2", introduction);
       editor.setContent(introduction.contentJson);
     }
   }, [editIntroduction]);

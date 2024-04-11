@@ -38,7 +38,6 @@ export default function ModuleContainer({
 }) {
   if (!course) return;
 
-  console.log("check870", currentModule);
 
   const ctx = api.useUtils();
 

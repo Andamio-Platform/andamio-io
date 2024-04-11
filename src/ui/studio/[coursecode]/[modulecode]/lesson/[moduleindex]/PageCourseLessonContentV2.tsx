@@ -1,25 +1,4 @@
 import { Course, Lesson, Module, ModuleSLT } from "~/types/db";
-import {
-  Menubar,
-  MenubarContent,
-  MenubarItem,
-  MenubarMenu,
-  MenubarSeparator,
-  MenubarShortcut,
-  MenubarTrigger,
-  MenubarCheckboxItem,
-} from "~/components/ui/menubar";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "~/components/ui/card";
-import { Input } from "~/components/ui/input";
-import { Label } from "~/components/ui/label";
-import { Textarea } from "~/components/ui/textarea";
 import Editor from "~/components/Editor";
 import { LightDarkToggle } from "~/ui/site/LightDarkToggle";
 import useLesson from "~/hooks/useLesson";
@@ -33,12 +12,12 @@ import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading
 import LoadingContentEditor from "~/ui/studio/components/ContentEditor/ui/LoadingContentEditor";
 import Link from "next/link";
 import { Form, FormControl, FormField, FormItem } from "~/components/ui/form";
-import ControlPanel from "~/ui/studio/components/form-sections/ControlPanel";
-import CardSLT from "~/ui/studio/components/slt/CardSLT";
-import { Button } from "~/components/ui/button";
-import { ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons";
-import VideoLink from "~/ui/studio/components/form-sections/VideoLink";
-import { ToggleEditableField } from "~/components/ui/toggle-editable-field";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "~/components/ui/resizable";
+
 import HeaderSection from "../../components/HeaderSection";
 import RightSection from "../../components/RightSection";
 
@@ -157,12 +136,14 @@ export default function PageCourseLessonContentV2({
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
+    
+
     if (!lesson) return;
 
     const _lesson = {
       id: lesson.id,
       sltId: slt.id,
-      title: data.title,
+      title: data.title ?? "",
       description: data.description ?? "",
       videoUrl: data.videoUrl ?? "",
       contentJson: editor.getJSON(),
@@ -242,30 +223,37 @@ export default function PageCourseLessonContentV2({
             <HeaderSection
               form={form}
               course={course}
+              courseModule={courseModule}
               editContent={editLesson}
               setEditContent={setEditLesson}
               isLoadingUpdate={isLoadingUpdate}
               onCancel={onCancel}
               onSubmit={form.handleSubmit(onSubmit)}
-              courseCode={courseCode}
-              moduleCode={moduleCode}
               slt={slt}
               lesson={lesson}
             />
+
             <div className="flex w-full bg-card">
-              <div className="mx-2 h-[calc(100vh-84px)] w-full overflow-y-auto border">
-                <div className="mx-auto my-4 w-11/12">
-                  <div className="m-5 flex min-h-[90vh] w-full bg-background p-5 shadow-xl">
-                    {editor.render()}
+              <ResizablePanelGroup direction="horizontal" className="gap-2">
+                <ResizablePanel defaultSize={80}>
+                  <div className="mx-2 h-[calc(100vh-84px)] w-full overflow-y-auto border">
+                    <div className="mx-auto my-4">
+                      <div className="m-5 flex min-h-[90vh] w-full bg-background p-5 shadow-xl">
+                        {editor.render()}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-              <RightSection
-                form={form}
-                course={course}
-                courseModule={courseModule}
-                slt={slt}
-              />
+                </ResizablePanel>
+                <ResizableHandle />
+                <ResizablePanel defaultSize={20}>
+                  <RightSection
+                    form={form}
+                    course={course}
+                    courseModule={courseModule}
+                    slt={slt}
+                  />
+                </ResizablePanel>
+              </ResizablePanelGroup>
             </div>
           </form>
         </Form>
@@ -274,7 +262,3 @@ export default function PageCourseLessonContentV2({
     );
   }
 }
-
-
-
-

@@ -36,7 +36,7 @@ export default function ControlPanel({
   const publishedLink = `/course/${courseCode}/${moduleCode}/${contentPath}`;
 
   return (
-    <div className="grid grid-cols-4 gap-10 lg:gap-24 px-5">
+    <div className="grid grid-cols-4 gap-5 px-5">
       <div className="flex h-[30px] w-[30px] items-center justify-center">
         <TooltipProvider>
           <>

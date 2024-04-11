@@ -97,12 +97,14 @@ export default function ControlPanel({
               <QuestionMarkCircledIcon width="22" height="22" />
             </div>
           </SheetTrigger>
-          <SheetContent>
-            <p>Put help content, links, docs, etc here</p>
-            <p>
+          <SheetContent className="p-5">
+            <h3 className="text-xl pb-3">Help</h3>
+            <p className="prose">
               Can create custom components for this that are easy to edit -
               would be passed as props
             </p>
+            <h3 className="text-xl py-3">Learn More</h3>
+            <p className="prose">Andamio 101 Course</p>
           </SheetContent>
         </Sheet>
       </div>

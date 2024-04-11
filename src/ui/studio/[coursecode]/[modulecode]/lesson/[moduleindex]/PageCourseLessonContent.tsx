@@ -1,34 +1,34 @@
-import { useCallback, useEffect, useState } from "react";
-import { FieldValues, useForm } from "react-hook-form";
+import { Course, Lesson, Module, ModuleSLT } from "~/types/db";
+import Editor from "~/components/Editor";
+import { LightDarkToggle } from "~/ui/site/LightDarkToggle";
+import useLesson from "~/hooks/useLesson";
+import { api } from "~/utils/api";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { api } from "~/utils/api";
-import { Course, Module, ModuleSLT } from "~/types/db";
-import Editor from "~/components/Editor";
-import { Button } from "~/components/ui/button";
-import { Form } from "~/components/ui/form";
-// import useCourseByOwner from "~/hooks/useCourseByOwner";
-// import useCourseVariants from "~/hooks/useCourseVariants";
-import useLesson from "~/hooks/useLesson";
-// import useContentVarient from "~/hooks/useContentVarient";
-import StudioLayout from "~/ui/studio/components/layout/StudioLayout";
-import TitleAndDescription from "~/ui/studio/components/form-sections/TitleAndDescription";
-import ControlPanel from "~/ui/studio/components/form-sections/ControlPanel";
-import CardSLT from "~/ui/studio/components/slt/CardSLT";
-import PublishToggle from "~/ui/studio/components/form-sections/PublishToggle";
-import VideoLink from "~/ui/studio/components/form-sections/VideoLink";
-import { Card } from "~/components/ui/card";
+import { useForm, FieldValues } from "react-hook-form";
+import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
+import LoadingContentEditor from "~/ui/studio/components/ContentEditor/ui/LoadingContentEditor";
 import Link from "next/link";
+import { Form, FormControl, FormField, FormItem } from "~/components/ui/form";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "~/components/ui/resizable";
+
+import HeaderSection from "../../components/HeaderSection";
+import RightSection from "../../components/RightSection";
 
 export default function PageCourseLessonContent({
   course,
-  module,
+  courseModule,
   moduleIndex,
   slt,
 }: {
   course: Course;
-  module: Module;
+  courseModule: Module;
   moduleIndex: number;
   slt: ModuleSLT;
 }) {
@@ -37,7 +37,7 @@ export default function PageCourseLessonContent({
   if (!course) return <div>no can do</div>;
 
   const courseCode = course.courseCode;
-  const moduleCode = module.moduleCode;
+  const moduleCode = courseModule.moduleCode;
 
   const { lesson, refetchLesson, isLoadingLesson } = useLesson(
     courseCode,
@@ -46,21 +46,10 @@ export default function PageCourseLessonContent({
   );
 
   const [editLesson, setEditLesson] = useState<boolean>(false);
-  const [detailsOpen, setDetailsOpen] = useState<boolean>(true);
-  const [isSaving, setIsSaving] = useState<boolean>(false);
-
-  // const {
-  //   listCourseVariant,
-  //   selectedVariantName,
-  //   setSelectedVariantName,
-  //   selectedCourseVariant,
-  // } = useCourseVariants(course?.id);
-
-  // Todo: Implement Lesson Variants
-  //   const { contentVariant } = useContentVarient(
-  //     lesson?.id,
-  //     selectedCourseVariant?.id,
-  //   );
+  const [isCreatingLesson, setIsCreatingLesson] = useState(false);
+  // Do we need these?
+  //   const [detailsOpen, setDetailsOpen] = useState<boolean>(true);
+  //   const [isSaving, setIsSaving] = useState<boolean>(false);
 
   const { mutate: lessonCreate, isLoading: isLoadingCreate } =
     api.lesson.create.useMutation({
@@ -114,31 +103,10 @@ export default function PageCourseLessonContent({
       },
     });
 
-  // Todo: Implement upsertContentVariant
-  // const {
-  //   mutate: upsertContentVariant,
-  //   isLoading: isLoadingUpsertContentVariant,
-  // } = api.contentVariant.upsert.useMutation({
-  //   onSuccess: (data) => {
-  //     toast.success("Content updated!");
-  //     void ctx.contentVariant.getContentVariants.invalidate({
-  //       contentId: content?.id,
-  //     });
-  //   },
-  //   onError: (e) => {
-  //     const errorMessage = e.data?.zodError?.fieldErrors;
-  //     if (errorMessage) {
-  //       toast.error("Some inputs are missing or invalid");
-  //     } else {
-  //       toast.error("Content Code taken. Please try again.");
-  //     }
-  //   },
-  // });
-
   const handleCreateLesson = () => {
     if (module) {
       const _lesson = {
-        moduleId: module.id,
+        moduleId: courseModule.id,
         sltId: slt.id,
       };
       lessonCreate(_lesson);
@@ -168,12 +136,14 @@ export default function PageCourseLessonContent({
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
+    
+
     if (!lesson) return;
 
     const _lesson = {
       id: lesson.id,
       sltId: slt.id,
-      title: data.title,
+      title: data.title ?? "",
       description: data.description ?? "",
       videoUrl: data.videoUrl ?? "",
       contentJson: editor.getJSON(),
@@ -231,123 +201,63 @@ export default function PageCourseLessonContent({
 
   useEffect(() => {
     if (lesson?.contentJson && typeof lesson.contentJson === "object") {
-      console.log("check2", lesson);
       editor.setContent(lesson.contentJson);
     }
   }, [editLesson]);
 
-  if (lesson === undefined || lesson === null)
+  if (lesson === undefined || lesson === null) {
+    if (isLoadingCreate) {
+      return <LoadingContentEditor />;
+    } else if (!isCreatingLesson && !isLoadingLesson) {
+      setIsCreatingLesson(true);
+      handleCreateLesson();
+    }
+  }
+
+  if (lesson) {
     return (
-      <StudioLayout>
-        <div className="flex h-[50vh] w-full items-center justify-center">
-          <Card className="w-1/2 border border-foreground p-10">
-            <h1 className="my-10 text-4xl text-foreground">
-              Ready to create a lesson?
-            </h1>
-            <p>
-              Course: {course.title} | Module: {module.title}
-            </p>
-            <p className="py-5 font-bold">
-              SLT {moduleCode}.{moduleIndex}: {slt.sltText}
-            </p>
-            <Button
-              onClick={handleCreateLesson}
-              intent="module"
-              className="mt-20"
-            >
-              Yes! Create Lesson {moduleCode}.{moduleIndex}
-            </Button>
-          </Card>
-        </div>
-      </StudioLayout>
+      <div className="flex w-full flex-col">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <HeaderSection
+              form={form}
+              course={course}
+              courseModule={courseModule}
+              editContent={editLesson}
+              setEditContent={setEditLesson}
+              isLoadingUpdate={isLoadingUpdate}
+              onCancel={onCancel}
+              onSubmit={form.handleSubmit(onSubmit)}
+              slt={slt}
+              lesson={lesson}
+            />
+
+            <div className="flex w-full bg-card">
+              <ResizablePanelGroup direction="horizontal" className="gap-2">
+                <ResizablePanel defaultSize={80}>
+                  <div className="mx-2 h-[calc(100vh-84px)] w-full overflow-y-auto border">
+                    <div className="mx-auto my-4">
+                      <div className="m-5 flex min-h-[90vh] w-full bg-background p-5 shadow-xl">
+                        {editor.render()}
+                      </div>
+                    </div>
+                  </div>
+                </ResizablePanel>
+                <ResizableHandle />
+                <ResizablePanel defaultSize={20}>
+                  <RightSection
+                    form={form}
+                    course={course}
+                    courseModule={courseModule}
+                    slt={slt}
+                  />
+                </ResizablePanel>
+              </ResizablePanelGroup>
+            </div>
+          </form>
+        </Form>
+        <LightDarkToggle />
+      </div>
     );
-
-  return (
-    <StudioLayout>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="grid grid-cols-12 gap-5">
-            <div className="col-span-12 flex w-full items-center justify-center rounded-md border border-secondary-foreground py-3">
-              <ControlPanel
-                editContent={editLesson}
-                isLoadingUpdate={isLoadingUpdate}
-                onCancel={onCancel}
-                courseCode={courseCode}
-                moduleCode={moduleCode}
-                contentPath={`lesson/${slt.moduleIndex.toString()}`}
-                live={lesson.live}
-              />
-            </div>
-
-            <div className="col-span-8 row-span-4 rounded-md border border-secondary-foreground p-5">
-              <TitleAndDescription
-                form={form}
-                id={lesson.id}
-                title={lesson.title}
-                description={lesson.description}
-                edit={editLesson}
-                setEdit={setEditLesson}
-                onSubmit={() => onSubmit}
-              />
-            </div>
-            <div className="col-span-4">
-              <CardSLT
-                moduleCode={moduleCode}
-                moduleIndex={slt.moduleIndex}
-                sltText={slt.sltText}
-              />
-            </div>
-            <Card className="col-span-4 flex w-full flex-row items-center justify-between border border-secondary-foreground p-3" size="md">
-              <div>
-                {moduleIndex > 1 && (
-                  <Button>
-                    <Link
-                      href={`/studio/${courseCode}/${moduleCode}/lesson/${moduleIndex - 1}`}
-                    >
-                      GO TO LESSON {moduleCode}.{moduleIndex - 1}
-                    </Link>
-                  </Button>
-                )}
-              </div>
-              <div>
-                {moduleIndex < module.slts.length && (
-                  <Button>
-                    <Link
-                      href={`/studio/${courseCode}/${moduleCode}/lesson/${moduleIndex + 1}`}
-                    >
-                      GO TO LESSON {moduleCode}.{moduleIndex + 1}
-                    </Link>
-                  </Button>
-                )}
-              </div>
-            </Card>
-
-            <VideoLink form={form} />
-            <PublishToggle form={form} title={course.title} />
-            <div className="col-span-12 rounded-md border border-secondary-foreground">
-              <div className="relative mx-auto w-full p-5">
-                {editor.render()}
-              </div>
-            </div>
-          </div>
-
-          {/* <div className="px-4">
-              <Tabs
-                tabs={listCourseVariant}
-                current={selectedVariantName}
-                onChange={setSelectedVariantName}
-              />
-            </div> */}
-
-          {/* <ContentContainer
-          content={
-            contentVariant ? mergeObjects(contentVariant, content) : content
-          }
-          courseCode={courseCode}
-          update={update}
-        /> */}
-        </form>
-      </Form>
-    </StudioLayout>
-  );
+  }
 }

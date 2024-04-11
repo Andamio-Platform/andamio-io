@@ -30,7 +30,7 @@ const inputVariants = cva(
       },
       formTextSize: {
         xl: "text-4xl text-foreground",
-        lg: "text-2xl text-foreground",
+        lg: "text-2xl text-foreground sm:w-[350px] md:w-[400px] lg:w-[450px] xl:w-[550px]",
         md: "text-md text-foreground",
         sm: "text-sm text-foreground",
         slt: "text-md text-foreground sm:w-[350px] md:w-[400px] lg:w-[450px] xl:w-[550px]", //sm:w-[535px] md:w-[645px] lg:w-[735px] xl:w-[825px]
@@ -119,19 +119,7 @@ const ToggleEditableField = React.forwardRef<
                   text={text}
                   setEditText={setEditText}
                 />
-                {!editText && !hideButtons && (
-                  <Button
-                    onClick={() => setEditText(!editText)}
-                    size="icon"
-                    intent="lesson"
-                  >
-                    <Pencil1Icon
-                      className="rounded-full text-primary-foreground bg-primary m-1"
-                      width="22"
-                      height="22"
-                    />
-                  </Button>
-                )}
+
               </>
             )}
           </div>

@@ -45,22 +45,25 @@ export default function RightSection({
   form: FieldValues;
   course: Course;
   courseModule: Module;
-  slt: ModuleSLT;
+  slt?: ModuleSLT;
 }) {
   if (!course) return;
 
   return (
-    <div className="my-5 mr-5 pr-5 flex w-full flex-col gap-2">
+    <div className="my-5 mr-5 flex w-full flex-col gap-2 pr-5">
       <Accordion
         type="single"
         collapsible
         className="w-full bg-background px-3"
       >
         <AccordionItem value="item-1">
-          <AccordionTrigger>Lesson Description</AccordionTrigger>
+          <AccordionTrigger>Creator Notes</AccordionTrigger>
           <AccordionContent>
-            <p className="text-xs">
-              A brief description of the lesson, used in Course overview
+            <p className="pb-5 text-xs">
+              Possible feature: I noticed that we are not using Lesson
+              descriptions in the Course view UI, and maybe they are not needed.
+              What if we use this space for lesson creators to keep private
+              notes about lessons?
             </p>
             <div className="grid w-full items-center gap-4">
               <div className="flex flex-col space-y-1.5">
@@ -99,30 +102,34 @@ export default function RightSection({
               className="col-span-4 flex w-full flex-row items-center justify-between border border-secondary-foreground p-3"
               size="md"
             >
-              <div>
-                {slt.moduleIndex > 1 && (
-                  <Button>
-                    <Link
-                      href={`/studio/${course.courseCode}/${courseModule.moduleCode}/lesson/${slt.moduleIndex - 1}`}
-                    >
-                      <ArrowLeftIcon /> {courseModule.moduleCode}.
-                      {slt.moduleIndex - 1}
-                    </Link>
-                  </Button>
-                )}
-              </div>
-              <div>
-                {slt.moduleIndex < courseModule.slts.length && (
-                  <Button>
-                    <Link
-                      href={`/studio/${course.courseCode}/${courseModule.moduleCode}/lesson/${slt.moduleIndex + 1}`}
-                    >
-                      <ArrowRightIcon /> {courseModule.moduleCode}.
-                      {slt.moduleIndex + 1}
-                    </Link>
-                  </Button>
-                )}
-              </div>
+              {slt && (
+                <>
+                  <div>
+                    {slt.moduleIndex > 1 && (
+                      <Button>
+                        <Link
+                          href={`/studio/${course.courseCode}/${courseModule.moduleCode}/lesson/${slt.moduleIndex - 1}`}
+                        >
+                          <ArrowLeftIcon /> {courseModule.moduleCode}.
+                          {slt.moduleIndex - 1}
+                        </Link>
+                      </Button>
+                    )}
+                  </div>
+                  <div>
+                    {slt.moduleIndex < courseModule.slts.length && (
+                      <Button>
+                        <Link
+                          href={`/studio/${course.courseCode}/${courseModule.moduleCode}/lesson/${slt.moduleIndex + 1}`}
+                        >
+                          <ArrowRightIcon /> {courseModule.moduleCode}.
+                          {slt.moduleIndex + 1}
+                        </Link>
+                      </Button>
+                    )}
+                  </div>
+                </>
+              )}
             </Card>
           </AccordionContent>
         </AccordionItem>

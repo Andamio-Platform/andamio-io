@@ -35,7 +35,7 @@ export default function PageCourseLessonContent({
 }) {
   const ctx = api.useUtils();
 
-  if (!course) return <div>no can do</div>;
+  if (!course) return;
 
   const courseCode = course.courseCode;
   const moduleCode = courseModule.moduleCode;
@@ -136,8 +136,6 @@ export default function PageCourseLessonContent({
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-
-
     if (!lesson) return;
 
     const _lesson = {
@@ -229,7 +227,8 @@ export default function PageCourseLessonContent({
               onCancel={onCancel}
               onSubmit={form.handleSubmit(onSubmit)}
               slt={slt}
-              lesson={lesson}
+              courseContent={lesson}
+              intent="lesson"
             />
 
             <div className="flex w-full bg-card">

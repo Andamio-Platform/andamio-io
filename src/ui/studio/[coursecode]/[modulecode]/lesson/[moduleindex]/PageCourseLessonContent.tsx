@@ -21,6 +21,7 @@ import {
 import HeaderSection from "../../components/HeaderSection";
 import RightSection from "../../components/RightSection";
 
+// V2 - current
 export default function PageCourseLessonContent({
   course,
   courseModule,
@@ -34,7 +35,7 @@ export default function PageCourseLessonContent({
 }) {
   const ctx = api.useUtils();
 
-  if (!course) return <div>no can do</div>;
+  if (!course) return;
 
   const courseCode = course.courseCode;
   const moduleCode = courseModule.moduleCode;
@@ -48,7 +49,6 @@ export default function PageCourseLessonContent({
   const [editLesson, setEditLesson] = useState<boolean>(false);
   const [isCreatingLesson, setIsCreatingLesson] = useState(false);
   // Do we need these?
-  //   const [detailsOpen, setDetailsOpen] = useState<boolean>(true);
   //   const [isSaving, setIsSaving] = useState<boolean>(false);
 
   const { mutate: lessonCreate, isLoading: isLoadingCreate } =
@@ -136,8 +136,6 @@ export default function PageCourseLessonContent({
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    
-
     if (!lesson) return;
 
     const _lesson = {
@@ -207,7 +205,7 @@ export default function PageCourseLessonContent({
 
   if (lesson === undefined || lesson === null) {
     if (isLoadingCreate) {
-      return <LoadingContentEditor />;
+      return <LoadingContentEditor>Building a Lesson</LoadingContentEditor>;
     } else if (!isCreatingLesson && !isLoadingLesson) {
       setIsCreatingLesson(true);
       handleCreateLesson();
@@ -229,7 +227,8 @@ export default function PageCourseLessonContent({
               onCancel={onCancel}
               onSubmit={form.handleSubmit(onSubmit)}
               slt={slt}
-              lesson={lesson}
+              courseContent={lesson}
+              intent="lesson"
             />
 
             <div className="flex w-full bg-card">

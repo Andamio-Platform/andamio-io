@@ -9,32 +9,56 @@ import Editor from "~/components/Editor";
 import { Form } from "~/components/ui/form";
 import StudioLayout from "~/ui/studio/components/layout/StudioLayout";
 
-import TitleAndDescription from "~/ui/studio/components/form-sections/TitleAndDescription";
-import ControlPanel from "~/ui/studio/components/form-sections/ControlPanel";
-import VideoLink from "~/ui/studio/components/form-sections/VideoLink";
-import PublishToggle from "~/ui/studio/components/form-sections/PublishToggle";
-import LessonList from "~/ui/studio/components/assignment-dashboard/lesson-list";
 import useIntroduction from "~/hooks/useIntroduction";
 import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
-import { Button } from "~/components/ui/button";
+
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "~/components/ui/resizable";
+
+import HeaderSection from "../components/HeaderSection";
+import RightSection from "../components/RightSection";
+import LoadingContentEditor from "~/ui/studio/components/ContentEditor/ui/LoadingContentEditor";
 
 export default function PageModuleIntroContent({
   course,
-  module,
+  courseModule,
 }: {
   course: Course;
-  module: Module;
+  courseModule: Module;
 }) {
   const ctx = api.useUtils();
 
-  if (!course) return <div>NO COURSE</div>;
+  if (!course) return;
 
   const courseCode = course.courseCode;
-  const moduleCode = module.moduleCode;
+  const moduleCode = courseModule.moduleCode;
   const { introduction, isLoadingIntro, refetchIntro } = useIntroduction(
-    module.id,
+    courseModule.id,
   );
   const [editIntroduction, setEditIntroduction] = useState<boolean>(false);
+  const [isCreatingIntroduction, setIsCreatingIntroduction] = useState(false);
+
+  const { mutate: introCreate, isLoading: isLoadingIntroCreate } =
+  api.introduction.create.useMutation({
+    onSuccess: async (data) => {
+      toast.success("Module Introduction created!");
+      await refetchIntro();
+      void ctx.module.getCourseModules.invalidate({
+        courseCode: courseCode,
+      });
+    },
+    onError: (e) => {
+      const errorMessage = e.data?.zodError?.fieldErrors;
+      if (errorMessage) {
+        toast.error("Could not create introduction");
+      } else {
+        toast.error("Introduction ID taken. Please try again.");
+      }
+    },
+  });
 
   const { mutate: update, isLoading: isLoadingUpdate } =
     api.introduction.update.useMutation({
@@ -42,7 +66,7 @@ export default function PageModuleIntroContent({
         toast.success("Introduction updated!");
         setEditIntroduction(false);
         void ctx.introduction.getIntroduction.invalidate({
-          moduleId: module.id,
+          moduleId: courseModule.id,
         });
         void ctx.module.getCourseModules.invalidate({
           courseCode: courseCode,
@@ -57,6 +81,16 @@ export default function PageModuleIntroContent({
         }
       },
     });
+
+    const handleCreateIntro = () => {
+      if (module) {
+        const _intro = {
+          moduleId: courseModule.id,
+          title: `Introduction to Module ${courseModule.moduleCode}`
+        };
+        introCreate(_intro);
+      }
+    };
 
   const FormSchema = z.object({
     title: z
@@ -152,66 +186,59 @@ export default function PageModuleIntroContent({
     return <LoadingCircle />;
   }
 
-  if (!introduction) {
-    return (
-      <StudioLayout>
-        <h1>Write an Introduction to Module {moduleCode}</h1>
-        <Button onClick={() => refetchIntro()}>Get Started</Button>
-      </StudioLayout>
-    );
+  if (introduction === undefined || introduction === null) {
+    if (isLoadingIntroCreate) {
+      return <LoadingContentEditor>Loading Introduction {courseModule.moduleCode} in Andamio Editor</LoadingContentEditor>;
+    } else if (!isCreatingIntroduction && !isLoadingIntro) {
+      setIsCreatingIntroduction(true);
+      handleCreateIntro();
+    }
   }
+
+  if(introduction) {
+
 
   return (
     <StudioLayout>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="grid grid-cols-12 gap-3">
-            <div className="col-span-12 flex w-full items-center justify-center rounded-md border border-secondary-foreground py-3">
-              <ControlPanel
-                editContent={editIntroduction}
-                isLoadingUpdate={isLoadingUpdate}
-                onCancel={onCancel}
-                courseCode={courseCode}
-                moduleCode={moduleCode}
-                contentPath={`intro`}
-                live={introduction && introduction.live}
-              />
-            </div>
+          <HeaderSection
+            form={form}
+            course={course}
+            courseModule={courseModule}
+            editContent={editIntroduction}
+            setEditContent={setEditIntroduction}
+            isLoadingUpdate={isLoadingUpdate}
+            onCancel={onCancel}
+            onSubmit={form.handleSubmit(onSubmit)}
+            courseContent={introduction}
+            intent="assignment"
+          />
 
-            <div className="col-span-4 row-span-2 rounded-md border border-secondary-foreground p-5">
-              <h3>Student Learning Targets (SLTs)</h3>
-              {module.slts.map((s) => (
-                <>
-                  <p className="pt-2">
-                    {module.moduleCode}.{s.moduleIndex}
-                  </p>
-                  <p className="pb-2">{s.sltText}</p>
-                </>
-              ))}
-            </div>
-            <div className="col-span-8 row-span-2 rounded-md border border-secondary-foreground p-5">
-              <TitleAndDescription
-                form={form}
-                id={introduction.id}
-                title={introduction.title}
-                description={introduction.description}
-                edit={editIntroduction}
-                setEdit={setEditIntroduction}
-                onSubmit={() => onSubmit}
-              />
-            </div>
-
-            <VideoLink form={form} />
-            <LessonList module={module} />
-            <PublishToggle form={form} title={course.title} />
-            <div className="col-span-12 rounded-md border border-secondary-foreground">
-              <div className="relative mx-auto w-full p-5">
-                {editor.render()}
-              </div>
-            </div>
+          <div className="flex w-full bg-card">
+            <ResizablePanelGroup direction="horizontal" className="gap-2">
+              <ResizablePanel defaultSize={80}>
+                <div className="mx-2 h-[calc(100vh-84px)] w-full overflow-y-auto border">
+                  <div className="mx-auto my-4">
+                    <div className="m-5 flex min-h-[90vh] w-full bg-background p-5 shadow-xl">
+                      {editor.render()}
+                    </div>
+                  </div>
+                </div>
+              </ResizablePanel>
+              <ResizableHandle />
+              <ResizablePanel defaultSize={20}>
+                <RightSection
+                  form={form}
+                  course={course}
+                  courseModule={courseModule}
+                />
+              </ResizablePanel>
+            </ResizablePanelGroup>
           </div>
         </form>
       </Form>
     </StudioLayout>
   );
+  }
 }

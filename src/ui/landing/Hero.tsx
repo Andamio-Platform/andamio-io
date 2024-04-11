@@ -11,7 +11,7 @@ export default function Hero() {
               Andamio Learning and Contribution Platform
             </h1>
             <p className="mt-6 text-lg leading-8 ">
-              v0.1.6
+              v0.1.7
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <Link href={`/auth/signin`}>

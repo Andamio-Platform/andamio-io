@@ -41,9 +41,11 @@ export default function LogoCloud() {
         />
       </div>
       <div className="mt-16 flex justify-center">
-        <p className="relative rounded-full px-4 py-1.5 text-sm leading-6 text-gray-600 ring-1 ring-inset ring-forground hover:ring-forground">
+        <p className="ring-forground hover:ring-forground relative rounded-full px-4 py-1.5 text-sm leading-6 text-gray-600 ring-1 ring-inset">
           <span className="hidden md:inline">
-            Mesh JS grew their contributor base by 3.7x in just 6 months.
+            Gimbalabs.io used the Andamio Content Management System to create a
+            PLUTUS project based learning course to onboard developer to the
+            Cardano ecosystem.
           </span>
           <Link href={`#`}>
             <span className="font-semibold text-primary">

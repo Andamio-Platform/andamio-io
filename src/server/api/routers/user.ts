@@ -55,4 +55,24 @@ export const userRouter = createTRPCRouter({
         return user;
       }
     }),
+
+    updateAccessToken: protectedProcedure
+    .input(
+      z.object({
+        accessToken: z.string().min(1),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.user.upsert({
+        where: {
+          id: ctx.session.user.id,
+        },
+        create: {
+          accessToken: input.accessToken,
+        },
+        update: {
+          accessToken: input.accessToken,
+        },
+      });
+    }),
 });

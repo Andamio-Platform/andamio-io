@@ -21,6 +21,9 @@ import {
 import HeaderSection from "../components/HeaderSection";
 import RightSection from "../components/RightSection";
 import LoadingContentEditor from "~/ui/studio/components/ContentEditor/ui/LoadingContentEditor";
+import { DialogGetLessonPlan } from "../components/coach/DialogGetLessonPlan";
+import { useCourseStore } from "~/lib/zustand/course";
+import { LightDarkToggle } from "~/ui/site/LightDarkToggle";
 
 export default function PageModuleIntroContent({
   course,
@@ -42,23 +45,23 @@ export default function PageModuleIntroContent({
   const [isCreatingIntroduction, setIsCreatingIntroduction] = useState(false);
 
   const { mutate: introCreate, isLoading: isLoadingIntroCreate } =
-  api.introduction.create.useMutation({
-    onSuccess: async (data) => {
-      toast.success("Module Introduction created!");
-      await refetchIntro();
-      void ctx.module.getCourseModules.invalidate({
-        courseCode: courseCode,
-      });
-    },
-    onError: (e) => {
-      const errorMessage = e.data?.zodError?.fieldErrors;
-      if (errorMessage) {
-        toast.error("Could not create introduction");
-      } else {
-        toast.error("Introduction ID taken. Please try again.");
-      }
-    },
-  });
+    api.introduction.create.useMutation({
+      onSuccess: async (data) => {
+        toast.success("Module Introduction created!");
+        await refetchIntro();
+        void ctx.module.getCourseModules.invalidate({
+          courseCode: courseCode,
+        });
+      },
+      onError: (e) => {
+        const errorMessage = e.data?.zodError?.fieldErrors;
+        if (errorMessage) {
+          toast.error("Could not create introduction");
+        } else {
+          toast.error("Introduction ID taken. Please try again.");
+        }
+      },
+    });
 
   const { mutate: update, isLoading: isLoadingUpdate } =
     api.introduction.update.useMutation({
@@ -82,15 +85,15 @@ export default function PageModuleIntroContent({
       },
     });
 
-    const handleCreateIntro = () => {
-      if (module) {
-        const _intro = {
-          moduleId: courseModule.id,
-          title: `Introduction to Module ${courseModule.moduleCode}`
-        };
-        introCreate(_intro);
-      }
-    };
+  const handleCreateIntro = () => {
+    if (module) {
+      const _intro = {
+        moduleId: courseModule.id,
+        title: `Introduction to Module ${courseModule.moduleCode}`,
+      };
+      introCreate(_intro);
+    }
+  };
 
   const FormSchema = z.object({
     title: z
@@ -188,57 +191,94 @@ export default function PageModuleIntroContent({
 
   if (introduction === undefined || introduction === null) {
     if (isLoadingIntroCreate) {
-      return <LoadingContentEditor>Loading Introduction {courseModule.moduleCode} in Andamio Editor</LoadingContentEditor>;
+      return (
+        <LoadingContentEditor>
+          Loading Introduction {courseModule.moduleCode} in Andamio Editor
+        </LoadingContentEditor>
+      );
     } else if (!isCreatingIntroduction && !isLoadingIntro) {
       setIsCreatingIntroduction(true);
       handleCreateIntro();
     }
   }
 
-  if(introduction) {
+  /**
+   * START OF
+   * andamio coach - get lesson plan
+   */
 
+  const updateLessonEdit = useCourseStore((state) => state.updateLessonEdit);
+  const [getLessonPlanDialogOpen, setGetLessonPlanDialogOpen] = useState(false);
 
-  return (
-    <StudioLayout>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <HeaderSection
-            form={form}
-            course={course}
-            courseModule={courseModule}
-            editContent={editIntroduction}
-            setEditContent={setEditIntroduction}
-            isLoadingUpdate={isLoadingUpdate}
-            onCancel={onCancel}
-            onSubmit={form.handleSubmit(onSubmit)}
-            courseContent={introduction}
-            intent="assignment"
-          />
+  useEffect(() => {
+    if (updateLessonEdit && editor) {
+      const _json = editor.getJSON();
+      if (_json && _json.content) {
+        for (const _newData of updateLessonEdit.split("\n")) {
+          const _newRow = {
+            attrs: {
+              level: 1,
+            },
+            content: [{ type: "text", text: _newData }],
+            type: "heading",
+          };
+          _json.content.push(_newRow);
+        }
 
-          <div className="flex w-full bg-card">
-            <ResizablePanelGroup direction="horizontal" className="gap-2">
-              <ResizablePanel defaultSize={80}>
-                <div className="mx-2 h-[calc(100vh-84px)] w-full overflow-y-auto border">
-                  <div className="mx-auto my-4">
-                    <div className="m-5 flex min-h-[90vh] w-full bg-background p-5 shadow-xl">
-                      {editor.render()}
+        editor.setContent(_json.content);
+      }
+    }
+  }, [updateLessonEdit]);
+
+  /**
+   * END OF
+   * andamio coach - get lesson plan
+   */
+
+  if (introduction) {
+    return (
+      <StudioLayout>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <HeaderSection
+              form={form}
+              course={course}
+              courseModule={courseModule}
+              editContent={editIntroduction}
+              setEditContent={setEditIntroduction}
+              isLoadingUpdate={isLoadingUpdate}
+              onCancel={onCancel}
+              onSubmit={form.handleSubmit(onSubmit)}
+              courseContent={introduction}
+              intent="assignment"
+              setGetLessonPlanDialogOpen={setGetLessonPlanDialogOpen}
+            />
+
+            <div className="flex w-full bg-card">
+              <ResizablePanelGroup direction="horizontal" className="gap-2">
+                <ResizablePanel defaultSize={80}>
+                  <div className="mx-2 h-[calc(100vh-84px)] w-full overflow-y-auto border">
+                    <div className="mx-auto my-4">
+                      <div className="m-5 flex min-h-[90vh] w-full bg-background p-5 shadow-xl">
+                        {editor.render()}
+                      </div>
                     </div>
                   </div>
-                </div>
-              </ResizablePanel>
-              <ResizableHandle />
-              <ResizablePanel defaultSize={20}>
-                <RightSection
-                  form={form}
-                  course={course}
-                  courseModule={courseModule}
-                />
-              </ResizablePanel>
-            </ResizablePanelGroup>
-          </div>
-        </form>
-      </Form>
-    </StudioLayout>
-  );
+                </ResizablePanel>
+                <ResizableHandle />
+                <ResizablePanel defaultSize={20}>
+                  <RightSection
+                    form={form}
+                    course={course}
+                    courseModule={courseModule}
+                  />
+                </ResizablePanel>
+              </ResizablePanelGroup>
+            </div>
+          </form>
+        </Form>
+        <LightDarkToggle />
+      </StudioLayout>
+    );
   }
 }

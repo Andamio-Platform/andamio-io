@@ -26,7 +26,7 @@ export default function Hero() {
               Andamio empowers your organization to teach skills that connect to
               contribution opportunities. It helps to create strong community
               ties and onboard skilled contributors.
-
+            </p>
             <p className="mt-6 text-lg leading-8 ">
               v0.1.7
 

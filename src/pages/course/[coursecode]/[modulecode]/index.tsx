@@ -16,7 +16,6 @@ export default function Page({
   );
 
 
-    console.log("check904")
 
   if (isLoadingModule) {
     return <LoadingCircle />;

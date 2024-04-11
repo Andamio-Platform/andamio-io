@@ -38,7 +38,6 @@ export default function ModuleContainer({
 }) {
   if (!course) return;
 
-  console.log("check870", currentModule);
 
   const ctx = api.useUtils();
 
@@ -182,7 +181,7 @@ export default function ModuleContainer({
           <>
             <div className="flex flex-col pt-3">
               <IntroductionContainer
-                moduleId={module.id}
+                moduleId={currentModule.id}
                 courseCode={course.courseCode}
                 moduleCode={currentModule.moduleCode}
               />

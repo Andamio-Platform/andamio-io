@@ -23,12 +23,10 @@ export default function PageCourseIntroductionContent({
 }) {
   const { data: sessionData } = useSession();
 
-  console.log("check905", courseModule.slts);
 
   const { introduction, isLoadingIntro } = useIntroduction(courseModule.id);
 
   const { isCreator } = useValidateCreator(sessionData, courseCode);
-  console.log("check906", introduction);
 
   if (isLoadingIntro) {
     return <LoadingCircle />;

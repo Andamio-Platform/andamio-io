@@ -8,22 +8,41 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "~/components/ui/form";
 import FormInput from "~/components/form/form-input";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import DialogForm from "~/components/form/dialog-form";
+import FormSelect from "~/components/form/form-select";
+import useModule from "~/hooks/useModule";
+import useModuleByCourse from "~/hooks/useModuleByCourse";
+import useCourseModules from "~/hooks/useCourseModules";
+
+type ModuleOption = {
+  value: string;
+  label: string;
+};
 
 export default function DialogModule({
   moduleDialogOpen,
   setModuleDialogOpen,
-  module,
+  moduleCode,
   course,
 }: {
   moduleDialogOpen: boolean;
   setModuleDialogOpen: (open: boolean) => void;
-  module?: Module;
+  moduleCode?: string;
   course: Course;
 }) {
   if (!course) return;
   const ctx = api.useUtils();
+
+  // 2024-03-08
+  // MUST FIX THIS TYPE
+  const { courseModules } = useCourseModules(course.courseCode);
+  const [currentCourseModule, setCurrentCourseModule] = useState<
+    Module | undefined
+  >(undefined);
+  const [newModuleCodeOptions, setNewModuleCodeOptions] = useState<
+    ModuleOption[]
+  >([]);
 
   // Todo: Implement Course Variants
   // const [currentCourseVariant, setCurrentCourseVariant] = useState<
@@ -51,6 +70,9 @@ export default function DialogModule({
         setModuleDialogOpen(false);
         toast.success("Module created!");
         void ctx.module.getCourseModules.invalidate({
+          courseCode: course.courseCode,
+        });
+        void ctx.course.getCourse.invalidate({
           courseCode: course.courseCode,
         });
       },
@@ -139,9 +161,9 @@ export default function DialogModule({
 
   function onSubmit(data: FieldValues) {
     if (course) {
-      if (module) {
+      if (currentCourseModule) {
         moduleUpdate({
-          moduleId: module.id,
+          moduleId: currentCourseModule.id,
           courseCode: course.courseCode,
           moduleCode: data.moduleCode,
           title: data.title,
@@ -158,27 +180,66 @@ export default function DialogModule({
     }
   }
 
+  // Given a list of currentModuleCodes like this:
+  // currentModuleCodes = ["101", "102", "201", "301", "302"]
+  // Create a set of options in a drop-down menu for moduleCode, in the format
+  // newModuleCodeOptions: {value: string, label: string}[] = []
+  // Options should be:
+  // - the next 100-level module
+  // - the next 200-level module
+  // - the next 300-level module
+  // - a custom choice
+  //
+  // Example:
+  // If the current list of modules is ["101", "102", "201"], then the output should be:
+  // [{value: "103", label: "103"}, {value: "202", label: "202"}, {value: "301", label: "301"}]
+
+  useEffect(() => {
+    if (courseModules) {
+      const currentModuleCodes = courseModules.map((m) => m.moduleCode);
+      const _newModuleCodeOptions = makeModuleOptions(currentModuleCodes);
+      if (_newModuleCodeOptions) {
+        setNewModuleCodeOptions(_newModuleCodeOptions);
+      }
+    }
+  }, [moduleDialogOpen, courseModules, currentCourseModule, course]);
+
   useEffect(() => {
     form.reset({
-      moduleCode: module?.moduleCode ?? "",
-      title: module?.title ?? "",
-      description: module?.description ?? "",
+      moduleCode: moduleCode ?? "",
+      title: currentCourseModule?.title ?? "",
+      description: currentCourseModule?.description ?? "",
     });
-  }, [moduleDialogOpen, module]);
+  }, [moduleDialogOpen, currentCourseModule, newModuleCodeOptions, moduleCode]);
+
+  useEffect(() => {
+    if (courseModules && moduleCode) {
+      const _module = courseModules.find((m) => m.moduleCode == moduleCode);
+      if (_module) {
+        setCurrentCourseModule(_module);
+      }
+    }
+  }, [course, moduleCode]);
 
   return (
     <Form {...form}>
       <DialogForm
-        openButton={module ? "moduleSettings" : "Add Module"}
+        openButton={moduleCode ? "moduleSettings" : "Add Module"}
         openButtonIntent="dialog"
-        title={module ? `Editing ${module.title}` : "Create a new module"}
-        buttonLabel={module ? "Save" : "Create"}
+        title={
+          currentCourseModule
+            ? `Editing ${currentCourseModule?.title}`
+            : "Create a new module"
+        }
+        buttonLabel={currentCourseModule ? "Save" : "Create"}
         buttonLoading={isLoadingCreate || isLoadingUpdate}
         buttonDisabled={isLoadingCreate || isLoadingUpdate}
         handleSubmit={form.handleSubmit(onSubmit)}
+        isOpen={moduleDialogOpen}
+        setIsOpen={setModuleDialogOpen}
       >
         <p>
-          {module
+          {currentCourseModule
             ? "You are editing a module. Make changes and click 'Save'."
             : "Create a new module by filling in the details below."}
         </p>
@@ -192,14 +253,23 @@ export default function DialogModule({
             form={form}
           />
 
+          {!currentCourseModule && (
+            <FormSelect
+              name="moduleCode"
+              label="Select a suggested Module Code"
+              form={form}
+              options={newModuleCodeOptions}
+            />
+          )}
           <FormInput
             name="moduleCode"
-            label="Module Code"
+            label={currentCourseModule ? "Edit Module Code" : "Or write your own custom code"}
+            info="The Module Code is a 3-character string that appears in the course URL"
             form={form}
             disabled={false}
           />
 
-          {module && (
+          {currentCourseModule && (
             <div className="flex items-center gap-2">
               <div className="grow"></div>
               <Button
@@ -209,7 +279,7 @@ export default function DialogModule({
                 onClick={() =>
                   // todo: change this is are you sure
                   moduleDelete({
-                    moduleId: module.id,
+                    moduleId: currentCourseModule.id,
                   })
                 }
               >
@@ -225,4 +295,57 @@ export default function DialogModule({
       </DialogForm>
     </Form>
   );
+}
+
+function incrementCode(code: string): string {
+  const lastChar = code.charAt(code.length - 1);
+  let newLastChar;
+  if (/\d/.test(lastChar)) {
+    // If the last character is a digit
+    newLastChar = String.fromCharCode(lastChar.charCodeAt(0) + 1);
+  } else if (/[A-Y]/.test(lastChar)) {
+    // If the last character is a letter from A to Y
+    newLastChar = String.fromCharCode(lastChar.charCodeAt(0) + 1);
+  } else {
+    newLastChar = "H";
+  }
+  return code.substring(0, code.length - 1) + newLastChar;
+}
+
+function makeModuleOptions(currentModuleCodes: string[]): ModuleOption[] {
+  if (currentModuleCodes.length === 0) {
+    return [
+      { value: "101", label: "101" },
+      { value: "201", label: "201" },
+      { value: "301", label: "301" },
+    ];
+  }
+
+  const sortedCodes = currentModuleCodes.sort();
+  const uniqueCategories = [
+    ...new Set(sortedCodes.map((code) => code.substring(0, 2))),
+  ];
+
+  const newModuleCodeOptions: ModuleOption[] = uniqueCategories.map(
+    (category) => {
+      const codesInCategory = sortedCodes.filter((code) =>
+        code.startsWith(category),
+      );
+      const lastCode = codesInCategory[codesInCategory.length - 1] ?? "";
+      const nextCode = incrementCode(lastCode);
+      return { value: nextCode, label: nextCode };
+    },
+  );
+
+  const lastCode = sortedCodes[sortedCodes.length - 1];
+  if (lastCode && lastCode.startsWith("1")) {
+    newModuleCodeOptions.push(
+      { value: "201", label: "201" },
+      { value: "301", label: "301" },
+    );
+  } else if (lastCode && lastCode.startsWith("2")) {
+    newModuleCodeOptions.push({ value: "301", label: "301" });
+  }
+
+  return newModuleCodeOptions;
 }

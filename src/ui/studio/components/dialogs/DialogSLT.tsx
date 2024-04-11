@@ -18,12 +18,12 @@ export default function DialogSLT({
   sltDialogOpen,
   setSltDialogOpen,
   courseCode,
-  module,
+  currentModule,
 }: {
   sltDialogOpen: boolean;
   setSltDialogOpen: (open: boolean) => void;
   courseCode: string;
-  module: Module;
+  currentModule: Module;
 }) {
   const ctx = api.useUtils();
 
@@ -68,8 +68,8 @@ export default function DialogSLT({
 
   function onSubmit(data: FieldValues) {
     sltCreate({
-      moduleId: data.moduleId,
-      moduleIndex: module.slts.length + 1,
+      moduleId: currentModule.id,
+      moduleIndex: currentModule.slts.length + 1,
       sltText: data.sltText,
     });
   }
@@ -77,9 +77,9 @@ export default function DialogSLT({
   useEffect(() => {
     form.reset({
       sltText: "",
-      moduleId: module.id ?? "",
+      moduleId: currentModule.id ?? "",
     });
-  }, [sltDialogOpen]);
+  }, [sltDialogOpen, isLoadingCreate]);
 
   return (
     <>
@@ -95,9 +95,11 @@ export default function DialogSLT({
             buttonLoading={isLoadingCreate}
             buttonDisabled={isLoadingCreate}
             handleSubmit={form.handleSubmit(onSubmit)}
+            isOpen={sltDialogOpen}
+            setIsOpen={setSltDialogOpen}
           >
             <p>
-              Adding SLT {module.moduleCode}.{module.slts.length + 1}
+              Adding SLT {currentModule.moduleCode}.{currentModule.slts.length + 1}
             </p>
             {/* Todo: look at the line above. If a different module is selected from the menu below, then the SLT id should update dynamically */}
 

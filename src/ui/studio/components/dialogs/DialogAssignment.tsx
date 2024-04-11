@@ -32,10 +32,13 @@ export default function DialogAssignment({
   const { courseModules, isLoadingCourseModules } =
     useCourseModules(courseCode);
 
+  const sortedSlts = module.slts
+    .slice()
+    .sort((a, b) => a.moduleIndex - b.moduleIndex);
+
   const { mutate: assignmentCreate, isLoading: isLoadingAssignmentCreate } =
     api.assignment.create.useMutation({
       onSuccess: (data) => {
-        setAssignmentDialogOpen(false);
         toast.success("Assignment created!");
         const _module = courseModules?.find((c) => c.id === data.moduleId);
         void ctx.slt.getModuleSLTs.invalidate({
@@ -44,9 +47,10 @@ export default function DialogAssignment({
         void ctx.module.getCourseModules.invalidate({
           courseCode: courseCode,
         });
-        void ctx.assignment.getModuleAssignments.invalidate({
+        void ctx.assignment.getAssignmentByModuleId.invalidate({
           moduleId: module.id,
         });
+        setAssignmentDialogOpen(false);
       },
       onError: (e) => {
         const errorMessage = e.data?.zodError?.fieldErrors;
@@ -59,7 +63,7 @@ export default function DialogAssignment({
     });
 
   const FormSchema = z.object({
-    assignmentCode: z.string().min(4),
+    assignmentCode: z.string().min(3),
     assignmentTitle: z.string().min(1),
     sltIds: z.array(z.string().min(1)),
   });
@@ -67,7 +71,7 @@ export default function DialogAssignment({
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      assignmentCode: "",
+      assignmentCode: `assignment${module.moduleCode}`,
       assignmentTitle: "",
       sltIds: [],
     },
@@ -84,7 +88,7 @@ export default function DialogAssignment({
 
   useEffect(() => {
     form.reset({
-      assignmentCode: assignment?.assignmentCode ?? "",
+      assignmentCode: assignment?.assignmentCode ?? `assignment${module.moduleCode}`,
       assignmentTitle: assignment?.title ?? "",
       sltIds: assignment?.slts.map((s) => s.id) ?? [],
     });
@@ -104,6 +108,8 @@ export default function DialogAssignment({
             buttonLoading={isLoadingAssignmentCreate}
             buttonDisabled={isLoadingAssignmentCreate}
             handleSubmit={form.handleSubmit(onSubmit)}
+            isOpen={assignmentDialogOpen}
+            setIsOpen={setAssignmentDialogOpen}
           >
             <p>Adding Assignment to Module {module.moduleCode}</p>
 
@@ -111,11 +117,13 @@ export default function DialogAssignment({
               <FormInput
                 name="assignmentTitle"
                 label="Enter Assignment Title"
+                info="You can change this later"
                 form={form}
               />
               <FormInput
                 name="assignmentCode"
                 label="Enter Assignment Code"
+                info="Optionally, customize the assignment code. It is used in the direct url for this assignment."
                 form={form}
               />
 
@@ -124,7 +132,7 @@ export default function DialogAssignment({
                 label="Assignment Student Learning Targets"
                 form={form}
                 info="This Assignment is an assement of the following learning targets:"
-                options={module.slts.map((s) => ({
+                options={sortedSlts.map((s) => ({
                   id: s.id,
                   value: s.sltText,
                   label: `${module.moduleCode}.${s.moduleIndex.toString()}: ${s.sltText}`,

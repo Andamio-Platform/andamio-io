@@ -36,7 +36,7 @@ export default function ControlPanel({
   const publishedLink = `/course/${courseCode}/${moduleCode}/${contentPath}`;
 
   return (
-    <div className="grid grid-cols-4 gap-10 lg:gap-24">
+    <div className="grid grid-cols-4 gap-5 px-5">
       <div className="flex h-[30px] w-[30px] items-center justify-center">
         <TooltipProvider>
           <>
@@ -49,7 +49,7 @@ export default function ControlPanel({
                     intent="ghost"
                   >
                     <ExclamationTriangleIcon
-                      className="text-yellow-800"
+                      className="text-warning"
                       width="22"
                       height="22"
                     />
@@ -77,7 +77,7 @@ export default function ControlPanel({
               <GlobeIcon
                 width="22"
                 height="22"
-                className={`${live ? "text-green-900" : "text-secondary-foreground"}`}
+                className={`${live ? "text-success" : "text-primary-foreground"}`}
               />
             </Button>
           </TooltipTrigger>
@@ -97,12 +97,14 @@ export default function ControlPanel({
               <QuestionMarkCircledIcon width="22" height="22" />
             </div>
           </SheetTrigger>
-          <SheetContent>
-            <p>Put help content, links, docs, etc here</p>
-            <p>
+          <SheetContent className="p-5">
+            <h3 className="text-xl pb-3">Help</h3>
+            <p className="prose">
               Can create custom components for this that are easy to edit -
               would be passed as props
             </p>
+            <h3 className="text-xl py-3">Learn More</h3>
+            <p className="prose">Andamio 101 Course</p>
           </SheetContent>
         </Sheet>
       </div>

@@ -129,6 +129,8 @@ model Module {
   lessons     Lesson[]     @relation("ModuleLessons")
   assignments Assignment[] @relation("ModuleAssignments")
 
+  introduction Introduction?
+
   variants ModuleVariant[] @relation("ModuleVariants")
 
   @@unique([courseId, moduleCode])
@@ -156,6 +158,12 @@ model ModuleVariant {
   @@index([id])
 }
 
+enum AccessTier {
+  FREE
+  PREMIUM
+  NETWORK
+}
+
 model Course {
   id         String @id @default(cuid())
   courseCode String
@@ -177,6 +185,8 @@ model Course {
 
   variants        CourseVariant[]         @relation("CourseVariants")
   onchainInstance CourseOnChainInstance[] @relation("CourseInstance")
+
+  accessTier AccessTier?
 
   @@unique([courseCode])
   @@index([createdById])
@@ -289,6 +299,27 @@ model Assignment {
   @@unique([moduleId, assignmentCode])
   @@unique([moduleId])
   @@index([createdById])
+  @@index([moduleId])
+  @@index([id])
+}
+
+model Introduction {
+  id String @id @default(cuid())
+
+  title       String
+  description String?
+  contentJson Json?
+  imageUrl    String?
+  videoUrl    String?
+  live        Boolean?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  moduleId String
+  module   Module @relation(fields: [moduleId], references: [id])
+
+  @@unique([moduleId])
   @@index([moduleId])
   @@index([id])
 }

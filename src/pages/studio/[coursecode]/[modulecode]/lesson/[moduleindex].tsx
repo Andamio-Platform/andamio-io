@@ -1,12 +1,10 @@
 import { NextPageContext } from "next";
-import { useState } from "react";
-import Loading from "~/components/loading";
 import useCourseByOwner from "~/hooks/useCourseByOwner";
 import useModuleByCourse from "~/hooks/useModuleByCourse";
 import useSLT from "~/hooks/useSLT";
-import { ModuleSLT } from "~/types/db";
 import PageCourseLessonContent from "~/ui/studio/[coursecode]/[modulecode]/lesson/[moduleindex]/PageCourseLessonContent";
-import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
+import LoadingContentEditor from "~/ui/studio/components/ContentEditor/ui/LoadingContentEditor";
+import StudioLayout from "~/ui/studio/components/layout/StudioLayout";
 
 export default function LessonStudioPage({
   courseCode,
@@ -26,29 +24,47 @@ export default function LessonStudioPage({
       moduleCode,
     );
 
+    if (isLoadingSLT || isLoadingCourse || isLoadingModule) {
+      return (
+        <div className="flex min-h-screen w-full content-center items-center justify-center">
+          <LoadingContentEditor>Loading Lesson</LoadingContentEditor>
+        </div>
+      );
+    }
+
+    // Todo: Extract one component for these, add some style, and improve with interactions.
+    if (!course) {
+      return (
+        <StudioLayout>
+          <h1>This Course does not exist. Want to build it?</h1>
+        </StudioLayout>
+      );
+    }
+    if (!courseModule) {
+      return (
+        <StudioLayout>
+          <h1>
+            There is no Course Module with that Module Code in this Course. Want
+            to create it?
+          </h1>
+        </StudioLayout>
+      );
+    }
+    if (!slt) {
+      return (
+        <StudioLayout>
+          <h1>No Student Learning Target found at this address</h1>
+        </StudioLayout>
+      );
+    }
+
     return (
-      <>
-        {isLoadingSLT || isLoadingCourse || isLoadingModule ? (
-          <div className="flex min-h-screen w-full content-center items-center justify-center">
-            <Loading />
-          </div>
-        ) : (
-          <>
-            {slt && course && courseModule ? (
-              <PageCourseLessonContent
-                course={course}
-                module={courseModule}
-                moduleIndex={sltIndex}
-                slt={slt}
-              />
-            ) : (
-              <div>
-                Cannot load page content - todo: replace with error screen
-              </div>
-            )}
-          </>
-        )}
-      </>
+      <PageCourseLessonContent
+        course={course}
+        courseModule={courseModule}
+        moduleIndex={sltIndex}
+        slt={slt}
+      />
     );
   } else return <div>We are not ready!</div>;
 }

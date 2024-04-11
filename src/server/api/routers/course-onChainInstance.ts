@@ -16,7 +16,6 @@ export const courseOnChainInstanceRouter = createTRPCRouter({
       }),
     )
     .query(({ ctx, input }) => {
-      console.log("check700")
       return ctx.db.courseOnChainInstance.findFirst({
         where: {
           courseId: input.courseId,

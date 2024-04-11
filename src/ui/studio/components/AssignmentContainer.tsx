@@ -7,8 +7,10 @@ export default function AssignmentContainer({
 }: {
   assignment: Assignment;
 }) {
+  if(!assignment) return;
+
   return (
-    <Card className="mx-auto my-5 flex flex-row justify-between rounded-md bg-primary hover:secondary-foreground px-10 py-3 text-primary-foreground">
+    <Card intent="module" size="wide">
       <div>
         Assignment {assignment.assignmentCode}: {assignment.title}
       </div>

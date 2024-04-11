@@ -10,31 +10,32 @@ import { api } from "~/utils/api";
 import { Assignment, Course, Module, ModuleSLT } from "~/types/db";
 import Editor from "~/components/Editor";
 import { Form } from "~/components/ui/form";
-import StudioLayout from "~/ui/studio/components/layout/StudioLayout";
 
-import TitleAndDescription from "~/ui/studio/components/form-sections/TitleAndDescription";
-import ControlPanel from "~/ui/studio/components/form-sections/ControlPanel";
-import VideoLink from "~/ui/studio/components/form-sections/VideoLink";
-import PublishToggle from "~/ui/studio/components/form-sections/PublishToggle";
-import SltList from "~/ui/studio/components/assignment-dashboard/slt-list";
-import LessonList from "~/ui/studio/components/assignment-dashboard/lesson-list";
-import AssignmentDetails from "~/ui/studio/components/assignment-dashboard/assignment-details";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "~/components/ui/resizable";
 
+import HeaderSection from "../../components/HeaderSection";
+import RightSection from "../../components/RightSection";
+
+// V2 - current
 export default function PageCourseAssignmentContent({
   course,
-  module,
+  courseModule,
   assignment,
 }: {
   course: Course;
-  module: Module;
+  courseModule: Module;
   assignment: Assignment;
 }) {
   const ctx = api.useUtils();
 
-  if(!course) return <div>ERROR - sorry!</div>
+  if (!course) return;
 
   const courseCode = course.courseCode;
-  const moduleCode = module.moduleCode;
+  const moduleCode = courseModule.moduleCode;
 
   const [editAssignment, setEditAssignment] = useState<boolean>(false);
 
@@ -43,12 +44,12 @@ export default function PageCourseAssignmentContent({
       onSuccess: async (data) => {
         toast.success("Assignment updated!");
         setEditAssignment(false);
-        void ctx.assignment.getAssignment.invalidate({
+        void ctx.assignment.getAssignmentByCourseModuleCodes.invalidate({
           moduleCode: moduleCode,
           courseCode: courseCode,
         });
-        void ctx.assignment.getModuleAssignments.invalidate({
-          moduleId: module.id,
+        void ctx.assignment.getAssignmentByModuleId.invalidate({
+          moduleId: courseModule.id,
         });
       },
       onError: (e) => {
@@ -140,78 +141,54 @@ export default function PageCourseAssignmentContent({
         }
       }
     }
-    // todo:
-    // }, [assignment, assignmentVariant]);
   }, [assignment]);
 
   useEffect(() => {
     if (assignment?.contentJson && typeof assignment.contentJson === "object") {
-      console.log("check2", assignment);
       editor.setContent(assignment.contentJson);
     }
   }, [editAssignment]);
 
-  return (
-    <StudioLayout>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="grid grid-cols-12 gap-3">
-            <div className="col-span-12 flex w-full items-center justify-center rounded-md border border-secondary-foreground py-3">
-              <ControlPanel
-                editContent={editAssignment}
-                isLoadingUpdate={isLoadingUpdate}
-                onCancel={onCancel}
-                courseCode={courseCode}
-                moduleCode={moduleCode}
-                contentPath={`assignment/${assignment.assignmentCode}`}
-                live={assignment.live}
-              />
-            </div>
-            <div className="col-span-3 flex flex-col w-full items-center justify-center rounded-md border border-secondary-foreground py-3">
-              <p className="text-2xl">25</p>
-              <p className="">Completions</p>
-            </div>
-            <div className="col-span-3 flex flex-col w-full items-center justify-center rounded-md border border-secondary-foreground py-3">
-            <p className="text-2xl">8</p>
-              <p className="">In Progress</p>
-            </div>
-            <div className="col-span-3 flex flex-col w-full items-center justify-center rounded-md border border-secondary-foreground py-3">
-            <p className="text-2xl">4</p>
-              <p className="">Prerequisites</p>
-            </div>
-            <div className="col-span-3 flex flex-col w-full items-center justify-center rounded-md border border-secondary-foreground p-3">
-              What kind of dashboard can this page be?
-            </div>
-            
+  if (!assignment) return;
 
-            <div className="col-span-8 row-span-5 rounded-md border border-secondary-foreground p-5">
-              <TitleAndDescription
-                form={form}
-                id={assignment.id}
-                title={assignment.title}
-                description={assignment.description}
-                edit={editAssignment}
-                setEdit={setEditAssignment}
-                onSubmit={() => onSubmit}
-              />
-            </div>
-            <SltList module={module} assignment={assignment} />
-            <AssignmentDetails
-              course={course}
-              module={module}
-              assignment={assignment}
-            />
-            <VideoLink form={form} />
-            <LessonList module={module} />
-            <PublishToggle form={form} title={course.title} />
-            <div className="col-span-12 rounded-md border border-secondary-foreground">
-              <div className="relative mx-auto w-full p-5">
-                {editor.render()}
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <HeaderSection
+          form={form}
+          course={course}
+          courseModule={courseModule}
+          editContent={editAssignment}
+          setEditContent={setEditAssignment}
+          isLoadingUpdate={isLoadingUpdate}
+          onCancel={onCancel}
+          onSubmit={form.handleSubmit(onSubmit)}
+          courseContent={assignment}
+          intent="assignment"
+        />
+
+        <div className="flex w-full bg-card">
+          <ResizablePanelGroup direction="horizontal" className="gap-2">
+            <ResizablePanel defaultSize={80}>
+              <div className="mx-2 h-[calc(100vh-84px)] w-full overflow-y-auto border">
+                <div className="mx-auto my-4">
+                  <div className="m-5 flex min-h-[90vh] w-full bg-background p-5 shadow-xl">
+                    {editor.render()}
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        </form>
-      </Form>
-    </StudioLayout>
+            </ResizablePanel>
+            <ResizableHandle />
+            <ResizablePanel defaultSize={20}>
+              <RightSection
+                form={form}
+                course={course}
+                courseModule={courseModule}
+              />
+            </ResizablePanel>
+          </ResizablePanelGroup>
+        </div>
+      </form>
+    </Form>
   );
 }

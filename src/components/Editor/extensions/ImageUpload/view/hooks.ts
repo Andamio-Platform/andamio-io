@@ -1,7 +1,6 @@
 import { v4 as uuid } from "uuid";
 import { DragEvent, useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
-import axios from "axios";
 
 export const useUploader = ({
   onUpload,

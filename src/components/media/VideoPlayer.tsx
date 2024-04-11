@@ -1,14 +1,19 @@
 import YouTube from "react-youtube";
 
 export default function VideoPlayer({ videoId }: { videoId: string }) {
+  let _videoId = videoId
+  if (videoId.startsWith("https://www.youtube.com/watch?v=")) {
+    _videoId = videoId.substring(32)
+  }
+
   return (
     // <div className="h-auto w-full max-w-full rounded-lg border border-gray-200 dark:border-gray-700">
     <YouTube
-      videoId={videoId} // defaults -> ''
+      videoId={_videoId} // defaults -> ''
       // id={string}                       // defaults -> ''
       // className={'w-full'}                // defaults -> ''
       iframeClassName={
-        "aspect-video h-auto w-full max-w-full rounded-lg border border-gray-200 dark:border-gray-700"
+        "aspect-video h-auto w-full max-w-full rounded-lg border border-gray-200 dark:border-gray-700 shadow-md"
       } // defaults -> ''
       // style={object}                    // defaults -> {}
       // title={string}                    // defaults -> ''

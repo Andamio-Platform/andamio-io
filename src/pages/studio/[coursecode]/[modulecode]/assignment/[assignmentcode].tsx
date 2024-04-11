@@ -1,14 +1,10 @@
 import { NextPageContext } from "next";
-import { useState } from "react";
-import Loading from "~/components/loading";
-import useAssignment from "~/hooks/useAssignment";
+import useAssignmentByCourseModule from "~/hooks/useAssignmentByCourseModule";
 import useCourseByOwner from "~/hooks/useCourseByOwner";
 import useModuleByCourse from "~/hooks/useModuleByCourse";
-import useSLT from "~/hooks/useSLT";
-import { ModuleSLT } from "~/types/db";
 import PageCourseAssignmentContent from "~/ui/studio/[coursecode]/[modulecode]/assignment/[assignmentcode]/PageCourseAssignmentContent";
-import PageCourseLessonContent from "~/ui/studio/[coursecode]/[modulecode]/lesson/[moduleindex]/PageCourseLessonContent";
-import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
+import LoadingContentEditor from "~/ui/studio/components/ContentEditor/ui/LoadingContentEditor";
+import StudioLayout from "~/ui/studio/components/layout/StudioLayout";
 
 export default function AssignmentStudioPage({
   courseCode,
@@ -20,26 +16,57 @@ export default function AssignmentStudioPage({
   assignmentCode: string;
 }) {
   if (assignmentCode) {
-
-    const { assignment, isLoadingAssignment } = useAssignment(courseCode, moduleCode);
+    const { assignment, isLoadingAssignment } = useAssignmentByCourseModule(
+      courseCode,
+      moduleCode,
+    );
     const { course, isLoadingCourse } = useCourseByOwner(courseCode);
     const { courseModule, isLoadingModule } = useModuleByCourse(
       courseCode,
       moduleCode,
     );
 
-    console.log("check1", assignment)
-
-
-    if (course && courseModule && assignment) {
+    if (isLoadingAssignment || isLoadingCourse || isLoadingModule) {
       return (
-        <PageCourseAssignmentContent
-          course={course}
-          module={courseModule}
-          assignment={assignment}
-        />
+        <div className="flex min-h-screen w-full content-center items-center justify-center">
+          <LoadingContentEditor>Loading Assignment Editor</LoadingContentEditor>
+        </div>
       );
-    } else return <div>sorry! {assignmentCode}</div>;
+    }
+
+    // Todo: Extract one component for these, add some style, and improve with interactions.
+    if (!course) {
+      return (
+        <StudioLayout>
+          <h1>This Course does not exist. Want to build it?</h1>
+        </StudioLayout>
+      );
+    }
+    if (!courseModule) {
+      return (
+        <StudioLayout>
+          <h1>
+            There is no Course Module with that Module Code in this Course. Want
+            to create it?
+          </h1>
+        </StudioLayout>
+      );
+    }
+    if (!assignment) {
+      return (
+        <StudioLayout>
+          <h1>This Assignment does not exist. What to create it?</h1>
+        </StudioLayout>
+      );
+    }
+
+    return (
+      <PageCourseAssignmentContent
+        course={course}
+        courseModule={courseModule}
+        assignment={assignment}
+      />
+    );
   }
 }
 

@@ -21,10 +21,15 @@ export default function Hero() {
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
               Build your network of learners and contributors
             </h1>
+
             <p className="mt-6 text-lg leading-8 text-gray-600">
               Andamio empowers your organization to teach skills that connect to
               contribution opportunities. It helps to create strong community
               ties and onboard skilled contributors.
+
+            <p className="mt-6 text-lg leading-8 ">
+              v0.1.7
+
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <Link href={`/auth/signin`}>

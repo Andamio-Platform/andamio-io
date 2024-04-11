@@ -7,11 +7,9 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, FieldValues } from "react-hook-form";
-import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
+import { useForm } from "react-hook-form";
 import LoadingContentEditor from "~/ui/studio/components/ContentEditor/ui/LoadingContentEditor";
-import Link from "next/link";
-import { Form, FormControl, FormField, FormItem } from "~/components/ui/form";
+import { Form } from "~/components/ui/form";
 import {
   ResizableHandle,
   ResizablePanel,
@@ -20,6 +18,8 @@ import {
 
 import HeaderSection from "../../components/HeaderSection";
 import RightSection from "../../components/RightSection";
+import { DialogGetLessonPlan } from "../../components/coach/DialogGetLessonPlan";
+import { useCourseStore } from "~/lib/zustand/course";
 
 // V2 - current
 export default function PageCourseLessonContent({
@@ -212,6 +212,39 @@ export default function PageCourseLessonContent({
     }
   }
 
+  /**
+   * START OF
+   * andamio coach - get lesson plan
+   */
+
+  const updateLessonEdit = useCourseStore((state) => state.updateLessonEdit);
+  const [getLessonPlanDialogOpen, setGetLessonPlanDialogOpen] = useState(false);
+
+  useEffect(() => {
+    if (updateLessonEdit && editor) {
+      const _json = editor.getJSON();
+      if (_json && _json.content) {
+        for (const _newData of updateLessonEdit.split("\n")) {
+          const _newRow = {
+            attrs: {
+              level: 1,
+            },
+            content: [{ type: "text", text: _newData }],
+            type: "heading",
+          };
+          _json.content.push(_newRow);
+        }
+
+        editor.setContent(_json.content);
+      }
+    }
+  }, [updateLessonEdit]);
+
+  /**
+   * END OF
+   * andamio coach - get lesson plan
+   */
+
   if (lesson) {
     return (
       <div className="flex w-full flex-col">
@@ -229,6 +262,7 @@ export default function PageCourseLessonContent({
               slt={slt}
               courseContent={lesson}
               intent="lesson"
+              setGetLessonPlanDialogOpen={setGetLessonPlanDialogOpen}
             />
 
             <div className="flex w-full bg-card">
@@ -256,6 +290,11 @@ export default function PageCourseLessonContent({
           </form>
         </Form>
         <LightDarkToggle />
+        <DialogGetLessonPlan
+          open={getLessonPlanDialogOpen}
+          setOpen={setGetLessonPlanDialogOpen}
+          slt={slt}
+        />
       </div>
     );
   }

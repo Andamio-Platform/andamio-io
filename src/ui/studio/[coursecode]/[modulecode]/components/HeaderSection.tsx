@@ -26,6 +26,7 @@ import { ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons";
 import VideoLink from "~/ui/studio/components/form-sections/VideoLink";
 import { ToggleEditableField } from "~/components/ui/toggle-editable-field";
 import ContentEditorMenuBar from "./ContentEditorMenuBar";
+import { DialogGetLessonPlan } from "./coach/DialogGetLessonPlan";
 
 type CourseContent = Lesson | Assignment | Introduction;
 
@@ -40,7 +41,8 @@ export default function HeaderSection({
   onSubmit,
   slt,
   courseContent,
-  intent
+  intent,
+  setGetLessonPlanDialogOpen,
 }: {
   form: FieldValues;
   course: Course;
@@ -51,24 +53,25 @@ export default function HeaderSection({
   onCancel: () => void;
   onSubmit: () => void;
   slt?: ModuleSLT;
-  courseContent: CourseContent
-  intent: "lesson" | "assignment" | "introduction"
+  courseContent: CourseContent;
+  intent: "lesson" | "assignment" | "introduction";
+  setGetLessonPlanDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   if (!course || !courseContent) return;
 
-  let liveContentPath = ""
+  let liveContentPath = "";
   // add logic here
-  if(intent === "lesson" && slt) {
-    liveContentPath = `lesson/${slt.moduleIndex.toString()}`
+  if (intent === "lesson" && slt) {
+    liveContentPath = `lesson/${slt.moduleIndex.toString()}`;
   }
 
   // Fix this one
-  if(intent === "assignment") {
-    liveContentPath = `assignment`
+  if (intent === "assignment") {
+    liveContentPath = `assignment`;
   }
 
-  if(intent === "introduction") {
-    liveContentPath = ""
+  if (intent === "introduction") {
+    liveContentPath = "";
   }
 
   return (
@@ -101,6 +104,7 @@ export default function HeaderSection({
           course={course}
           courseModule={courseModule}
           onSubmit={onSubmit}
+          setGetLessonPlanDialogOpen={setGetLessonPlanDialogOpen}
         />
         <ControlPanel
           editContent={editContent}

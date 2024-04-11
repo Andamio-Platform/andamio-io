@@ -20,11 +20,13 @@ export default function ContentEditorMenuBar({
   course,
   courseModule,
   onSubmit,
+  setGetLessonPlanDialogOpen,
 }: {
   form: FieldValues;
   course: Course;
   courseModule: Module;
   onSubmit: () => void;
+  setGetLessonPlanDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   if (!course) return;
 
@@ -102,12 +104,14 @@ export default function ContentEditorMenuBar({
               </MenubarContent>
             </MenubarMenu> */}
 
-      <MenubarMenu>
-        <MenubarTrigger>Andamio AI</MenubarTrigger>
-        <MenubarContent>
-            <MenubarItem>Coming Soon</MenubarItem>
-        </MenubarContent>
-      </MenubarMenu>
+<MenubarMenu>
+            <MenubarTrigger>Andamio AI</MenubarTrigger>
+            <MenubarContent>
+              <MenubarItem onClick={() => setGetLessonPlanDialogOpen(true)}>
+                Get lesson plan
+              </MenubarItem>
+            </MenubarContent>
+          </MenubarMenu>
       <MenubarMenu>
         <MenubarTrigger>
           <Link href={`/studio/${course.courseCode}`}>Back to Course Page</Link>

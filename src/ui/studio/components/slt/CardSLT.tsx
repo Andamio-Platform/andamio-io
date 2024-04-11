@@ -8,7 +8,7 @@ export default function CardSLT({
   sltText: string;
 }) {
   return (
-    <div className="flex flex-col w-1/2 rounded-md p-5">
+    <div className="flex flex-col w-1/2 rounded-md px-5 py-3">
       <p className="text-xs font-bold leading-7 text-right text-muted-foreground uppercase">
         Student Learning Target {moduleCode}.{moduleIndex}
       </p>

@@ -1,13 +1,9 @@
 import { NextPageContext } from "next";
-import { useState } from "react";
 import Loading from "~/components/loading";
 import useCourseByOwner from "~/hooks/useCourseByOwner";
 import useModuleByCourse from "~/hooks/useModuleByCourse";
 import useSLT from "~/hooks/useSLT";
-import { ModuleSLT } from "~/types/db";
 import PageCourseLessonContent from "~/ui/studio/[coursecode]/[modulecode]/lesson/[moduleindex]/PageCourseLessonContent";
-import PageCourseLessonContentV2 from "~/ui/studio/[coursecode]/[modulecode]/lesson/[moduleindex]/PageCourseLessonContentV2";
-import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
 
 export default function LessonStudioPage({
   courseCode,
@@ -36,7 +32,7 @@ export default function LessonStudioPage({
         ) : (
           <>
             {slt && course && courseModule ? (
-              <PageCourseLessonContentV2
+              <PageCourseLessonContent
                 course={course}
                 courseModule={courseModule}
                 moduleIndex={sltIndex}

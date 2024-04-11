@@ -51,7 +51,7 @@ export default function HeaderSection({
   
     return (
       <div className="flex flex-col">
-        <div className="flex min-h-[100px] flex-row items-center justify-between bg-card p-5">
+        <div className="flex min-h-[40px] flex-row items-center justify-between bg-card p-5">
           <div className="flex items-center">
             <ToggleEditableField
               name="title"
@@ -77,6 +77,7 @@ export default function HeaderSection({
               <MenubarTrigger>File</MenubarTrigger>
               <MenubarContent>
                 <MenubarItem onSelect={onSubmit}>Save</MenubarItem>
+                
               </MenubarContent>
             </MenubarMenu>
             <MenubarMenu>
@@ -131,6 +132,12 @@ export default function HeaderSection({
                 <MenubarItem>From Andamio Marketplace</MenubarItem>
               </MenubarContent>
             </MenubarMenu> */}
+            
+            <MenubarMenu>
+              <MenubarTrigger>
+                Andamio AI
+              </MenubarTrigger>
+            </MenubarMenu>
             <MenubarMenu>
               <MenubarTrigger>
                 <Link href={`/studio/${course.courseCode}`}>Back to Course Page</Link>

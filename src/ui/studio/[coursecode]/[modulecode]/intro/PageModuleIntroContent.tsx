@@ -214,15 +214,8 @@ export default function PageModuleIntroContent({
     if (updateLessonEdit && editor) {
       const _json = editor.getJSON();
       if (_json && _json.content) {
-        for (const _newData of updateLessonEdit.split("\n")) {
-          const _newRow = {
-            attrs: {
-              level: 1,
-            },
-            content: [{ type: "text", text: _newData }],
-            type: "heading",
-          };
-          _json.content.push(_newRow);
+        for (const _newData of updateLessonEdit) {
+          _json.content.push(_newData);
         }
 
         editor.setContent(_json.content);

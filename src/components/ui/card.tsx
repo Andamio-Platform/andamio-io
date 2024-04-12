@@ -11,7 +11,7 @@ const cardVariants = cva("", {
         "border border-foreground bg-background text-foreground hover:bg-secondary hover:text-secondary-foreground rounded-xl",
       status: "flex items-center justify-center bg-primary text-primary-foreground",
       module: "flex flex-row justify-between rounded-md bg-primary text-primary-foreground hover:secondary-foreground",
-      slt: "shadow-md px-3 py-1 flex flex-row items-center gap-10 bg-background my-3",
+      slt: "px-3 py-1 flex flex-row items-center gap-10 bg-background my-3 rounded-md",
       none: "flex w-full items-center justify-between"
     },
     size: {

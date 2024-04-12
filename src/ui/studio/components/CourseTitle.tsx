@@ -13,7 +13,7 @@ export default function CourseTitle({ course }: { course: Course }) {
     <>
       <div className="flex items-start min-h-[150px]">
         <div className="flex flex-grow flex-col gap-2">
-          <h1>{course.title}</h1>
+          <h1 className="text-4xl font-bold">{course.title}</h1>
           <p>{course.description}</p>
         </div>
         {isOwner && (

@@ -19,6 +19,8 @@ import {
 
 import HeaderSection from "../../components/HeaderSection";
 import RightSection from "../../components/RightSection";
+import { DialogGetLessonPlan } from "../../components/coach/DialogGetLessonPlan";
+import { useCourseStore } from "~/lib/zustand/course";
 
 // V2 - current
 export default function PageCourseAssignmentContent({
@@ -90,11 +92,13 @@ export default function PageCourseAssignmentContent({
     const _assignment = {
       id: assignment.id,
       title: data.title,
+      assignmentCode: assignment.assignmentCode,
       description: data.description ?? "",
       imageUrl: assignment.imageUrl ?? "",
       videoUrl: data.videoUrl ?? "",
       contentJson: editor.getJSON(),
       live: data.live,
+      sltIds: assignment.slts.map((s) => s.id)
     };
     update(_assignment);
   }
@@ -149,46 +153,74 @@ export default function PageCourseAssignmentContent({
     }
   }, [editAssignment]);
 
-  if (!assignment) return;
+  /**
+   * START OF
+   * andamio coach - get lesson plan
+   */
 
-  return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <HeaderSection
-          form={form}
-          course={course}
-          courseModule={courseModule}
-          editContent={editAssignment}
-          setEditContent={setEditAssignment}
-          isLoadingUpdate={isLoadingUpdate}
-          onCancel={onCancel}
-          onSubmit={form.handleSubmit(onSubmit)}
-          courseContent={assignment}
-          intent="assignment"
-        />
+  const updateLessonEdit = useCourseStore((state) => state.updateLessonEdit);
+  const [getLessonPlanDialogOpen, setGetLessonPlanDialogOpen] = useState(false);
 
-        <div className="flex w-full bg-card">
-          <ResizablePanelGroup direction="horizontal" className="gap-2">
-            <ResizablePanel defaultSize={80}>
-              <div className="mx-2 h-[calc(100vh-84px)] w-full overflow-y-auto border">
-                <div className="mx-auto my-4">
-                  <div className="m-5 flex min-h-[90vh] w-full bg-background p-5 shadow-xl">
-                    {editor.render()}
+  useEffect(() => {
+    if (updateLessonEdit && editor) {
+      const _json = editor.getJSON();
+      if (_json && _json.content) {
+        for (const _newData of updateLessonEdit) {
+          _json.content.push(_newData);
+        }
+
+        editor.setContent(_json.content);
+      }
+    }
+  }, [updateLessonEdit]);
+
+  /**
+   * END OF
+   * andamio coach - get lesson plan
+   */
+
+  if (assignment) {
+    return (
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <HeaderSection
+            form={form}
+            course={course}
+            courseModule={courseModule}
+            editContent={editAssignment}
+            setEditContent={setEditAssignment}
+            isLoadingUpdate={isLoadingUpdate}
+            onCancel={onCancel}
+            onSubmit={form.handleSubmit(onSubmit)}
+            courseContent={assignment}
+            intent="assignment"
+            setGetLessonPlanDialogOpen={setGetLessonPlanDialogOpen}
+          />
+
+          <div className="flex w-full bg-card">
+            <ResizablePanelGroup direction="horizontal" className="gap-2">
+              <ResizablePanel defaultSize={80}>
+                <div className="mx-2 h-[calc(100vh-84px)] w-full overflow-y-auto border">
+                  <div className="mx-auto my-4">
+                    <div className="m-5 flex min-h-[90vh] w-full bg-background p-5 shadow-xl">
+                      {editor.render()}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </ResizablePanel>
-            <ResizableHandle />
-            <ResizablePanel defaultSize={20}>
-              <RightSection
-                form={form}
-                course={course}
-                courseModule={courseModule}
-              />
-            </ResizablePanel>
-          </ResizablePanelGroup>
-        </div>
-      </form>
-    </Form>
-  );
+              </ResizablePanel>
+              <ResizableHandle />
+              <ResizablePanel defaultSize={20}>
+                <RightSection
+                  form={form}
+                  course={course}
+                  courseModule={courseModule}
+                  assignment={assignment}
+                />
+              </ResizablePanel>
+            </ResizablePanelGroup>
+          </div>
+        </form>
+      </Form>
+    );
+  }
 }

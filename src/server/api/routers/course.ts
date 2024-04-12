@@ -26,10 +26,33 @@ export const courseRouter = createTRPCRouter({
           modules: true,
           contributors: {
             include: {
-              user: true
-            }
+              user: true,
+            },
           },
-          variants: true
+          variants: true,
+        },
+      });
+    }),
+
+  getCourseById: publicProcedure
+    .input(
+      z.object({
+        courseId: z.string(),
+      }),
+    )
+    .query(({ ctx, input }) => {
+      return ctx.db.course.findFirst({
+        where: {
+          id: input.courseId,
+        },
+        include: {
+          modules: true,
+          contributors: {
+            include: {
+              user: true,
+            },
+          },
+          variants: true,
         },
       });
     }),
@@ -46,9 +69,8 @@ export const courseRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-
       if (!ctx.session.user.creatorId) {
-        throw new Error('User does not have Creator role.');
+        throw new Error("User does not have Creator role.");
       }
 
       return ctx.db.course.create({
@@ -76,8 +98,8 @@ export const courseRouter = createTRPCRouter({
         modules: true,
         contributors: {
           include: {
-            user: true
-          }
+            user: true,
+          },
         },
         variants: true,
       },

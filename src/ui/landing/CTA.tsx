@@ -17,25 +17,27 @@ export default function CTA() {
       </div>
       <div className="mx-auto max-w-2xl text-center">
         <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          Boost your Lorem.
+          Lets discuss how
           <br />
-          Join the Andamio Network today.
+          Andamio could help your organisation
         </h2>
         <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-gray-600">
-          Incididunt sint fugiat pariatur cupidatat consectetur sit cillum anim
-          id veniam aliqua proident excepteur commodo do ea.
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consequuntur
+          exercitationem natus corrupti, dignissimos modi necessitatibus maiores
+          cumque error! Iusto asperiores consequatur magnam porro impedit amet
+          quas ipsa mollitia vel in.
         </p>
         <div className="mt-10 flex items-center justify-center gap-x-6">
           <Link href={`/auth/signin`}>
             <span className="rounded-md bg-primary px-3.5 py-2.5 text-sm font-semibold text-foreground shadow-sm hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
-              Get started
+              Get in touch
             </span>
           </Link>
-          <Link href={`#`}>
+          {/* <Link href={`#`}>
             <span className="text-sm font-semibold leading-6 text-foreground">
               Learn more <span aria-hidden="true">→</span>
             </span>
-          </Link>
+          </Link> */}
         </div>
       </div>
       <div

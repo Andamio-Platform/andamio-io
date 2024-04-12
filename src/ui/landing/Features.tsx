@@ -1,34 +1,64 @@
 import {
+  AcademicCapIcon,
   ArrowPathIcon,
   CloudArrowUpIcon,
   FingerPrintIcon,
   LockClosedIcon,
+  RocketLaunchIcon,
 } from "@heroicons/react/24/outline";
+import { LightbulbIcon, UsersIcon } from "lucide-react";
+
+// const features = [
+//   {
+//     name: "Content Management System",
+//     description:
+//       "Build your course with a unique platform that enables skill and project-based learning.",
+//     icon: CloudArrowUpIcon,
+//   },
+//   {
+//     name: "Contribution Management System",
+//     description:
+//       "Connect your network to contribution opportunities and use your treasury to reward your contributors.",
+//     icon: LockClosedIcon,
+//   },
+//   {
+//     name: "Your active network",
+//     description:
+//       "Build and grow your network of trusted contributors by providing them with skill-based learning opportunities tailored to your needs.",
+//     icon: ArrowPathIcon,
+//   },
+//   {
+//     name: "??",
+//     description:
+//       "Arcu egestas dolor vel iaculis in ipsum mauris. Tincidunt mattis aliquet hac quis. Id hac maecenas ac donec pharetra eget.",
+//     icon: FingerPrintIcon,
+//   },
+// ];
 
 const features = [
   {
-    name: "Verifiable experiences",
+    name: "Continuous Learning",
     description:
-      "Morbi viverra dui mi arcu sed. Tellus semper adipiscing suspendisse semper morbi. Odio urna massa nunc massa.",
-    icon: CloudArrowUpIcon,
+      "Empower your contributors with skill building courses designed for the modern world. With Andamio, skill development is continuous, ensuring your organization always stays ahead of the curve.",
+    icon: AcademicCapIcon,
   },
   {
-    name: "Trusted credentials",
+    name: "Enhanced Collaboration",
     description:
-      "Sit quis amet rutrum tellus ullamcorper ultricies libero dolor eget. Sem sodales gravida quam turpis enim lacus amet.",
-    icon: LockClosedIcon,
+      "Cultivate a deeply interconnected community where learning sparks collaboration and innovation. Strengthen the fabric of your organization through shared goals and collective achievements.",
+    icon: UsersIcon,
   },
   {
-    name: "Highly skilled",
+    name: "Maximize Impact",
     description:
-      "Quisque est vel vulputate cursus. Risus proin diam nunc commodo. Lobortis auctor congue commodo diam neque.",
-    icon: ArrowPathIcon,
+      "Connect your team’s newfound skills with real-world projects. Andamio pairs skill-based learning with contribution opportunities, enhancing your organizational impact.",
+    icon: LightbulbIcon,
   },
   {
-    name: "Create impact",
+    name: "Unlock Potential",
     description:
-      "Arcu egestas dolor vel iaculis in ipsum mauris. Tincidunt mattis aliquet hac quis. Id hac maecenas ac donec pharetra eget.",
-    icon: FingerPrintIcon,
+      "Andamio provides a platform for contributors to showcase and expand their abilities beyond conventional boundaries, bringing hidden talents to the forefront and amplifying organizational capabilities.",
+    icon: RocketLaunchIcon,
   },
 ];
 
@@ -40,12 +70,12 @@ export default function Features() {
           For organizations
         </h2>
         <p className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          Grow your company with skilled contributors
+          Expand and enhance your network of contributors.
         </p>
         <p className="mt-6 text-lg leading-8 text-gray-600">
-          Quis tellus eget adipiscing convallis sit sit eget aliquet quis.
-          Suspendisse eget egestas a elementum pulvinar et feugiat blandit at.
-          In mi viverra elit nunc.
+          Empower your contributors with valuable knowledge and essential
+          skills, and unlock doors to impactful opportunities for making a
+          difference.
         </p>
       </div>
       <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">

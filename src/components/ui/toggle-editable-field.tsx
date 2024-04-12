@@ -12,8 +12,6 @@ import {
 import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "~/utils/shadcn";
-import { Button } from "./button";
-import { Pencil1Icon } from "@radix-ui/react-icons";
 import FormEditButtons from "../form/form-edit-buttons";
 import FormEditableField from "../form/form-editable-field";
 
@@ -33,7 +31,7 @@ const inputVariants = cva(
         lg: "text-2xl text-foreground sm:w-[350px] md:w-[400px] lg:w-[450px] xl:w-[550px]",
         md: "text-md text-foreground",
         sm: "text-sm text-foreground",
-        slt: "text-md text-foreground sm:w-[350px] md:w-[400px] lg:w-[450px] xl:w-[550px]", //sm:w-[535px] md:w-[645px] lg:w-[735px] xl:w-[825px]
+        slt: "text-md text-foreground sm:w-[300px] md:w-[350px] lg:w-[400px] xl:w-[500px]", //sm:w-[535px] md:w-[645px] lg:w-[735px] xl:w-[825px]
       },
     },
     defaultVariants: {
@@ -119,7 +117,6 @@ const ToggleEditableField = React.forwardRef<
                   text={text}
                   setEditText={setEditText}
                 />
-
               </>
             )}
           </div>
@@ -142,15 +139,6 @@ const ToggleEditableField = React.forwardRef<
                       text={text}
                       setEditText={setEditText}
                     />
-                    {!editText && !hideButtons && (
-                      <Button
-                        onClick={() => setEditText(!editText)}
-                        size="icon"
-                        intent="ghost"
-                      >
-                        <Pencil1Icon width="18" height="18" />
-                      </Button>
-                    )}
                   </>
                 )}
               </div>

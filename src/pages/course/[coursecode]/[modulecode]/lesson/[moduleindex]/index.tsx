@@ -1,5 +1,7 @@
 import { NextPageContext } from "next";
+import useModuleByCourse from "~/hooks/useModuleByCourse";
 import PageCourseContent from "~/ui/course/[coursecode]/[modulecode]/lesson/[moduleindex]/PageCourseLessonContent";
+import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
 
 export default function Page({
   courseCode,
@@ -10,13 +12,24 @@ export default function Page({
   moduleCode: string;
   moduleIndex: string;
 }) {
-  return (
-    <PageCourseContent
-      courseCode={courseCode}
-      moduleCode={moduleCode}
-      moduleIndex={moduleIndex}
-    />
+  const { courseModule, isLoadingModule } = useModuleByCourse(
+    courseCode,
+    moduleCode,
   );
+
+  if (isLoadingModule) {
+    <LoadingCircle />;
+  }
+
+  if (courseModule) {
+    return (
+      <PageCourseContent
+        courseCode={courseCode}
+        courseModule={courseModule}
+        moduleIndex={moduleIndex}
+      />
+    );
+  }
 }
 
 Page.getInitialProps = async (ctx: NextPageContext) => {

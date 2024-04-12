@@ -29,7 +29,7 @@ const IntroductionStudioPage = ({
   }
 
   return (
-    <StudioLayout>
+    <>
       {!course ? (
         <CourseNotFoundMessage />
       ) : !courseModule ? (
@@ -37,7 +37,7 @@ const IntroductionStudioPage = ({
       ) : (
         <PageModuleIntroContent course={course} courseModule={courseModule} />
       )}
-    </StudioLayout>
+    </>
   );
 };
 

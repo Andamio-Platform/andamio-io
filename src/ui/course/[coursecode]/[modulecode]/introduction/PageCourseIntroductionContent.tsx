@@ -1,9 +1,11 @@
 import { Assignment, Slt } from "@prisma/client";
 import { AlertTriangle } from "lucide-react";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import { use, useEffect } from "react";
 import Editor from "~/components/Editor";
 import Loading from "~/components/loading";
+import VideoPlayer from "~/components/media/VideoPlayer";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { Card } from "~/components/ui/card";
 import useAssignment from "~/hooks/useAssignmentByCourseModule";
@@ -12,6 +14,7 @@ import useSLT from "~/hooks/useSLT";
 import useValidateCreator from "~/hooks/useValidateCreator";
 import { Introduction, Module, ModuleSLT } from "~/types/db";
 import CourseLayout from "~/ui/course/components/layout/CourseLayout";
+import ModuleLayout from "~/ui/course/components/layout/ModuleLayout";
 import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
 
 export default function PageCourseIntroductionContent({
@@ -23,7 +26,6 @@ export default function PageCourseIntroductionContent({
 }) {
   const { data: sessionData } = useSession();
 
-
   const { introduction, isLoadingIntro } = useIntroduction(courseModule.id);
 
   const { isCreator } = useValidateCreator(sessionData, courseCode);
@@ -34,34 +36,38 @@ export default function PageCourseIntroductionContent({
 
   return (
     <CourseLayout>
-      {introduction && introduction.live ? (
-        <div className="mx-auto flex max-w-3xl flex-col gap-4 text-base leading-7 text-foreground">
-          <Page
-            slts={courseModule.slts}
-            introduction={introduction}
-            moduleCode={courseModule.moduleCode}
-          />
-        </div>
-      ) : introduction && !introduction.live ? (
-        <div className="mx-auto flex max-w-3xl flex-col gap-4 text-base leading-7 text-foreground">
-          <Alert variant="warning">
-            <AlertTriangle className="h-4 w-4" />
-            <AlertTitle>introduction is not Live!</AlertTitle>
-            <AlertDescription>
-              Learners will not be able to see this introduction.
-            </AlertDescription>
-          </Alert>
-          {isCreator && (
+      <ModuleLayout courseCode={courseCode} courseModule={courseModule}>
+        {introduction && introduction.live ? (
+          <div className="mx-auto flex max-w-3xl flex-col gap-4 text-base leading-7 text-foreground">
             <Page
               slts={courseModule.slts}
               introduction={introduction}
               moduleCode={courseModule.moduleCode}
+              courseCode={courseCode}
             />
-          )}
-        </div>
-      ) : isLoadingIntro ? (
-        <Loading />
-      ) : null}
+          </div>
+        ) : introduction && !introduction.live ? (
+          <div className="mx-auto flex max-w-3xl flex-col gap-4 text-base leading-7 text-foreground">
+            <Alert variant="warning">
+              <AlertTriangle className="h-4 w-4" />
+              <AlertTitle>introduction is not Live!</AlertTitle>
+              <AlertDescription>
+                Learners will not be able to see this introduction.
+              </AlertDescription>
+            </Alert>
+            {isCreator && (
+              <Page
+                slts={courseModule.slts}
+                introduction={introduction}
+                moduleCode={courseModule.moduleCode}
+                courseCode={courseCode}
+              />
+            )}
+          </div>
+        ) : isLoadingIntro ? (
+          <Loading />
+        ) : null}
+      </ModuleLayout>
     </CourseLayout>
   );
 }
@@ -70,10 +76,12 @@ function Page({
   introduction,
   slts,
   moduleCode,
+  courseCode,
 }: {
   introduction: Introduction;
   slts: ModuleSLT[];
   moduleCode: string;
+  courseCode: string;
 }) {
   const editor = new Editor({
     editable: false,
@@ -87,30 +95,38 @@ function Page({
     editor.setContent(introduction.contentJson);
   }
 
-  return (
-    <>
-      <div>
-        <h1 className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          {introduction && introduction.title}
-        </h1>
-        <p className="pb-10 text-xl leading-8">
-          {introduction && introduction.description}
-        </p>
-        <div className="bg-accent px-3 pt-2 pb-1">
-          <h2>Student Learning Targets</h2>
-          {slts.map((slt) => (
-            <Card intent="slt" size="md" key={slt.id}>
-              <p>
-                {moduleCode}.{slt.moduleIndex}{" "}
-              </p>
-              <div key={slt.moduleIndex} className="col-span-5">
-                {slt.sltText}
-              </div>
-            </Card>
-          ))}
+  if (!!introduction) {
+    return (
+      <>
+        <div>
+          <h1 className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            {introduction.title}
+          </h1>
+          <p className="pb-10 text-xl leading-8">{introduction.description}</p>
+          {introduction.videoUrl && (
+            <VideoPlayer videoId={introduction.videoUrl} />
+          )}
+          <div className="bg-accent px-3 pb-1 pt-2 my-5 rounded-md shadow-lg">
+            <h2 className="py-3 text-xl font-bold">Student Learning Targets</h2>
+            {slts.map((slt, i) => (
+              <Link
+                key={i}
+                href={`/course/${courseCode}/${moduleCode}/lesson/${slt.moduleIndex}`}
+              >
+                <Card intent="slt" size="md" key={slt.id}>
+                  <p>
+                    {moduleCode}.{slt.moduleIndex}{" "}
+                  </p>
+                  <div key={slt.moduleIndex} className="col-span-5">
+                    {slt.sltText}
+                  </div>
+                </Card>
+              </Link>
+            ))}
+          </div>
         </div>
-      </div>
-      {introduction && introduction.contentJson && editor.render()}
-    </>
-  );
+        {introduction.contentJson && editor.render()}
+      </>
+    );
+  }
 }

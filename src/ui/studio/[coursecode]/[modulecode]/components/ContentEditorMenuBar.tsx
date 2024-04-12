@@ -19,23 +19,27 @@ export default function ContentEditorMenuBar({
   form,
   course,
   courseModule,
+  contentPath,
   onSubmit,
   setGetLessonPlanDialogOpen,
 }: {
   form: FieldValues;
   course: Course;
   courseModule: Module;
+  contentPath: string;
   onSubmit: () => void;
   setGetLessonPlanDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   if (!course) return;
+
+  const publishedLink = `/course/${course.courseCode}/${courseModule.moduleCode}/${contentPath}`;
 
   const handleCheckboxChange = (checked: boolean) => {
     form.setValue("live", checked);
     onSubmit();
   };
   return (
-    <Menubar className="rounded-none border-none bg-primary  text-primary-foreground shadow-none">
+    <Menubar className="rounded-none border-none bg-primary text-primary-foreground shadow-none">
       <MenubarMenu>
         <MenubarTrigger>File</MenubarTrigger>
         <MenubarContent>
@@ -61,7 +65,7 @@ export default function ContentEditorMenuBar({
                     checked={field.value}
                     onCheckedChange={handleCheckboxChange}
                   >
-                    Publish Lesson
+                    {field.value ? "Published" : "Publish Content"}
                   </MenubarCheckboxItem>
                 </FormControl>
               </FormItem>
@@ -69,12 +73,33 @@ export default function ContentEditorMenuBar({
           />
 
           <MenubarSeparator />
-          <MenubarItem>View Lesson as Learner</MenubarItem>
+          <MenubarItem>
+            <Link href={publishedLink}>
+
+            View as Learner
+            </Link>
+            </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
       <MenubarMenu>
-        <MenubarTrigger>Go To Lesson</MenubarTrigger>
+        <MenubarTrigger>Navigation</MenubarTrigger>
         <MenubarContent>
+          <MenubarItem>
+            <Link
+              href={`/studio/${course.courseCode}/${courseModule.moduleCode}/intro`}
+            >
+              Module {courseModule.moduleCode} Introduction
+            </Link>
+          </MenubarItem>
+          <MenubarItem>
+            <Link
+              href={`/studio/${course.courseCode}/${courseModule.moduleCode}/assignment/${courseModule.assignments[0]?.assignmentCode}`}
+            >
+              Assignment {courseModule.assignments[0]?.assignmentCode}
+            </Link>
+          </MenubarItem>
+          <MenubarSeparator />
+
           {courseModule.slts
             .sort((a, b) => a.moduleIndex - b.moduleIndex)
             .map((s) => (
@@ -86,6 +111,15 @@ export default function ContentEditorMenuBar({
                 </Link>
               </MenubarItem>
             ))}
+          <MenubarSeparator />
+          <MenubarItem>
+            {" "}
+            <Link
+              href={`/studio/${course.courseCode}`}
+            >
+              Course Page
+            </Link>
+          </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
       {/* <MenubarMenu>

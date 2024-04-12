@@ -1,4 +1,4 @@
-import { Course, Lesson, Module, ModuleSLT } from "~/types/db";
+import { Assignment, Course, Lesson, Module, ModuleSLT } from "~/types/db";
 import {
   Accordion,
   AccordionContent,
@@ -16,17 +16,6 @@ import {
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Textarea } from "~/components/ui/textarea";
-import Editor from "~/components/Editor";
-import { LightDarkToggle } from "~/ui/site/LightDarkToggle";
-import useLesson from "~/hooks/useLesson";
-import { api } from "~/utils/api";
-import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, FieldValues } from "react-hook-form";
-import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
-import LoadingContentEditor from "~/ui/studio/components/ContentEditor/ui/LoadingContentEditor";
 import Link from "next/link";
 import { Form, FormControl, FormField, FormItem } from "~/components/ui/form";
 import ControlPanel from "~/ui/studio/components/form-sections/ControlPanel";
@@ -35,22 +24,42 @@ import { Button } from "~/components/ui/button";
 import { ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons";
 import VideoLink from "~/ui/studio/components/form-sections/VideoLink";
 import { ToggleEditableField } from "~/components/ui/toggle-editable-field";
+import { FieldValues } from "react-hook-form";
+import FormTextArea from "~/components/form/form-textarea";
+import SltList from "~/ui/studio/components/assignment-dashboard/slt-list";
 
 export default function RightSection({
   form,
   course,
   courseModule,
   slt,
+  assignment,
 }: {
   form: FieldValues;
   course: Course;
   courseModule: Module;
   slt?: ModuleSLT;
+  assignment?: Assignment | undefined;
 }) {
   if (!course) return;
 
   return (
     <div className="my-5 mr-5 flex w-full flex-col gap-2 pr-5">
+      {assignment && (
+        <Accordion
+          type="single"
+          collapsible
+          className="w-full bg-background px-3"
+        >
+          <AccordionItem value="item-1">
+            <AccordionTrigger>Module SLTs</AccordionTrigger>
+            <AccordionContent>
+              <SltList courseModule={courseModule} assignment={assignment} />
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      )}
+
       <Accordion
         type="single"
         collapsible
@@ -67,9 +76,11 @@ export default function RightSection({
             </p>
             <div className="grid w-full items-center gap-4">
               <div className="flex flex-col space-y-1.5">
-                <Textarea
+                <FormTextArea
+                  name="description"
                   placeholder="A brief description"
                   className="min-h-[200px]"
+                  form={form}
                 />
               </div>
             </div>

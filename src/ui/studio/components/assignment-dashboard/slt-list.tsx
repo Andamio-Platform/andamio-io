@@ -2,17 +2,17 @@ import StatusDot from "~/components/ui/status-dot";
 import { Assignment, Module } from "~/types/db";
 
 export default function SltList({
-  module,
+  courseModule,
   assignment,
 }: {
-  module: Module;
+  courseModule: Module;
   assignment: Assignment;
 }) {
   if(!assignment) return
 
   const statuses:any = [];
 
-  const sortedSlts = module.slts.slice().sort((a, b) => a.moduleIndex - b.moduleIndex);
+  const sortedSlts = courseModule.slts.slice().sort((a, b) => a.moduleIndex - b.moduleIndex);
 
   sortedSlts.forEach((s) => {
     const assessed = assignment.slts.find((t) => t.id == s.id)
@@ -20,15 +20,15 @@ export default function SltList({
   })
 
   return (
-    <div className="col-span-4 rounded-md border border-secondary-foreground text-sm">
+    <div className="col-span-4 min-w-[250px] rounded-md border border-secondary-foreground text-sm">
       <div className="flex w-full flex-row justify-between rounded-t-md bg-primary px-3 py-1 text-primary-foreground">
-        <p>Learning Targets (Module {module.moduleCode})</p>
+        <p>Student Learning Targets</p>
       </div>
       <div className="px-2 py-1">
 
       {statuses.map((s: any) => (
         <p key={s.id} className="">
-          <StatusDot status={s.assessed ? "ASSESS" : "SUPPORT"} /> {module.moduleCode}.{s.moduleIndex}:{" "}
+          <StatusDot status={s.assessed ? "ASSESS" : "SUPPORT"} /> {courseModule.moduleCode}.{s.moduleIndex}:{" "}
           {s.sltText}
         </p>
       ))}

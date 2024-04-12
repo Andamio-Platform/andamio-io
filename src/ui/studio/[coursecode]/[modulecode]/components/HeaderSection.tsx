@@ -67,7 +67,7 @@ export default function HeaderSection({
 
   // Fix this one
   if (intent === "assignment") {
-    liveContentPath = `assignment`;
+    liveContentPath = `assignment/${courseModule.assignments[0]?.assignmentCode}`;
   }
 
   if (intent === "introduction") {
@@ -103,6 +103,7 @@ export default function HeaderSection({
           form={form}
           course={course}
           courseModule={courseModule}
+          contentPath={liveContentPath}
           onSubmit={onSubmit}
           setGetLessonPlanDialogOpen={setGetLessonPlanDialogOpen}
         />

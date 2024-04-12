@@ -22,17 +22,6 @@ export default function FormEditButtons({
               height="22"
             />
           </Button>
-          <Button
-            size="icon"
-            intent="ghost"
-            onClick={() => setEditText(false)}
-          >
-            <CrossCircledIcon
-              className="rounded-full bg-warning text-primary-foreground"
-              width="22"
-              height="22"
-            />
-          </Button>
         </div>
       )}
     </>

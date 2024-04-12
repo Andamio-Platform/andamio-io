@@ -24,6 +24,7 @@ import LoadingContentEditor from "~/ui/studio/components/ContentEditor/ui/Loadin
 import { DialogGetLessonPlan } from "../components/coach/DialogGetLessonPlan";
 import { useCourseStore } from "~/lib/zustand/course";
 import { LightDarkToggle } from "~/ui/site/LightDarkToggle";
+import useAssignmentByCourseModule from "~/hooks/useAssignmentByCourseModule";
 
 export default function PageModuleIntroContent({
   course,
@@ -41,6 +42,7 @@ export default function PageModuleIntroContent({
   const { introduction, isLoadingIntro, refetchIntro } = useIntroduction(
     courseModule.id,
   );
+  const { assignment } = useAssignmentByCourseModule(course.courseCode, courseModule.moduleCode)
   const [editIntroduction, setEditIntroduction] = useState<boolean>(false);
   const [isCreatingIntroduction, setIsCreatingIntroduction] = useState(false);
 
@@ -241,7 +243,7 @@ export default function PageModuleIntroContent({
               onCancel={() => onCancel}
               onSubmit={form.handleSubmit(onSubmit)}
               courseContent={introduction}
-              intent="assignment"
+              intent="introduction"
               setGetLessonPlanDialogOpen={setGetLessonPlanDialogOpen}
             />
 
@@ -262,6 +264,7 @@ export default function PageModuleIntroContent({
                     form={form}
                     course={course}
                     courseModule={courseModule}
+                    assignment={assignment}
                   />
                 </ResizablePanel>
               </ResizablePanelGroup>

@@ -56,6 +56,8 @@ export default function ModuleContainer({
     currentModule.id,
   );
 
+  console.log("Check501")
+
   const { slts, isLoadingSLTs, isFetchedSLTs } = useSLTs(
     course.courseCode,
     currentModule.moduleCode,

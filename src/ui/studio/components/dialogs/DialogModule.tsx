@@ -231,6 +231,9 @@ export default function DialogModule({
             ? `Editing ${currentCourseModule?.title}`
             : "Create a new module"
         }
+        description={currentCourseModule
+          ? "You are editing a module. Make changes and click 'Save'."
+          : "Create a new module by filling in the details below."}
         buttonLabel={currentCourseModule ? "Save" : "Create"}
         buttonLoading={isLoadingCreate || isLoadingUpdate}
         buttonDisabled={isLoadingCreate || isLoadingUpdate}
@@ -238,11 +241,6 @@ export default function DialogModule({
         isOpen={moduleDialogOpen}
         setIsOpen={setModuleDialogOpen}
       >
-        <p>
-          {currentCourseModule
-            ? "You are editing a module. Make changes and click 'Save'."
-            : "Create a new module by filling in the details below."}
-        </p>
 
         <div className="mt-4 grid grid-cols-1 gap-y-4">
           <FormInput name="title" label="Module Title" form={form} />

@@ -1,4 +1,4 @@
-import { Course, Lesson, Module, ModuleSLT } from "~/types/db";
+import { Assignment, Course, Lesson, Module, ModuleSLT } from "~/types/db";
 import {
   Accordion,
   AccordionContent,
@@ -26,22 +26,40 @@ import VideoLink from "~/ui/studio/components/form-sections/VideoLink";
 import { ToggleEditableField } from "~/components/ui/toggle-editable-field";
 import { FieldValues } from "react-hook-form";
 import FormTextArea from "~/components/form/form-textarea";
+import SltList from "~/ui/studio/components/assignment-dashboard/slt-list";
 
 export default function RightSection({
   form,
   course,
   courseModule,
   slt,
+  assignment,
 }: {
   form: FieldValues;
   course: Course;
   courseModule: Module;
   slt?: ModuleSLT;
+  assignment?: Assignment | undefined;
 }) {
   if (!course) return;
 
   return (
     <div className="my-5 mr-5 flex w-full flex-col gap-2 pr-5">
+      {assignment && (
+        <Accordion
+          type="single"
+          collapsible
+          className="w-full bg-background px-3"
+        >
+          <AccordionItem value="item-1">
+            <AccordionTrigger>Module SLTs</AccordionTrigger>
+            <AccordionContent>
+              <SltList courseModule={courseModule} assignment={assignment} />
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      )}
+
       <Accordion
         type="single"
         collapsible

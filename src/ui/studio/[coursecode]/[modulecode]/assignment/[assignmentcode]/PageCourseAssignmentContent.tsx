@@ -212,6 +212,7 @@ export default function PageCourseAssignmentContent({
                   form={form}
                   course={course}
                   courseModule={courseModule}
+                  assignment={assignment}
                 />
               </ResizablePanel>
             </ResizablePanelGroup>

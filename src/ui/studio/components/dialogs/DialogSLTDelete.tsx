@@ -39,7 +39,7 @@ export default function DialogSLTDelete({
         if (errorMessage) {
           toast.error("Some SLT inputs are missing or invalid");
         } else {
-          toast.error("That did not work. Please try again.");
+          toast.error(e.message ?? "Cannot delete SLT");
         }
       },
     });

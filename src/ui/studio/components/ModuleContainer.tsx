@@ -24,6 +24,8 @@ import Link from "next/link";
 import DialogModule from "./dialogs/DialogModule";
 import IntroductionContainer from "./IntroductionContainer";
 import useSLTs from "~/hooks/useSLTs";
+import LoadingContentEditor from "./ContentEditor/ui/LoadingContentEditor";
+import LoadingCard from "./LoadingCard";
 
 type sltI = { slt: ModuleSLT; sltIndex: number; id: string };
 
@@ -37,7 +39,6 @@ export default function ModuleContainer({
   // variants?: ModuleVariant[];
 }) {
   if (!course) return;
-
 
   const ctx = api.useUtils();
 
@@ -55,8 +56,6 @@ export default function ModuleContainer({
   const { assignment, isLoadingAssignment } = useAssignmentByModule(
     currentModule.id,
   );
-
-  console.log("Check501")
 
   const { slts, isLoadingSLTs, isFetchedSLTs } = useSLTs(
     course.courseCode,
@@ -114,8 +113,8 @@ export default function ModuleContainer({
         });
         void ctx.slt.getModuleSLTs.invalidate({
           courseCode: course.courseCode,
-          moduleCode: currentModule.moduleCode
-        })
+          moduleCode: currentModule.moduleCode,
+        });
       },
       onError: (e) => {
         const errorMessage = e.data?.zodError?.fieldErrors;
@@ -150,6 +149,10 @@ export default function ModuleContainer({
     });
 
     updateSltIndexes(_updateSlts);
+  }
+
+  if(isLoadingSLTs) {
+    return <LoadingCard>Loading SLTs</LoadingCard>
   }
 
   return (

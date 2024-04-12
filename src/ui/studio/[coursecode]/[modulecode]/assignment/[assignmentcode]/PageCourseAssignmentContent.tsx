@@ -92,11 +92,13 @@ export default function PageCourseAssignmentContent({
     const _assignment = {
       id: assignment.id,
       title: data.title,
+      assignmentCode: assignment.assignmentCode,
       description: data.description ?? "",
       imageUrl: assignment.imageUrl ?? "",
       videoUrl: data.videoUrl ?? "",
       contentJson: editor.getJSON(),
       live: data.live,
+      sltIds: assignment.slts.map((s) => s.id)
     };
     update(_assignment);
   }

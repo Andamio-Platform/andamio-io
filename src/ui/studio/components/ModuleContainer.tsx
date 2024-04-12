@@ -151,8 +151,8 @@ export default function ModuleContainer({
     updateSltIndexes(_updateSlts);
   }
 
-  if(isLoadingSLTs) {
-    return <LoadingCard>Loading SLTs</LoadingCard>
+  if (isLoadingSLTs) {
+    return <LoadingCard>Loading SLTs</LoadingCard>;
   }
 
   return (
@@ -221,20 +221,20 @@ export default function ModuleContainer({
                 currentModule={currentModule}
               />
 
-              {assignment ? (
+              {assignment && (
                 <Link
                   href={`/studio/${course.courseCode}/${currentModule.moduleCode}/assignment/${assignment.assignmentCode}`}
                 >
                   <AssignmentContainer assignment={assignment} />
                 </Link>
-              ) : (
-                <DialogAssignment
-                  assignmentDialogOpen={assignmentDialogOpen}
-                  setAssignmentDialogOpen={setAssignmentDialogOpen}
-                  courseCode={course.courseCode}
-                  module={currentModule}
-                />
               )}
+              <DialogAssignment
+                assignmentDialogOpen={assignmentDialogOpen}
+                setAssignmentDialogOpen={setAssignmentDialogOpen}
+                courseCode={course.courseCode}
+                courseModule={currentModule}
+                assignment={assignment}
+              />
             </div>
           </>
         </AccordionContent>

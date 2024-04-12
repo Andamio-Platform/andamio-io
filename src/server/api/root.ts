@@ -11,6 +11,7 @@ import { assignmentRouter } from "./routers/assignment";
 import { creatorRouter } from "./routers/creator";
 import { learnerRouter } from "./routers/learner";
 import { introductionRouter } from "./routers/introduction";
+import { clientDomainsRouter } from "./routers/clients-domain";
 
 /**
  * This is the primary router for your server.
@@ -30,7 +31,9 @@ export const appRouter = createTRPCRouter({
   slt: sltRouter,
   lesson: lessonRouter,
   assignment: assignmentRouter,
-  introduction: introductionRouter
+  introduction: introductionRouter,
+
+  clientDomains: clientDomainsRouter,
 });
 
 // export type definition of API

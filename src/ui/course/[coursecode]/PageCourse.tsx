@@ -1,4 +1,4 @@
-import { RouterOutputs, api } from "~/utils/api";
+import { api } from "~/utils/api";
 import Loading from "~/components/loading";
 import VideoPlayer from "~/components/media/VideoPlayer";
 import { Button } from "~/components/ui/button";
@@ -18,18 +18,28 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "~/components/ui/accordion";
-import { Card } from "~/components/ui/card";
+import useCourseById from "~/hooks/useCourseById";
 
-export default function PageCourse({ courseCode }: { courseCode: string }) {
+export default function PageCourse({
+  courseCode,
+  courseId
+}: {
+  courseCode?: string;
+  courseId?: string;
+}) {
   const { data: sessionData } = useSession();
 
-  const { course, isLoadingCourse } = useCourse(courseCode);
+  const { course: courseById, isLoadingCourse: isLoadingCourseById } = useCourseById(courseId);
+  const { course: courseByCode, isLoadingCourse: isLoadingCourseByCode } = useCourse(courseCode);
+  
+  const course = courseById || courseByCode;
+
   const { listCourseVariant, setSelectedVariantName, selectedCourseVariant } =
     useCourseVariants(course?.id);
 
   const setCourseVariant = useCourseStore((state) => state.setCourseVariant);
 
-  if (course === null && isLoadingCourse) {
+  if (course === null) {
     return <Loading />;
   }
 
@@ -74,7 +84,7 @@ export default function PageCourse({ courseCode }: { courseCode: string }) {
           <div>
             <h1 className="mt-10 text-[1.5rem] font-bold">Course Outline</h1>
             <ListModules
-              courseCode={courseCode}
+              courseCode={_course.courseCode}
               _courseVariant={_courseVariant}
             />
           </div>
@@ -139,17 +149,17 @@ function ListModules({
   if (courseModules == undefined) return <></>;
 
   return (
-      <>
-        {isLoadingCourseModules && <Loading />}
-        {courseModules.sort(sortBy).map((module, i) => (
-          <ModuleContainer
-            key={i}
-            module={module}
-            courseCode={courseCode}
-            _courseVariant={_courseVariant}
-          />
-        ))}
-      </>
+    <>
+      {isLoadingCourseModules && <Loading />}
+      {courseModules.sort(sortBy).map((module, i) => (
+        <ModuleContainer
+          key={i}
+          module={module}
+          courseCode={courseCode}
+          _courseVariant={_courseVariant}
+        />
+      ))}
+    </>
   );
 }
 
@@ -204,7 +214,9 @@ function ModuleContainer({
               </div>
             </div>
           </span>
-          <Link href={`/course/${courseCode}/${_module.moduleCode}`}><span className="hover:text-warning">Start Module</span></Link>
+          <Link href={`/course/${courseCode}/${_module.moduleCode}`}>
+            <span className="hover:text-warning">Start Module</span>
+          </Link>
         </AccordionTrigger>
         <div className="mb-5 mt-2">
           {_module.slts.map((slt, i) => (
@@ -220,12 +232,8 @@ function ModuleContainer({
                     {_module.moduleCode}.{slt.moduleIndex}
                   </span>
                   <CircleIcon />
-                  <span className="text-base">
-                  {slt.sltText}
-
-                  </span>
+                  <span className="text-base">{slt.sltText}</span>
                 </div>
-                
               </Link>
             </AccordionContent>
           ))}

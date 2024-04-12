@@ -241,7 +241,7 @@ export default function PageModuleIntroContent({
               onCancel={() => onCancel}
               onSubmit={form.handleSubmit(onSubmit)}
               courseContent={introduction}
-              intent="assignment"
+              intent="introduction"
               setGetLessonPlanDialogOpen={setGetLessonPlanDialogOpen}
             />
 

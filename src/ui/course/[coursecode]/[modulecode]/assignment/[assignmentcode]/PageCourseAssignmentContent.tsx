@@ -3,6 +3,7 @@ import { AlertTriangle } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Editor from "~/components/Editor";
 import Loading from "~/components/loading";
+import VideoPlayer from "~/components/media/VideoPlayer";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import useAssignmentByCourseModule from "~/hooks/useAssignmentByCourseModule";
 import useValidateCreator from "~/hooks/useValidateCreator";
@@ -64,7 +65,7 @@ function Page(assignment: { slts: Slt[] } & Assignment) {
   return (
     <>
       <div>
-        {assignment.slts.map((slt) => (
+        {assignment.slts.slice().sort((a, b) => a.moduleIndex - b.moduleIndex).map((slt) => (
           <p
             key={slt.moduleIndex}
             className="text-base font-semibold leading-7 text-accent-foreground"
@@ -76,6 +77,7 @@ function Page(assignment: { slts: Slt[] } & Assignment) {
           {assignment.title}
         </h1>
         <p className="text-xl leading-8">{assignment.description}</p>
+        {assignment.videoUrl && <VideoPlayer videoId={assignment.videoUrl} />}
       </div>
       {assignment.contentJson && editor.render()}
     </>

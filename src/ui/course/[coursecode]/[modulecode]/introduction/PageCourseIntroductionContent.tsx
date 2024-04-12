@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import { use, useEffect } from "react";
 import Editor from "~/components/Editor";
 import Loading from "~/components/loading";
+import VideoPlayer from "~/components/media/VideoPlayer";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { Card } from "~/components/ui/card";
 import useAssignment from "~/hooks/useAssignmentByCourseModule";
@@ -22,7 +23,6 @@ export default function PageCourseIntroductionContent({
   courseModule: Module;
 }) {
   const { data: sessionData } = useSession();
-
 
   const { introduction, isLoadingIntro } = useIntroduction(courseModule.id);
 
@@ -87,30 +87,33 @@ function Page({
     editor.setContent(introduction.contentJson);
   }
 
-  return (
-    <>
-      <div>
-        <h1 className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          {introduction && introduction.title}
-        </h1>
-        <p className="pb-10 text-xl leading-8">
-          {introduction && introduction.description}
-        </p>
-        <div className="bg-accent px-3 pt-2 pb-1">
-          <h2>Student Learning Targets</h2>
-          {slts.map((slt) => (
-            <Card intent="slt" size="md" key={slt.id}>
-              <p>
-                {moduleCode}.{slt.moduleIndex}{" "}
-              </p>
-              <div key={slt.moduleIndex} className="col-span-5">
-                {slt.sltText}
-              </div>
-            </Card>
-          ))}
+  if (!!introduction) {
+    return (
+      <>
+        <div>
+          <h1 className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            {introduction.title}
+          </h1>
+          <p className="pb-10 text-xl leading-8">
+            {introduction.description}
+          </p>
+          {introduction.videoUrl && <VideoPlayer videoId={introduction.videoUrl} />}
+          <div className="bg-accent px-3 pb-1 pt-2">
+            <h2>Student Learning Targets</h2>
+            {slts.map((slt) => (
+              <Card intent="slt" size="md" key={slt.id}>
+                <p>
+                  {moduleCode}.{slt.moduleIndex}{" "}
+                </p>
+                <div key={slt.moduleIndex} className="col-span-5">
+                  {slt.sltText}
+                </div>
+              </Card>
+            ))}
+          </div>
         </div>
-      </div>
-      {introduction && introduction.contentJson && editor.render()}
-    </>
-  );
+        {introduction.contentJson && editor.render()}
+      </>
+    );
+  }
 }

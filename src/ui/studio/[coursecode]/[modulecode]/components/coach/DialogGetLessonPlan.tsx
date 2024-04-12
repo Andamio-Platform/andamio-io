@@ -33,13 +33,27 @@ export function DialogGetLessonPlan({
     const resLessonPlan = await axios.post(`/api/ai/get-lesson-plan`, {
       slt: slt.sltText,
     });
-    setResult(resLessonPlan.data.data);
+    // console.log("resLessonPlan", resLessonPlan.data);
+    setResult(resLessonPlan.data.data.final_output);
     setLoading(false);
   }
 
   async function addToLesson() {
     if (result) {
-      setUpdateLessonEdit(result);
+      const toUpdateLessonEditor = [];
+
+      for (const _newData of result.split("\n")) {
+        const _newRow = {
+          attrs: {
+            level: 1,
+          },
+          content: [{ type: "text", text: _newData }],
+          type: "heading",
+        };
+        toUpdateLessonEditor.push(_newRow);
+      }
+
+      setUpdateLessonEdit(toUpdateLessonEditor);
       setOpen(false);
     }
   }

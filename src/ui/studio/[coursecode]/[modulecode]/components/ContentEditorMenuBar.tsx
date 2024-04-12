@@ -104,20 +104,20 @@ export default function ContentEditorMenuBar({
               </MenubarContent>
             </MenubarMenu> */}
 
-<MenubarMenu>
-            <MenubarTrigger>Andamio AI</MenubarTrigger>
-            <MenubarContent>
-              <MenubarItem onClick={() => setGetLessonPlanDialogOpen(true)}>
-                Get lesson plan
-              </MenubarItem>
-            </MenubarContent>
-          </MenubarMenu>
+      <MenubarMenu>
+        <MenubarTrigger>Andamio AI</MenubarTrigger>
+        <MenubarContent>
+          <MenubarItem onClick={() => setGetLessonPlanDialogOpen(true)}>
+            Get lesson plan
+          </MenubarItem>
+        </MenubarContent>
+      </MenubarMenu>
       <MenubarMenu>
         <MenubarTrigger>
           <Link href={`/studio/${course.courseCode}`}>Back to Course Page</Link>
         </MenubarTrigger>
         <MenubarContent>
-            <MenubarItem>Help</MenubarItem>
+          <MenubarItem>Help</MenubarItem>
         </MenubarContent>
       </MenubarMenu>
     </Menubar>

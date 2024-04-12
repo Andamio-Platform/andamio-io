@@ -117,6 +117,7 @@ export function RowSLT({
         toast.success("Student Learning Target updated!");
         setEditSltText(false);
         void ctx.slt.getModuleSLTs.invalidate({
+          courseCode: courseCode,
           moduleCode: module.moduleCode,
         });
         void ctx.module.getCourseModules.invalidate({

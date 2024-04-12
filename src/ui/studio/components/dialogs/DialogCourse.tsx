@@ -105,7 +105,7 @@ export default function DialogCourse({ course }: { course?: Course }) {
   }, [course]);
 
   useEffect(() => {
-    if(!course) {
+    if (!course) {
       const courseTitle = form.getValues("title");
       const abbrev = getFirstLetters(courseTitle);
       form.setValue("courseCode", abbrev + "2024");
@@ -118,6 +118,11 @@ export default function DialogCourse({ course }: { course?: Course }) {
         openButton={course ? "Edit Course" : "Make a Course"}
         openButtonIntent="dialog"
         title={course ? `Editing ${course.title}` : "Create a new course"}
+        description={
+          course
+            ? "You are editing an existing course. Make changes and click 'Save'."
+            : "To create a new course, give it a title and a unique Course Code. You can change the title and all other details later."
+        }
         buttonLabel={course ? "Save" : "Create"}
         buttonLoading={isLoadingCreate || isLoadingUpdate}
         buttonDisabled={isLoadingCreate || isLoadingUpdate}
@@ -125,12 +130,6 @@ export default function DialogCourse({ course }: { course?: Course }) {
         isOpen={isOpen}
         setIsOpen={setIsOpen}
       >
-        <p>
-          {course
-            ? "You are editing an existing course. Make changes and click 'Save'."
-            : "To create a new course, give it a title and a unique Course Code. You can change the title and all other details later."}
-        </p>
-
         <div className="mt-4 grid grid-cols-1 gap-4">
           <FormInput
             name="title"

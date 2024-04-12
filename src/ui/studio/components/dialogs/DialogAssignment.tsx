@@ -42,6 +42,7 @@ export default function DialogAssignment({
         toast.success("Assignment created!");
         const _module = courseModules?.find((c) => c.id === data.moduleId);
         void ctx.slt.getModuleSLTs.invalidate({
+          courseCode: courseCode,
           moduleCode: _module?.moduleCode,
         });
         void ctx.module.getCourseModules.invalidate({
@@ -104,6 +105,7 @@ export default function DialogAssignment({
             openButton="Add Assignment"
             openButtonIntent="dialog"
             title="Create a new Assignment"
+            description={`Adding Assignment to Module ${module.moduleCode}`}
             buttonLabel="Create"
             buttonLoading={isLoadingAssignmentCreate}
             buttonDisabled={isLoadingAssignmentCreate}
@@ -111,8 +113,6 @@ export default function DialogAssignment({
             isOpen={assignmentDialogOpen}
             setIsOpen={setAssignmentDialogOpen}
           >
-            <p>Adding Assignment to Module {module.moduleCode}</p>
-
             <div className="mt-4 grid grid-cols-1 gap-y-4">
               <FormInput
                 name="assignmentTitle"

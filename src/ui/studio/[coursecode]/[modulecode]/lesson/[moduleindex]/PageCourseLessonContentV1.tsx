@@ -69,6 +69,7 @@ export default function PageCourseLessonContent({
         toast.success("Lesson Created: Ready to Write?");
         await refetchLesson();
         void ctx.slt.getModuleSLTs.invalidate({
+          courseCode: courseCode,
           moduleCode: moduleCode,
         });
         void ctx.module.getCourseModules.invalidate({

@@ -34,7 +34,7 @@ export default function PageModuleIntroContent({
 }) {
   const ctx = api.useUtils();
 
-  if (!course) return;
+  if (!course) return null;
 
   const courseCode = course.courseCode;
   const moduleCode = courseModule.moduleCode;
@@ -86,7 +86,7 @@ export default function PageModuleIntroContent({
     });
 
   const handleCreateIntro = () => {
-    if (module) {
+    if (courseModule) {
       const _intro = {
         moduleId: courseModule.id,
         title: `Introduction to Module ${courseModule.moduleCode}`,
@@ -117,6 +117,11 @@ export default function PageModuleIntroContent({
     },
   });
 
+  const editor = new Editor({
+    //@ts-expect-error todo how to fix this
+    initialContent: introduction?.contentJson,
+  });
+
   function onSubmit(data: z.infer<typeof FormSchema>) {
     if (!introduction) return;
 
@@ -143,15 +148,8 @@ export default function PageModuleIntroContent({
     }
   }
 
-  const editor = new Editor({
-    //@ts-expect-error todo how to fix this
-    initialContent: introduction?.contentJson,
-  });
-
   useEffect(() => {
-    if (editor.isFocused()) {
-      setEditIntroduction(true);
-    }
+    setEditIntroduction(true);
   }, [editor.isFocused()]);
 
   useEffect(() => {
@@ -185,6 +183,32 @@ export default function PageModuleIntroContent({
     }
   }, [editIntroduction]);
 
+  /**
+   * START OF
+   * andamio coach - get lesson plan
+   */
+
+  const updateLessonEdit = useCourseStore((state) => state.updateLessonEdit);
+  const [getLessonPlanDialogOpen, setGetLessonPlanDialogOpen] = useState(false);
+
+  useEffect(() => {
+    if (updateLessonEdit && !!editor) {
+      const _json = editor.getJSON();
+      if (_json && _json.content) {
+        for (const _newData of updateLessonEdit) {
+          _json.content.push(_newData);
+        }
+
+        editor.setContent(_json.content);
+      }
+    }
+  }, [updateLessonEdit]);
+
+  /**
+   * END OF
+   * andamio coach - get lesson plan
+   */
+
   if (isLoadingIntro) {
     return <LoadingCircle />;
   }
@@ -202,35 +226,9 @@ export default function PageModuleIntroContent({
     }
   }
 
-  /**
-   * START OF
-   * andamio coach - get lesson plan
-   */
-
-  const updateLessonEdit = useCourseStore((state) => state.updateLessonEdit);
-  const [getLessonPlanDialogOpen, setGetLessonPlanDialogOpen] = useState(false);
-
-  useEffect(() => {
-    if (updateLessonEdit && editor) {
-      const _json = editor.getJSON();
-      if (_json && _json.content) {
-        for (const _newData of updateLessonEdit) {
-          _json.content.push(_newData);
-        }
-
-        editor.setContent(_json.content);
-      }
-    }
-  }, [updateLessonEdit]);
-
-  /**
-   * END OF
-   * andamio coach - get lesson plan
-   */
-
   if (introduction) {
     return (
-      <StudioLayout>
+      <>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <HeaderSection
@@ -240,7 +238,7 @@ export default function PageModuleIntroContent({
               editContent={editIntroduction}
               setEditContent={setEditIntroduction}
               isLoadingUpdate={isLoadingUpdate}
-              onCancel={onCancel}
+              onCancel={() => onCancel}
               onSubmit={form.handleSubmit(onSubmit)}
               courseContent={introduction}
               intent="assignment"
@@ -271,7 +269,7 @@ export default function PageModuleIntroContent({
           </form>
         </Form>
         <LightDarkToggle />
-      </StudioLayout>
+      </>
     );
   }
 }

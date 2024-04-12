@@ -54,7 +54,7 @@ export const sltRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       if (!ctx.session.user.creatorId) {
-        throw new Error('User does not have Creator role.');
+        throw new Error("User does not have Creator role.");
       }
 
       return ctx.db.slt.create({
@@ -148,10 +148,31 @@ export const sltRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.slt.delete({
+      const assignmentCount = await ctx.db.assignment.count({
         where: {
-          id: input.id,
+          slts: {
+            some: {
+              id: input.id
+            }
+          }
         },
       });
+
+      if (assignmentCount > 0) {
+        throw new Error("Cannot delete this SLT because it is already used in an Assignment")
+      }
+
+      return ctx.db.$transaction([
+        ctx.db.lesson.deleteMany({
+          where: {
+            sltId: input.id,
+          },
+        }),
+        ctx.db.slt.deleteMany({
+          where: {
+            id: input.id,
+          },
+        }),
+      ]);
     }),
 });

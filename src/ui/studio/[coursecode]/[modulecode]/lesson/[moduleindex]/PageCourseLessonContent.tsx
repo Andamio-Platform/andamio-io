@@ -57,6 +57,7 @@ export default function PageCourseLessonContent({
         toast.success("Lesson Created: Ready to Write?");
         await refetchLesson();
         void ctx.slt.getModuleSLTs.invalidate({
+          courseCode: courseCode,
           moduleCode: moduleCode,
         });
         void ctx.module.getCourseModules.invalidate({
@@ -203,15 +204,6 @@ export default function PageCourseLessonContent({
     }
   }, [editLesson]);
 
-  if (lesson === undefined || lesson === null) {
-    if (isLoadingCreate) {
-      return <LoadingContentEditor>Building a Lesson</LoadingContentEditor>;
-    } else if (!isCreatingLesson && !isLoadingLesson) {
-      setIsCreatingLesson(true);
-      handleCreateLesson();
-    }
-  }
-
   /**
    * START OF
    * andamio coach - get lesson plan
@@ -236,6 +228,15 @@ export default function PageCourseLessonContent({
    * END OF
    * andamio coach - get lesson plan
    */
+
+  if (lesson === undefined || lesson === null) {
+    if (isLoadingCreate) {
+      return <LoadingContentEditor>Building a Lesson</LoadingContentEditor>;
+    } else if (!isCreatingLesson && !isLoadingLesson) {
+      setIsCreatingLesson(true);
+      handleCreateLesson();
+    }
+  }
 
   if (lesson) {
     return (

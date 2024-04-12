@@ -28,7 +28,7 @@ export default function Hero() {
               ties and onboard skilled contributors.
             </p>
             <p className="mt-6 text-lg leading-8 ">
-              v0.1.7
+              v0.1.8
 
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">

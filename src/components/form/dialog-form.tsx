@@ -14,6 +14,7 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function DialogForm({
   children,
@@ -48,7 +49,10 @@ export default function DialogForm({
       <DialogTrigger onClick={() => setIsOpen(true)} asChild>
         {/* PICK UP HERE */}
         {hasIconButton ? (
-          <GearIcon width="18" height="18" />
+          <div className="flex flex-row gap-1 text-xs">
+            <GearIcon width="18" height="18" />
+            <p>Settings</p>
+          </div>
         ) : (
           <Button intent={openButtonIntent} size="dialog" className="mx-auto">
             {openButton}
@@ -63,11 +67,7 @@ export default function DialogForm({
         <form onSubmit={handleSubmit}>
           {children}
           <div className="mt-5 gap-2 sm:mt-4 sm:flex">
-            <Button
-              type="submit"
-              disabled={buttonDisabled}
-              intent="default"
-            >
+            <Button type="submit" disabled={buttonDisabled} intent="default">
               {buttonLoading ? (
                 <SymbolIcon className="h-5 w-5 animate-spin" />
               ) : (

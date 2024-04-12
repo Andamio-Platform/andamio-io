@@ -174,7 +174,7 @@ export function RowSLT({
               {module.moduleCode}.{slt.moduleIndex}
             </p>
           </div>
-          <div className="col-span-9 flex w-full items-center">
+          <div className="col-span-8 flex w-full items-center">
             <ToggleEditableField
               name="sltText"
               form={form}
@@ -187,12 +187,14 @@ export function RowSLT({
             />
           </div>
 
-          <div className="col-span-2 col-start-11 flex items-center justify-between px-8">
+          <div className="col-span-3 col-start-10 flex items-center justify-between px-8">
             <Button intent="ghost" size="icon">
               <Link
                 href={`/studio/${courseCode}/${module.moduleCode}/lesson/${slt.moduleIndex}`}
+                className="flex flex-row gap-1 text-xs"
               >
                 <FileIcon width="18" height="18" />
+                <p>Lesson</p>
               </Link>
             </Button>
             <DialogSLTDelete

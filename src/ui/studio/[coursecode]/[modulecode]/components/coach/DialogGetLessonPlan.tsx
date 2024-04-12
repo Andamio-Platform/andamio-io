@@ -12,6 +12,7 @@ import axios from "axios";
 import { ModuleSLT } from "~/types/db";
 import { useCourseStore } from "~/lib/zustand/course";
 import { Loader2 } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 export function DialogGetLessonPlan({
   open,
@@ -22,6 +23,8 @@ export function DialogGetLessonPlan({
   setOpen: (open: boolean) => void;
   slt: ModuleSLT;
 }) {
+  const { data: sessionData } = useSession();
+
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<undefined | string>(undefined);
   const setUpdateLessonEdit = useCourseStore(
@@ -30,16 +33,34 @@ export function DialogGetLessonPlan({
 
   async function fetchLessonPlan() {
     setLoading(true);
-    const resLessonPlan = await axios.post(`/api/ai/get-lesson-plan`, {
-      slt: slt.sltText,
-    });
-    setResult(resLessonPlan.data.data);
+
+    if (sessionData) {
+      const resLessonPlan = await axios.post(`/api/ai/get-lesson-plan`, {
+        slt: slt.sltText,
+        userId: sessionData.user.id,
+      });
+      // console.log("resLessonPlan", resLessonPlan.data);
+      setResult(resLessonPlan.data.data.final_output);
+    }
     setLoading(false);
   }
 
   async function addToLesson() {
     if (result) {
-      setUpdateLessonEdit(result);
+      const toUpdateLessonEditor = [];
+
+      for (const _newData of result.split("\n")) {
+        const _newRow = {
+          attrs: {
+            level: 1,
+          },
+          content: [{ type: "text", text: _newData }],
+          type: "heading",
+        };
+        toUpdateLessonEditor.push(_newRow);
+      }
+
+      setUpdateLessonEdit(toUpdateLessonEditor);
       setOpen(false);
     }
   }
@@ -52,7 +73,9 @@ export function DialogGetLessonPlan({
           <DialogDescription>{slt.sltText}</DialogDescription>
         </DialogHeader>
 
-        {result && <pre>{result}</pre>}
+        {result &&
+          result.split("\n").map((line, index) => <p key={index}>{line}</p>)}
+
         <DialogFooter>
           {result ? (
             <Button onClick={() => addToLesson()} disabled={loading}>

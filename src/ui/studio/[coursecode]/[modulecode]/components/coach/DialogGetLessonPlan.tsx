@@ -23,9 +23,7 @@ export function DialogGetLessonPlan({
   slt: ModuleSLT;
 }) {
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<undefined | string>(
-    `1. When assembling a crew, you combine agents with complementary roles and tools, assign tasks, and select a process that dictates their execution order and interaction.\n2.Crews can utilize memory (short-term, long-term, and entity memory) to enhance their execution and learning over time. This feature allows crews to store and recall execution memories, aiding in decision-making and task execution strategies.\n3. After the crew execution, you can access the usage_metrics attribute to view the language model (LLM) usage metrics for all tasks executed by the crew. This provides insights into operational efficiency and areas for improvement.`,
-  );
+  const [result, setResult] = useState<undefined | string>(undefined);
   const setUpdateLessonEdit = useCourseStore(
     (state) => state.setUpdateLessonEdit,
   );
@@ -72,9 +70,6 @@ export function DialogGetLessonPlan({
           result.split("\n").map((line, index) => <p key={index}>{line}</p>)}
 
         <DialogFooter>
-          <Button onClick={() => addToLesson()} disabled={loading}>
-            Add to lesson
-          </Button>
           {result ? (
             <Button onClick={() => addToLesson()} disabled={loading}>
               Add to lesson

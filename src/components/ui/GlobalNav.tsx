@@ -21,6 +21,9 @@ const GlobalNav = () => (
           <li className="font-bold hidden md:block">
             <Link href={"/calendar"}>Calendar</Link>
           </li>
+          <li className="font-bold hidden md:block">
+            <Link href={"/whitepaper"}>Whitepaper</Link>
+          </li>
         </ul>
       </div>
     </div>

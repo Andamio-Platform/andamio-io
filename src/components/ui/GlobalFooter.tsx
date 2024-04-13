@@ -8,8 +8,8 @@ export default function GlobalFooter() {
       <nav>
         <header className="footer-title">Andamio</header>
         <a className="link link-hover">Discord</a>
-        <a className="link link-hover">Twitter</a>
-        <a className="link link-hover">Whitepaper</a>
+        <a className="link link-hover">Twitter</a>        
+        <Link href={'/whitepaper'} className="link link-hover">Whitepaper</Link>
         <a className="link link-hover">Roadmap</a>
         <a className="link link-hover">AndamioJS Documentation</a>
       </nav>

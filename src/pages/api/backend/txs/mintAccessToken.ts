@@ -4,7 +4,7 @@ import { env } from "~/env";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const requestData = req.body;
-  const api = `${env.GCP_BACKEND}/api/v1/tx/mint+access+token`;
+  const api = `${env.GCP_BACKEND}/api/v1/tx/mint-access-token`;
 
   try {
     const response = await axios.post(api, requestData, {

@@ -31,99 +31,12 @@ import {
 } from "~/components/ui/dialog";
 import useCourses from "~/hooks/useCourses";
 
-// Not for production
-function HardcodedCourse() {
-  const [isOpen, setIsOpen] = useState(false);
-  return (
-    <ul
-      role="list"
-      className="mx-auto mt-20 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 bg-white p-10 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3"
-    >
-      <li>
-        <Dialog>
-          <DialogTrigger>
-            <img
-              className="aspect-[3/2] w-full rounded-2xl object-cover"
-              src={"/images/sample-covers/1.jpg"}
-              alt=""
-            />
-            <h3 className="mt-6 text-lg font-semibold leading-8 tracking-tight text-foreground">
-              Hardcoded Course
-            </h3>
-            <p className="text-base leading-7 text-gray-600">
-              This is for testing of minting local state
-            </p>
-          </DialogTrigger>
-          <DialogContent className="flex items-center justify-center justify-items-center">
-            <DialogHeader>
-              <DialogTitle>Thinking of taking this course?</DialogTitle>
-              <DialogDescription>
-                <Collapsible open={isOpen} onOpenChange={setIsOpen} className="w-[350px] space-y-2">
-                  <div className="flex items-center justify-center">
-                    <CollapsibleTrigger asChild>
-                      <Button>
-                        {isOpen ? <>Back</> : <>Enroll On-Chain</>}
-                      </Button>
-                    </CollapsibleTrigger>
-                  </div>
-
-                  <CollapsibleContent className="space-y-2">
-                    <MintLocalState />
-                  </CollapsibleContent>
-                </Collapsible>
-              </DialogDescription>
-              <DialogFooter className="text-xs sm:justify-start">
-                <Link href="#">
-                  I&apos;ll do it after taking a look inside first
-                </Link>
-              </DialogFooter>
-            </DialogHeader>
-
-            {/* <Card className="w-[350px]">
-          <CardHeader>
-            <CardTitle>Join The Andamio Network</CardTitle>
-            <CardDescription>
-              Get a token that represents your membership in Andamio
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <CardFooter className="flex flex-col gap-3">
-              <Collapsible
-                open={isOpen}
-                onOpenChange={setIsOpen}
-                className="w-[350px] space-y-2"
-              >
-                <div className="flex items-center justify-center">
-                  <CollapsibleTrigger asChild>
-                    <Button>{isOpen ? <>Back</> : <>Get Token</>}</Button>
-                  </CollapsibleTrigger>
-                </div>
-
-                <CollapsibleContent className="space-y-2">
-                <MintLocalState />
-                </CollapsibleContent>
-              </Collapsible>
-              {!isOpen && <Button>Got it Already</Button>}
-            </CardFooter>
-            {!isOpen && (
-              <Link href="/home">
-                I&apos;ll get it later
-              </Link>
-            )}
-          </CardContent>
-        </Card> */}
-          </DialogContent>
-        </Dialog>
-      </li>
-    </ul>
-  );
-}
-
 export default function PageCourses() {
   const { courses, isLoadingCourses } = useCourses();
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="bg-primary py-24 sm:py-32">
+    <div className="py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl lg:mx-0">
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
@@ -136,7 +49,7 @@ export default function PageCourses() {
             voluptate ad libero at architecto corporis eveniet!
           </p>
         </div>
-        <HardcodedCourse />
+
         {isLoadingCourses && <Loading />}
         {courses && (
           <ul
@@ -145,23 +58,55 @@ export default function PageCourses() {
           >
             {courses.map((course, i) => (
               <li key={i}>
-                <Link href={`/course/${course.courseCode}`}>
-                  <img
-                    className="aspect-[3/2] w-full rounded-2xl object-cover"
-                    src={
-                      course.imageUrl
-                        ? course.imageUrl
-                        : "/images/sample-covers/1.jpg"
-                    }
-                    alt=""
-                  />
-                  <h3 className="mt-6 text-lg font-semibold leading-8 tracking-tight text-foreground">
-                    {course.title}
-                  </h3>
-                  <p className="text-base leading-7 text-gray-600">
-                    {course.description}
-                  </p>
-                </Link>
+                <Dialog>
+                  <DialogTrigger>
+                    <img
+                      className="aspect-[3/2] w-full rounded-2xl object-cover"
+                      src={
+                        course.imageUrl
+                          ? course.imageUrl
+                          : "/images/sample-covers/1.jpg"
+                      }
+                      alt=""
+                    />
+                    <h3 className="mt-6 text-lg font-semibold leading-8 tracking-tight text-foreground">
+                      {course.title}
+                    </h3>
+                    <p className="text-base leading-7 text-gray-600">
+                      {course.description}
+                    </p>
+                  </DialogTrigger>
+                  <DialogContent className="flex items-center justify-center justify-items-center">
+                    <DialogHeader>
+                      <DialogTitle>Thinking of taking this course?</DialogTitle>
+                      <DialogDescription>
+                        <Collapsible
+                          open={isOpen}
+                          onOpenChange={setIsOpen}
+                          className="w-[350px] space-y-2"
+                        >
+                          <div className="flex items-center justify-start">
+                            <CollapsibleTrigger asChild>
+                              <Button>
+                                {isOpen ? <>Back</> : <>Enroll On-Chain</>}
+                              </Button>
+                            </CollapsibleTrigger>
+                          </div>
+
+                          <CollapsibleContent className="space-y-2">
+                            <MintLocalState />
+                          </CollapsibleContent>
+                        </Collapsible>
+                      </DialogDescription>
+                      <DialogFooter className="text-xs sm:justify-start">
+                        <Link href={`/course/${course.courseCode}`}>
+                          I&apos;ll do it after taking a look inside first
+                        </Link>
+                      </DialogFooter>
+                    </DialogHeader>
+                  </DialogContent>
+                </Dialog>
+
                 {/* <ul role="list" className="mt-6 flex gap-x-6">
                 <li>
                   <a

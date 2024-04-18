@@ -7,6 +7,7 @@ import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import useAssignmentByCourseModule from "~/hooks/useAssignmentByCourseModule";
 import useValidateCreator from "~/hooks/useValidateCreator";
 import CourseLayout from "~/ui/course/components/layout/CourseLayout";
+import CommitToAssignmentPage from "./CommitToAssignmentPage";
 
 export default function PageCourseAssignmentContent({
   courseCode,
@@ -78,6 +79,7 @@ function Page(assignment: { slts: Slt[] } & Assignment) {
         <p className="text-xl leading-8">{assignment.description}</p>
       </div>
       {assignment.contentJson && editor.render()}
+      <CommitToAssignmentPage />
     </>
   );
 }

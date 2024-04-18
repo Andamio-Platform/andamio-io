@@ -9,17 +9,19 @@ import { Button } from "~/components/ui/button";
 import { blockfrostProvider } from "~/config/blockfrost";
 
 interface RequestData {
-  address: string;
-  changeAddress: string;
+    Address: string;
+    ChangeAddress: string;
   UserUTxOs: UTxOi[];
   CollateralUTxO: UTxOi;
   AccessTokenName: string;
-  UserInfo: string;
-  UserGlobalStateUTxO: UTxOi;
+  UserLocalStateUTxO: UTxOi;
   UserAccessTokenUTxO: UTxOi;
+  ModuleTokenUTxO: UTxOi;
+  AssignmentCode: string;
+  StudentAssignmentInfo: string;
 }
 
-export default function MintLocalState() {
+export default function CommitToAssignment() {
   const router = useRouter();
 
   const { connected, wallet } = useWallet();
@@ -71,25 +73,31 @@ export default function MintLocalState() {
       );
 
       const req: RequestData = {
-        address: addr,
-        changeAddress: addr,
+        Address: addr,
+        ChangeAddress: addr,
         UserUTxOs,
         CollateralUTxO,
         AccessTokenName: accessTokenName,
-        UserInfo: "Andamio User",
-        UserGlobalStateUTxO: {
-          TxID: globalStateUtxo.input.txHash,
-          TxIDIndex: globalStateUtxo.input.outputIndex,
+        UserLocalStateUTxO: {
+          TxID: "",
+          TxIDIndex: 0,
         },
         UserAccessTokenUTxO: {
-          TxID: accessTokenUtxo.input.txHash,
-          TxIDIndex: accessTokenUtxo.input.outputIndex,
+          TxID: "",
+          TxIDIndex: 0,
         },
-      };
+        ModuleTokenUTxO: {
+          TxID: "",
+          TxIDIndex: 0,
+        },
+        AssignmentCode: "",
+        StudentAssignmentInfo: "",
+      
+      }
 
       console.log(req);
 
-      const response = await axios.post("/api/backend/txs/mintLocalState", req);
+      const response = await axios.post("/api/backend/txs/commitToAssignment", req);
 
       const unsignedTx = response.data.unsignedTxCBOR;
 
@@ -121,7 +129,7 @@ export default function MintLocalState() {
           {!connected ? (
             <CardanoWallet />
           ) : (
-            <Button onClick={onSubmit}>Enroll now</Button>
+            <Button onClick={onSubmit}>Commit</Button>
           )}
         </>
       ) : (

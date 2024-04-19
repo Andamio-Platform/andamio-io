@@ -1,0 +1,2 @@
+export const ACCESS_TOKEN_POLICY_ID = "7d865954a3ea829709740a9894eb5b06be115cce91ad452e268f41d9"
+export const GLOBAL_STATE_VALIDATOR_ADDR = "addr_test1zqkhwvnlh8ylh7kwk8jmlrurfwcz9af2upmkpskxc9mma56vlu7w7kccycfgum045pdq9h2rnnyt6ep7wghq27nmwr0q0eceac"

@@ -7,6 +7,10 @@ import Loading from "~/components/loading";
 import UTxOi from "~/components/transactions/model";
 import { Button } from "~/components/ui/button";
 import { blockfrostProvider } from "~/config/blockfrost";
+import {
+  ACCESS_TOKEN_POLICY_ID,
+  GLOBAL_STATE_VALIDATOR_ADDR,
+} from "../andamio-params";
 
 interface RequestData {
   address: string;
@@ -45,16 +49,10 @@ export default function MintLocalState() {
       };
 
       const accessTokenUtxo: UTxO = userUTxOs.find((utxo: UTxO) =>
-        utxo.output.amount.some((a) =>
-          a.unit.includes(
-            "7d865954a3ea829709740a9894eb5b06be115cce91ad452e268f41d9",
-          ),
-        ),
+        utxo.output.amount.some((a) => a.unit.includes(ACCESS_TOKEN_POLICY_ID)),
       );
       const accessToken = accessTokenUtxo?.output.amount.find((item: Asset) =>
-        item.unit.includes(
-          "7d865954a3ea829709740a9894eb5b06be115cce91ad452e268f41d9",
-        ),
+        item.unit.includes(ACCESS_TOKEN_POLICY_ID),
       );
       const accessTokenNameHex = accessToken?.unit.substring(62);
       const accessTokenName = Buffer.from(
@@ -64,7 +62,7 @@ export default function MintLocalState() {
 
       // replace with indexer
       const globalStateUtxos = await blockfrostProvider.fetchAddressUTxOs(
-        "addr_test1zqkhwvnlh8ylh7kwk8jmlrurfwcz9af2upmkpskxc9mma56vlu7w7kccycfgum045pdq9h2rnnyt6ep7wghq27nmwr0q0eceac",
+        GLOBAL_STATE_VALIDATOR_ADDR,
       );
       const globalStateUtxo = globalStateUtxos.find((utxo: UTxO) =>
         utxo.output.amount.some((a) => a.unit.includes(accessTokenNameHex!)),

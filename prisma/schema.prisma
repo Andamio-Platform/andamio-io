@@ -120,6 +120,7 @@ model Module {
   imageUrl    String?
   videoUrl    String?
   live        Boolean?
+  releaseDate DateTime?
 
   courseId       String
   originalCourse Course @relation("CourseModules", fields: [courseId], references: [id])

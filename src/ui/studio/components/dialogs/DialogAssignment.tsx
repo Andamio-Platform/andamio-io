@@ -76,6 +76,10 @@ export default function DialogAssignment({
         void ctx.assignment.getAssignmentByModuleId.invalidate({
           moduleId: courseModule.id,
         });
+        void ctx.assignment.getAssignmentByCourseModuleCodes.invalidate({
+          courseCode: courseCode,
+          moduleCode: _module?.moduleCode,
+        })
         setAssignmentDialogOpen(false);
       },
       onError: (e) => {

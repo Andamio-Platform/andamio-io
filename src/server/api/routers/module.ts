@@ -90,6 +90,7 @@ export const moduleRouter = createTRPCRouter({
         moduleCode: z.string().min(1),
         title: z.string().min(1),
         description: z.string().optional(),
+        releaseDate: z.coerce.date().optional()
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -102,6 +103,7 @@ export const moduleRouter = createTRPCRouter({
           moduleCode: input.moduleCode,
           title: input.title,
           description: input.description,
+          releaseDate: input.releaseDate,
           originalCourse: {
             connect: {
               id: input.courseId,
@@ -119,6 +121,7 @@ export const moduleRouter = createTRPCRouter({
         moduleCode: z.string().min(1, "Module code is required"),
         title: z.string().min(1, "Title is required"),
         description: z.string(),
+        releaseDate: z.coerce.date().optional()
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -130,6 +133,7 @@ export const moduleRouter = createTRPCRouter({
           title: input.title,
           description: input.description,
           moduleCode: input.moduleCode,
+          releaseDate: input.releaseDate,
         },
       });
     }),

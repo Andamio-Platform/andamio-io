@@ -19,6 +19,8 @@ import {
   AccordionTrigger,
 } from "~/components/ui/accordion";
 import useCourseById from "~/hooks/useCourseById";
+import { Badge } from "~/components/ui/badge";
+import { format } from "date-fns";
 
 export default function PageCourse({
   courseCode,
@@ -218,6 +220,9 @@ function ModuleContainer({
               </div>
             </div>
           </span>
+          {_module.releaseDate && (
+            <Badge>Release Date: {format(_module.releaseDate, "P")}</Badge>
+          )}
         </AccordionTrigger>
         <div className="mb-5">
           <AccordionContent className="flex flex-col flex-wrap items-center justify-between gap-y-1 bg-primary py-5 text-primary-foreground sm:flex-nowrap">

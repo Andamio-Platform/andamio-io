@@ -15,6 +15,15 @@ import useModule from "~/hooks/useModule";
 import useModuleByCourse from "~/hooks/useModuleByCourse";
 import useCourseModules from "~/hooks/useCourseModules";
 
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "~/components/ui/popover";
+import { CalendarIcon } from "@radix-ui/react-icons";
+import { Calendar } from "~/components/ui/calendar";
+import { format } from "date-fns";
+
 type ModuleOption = {
   value: string;
   label: string;
@@ -43,6 +52,8 @@ export default function DialogModule({
   const [newModuleCodeOptions, setNewModuleCodeOptions] = useState<
     ModuleOption[]
   >([]);
+
+  const [moduleReleaseDate, setModuleReleaseDate] = useState<Date>();
 
   // Todo: Implement Course Variants
   // const [currentCourseVariant, setCurrentCourseVariant] = useState<
@@ -148,6 +159,7 @@ export default function DialogModule({
     moduleCode: z.string().min(3).max(3),
     title: z.string().min(8),
     description: z.string().optional(),
+    releaseDate: z.coerce.date().optional(),
   });
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -156,6 +168,7 @@ export default function DialogModule({
       moduleCode: "",
       title: "",
       description: "",
+      releaseDate: undefined,
     },
   });
 
@@ -168,6 +181,7 @@ export default function DialogModule({
           moduleCode: data.moduleCode,
           title: data.title,
           description: data.description,
+          releaseDate: moduleReleaseDate,
         });
       } else {
         moduleCreate({
@@ -175,6 +189,7 @@ export default function DialogModule({
           moduleCode: data.moduleCode,
           title: data.title,
           description: data.description,
+          releaseDate: moduleReleaseDate,
         });
       }
     }
@@ -202,6 +217,10 @@ export default function DialogModule({
         setNewModuleCodeOptions(_newModuleCodeOptions);
       }
     }
+
+    if (!!currentCourseModule && currentCourseModule.releaseDate) {
+      setModuleReleaseDate(currentCourseModule.releaseDate)
+    }
   }, [moduleDialogOpen, courseModules, currentCourseModule, course]);
 
   useEffect(() => {
@@ -209,6 +228,7 @@ export default function DialogModule({
       moduleCode: moduleCode ?? "",
       title: currentCourseModule?.title ?? "",
       description: currentCourseModule?.description ?? "",
+      releaseDate: currentCourseModule?.releaseDate ?? undefined,
     });
   }, [moduleDialogOpen, currentCourseModule, newModuleCodeOptions, moduleCode]);
 
@@ -231,9 +251,11 @@ export default function DialogModule({
             ? `Editing ${currentCourseModule?.title}`
             : "Create a new module"
         }
-        description={currentCourseModule
-          ? "You are editing a module. Make changes and click 'Save'."
-          : "Create a new module by filling in the details below."}
+        description={
+          currentCourseModule
+            ? "You are editing a module. Make changes and click 'Save'."
+            : "Create a new module by filling in the details below."
+        }
         buttonLabel={currentCourseModule ? "Save" : "Create"}
         buttonLoading={isLoadingCreate || isLoadingUpdate}
         buttonDisabled={isLoadingCreate || isLoadingUpdate}
@@ -241,7 +263,6 @@ export default function DialogModule({
         isOpen={moduleDialogOpen}
         setIsOpen={setModuleDialogOpen}
       >
-
         <div className="mt-4 grid grid-cols-1 gap-y-4">
           <FormInput name="title" label="Module Title" form={form} />
 
@@ -261,11 +282,33 @@ export default function DialogModule({
           )}
           <FormInput
             name="moduleCode"
-            label={currentCourseModule ? "Edit Module Code" : "Or write your own custom code"}
+            label={
+              currentCourseModule
+                ? "Edit Module Code"
+                : "Or write your own custom code"
+            }
             info="The Module Code is a 3-character string that appears in the course URL"
             form={form}
             disabled={false}
           />
+
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button intent="outline">
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                Module Release Date: {" "}
+                {moduleReleaseDate ? format(moduleReleaseDate, "PPP") : <span>Pick a date</span>}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0 text-primary-foreground">
+              <Calendar
+                mode="single"
+                selected={moduleReleaseDate}
+                onSelect={setModuleReleaseDate}
+                initialFocus
+              />
+            </PopoverContent>
+          </Popover>
 
           {currentCourseModule && (
             <div className="flex items-center gap-2">

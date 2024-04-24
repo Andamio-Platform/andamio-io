@@ -12,17 +12,17 @@ export const courseOnChainInstanceRouter = createTRPCRouter({
     .input(
       z.object({
         courseId: z.string().min(1),
-        network: z.nativeEnum(Network)
+        network: z.nativeEnum(Network),
       }),
     )
     .query(({ ctx, input }) => {
       return ctx.db.courseOnChainInstance.findFirst({
         where: {
           courseId: input.courseId,
-          network: input.network
+          network: input.network,
         },
         include: {
-          course: true
+          course: true,
         },
       });
     }),
@@ -40,7 +40,7 @@ export const courseOnChainInstanceRouter = createTRPCRouter({
         moduleCS: z.string().optional(),
         courseRefUTxO: z.string().optional(),
         assignmentRefUTxO: z.string().optional(),
-        moduleMintingRefUTxO: z.string().optional()
+        moduleMintingRefUTxO: z.string().optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -56,6 +56,11 @@ export const courseOnChainInstanceRouter = createTRPCRouter({
           courseRefUTxO: input.courseRefUTxO,
           assignmentRefUTxO: input.assignmentRefUTxO,
           moduleMintingRefUTxO: input.moduleMintingRefUTxO,
+          LocalStateValidatorAddress: "", // Add the missing property
+          CourseCreatorNFTPolicyID: "", // Add the missing property
+          LocalStatePolicyID: "", // Add the missing property
+          CourseInstanceUTxO: "", // Add the missing property
+          LocalStatePolicyRefUTxO: "", // Add the missing property
           course: {
             connect: {
               id: input.courseId,
@@ -79,16 +84,16 @@ export const courseOnChainInstanceRouter = createTRPCRouter({
         moduleCS: z.string().optional(),
         courseRefUTxO: z.string().optional(),
         assignmentRefUTxO: z.string().optional(),
-        moduleMintingRefUTxO: z.string().optional()
-      })
-      )
-    .mutation(async ({ctx, input}) => {
+        moduleMintingRefUTxO: z.string().optional(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
       return ctx.db.courseOnChainInstance.update({
         where: {
           id: input.id,
         },
         data: {
-          course: { connect: { id: input.courseId }},
+          course: { connect: { id: input.courseId } },
           network: input.network,
           courseRefAddress: input.courseRefAddress,
           assignmentAddress: input.assignmentAddress,
@@ -99,7 +104,7 @@ export const courseOnChainInstanceRouter = createTRPCRouter({
           courseRefUTxO: input.courseRefUTxO,
           assignmentRefUTxO: input.assignmentRefUTxO,
           moduleMintingRefUTxO: input.moduleMintingRefUTxO,
-        }
-      })
-    })
+        },
+      });
+    }),
 });

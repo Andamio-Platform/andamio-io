@@ -11,6 +11,8 @@ import {
   ACCESS_TOKEN_POLICY_ID,
   GLOBAL_STATE_VALIDATOR_ADDR,
 } from "../andamio-params";
+import useCourseOnchain from "~/hooks/useCourseOnchain";
+import { Network } from "~/config/Network";
 
 interface RequestData {
   address: string;
@@ -21,13 +23,19 @@ interface RequestData {
   UserInfo: string;
   UserGlobalStateUTxO: UTxOi;
   UserAccessTokenUTxO: UTxOi;
+  LocalStateValidatorAddress: string;
+  CourseCreatorNFTPolicyID: string;
+  LocalStatePolicyID: string;
+  CourseInstanceUTxO: UTxOi;
+  LocalStatePolicyRefUTxO: UTxOi;
 }
 
-export default function MintLocalState() {
+export default function MintLocalState({ courseId }: { courseId: string }) {
   const router = useRouter();
 
   const { connected, wallet } = useWallet();
   const [isLoading, setIsLoading] = useState(false);
+  const {courseOnchain, isLoadingCourseOnchain} = useCourseOnchain(courseId, Network);
 
   async function onSubmit() {
     setIsLoading(true);
@@ -68,6 +76,10 @@ export default function MintLocalState() {
         utxo.output.amount.some((a) => a.unit.includes(accessTokenNameHex!)),
       );
 
+      if (!courseOnchain) {
+        throw new Error("Course not found on-chain");
+      }
+
       const req: RequestData = {
         address: addr,
         changeAddress: addr,
@@ -82,6 +94,17 @@ export default function MintLocalState() {
         UserAccessTokenUTxO: {
           TxID: accessTokenUtxo.input.txHash,
           TxIDIndex: accessTokenUtxo.input.outputIndex,
+        },
+        LocalStateValidatorAddress: courseOnchain.LocalStateValidatorAddress,
+        CourseCreatorNFTPolicyID: courseOnchain.CourseCreatorNFTPolicyID,
+        LocalStatePolicyID: courseOnchain.LocalStatePolicyID,
+        CourseInstanceUTxO: {
+          TxID: courseOnchain.CourseInstanceUTxO.substring(0, 65),
+          TxIDIndex: parseInt(courseOnchain.CourseInstanceUTxO.substring(65)),
+        },
+        LocalStatePolicyRefUTxO: {
+          TxID: courseOnchain.LocalStatePolicyRefUTxO.substring(0, 65),
+          TxIDIndex: parseInt(courseOnchain.LocalStatePolicyRefUTxO.substring(65)),
         },
       };
 
@@ -114,7 +137,7 @@ export default function MintLocalState() {
 
   return (
     <div className="mx-4 flex items-center justify-center rounded-md border px-4 py-3 font-mono text-sm">
-      {!isLoading ? (
+      {!isLoading && !isLoadingCourseOnchain ? (
         <>
           {!connected ? (
             <CardanoWallet />

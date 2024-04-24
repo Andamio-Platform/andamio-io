@@ -182,7 +182,7 @@ export default function MintAccessToken() {
 
 export const CheckTokenAliasAvailability = async (tokenAlias: string) => {
   const response = await fetch(
-    `${process.env.GCP_BACKEND}/api/v1/tx/check+access+token+name+aveliblity/${tokenAlias}`,
+    `${process.env.GCP_BACKEND}/api/v1/tx/check-access-token-name-aveliblity/${tokenAlias}`,
     {
       method: "POST",
       headers: {

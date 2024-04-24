@@ -94,7 +94,7 @@ export default function PageCourses() {
                           </div>
 
                           <CollapsibleContent className="space-y-2">
-                            <MintLocalState />
+                            <MintLocalState courseId={course.id} />
                           </CollapsibleContent>
                         </Collapsible>
                       </DialogDescription>

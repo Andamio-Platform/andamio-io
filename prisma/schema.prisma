@@ -58,10 +58,20 @@ model User {
   accounts      Account[]
   sessions      Session[]
 
-  learner     Learner?
-  creator     Creator?
-  userWallet  UserWallet?
-  accessToken String?     @unique
+  learner          Learner?
+  creator          Creator?
+  userWallet       UserWallet?
+  accessToken      AccessToken? @relation(fields: [accessTokenAlias], references: [alias])
+  accessTokenAlias String?
+
+  @@index([accessTokenAlias])
+}
+
+model AccessToken {
+  alias     String  @id @unique
+  mintTxId  String  @unique
+  confirmed Boolean
+  User      User[]
 }
 
 model VerificationToken {

@@ -135,7 +135,9 @@ export default function MintAccessToken() {
       // set database
       if (txId) {
         updateAccessToken({
-          accessToken: data.tokenAlias,
+          alias: req.AccessTokenName,
+          mintTxId: txId,
+          confirmed: false,
         });
       } else {
         toast.error("Something went wrong. Please try again.");
@@ -155,19 +157,24 @@ export default function MintAccessToken() {
           {!connected ? (
             <CardanoWallet />
           ) : (
-            <>
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)}>
-                  <FormInput
-                    {...register("tokenAlias")}
-                    name="tokenAlias"
-                    placeholder="Token Alias"
-                    form={form}
-                  />
-                  <Button type="submit">Mint</Button>
-                </form>
-              </Form>
-            </>
+            <div className="flex flex-col gap-y-4">
+              <div>
+                <CardanoWallet />
+              </div>
+              <div>
+                <Form {...form}>
+                  <form onSubmit={form.handleSubmit(onSubmit)}>
+                    <FormInput
+                      {...register("tokenAlias")}
+                      name="tokenAlias"
+                      placeholder="Token Alias"
+                      form={form}
+                    />
+                    <Button type="submit">Mint</Button>
+                  </form>
+                </Form>
+              </div>
+            </div>
           )}
         </>
       ) : (

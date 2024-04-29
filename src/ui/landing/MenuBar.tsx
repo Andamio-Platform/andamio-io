@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "~/components/link";
+import { useSession } from "next-auth/react";
 
 const navigation = [
   { name: "Courses", href: "/courses" },
@@ -29,6 +30,7 @@ function Desktop({
 }: {
   setMobileMenuOpen: (open: boolean) => void;
 }) {
+  const { data: sessionData } = useSession();
   return (
     <nav
       className="flex items-center justify-between p-6 lg:px-8"
@@ -60,11 +62,24 @@ function Desktop({
         ))}
       </div>
       <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-        <Link href={`/auth/signin`}>
-          <span className="text-sm font-semibold leading-6 text-foreground">
-            Log in <span aria-hidden="true">&rarr;</span>
-          </span>
-        </Link>
+        {!sessionData && (
+          <Link href={`/auth/signin`}>
+            <span className="text-sm font-semibold leading-6 text-foreground">
+              Log in <span aria-hidden="true">&rarr;</span>
+            </span>
+          </Link>
+        )}
+        {sessionData && (
+          <div className="flex items-center gap-x-4 text-sm font-semibold leading-6 text-foreground">
+            <span className="sr-only">Your profile</span>
+            <span aria-hidden="true">{sessionData.user?.name}</span>
+            <img
+              className="h-8 w-8 rounded-full bg-accent"
+              src={sessionData.user?.image ?? ""}
+              alt=""
+            />
+          </div>
+        )}
       </div>
     </nav>
   );
@@ -85,7 +100,7 @@ function Mobile({
       onClose={setMobileMenuOpen}
     >
       <div className="fixed inset-0 z-50" />
-      <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-primary px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-forground">
+      <Dialog.Panel className="sm:ring-forground fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-primary px-6 py-6 sm:max-w-sm sm:ring-1">
         <div className="flex items-center justify-between">
           <span className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>

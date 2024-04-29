@@ -46,6 +46,7 @@ export const userRouter = createTRPCRouter({
         include: {
           creator: true,
           learner: true,
+          accessToken: true,
         },
       });
 
@@ -59,7 +60,9 @@ export const userRouter = createTRPCRouter({
     updateAccessToken: protectedProcedure
     .input(
       z.object({
-        accessToken: z.string().min(1),
+        alias: z.string().min(1),
+        mintTxId: z.string().min(1),
+        confirmed: z.boolean(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -68,10 +71,22 @@ export const userRouter = createTRPCRouter({
           id: ctx.session.user.id,
         },
         create: {
-          accessToken: input.accessToken,
+          accessToken: {
+            create: {
+              alias: input.alias,
+              mintTxId: input.mintTxId,
+              confirmed: input.confirmed,
+            },
+          },
         },
         update: {
-          accessToken: input.accessToken,
+          accessToken: {
+            create: {
+              alias: input.alias,
+              mintTxId: input.mintTxId,
+              confirmed: input.confirmed,
+            },
+          },
         },
       });
     }),

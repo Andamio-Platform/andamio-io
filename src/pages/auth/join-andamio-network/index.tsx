@@ -68,10 +68,9 @@ export default function JoinAndamioNetwork() {
                   <MintAccessToken />
                 </CollapsibleContent>
               </Collapsible>
-              {!isOpen && <Button>Got it Already</Button>}
             </CardFooter>
             {!isOpen && (
-              <Link href="/home" className="text-start">
+              <Link href="/home" className="text-start text-sm">
                 I&apos;ll get it later
               </Link>
             )}

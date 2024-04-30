@@ -85,7 +85,7 @@ export default function SideMenu() {
                   <div className="flex h-16 shrink-0 items-center">
                     <img
                       className="h-8 w-auto"
-                      src="/andamio.png"
+                      src="/andamio-logo.svg"
                       alt="Andamio"
                     />
                   </div>
@@ -165,7 +165,7 @@ export default function SideMenu() {
         {/* Sidebar component, swap this element with another sidebar if you like */}
         <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-foreground bg-background px-6">
           <div className="flex h-16 shrink-0 items-center">
-            <img className="h-8 w-auto" src="/andamio.png" alt="Andamio" />
+            <img className="h-8 w-auto" src="/andamio-logo.svg" alt="Andamio" />
           </div>
           <nav className="flex flex-1 flex-col">
             <ul role="list" className="flex flex-1 flex-col gap-y-7">

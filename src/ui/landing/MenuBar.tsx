@@ -40,7 +40,7 @@ function Desktop({
       <div className="flex lg:flex-1">
         <span className="-m-1.5 p-1.5">
           <span className="sr-only">Andamio</span>
-          <img className="h-8 w-auto" src="/andamio.png" alt="Andamio" />
+          <img className="h-8 w-auto" src="/andamio-logo.svg" alt="Andamio" />
         </span>
       </div>
       <div className="flex lg:hidden">

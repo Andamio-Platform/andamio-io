@@ -3,6 +3,7 @@ import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "~/components/link";
 import { useSession } from "next-auth/react";
+import MenuBarSessionProfile from "../auth/MenuBarSessionProfile";
 
 const navigation = [
   { name: "Courses", href: "/courses" },
@@ -69,17 +70,7 @@ function Desktop({
             </span>
           </Link>
         )}
-        {sessionData && (
-          <div className="flex items-center gap-x-4 text-sm font-semibold leading-6 text-foreground">
-            <span className="sr-only">Your profile</span>
-            <span aria-hidden="true">{sessionData.user?.name}</span>
-            <img
-              className="h-8 w-8 rounded-full bg-accent"
-              src={sessionData.user?.image ?? ""}
-              alt=""
-            />
-          </div>
-        )}
+        <MenuBarSessionProfile />
       </div>
     </nav>
   );

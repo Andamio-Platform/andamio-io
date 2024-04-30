@@ -17,12 +17,15 @@ interface RequestData {
   ChangeAddress: string;
   UserUTxOs: UTxOi[];
   CollateralUTxO: UTxOi;
-  AccessTokenName: string;
   UserLocalStateUTxO: UTxOi;
   UserAccessTokenUTxO: UTxOi;
   ModuleTokenUTxO: UTxOi;
   AssignmentCode: string;
   StudentAssignmentInfo: string;
+  AssignmentValidatorAddress: string;
+  LocalStateValidatorAddress: string;
+  LocalStatePolicyID: string;
+  LocalStateValidatorRefUTxO: UTxOi;
 }
 
 export default function CommitToAssignment() {
@@ -67,7 +70,6 @@ export default function CommitToAssignment() {
         ChangeAddress: addr,
         UserUTxOs,
         CollateralUTxO,
-        AccessTokenName: accessTokenName,
         UserLocalStateUTxO: {
           TxID: "",
           TxIDIndex: 0,
@@ -82,6 +84,13 @@ export default function CommitToAssignment() {
         },
         AssignmentCode: "",
         StudentAssignmentInfo: "Assignment Info",
+        AssignmentValidatorAddress: "",
+        LocalStateValidatorAddress: "",
+        LocalStatePolicyID: "",
+        LocalStateValidatorRefUTxO: {
+          TxID: "",
+          TxIDIndex: 0,
+        },
       };
 
       console.log(req);

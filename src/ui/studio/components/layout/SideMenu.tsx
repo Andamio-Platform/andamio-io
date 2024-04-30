@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import SessionProfile from "~/ui/auth/SessionProfile";
+import SideMenuSessionProfile from "~/ui/auth/SideMenuSessionProfile";
 
 const navigation = [
   { name: "Studio", href: "/studio", icon: HomeIcon, current: false },
@@ -229,7 +229,7 @@ export default function SideMenu() {
                   ))}
                 </ul>
               </li>
-              {sessionData && <SessionProfile />}
+              {sessionData && <SideMenuSessionProfile />}
             </ul>
           </nav>
         </div>

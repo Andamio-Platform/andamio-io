@@ -1,7 +1,7 @@
 import { signOut, useSession } from "next-auth/react";
 import { useState } from "react";
 
-export default function SessionProfile() {
+export default function SideMenuSessionProfile() {
   const { data: sessionData } = useSession();
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
 

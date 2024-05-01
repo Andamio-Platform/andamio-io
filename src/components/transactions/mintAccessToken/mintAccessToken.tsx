@@ -33,30 +33,33 @@ export default function MintAccessToken() {
 
   const { connected, wallet } = useWallet();
   const [isLoading, setIsLoading] = useState(false);
+  const [isAvailable, setIsAvailable] = useState(false);
 
-  const { mutate: createUnconfirmedTx } = api.user.updateUnconfirmedTx.useMutation({
-    onSuccess: () => {
-      toast.success("Access token updated");
-      void ctx.user.getUserById.invalidate();
-    },
-    onError: (e) => {
-      const errorMessage = e.data?.zodError?.fieldErrors;
-      console.error(errorMessage);
-      toast.error("Something went wrong. Please try again.");
-    },
-  });
+  const { mutate: createUnconfirmedTx } =
+    api.user.updateUnconfirmedTx.useMutation({
+      onSuccess: () => {
+        toast.success("Access token updated");
+        void ctx.user.getUserById.invalidate();
+      },
+      onError: (e) => {
+        const errorMessage = e.data?.zodError?.fieldErrors;
+        console.error(errorMessage);
+        toast.error("Something went wrong. Please try again.");
+      },
+    });
 
-  const { mutate: updateAccessTokenMintTx } = api.user.updateAccessTokenMintTx.useMutation({
-    onSuccess: () => {
-      toast.success("Access token updated");
-      void ctx.user.getUserById.invalidate();
-    },
-    onError: (e) => {
-      const errorMessage = e.data?.zodError?.fieldErrors;
-      console.error(errorMessage);
-      toast.error("Something went wrong. Please try again.");
-    },
-  });
+  const { mutate: updateAccessTokenMintTx } =
+    api.user.updateAccessTokenMintTx.useMutation({
+      onSuccess: () => {
+        toast.success("Access token updated");
+        void ctx.user.getUserById.invalidate();
+      },
+      onError: (e) => {
+        const errorMessage = e.data?.zodError?.fieldErrors;
+        console.error(errorMessage);
+        toast.error("Something went wrong. Please try again.");
+      },
+    });
 
   const FormSchema = z.object({
     tokenAlias: z.string().min(2, {
@@ -78,12 +81,14 @@ export default function MintAccessToken() {
     debounce(async (tokenAlias) => {
       const isAvailable = await CheckTokenAliasAvailability(tokenAlias);
       if (!isAvailable) {
+        setIsAvailable(false);
         setError("tokenAlias", {
           type: "availability",
           message: "This alias is already taken.",
         });
       } else {
         clearErrors("tokenAlias");
+        setIsAvailable(true);
       }
     }, 500),
     [],
@@ -135,14 +140,14 @@ export default function MintAccessToken() {
       const unsignedTx = response.data.unsignedTxCBOR;
 
       const signedTx = await wallet.signTx(unsignedTx, true);
-      const txHash = await maestro.submitTx(signedTx)
+      const txHash = await maestro.submitTx(signedTx);
 
       console.log(txHash);
 
       if (txHash) {
         createUnconfirmedTx({
           userId: sessionData!.user.id,
-          txHash: txHash
+          txHash: txHash,
         });
         updateAccessTokenMintTx({
           userId: sessionData!.user.id,
@@ -179,6 +184,7 @@ export default function MintAccessToken() {
                       placeholder="Token Alias"
                       form={form}
                     />
+                    {isAvailable && <div className="text-sm text-green-500 mb-2">This alias is available.</div>}
                     <Button type="submit">Mint</Button>
                   </form>
                 </Form>
@@ -196,17 +202,9 @@ export default function MintAccessToken() {
 }
 
 export const CheckTokenAliasAvailability = async (tokenAlias: string) => {
-  const response = await fetch(
-    `${process.env.GCP_BACKEND}/api/v1/tx/check-access-token-name-aveliblity/${tokenAlias}`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(""),
-    },
+  const response = await axios.post(
+    "/api/backend/dbQueries/checkAccessTokenAliasAvailability",
+    { tokenAlias: tokenAlias },
   );
-  const data = await response.json();
-
-  return !data.IsUsed && !data.isExist;
+  return response.data.isAvailable;
 };

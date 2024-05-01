@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import { maestro_key } from "~/config/maestro";
+import { env } from "~/env";
 
 export default function useUnconfirmedTx(unconfirmedTxHash : string) {
 //   const { data: sessionData } = useSession();
@@ -20,7 +22,7 @@ export default function useUnconfirmedTx(unconfirmedTxHash : string) {
         maxBodyLength: Infinity,
         headers: {
           Accept: "text/plain",
-          "api-key": "m8zXGrp0XabJqE9coRk6zvTEB7Xy2FlE",
+          "api-key": maestro_key,
         },
       },
     );

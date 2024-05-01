@@ -23,10 +23,7 @@ const config = {
       layers: true,
     };
     return config;
-  },
-  env: {
-    GCP_BACKEND: process.env.GCP_BACKEND,
-  },
+  }
 };
 
 export default config;

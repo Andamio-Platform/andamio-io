@@ -1,8 +1,11 @@
 import { MaestroProvider } from "@meshsdk/core";
+import { env } from "~/env";
+
+export const maestro_key = "jNazh6GY4G27dyNrHLGR6N78bMqlEzDK";
 
 const maestro = new MaestroProvider({
   network: "Preprod",
-  apiKey: "uggjX5wtuiaJwCHI4QSjkHCUCfqERamE",
+  apiKey: maestro_key,
   turboSubmit: false,
 });
 

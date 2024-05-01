@@ -33,7 +33,7 @@ export default function JoinAndamioNetwork() {
       id: sessionData?.user.id ? sessionData?.user.id : "",
     });
 
-  if (user?.accessToken) {
+  if (user?.hasMintedAccessToken) {
     void router.push("/home");
   }
 
@@ -41,7 +41,7 @@ export default function JoinAndamioNetwork() {
 
   return (
     <div className="flex h-screen items-center justify-center">
-      {isLoadingUser || user?.accessToken ? (
+      {isLoadingUser || user?.hasMintedAccessToken ? (
         <Loading />
       ) : (
         <Card className="w-[350px]">

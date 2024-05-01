@@ -9,7 +9,7 @@ export default function Page() {
 
   useEffect(() => {
     if (!sessionData) {
-      router.push("/auth/signin");
+      void router.push("/auth/signin");
     }
   }, [sessionData, router]);
   return <PageHome />;

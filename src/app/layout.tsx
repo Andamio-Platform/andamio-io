@@ -2,10 +2,8 @@ import "../styles/globals.css";
 import "../styles/buttons.css";
 import "../styles/loading.css";
 import type { Metadata } from "next";
-import GlobalNav from "../components/ui/GlobalNav";
 
 import { Source_Code_Pro, Martel_Sans } from "next/font/google";
-import GlobalFooter from "../components/ui/GlobalFooter";
 
 const martel_sans = Martel_Sans({
   subsets: ["latin"],
@@ -30,11 +28,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" data-theme="andamio" className={`${source_code_pro.variable} ${martel_sans.variable}`}>
       <body>
-          <div className="flex flex-col bg-test-1 bg-cover bg-fixed">
-            <GlobalNav />
+          <div className="flex flex-col bg-cover bg-fixed">
             <div className="min-h-[80vh]">{children}</div>
           </div>
-          <GlobalFooter />
       </body>
     </html>
   );

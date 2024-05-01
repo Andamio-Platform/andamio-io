@@ -12,9 +12,6 @@ const config: Config = {
         sans: ['var(--font-martel-sans)'],
         mono: ['var(--font-source-code-pro)'],
       },
-      backgroundImage: {
-        'test-1': "url('/bg-test-1.png')",
-      }
     }
   },
   plugins: [require("@tailwindcss/typography"), require("daisyui")],

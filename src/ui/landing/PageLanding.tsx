@@ -23,10 +23,11 @@ export default function PageLanding() {
     <div className="bg-white">
       <MenuBar />
 
-      <main className="isolate">
+      <main className="isolate mb-24">
         <Hero />
 
-        <LogoCloud />
+        {/* Todo: collect logos from partner organizations */}
+        {/* <LogoCloud /> */}
 
         <FeaturedCourses />
 
@@ -36,9 +37,11 @@ export default function PageLanding() {
 
         {/* <Pricing /> */}
 
-        <FAQs />
+        {/* Todo */}
+        {/* <FAQs /> */}
 
-        <CTA />
+        {/* Todo */}
+        {/* <CTA /> */}
       </main>
 
       {/* <Footer /> */}

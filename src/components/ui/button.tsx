@@ -34,6 +34,7 @@ const buttonVariants = cva(
         slt: "text-md text-foreground",
         icon: "flex flex-row rounded-full",
         bigIcon: "flex h-[30px] w-[30px] items-center justify-center",
+        labeledIcon: "flex min-w-[90px] items-center justify-center justify-between px-3 py-1",
         dialog: "h-[30px] rounded-sm w-[150px] text-xs",
       },
     },

@@ -9,7 +9,7 @@ const navigation = [
   { name: "Network", href: "#" },
   { name: "About", href: "/about" },
   { name: "Calendar", href: "/calendar" },
-  { name: "Blog", href: "/blog" },
+  { name: "Blog", href: "https://blog.andamio.io" },
 ];
 
 export default function LandingMenuBar() {

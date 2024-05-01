@@ -98,3 +98,7 @@
     opacity: 0;
   }
 }
+
+.link {
+  @apply text-foreground hover:text-success
+}

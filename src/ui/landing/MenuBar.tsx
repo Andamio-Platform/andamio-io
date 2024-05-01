@@ -4,6 +4,7 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "~/components/link";
 import { useSession } from "next-auth/react";
 import MenuBarSessionProfile from "../auth/MenuBarSessionProfile";
+import UnconfirmedTx from "../transaction/UnconfirmedTx";
 
 const navigation = [
   { name: "Courses", href: "/courses" },
@@ -63,6 +64,7 @@ function Desktop({
         ))}
       </div>
       <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+        <UnconfirmedTx unconfirmedTxHash={sessionData?.user.unconfirmedTx} />
         {!sessionData && (
           <Link href={`/auth/signin`}>
             <span className="text-sm font-semibold leading-6 text-foreground">

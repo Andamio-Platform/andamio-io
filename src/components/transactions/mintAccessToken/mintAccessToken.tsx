@@ -3,6 +3,7 @@ import { UTxO } from "@meshsdk/core";
 import { CardanoWallet, useWallet } from "@meshsdk/react";
 import axios from "axios";
 import debounce from "lodash.debounce";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -13,6 +14,7 @@ import Loading from "~/components/loading";
 import UTxOi from "~/components/transactions/model";
 import { Button } from "~/components/ui/button";
 import { Form } from "~/components/ui/form";
+import maestro from "~/config/maestro";
 import { api } from "~/utils/api";
 
 interface RequestData {
@@ -25,14 +27,26 @@ interface RequestData {
 }
 
 export default function MintAccessToken() {
+  const { data: sessionData } = useSession();
   const ctx = api.useUtils();
   const router = useRouter();
 
   const { connected, wallet } = useWallet();
   const [isLoading, setIsLoading] = useState(false);
-  // const [isConfirming, setIsConfirming] = useState(false);
 
-  const { mutate: updateAccessToken } = api.user.updateAccessToken.useMutation({
+  const { mutate: createUnconfirmedTx } = api.user.updateUnconfirmedTx.useMutation({
+    onSuccess: () => {
+      toast.success("Access token updated");
+      void ctx.user.getUserById.invalidate();
+    },
+    onError: (e) => {
+      const errorMessage = e.data?.zodError?.fieldErrors;
+      console.error(errorMessage);
+      toast.error("Something went wrong. Please try again.");
+    },
+  });
+
+  const { mutate: updateAccessTokenMintTx } = api.user.updateAccessTokenMintTx.useMutation({
     onSuccess: () => {
       toast.success("Access token updated");
       void ctx.user.getUserById.invalidate();
@@ -121,23 +135,18 @@ export default function MintAccessToken() {
       const unsignedTx = response.data.unsignedTxCBOR;
 
       const signedTx = await wallet.signTx(unsignedTx, true);
-      const txId = await wallet.submitTx(signedTx);
+      const txHash = await maestro.submitTx(signedTx)
 
-      console.log(txId);
+      console.log(txHash);
 
-      // setIsConfirming(true);
-      // let confirmation = false;
-      // while (!confirmation) {
-      //   await new Promise((resolve) => setTimeout(resolve, 3000));
-      //   confirmation = await ConfirmTx(txId);
-      // }
-
-      // set database
-      if (txId) {
-        updateAccessToken({
-          alias: req.AccessTokenName,
-          mintTxId: txId,
-          confirmed: false,
+      if (txHash) {
+        createUnconfirmedTx({
+          userId: sessionData!.user.id,
+          txHash: txHash
+        });
+        updateAccessTokenMintTx({
+          userId: sessionData!.user.id,
+          txHash: txHash,
         });
       } else {
         toast.error("Something went wrong. Please try again.");
@@ -179,7 +188,6 @@ export default function MintAccessToken() {
         </>
       ) : (
         <>
-          {/* {isConfirming && <p>Confirming transaction...</p>} */}
           <Loading />
         </>
       )}
@@ -202,19 +210,3 @@ export const CheckTokenAliasAvailability = async (tokenAlias: string) => {
 
   return !data.IsUsed && !data.isExist;
 };
-
-// export const ConfirmTx = async (txId: string) => {
-//   const response = await fetch(
-//     `${process.env.GCP_BACKEND}/api/v1/tx/confirm+access+token+was+minted/${txId}`,
-//     {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify(""),
-//     },
-//   );
-//   const data = await response.json();
-
-//   return data.IsConfirmed;
-// };

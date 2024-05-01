@@ -13,6 +13,7 @@ import {
 } from "../andamio-params";
 import useCourseOnchain from "~/hooks/useCourseOnchain";
 import { Network } from "~/config/Network";
+import maestro from "~/config/maestro";
 
 interface RequestData {
   address: string;
@@ -115,7 +116,7 @@ export default function MintLocalState({ courseId }: { courseId: string }) {
       const unsignedTx = response.data.unsignedTxCBOR;
 
       const signedTx = await wallet.signTx(unsignedTx, true);
-      const txId = await wallet.submitTx(signedTx);
+      const txId = await maestro.submitTx(signedTx)
 
       console.log(txId);
 

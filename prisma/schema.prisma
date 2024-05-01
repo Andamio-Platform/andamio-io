@@ -58,20 +58,13 @@ model User {
   accounts      Account[]
   sessions      Session[]
 
-  learner          Learner?
-  creator          Creator?
-  userWallet       UserWallet?
-  accessToken      AccessToken? @relation(fields: [accessTokenAlias], references: [alias])
-  accessTokenAlias String?
+  learner Learner?
+  creator Creator?
 
-  @@index([accessTokenAlias])
-}
-
-model AccessToken {
-  alias     String  @id @unique
-  mintTxId  String  @unique
-  confirmed Boolean
-  User      User[]
+  userWallet           UserWallet?
+  unconfirmedTx        String?
+  accessTokenMintTx    String?
+  hasMintedAccessToken Boolean     @default(false)
 }
 
 model VerificationToken {

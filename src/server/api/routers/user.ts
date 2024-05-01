@@ -46,7 +46,6 @@ export const userRouter = createTRPCRouter({
         include: {
           creator: true,
           learner: true,
-          accessToken: true,
         },
       });
 
@@ -57,37 +56,58 @@ export const userRouter = createTRPCRouter({
       }
     }),
 
-    updateAccessToken: protectedProcedure
+  updateHasMintedAccessToken: protectedProcedure
     .input(
       z.object({
-        alias: z.string().min(1),
-        mintTxId: z.string().min(1),
-        confirmed: z.boolean(),
+        userId: z.string(),
+        hasMinted: z.boolean(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.user.upsert({
+      return ctx.db.user.update({
         where: {
-          id: ctx.session.user.id,
+          id: input.userId,
         },
-        create: {
-          accessToken: {
-            create: {
-              alias: input.alias,
-              mintTxId: input.mintTxId,
-              confirmed: input.confirmed,
-            },
-          },
-        },
-        update: {
-          accessToken: {
-            create: {
-              alias: input.alias,
-              mintTxId: input.mintTxId,
-              confirmed: input.confirmed,
-            },
-          },
+        data: {
+          hasMintedAccessToken: input.hasMinted,
         },
       });
     }),
+
+    updateAccessTokenMintTx: protectedProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+        txHash: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.user.update({
+        where: {
+          id: input.userId,
+        },
+        data: {
+          accessTokenMintTx: input.txHash,
+        },
+      });
+    }),
+
+    updateUnconfirmedTx: protectedProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+        txHash: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.user.update({
+        where: {
+          id: input.userId,
+        },
+        data: {
+          unconfirmedTx: input.txHash,
+        },
+      });
+    }),
+
 });

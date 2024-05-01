@@ -3,16 +3,16 @@ import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { useState } from "react";
 
-export const HoverEffect = ({
-  items,
-  className,
+export const CourseCardHoverEffect = ({
+  course,
+  idx,
 }: {
-  items: {
+  course: {
     title: string;
     description: string;
     link: string;
-  }[];
-  className?: string;
+  };
+  idx: number;
 }) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const animate = true;
@@ -26,16 +26,10 @@ export const HoverEffect = ({
   };
 
   return (
-    <div
-      className={cn(
-        "grid grid-cols-1 py-10  md:grid-cols-2  lg:grid-cols-3",
-        className,
-      )}
-    >
-      {items.map((item, idx) => (
+
         <Link
-          href={item?.link}
-          key={item?.link}
+          href={course.link}
+          key={course.link}
           className="group relative  block h-full w-full p-2"
           onMouseEnter={() => setHoveredIndex(idx)}
           onMouseLeave={() => setHoveredIndex(null)}
@@ -102,12 +96,10 @@ export const HoverEffect = ({
             )}
           </AnimatePresence>
           <Card>
-            <CardTitle>{item.title}</CardTitle>
-            <CardDescription>{item.description}</CardDescription>
+            <CardTitle>{course.title}</CardTitle>
+            <CardDescription>{course.description}</CardDescription>
           </Card>
         </Link>
-      ))}
-    </div>
   );
 };
 

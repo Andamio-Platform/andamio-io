@@ -4,7 +4,7 @@ import { CourseCardHoverEffect } from "~/components/ui/card-hover-effect";
 import useCourses from "~/hooks/useCourses";
 import CourseButtonCard from "../studio/components/course/CourseButtonCard";
 
-const featuredCourseCodes = ["another101", "hello101"];
+const featuredCourseCodes = ["dp2024", "ppbl2024", "mesh", "APBLHK"];
 
 export default function FeaturedCourses() {
   const { courses, isLoadingCourses } = useCourses();

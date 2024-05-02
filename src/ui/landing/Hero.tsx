@@ -19,19 +19,13 @@ export default function Hero() {
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-3xl text-center">
             <h1 className="py-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-              Build your network.
-            </h1>
-            <h1 className="py-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-              Contribute to projects.
-            </h1>
-            <h1 className="py-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-              Solve bigger problems.
+              Build your network of learners and contributors
             </h1>
 
             <p className="mt-6 text-xl leading-8 text-gray-600">
-              Andamio empowers your organization to teach relevant skills and to cultivate
-              connections throughout your growing community. It empowers people
-              to learn and to contribute to new projects.
+              Andamio empowers your organization to teach skills that connect to
+              contribution opportunities. It helps to teach new skills, create
+              strong community ties and onboard skilled contributors.
             </p>
             <p className="mt-6 text-lg leading-8 ">v0.1.10</p>
             <div className="mt-10 flex items-center justify-center gap-x-6">

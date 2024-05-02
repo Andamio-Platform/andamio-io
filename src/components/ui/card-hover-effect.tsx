@@ -97,7 +97,7 @@ export const CourseCardHoverEffect = ({
           </AnimatePresence>
           <Card>
             <CardTitle>{course.title}</CardTitle>
-            <CardDescription>{course.description}</CardDescription>
+            <CardDescription><span className="truncate">{course.description}</span></CardDescription>
           </Card>
         </Link>
   );

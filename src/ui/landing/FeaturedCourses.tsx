@@ -18,14 +18,9 @@ export default function FeaturedCourses() {
         <p className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
           Project-Based Learning
         </p>
-        <p className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          means Learning by Solving Problems.
-        </p>
         <p className="mt-6 text-xl leading-8 text-gray-600">
-          Every course on Andamio is built by organizations that are solving
-          real problems. Courses are designed so that students gain valuable
-          skills by working on real projects. When we learn this way, we build
-          relationships that lead to deep collaboration.
+          Here are some examples of how Andamio is helping organizations to
+          expand their network of skilled contributors.
         </p>
       </div>
       <div className="mx-auto mt-8 max-w-2xl lg:max-w-4xl">

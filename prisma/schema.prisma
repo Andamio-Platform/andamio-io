@@ -60,6 +60,11 @@ model User {
 
   learner Learner?
   creator Creator?
+
+  userWallet           UserWallet?
+  unconfirmedTx        String?
+  accessTokenMintTx    String?
+  hasMintedAccessToken Boolean     @default(false)
 }
 
 model VerificationToken {
@@ -235,6 +240,12 @@ model CourseOnChainInstance {
   course   Course @relation("CourseInstance", fields: [courseId], references: [id])
   courseId String
 
+  LocalStateValidatorAddress String
+  CourseCreatorNFTPolicyID   String
+  LocalStatePolicyID         String
+  CourseInstanceUTxO         String
+  LocalStatePolicyRefUTxO    String
+
   @@index([courseId])
 }
 
@@ -352,6 +363,18 @@ model Learner {
   lessons         Lesson[]     @relation("LearnerLessons")
   assignments     Assignment[] @relation("LearnerAssignments")
   // For Learners, Module completion goes on-chain, so we skip adding it here
+
+  @@unique([userId])
+}
+
+model UserWallet {
+  id String @id @default(cuid())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  walletAddress String
+  stakeAddress  String
 
   @@unique([userId])
 }

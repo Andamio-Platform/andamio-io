@@ -71,7 +71,7 @@ export default function MobileMenu({
                 <div className="flex h-16 shrink-0 items-center">
                   <img
                     className="h-8 w-auto"
-                    src="/andamio.png"
+                    src="/andamio-logo.svg"
                     alt="Andamio"
                   />
                 </div>

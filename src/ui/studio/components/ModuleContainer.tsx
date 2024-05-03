@@ -41,6 +41,7 @@ export default function ModuleContainer({
 }) {
   if (!course) return;
 
+
   const ctx = api.useUtils();
 
   const [moduleDialogOpen, setModuleDialogOpen] = useState<boolean>(false);

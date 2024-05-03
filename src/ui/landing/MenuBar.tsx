@@ -2,6 +2,9 @@ import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "~/components/link";
+import { useSession } from "next-auth/react";
+import MenuBarSessionProfile from "../auth/MenuBarSessionProfile";
+import UnconfirmedTx from "../transaction/UnconfirmedTx";
 
 const navigation = [
   { name: "Courses", href: "/courses" },
@@ -31,6 +34,7 @@ function Desktop({
 }: {
   setMobileMenuOpen: (open: boolean) => void;
 }) {
+  const { data: sessionData } = useSession();
   return (
     <nav
       className="flex items-center justify-between p-6 lg:px-8"
@@ -62,11 +66,17 @@ function Desktop({
         ))}
       </div>
       <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-        <Link href={`/auth/signin`}>
-          <span className="text-sm font-semibold leading-6 text-foreground">
-            Log in <span aria-hidden="true">&rarr;</span>
-          </span>
-        </Link>
+        {/* TO-DO: Implement transaction confirmation manager */}
+        {/* Paused due to Maestro's transaction manager for preprod is not working */}
+        {/* <UnconfirmedTx unconfirmedTxHash={sessionData?.user.unconfirmedTx} />  */}
+        {!sessionData && (
+          <Link href={`/auth/signin`}>
+            <span className="text-sm font-semibold leading-6 text-foreground">
+              Log in <span aria-hidden="true">&rarr;</span>
+            </span>
+          </Link>
+        )}
+        <MenuBarSessionProfile />
       </div>
     </nav>
   );

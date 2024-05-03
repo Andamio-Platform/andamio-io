@@ -8,7 +8,11 @@ import {
 
 export const courseRouter = createTRPCRouter({
   getCourses: publicProcedure.query(({ ctx }) => {
-    return ctx.db.course.findMany();
+    return ctx.db.course.findMany({
+      include: {
+        onchainInstance: true,
+      },
+    });
   }),
 
   getCourse: publicProcedure

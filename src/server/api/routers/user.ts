@@ -55,4 +55,59 @@ export const userRouter = createTRPCRouter({
         return user;
       }
     }),
+
+  updateHasMintedAccessToken: protectedProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+        hasMinted: z.boolean(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.user.update({
+        where: {
+          id: input.userId,
+        },
+        data: {
+          hasMintedAccessToken: input.hasMinted,
+        },
+      });
+    }),
+
+    updateAccessTokenMintTx: protectedProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+        txHash: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.user.update({
+        where: {
+          id: input.userId,
+        },
+        data: {
+          accessTokenMintTx: input.txHash,
+        },
+      });
+    }),
+
+    updateUnconfirmedTx: protectedProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+        txHash: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.user.update({
+        where: {
+          id: input.userId,
+        },
+        data: {
+          unconfirmedTx: input.txHash,
+        },
+      });
+    }),
+
 });

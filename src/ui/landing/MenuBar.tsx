@@ -64,7 +64,9 @@ function Desktop({
         ))}
       </div>
       <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-        <UnconfirmedTx unconfirmedTxHash={sessionData?.user.unconfirmedTx} />
+        {/* TO-DO: Implement transaction confirmation manager */}
+        {/* Paused due to Maestro's transaction manager for preprod is not working */}
+        {/* <UnconfirmedTx unconfirmedTxHash={sessionData?.user.unconfirmedTx} />  */}
         {!sessionData && (
           <Link href={`/auth/signin`}>
             <span className="text-sm font-semibold leading-6 text-foreground">

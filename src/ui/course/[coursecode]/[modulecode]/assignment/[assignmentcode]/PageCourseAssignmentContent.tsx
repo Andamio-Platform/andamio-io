@@ -79,7 +79,8 @@ function Page(assignment: { slts: Slt[] } & Assignment) {
         <p className="text-xl leading-8">{assignment.description}</p>
       </div>
       {assignment.contentJson && editor.render()}
-      <CommitToAssignmentPage />
+      {/* TO-DO: Only show CommitToAssignmentPage when there is a module token minted for the assignment */}
+      {/* <CommitToAssignmentPage /> */}
     </>
   );
 }

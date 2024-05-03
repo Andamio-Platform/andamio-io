@@ -7,10 +7,7 @@ import Loading from "~/components/loading";
 import UTxOi from "~/components/transactions/model";
 import { Button } from "~/components/ui/button";
 import { blockfrostProvider } from "~/config/blockfrost";
-import {
-  ACCESS_TOKEN_POLICY_ID,
-  GLOBAL_STATE_VALIDATOR_ADDR,
-} from "../andamio-params";
+import { ACCESS_TOKEN_POLICY_ID } from "~/andamio.config";
 
 interface RequestData {
   Address: string;

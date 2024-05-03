@@ -38,7 +38,7 @@ export default function MintAccessToken() {
   const { mutate: createUnconfirmedTx } =
     api.user.updateUnconfirmedTx.useMutation({
       onSuccess: () => {
-        toast.success("Access token updated");
+        toast.success("Unconfirmed Tx updated");
         void ctx.user.getUserById.invalidate();
       },
       onError: (e) => {
@@ -50,6 +50,20 @@ export default function MintAccessToken() {
 
   const { mutate: updateAccessTokenMintTx } =
     api.user.updateAccessTokenMintTx.useMutation({
+      onSuccess: () => {
+        toast.success("Access token mint TxId updated");
+        void ctx.user.getUserById.invalidate();
+      },
+      onError: (e) => {
+        const errorMessage = e.data?.zodError?.fieldErrors;
+        console.error(errorMessage);
+        toast.error("Something went wrong. Please try again.");
+      },
+    });
+
+  // TO DO: Remove after successfully implementing tx confirmation manager
+  const { mutate: updateHasMintedAccessToken } =
+    api.user.updateHasMintedAccessToken.useMutation({
       onSuccess: () => {
         toast.success("Access token updated");
         void ctx.user.getUserById.invalidate();
@@ -153,6 +167,11 @@ export default function MintAccessToken() {
           userId: sessionData!.user.id,
           txHash: txHash,
         });
+        // TO DO: Remove after successfully implementing tx confirmation manager
+        updateHasMintedAccessToken({
+          userId: sessionData!.user.id,
+          hasMinted: true,
+        });
       } else {
         toast.error("Something went wrong. Please try again.");
       }
@@ -184,7 +203,11 @@ export default function MintAccessToken() {
                       placeholder="Token Alias"
                       form={form}
                     />
-                    {isAvailable && <div className="text-sm text-green-500 mb-2">This alias is available.</div>}
+                    {isAvailable && (
+                      <div className="mb-2 text-sm text-green-500">
+                        This alias is available.
+                      </div>
+                    )}
                     <Button type="submit">Mint</Button>
                   </form>
                 </Form>

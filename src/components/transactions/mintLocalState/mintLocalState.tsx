@@ -10,7 +10,7 @@ import { blockfrostProvider } from "~/config/blockfrost";
 import {
   ACCESS_TOKEN_POLICY_ID,
   GLOBAL_STATE_VALIDATOR_ADDR,
-} from "../andamio-params";
+} from "~/andamio.config";
 import useCourseOnchain from "~/hooks/useCourseOnchain";
 import { Network } from "~/config/Network";
 import maestro from "~/config/maestro";
@@ -36,7 +36,10 @@ export default function MintLocalState({ courseId }: { courseId: string }) {
 
   const { connected, wallet } = useWallet();
   const [isLoading, setIsLoading] = useState(false);
-  const {courseOnchain, isLoadingCourseOnchain} = useCourseOnchain(courseId, Network);
+  const { courseOnchain, isLoadingCourseOnchain } = useCourseOnchain(
+    courseId,
+    Network,
+  );
 
   async function onSubmit() {
     setIsLoading(true);
@@ -105,7 +108,9 @@ export default function MintLocalState({ courseId }: { courseId: string }) {
         },
         LocalStatePolicyRefUTxO: {
           TxID: courseOnchain.LocalStatePolicyRefUTxO.substring(0, 65),
-          TxIDIndex: parseInt(courseOnchain.LocalStatePolicyRefUTxO.substring(65)),
+          TxIDIndex: parseInt(
+            courseOnchain.LocalStatePolicyRefUTxO.substring(65),
+          ),
         },
       };
 
@@ -116,7 +121,7 @@ export default function MintLocalState({ courseId }: { courseId: string }) {
       const unsignedTx = response.data.unsignedTxCBOR;
 
       const signedTx = await wallet.signTx(unsignedTx, true);
-      const txId = await maestro.submitTx(signedTx)
+      const txId = await maestro.submitTx(signedTx);
 
       console.log(txId);
 

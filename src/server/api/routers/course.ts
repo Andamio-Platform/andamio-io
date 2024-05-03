@@ -8,7 +8,11 @@ import {
 
 export const courseRouter = createTRPCRouter({
   getCourses: publicProcedure.query(({ ctx }) => {
-    return ctx.db.course.findMany();
+    return ctx.db.course.findMany({
+      include: {
+        onchainInstance: true,
+      },
+    });
   }),
 
   getCourse: publicProcedure
@@ -26,10 +30,10 @@ export const courseRouter = createTRPCRouter({
           modules: true,
           contributors: {
             include: {
-              user: true
-            }
+              user: true,
+            },
           },
-          variants: true
+          variants: true,
         },
       });
     }),
@@ -46,9 +50,8 @@ export const courseRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-
       if (!ctx.session.user.creatorId) {
-        throw new Error('User does not have Creator role.');
+        throw new Error("User does not have Creator role.");
       }
 
       return ctx.db.course.create({
@@ -76,8 +79,8 @@ export const courseRouter = createTRPCRouter({
         modules: true,
         contributors: {
           include: {
-            user: true
-          }
+            user: true,
+          },
         },
         variants: true,
       },

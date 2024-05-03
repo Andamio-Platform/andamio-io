@@ -1,5 +1,5 @@
 import MenuBar from "../landing/MenuBar";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { CardanoWallet, useWallet } from "@meshsdk/react";
 import {
@@ -10,10 +10,30 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
+import AccessTokenSection from "./AccessTokenSection";
+import MyCoursesSection from "./MyCoursesSection";
+import { ACCESS_TOKEN_POLICY_ID } from "~/andamio.config";
+import { Button } from "~/components/ui/button";
+import Link from "next/link";
 
 export default function DashboardPage({ username }: { username: string }) {
   const { setTheme } = useTheme();
-  const { connected } = useWallet();
+  const { wallet, connected } = useWallet();
+  const [accessToken, setAccessToken] = useState(null);
+
+  useEffect(() => {
+    const fetchAccessToken = async () => {
+      const userAssets = await wallet.getAssets();
+      const accessToken = userAssets.find((asset) =>
+        asset.unit.includes(ACCESS_TOKEN_POLICY_ID),
+      );
+      setAccessToken(accessToken);
+    };
+
+    if (connected) {
+      fetchAccessToken();
+    }
+  }, [wallet]);
 
   useEffect(() => {
     setTheme("light");
@@ -24,11 +44,16 @@ export default function DashboardPage({ username }: { username: string }) {
       {!connected ? (
         <NotConnectedCardano />
       ) : (
-        <div className="mx-auto mt-32 min-h-[50vh] max-w-7xl px-6 sm:mt-56 lg:px-8">
-          <p>start with fetching access token from connected wallet</p>
+        <div className="mx-auto mt-32 flex min-h-[50vh] max-w-7xl flex-col items-center justify-center gap-10 px-6 sm:mt-56 lg:px-8">
+          {accessToken ? (
+            <>
+              <AccessTokenSection />
 
-          <h1>My courses</h1>
-          <p>list of courses by querying local states</p>
+              <MyCoursesSection />
+            </>
+          ) : (
+            <NoAccessTokenInWallet />
+          )}
         </div>
       )}
     </>
@@ -51,7 +76,33 @@ function NotConnectedCardano() {
           </div>
         </CardContent>
         <CardFooter>
-          <p className="text-sm">Info in your Dashboard are on-chain</p>
+          <p className="text-sm">Info in your Dashboard are real-time data directly from the cardano blockchain.</p>
+        </CardFooter>
+      </Card>
+    </div>
+  );
+}
+
+function NoAccessTokenInWallet() {
+  return (
+    <div>
+      <Card>
+        <CardHeader>
+          <CardTitle>No access token found in your connected wallet</CardTitle>
+          <CardDescription>
+            Join the Andamio Network by minting an Andamio Access Token.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Button>
+            <Link href={"/auth/join-andamio-network"}>Get Token</Link>
+          </Button>
+        </CardContent>
+        <CardFooter>
+          <p className="text-sm">
+            By connecting to the andamio network you will unlock Andamio's
+            state-of-the-art on-chain credential features.{" "}
+          </p>
         </CardFooter>
       </Card>
     </div>

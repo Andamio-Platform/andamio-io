@@ -33,7 +33,6 @@ import useCourses from "~/hooks/useCourses";
 
 export default function PageCourses() {
   const { courses, isLoadingCourses } = useCourses();
-  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div className="py-24 sm:py-32">
@@ -58,54 +57,15 @@ export default function PageCourses() {
           >
             {courses.map((course, i) => (
               <li key={i}>
-                <Dialog>
-                  <DialogTrigger>
-                    <img
-                      className="aspect-[3/2] w-full rounded-2xl object-cover"
-                      src={
-                        course.imageUrl
-                          ? course.imageUrl
-                          : "/images/sample-covers/1.jpg"
-                      }
-                      alt=""
-                    />
-                    <h3 className="mt-6 text-lg font-semibold leading-8 tracking-tight text-foreground">
-                      {course.title}
-                    </h3>
-                    <p className="text-base leading-7 text-gray-600">
-                      {course.description}
-                    </p>
-                  </DialogTrigger>
-                  <DialogContent className="flex items-center justify-center justify-items-center">
-                    <DialogHeader>
-                      <DialogTitle>Thinking of taking this course?</DialogTitle>
-                      <DialogDescription>
-                        <Collapsible
-                          open={isOpen}
-                          onOpenChange={setIsOpen}
-                          className="w-[350px] space-y-2"
-                        >
-                          <div className="flex items-center justify-start">
-                            <CollapsibleTrigger asChild>
-                              <Button>
-                                {isOpen ? <>Back</> : <>Enroll On-Chain</>}
-                              </Button>
-                            </CollapsibleTrigger>
-                          </div>
-
-                          <CollapsibleContent className="space-y-2">
-                            <MintLocalState courseId={course.id} />
-                          </CollapsibleContent>
-                        </Collapsible>
-                      </DialogDescription>
-                      <DialogFooter className="text-xs sm:justify-start">
-                        <Link href={`/course/${course.courseCode}`}>
-                          I&apos;ll do it after taking a look inside first
-                        </Link>
-                      </DialogFooter>
-                    </DialogHeader>
-                  </DialogContent>
-                </Dialog>
+                {course.onchainInstance.length !== 0 ? (
+                  <>
+                    <CourseOnChain {...course} />
+                  </>
+                ) : (
+                  <>
+                    <CourseNotOnChain {...course} />
+                  </>
+                )}
 
                 {/* <ul role="list" className="mt-6 flex gap-x-6">
                 <li>
@@ -151,5 +111,87 @@ export default function PageCourses() {
         )}
       </div>
     </div>
+  );
+}
+
+interface Course {
+  id: string;
+  courseCode: string;
+  createdById: string;
+  title: string;
+  description: string | null;
+  category: string | null;
+  imageUrl: string | null;
+  videoUrl: string | null;
+  live: boolean | null;
+  accessTier: any;
+}
+
+function CourseNotOnChain(course: Course) {
+  return (
+    <Link href={`/course/${course.courseCode}`}>
+      <img
+        className="aspect-[3/2] w-full rounded-2xl object-cover"
+        src={course.imageUrl ? course.imageUrl : "/images/sample-covers/1.jpg"}
+        alt=""
+      />
+      <h3 className="mt-6 text-lg font-semibold leading-8 tracking-tight text-foreground">
+        {course.title}
+      </h3>
+      <p className="text-base leading-7 text-gray-600">{course.description}</p>
+    </Link>
+  );
+}
+
+function CourseOnChain(course: Course) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  // TO_DO: Add logic for if the user already have enrolled in the course
+
+  return (
+    <Dialog>
+      <DialogTrigger>
+        <img
+          className="aspect-[3/2] w-full rounded-2xl object-cover"
+          src={
+            course.imageUrl ? course.imageUrl : "/images/sample-covers/1.jpg"
+          }
+          alt=""
+        />
+        <h3 className="mt-6 text-lg font-semibold leading-8 tracking-tight text-foreground">
+          {course.title}
+        </h3>
+        <p className="text-base leading-7 text-gray-600">
+          {course.description}
+        </p>
+      </DialogTrigger>
+      <DialogContent className="flex items-center justify-center justify-items-center">
+        <DialogHeader>
+          <DialogTitle>Thinking of taking this course?</DialogTitle>
+          <DialogDescription>
+            <Collapsible
+              open={isOpen}
+              onOpenChange={setIsOpen}
+              className="w-[350px] space-y-2"
+            >
+              <div className="flex items-center justify-start">
+                <CollapsibleTrigger asChild>
+                  <Button>{isOpen ? <>Back</> : <>Enroll On-Chain</>}</Button>
+                </CollapsibleTrigger>
+              </div>
+
+              <CollapsibleContent className="space-y-2">
+                <MintLocalState courseId={course.id} />
+              </CollapsibleContent>
+            </Collapsible>
+          </DialogDescription>
+          <DialogFooter className="text-xs sm:justify-start">
+            <Link href={`/course/${course.courseCode}`}>
+              I&apos;ll do it after taking a look inside first
+            </Link>
+          </DialogFooter>
+        </DialogHeader>
+      </DialogContent>
+    </Dialog>
   );
 }

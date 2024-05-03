@@ -37,6 +37,8 @@ export default function JoinAndamioNetwork() {
     void router.push("/home");
   }
 
+  // TO-DO: If access-token is available in user's wallet, populate user.hasMintedAccessToken and redirect to /home
+
   const [isOpen, setIsOpen] = useState(false);
 
   return (

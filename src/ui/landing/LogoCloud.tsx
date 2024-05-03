@@ -7,27 +7,27 @@ export default function LogoCloud() {
         <img
           className="h-24 w-24 rounded-full object-cover"
           src="/images/logos/mesh-square.svg"
-          alt="Transistor"
+          alt="Mesh Logo"
         />
         <img
           className="h-24 w-24 rounded-full object-cover"
           src="/images/logos/Gimbalabs-sq.svg"
-          alt="Reform"
+          alt="Gimbalabs Logo"
         />
         <img
           className="h-24 w-24 rounded-full object-cover"
           src="/images/logos/Edify-sq.svg"
-          alt="Tuple"
+          alt="Edify Logo"
         />
         <img
           className="h-24 w-24 rounded-full object-cover"
           src="/images/logos/sidan-sq.svg"
-          alt="SavvyCal"
+          alt="SIDAN Labs Logo"
         />
         <img
           className="h-24 w-24 rounded-full object-cover"
           src="/images/logos/singularity-sq.svg"
-          alt="Statamic"
+          alt="SingularityNET Logo"
         />
       </div>
       <div className="mt-16 flex justify-center">

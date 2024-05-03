@@ -27,7 +27,7 @@ export default function PageLanding() {
         <Hero />
 
         {/* Todo: collect logos from partner organizations */}
-        {/* <LogoCloud /> */}
+        <LogoCloud />
 
         <FeaturedCourses />
 

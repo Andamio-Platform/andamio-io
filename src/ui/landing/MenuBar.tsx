@@ -9,8 +9,10 @@ import UnconfirmedTx from "../transaction/UnconfirmedTx";
 const navigation = [
   { name: "Courses", href: "/courses" },
   { name: "Contributions", href: "#" },
-  { name: "Network Access Token", href: "/network" },
-  { name: "About", href: "#" },
+  { name: "Network", href: "#" },
+  { name: "About", href: "/about" },
+  { name: "Calendar", href: "/calendar" },
+  { name: "Blog", href: "https://blog.andamio.io" },
 ];
 
 export default function LandingMenuBar() {

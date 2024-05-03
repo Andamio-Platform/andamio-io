@@ -38,6 +38,29 @@ export const courseRouter = createTRPCRouter({
       });
     }),
 
+  getCourseById: publicProcedure
+    .input(
+      z.object({
+        courseId: z.string(),
+      }),
+    )
+    .query(({ ctx, input }) => {
+      return ctx.db.course.findFirst({
+        where: {
+          id: input.courseId,
+        },
+        include: {
+          modules: true,
+          contributors: {
+            include: {
+              user: true,
+            },
+          },
+          variants: true,
+        },
+      });
+    }),
+
   create: protectedProcedure
     .input(
       z.object({

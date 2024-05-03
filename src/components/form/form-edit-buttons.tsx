@@ -15,23 +15,13 @@ export default function FormEditButtons({
     <>
       {!hideButtons && (
         <div className="flex flex-row gap-3 px-3">
-          <Button size="icon" intent="ghost" type="submit">
+          <Button size="labeledIcon" intent="outline" type="submit">
             <CheckCircledIcon
               className="rounded-full bg-success text-primary-foreground"
               width="22"
               height="22"
             />
-          </Button>
-          <Button
-            size="icon"
-            intent="ghost"
-            onClick={() => setEditText(false)}
-          >
-            <CrossCircledIcon
-              className="rounded-full bg-warning text-primary-foreground"
-              width="22"
-              height="22"
-            />
+            {" "} Save
           </Button>
         </div>
       )}

@@ -99,14 +99,6 @@
   }
 }
 
-h1 {
-  @apply text-4xl pb-5
-}
-
-h2 {
-  @apply text-2xl py-3
-}
-
-p {
-  @apply py-2
+.link {
+  @apply text-foreground hover:text-success
 }

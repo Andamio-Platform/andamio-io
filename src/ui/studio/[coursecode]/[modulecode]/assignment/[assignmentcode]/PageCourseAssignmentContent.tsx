@@ -10,31 +10,34 @@ import { api } from "~/utils/api";
 import { Assignment, Course, Module, ModuleSLT } from "~/types/db";
 import Editor from "~/components/Editor";
 import { Form } from "~/components/ui/form";
-import StudioLayout from "~/ui/studio/components/layout/StudioLayout";
 
-import TitleAndDescription from "~/ui/studio/components/form-sections/TitleAndDescription";
-import ControlPanel from "~/ui/studio/components/form-sections/ControlPanel";
-import VideoLink from "~/ui/studio/components/form-sections/VideoLink";
-import PublishToggle from "~/ui/studio/components/form-sections/PublishToggle";
-import SltList from "~/ui/studio/components/assignment-dashboard/slt-list";
-import LessonList from "~/ui/studio/components/assignment-dashboard/lesson-list";
-import AssignmentDetails from "~/ui/studio/components/assignment-dashboard/assignment-details";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "~/components/ui/resizable";
 
+import HeaderSection from "../../components/HeaderSection";
+import RightSection from "../../components/RightSection";
+import { DialogGetLessonPlan } from "../../components/coach/DialogGetLessonPlan";
+import { useCourseStore } from "~/lib/zustand/course";
+
+// V2 - current
 export default function PageCourseAssignmentContent({
   course,
-  module,
+  courseModule,
   assignment,
 }: {
   course: Course;
-  module: Module;
+  courseModule: Module;
   assignment: Assignment;
 }) {
   const ctx = api.useUtils();
 
-  if(!course) return <div>ERROR - sorry!</div>
+  if (!course) return;
 
   const courseCode = course.courseCode;
-  const moduleCode = module.moduleCode;
+  const moduleCode = courseModule.moduleCode;
 
   const [editAssignment, setEditAssignment] = useState<boolean>(false);
 
@@ -48,7 +51,7 @@ export default function PageCourseAssignmentContent({
           courseCode: courseCode,
         });
         void ctx.assignment.getAssignmentByModuleId.invalidate({
-          moduleId: module.id,
+          moduleId: courseModule.id,
         });
       },
       onError: (e) => {
@@ -89,11 +92,13 @@ export default function PageCourseAssignmentContent({
     const _assignment = {
       id: assignment.id,
       title: data.title,
+      assignmentCode: assignment.assignmentCode,
       description: data.description ?? "",
       imageUrl: assignment.imageUrl ?? "",
       videoUrl: data.videoUrl ?? "",
       contentJson: editor.getJSON(),
       live: data.live,
+      sltIds: assignment.slts.map((s) => s.id)
     };
     update(_assignment);
   }
@@ -140,8 +145,6 @@ export default function PageCourseAssignmentContent({
         }
       }
     }
-    // todo:
-    // }, [assignment, assignmentVariant]);
   }, [assignment]);
 
   useEffect(() => {
@@ -150,58 +153,74 @@ export default function PageCourseAssignmentContent({
     }
   }, [editAssignment]);
 
-  if(!assignment) return
+  /**
+   * START OF
+   * andamio coach - get lesson plan
+   */
 
-  return (
-    <StudioLayout>
+  const updateLessonEdit = useCourseStore((state) => state.updateLessonEdit);
+  const [getLessonPlanDialogOpen, setGetLessonPlanDialogOpen] = useState(false);
+
+  useEffect(() => {
+    if (updateLessonEdit && editor) {
+      const _json = editor.getJSON();
+      if (_json && _json.content) {
+        for (const _newData of updateLessonEdit) {
+          _json.content.push(_newData);
+        }
+
+        editor.setContent(_json.content);
+      }
+    }
+  }, [updateLessonEdit]);
+
+  /**
+   * END OF
+   * andamio coach - get lesson plan
+   */
+
+  if (assignment) {
+    return (
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="grid grid-cols-12 gap-3">
-            <div className="col-span-12 flex w-full items-center justify-center rounded-md border border-secondary-foreground py-3">
-              <ControlPanel
-                editContent={editAssignment}
-                isLoadingUpdate={isLoadingUpdate}
-                onCancel={onCancel}
-                courseCode={courseCode}
-                moduleCode={moduleCode}
-                contentPath={`assignment/${assignment.assignmentCode}`}
-                live={assignment.live}
-              />
-            </div>
+          <HeaderSection
+            form={form}
+            course={course}
+            courseModule={courseModule}
+            editContent={editAssignment}
+            setEditContent={setEditAssignment}
+            isLoadingUpdate={isLoadingUpdate}
+            onCancel={onCancel}
+            onSubmit={form.handleSubmit(onSubmit)}
+            courseContent={assignment}
+            intent="assignment"
+            setGetLessonPlanDialogOpen={setGetLessonPlanDialogOpen}
+          />
 
-            <div className="col-span-12 flex flex-col w-full items-center justify-center rounded-md border border-secondary-foreground p-3">
-              Coming Soon: Assignment Dashboard
-            </div>
-
-
-            <div className="col-span-8 row-span-5 rounded-md border border-secondary-foreground p-5">
-              <TitleAndDescription
-                form={form}
-                id={assignment.id}
-                title={assignment.title}
-                description={assignment.description}
-                edit={editAssignment}
-                setEdit={setEditAssignment}
-                onSubmit={() => onSubmit}
-              />
-            </div>
-            <SltList module={module} assignment={assignment} />
-            <AssignmentDetails
-              course={course}
-              module={module}
-              assignment={assignment}
-            />
-            <VideoLink form={form} />
-            <LessonList module={module} />
-            <PublishToggle form={form} title={course.title} />
-            <div className="col-span-12 rounded-md border border-secondary-foreground">
-              <div className="relative mx-auto w-full p-5">
-                {editor.render()}
-              </div>
-            </div>
+          <div className="flex w-full bg-card">
+            <ResizablePanelGroup direction="horizontal" className="gap-2">
+              <ResizablePanel defaultSize={80}>
+                <div className="mx-2 h-[calc(100vh-84px)] w-full overflow-y-auto border">
+                  <div className="mx-auto my-4">
+                    <div className="m-5 flex min-h-[90vh] w-full bg-background p-5 shadow-xl">
+                      {editor.render()}
+                    </div>
+                  </div>
+                </div>
+              </ResizablePanel>
+              <ResizableHandle />
+              <ResizablePanel defaultSize={20}>
+                <RightSection
+                  form={form}
+                  course={course}
+                  courseModule={courseModule}
+                  assignment={assignment}
+                />
+              </ResizablePanel>
+            </ResizablePanelGroup>
           </div>
         </form>
       </Form>
-    </StudioLayout>
-  );
+    );
+  }
 }

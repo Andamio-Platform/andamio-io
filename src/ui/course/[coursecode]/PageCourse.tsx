@@ -1,4 +1,4 @@
-import { RouterOutputs, api } from "~/utils/api";
+import { api } from "~/utils/api";
 import Loading from "~/components/loading";
 import VideoPlayer from "~/components/media/VideoPlayer";
 import { Button } from "~/components/ui/button";
@@ -18,18 +18,32 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "~/components/ui/accordion";
-import { Card } from "~/components/ui/card";
+import useCourseById from "~/hooks/useCourseById";
+import { Badge } from "~/components/ui/badge";
+import { format } from "date-fns";
 
-export default function PageCourse({ courseCode }: { courseCode: string }) {
+export default function PageCourse({
+  courseCode,
+  courseId,
+}: {
+  courseCode?: string;
+  courseId?: string;
+}) {
   const { data: sessionData } = useSession();
 
-  const { course, isLoadingCourse } = useCourse(courseCode);
+  const { course: courseById, isLoadingCourse: isLoadingCourseById } =
+    useCourseById(courseId);
+  const { course: courseByCode, isLoadingCourse: isLoadingCourseByCode } =
+    useCourse(courseCode);
+
+  const course = courseById || courseByCode;
+
   const { listCourseVariant, setSelectedVariantName, selectedCourseVariant } =
     useCourseVariants(course?.id);
 
   const setCourseVariant = useCourseStore((state) => state.setCourseVariant);
 
-  if (course === null && isLoadingCourse) {
+  if (course === null) {
     return <Loading />;
   }
 
@@ -65,19 +79,12 @@ export default function PageCourse({ courseCode }: { courseCode: string }) {
 
   return (
     <CourseLayout>
-      <div className="mx-auto flex w-full flex-col md:w-11/12 lg:w-11/12">
+      <div className="mx-auto flex w-full max-w-5xl flex-col md:w-11/12 lg:w-11/12">
         <h1 className="text-[5rem] font-bold leading-[5rem]">
           {_course.title}
         </h1>
-        <div className="text-xl leading-8">{_course.description}</div>
-        <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 lg:gap-10">
-          <div>
-            <h1 className="mt-10 text-[1.5rem] font-bold">Course Outline</h1>
-            <ListModules
-              courseCode={courseCode}
-              _courseVariant={_courseVariant}
-            />
-          </div>
+        <div className="py-10 text-xl leading-8">{_course.description}</div>
+        <div className="grid grid-cols-1 gap-5 lg:gap-10">
           <div>
             {_course.videoUrl && (
               <div className="flex flex-col gap-4 md:flex-row">
@@ -102,6 +109,15 @@ export default function PageCourse({ courseCode }: { courseCode: string }) {
                 </div>
               </div>
             )}
+          </div>
+          <div>
+            <h1 className="mb-5 mt-10 text-[2.5rem] font-bold">
+              Course Outline
+            </h1>
+            <ListModules
+              courseCode={_course.courseCode}
+              _courseVariant={_courseVariant}
+            />
           </div>
         </div>
 
@@ -139,17 +155,17 @@ function ListModules({
   if (courseModules == undefined) return <></>;
 
   return (
-      <>
-        {isLoadingCourseModules && <Loading />}
-        {courseModules.sort(sortBy).map((module, i) => (
-          <ModuleContainer
-            key={i}
-            module={module}
-            courseCode={courseCode}
-            _courseVariant={_courseVariant}
-          />
-        ))}
-      </>
+    <>
+      {isLoadingCourseModules && <Loading />}
+      {courseModules.sort(sortBy).map((module, i) => (
+        <ModuleContainer
+          key={i}
+          module={module}
+          courseCode={courseCode}
+          _courseVariant={_courseVariant}
+        />
+      ))}
+    </>
   );
 }
 
@@ -190,45 +206,67 @@ function ModuleContainer({
   return (
     <Accordion type="single" collapsible>
       <AccordionItem value="item-1">
-        <AccordionTrigger className="flex w-full items-start justify-between gap-4 text-left text-foreground hover:text-primary hover:no-underline">
+        <AccordionTrigger className="flex w-full items-center justify-between gap-4 bg-accent px-5 py-5 text-left hover:bg-card hover:no-underline">
           <span className="text-base font-semibold leading-7">
             {_module.moduleCode}
           </span>
           <span className="grow">
             <div>
-              <p className="text-[1.5rem] font-semibold leading-7">
+              <p className="text-[1.2rem] font-semibold leading-7">
                 {_module.title}
               </p>
-              <div className="mt-1 flex items-center gap-x-2 text-sm leading-5 text-accent-foreground">
+              <div className="flex items-center gap-x-2 text-sm leading-5 text-accent-foreground">
                 <p>{_module.description}</p>
               </div>
             </div>
           </span>
-          <Link href={`/course/${courseCode}/${_module.moduleCode}`}><span className="hover:text-warning">Start Module</span></Link>
+          {_module.releaseDate && (
+            <Badge>Release Date: {format(_module.releaseDate, "P")}</Badge>
+          )}
         </AccordionTrigger>
-        <div className="mb-5 mt-2">
-          {_module.slts.map((slt, i) => (
-            <AccordionContent
-              key={`slt${i}`}
-              className="flex flex-wrap items-center justify-between gap-y-4 py-5 text-foreground hover:text-primary sm:flex-nowrap"
-            >
-              <Link
-                href={`/course/${courseCode}/${_module.moduleCode}/lesson/${slt.moduleIndex}`}
-              >
-                <div className="flex items-center gap-x-2 font-semibold leading-6 ">
-                  <span className="text-sm">
-                    {_module.moduleCode}.{slt.moduleIndex}
-                  </span>
-                  <CircleIcon />
-                  <span className="text-base">
-                  {slt.sltText}
-
-                  </span>
-                </div>
-                
-              </Link>
-            </AccordionContent>
-          ))}
+        <div className="mb-5">
+          <AccordionContent className="flex flex-col flex-wrap items-center justify-between gap-y-1 bg-primary py-5 text-primary-foreground sm:flex-nowrap">
+            <div className="grid w-full grid-cols-2 gap-5 px-8">
+              <div>
+                <h2 className="pb-3 text-xl font-bold">
+                  Student Learning Targets
+                </h2>
+                {_module.slts.map((slt, i) => (
+                  <div
+                    key={`slt${i}`}
+                    className="flex w-full py-1 hover:text-accent"
+                  >
+                    <Link
+                      href={`/course/${courseCode}/${_module.moduleCode}/lesson/${slt.moduleIndex}`}
+                    >
+                      <div className="flex items-center gap-x-2 font-semibold leading-6 ">
+                        <span className="text-sm">
+                          {_module.moduleCode}.{slt.moduleIndex}
+                        </span>
+                        <CircleIcon />
+                        <span className="text-base">{slt.sltText}</span>
+                      </div>
+                    </Link>
+                  </div>
+                ))}
+              </div>
+              <div className="mx-auto flex w-full flex-col gap-3 md:w-1/2">
+                <Link href={`/course/${courseCode}/${_module.moduleCode}`}>
+                  <Button intent="default" size="lg">
+                    Start this Module
+                  </Button>
+                </Link>
+                <Link
+                  href={`/course/${courseCode}/${_module.moduleCode}/assignment/${_module.assignments[0]?.assignmentCode}`}
+                >
+                  <Button intent="default" size="lg">
+                    View Assignment
+                  </Button>
+                </Link>
+                <p>{_module.description}</p>
+              </div>
+            </div>
+          </AccordionContent>
         </div>
       </AccordionItem>
     </Accordion>

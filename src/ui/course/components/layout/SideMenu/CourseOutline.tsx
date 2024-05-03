@@ -25,82 +25,80 @@ export default function CourseOutline({
 
   return (
     <div className="-mx-2 mt-3 space-y-1">
-      {courseModules?.sort(sortBy).map((module, i) => {
+      {courseModules?.sort(sortBy).map((courseModule, i) => {
         return (
-          <>
-            <Accordion key={module.moduleCode} type="single" collapsible>
-              <AccordionItem value="item-1">
-                <AccordionTrigger
-                  className={classNames(
-                    "hover:text-accent-foreground-foreground rounded-sm px-3 text-foreground hover:bg-accent",
-                    "text-sm font-semibold",
-                    "hover:no-underline",
-                  )}
-                >
-                  {module.title}
-                </AccordionTrigger>
+          <Accordion key={courseModule.moduleCode} type="single" collapsible>
+            <AccordionItem value="item-1">
+              <AccordionTrigger
+                className={classNames(
+                  "hover:text-accent-foreground-foreground rounded-sm px-3 text-foreground hover:bg-accent text-left",
+                  "text-sm font-semibold",
+                  "hover:no-underline",
+                )}
+              >
+                {courseModule.moduleCode}: {courseModule.title}
+              </AccordionTrigger>
 
-                {module.slts
-                  .sort((a, b) => a.moduleIndex - b.moduleIndex)
-                  .map((slt) => {
-                    return (
-                      <AccordionContent
-                        key={slt.id}
-                        className={classNames(
-                          "hover:text-accent-foreground-foreground text-foreground hover:bg-accent",
-                          "rounded-md p-2",
+              {courseModule.slts
+                .sort((a, b) => a.moduleIndex - b.moduleIndex)
+                .map((slt) => {
+                  return (
+                    <AccordionContent
+                      key={slt.id}
+                      className={classNames(
+                        "hover:text-accent-foreground-foreground text-foreground hover:bg-accent",
+                        "rounded-md p-2",
+                      )}
+                    >
+                      <Link
+                        href={isLessonLive(
+                          courseModule.lessons,
+                          slt,
+                          isCreator,
+                          courseCode,
+                          courseModule,
                         )}
                       >
-                        <Link
-                          href={isLessonLive(
-                            module.lessons,
-                            slt,
-                            isCreator,
-                            courseCode,
-                            module,
+                        <p
+                          className={classNames(
+                            "group flex gap-x-3 text-sm font-semibold leading-6 ml-2",
                           )}
                         >
-                          <p
-                            className={classNames(
-                              "group flex gap-x-3 text-sm font-semibold leading-6",
-                            )}
-                          >
-                            <span>{slt.moduleIndex}</span>
-                            {slt.sltText}
-                          </p>
-                        </Link>
-                      </AccordionContent>
-                    );
-                  })}
+                          <span className="text-secondary-foreground">{courseModule.moduleCode}.{slt.moduleIndex}</span>
+                          {slt.sltText}
+                        </p>
+                      </Link>
+                    </AccordionContent>
+                  );
+                })}
 
-                {module && module.assignments[0] && (
-                  <AccordionContent
-                    key={module.assignments[0].assignmentCode}
-                    className={classNames(
-                      "hover:text-accent-foreground-foreground text-foreground hover:bg-accent",
-                      "rounded-md p-2",
-                    )}
+              {courseModule && courseModule.assignments[0] && (
+                <AccordionContent
+                  key={courseModule.assignments[0].assignmentCode}
+                  className={classNames(
+                    "hover:text-accent-foreground-foreground text-foreground hover:bg-accent",
+                    "rounded-md p-2",
+                  )}
+                >
+                  <Link
+                    href={
+                      courseModule?.assignments[0]?.live || isCreator
+                        ? `/course/${courseCode}/${courseModule.moduleCode}/assignment/${courseModule.assignments[0].assignmentCode}`
+                        : "#"
+                    }
                   >
-                    <Link
-                      href={
-                        module?.assignments[0]?.live || isCreator
-                          ? `/course/${courseCode}/${module.moduleCode}/assignment/${module.assignments[0].assignmentCode}`
-                          : "#"
-                      }
+                    <p
+                      className={classNames(
+                        "group flex gap-x-3 text-sm font-semibold leading-6",
+                      )}
                     >
-                      <p
-                        className={classNames(
-                          "group flex gap-x-3 text-sm font-semibold leading-6",
-                        )}
-                      >
-                        <span>{module.assignments[0].title}</span>
-                      </p>
-                    </Link>
-                  </AccordionContent>
-                )}
-              </AccordionItem>
-            </Accordion>
-          </>
+                      <span>{courseModule.assignments[0].title}</span>
+                    </p>
+                  </Link>
+                </AccordionContent>
+              )}
+            </AccordionItem>
+          </Accordion>
         );
       })}
     </div>

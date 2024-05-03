@@ -27,6 +27,7 @@ export default function DialogSLTDelete({
         setSltDeleteDialogOpen(false);
         toast.success("Student Learning Target deleted");
         void ctx.slt.getModuleSLTs.invalidate({
+          courseCode: courseCode,
           moduleCode: module.moduleCode,
         });
         void ctx.module.getCourseModules.invalidate({
@@ -38,7 +39,7 @@ export default function DialogSLTDelete({
         if (errorMessage) {
           toast.error("Some SLT inputs are missing or invalid");
         } else {
-          toast.error("That did not work. Please try again.");
+          toast.error(e.message ?? "Cannot delete SLT");
         }
       },
     });

@@ -12,19 +12,17 @@ import Loading from "~/components/loading";
 import { FormCheckboxes } from "~/components/form/form-checkboxes";
 import DialogForm from "~/components/form/dialog-form";
 
-// TEST assignment.ts here!
-
 export default function DialogAssignment({
   assignmentDialogOpen,
   setAssignmentDialogOpen,
   courseCode,
-  module,
+  courseModule,
   assignment,
 }: {
   assignmentDialogOpen: boolean;
   setAssignmentDialogOpen: (open: boolean) => void;
   courseCode: string;
-  module: Module;
+  courseModule: Module;
   assignment?: Assignment;
 }) {
   const ctx = api.useUtils();
@@ -32,7 +30,7 @@ export default function DialogAssignment({
   const { courseModules, isLoadingCourseModules } =
     useCourseModules(courseCode);
 
-  const sortedSlts = module.slts
+  const sortedSlts = courseModule.slts
     .slice()
     .sort((a, b) => a.moduleIndex - b.moduleIndex);
 
@@ -42,14 +40,46 @@ export default function DialogAssignment({
         toast.success("Assignment created!");
         const _module = courseModules?.find((c) => c.id === data.moduleId);
         void ctx.slt.getModuleSLTs.invalidate({
+          courseCode: courseCode,
           moduleCode: _module?.moduleCode,
         });
         void ctx.module.getCourseModules.invalidate({
           courseCode: courseCode,
         });
         void ctx.assignment.getAssignmentByModuleId.invalidate({
-          moduleId: module.id,
+          moduleId: courseModule.id,
         });
+        setAssignmentDialogOpen(false);
+      },
+      onError: (e) => {
+        const errorMessage = e.data?.zodError?.fieldErrors;
+        if (errorMessage) {
+          toast.error("Some Assignment inputs are missing or invalid");
+        } else {
+          toast.error("Assignment ID taken. Please try again.");
+        }
+      },
+    });
+
+  const { mutate: assignmentUpdate, isLoading: isLoadingAssignmentUpdate } =
+    api.assignment.update.useMutation({
+      onSuccess: (data) => {
+        toast.success("Assignment updated!");
+        const _module = courseModules?.find((c) => c.id === data.moduleId);
+        void ctx.slt.getModuleSLTs.invalidate({
+          courseCode: courseCode,
+          moduleCode: _module?.moduleCode,
+        });
+        void ctx.module.getCourseModules.invalidate({
+          courseCode: courseCode,
+        });
+        void ctx.assignment.getAssignmentByModuleId.invalidate({
+          moduleId: courseModule.id,
+        });
+        void ctx.assignment.getAssignmentByCourseModuleCodes.invalidate({
+          courseCode: courseCode,
+          moduleCode: _module?.moduleCode,
+        })
         setAssignmentDialogOpen(false);
       },
       onError: (e) => {
@@ -71,24 +101,34 @@ export default function DialogAssignment({
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      assignmentCode: `assignment${module.moduleCode}`,
+      assignmentCode: `assignment${courseModule.moduleCode}`,
       assignmentTitle: "",
       sltIds: [],
     },
   });
 
   function onSubmit(data: FieldValues) {
-    assignmentCreate({
-      moduleId: module.id,
-      assignmentCode: data.assignmentCode,
-      title: data.assignmentTitle,
-      sltIds: data.sltIds,
-    });
+    if (assignment) {
+      assignmentUpdate({
+        id: assignment.id,
+        assignmentCode: data.assignmentCode,
+        title: data.assignmentTitle,
+        sltIds: data.sltIds,
+      });
+    } else {
+      assignmentCreate({
+        moduleId: courseModule.id,
+        assignmentCode: data.assignmentCode,
+        title: data.assignmentTitle,
+        sltIds: data.sltIds,
+      });
+    }
   }
 
   useEffect(() => {
     form.reset({
-      assignmentCode: assignment?.assignmentCode ?? `assignment${module.moduleCode}`,
+      assignmentCode:
+        assignment?.assignmentCode ?? `assignment${courseModule.moduleCode}`,
       assignmentTitle: assignment?.title ?? "",
       sltIds: assignment?.slts.map((s) => s.id) ?? [],
     });
@@ -101,18 +141,17 @@ export default function DialogAssignment({
       ) : (
         <Form {...form}>
           <DialogForm
-            openButton="Add Assignment"
+            openButton={assignment ? "Edit Assignment" : "Add Assignment"}
             openButtonIntent="dialog"
             title="Create a new Assignment"
-            buttonLabel="Create"
+            description={`Adding Assignment to Module ${courseModule.moduleCode}`}
+            buttonLabel={assignment ? "Update Assignment" : "Create Assignment"}
             buttonLoading={isLoadingAssignmentCreate}
             buttonDisabled={isLoadingAssignmentCreate}
             handleSubmit={form.handleSubmit(onSubmit)}
             isOpen={assignmentDialogOpen}
             setIsOpen={setAssignmentDialogOpen}
           >
-            <p>Adding Assignment to Module {module.moduleCode}</p>
-
             <div className="mt-4 grid grid-cols-1 gap-y-4">
               <FormInput
                 name="assignmentTitle"
@@ -135,7 +174,7 @@ export default function DialogAssignment({
                 options={sortedSlts.map((s) => ({
                   id: s.id,
                   value: s.sltText,
-                  label: `${module.moduleCode}.${s.moduleIndex.toString()}: ${s.sltText}`,
+                  label: `${courseModule.moduleCode}.${s.moduleIndex.toString()}: ${s.sltText}`,
                 }))}
               />
             </div>

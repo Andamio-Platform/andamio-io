@@ -24,6 +24,9 @@ import Link from "next/link";
 import DialogModule from "./dialogs/DialogModule";
 import IntroductionContainer from "./IntroductionContainer";
 import useSLTs from "~/hooks/useSLTs";
+import LoadingContentEditor from "./ContentEditor/ui/LoadingContentEditor";
+import LoadingCard from "./LoadingCard";
+import { format } from "date-fns";
 
 type sltI = { slt: ModuleSLT; sltIndex: number; id: string };
 
@@ -112,8 +115,8 @@ export default function ModuleContainer({
         });
         void ctx.slt.getModuleSLTs.invalidate({
           courseCode: course.courseCode,
-          moduleCode: currentModule.moduleCode
-        })
+          moduleCode: currentModule.moduleCode,
+        });
       },
       onError: (e) => {
         const errorMessage = e.data?.zodError?.fieldErrors;
@@ -150,12 +153,16 @@ export default function ModuleContainer({
     updateSltIndexes(_updateSlts);
   }
 
+  if (isLoadingSLTs) {
+    return <LoadingCard>Loading SLTs</LoadingCard>;
+  }
+
   return (
     <div
       className="mx-5 my-3 w-full rounded-md border border-secondary-foreground p-1 sm:mx-auto sm:w-[630px] md:w-[750px] lg:w-[850px] xl:w-[950px]"
       key={`${course.courseCode}-${currentModule.moduleCode}`}
     >
-      <AccordionItem value={currentModule.moduleCode}>
+      <AccordionItem value={currentModule.moduleCode} disabled={moduleDialogOpen}>
         <AccordionTrigger className="flex w-full flex-row justify-between rounded-md bg-primary px-3 text-primary-foreground">
           <div className="grid w-full grid-cols-12 py-1">
             <div className="col-span-1">{currentModule.moduleCode}</div>
@@ -166,7 +173,7 @@ export default function ModuleContainer({
             </div>
             <div className="col-span-3">{`${currentModule.slts.length} SLTs + ${currentModule.lessons.length} Lessons`}</div>
             <div className="col-start-12">
-              <div className="flex gap-2">
+              <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
                 <DialogModule
                   moduleDialogOpen={moduleDialogOpen}
                   setModuleDialogOpen={setModuleDialogOpen}
@@ -181,7 +188,6 @@ export default function ModuleContainer({
           <>
             <div className="flex flex-col pt-3">
               <IntroductionContainer
-                moduleId={currentModule.id}
                 courseCode={course.courseCode}
                 moduleCode={currentModule.moduleCode}
               />
@@ -217,19 +223,25 @@ export default function ModuleContainer({
                 currentModule={currentModule}
               />
 
-              {assignment ? (
+              {assignment && (
                 <Link
                   href={`/studio/${course.courseCode}/${currentModule.moduleCode}/assignment/${assignment.assignmentCode}`}
                 >
                   <AssignmentContainer assignment={assignment} />
                 </Link>
-              ) : (
-                <DialogAssignment
-                  assignmentDialogOpen={assignmentDialogOpen}
-                  setAssignmentDialogOpen={setAssignmentDialogOpen}
-                  courseCode={course.courseCode}
-                  module={currentModule}
-                />
+              )}
+              <DialogAssignment
+                assignmentDialogOpen={assignmentDialogOpen}
+                setAssignmentDialogOpen={setAssignmentDialogOpen}
+                courseCode={course.courseCode}
+                courseModule={currentModule}
+                assignment={assignment}
+              />
+              {currentModule.releaseDate && (
+                <p className="mx-auto w-11/12 pt-5">
+                  This Module is scheduled for release on{" "}
+                  {format(currentModule.releaseDate, "PPPP")}
+                </p>
               )}
             </div>
           </>

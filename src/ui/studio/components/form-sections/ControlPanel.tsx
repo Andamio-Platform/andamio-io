@@ -42,7 +42,7 @@ export default function ControlPanel({
           <>
             {editContent && (
               <Tooltip>
-                <TooltipTrigger>
+                <TooltipTrigger asChild>
                   <Button
                     disabled={isLoadingUpdate || !editContent}
                     size="bigIcon"
@@ -65,7 +65,7 @@ export default function ControlPanel({
       </div>
       <TooltipProvider>
         <Tooltip>
-          <TooltipTrigger>
+          <TooltipTrigger asChild>
             <Button
               onClick={(e) => {
                 e.preventDefault();
@@ -92,7 +92,7 @@ export default function ControlPanel({
       </TooltipProvider>
       <div className="col-start-3 flex flex-row justify-end">
         <Sheet>
-          <SheetTrigger>
+          <SheetTrigger asChild>
             <div className="flex h-[30px] w-[30px] items-center justify-center">
               <QuestionMarkCircledIcon width="22" height="22" />
             </div>
@@ -115,7 +115,7 @@ export default function ControlPanel({
           <TooltipProvider>
             {editContent ? (
               <Tooltip>
-                <TooltipTrigger>
+                <TooltipTrigger asChild>
                   <Button intent="ghost" size="bigIcon" onClick={onCancel}>
                     <CrossCircledIcon width="22" height="22" />
                   </Button>

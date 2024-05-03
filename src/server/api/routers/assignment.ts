@@ -26,8 +26,8 @@ export const assignmentRouter = createTRPCRouter({
           },
         },
         include: {
-          slts: true
-        }
+          slts: true,
+        },
       });
     }),
 
@@ -51,8 +51,8 @@ export const assignmentRouter = createTRPCRouter({
           },
         },
         include: {
-          slts: true
-        }
+          slts: true,
+        },
       });
     }),
 
@@ -67,20 +67,20 @@ export const assignmentRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       if (!ctx.session.user.creatorId) {
-        throw new Error('User does not have Creator role.');
+        throw new Error("User does not have Creator role.");
       }
 
       const newAssignment = await ctx.db.assignment.create({
         data: {
           assignmentCode: input.assignmentCode,
           title: input.title,
-          module: { connect: { id: input.moduleId }},
-          createdBy: { connect: { id: ctx.session.user.creatorId  }},
-          slts: { connect: input.sltIds.map(id => ({ id })) }
+          module: { connect: { id: input.moduleId } },
+          createdBy: { connect: { id: ctx.session.user.creatorId } },
+          slts: { connect: input.sltIds.map((id) => ({ id })) },
         },
-      })
+      });
 
-      return newAssignment
+      return newAssignment;
     }),
 
   update: protectedProcedure
@@ -88,14 +88,34 @@ export const assignmentRouter = createTRPCRouter({
       z.object({
         id: z.string().min(1),
         title: z.string().min(1),
+        assignmentCode: z.string().min(1),
         description: z.string().optional(),
         imageUrl: z.string().optional(),
         videoUrl: z.string().optional(),
         contentJson: z.any().optional(),
         live: z.boolean().optional(),
+        sltIds: z.array(z.string().min(1)),
       }),
     )
     .mutation(async ({ ctx, input }) => {
+      const currentAssignment = await ctx.db.assignment.findUnique({
+        where: { id: input.id },
+        select: { slts: true },
+      });
+
+      // Determine slts to disconnect
+      const currentSltIds = new Set(
+        currentAssignment?.slts.map((slt) => slt.id),
+      );
+      const newSltIds = new Set(input.sltIds);
+      const sltsToDisconnect = [...currentSltIds].filter(
+        (id) => !newSltIds.has(id),
+      );
+
+      // Prepare connect and disconnect operations
+      const connect = input.sltIds.map((id) => ({ id }));
+      const disconnect = sltsToDisconnect.map((id) => ({ id }));
+
       return ctx.db.assignment.update({
         where: {
           id: input.id,
@@ -103,15 +123,15 @@ export const assignmentRouter = createTRPCRouter({
         data: {
           title: input.title,
           description: input.description,
+          assignmentCode: input.assignmentCode,
           imageUrl: input.imageUrl,
           videoUrl: input.videoUrl,
           contentJson: input.contentJson,
           live: input.live,
+          slts: { connect, disconnect },
         },
       });
     }),
-
-
 
   delete: protectedProcedure
     .input(

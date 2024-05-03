@@ -30,6 +30,11 @@ const MyApp: AppType<{ session: Session | null }> = ({
           </div>
           <DialogReportSupport />
         </MeshProvider>
+        <Toaster position="top-right" />
+        <div className="min-h-screen bg-background text-foreground">
+          <Component {...pageProps} />
+          <DialogReportSupport />
+        </div>
       </SessionProvider>
     </ThemeProvider>
   );

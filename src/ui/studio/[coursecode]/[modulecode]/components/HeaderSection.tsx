@@ -1,4 +1,11 @@
-import { Course, Lesson, Module, ModuleSLT } from "~/types/db";
+import {
+  Assignment,
+  Course,
+  Introduction,
+  Lesson,
+  Module,
+  ModuleSLT,
+} from "~/types/db";
 import {
   Menubar,
   MenubarContent,
@@ -18,142 +25,98 @@ import CardSLT from "~/ui/studio/components/slt/CardSLT";
 import { ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons";
 import VideoLink from "~/ui/studio/components/form-sections/VideoLink";
 import { ToggleEditableField } from "~/components/ui/toggle-editable-field";
+import ContentEditorMenuBar from "./ContentEditorMenuBar";
+import { DialogGetLessonPlan } from "./coach/DialogGetLessonPlan";
+
+type CourseContent = Lesson | Assignment | Introduction;
 
 export default function HeaderSection({
-    form,
-    course,
-    courseModule,
-    editContent,
-    setEditContent,
-    isLoadingUpdate,
-    onCancel,
-    onSubmit,
-    slt,
-    lesson,
-  }: {
-    form: FieldValues;
-    course: Course;
-    courseModule: Module;
-    editContent: boolean;
-    setEditContent: React.Dispatch<React.SetStateAction<boolean>>;
-    isLoadingUpdate: boolean;
-    onCancel: () => void;
-    onSubmit: () => void;
-    slt: ModuleSLT;
-    lesson: Lesson;
-  }) {
-    if(!course) return
+  form,
+  course,
+  courseModule,
+  editContent,
+  setEditContent,
+  isLoadingUpdate,
+  onCancel,
+  onSubmit,
+  slt,
+  courseContent,
+  intent,
+  setGetLessonPlanDialogOpen,
+}: {
+  form: FieldValues;
+  course: Course;
+  courseModule: Module;
+  editContent: boolean;
+  setEditContent: React.Dispatch<React.SetStateAction<boolean>>;
+  isLoadingUpdate: boolean;
+  onCancel: () => void;
+  onSubmit: () => void;
+  slt?: ModuleSLT;
+  courseContent: CourseContent;
+  intent: "lesson" | "assignment" | "introduction";
+  setGetLessonPlanDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
+  if (!course || !courseContent) return;
 
-    const handleCheckboxChange = (checked: boolean) => {
-      form.setValue("live", checked);
-      onSubmit();
-    };
-  
-    return (
-      <div className="flex flex-col">
-        <div className="flex min-h-[40px] flex-row items-center justify-between bg-card p-5">
-          <div className="flex items-center">
-            <ToggleEditableField
-              name="title"
-              form={form}
-              intent="title"
-              formTextSize="lg"
-              editText={editContent}
-              setEditText={setEditContent}
-              text={lesson.title ?? "Edit this lesson title"}
-              hasForm={true}
-              placeholder="Lesson Title"
-            />
-          </div>
+  let liveContentPath = "";
+  // add logic here
+  if (intent === "lesson" && slt) {
+    liveContentPath = `lesson/${slt.moduleIndex.toString()}`;
+  }
+
+  // Fix this one
+  if (intent === "assignment") {
+    liveContentPath = `assignment/${courseModule.assignments[0]?.assignmentCode}`;
+  }
+
+  if (intent === "introduction") {
+    liveContentPath = "";
+  }
+
+  return (
+    <div className="flex flex-col">
+      <div className="flex min-h-[40px] flex-row items-center justify-between bg-card p-5">
+        <div className="flex items-center">
+          <ToggleEditableField
+            name="title"
+            form={form}
+            intent="title"
+            formTextSize="lg"
+            editText={editContent}
+            setEditText={setEditContent}
+            text={courseContent.title ?? "Edit this lesson title"}
+            hasForm={true}
+            placeholder="Lesson Title"
+          />
+        </div>
+        {slt && (
           <CardSLT
             moduleCode={courseModule.moduleCode}
             moduleIndex={slt.moduleIndex}
             sltText={slt.sltText}
           />
-        </div>
-        <div className="flex flex-row items-center justify-between bg-primary text-primary-foreground">
-          <Menubar className="rounded-none border-none bg-primary  text-primary-foreground shadow-none">
-            <MenubarMenu>
-              <MenubarTrigger>File</MenubarTrigger>
-              <MenubarContent>
-                <MenubarItem onSelect={onSubmit}>Save</MenubarItem>
-                
-              </MenubarContent>
-            </MenubarMenu>
-            <MenubarMenu>
-              <MenubarTrigger>Publish</MenubarTrigger>
-              <MenubarContent>
-                <FormField
-                  control={form.control}
-                  name="live"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-row items-center space-x-3 py-1">
-                      <FormControl>
-                        <MenubarCheckboxItem
-                          checked={field.value}
-                          onCheckedChange={handleCheckboxChange}
-                        >
-                          Publish Lesson
-                        </MenubarCheckboxItem>
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-  
-                <MenubarItem>See lesson page</MenubarItem>
-              </MenubarContent>
-            </MenubarMenu>
-            <MenubarMenu>
-              <MenubarTrigger>Go To Lesson</MenubarTrigger>
-              <MenubarContent>
-                {courseModule.slts.sort((a, b) => a.moduleIndex - b.moduleIndex).map((s) => (
-                    <MenubarItem key={s.id}>
-                        <Link href={`/studio/${course.courseCode}/${courseModule.moduleCode}/lesson/${s.moduleIndex}`}>
-                        Lesson {courseModule.moduleCode}.{s.moduleIndex}
-                        </Link>
-                        </MenubarItem>
-
-                ))}
-               
-              </MenubarContent>
-            </MenubarMenu>
-            {/* <MenubarMenu>
-              <MenubarTrigger>Go To Module</MenubarTrigger>
-              <MenubarContent>
-                <MenubarItem>Lesson 101.1</MenubarItem>
-                <MenubarItem>Lesson 101.2</MenubarItem>
-                <MenubarItem>Lesson 101.3</MenubarItem>
-              </MenubarContent>
-            </MenubarMenu> */}
-            {/* <MenubarMenu>
-              <MenubarTrigger>Import Lesson</MenubarTrigger>
-              <MenubarContent>
-                <MenubarItem>From My Course</MenubarItem>
-                <MenubarItem>From Andamio Marketplace</MenubarItem>
-              </MenubarContent>
-            </MenubarMenu> */}
-            
-            <MenubarMenu>
-              <MenubarTrigger>
-                Andamio AI
-              </MenubarTrigger>
-            </MenubarMenu>
-            <MenubarMenu>
-              <MenubarTrigger>
-                <Link href={`/studio/${course.courseCode}`}>Back to Course Page</Link>
-              </MenubarTrigger>
-            </MenubarMenu>
-          </Menubar>
-          <ControlPanel
-            editContent={editContent}
-            isLoadingUpdate={isLoadingUpdate}
-            onCancel={onCancel}
-            courseCode={course.courseCode}
-            moduleCode={courseModule.moduleCode}
-            contentPath={`lesson/${slt.moduleIndex.toString()}`}
-            live={lesson.live}
-          />
-        </div>
+        )}
       </div>
-    );
-  }
+      <div className="flex flex-row items-center justify-between bg-primary text-primary-foreground">
+        <ContentEditorMenuBar
+          form={form}
+          course={course}
+          courseModule={courseModule}
+          contentPath={liveContentPath}
+          onSubmit={onSubmit}
+          setGetLessonPlanDialogOpen={setGetLessonPlanDialogOpen}
+        />
+        <ControlPanel
+          editContent={editContent}
+          isLoadingUpdate={isLoadingUpdate}
+          onCancel={onCancel}
+          courseCode={course.courseCode}
+          moduleCode={courseModule.moduleCode}
+          contentPath={liveContentPath}
+          live={courseContent.live}
+        />
+      </div>
+    </div>
+  );
+}

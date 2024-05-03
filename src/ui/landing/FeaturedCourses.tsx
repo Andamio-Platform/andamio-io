@@ -1,26 +1,29 @@
 import Link from "~/components/link";
 import Loading from "~/components/loading";
-import { HoverEffect } from "~/components/ui/card-hover-effect";
+import { CourseCardHoverEffect } from "~/components/ui/card-hover-effect";
 import useCourses from "~/hooks/useCourses";
+import CourseButtonCard from "../studio/components/course/CourseButtonCard";
+
+const featuredCourseCodes = ["dp2024", "ppbl2024", "mesh", "APBLHK"];
 
 export default function FeaturedCourses() {
   const { courses, isLoadingCourses } = useCourses();
 
   return (
-    <div className="mx-auto mt-32 max-w-7xl px-6 sm:mt-56 lg:px-8">
+    <div className="mx-auto mt-8 max-w-7xl px-6 sm:mt-16">
       <div className="mx-auto max-w-2xl lg:text-center">
         <h2 className="text-base font-semibold leading-7 text-primary">
-          Start learning today
+          Featured Courses
         </h2>
         <p className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          Everything you need to aquire new skills
+          Project-Based Learning
         </p>
-        <p className="mt-6 text-lg leading-8 text-gray-600">
-          Currently, this section shows all courses on the platform, it should
-          be marked by admin which courses should be featured.
+        <p className="mt-6 text-xl leading-8 text-gray-600">
+          Here are some examples of how Andamio is helping organizations to
+          expand their network of skilled contributors.
         </p>
       </div>
-      <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
+      <div className="mx-auto mt-8 max-w-2xl lg:max-w-4xl">
         {isLoadingCourses && <Loading />}
         {courses && (
           // <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-3 lg:gap-y-16">
@@ -45,15 +48,22 @@ export default function FeaturedCourses() {
           //   ))}
           // </dl>
           <div className="mx-auto max-w-5xl px-8">
-            <HoverEffect
-              items={courses.map((course) => {
-                return {
-                  title: course.title,
-                  description: course.description!,
-                  link: `/course/${course.courseCode}`,
-                };
-              })}
-            />
+            <div className="grid grid-cols-1 py-10 md:grid-cols-2">
+              {courses.map((course, i) => (
+                <>
+                  {featuredCourseCodes.includes(course.courseCode) && (
+                    <CourseCardHoverEffect
+                      course={{
+                        title: course.title,
+                        description: course.description ?? "",
+                        link: `/course/${course.courseCode}`,
+                      }}
+                      idx={i}
+                    />
+                  )}
+                </>
+              ))}
+            </div>
           </div>
         )}
       </div>

@@ -7,11 +7,9 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, FieldValues } from "react-hook-form";
-import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
+import { useForm } from "react-hook-form";
 import LoadingContentEditor from "~/ui/studio/components/ContentEditor/ui/LoadingContentEditor";
-import Link from "next/link";
-import { Form, FormControl, FormField, FormItem } from "~/components/ui/form";
+import { Form } from "~/components/ui/form";
 import {
   ResizableHandle,
   ResizablePanel,
@@ -20,7 +18,10 @@ import {
 
 import HeaderSection from "../../components/HeaderSection";
 import RightSection from "../../components/RightSection";
+import { DialogGetLessonPlan } from "../../components/coach/DialogGetLessonPlan";
+import { useCourseStore } from "~/lib/zustand/course";
 
+// V2 - current
 export default function PageCourseLessonContent({
   course,
   courseModule,
@@ -34,7 +35,7 @@ export default function PageCourseLessonContent({
 }) {
   const ctx = api.useUtils();
 
-  if (!course) return <div>no can do</div>;
+  if (!course) return;
 
   const courseCode = course.courseCode;
   const moduleCode = courseModule.moduleCode;
@@ -48,7 +49,6 @@ export default function PageCourseLessonContent({
   const [editLesson, setEditLesson] = useState<boolean>(false);
   const [isCreatingLesson, setIsCreatingLesson] = useState(false);
   // Do we need these?
-  //   const [detailsOpen, setDetailsOpen] = useState<boolean>(true);
   //   const [isSaving, setIsSaving] = useState<boolean>(false);
 
   const { mutate: lessonCreate, isLoading: isLoadingCreate } =
@@ -57,6 +57,7 @@ export default function PageCourseLessonContent({
         toast.success("Lesson Created: Ready to Write?");
         await refetchLesson();
         void ctx.slt.getModuleSLTs.invalidate({
+          courseCode: courseCode,
           moduleCode: moduleCode,
         });
         void ctx.module.getCourseModules.invalidate({
@@ -205,9 +206,34 @@ export default function PageCourseLessonContent({
     }
   }, [editLesson]);
 
+  /**
+   * START OF
+   * andamio coach - get lesson plan
+   */
+
+  const updateLessonEdit = useCourseStore((state) => state.updateLessonEdit);
+  const [getLessonPlanDialogOpen, setGetLessonPlanDialogOpen] = useState(false);
+
+  useEffect(() => {
+    if (updateLessonEdit && editor) {
+      const _json = editor.getJSON();
+      if (_json && _json.content) {
+        for (const _newData of updateLessonEdit) {
+          _json.content.push(_newData);
+        }
+        editor.setContent(_json.content);
+      }
+    }
+  }, [updateLessonEdit]);
+
+  /**
+   * END OF
+   * andamio coach - get lesson plan
+   */
+
   if (lesson === undefined || lesson === null) {
     if (isLoadingCreate) {
-      return <LoadingContentEditor />;
+      return <LoadingContentEditor>Building a Lesson</LoadingContentEditor>;
     } else if (!isCreatingLesson && !isLoadingLesson) {
       setIsCreatingLesson(true);
       handleCreateLesson();
@@ -229,7 +255,9 @@ export default function PageCourseLessonContent({
               onCancel={onCancel}
               onSubmit={form.handleSubmit(onSubmit)}
               slt={slt}
-              lesson={lesson}
+              courseContent={lesson}
+              intent="lesson"
+              setGetLessonPlanDialogOpen={setGetLessonPlanDialogOpen}
             />
 
             <div className="flex w-full bg-card">
@@ -257,6 +285,11 @@ export default function PageCourseLessonContent({
           </form>
         </Form>
         <LightDarkToggle />
+        <DialogGetLessonPlan
+          open={getLessonPlanDialogOpen}
+          setOpen={setGetLessonPlanDialogOpen}
+          slt={slt}
+        />
       </div>
     );
   }

@@ -125,6 +125,7 @@ model Module {
   imageUrl    String?
   videoUrl    String?
   live        Boolean?
+  releaseDate DateTime?
 
   courseId       String
   originalCourse Course @relation("CourseModules", fields: [courseId], references: [id])
@@ -376,6 +377,22 @@ model UserWallet {
   stakeAddress  String
 
   @@unique([userId])
+}
+
+model AndamioAIQueries {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String
+  inputs    String   @db.Text
+  outputs   String?  @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ClientsDomain {
+  id       String @id @default(cuid())
+  host     String
+  courseId String @unique
 }
 
 // ---------------- END OF CURRENT SCHEMA -------------------------

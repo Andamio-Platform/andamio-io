@@ -37,6 +37,7 @@ export default function DialogSLT({
         toast.success("Student Learning Target  created!");
         const _module = courseModules?.find((c) => c.id === data.moduleId);
         void ctx.slt.getModuleSLTs.invalidate({
+          courseCode: courseCode,
           moduleCode: _module?.moduleCode,
         });
         void ctx.module.getCourseModules.invalidate({
@@ -90,7 +91,8 @@ export default function DialogSLT({
           <DialogForm
             openButton="Add SLT"
             openButtonIntent="dialog"
-            title="Create a new Student Learning Target"
+            title="Create New SLT"
+            description={`Write Student Learning Target ${currentModule.moduleCode}.${currentModule.slts.length + 1}`}
             buttonLabel="Add SLT"
             buttonLoading={isLoadingCreate}
             buttonDisabled={isLoadingCreate}
@@ -99,7 +101,6 @@ export default function DialogSLT({
             setIsOpen={setSltDialogOpen}
           >
             <p>
-              Adding SLT {currentModule.moduleCode}.{currentModule.slts.length + 1}
             </p>
             {/* Todo: look at the line above. If a different module is selected from the menu below, then the SLT id should update dynamically */}
 

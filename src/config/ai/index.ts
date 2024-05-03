@@ -1,0 +1,1 @@
+export const MODEL_SERVER_URL = "https://ai.andamio.io/"

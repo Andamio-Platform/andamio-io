@@ -19,7 +19,7 @@ export default function AccessTokenSection() {
     };
 
     if (connected) {
-      fetchAccessToken();
+      void fetchAccessToken();
     }
   }, [wallet]);
   return (

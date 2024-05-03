@@ -31,7 +31,7 @@ export default function DashboardPage({ username }: { username: string }) {
     };
 
     if (connected) {
-      fetchAccessToken();
+      void fetchAccessToken();
     }
   }, [wallet]);
 
@@ -100,7 +100,7 @@ function NoAccessTokenInWallet() {
         </CardContent>
         <CardFooter>
           <p className="text-sm">
-            By connecting to the andamio network you will unlock Andamio's
+            By connecting to the andamio network you will unlock Andamio&apos;s
             state-of-the-art on-chain credential features.{" "}
           </p>
         </CardFooter>

@@ -22,6 +22,9 @@ declare module "next-auth" {
       id: string;
       creatorId: string;
       learnerId: string;
+      unconfirmedTx: string;
+      accessTokenMintTx: string;
+      hasMintedAccessToken: boolean;
       // ...other properties
       // role: UserRole;
     };
@@ -53,6 +56,9 @@ export const authOptions: NextAuthOptions = {
           id: user.id,
           creatorId: _user && _user.creator ? _user.creator.id : undefined,
           learnerId: _user && _user.learner ? _user.learner.id : undefined,
+          unconfirmedTx: _user?.unconfirmedTx,
+          accessTokenMintTx: _user?.accessTokenMintTx,
+          hasMintedAccessToken: _user?.hasMintedAccessToken,
         },
       };
     },

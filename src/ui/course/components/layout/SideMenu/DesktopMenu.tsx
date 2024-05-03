@@ -1,6 +1,6 @@
 import { useSession } from "next-auth/react";
 import Navigation from "./Navigation";
-import SessionProfile from "~/ui/auth/SessionProfile";
+import SideMenuSessionProfile from "~/ui/auth/SideMenuSessionProfile";
 
 export default function DesktopMenu() {
   const { data: sessionData } = useSession();
@@ -14,7 +14,7 @@ export default function DesktopMenu() {
         <nav className="flex flex-1 flex-col">
           <ul role="list" className="flex flex-1 flex-col gap-y-7">
             <Navigation />
-            {sessionData && <SessionProfile />}
+            {sessionData && <SideMenuSessionProfile />}
           </ul>
         </nav>
       </div>

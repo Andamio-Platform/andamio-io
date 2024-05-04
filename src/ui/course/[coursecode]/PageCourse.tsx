@@ -47,6 +47,8 @@ export default function PageCourse({
     return <Loading />;
   }
 
+  const _courseCode = courseCode || course?.courseCode;
+
   function getCourse() {
     let _course = course;
     let _courseVariant = undefined;
@@ -100,7 +102,7 @@ export default function PageCourse({
                   <Button
                     onClick={() => {
                       void signIn(undefined, {
-                        callbackUrl: `/course/${courseCode}`,
+                        callbackUrl: `/course/${_courseCode}`,
                       });
                     }}
                   >

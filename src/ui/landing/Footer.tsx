@@ -20,7 +20,7 @@ const footerData = {
 
 export default function Footer() {
   return (
-    <div className="text-gray-800">
+    <div className="mt-[200px] bg-primary text-primary-foreground">
       <footer className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
         <div className="flex flex-col items-center text-start">
           <div className="grid w-full grid-cols-1 justify-items-start gap-8 sm:grid-cols-2 md:grid-cols-3 md:justify-items-center">

@@ -1,4 +1,4 @@
-import MenuBar from "../landing/MenuBar";
+import MenuBar from "../../landing/MenuBar";
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { CardanoWallet, useWallet } from "@meshsdk/react";

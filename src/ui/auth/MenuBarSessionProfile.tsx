@@ -86,7 +86,7 @@ export default function MenuBarSessionProfile() {
         )}
 
         <button
-          onClick={() => void router.push(`/${sessionData.user?.name}`)}
+          onClick={() => void router.push(`/profile/${sessionData.user?.name}`)}
           className="block w-full px-6 py-3 text-left text-sm font-semibold leading-6 text-foreground hover:bg-accent focus:outline-none"
         >
           Dashboard

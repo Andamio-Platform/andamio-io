@@ -1,6 +1,6 @@
 import { useWallet } from "@meshsdk/react";
 import { useRouter } from "next/router";
-import DashboardPage from "~/ui/[username]/Dashboard";
+import DashboardPage from "~/ui/profile/[username]/Dashboard";
 
 export default function Dashboard() {
   const router = useRouter();

@@ -9,6 +9,7 @@ import useAssignmentByCourseModule from "~/hooks/useAssignmentByCourseModule";
 import useValidateCreator from "~/hooks/useValidateCreator";
 import { Module } from "~/types/db";
 import CourseLayout from "~/ui/course/components/layout/CourseLayout";
+import CommitToAssignmentPage from "./CommitToAssignmentPage";
 import ModuleLayout from "~/ui/course/components/layout/ModuleLayout";
 import SltList from "~/ui/studio/components/assignment-dashboard/slt-list";
 
@@ -88,6 +89,8 @@ function Page({
         </div>
       </div>
       {assignment.contentJson && editor.render()}
+      {/* TO-DO: Only show CommitToAssignmentPage when there is a module token minted for the assignment */}
+      {/* <CommitToAssignmentPage /> */}
     </>
   );
 }

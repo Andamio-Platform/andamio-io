@@ -2,6 +2,9 @@ import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "~/components/link";
+import { useSession } from "next-auth/react";
+import MenuBarSessionProfile from "../auth/MenuBarSessionProfile";
+import UnconfirmedTx from "../transaction/UnconfirmedTx";
 
 const navigation = [
   { name: "Courses", href: "/courses" },
@@ -31,6 +34,7 @@ function Desktop({
 }: {
   setMobileMenuOpen: (open: boolean) => void;
 }) {
+  const { data: sessionData } = useSession();
   return (
     <nav
       className="flex items-center justify-between p-6 lg:px-8"
@@ -39,7 +43,7 @@ function Desktop({
       <div className="flex lg:flex-1">
         <span className="-m-1.5 p-1.5">
           <span className="sr-only">Andamio</span>
-          <img className="h-8 w-auto" src="/andamio.png" alt="Andamio" />
+          <img className="h-8 w-auto" src="/andamio-logo.svg" alt="Andamio" />
         </span>
       </div>
       <div className="flex lg:hidden">
@@ -62,11 +66,17 @@ function Desktop({
         ))}
       </div>
       <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-        <Link href={`/auth/signin`}>
-          <span className="text-sm font-semibold leading-6 text-foreground">
-            Log in <span aria-hidden="true">&rarr;</span>
-          </span>
-        </Link>
+        {/* TO-DO: Implement transaction confirmation manager */}
+        {/* Paused due to Maestro's transaction manager for preprod is not working */}
+        {/* <UnconfirmedTx unconfirmedTxHash={sessionData?.user.unconfirmedTx} />  */}
+        {!sessionData && (
+          <Link href={`/auth/signin`}>
+            <span className="text-sm font-semibold leading-6 text-foreground">
+              Log in <span aria-hidden="true">&rarr;</span>
+            </span>
+          </Link>
+        )}
+        <MenuBarSessionProfile />
       </div>
     </nav>
   );
@@ -87,14 +97,14 @@ function Mobile({
       onClose={setMobileMenuOpen}
     >
       <div className="fixed inset-0 z-50" />
-      <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-primary px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-forground">
+      <Dialog.Panel className="sm:ring-forground fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-background px-6 py-6 sm:max-w-sm sm:ring-1">
         <div className="flex items-center justify-between">
           <span className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
             <img
               className="h-8 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-              alt=""
+              src="/andamio-logo.svg"
+              alt="Andamio logo"
             />
           </span>
           <button
@@ -111,7 +121,7 @@ function Mobile({
             <div className="space-y-2 py-6">
               {navigation.map((item) => (
                 <Link key={item.name} href={item.href}>
-                  <span className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-foreground hover:bg-accent">
+                  <span className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-foreground hover:bg-accent-foreground hover:text-white">
                     {item.name}
                   </span>
                 </Link>
@@ -119,7 +129,7 @@ function Mobile({
             </div>
             <div className="py-6">
               <Link href={`/auth/signin`}>
-                <span className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-foreground hover:bg-accent">
+                <span className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-foreground hover:bg-accent-foreground hover:text-white">
                   Log in
                 </span>
               </Link>

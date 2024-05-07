@@ -137,6 +137,8 @@ export default function PageCourseLessonContent({
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
+    
+
     if (!lesson) return;
 
     const _lesson = {

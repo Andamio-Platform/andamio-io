@@ -101,7 +101,6 @@ export default function DialogSLT({
             setIsOpen={setSltDialogOpen}
           >
             <p>
-
             </p>
             {/* Todo: look at the line above. If a different module is selected from the menu below, then the SLT id should update dynamically */}
 

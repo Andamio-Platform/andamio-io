@@ -1,12 +1,41 @@
+import { UTxO } from "@meshsdk/core";
+import { CardanoWallet, useWallet } from "@meshsdk/react";
+import { useState } from "react";
 import Link from "~/components/link";
 import Loading from "~/components/loading";
+import MintLocalState from "~/components/transactions/mintLocalState/mintLocalState";
+import useMintLocalState from "~/components/transactions/mintLocalState/mintLocalState";
+import UTxOi from "~/components/transactions/model";
+import { Button } from "~/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "~/components/ui/card";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "~/components/ui/collapsible";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "~/components/ui/dialog";
 import useCourses from "~/hooks/useCourses";
 
 export default function PageCourses() {
   const { courses, isLoadingCourses } = useCourses();
 
   return (
-    <div className="bg-primary py-24 sm:py-32">
+    <div className="py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl lg:mx-0">
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
@@ -19,6 +48,7 @@ export default function PageCourses() {
             voluptate ad libero at architecto corporis eveniet!
           </p>
         </div>
+
         {isLoadingCourses && <Loading />}
         {courses && (
           <ul
@@ -27,23 +57,16 @@ export default function PageCourses() {
           >
             {courses.map((course, i) => (
               <li key={i}>
-                <Link href={`/course/${course.courseCode}`}>
-                  <img
-                    className="aspect-[3/2] w-full rounded-2xl object-cover"
-                    src={
-                      course.imageUrl
-                        ? course.imageUrl
-                        : "/images/sample-covers/1.jpg"
-                    }
-                    alt=""
-                  />
-                  <h3 className="mt-6 text-lg font-semibold leading-8 tracking-tight text-foreground">
-                    {course.title}
-                  </h3>
-                  <p className="text-base leading-7 text-gray-600">
-                    {course.description}
-                  </p>
-                </Link>
+                {course.onchainInstance.length !== 0 ? (
+                  <>
+                    <CourseOnChain {...course} />
+                  </>
+                ) : (
+                  <>
+                    <CourseNotOnChain {...course} />
+                  </>
+                )}
+
                 {/* <ul role="list" className="mt-6 flex gap-x-6">
                 <li>
                   <a
@@ -88,5 +111,87 @@ export default function PageCourses() {
         )}
       </div>
     </div>
+  );
+}
+
+interface Course {
+  id: string;
+  courseCode: string;
+  createdById: string;
+  title: string;
+  description: string | null;
+  category: string | null;
+  imageUrl: string | null;
+  videoUrl: string | null;
+  live: boolean | null;
+  accessTier: any;
+}
+
+function CourseNotOnChain(course: Course) {
+  return (
+    <Link href={`/course/${course.courseCode}`}>
+      <img
+        className="aspect-[3/2] w-full rounded-2xl object-cover"
+        src={course.imageUrl ? course.imageUrl : "/images/sample-covers/1.jpg"}
+        alt=""
+      />
+      <h3 className="mt-6 text-lg font-semibold leading-8 tracking-tight text-foreground">
+        {course.title}
+      </h3>
+      <p className="text-base leading-7 text-gray-600">{course.description}</p>
+    </Link>
+  );
+}
+
+function CourseOnChain(course: Course) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  // TO_DO: Add logic for if the user already have enrolled in the course
+
+  return (
+    <Dialog>
+      <DialogTrigger>
+        <img
+          className="aspect-[3/2] w-full rounded-2xl object-cover"
+          src={
+            course.imageUrl ? course.imageUrl : "/images/sample-covers/1.jpg"
+          }
+          alt=""
+        />
+        <h3 className="mt-6 text-lg font-semibold leading-8 tracking-tight text-foreground">
+          {course.title}
+        </h3>
+        <p className="text-base leading-7 text-gray-600">
+          {course.description}
+        </p>
+      </DialogTrigger>
+      <DialogContent className="flex items-center justify-center justify-items-center">
+        <DialogHeader>
+          <DialogTitle>Thinking of taking this course?</DialogTitle>
+          <DialogDescription>
+            <Collapsible
+              open={isOpen}
+              onOpenChange={setIsOpen}
+              className="w-[350px] space-y-2"
+            >
+              <div className="flex items-center justify-start">
+                <CollapsibleTrigger asChild>
+                  <Button>{isOpen ? <>Back</> : <>Enroll On-Chain</>}</Button>
+                </CollapsibleTrigger>
+              </div>
+
+              <CollapsibleContent className="space-y-2">
+                <MintLocalState courseId={course.id} />
+              </CollapsibleContent>
+            </Collapsible>
+          </DialogDescription>
+          <DialogFooter className="text-xs sm:justify-start">
+            <Link href={`/course/${course.courseCode}`}>
+              I&apos;ll do it after taking a look inside first
+            </Link>
+          </DialogFooter>
+        </DialogHeader>
+      </DialogContent>
+    </Dialog>
   );
 }

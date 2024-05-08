@@ -31,23 +31,8 @@ export default function AllCourses() {
       {courses && (
         <>
           <div className="my-3 border-t border-accent-foreground py-3">
-            <h3 className="py-3 text-3xl font-bold">Free Courses</h3>
-            <p className="prose max-w-2xl">
-              In Andamio, courses can be offered for free. From a public link
-              (like andamio.io/courses), people browse what is available, and
-              click on a free course card to start learning. If they scroll down
-              the page, they will see other categories of content, (like
-              Premium, Network, or whatever words we decide to use). They will
-              also see calls-to-action (CTA) to log in, connect to the network, or
-              onboard to building their own course.
-            </p>
-            <p className="prose max-w-2xl pb-5">
-              Free Courses will create opportunities for people to learn how
-              Andamio works, and to decide for themselves whether they accept
-              our value propositions for logging in with Discord, connect to the
-              Andamio Network on Cardano, or paying for the service of hosting a
-              Course on Andamio.
-            </p>
+            <h3 className="my-10 text-3xl font-bold">Free Courses</h3>
+
             <ul
               role="list"
               className="mx-auto grid grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-4"
@@ -57,7 +42,7 @@ export default function AllCourses() {
               ))}
             </ul>
           </div>
-          <div className="my-3 border-t border-accent-foreground py-3">
+          {/* <div className="my-3 border-t border-accent-foreground py-3">
             <h3 className="py-5 text-3xl font-bold">
               Premium Courses / Discord Login
             </h3>
@@ -122,7 +107,7 @@ export default function AllCourses() {
                 <>{course && <CourseCard course={course} enabled={false} />}</>
               ))}
             </ul>
-          </div>
+          </div> */}
         </>
       )}
     </>

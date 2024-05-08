@@ -4,7 +4,7 @@ import VideoPlayer from "~/components/media/VideoPlayer";
 import { Button } from "~/components/ui/button";
 import Link from "~/components/link";
 import CircleIcon from "~/components/icons/circle";
-import { CourseVariant, Module } from "~/types/db";
+import { CourseVariant, Lesson, Module, ModuleSLT } from "~/types/db";
 import CourseLayout from "../components/layout/CourseLayout";
 import { signIn, useSession } from "next-auth/react";
 import { useCourseStore } from "~/lib/zustand/course";
@@ -21,6 +21,7 @@ import {
 import useCourseById from "~/hooks/useCourseById";
 import { Badge } from "~/components/ui/badge";
 import { format } from "date-fns";
+import { useEffect, useState } from "react";
 
 export default function PageCourse({
   courseCode,
@@ -30,6 +31,8 @@ export default function PageCourse({
   courseId?: string;
 }) {
   const { data: sessionData } = useSession();
+
+  const learnerLessons = sessionData?.user.lessonIds
 
   const { course: courseById, isLoadingCourse: isLoadingCourseById } =
     useCourseById(courseId);
@@ -119,6 +122,7 @@ export default function PageCourse({
             <ListModules
               courseCode={_course.courseCode}
               _courseVariant={_courseVariant}
+              learnerLessons={learnerLessons ? learnerLessons : []}
             />
           </div>
         </div>
@@ -143,9 +147,11 @@ export default function PageCourse({
 function ListModules({
   courseCode,
   _courseVariant,
+  learnerLessons,
 }: {
   courseCode: string;
   _courseVariant: CourseVariant | undefined;
+  learnerLessons: string[];
 }) {
   const { courseModules, isLoadingCourseModules } =
     useCourseModules(courseCode);
@@ -165,6 +171,7 @@ function ListModules({
           module={module}
           courseCode={courseCode}
           _courseVariant={_courseVariant}
+          learnerLessons={learnerLessons}
         />
       ))}
     </>
@@ -175,10 +182,12 @@ function ModuleContainer({
   module,
   courseCode,
   _courseVariant,
+  learnerLessons,
 }: {
   module: Module;
   courseCode: string;
   _courseVariant: CourseVariant | undefined;
+  learnerLessons: string[];
 }) {
   // Todo: When ready to implement variants, we can change this to a useModuleVariants hook:
   const { data: moduleVariants } = api.moduleVariant.getModuleVariants.useQuery(
@@ -247,6 +256,16 @@ function ModuleContainer({
                         </span>
                         <CircleIcon />
                         <span className="text-base">{slt.sltText}</span>
+
+                        {checkLearnerLesson(
+                          slt,
+                          _module.lessons,
+                          learnerLessons,
+                        ) ? (
+                          <div className="h-2 w-2 rounded-full bg-green-500"></div>
+                        ) : (
+                          <div className="h-2 w-2 rounded-full bg-orange-500"></div>
+                        )}
                       </div>
                     </Link>
                   </div>
@@ -273,4 +292,22 @@ function ModuleContainer({
       </AccordionItem>
     </Accordion>
   );
+}
+
+function checkLearnerLesson(
+  slt: ModuleSLT,
+  lessons: {
+    id: string;
+    title: string | null;
+    live: boolean | null;
+    sltId: string;
+  }[],
+  learnerLessons: string[],
+) {
+  const _currentLesson = lessons.find((l) => l.sltId === slt.id);
+  if (_currentLesson) {
+    return learnerLessons.includes(_currentLesson.id);
+  }
+
+  return false;
 }

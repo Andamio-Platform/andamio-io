@@ -1,6 +1,7 @@
 import { RouterOutputs } from "~/utils/api";
 
 export type Course = RouterOutputs["course"]["getCourse"];
+export type CoursePublic = RouterOutputs["course"]["getCourses"][number];
 export type Module = RouterOutputs["module"]["getCourseModules"][number];
 export type User = RouterOutputs["user"]["getUserByName"][number];
 export type Creator = RouterOutputs["creator"]["getCreatorByUser"];

@@ -1,6 +1,8 @@
 import { Lesson, Slt } from "@prisma/client";
 import { AlertTriangle, Leaf } from "lucide-react";
 import { useSession } from "next-auth/react";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
 import Editor from "~/components/Editor";
 import Loading from "~/components/loading";
 import VideoPlayer from "~/components/media/VideoPlayer";
@@ -11,6 +13,7 @@ import useValidateCreator from "~/hooks/useValidateCreator";
 import { Module } from "~/types/db";
 import CourseLayout from "~/ui/course/components/layout/CourseLayout";
 import ModuleLayout from "~/ui/course/components/layout/ModuleLayout";
+import { api } from "~/utils/api";
 
 export default function PageCourseContent({
   courseCode,
@@ -21,13 +24,46 @@ export default function PageCourseContent({
   courseModule: Module;
   moduleIndex: string;
 }) {
-  const { data: sessionData } = useSession();
+  const ctx = api.useUtils();
+  const { data: sessionData, update: updateSessionData } = useSession();
+
+  // Next step:
+  // I want the Learner's list of Lessons in my Session Data
+  const learnerId = sessionData?.user.learnerId;
+  const learnerLessons = sessionData?.user.lessonIds
+
+  console.log("Learner Lessons", learnerLessons);
 
   const { lesson, isLoadingLesson } = useLesson(
     courseCode,
     courseModule.moduleCode,
     parseInt(moduleIndex),
   );
+
+  const { mutate: addLessonToLearner } =
+    api.learner.addLessonToLearner.useMutation({
+      onSuccess: () => {
+        void ctx.learner.getLearnerLessons.invalidate();
+        void updateSessionData();
+      },
+      onError: (e) => {
+        // const errorMessage = e.data?.zodError?.fieldErrors;
+        // console.error(errorMessage);
+        // toast.error("Something went wrong. Please try again.");
+      },
+    });
+
+  console.log(learnerId);
+  console.log(lesson?.id);
+
+  useEffect(() => {
+    if (learnerId && lesson && !learnerLessons?.includes(lesson.id)) {
+      addLessonToLearner({
+        learnerId: learnerId,
+        lessonId: lesson.id,
+      });
+    }
+  }, [learnerId, lesson]);
 
   const { isCreator } = useValidateCreator(sessionData, courseCode);
 

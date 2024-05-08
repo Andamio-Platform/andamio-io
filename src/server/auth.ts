@@ -25,6 +25,7 @@ declare module "next-auth" {
       unconfirmedTx: string;
       accessTokenMintTx: string;
       hasMintedAccessToken: boolean;
+      lessonIds: string[];
       // ...other properties
       // role: UserRole;
     };
@@ -46,7 +47,7 @@ export const authOptions: NextAuthOptions = {
     session: async ({ session, user }) => {
       const _user = await db.user.findUnique({
         where: { id: user.id },
-        include: { creator: true, learner: true },
+        include: { creator: true, learner: { select: { id: true, lessons: true }} },
       });
 
       return {
@@ -59,6 +60,7 @@ export const authOptions: NextAuthOptions = {
           unconfirmedTx: _user?.unconfirmedTx,
           accessTokenMintTx: _user?.accessTokenMintTx,
           hasMintedAccessToken: _user?.hasMintedAccessToken,
+          lessonIds: _user && _user.learner ? _user.learner.lessons.map((l) => l.id) : []
         },
       };
     },

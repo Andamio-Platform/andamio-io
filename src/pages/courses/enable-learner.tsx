@@ -1,0 +1,54 @@
+import { useSession } from "next-auth/react";
+import Link from "next/link";
+import toast from "react-hot-toast";
+import { Button } from "~/components/ui/button";
+import StudioLayout from "~/ui/studio/components/layout/StudioLayout";
+import { api } from "~/utils/api";
+
+export default function AddLearnerPage() {
+  const ctx = api.useUtils();
+  const { data: sessionData, update: updateSession } = useSession();
+
+  const { mutate: learnerCreate, isLoading: isLoadingLearner } =
+    api.learner.create.useMutation({
+      onSuccess: (data) => {
+        toast.success("Ok, you are a Learner!");
+        void ctx.user.getUserById.invalidate();
+        void ctx.user.getUserByName.invalidate();
+      },
+      onError: (e) => {
+        const errorMessage = e.data?.zodError?.fieldErrors;
+        if (errorMessage) {
+          toast.error("Cannot add learner");
+        } else {
+          toast.error("Learner ID taken. Please try again.");
+        }
+      },
+    });
+
+  function onEnableLearner() {
+    if (sessionData) {
+      learnerCreate({
+        userId: sessionData.user.id,
+      });
+    }
+  }
+
+  return (
+    <StudioLayout>
+      <h1 className="text-2xl">Enable Learner</h1>
+      <p className="py-3">Note</p>
+      <p className="py-3">
+        <Link href="#">Terms and Conditions</Link>
+      </p>
+      <p className="py-3">
+        <Link href="#">Privacy Policy</Link>
+      </p>
+      {sessionData && sessionData.user.learnerId ? (
+        <Link href="/studio">You&apos;re ready to Learn!</Link>
+      ) : (
+        <Button onClick={onEnableLearner}>Connect to Learner Features</Button>
+      )}
+    </StudioLayout>
+  );
+}

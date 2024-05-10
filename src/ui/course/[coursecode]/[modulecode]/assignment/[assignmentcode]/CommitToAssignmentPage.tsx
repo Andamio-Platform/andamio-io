@@ -13,14 +13,14 @@ import CommitToAssignment from "~/components/transactions/commitToAssignment/com
 
 export default function CommitToAssignmentPage() {
   return (
-    <div className="flex justify-end bg-secondary p-3 text-secondary">
+    <div className="flex justify-center bg-secondary p-3 text-secondary">
       <Sheet>
         <SheetTrigger asChild>
-          <Button>Commit to this assignment</Button>
+          <Button>Commit to this assignment on-chain</Button>
         </SheetTrigger>
         <SheetContent className="p-6">
           <SheetHeader>
-            <SheetTitle>Commit to Assignment</SheetTitle>
+            <SheetTitle>Onchain: Commit to Assignment</SheetTitle>
             <SheetDescription>some text</SheetDescription>
           </SheetHeader>
           Info about the assignment...

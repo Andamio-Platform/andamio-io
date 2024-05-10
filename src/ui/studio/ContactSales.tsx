@@ -7,7 +7,7 @@ export default function PageStudio() {
       <div className="mx-auto mt-32 min-h-[50vh] max-w-7xl px-6 sm:mt-56 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-lg font-semibold text-primary">
-            Whether you're an individual, a team, or an organization, are you
+            Whether you&apos;re an individual, a team, or an organization, are you
             seeking to effectively guide and onboard contributors to your
             projects?
           </h2>
@@ -16,7 +16,7 @@ export default function PageStudio() {
           </p>
           <p className="mx-auto mt-6 w-full text-lg leading-8 text-gray-600 md:w-3/4">
             Start your journey as a creator and empower your projects with
-            Andamio's collaborative platform. Streamline your workflow, foster
+            Andamio&apos;s collaborative platform. Streamline your workflow, foster
             collaboration, and bring your ideas to life with ease.
           </p>
           <div className="mt-8">

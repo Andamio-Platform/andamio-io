@@ -118,10 +118,17 @@ export default function MintLocalState({ courseId }: { courseId: string }) {
 
       const response = await axios.post("/api/backend/txs/mintLocalState", req);
 
+      console.log(response.data);
+
       const unsignedTx = response.data.unsignedTxCBOR;
 
+      console.log(unsignedTx);
+
       const signedTx = await wallet.signTx(unsignedTx, true);
-      const txId = await maestro.submitTx(signedTx);
+
+      console.log(signedTx);
+      
+      const txId = await wallet.submitTx(signedTx);
 
       console.log(txId);
 

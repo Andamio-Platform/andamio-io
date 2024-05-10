@@ -17,7 +17,7 @@ export default function SectionStudio() {
           With Andamio Course Studio, you can create and create courses, write modules, and deploy lesson content.
         </p>
       </div>
-      {sessionData && sessionData.user.creatorId && (
+      {/* {sessionData && sessionData.user.creatorId && ( */}
         <div className="my-24 flex items-center justify-center gap-x-6">
           <Link href={`/studio`}>
             <span className="rounded-md bg-primary px-3.5 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
@@ -28,7 +28,7 @@ export default function SectionStudio() {
           Learn more <span aria-hidden="true">→</span>
         </a> */}
         </div>
-      )}
+      {/* )} */}
     </div>
   );
 }

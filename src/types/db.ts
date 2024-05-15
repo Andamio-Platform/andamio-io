@@ -17,3 +17,8 @@ export type Lesson = RouterOutputs["lesson"]["getModuleLessons"][number];
 export type Assignment =
   RouterOutputs["assignment"]["getAssignmentByModuleId"];
 export type Introduction = RouterOutputs["introduction"]["getIntroduction"];
+export type AssignmentCommitment = {
+  assignmentId: string;
+  assignmentCommitmentId: string;
+  evidenceString: string;
+};

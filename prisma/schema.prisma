@@ -306,12 +306,38 @@ model Assignment {
   createdBy   Creator @relation("CreatedAssignments", fields: [createdById], references: [id])
   createdById String
 
-  learners Learner[] @relation("LearnerAssignments")
+  assignmentCommitments AssignmentCommitment[] @relation("AssignmentCommitments")
 
   @@unique([moduleId, assignmentCode])
   @@unique([moduleId])
   @@index([createdById])
   @@index([moduleId])
+  @@index([id])
+}
+
+enum AssignmentStatus {
+  COMMITMENT
+  APPROVED
+  DENIED
+}
+
+model AssignmentCommitment {
+  id String @id @default(cuid())
+
+  assignmentId String
+  assignment   Assignment @relation("AssignmentCommitments", fields: [assignmentId], references: [id])
+
+  learnerId String
+  learner   Learner @relation("LearnerAssignments", fields: [learnerId], references: [id])
+
+  status AssignmentStatus @default(COMMITMENT)
+
+  evidenceString String?
+
+  @@unique([assignmentId])
+  @@unique([learnerId])
+  @@index([assignmentId])
+  @@index([learnerId])
   @@index([id])
 }
 
@@ -359,9 +385,9 @@ model Learner {
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  enrolledCourses Course[]     @relation("LearnerCourses")
-  lessons         Lesson[]     @relation("LearnerLessons")
-  assignments     Assignment[] @relation("LearnerAssignments")
+  enrolledCourses Course[]               @relation("LearnerCourses")
+  lessons         Lesson[]               @relation("LearnerLessons")
+  assignments     AssignmentCommitment[] @relation("LearnerAssignments")
   // For Learners, Module completion goes on-chain, so we skip adding it here
 
   @@unique([userId])

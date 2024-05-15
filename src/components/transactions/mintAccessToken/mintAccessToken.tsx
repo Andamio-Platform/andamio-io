@@ -1,11 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UTxO } from "@meshsdk/core";
-import { CardanoWallet, useWallet } from "@meshsdk/react";
+import { CardanoWallet, useNetwork, useWallet } from "@meshsdk/react";
 import axios from "axios";
 import debounce from "lodash.debounce";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
+import { use, useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
@@ -34,6 +34,7 @@ export default function MintAccessToken() {
   const { connected, wallet } = useWallet();
   const [isLoading, setIsLoading] = useState(false);
   const [isAvailable, setIsAvailable] = useState(false);
+  const network = useNetwork();
 
   const { mutate: createUnconfirmedTx } =
     api.user.updateUnconfirmedTx.useMutation({
@@ -151,10 +152,17 @@ export default function MintAccessToken() {
         req,
       );
 
+      console.log("response", response.data);
+
       const unsignedTx = response.data.unsignedTxCBOR;
 
+      console.log("unsignedTx", unsignedTx);
+
       const signedTx = await wallet.signTx(unsignedTx, true);
-      const txHash = await maestro.submitTx(signedTx);
+
+      console.log("signedTx", signedTx);
+
+      const txHash = await wallet.submitTx(signedTx);
 
       console.log(txHash);
 
@@ -195,22 +203,37 @@ export default function MintAccessToken() {
                 <CardanoWallet />
               </div>
               <div>
-                <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)}>
-                    <FormInput
-                      {...register("tokenAlias")}
-                      name="tokenAlias"
-                      placeholder="Token Alias"
-                      form={form}
-                    />
-                    {isAvailable && (
-                      <div className="mb-2 text-sm text-green-500">
-                        This alias is available.
-                      </div>
-                    )}
-                    <Button type="submit">Mint</Button>
-                  </form>
-                </Form>
+                You&apos;re are connected to the Cardano{" "}
+                {network === 0
+                  ? "Preprod"
+                  : network === 1
+                    ? "Mainnet"
+                    : "Unknown"}
+                .
+              </div>
+              <div>
+                {network === 1 ? (
+                  <div>Andamio is not yet available on Cardano Mainnet </div>
+                ) : network === 0 ? (
+                  <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)}>
+                      <FormInput
+                        {...register("tokenAlias")}
+                        name="tokenAlias"
+                        placeholder="Token Alias"
+                        form={form}
+                      />
+                      {isAvailable && (
+                        <div className="mb-2 text-sm text-green-500">
+                          This alias is available.
+                        </div>
+                      )}
+                      <Button type="submit">Mint</Button>
+                    </form>
+                  </Form>
+                ) : (
+                  <div>Andamio is not available on this network</div>
+                )}
               </div>
             </div>
           )}

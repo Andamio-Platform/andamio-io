@@ -13,6 +13,7 @@ import useValidateCreator from "~/hooks/useValidateCreator";
 import { Module } from "~/types/db";
 import CourseLayout from "~/ui/course/components/layout/CourseLayout";
 import ModuleLayout from "~/ui/course/components/layout/ModuleLayout";
+import CourseNavigation from "~/ui/course/components/ui/CourseNavigation";
 import { api } from "~/utils/api";
 
 export default function PageCourseContent({
@@ -83,6 +84,8 @@ export default function PageCourseContent({
               lesson={lesson}
               moduleCode={courseModule.moduleCode}
             />
+            <CourseNavigation courseCode={courseCode} courseModule={courseModule} moduleIndex={moduleIndex} />
+
           </div>
         ) : lesson && !lesson.live ? (
           <div className="mx-auto flex max-w-3xl flex-col gap-4 text-base leading-7 text-foreground">

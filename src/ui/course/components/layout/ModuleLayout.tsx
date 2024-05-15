@@ -13,8 +13,11 @@ export default function ModuleLayout({
   return (
     <div>
       <main className="">
-        <div className="flex w-full flex-row justify-between bg-primary px-5 py-2 rounded-sm text-primary-foreground text-sm lg:text-base font-bold">
-          <Link href={`/course/${courseCode}/${courseModule.moduleCode}`} className="hover:text-warning-foreground">
+        <div className="flex w-full flex-row justify-between rounded-sm bg-primary px-5 py-2 text-sm font-bold text-primary-foreground lg:text-base">
+          <Link
+            href={`/course/${courseCode}/${courseModule.moduleCode}`}
+            className="hover:text-warning-foreground"
+          >
             Intro
           </Link>
           {courseModule.slts.map((s, i) => (
@@ -26,12 +29,14 @@ export default function ModuleLayout({
               {courseModule.moduleCode}.{s.moduleIndex}
             </Link>
           ))}
-          <Link
-            href={`/course/${courseCode}/${courseModule.moduleCode}/assignment/${courseModule.assignments[0]?.assignmentCode}`}
-            className="hover:text-warning-foreground"
-          >
-            Assignment
-          </Link>
+          {courseModule.assignments[0] && (
+            <Link
+              href={`/course/${courseCode}/${courseModule.moduleCode}/assignment/${courseModule.assignments[0]?.assignmentCode}`}
+              className="hover:text-warning-foreground"
+            >
+              Assignment
+            </Link>
+          )}
         </div>
         <div className="my-10">{children}</div>
       </main>

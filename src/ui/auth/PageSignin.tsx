@@ -1,8 +1,12 @@
 import DiscordIcon from "~/components/icons/discord";
 import { signIn } from "next-auth/react";
+import { useState } from "react";
+import { Checkbox } from "~/components/ui/checkbox";
 // import { Button } from "~/components/ui/button";
 
 export default function PageSignin({ redirectUrl }: { redirectUrl?: string }) {
+  const [tnc, setTnc] = useState(false);
+
   // todo: hardcode providers for now, because on vercel, it's not working
   const _providers = [
     {
@@ -27,19 +31,27 @@ export default function PageSignin({ redirectUrl }: { redirectUrl?: string }) {
             </h1>
 
             <div className="flex flex-col items-center gap-2">
+              <div className="flex items-center space-x-2 py-4">
+                <Checkbox onCheckedChange={(checked) => setTnc(checked ? true : false)} id="terms" />
+                <label
+                  htmlFor="terms"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  Accept terms and conditions
+                </label>
+              </div>
               {Object.values(_providers).map((provider) => (
-                //   <Button key={provider.name}>
-                //     {provider.id === "discord" && <DiscordIcon  />}
-                //    Sign in with {provider.name}
-                // </Button>
                 <div key={provider.name}>
                   <button
+                    disabled={!tnc}
                     onClick={() =>
                       signIn(provider.id, {
                         callbackUrl: redirectUrl,
                       })
                     }
-                    className="flex items-center rounded-lg border border-accent-foreground bg-primary text-primary-foreground px-6 py-2 text-sm font-medium shadow-md hover:bg-accent hover:text-accent-foreground"
+                    className={`flex items-center rounded-lg border border-accent-foreground px-6 py-2 text-sm font-medium text-primary-foreground shadow-md ${
+                      tnc ? 'hover:bg-accent hover:text-accent-foreground bg-primary' : 'bg-gray-300 text-gray-700 cursor-not-allowed'
+                    }`}
                   >
                     {provider.id === "discord" && <DiscordIcon />}
                     <span>Sign in with {provider.name}</span>

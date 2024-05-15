@@ -14,6 +14,7 @@ import ModuleLayout from "~/ui/course/components/layout/ModuleLayout";
 import SltList from "~/ui/studio/components/assignment-dashboard/slt-list";
 import DialogAssignmentCommitment from "~/ui/course/components/dialogs/DialogAssignmentCommitment";
 import { useEffect, useState } from "react";
+import { Card } from "~/components/ui/card";
 
 export default function PageCourseAssignmentContent({
   courseCode,
@@ -108,24 +109,28 @@ function Page({
       </div>
       {assignment.contentJson && editor.render()}
       {/* TO-DO: Only show CommitToAssignmentPage when there is a module token minted for the assignment */}
-      {currentCommitment && (
-        <div className="my-5 rounded-lg bg-primary p-3 text-primary-foreground">
-          <h2>You are committed to this Assignment</h2>
-          {currentCommitment.evidenceString ? (
-            <p>Current evidence: {currentCommitment.evidenceString}</p>
-          ) : (
-            <p>
-              You have not yet submitted evidence for this Assignment. Click the
-              Update button to submit evidence.
-            </p>
-          )}
-        </div>
-      )}
-      <DialogAssignmentCommitment
-        assignmentId={assignment.id}
-        assignmentCommitment={currentCommitment}
-      />
-      <CommitToAssignmentPage />
+
+      <Card>
+        <h2>Assignment Status</h2>
+        {currentCommitment && (
+          <div className="my-5 rounded-lg bg-primary p-3 text-primary-foreground">
+            <h2>You are committed to this Assignment</h2>
+            {currentCommitment.evidenceString ? (
+              <p>Current evidence: {currentCommitment.evidenceString}</p>
+            ) : (
+              <p>
+                You have not yet submitted evidence for this Assignment. Click
+                the Update button to submit evidence.
+              </p>
+            )}
+          </div>
+        )}
+        <DialogAssignmentCommitment
+          assignmentId={assignment.id}
+          assignmentCommitment={currentCommitment}
+        />
+        <CommitToAssignmentPage />
+      </Card>
     </>
   );
 }

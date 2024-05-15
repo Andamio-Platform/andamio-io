@@ -8,6 +8,7 @@ import { Form } from "~/components/ui/form";
 import DialogForm from "~/components/form/dialog-form";
 import FormInput from "~/components/form/form-input";
 import { AssignmentCommitment } from "~/types/db";
+import { useSession } from "next-auth/react";
 
 export default function DialogAssignmentCommitment({
   assignmentId,
@@ -17,6 +18,7 @@ export default function DialogAssignmentCommitment({
   assignmentCommitment?: AssignmentCommitment;
 }) {
   const ctx = api.useUtils();
+  const { update: updateSession } = useSession()
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -27,6 +29,7 @@ export default function DialogAssignmentCommitment({
         toast.success("Successfully committed to Assignment");
         void ctx.assignmentCommitment.getLearnerCommitments.invalidate();
         void ctx.assignmentCommitment.getAssignmentCommitments.invalidate();
+        void updateSession()
       },
       onError: (e) => {
         const errorMessage = e.data?.zodError?.fieldErrors;
@@ -45,6 +48,7 @@ export default function DialogAssignmentCommitment({
         toast.success("Successfully added evidence to Assignment");
         void ctx.assignmentCommitment.getLearnerCommitments.invalidate();
         void ctx.assignmentCommitment.getAssignmentCommitments.invalidate();
+        void updateSession()
       },
       onError: (e) => {
         const errorMessage = e.data?.zodError?.fieldErrors;
@@ -78,6 +82,7 @@ export default function DialogAssignmentCommitment({
     } else {
       create({
         assignmentId: assignmentId,
+        evidenceString: data.evidenceString ?? "",
       });
     }
   }
@@ -97,8 +102,14 @@ export default function DialogAssignmentCommitment({
           assignmentCommitment ? "Update Commitment" : "Commit Off-Chain"
         }
         openButtonIntent="dialog"
-        title={assignmentCommitment ? "Add Evidence" : "Commit to Assignment"}
-        description={`Commit to Assignment ${assignmentId}. You can add evidence now or come back and update it later.`}
+        title={
+          assignmentCommitment ? "Update Evidence" : "Commit to Assignment"
+        }
+        description={
+          assignmentCommitment
+            ? "Evidence can be a text string. Refer to the Assignment for details."
+            : `Commit to Assignment ${assignmentId}. You can add evidence now or come back and update it later.`
+        }
         buttonLabel={
           assignmentCommitment ? "Update Evidence" : "Commit to Assignment"
         }
@@ -109,10 +120,10 @@ export default function DialogAssignmentCommitment({
         setIsOpen={setIsOpen}
       >
         <div className="mt-4 grid grid-cols-1 gap-4">
-          <pre>{JSON.stringify(assignmentCommitment, null, 2)}</pre>
           <FormInput
             name="evidenceString"
             label="Assignment Evidence String"
+            placeholder={assignmentCommitment?.evidenceString}
             form={form}
           />
         </div>

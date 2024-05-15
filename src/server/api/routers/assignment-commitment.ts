@@ -54,6 +54,7 @@ export const assignmentCommitmentRouter = createTRPCRouter({
     .input(
       z.object({
         assignmentId: z.string().min(1),
+        evidenceString: z.string().optional()
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -65,6 +66,7 @@ export const assignmentCommitmentRouter = createTRPCRouter({
         data: {
           assignment: { connect: { id: input.assignmentId } },
           learner: { connect: { id: ctx.session.user.learnerId } },
+          evidenceString: input.evidenceString
         },
       });
     }),

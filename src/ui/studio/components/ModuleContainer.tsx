@@ -163,7 +163,7 @@ export default function ModuleContainer({
       key={`${course.courseCode}-${currentModule.moduleCode}`}
     >
       <AccordionItem value={currentModule.moduleCode} disabled={moduleDialogOpen}>
-        <AccordionTrigger className="flex w-full flex-row justify-between rounded-md bg-primary px-3 text-primary-foreground">
+        <AccordionTrigger className="flex w-full flex-row justify-between rounded-md bg-primary px-3 py-3 text-primary-foreground">
           <div className="grid w-full grid-cols-12 py-1">
             <div className="col-span-1">{currentModule.moduleCode}</div>
             <div className="col-span-3">

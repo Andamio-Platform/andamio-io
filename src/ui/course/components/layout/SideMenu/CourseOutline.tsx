@@ -27,11 +27,11 @@ export default function CourseOutline({
     <div className="-mx-2 mt-3 space-y-1">
       {courseModules?.sort(sortBy).map((courseModule, i) => {
         return (
-          <Accordion key={courseModule.moduleCode} type="single" collapsible>
+          <Accordion key={courseModule.moduleCode} type="single" collapsible className="py-3">
             <AccordionItem value="item-1">
               <AccordionTrigger
                 className={classNames(
-                  "hover:text-accent-foreground-foreground rounded-sm px-3 text-foreground hover:bg-accent text-left",
+                  "hover:text-accent-foreground-foreground rounded-sm px-3 pb-3 text-foreground hover:bg-accent text-left",
                   "text-sm font-semibold",
                   "hover:no-underline",
                 )}

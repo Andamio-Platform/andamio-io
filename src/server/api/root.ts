@@ -13,6 +13,7 @@ import { learnerRouter } from "./routers/learner";
 import { introductionRouter } from "./routers/introduction";
 import { userWalletRouter } from "./routers/user-wallet";
 import { clientDomainsRouter } from "./routers/clients-domain";
+import { assignmentCommitmentRouter } from "./routers/assignment-commitment";
 
 /**
  * This is the primary router for your server.
@@ -34,6 +35,8 @@ export const appRouter = createTRPCRouter({
   lesson: lessonRouter,
   assignment: assignmentRouter,
   introduction: introductionRouter,
+
+  assignmentCommitment: assignmentCommitmentRouter,
 
   clientDomains: clientDomainsRouter,
 });

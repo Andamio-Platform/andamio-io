@@ -22,6 +22,10 @@ import useCourseById from "~/hooks/useCourseById";
 import { Badge } from "~/components/ui/badge";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
+import {
+  DocumentTextIcon,
+  DocumentCheckIcon,
+} from "@heroicons/react/24/outline";
 
 export default function PageCourse({
   courseCode,
@@ -32,7 +36,7 @@ export default function PageCourse({
 }) {
   const { data: sessionData } = useSession();
 
-  const learnerLessons = sessionData?.user.lessonIds
+  const learnerLessons = sessionData?.user.lessonIds;
 
   const { course: courseById, isLoadingCourse: isLoadingCourseById } =
     useCourseById(courseId);
@@ -85,7 +89,7 @@ export default function PageCourse({
   return (
     <CourseLayout>
       <div className="mx-auto flex w-full max-w-5xl flex-col md:w-11/12 lg:w-11/12">
-        <h1 className="text-[5rem] font-bold leading-[5rem]">
+        <h1 className="text-[3rem] font-bold leading-[5rem]">
           {_course.title}
         </h1>
         <div className="py-10 text-xl leading-8">{_course.description}</div>
@@ -116,9 +120,10 @@ export default function PageCourse({
             )}
           </div>
           <div>
-            <h1 className="mb-5 mt-10 text-[2.5rem] font-bold">
-              Course Outline
-            </h1>
+            <h1 className="mt-10 text-[2.0rem] font-bold">Course Outline</h1>
+            <p className="mb-5 mt-3 font-bold">
+              Click a Module to view Student Learning Targets
+            </p>
             <ListModules
               courseCode={_course.courseCode}
               _courseVariant={_courseVariant}
@@ -216,17 +221,20 @@ function ModuleContainer({
 
   return (
     <Accordion type="single" collapsible>
-      <AccordionItem value="item-1">
-        <AccordionTrigger className="flex w-full items-center justify-between gap-4 bg-accent px-5 py-5 text-left hover:bg-card hover:no-underline">
+      <AccordionItem
+        value="item-1"
+        className="mb-5 rounded-md border border-primary"
+      >
+        <AccordionTrigger className="flex w-full items-center justify-between gap-4 rounded-md bg-accent px-5 py-3 text-left hover:bg-card hover:no-underline">
           <span className="text-base font-semibold leading-7">
             {_module.moduleCode}
           </span>
           <span className="grow">
             <div>
-              <p className="text-[1.2rem] font-semibold leading-7">
+              <p className="text-[1.1rem] font-semibold leading-7">
                 {_module.title}
               </p>
-              <div className="flex items-center gap-x-2 text-sm leading-5 text-accent-foreground">
+              <div className="flex items-center gap-x-2 leading-5 text-accent-foreground">
                 <p>{_module.description}</p>
               </div>
             </div>
@@ -235,60 +243,62 @@ function ModuleContainer({
             <Badge>Release Date: {format(_module.releaseDate, "P")}</Badge>
           )}
         </AccordionTrigger>
-        <div className="mb-5">
-          <AccordionContent className="flex flex-col flex-wrap items-center justify-between gap-y-1 bg-primary py-5 text-primary-foreground sm:flex-nowrap">
-            <div className="grid w-full grid-cols-2 gap-5 px-8">
-              <div>
-                <h2 className="pb-3 text-xl font-bold">
-                  Student Learning Targets
-                </h2>
-                {_module.slts.map((slt, i) => (
-                  <div
-                    key={`slt${i}`}
-                    className="flex w-full py-1 hover:text-accent"
-                  >
-                    <Link
-                      href={`/course/${courseCode}/${_module.moduleCode}/lesson/${slt.moduleIndex}`}
-                    >
-                      <div className="flex items-center gap-x-2 font-semibold leading-6 ">
-                        <span className="text-sm">
-                          {_module.moduleCode}.{slt.moduleIndex}
-                        </span>
-                        <CircleIcon />
-                        <span className="text-base">{slt.sltText}</span>
-
-                        {checkLearnerLesson(
-                          slt,
-                          _module.lessons,
-                          learnerLessons,
-                        ) ? (
-                          <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                        ) : (
-                          <div className="h-2 w-2 rounded-full bg-orange-500"></div>
-                        )}
-                      </div>
-                    </Link>
-                  </div>
-                ))}
-              </div>
-              <div className="mx-auto flex w-full flex-col gap-3 md:w-1/2">
-                <Link href={`/course/${courseCode}/${_module.moduleCode}`}>
-                  <Button intent="default" size="lg">
-                    Start this Module
-                  </Button>
-                </Link>
+        <AccordionContent className="flex flex-col flex-wrap items-center justify-between py-5 sm:flex-nowrap">
+          <div className="grid w-full grid-cols-4 gap-5 px-5">
+            <div className="mx-auto flex w-5/6 flex-col">
+              <Link href={`/course/${courseCode}/${_module.moduleCode}`}>
+                <Button intent="courseOutlineAction" size="md">
+                  Start this Module <DocumentTextIcon width={25} height={25} />
+                </Button>
+              </Link>
+              {_module.assignments[0] && (
                 <Link
                   href={`/course/${courseCode}/${_module.moduleCode}/assignment/${_module.assignments[0]?.assignmentCode}`}
                 >
-                  <Button intent="default" size="lg">
-                    View Assignment
+                  <Button intent="courseOutlineAction" size="md">
+                    View Assignment <DocumentCheckIcon width={25} height={25} />
                   </Button>
                 </Link>
-                <p>{_module.description}</p>
-              </div>
+              )}
             </div>
-          </AccordionContent>
-        </div>
+            <div className="col-span-3">
+              <h2 className="pb-3 text-xl font-bold">
+                Student Learning Targets
+              </h2>
+              {_module.slts.map((slt, i) => (
+                <div
+                  key={`slt${i}`}
+                  className="py-1 hover:text-accent-foreground"
+                >
+                  <Link
+                    href={`/course/${courseCode}/${_module.moduleCode}/lesson/${slt.moduleIndex}`}
+                  >
+                    <div className="flex w-full flex-row items-center gap-6 font-semibold leading-6">
+                      {checkLearnerLesson(
+                        slt,
+                        _module.lessons,
+                        learnerLessons,
+                      ) ? (
+                        <div className="h-2 w-2 rounded-full bg-green-500"></div>
+                      ) : (
+                        <div className="h-2 w-2 rounded-full bg-orange-500"></div>
+                      )}
+                      <div className="max-w-[400px] text-left">
+                        <p className="">
+                          <span className="text-md font-bold">
+                            {_module.moduleCode}.{slt.moduleIndex}
+                          </span>
+                          {": "}
+                          <span className="text-md">{slt.sltText}</span>
+                        </p>
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </div>
+        </AccordionContent>
       </AccordionItem>
     </Accordion>
   );

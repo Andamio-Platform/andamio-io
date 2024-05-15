@@ -15,6 +15,7 @@ import useValidateCreator from "~/hooks/useValidateCreator";
 import { Introduction, Module, ModuleSLT } from "~/types/db";
 import CourseLayout from "~/ui/course/components/layout/CourseLayout";
 import ModuleLayout from "~/ui/course/components/layout/ModuleLayout";
+import CourseNavigation from "~/ui/course/components/ui/CourseNavigation";
 import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
 
 export default function PageCourseIntroductionContent({
@@ -44,6 +45,11 @@ export default function PageCourseIntroductionContent({
               introduction={introduction}
               moduleCode={courseModule.moduleCode}
               courseCode={courseCode}
+            />
+            <CourseNavigation
+              courseCode={courseCode}
+              courseModule={courseModule}
+              moduleIndex={"intro"}
             />
           </div>
         ) : introduction && !introduction.live ? (
@@ -106,7 +112,7 @@ function Page({
           {introduction.videoUrl && (
             <VideoPlayer videoId={introduction.videoUrl} />
           )}
-          <div className="bg-accent px-3 pb-1 pt-2 my-5 rounded-md shadow-lg">
+          <div className="my-5 rounded-md bg-accent px-3 pb-1 pt-2 shadow-lg">
             <h2 className="py-3 text-xl font-bold">Student Learning Targets</h2>
             {slts.map((slt, i) => (
               <Link

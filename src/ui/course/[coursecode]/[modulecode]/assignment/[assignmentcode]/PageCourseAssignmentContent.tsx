@@ -7,11 +7,14 @@ import VideoPlayer from "~/components/media/VideoPlayer";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import useAssignmentByCourseModule from "~/hooks/useAssignmentByCourseModule";
 import useValidateCreator from "~/hooks/useValidateCreator";
-import { Module } from "~/types/db";
+import { AssignmentCommitment, Module } from "~/types/db";
 import CourseLayout from "~/ui/course/components/layout/CourseLayout";
 import CommitToAssignmentPage from "./CommitToAssignmentPage";
 import ModuleLayout from "~/ui/course/components/layout/ModuleLayout";
 import SltList from "~/ui/studio/components/assignment-dashboard/slt-list";
+import DialogAssignmentCommitment from "~/ui/course/components/dialogs/DialogAssignmentCommitment";
+import { useEffect, useState } from "react";
+import { Card } from "~/components/ui/card";
 
 export default function PageCourseAssignmentContent({
   courseCode,
@@ -21,6 +24,8 @@ export default function PageCourseAssignmentContent({
   courseModule: Module;
 }) {
   const { data: sessionData } = useSession();
+
+  // const assignmentCommitments = sessionData?.u
 
   const { assignment, isLoadingAssignment } = useAssignmentByCourseModule(
     courseCode,
@@ -64,6 +69,20 @@ function Page({
   assignment: { slts: Slt[] } & Assignment;
   courseModule: Module;
 }) {
+  const { data: sessionData } = useSession();
+  const [currentCommitment, setCurrentCommitment] = useState<
+    AssignmentCommitment | undefined
+  >(undefined);
+
+  useEffect(() => {
+    if (sessionData) {
+      const currentCommitment = sessionData?.user.assignmentCommitments.find(
+        (a) => a.assignmentId === assignment.id,
+      );
+      setCurrentCommitment(currentCommitment);
+    }
+  }, [sessionData]);
+
   const editor = new Editor({
     editable: false,
   });
@@ -90,7 +109,28 @@ function Page({
       </div>
       {assignment.contentJson && editor.render()}
       {/* TO-DO: Only show CommitToAssignmentPage when there is a module token minted for the assignment */}
-      {/* <CommitToAssignmentPage /> */}
+
+      <Card>
+        <h2>Assignment Status</h2>
+        {currentCommitment && (
+          <div className="my-5 rounded-lg bg-primary p-3 text-primary-foreground">
+            <h2>You are committed to this Assignment</h2>
+            {currentCommitment.evidenceString ? (
+              <p>Current evidence: {currentCommitment.evidenceString}</p>
+            ) : (
+              <p>
+                You have not yet submitted evidence for this Assignment. Click
+                the Update button to submit evidence.
+              </p>
+            )}
+          </div>
+        )}
+        <DialogAssignmentCommitment
+          assignmentId={assignment.id}
+          assignmentCommitment={currentCommitment}
+        />
+        <CommitToAssignmentPage />
+      </Card>
     </>
   );
 }

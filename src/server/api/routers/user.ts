@@ -22,18 +22,19 @@ export const userRouter = createTRPCRouter({
             select: {
               id: true,
               userId: true,
-              courses: true
-            }
+              courses: true,
+            },
           },
           learner: {
             select: {
               id: true,
               lessons: {
                 select: {
-                  id: true
-                }
-              }
-            }
+                  id: true,
+                },
+              },
+              assignments: true,
+            },
           },
         },
       });
@@ -59,10 +60,16 @@ export const userRouter = createTRPCRouter({
               id: true,
               lessons: {
                 select: {
-                  id: true
-                }
-              }
-            }
+                  id: true,
+                },
+              },
+              assignments: {
+                select: {
+                  id: true,
+                  assignmentId: true,
+                },
+              },
+            },
           },
         },
       });
@@ -92,7 +99,7 @@ export const userRouter = createTRPCRouter({
       });
     }),
 
-    updateAccessTokenMintTx: protectedProcedure
+  updateAccessTokenMintTx: protectedProcedure
     .input(
       z.object({
         userId: z.string(),
@@ -110,7 +117,7 @@ export const userRouter = createTRPCRouter({
       });
     }),
 
-    updateUnconfirmedTx: protectedProcedure
+  updateUnconfirmedTx: protectedProcedure
     .input(
       z.object({
         userId: z.string(),
@@ -127,5 +134,4 @@ export const userRouter = createTRPCRouter({
         },
       });
     }),
-
 });

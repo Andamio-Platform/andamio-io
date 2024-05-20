@@ -6,8 +6,20 @@ import CourseCard from "./CourseCard";
 import { useEffect, useState } from "react";
 import { CoursePublic } from "~/types/db";
 import Link from "next/link";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "~/components/ui/dialog";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "~/components/ui/collapsible";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "~/components/ui/dialog";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "~/components/ui/collapsible";
 import { Button } from "~/components/ui/button";
 import MintLocalState from "~/components/transactions/mintLocalState/mintLocalState";
 
@@ -49,20 +61,22 @@ export default function AllCourses() {
           </div>
 
           <div>
-          {courses.map((course, i) => (
-            <div key={i}>
-              {course.onchainInstance.length !== 0 ? (
-                <>
-                  <CourseOnChain {...course} />
-                </>
-              ) : (
-                <>
-                  <CourseNotOnChain {...course} />
-                </>
-              )}
+            <div className="mx-auto grid grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-4">
+              {courses.map((course, i) => (
+                <div key={i}>
+                  {course.onchainInstance.length !== 0 ? (
+                    <>
+                      <CourseOnChain {...course} />
+                    </>
+                  ) : (
+                    <>
+                      <CourseNotOnChain {...course} />
+                    </>
+                  )}
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </div>
           {/* <div className="my-3 border-t border-accent-foreground py-3">
             <h3 className="py-5 text-3xl font-bold">
               Premium Courses / Discord Login
@@ -134,7 +148,6 @@ export default function AllCourses() {
     </>
   );
 }
-
 
 interface Course {
   id: string;

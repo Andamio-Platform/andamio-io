@@ -127,7 +127,7 @@ export default function MintLocalState({ courseId }: { courseId: string }) {
       const signedTx = await wallet.signTx(unsignedTx, true);
 
       console.log(signedTx);
-      
+
       const txId = await wallet.submitTx(signedTx);
 
       console.log(txId);
@@ -141,7 +141,7 @@ export default function MintLocalState({ courseId }: { courseId: string }) {
 
       // set database
 
-      void router.push("/home");
+      void router.push("/home"); // maybe change to Dashboard?
     } catch (error) {
       setIsLoading(false);
       console.error("Error", error);

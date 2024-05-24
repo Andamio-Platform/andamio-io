@@ -1,6 +1,7 @@
 import { Underline } from "@tiptap/extension-underline";
 import Bold from "@tiptap/extension-bold";
 import { StarterKit, Link, Heading, SlashCommand, ImageUpload, ImageBlock } from "./extensions";
+import { Plugin } from 'prosemirror-state';
 
 const CustomBold = Bold.extend({
   renderHTML({ HTMLAttributes }) {

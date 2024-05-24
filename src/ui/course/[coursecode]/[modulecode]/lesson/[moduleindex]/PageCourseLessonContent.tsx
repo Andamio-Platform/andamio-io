@@ -2,8 +2,7 @@ import { Lesson, Slt } from "@prisma/client";
 import { AlertTriangle, Leaf } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
-import toast from "react-hot-toast";
-import Editor from "~/components/Editor";
+import RenderEditor from "~/components/Editor/components/render/RenderEditor";
 import Loading from "~/components/loading";
 import VideoPlayer from "~/components/media/VideoPlayer";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
@@ -28,10 +27,8 @@ export default function PageCourseContent({
   const ctx = api.useUtils();
   const { data: sessionData, update: updateSessionData } = useSession();
 
-  // Next step:
-  // I want the Learner's list of Lessons in my Session Data
   const learnerId = sessionData?.user.learnerId;
-  const learnerLessons = sessionData?.user.lessonIds
+  const learnerLessons = sessionData?.user.lessonIds;
 
   console.log("Learner Lessons", learnerLessons);
 
@@ -48,14 +45,9 @@ export default function PageCourseContent({
         void updateSessionData();
       },
       onError: (e) => {
-        // const errorMessage = e.data?.zodError?.fieldErrors;
-        // console.error(errorMessage);
-        // toast.error("Something went wrong. Please try again.");
+        // Handle error
       },
     });
-
-  console.log(learnerId);
-  console.log(lesson?.id);
 
   useEffect(() => {
     if (learnerId && lesson && !learnerLessons?.includes(lesson.id)) {
@@ -64,7 +56,7 @@ export default function PageCourseContent({
         lessonId: lesson.id,
       });
     }
-  }, [learnerId, lesson]);
+  }, [learnerId, lesson, learnerLessons, addLessonToLearner]);
 
   const { isCreator } = useValidateCreator(sessionData, courseCode);
 
@@ -84,8 +76,11 @@ export default function PageCourseContent({
               lesson={lesson}
               moduleCode={courseModule.moduleCode}
             />
-            <CourseNavigation courseCode={courseCode} courseModule={courseModule} moduleIndex={moduleIndex} />
-
+            <CourseNavigation
+              courseCode={courseCode}
+              courseModule={courseModule}
+              moduleIndex={moduleIndex}
+            />
           </div>
         ) : lesson && !lesson.live ? (
           <div className="mx-auto flex max-w-3xl flex-col gap-4 text-base leading-7 text-foreground">
@@ -134,27 +129,29 @@ function Page({
   lesson: Lesson;
   moduleCode: string;
 }) {
-  const editor = new Editor({
-    editable: false,
-  });
 
+  // Next Step:
+  // Use this pattern in all Course and Studio Routes
   if (lesson && lesson.contentJson && typeof lesson.contentJson === "object") {
-    editor.setContent(lesson.contentJson);
-  }
+    const editor = RenderEditor({
+      editable: false,
+      initialContent: lesson?.contentJson,
+    });
 
-  return (
-    <>
-      <div>
-        <p className="text-base font-semibold leading-7 text-accent-foreground">
-          {moduleCode}.{slt?.moduleIndex}: {slt?.sltText}
-        </p>
-        <h1 className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          {lesson.title}
-        </h1>
-        <p className="text-xl leading-8">{lesson.description}</p>
-      </div>
-      {lesson.videoUrl && <VideoPlayer videoId={lesson.videoUrl} />}
-      <div className="my-5">{lesson.contentJson && editor.render()}</div>
-    </>
-  );
+    return (
+      <>
+        <div>
+          <p className="text-base font-semibold leading-7 text-accent-foreground">
+            {moduleCode}.{slt?.moduleIndex}: {slt?.sltText}
+          </p>
+          <h1 className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            {lesson.title}
+          </h1>
+          <p className="text-xl leading-8">{lesson.description}</p>
+        </div>
+        {lesson.videoUrl && <VideoPlayer videoId={lesson.videoUrl} />}
+        <div className="my-5">{editor}</div>
+      </>
+    );
+  }
 }

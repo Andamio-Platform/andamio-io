@@ -43,7 +43,7 @@ export default class Editor {
   render() {
     if (this.editor) {
       return (
-        <div className="flex w-full mx-auto h-full flex-col overflow-hidden bg-background text-foreground">
+        <div className="mx-auto flex h-full w-full flex-col overflow-hidden bg-background text-foreground">
           <EditorContent editor={this.editor} />
           {/* <LinkMenu editor={this.editor} appendTo={this.menuContainerRef} /> */}
           {/* <TextMenu editor={this.editor} /> */}

@@ -1,17 +1,13 @@
+import { Course, Module } from "~/types/db";
+import { LightDarkToggle } from "~/ui/site/LightDarkToggle";
+import { api } from "~/utils/api";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { api } from "~/utils/api";
-import { Course, Module } from "~/types/db";
-import Editor from "~/components/Editor";
+import { useForm } from "react-hook-form";
+import LoadingContentEditor from "~/ui/studio/components/ContentEditor/ui/LoadingContentEditor";
 import { Form } from "~/components/ui/form";
-import StudioLayout from "~/ui/studio/components/layout/StudioLayout";
-
-import useIntroduction from "~/hooks/useIntroduction";
-import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
-
 import {
   ResizableHandle,
   ResizablePanel,
@@ -20,11 +16,12 @@ import {
 
 import HeaderSection from "../components/HeaderSection";
 import RightSection from "../components/RightSection";
-import LoadingContentEditor from "~/ui/studio/components/ContentEditor/ui/LoadingContentEditor";
-import { DialogGetLessonPlan } from "../components/coach/DialogGetLessonPlan";
+
 import { useCourseStore } from "~/lib/zustand/course";
-import { LightDarkToggle } from "~/ui/site/LightDarkToggle";
 import useAssignmentByCourseModule from "~/hooks/useAssignmentByCourseModule";
+import useIntroEditor from "~/ui/studio/hooks/useIntroEditor";
+import { AndamioBubbleMenu } from "~/components/Editor/components/menus/AndamioBubbleMenu";
+import { EditorContent } from "@tiptap/react";
 
 export default function PageModuleIntroContent({
   course,
@@ -38,11 +35,14 @@ export default function PageModuleIntroContent({
   if (!course) return null;
 
   const courseCode = course.courseCode;
-  const moduleCode = courseModule.moduleCode;
-  const { introduction, isLoadingIntro, refetchIntro } = useIntroduction(
+  const { editor, introduction, isLoadingIntro, refetchIntro } = useIntroEditor(
     courseModule.id,
   );
-  const { assignment } = useAssignmentByCourseModule(course.courseCode, courseModule.moduleCode)
+
+  const { assignment } = useAssignmentByCourseModule(
+    course.courseCode,
+    courseModule.moduleCode,
+  );
   const [editIntroduction, setEditIntroduction] = useState<boolean>(false);
   const [isCreatingIntroduction, setIsCreatingIntroduction] = useState(false);
 
@@ -70,6 +70,7 @@ export default function PageModuleIntroContent({
       onSuccess: async (data) => {
         toast.success("Introduction updated!");
         setEditIntroduction(false);
+        await refetchIntro();
         void ctx.introduction.getIntroduction.invalidate({
           moduleId: courseModule.id,
         });
@@ -119,11 +120,6 @@ export default function PageModuleIntroContent({
     },
   });
 
-  const editor = new Editor({
-    //@ts-expect-error todo how to fix this
-    initialContent: introduction?.contentJson,
-  });
-
   function onSubmit(data: z.infer<typeof FormSchema>) {
     if (!introduction) return;
 
@@ -133,7 +129,7 @@ export default function PageModuleIntroContent({
       description: data.description ?? "",
       imageUrl: introduction.imageUrl ?? "",
       videoUrl: data.videoUrl ?? "",
-      contentJson: editor.getJSON(),
+      contentJson: editor?.getJSON(),
       live: data.live,
     };
     update(_introduction);
@@ -146,44 +142,34 @@ export default function PageModuleIntroContent({
       introduction.contentJson &&
       typeof introduction.contentJson === "object"
     ) {
-      editor.setContent(introduction.contentJson);
+      editor?.commands.setContent(introduction.contentJson);
     }
   }
 
   useEffect(() => {
     setEditIntroduction(true);
-  }, [editor.isFocused()]);
+  }, [editor?.isFocused]);
 
   useEffect(() => {
     if (introduction) {
-      const _introduction = introduction;
-
-      if (_introduction) {
+      if (introduction) {
         form.reset({
-          title: _introduction.title ?? "",
-          description: _introduction.description ?? "",
-          videoUrl: _introduction.videoUrl ?? "",
-          live: _introduction.live ? _introduction.live : false,
+          title: introduction.title ?? "",
+          description: introduction.description ?? "",
+          videoUrl: introduction.videoUrl ?? "",
+          live: introduction.live ? introduction.live : false,
         });
 
         if (
-          _introduction.contentJson &&
-          typeof _introduction.contentJson === "object"
+          !isLoadingUpdate &&
+          introduction.contentJson &&
+          typeof introduction.contentJson === "object"
         ) {
-          editor.setContent(_introduction.contentJson);
+          editor?.commands.setContent(introduction.contentJson);
         }
       }
     }
   }, [introduction, isLoadingIntro]);
-
-  useEffect(() => {
-    if (
-      introduction?.contentJson &&
-      typeof introduction.contentJson === "object"
-    ) {
-      editor.setContent(introduction.contentJson);
-    }
-  }, [editIntroduction]);
 
   /**
    * START OF
@@ -201,7 +187,7 @@ export default function PageModuleIntroContent({
           _json.content.push(_newData);
         }
 
-        editor.setContent(_json.content);
+        editor.commands.setContent(_json.content);
       }
     }
   }, [updateLessonEdit]);
@@ -210,10 +196,6 @@ export default function PageModuleIntroContent({
    * END OF
    * andamio coach - get lesson plan
    */
-
-  if (isLoadingIntro) {
-    return <LoadingCircle />;
-  }
 
   if (introduction === undefined || introduction === null) {
     if (isLoadingIntroCreate) {
@@ -253,7 +235,8 @@ export default function PageModuleIntroContent({
                   <div className="mx-2 h-[calc(100vh-84px)] w-full overflow-y-auto border">
                     <div className="mx-auto my-4">
                       <div className="m-5 flex min-h-[90vh] w-full bg-background p-5 shadow-xl">
-                        {editor.render()}
+                        {!!editor && <AndamioBubbleMenu editor={editor} />}
+                        <EditorContent editor={editor} />
                       </div>
                     </div>
                   </div>

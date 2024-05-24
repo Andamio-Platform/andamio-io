@@ -1,0 +1,30 @@
+import { User } from "@prisma/client";
+import { z } from "zod";
+import maestro from "~/config/maestro";
+
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "~/server/api/trpc";
+
+export const learnerOnChainRouter = createTRPCRouter({
+  getCoursesByTokenName: publicProcedure
+    .input(z.object({ tokenName: z.string().min(3) }))
+    .query(async ({ ctx, input }) => {
+      const courses = await ctx.db.courseOnChainInstance.findMany();
+
+      const courseQueries = courses.map((c) => {
+        return maestro
+          .fetchAssetAddresses(c.LocalStatePolicyID + input.tokenName) // This is currently a lot of maestro queries - perfect to replace with local state indexer
+          .then((res) => {
+            if (res[0]?.address) {
+              return c.courseId;
+            }
+          });
+      });
+
+      const courseList = await Promise.all(courseQueries);
+      return courseList.filter((c): c is string => c !== undefined);
+    }),
+});

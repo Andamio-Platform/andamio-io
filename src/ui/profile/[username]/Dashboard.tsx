@@ -47,9 +47,9 @@ export default function DashboardPage({ username }: { username: string }) {
         <div className="mx-auto mt-32 flex min-h-[50vh] max-w-7xl flex-col items-center justify-center gap-10 px-6 sm:mt-56 lg:px-8">
           {accessToken ? (
             <>
-              <AccessTokenSection />
+              <AccessTokenSection accessToken={accessToken} />
 
-              <MyCoursesSection />
+              <MyCoursesSection accessToken={accessToken} />
             </>
           ) : (
             <NoAccessTokenInWallet />

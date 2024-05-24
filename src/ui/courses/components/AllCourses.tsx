@@ -5,6 +5,23 @@ import useCourses from "~/hooks/useCourses";
 import CourseCard from "./CourseCard";
 import { useEffect, useState } from "react";
 import { CoursePublic } from "~/types/db";
+import Link from "next/link";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "~/components/ui/dialog";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "~/components/ui/collapsible";
+import { Button } from "~/components/ui/button";
+import MintLocalState from "~/components/transactions/mintLocalState/mintLocalState";
 
 export default function AllCourses() {
   const { data: sessionData } = useSession();
@@ -41,6 +58,24 @@ export default function AllCourses() {
                 <>{course && <CourseCard course={course} enabled={true} />}</>
               ))}
             </ul>
+          </div>
+
+          <div>
+            <div className="mx-auto grid grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-4">
+              {courses.map((course, i) => (
+                <div key={i}>
+                  {course.onchainInstance.length !== 0 ? (
+                    <>
+                      <CourseOnChain {...course} />
+                    </>
+                  ) : (
+                    <>
+                      <CourseNotOnChain {...course} />
+                    </>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
           {/* <div className="my-3 border-t border-accent-foreground py-3">
             <h3 className="py-5 text-3xl font-bold">
@@ -111,5 +146,87 @@ export default function AllCourses() {
         </>
       )}
     </>
+  );
+}
+
+interface Course {
+  id: string;
+  courseCode: string;
+  createdById: string;
+  title: string;
+  description: string | null;
+  category: string | null;
+  imageUrl: string | null;
+  videoUrl: string | null;
+  live: boolean | null;
+  accessTier: any;
+}
+
+function CourseNotOnChain(course: Course) {
+  return (
+    <Link href={`/course/${course.courseCode}`}>
+      <img
+        className="aspect-[3/2] w-full rounded-2xl object-cover"
+        src={course.imageUrl ? course.imageUrl : "/images/sample-covers/1.jpg"}
+        alt=""
+      />
+      <h3 className="mt-6 text-lg font-semibold leading-8 tracking-tight text-foreground">
+        {course.title}
+      </h3>
+      <p className="text-base leading-7 text-gray-600">{course.description}</p>
+    </Link>
+  );
+}
+
+function CourseOnChain(course: Course) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  // TO_DO: Add logic for if the user already have enrolled in the course
+
+  return (
+    <Dialog>
+      <DialogTrigger>
+        <img
+          className="aspect-[3/2] w-full rounded-2xl object-cover"
+          src={
+            course.imageUrl ? course.imageUrl : "/images/sample-covers/1.jpg"
+          }
+          alt=""
+        />
+        <h3 className="mt-6 text-lg font-semibold leading-8 tracking-tight text-foreground">
+          {course.title}
+        </h3>
+        <p className="text-base leading-7 text-gray-600">
+          {course.description}
+        </p>
+      </DialogTrigger>
+      <DialogContent className="flex items-center justify-center justify-items-center">
+        <DialogHeader>
+          <DialogTitle>Thinking of taking this course?</DialogTitle>
+          <DialogDescription>
+            <Collapsible
+              open={isOpen}
+              onOpenChange={setIsOpen}
+              className="w-[350px] space-y-2"
+            >
+              <div className="flex items-center justify-start">
+                <CollapsibleTrigger asChild>
+                  <Button>{isOpen ? <>Back</> : <>Enroll On-Chain</>}</Button>
+                </CollapsibleTrigger>
+              </div>
+
+              <CollapsibleContent className="space-y-2">
+                <MintLocalState courseId={course.id} />
+              </CollapsibleContent>
+            </Collapsible>
+          </DialogDescription>
+          <DialogFooter className="text-xs sm:justify-start">
+            <Link href={`/course/${course.courseCode}`}>
+              I&apos;ll do it after taking a look inside first
+            </Link>
+          </DialogFooter>
+        </DialogHeader>
+      </DialogContent>
+    </Dialog>
   );
 }

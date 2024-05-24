@@ -1,14 +1,12 @@
-// this can really turn into an incredible dashboard...
 // dream big!
 
-import { useCallback, useEffect, useState } from "react";
-import { FieldValues, useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { api } from "~/utils/api";
-import { Assignment, Course, Module, ModuleSLT } from "~/types/db";
-import Editor from "~/components/Editor";
+import { Assignment, Course, Module } from "~/types/db";
 import { Form } from "~/components/ui/form";
 
 import {
@@ -19,8 +17,11 @@ import {
 
 import HeaderSection from "../../components/HeaderSection";
 import RightSection from "../../components/RightSection";
-import { DialogGetLessonPlan } from "../../components/coach/DialogGetLessonPlan";
 import { useCourseStore } from "~/lib/zustand/course";
+import useAssignmentEditor from "~/ui/studio/hooks/useAssignmentEditor";
+import { AndamioBubbleMenu } from "~/components/Editor/components/menus/AndamioBubbleMenu";
+import { EditorContent } from "@tiptap/react";
+import { LightDarkToggle } from "~/ui/site/LightDarkToggle";
 
 // V2 - current
 export default function PageCourseAssignmentContent({
@@ -32,12 +33,12 @@ export default function PageCourseAssignmentContent({
   courseModule: Module;
   assignment: Assignment;
 }) {
-  const ctx = api.useUtils();
-
   if (!course) return;
 
   const courseCode = course.courseCode;
   const moduleCode = courseModule.moduleCode;
+
+  const { editor, ctx } = useAssignmentEditor(assignment);
 
   const [editAssignment, setEditAssignment] = useState<boolean>(false);
 
@@ -96,9 +97,9 @@ export default function PageCourseAssignmentContent({
       description: data.description ?? "",
       imageUrl: assignment.imageUrl ?? "",
       videoUrl: data.videoUrl ?? "",
-      contentJson: editor.getJSON(),
+      contentJson: editor?.getJSON(),
       live: data.live,
-      sltIds: assignment.slts.map((s) => s.id)
+      sltIds: assignment.slts.map((s) => s.id),
     };
     update(_assignment);
   }
@@ -110,48 +111,34 @@ export default function PageCourseAssignmentContent({
       assignment.contentJson &&
       typeof assignment.contentJson === "object"
     ) {
-      editor.setContent(assignment.contentJson);
+      editor?.commands.setContent(assignment.contentJson);
     }
   }
 
-  const editor = new Editor({
-    //@ts-expect-error todo how to fix this
-    initialContent: assignment?.contentJson,
-  });
-
   useEffect(() => {
-    if (editor.isFocused()) {
+    if (editor?.isFocused) {
       setEditAssignment(true);
     }
-  }, [editor.isFocused()]);
+  }, [editor?.isFocused]);
 
   useEffect(() => {
     if (assignment) {
-      const _assignment = assignment;
+      form.reset({
+        title: assignment.title ?? "",
+        description: assignment.description ?? "",
+        videoUrl: assignment.videoUrl ?? "",
+        live: assignment.live ? assignment.live : false,
+      });
 
-      if (_assignment) {
-        form.reset({
-          title: _assignment.title ?? "",
-          description: _assignment.description ?? "",
-          videoUrl: _assignment.videoUrl ?? "",
-          live: _assignment.live ? _assignment.live : false,
-        });
-
-        if (
-          _assignment.contentJson &&
-          typeof _assignment.contentJson === "object"
-        ) {
-          editor.setContent(_assignment.contentJson);
-        }
+      if (
+        !isLoadingUpdate &&
+        assignment.contentJson &&
+        typeof assignment.contentJson === "object"
+      ) {
+        editor?.commands.setContent(assignment.contentJson);
       }
     }
-  }, [assignment]);
-
-  useEffect(() => {
-    if (assignment?.contentJson && typeof assignment.contentJson === "object") {
-      editor.setContent(assignment.contentJson);
-    }
-  }, [editAssignment]);
+  }, [assignment, isLoadingUpdate]);
 
   /**
    * START OF
@@ -169,7 +156,7 @@ export default function PageCourseAssignmentContent({
           _json.content.push(_newData);
         }
 
-        editor.setContent(_json.content);
+        editor.commands.setContent(_json.content);
       }
     }
   }, [updateLessonEdit]);
@@ -181,46 +168,50 @@ export default function PageCourseAssignmentContent({
 
   if (assignment) {
     return (
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <HeaderSection
-            form={form}
-            course={course}
-            courseModule={courseModule}
-            editContent={editAssignment}
-            setEditContent={setEditAssignment}
-            isLoadingUpdate={isLoadingUpdate}
-            onCancel={onCancel}
-            onSubmit={form.handleSubmit(onSubmit)}
-            courseContent={assignment}
-            intent="assignment"
-            setGetLessonPlanDialogOpen={setGetLessonPlanDialogOpen}
-          />
+      <>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <HeaderSection
+              form={form}
+              course={course}
+              courseModule={courseModule}
+              editContent={editAssignment}
+              setEditContent={setEditAssignment}
+              isLoadingUpdate={isLoadingUpdate}
+              onCancel={onCancel}
+              onSubmit={form.handleSubmit(onSubmit)}
+              courseContent={assignment}
+              intent="assignment"
+              setGetLessonPlanDialogOpen={setGetLessonPlanDialogOpen}
+            />
 
-          <div className="flex w-full bg-card">
-            <ResizablePanelGroup direction="horizontal" className="gap-2">
-              <ResizablePanel defaultSize={80}>
-                <div className="mx-2 h-[calc(100vh-84px)] w-full overflow-y-auto border">
-                  <div className="mx-auto my-4">
-                    <div className="m-5 flex min-h-[90vh] w-full bg-background p-5 shadow-xl">
-                      {editor.render()}
+            <div className="flex w-full bg-card">
+              <ResizablePanelGroup direction="horizontal" className="gap-2">
+                <ResizablePanel defaultSize={80}>
+                  <div className="mx-2 h-[calc(100vh-84px)] w-full overflow-y-auto border">
+                    <div className="mx-auto my-4">
+                      <div className="m-5 flex min-h-[90vh] w-full bg-background p-5 shadow-xl">
+                        {!!editor && <AndamioBubbleMenu editor={editor} />}
+                        {!!editor && <EditorContent editor={editor} />}
+                      </div>
                     </div>
                   </div>
-                </div>
-              </ResizablePanel>
-              <ResizableHandle />
-              <ResizablePanel defaultSize={20}>
-                <RightSection
-                  form={form}
-                  course={course}
-                  courseModule={courseModule}
-                  assignment={assignment}
-                />
-              </ResizablePanel>
-            </ResizablePanelGroup>
-          </div>
-        </form>
-      </Form>
+                </ResizablePanel>
+                <ResizableHandle />
+                <ResizablePanel defaultSize={20}>
+                  <RightSection
+                    form={form}
+                    course={course}
+                    courseModule={courseModule}
+                    assignment={assignment}
+                  />
+                </ResizablePanel>
+              </ResizablePanelGroup>
+            </div>
+          </form>
+        </Form>
+        <LightDarkToggle />
+      </>
     );
   }
 }

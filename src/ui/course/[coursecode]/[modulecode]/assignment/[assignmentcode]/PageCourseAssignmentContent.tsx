@@ -1,7 +1,6 @@
 import { Assignment, Slt } from "@prisma/client";
 import { AlertTriangle } from "lucide-react";
 import { useSession } from "next-auth/react";
-import Editor from "~/components/Editor";
 import Loading from "~/components/loading";
 import VideoPlayer from "~/components/media/VideoPlayer";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
@@ -15,6 +14,7 @@ import SltList from "~/ui/studio/components/assignment-dashboard/slt-list";
 import DialogAssignmentCommitment from "~/ui/course/components/dialogs/DialogAssignmentCommitment";
 import { useEffect, useState } from "react";
 import { Card } from "~/components/ui/card";
+import RenderEditor from "~/components/Editor/components/render/RenderEditor";
 
 export default function PageCourseAssignmentContent({
   courseCode,
@@ -83,54 +83,53 @@ function Page({
     }
   }, [sessionData]);
 
-  const editor = new Editor({
-    editable: false,
-  });
-
   if (
     assignment &&
     assignment.contentJson &&
     typeof assignment.contentJson === "object"
   ) {
-    editor.setContent(assignment.contentJson);
-  }
+    const editor = RenderEditor({
+      editable: false,
+      initialContent: assignment?.contentJson,
+    });
 
-  return (
-    <>
-      <div>
-        <h1 className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          {assignment.title}
-        </h1>
-        <p className="py-5 text-xl leading-8">{assignment.description}</p>
-        {assignment.videoUrl && <VideoPlayer videoId={assignment.videoUrl} />}
-        <div className="my-10">
-          <SltList courseModule={courseModule} assignment={assignment} />
-        </div>
-      </div>
-      {assignment.contentJson && editor.render()}
-      {/* TO-DO: Only show CommitToAssignmentPage when there is a module token minted for the assignment */}
-
-      <Card>
-        <h2>Assignment Status</h2>
-        {currentCommitment && (
-          <div className="my-5 rounded-lg bg-primary p-3 text-primary-foreground">
-            <h2>You are committed to this Assignment</h2>
-            {currentCommitment.evidenceString ? (
-              <p>Current evidence: {currentCommitment.evidenceString}</p>
-            ) : (
-              <p>
-                You have not yet submitted evidence for this Assignment. Click
-                the Update button to submit evidence.
-              </p>
-            )}
+    return (
+      <>
+        <div>
+          <h1 className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            {assignment.title}
+          </h1>
+          <p className="py-5 text-xl leading-8">{assignment.description}</p>
+          {assignment.videoUrl && <VideoPlayer videoId={assignment.videoUrl} />}
+          <div className="my-10">
+            <SltList courseModule={courseModule} assignment={assignment} />
           </div>
-        )}
-        <DialogAssignmentCommitment
-          assignmentId={assignment.id}
-          assignmentCommitment={currentCommitment}
-        />
-        <CommitToAssignmentPage />
-      </Card>
-    </>
-  );
+        </div>
+        {editor}
+        {/* TO-DO: Only show CommitToAssignmentPage when there is a module token minted for the assignment */}
+
+        <Card>
+          <h2>Assignment Status</h2>
+          {currentCommitment && (
+            <div className="my-5 rounded-lg bg-primary p-3 text-primary-foreground">
+              <h2>You are committed to this Assignment</h2>
+              {currentCommitment.evidenceString ? (
+                <p>Current evidence: {currentCommitment.evidenceString}</p>
+              ) : (
+                <p>
+                  You have not yet submitted evidence for this Assignment. Click
+                  the Update button to submit evidence.
+                </p>
+              )}
+            </div>
+          )}
+          <DialogAssignmentCommitment
+            assignmentId={assignment.id}
+            assignmentCommitment={currentCommitment}
+          />
+          <CommitToAssignmentPage />
+        </Card>
+      </>
+    );
+  }
 }

@@ -61,6 +61,18 @@ export const courseRouter = createTRPCRouter({
       });
     }),
 
+  getCoursesByIds: publicProcedure
+    .input(z.object({ courseIds: z.array(z.string()) }))
+    .query(({ ctx, input }) => {
+      return ctx.db.course.findMany({
+        where: {
+          id: {
+            in: input.courseIds,
+          },
+        },
+      });
+    }),
+
   create: protectedProcedure
     .input(
       z.object({

@@ -3,7 +3,7 @@
 // TODO: File causes circular dependency issue in ESLint
 /* eslint-disable */
 export { StarterKit } from '@tiptap/starter-kit'
-// export { Highlight } from '@tiptap/extension-highlight'
+export { Highlight } from '@tiptap/extension-highlight'
 // export { CharacterCount } from '@tiptap/extension-character-count'
 export { Underline } from '@tiptap/extension-underline'
 // export { Placeholder } from '@tiptap/extension-placeholder'

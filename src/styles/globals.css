@@ -102,3 +102,7 @@
 .link {
   @apply text-foreground hover:text-success;
 }
+
+.blockquote {
+  @apply text-foreground
+}

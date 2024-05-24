@@ -2,6 +2,7 @@ import { Underline } from "@tiptap/extension-underline";
 import Bold from "@tiptap/extension-bold";
 import { StarterKit, Link, Heading, SlashCommand, ImageUpload, ImageBlock } from "./extensions";
 import { Plugin } from 'prosemirror-state';
+import { BubbleMenu } from "@tiptap/extension-bubble-menu";
 
 const CustomBold = Bold.extend({
   renderHTML({ HTMLAttributes }) {
@@ -25,5 +26,6 @@ export function ExtensionKit() {
       clientId: 'provider?.document?.clientID',
     }),
     ImageBlock,
+    BubbleMenu
   ];
 }

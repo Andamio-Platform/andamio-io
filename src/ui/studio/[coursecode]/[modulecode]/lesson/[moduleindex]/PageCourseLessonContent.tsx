@@ -1,7 +1,5 @@
-import { Course, Lesson, Module, ModuleSLT } from "~/types/db";
-import Editor from "~/components/Editor";
+import { Course, Module, ModuleSLT } from "~/types/db";
 import { LightDarkToggle } from "~/ui/site/LightDarkToggle";
-import useLesson from "~/hooks/useLesson";
 import { api } from "~/utils/api";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -20,8 +18,10 @@ import HeaderSection from "../../components/HeaderSection";
 import RightSection from "../../components/RightSection";
 import { DialogGetLessonPlan } from "../../components/coach/DialogGetLessonPlan";
 import { useCourseStore } from "~/lib/zustand/course";
+import { EditorContent } from "@tiptap/react";
+import useLessonEditor from "~/ui/studio/hooks/useLessonEditor";
+import { AndamioBubbleMenu } from "~/components/Editor/components/menus/AndamioBubbleMenu";
 
-// V2 - current
 export default function PageCourseLessonContent({
   course,
   courseModule,
@@ -33,27 +33,20 @@ export default function PageCourseLessonContent({
   moduleIndex: number;
   slt: ModuleSLT;
 }) {
-  const ctx = api.useUtils();
-
   if (!course) return;
 
   const courseCode = course.courseCode;
   const moduleCode = courseModule.moduleCode;
 
-  const { lesson, refetchLesson, isLoadingLesson } = useLesson(
-    courseCode,
-    moduleCode,
-    moduleIndex,
-  );
+  const { editor, lesson, refetchLesson, isLoadingLesson, ctx } =
+    useLessonEditor(courseCode, moduleCode, moduleIndex);
 
   const [editLesson, setEditLesson] = useState<boolean>(false);
   const [isCreatingLesson, setIsCreatingLesson] = useState(false);
-  // Do we need these?
-  //   const [isSaving, setIsSaving] = useState<boolean>(false);
 
   const { mutate: lessonCreate, isLoading: isLoadingCreate } =
     api.lesson.create.useMutation({
-      onSuccess: async (data) => {
+      onSuccess: async () => {
         toast.success("Lesson Created: Ready to Write?");
         await refetchLesson();
         void ctx.slt.getModuleSLTs.invalidate({
@@ -81,9 +74,10 @@ export default function PageCourseLessonContent({
 
   const { mutate: update, isLoading: isLoadingUpdate } =
     api.lesson.update.useMutation({
-      onSuccess: async (data) => {
+      onSuccess: async () => {
         toast.success("Content updated!");
         setEditLesson(false);
+        await refetchLesson();
         void ctx.lesson.getLesson.invalidate({
           moduleCode: moduleCode,
           moduleIndex: moduleIndex,
@@ -92,7 +86,6 @@ export default function PageCourseLessonContent({
         void ctx.lesson.getModuleLessons.invalidate({
           moduleCode: moduleCode,
         });
-        await refetchLesson();
       },
       onError: (e) => {
         const errorMessage = e.data?.zodError?.fieldErrors;
@@ -137,8 +130,6 @@ export default function PageCourseLessonContent({
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    
-
     if (!lesson) return;
 
     const _lesson = {
@@ -147,7 +138,7 @@ export default function PageCourseLessonContent({
       title: data.title ?? "",
       description: data.description ?? "",
       videoUrl: data.videoUrl ?? "",
-      contentJson: editor.getJSON(),
+      contentJson: editor?.getJSON(),
       live: data.live,
     };
     update(_lesson);
@@ -158,22 +149,18 @@ export default function PageCourseLessonContent({
     if (
       lesson &&
       lesson.contentJson &&
-      typeof lesson.contentJson === "object"
+      typeof lesson.contentJson === "object" &&
+      !!editor
     ) {
-      editor.setContent(lesson.contentJson);
+      editor.commands.setContent(lesson.contentJson);
     }
   }
 
-  const editor = new Editor({
-    //@ts-expect-error todo how to fix this
-    initialContent: lesson?.contentJson,
-  });
-
   useEffect(() => {
-    if (editor.isFocused()) {
+    if (editor?.isFocused) {
       setEditLesson(true);
     }
-  }, [editor.isFocused()]);
+  }, [editor?.isFocused]);
 
   useEffect(() => {
     if (lesson) {
@@ -182,29 +169,25 @@ export default function PageCourseLessonContent({
       //   ? mergeObjects(lessonVariant, lesson)
       //   : lesson;
 
-      const _lesson = lesson;
-
-      if (_lesson) {
+      if (lesson) {
         form.reset({
-          title: _lesson.title ?? "",
-          description: _lesson.description ?? "",
-          videoUrl: _lesson.videoUrl ?? "",
-          live: _lesson.live ? _lesson.live : false,
+          title: lesson.title ?? "",
+          description: lesson.description ?? "",
+          videoUrl: lesson.videoUrl ?? "",
+          live: lesson.live ?? false,
         });
 
-        if (_lesson.contentJson && typeof _lesson.contentJson === "object") {
-          editor.setContent(_lesson.contentJson);
+        if (
+          !isLoadingUpdate &&
+          lesson.contentJson &&
+          typeof lesson.contentJson === "object"
+        ) {
+          editor?.commands.setContent(lesson.contentJson);
         }
       }
     }
     // }, [lesson, lessonVariant]);
   }, [lesson]);
-
-  useEffect(() => {
-    if (lesson?.contentJson && typeof lesson.contentJson === "object") {
-      editor.setContent(lesson.contentJson);
-    }
-  }, [editLesson]);
 
   /**
    * START OF
@@ -221,7 +204,7 @@ export default function PageCourseLessonContent({
         for (const _newData of updateLessonEdit) {
           _json.content.push(_newData);
         }
-        editor.setContent(_json.content);
+        editor.commands.setContent(_json.content);
       }
     }
   }, [updateLessonEdit]);
@@ -266,7 +249,8 @@ export default function PageCourseLessonContent({
                   <div className="mx-2 h-[calc(100vh-84px)] w-full overflow-y-auto border">
                     <div className="mx-auto my-4">
                       <div className="m-5 flex min-h-[90vh] w-full bg-background p-5 shadow-xl">
-                        {editor.render()}
+                        {!!editor && <AndamioBubbleMenu editor={editor} />}
+                        <EditorContent editor={editor} />
                       </div>
                     </div>
                   </div>

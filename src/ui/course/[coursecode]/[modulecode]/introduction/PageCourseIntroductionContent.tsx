@@ -1,16 +1,12 @@
-import { Assignment, Slt } from "@prisma/client";
 import { AlertTriangle } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { use, useEffect } from "react";
-import Editor from "~/components/Editor";
+import RenderEditor from "~/components/Editor/components/render/RenderEditor";
 import Loading from "~/components/loading";
 import VideoPlayer from "~/components/media/VideoPlayer";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { Card } from "~/components/ui/card";
-import useAssignment from "~/hooks/useAssignmentByCourseModule";
 import useIntroduction from "~/hooks/useIntroduction";
-import useSLT from "~/hooks/useSLT";
 import useValidateCreator from "~/hooks/useValidateCreator";
 import { Introduction, Module, ModuleSLT } from "~/types/db";
 import CourseLayout from "~/ui/course/components/layout/CourseLayout";
@@ -89,50 +85,53 @@ function Page({
   moduleCode: string;
   courseCode: string;
 }) {
-  const editor = new Editor({
-    editable: false,
-  });
-
   if (
     introduction &&
     introduction.contentJson &&
     typeof introduction.contentJson === "object"
   ) {
-    editor.setContent(introduction.contentJson);
-  }
+    const editor = RenderEditor({
+      editable: false,
+      initialContent: introduction?.contentJson,
+    });
 
-  if (!!introduction) {
-    return (
-      <>
-        <div>
-          <h1 className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            {introduction.title}
-          </h1>
-          <p className="pb-10 text-xl leading-8">{introduction.description}</p>
-          {introduction.videoUrl && (
-            <VideoPlayer videoId={introduction.videoUrl} />
-          )}
-          <div className="my-5 rounded-md bg-accent px-3 pb-1 pt-2 shadow-lg">
-            <h2 className="py-3 text-xl font-bold">Student Learning Targets</h2>
-            {slts.map((slt, i) => (
-              <Link
-                key={i}
-                href={`/course/${courseCode}/${moduleCode}/lesson/${slt.moduleIndex}`}
-              >
-                <Card intent="slt" size="md" key={slt.id}>
-                  <p>
-                    {moduleCode}.{slt.moduleIndex}{" "}
-                  </p>
-                  <div key={slt.moduleIndex} className="col-span-5">
-                    {slt.sltText}
-                  </div>
-                </Card>
-              </Link>
-            ))}
+    if (!!introduction) {
+      return (
+        <>
+          <div>
+            <h1 className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+              {introduction.title}
+            </h1>
+            <p className="pb-10 text-xl leading-8">
+              {introduction.description}
+            </p>
+            {introduction.videoUrl && (
+              <VideoPlayer videoId={introduction.videoUrl} />
+            )}
+            <div className="my-5 rounded-md bg-accent px-3 pb-1 pt-2 shadow-lg">
+              <h2 className="py-3 text-xl font-bold">
+                Student Learning Targets
+              </h2>
+              {slts.map((slt, i) => (
+                <Link
+                  key={i}
+                  href={`/course/${courseCode}/${moduleCode}/lesson/${slt.moduleIndex}`}
+                >
+                  <Card intent="slt" size="md" key={slt.id}>
+                    <p>
+                      {moduleCode}.{slt.moduleIndex}{" "}
+                    </p>
+                    <div key={slt.moduleIndex} className="col-span-5">
+                      {slt.sltText}
+                    </div>
+                  </Card>
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
-        {introduction.contentJson && editor.render()}
-      </>
-    );
+          {editor}
+        </>
+      );
+    }
   }
 }

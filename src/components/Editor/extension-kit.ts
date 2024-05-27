@@ -3,6 +3,8 @@ import Bold from "@tiptap/extension-bold";
 import { StarterKit, Link, Heading, SlashCommand, ImageUpload, ImageBlock } from "./extensions";
 import { Plugin } from 'prosemirror-state';
 import { BubbleMenu } from "@tiptap/extension-bubble-menu";
+import { Color } from '@tiptap/extension-color'
+import TextStyle from '@tiptap/extension-text-style'
 
 const CustomBold = Bold.extend({
   renderHTML({ HTMLAttributes }) {
@@ -26,6 +28,8 @@ export function ExtensionKit() {
       clientId: 'provider?.document?.clientID',
     }),
     ImageBlock,
-    BubbleMenu
+    BubbleMenu, 
+    Color, 
+    TextStyle
   ];
 }

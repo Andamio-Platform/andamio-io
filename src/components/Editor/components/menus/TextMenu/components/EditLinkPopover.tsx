@@ -22,7 +22,7 @@ export const EditLinkPopover = ({
       <PopoverTrigger>
         <Link1Icon className="h-4 w-4" />
       </PopoverTrigger>
-      <PopoverContent className="edit-menu flex flex-row gap-1 rounded-md bg-gray-200">
+      <PopoverContent className="flex flex-row">
         <LinkEditorPanel editor={editor} />
       </PopoverContent>
     </Popover>

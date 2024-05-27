@@ -20,6 +20,7 @@ export const useLinkEditorState = ({ initialUrl, initialOpenInNewTab, editor }: 
   }, [])
 
  
+
   const isValidUrl = useMemo(() => /^(\S+):(\/\/)?\S+$/.test(url), [url])
 
   const handleSubmit = useCallback(

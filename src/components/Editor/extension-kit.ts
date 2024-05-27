@@ -1,16 +1,23 @@
 import { Underline } from "@tiptap/extension-underline";
 import Bold from "@tiptap/extension-bold";
-import { StarterKit, Link, Heading, SlashCommand, ImageUpload, ImageBlock } from "./extensions";
-import { Plugin } from 'prosemirror-state';
+import {
+  StarterKit,
+  Link,
+  Heading,
+  SlashCommand,
+  ImageUpload,
+  ImageBlock,
+} from "./extensions";
+import { Plugin } from "prosemirror-state";
 import { BubbleMenu } from "@tiptap/extension-bubble-menu";
-import { Color } from '@tiptap/extension-color'
-import TextStyle from '@tiptap/extension-text-style'
+import { Color } from "@tiptap/extension-color";
+import TextStyle from "@tiptap/extension-text-style";
 
 const CustomBold = Bold.extend({
   renderHTML({ HTMLAttributes }) {
-    return ['b', HTMLAttributes, 0]
-  }
-})
+    return ["b", HTMLAttributes, 0];
+  },
+});
 
 export function ExtensionKit() {
   return [
@@ -25,11 +32,11 @@ export function ExtensionKit() {
     }),
     SlashCommand,
     ImageUpload.configure({
-      clientId: 'provider?.document?.clientID',
+      clientId: "provider?.document?.clientID",
     }),
     ImageBlock,
-    BubbleMenu, 
-    Color, 
-    TextStyle
+    BubbleMenu,
+    Color,
+    TextStyle,
   ];
 }

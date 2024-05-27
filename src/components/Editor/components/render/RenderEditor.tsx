@@ -5,11 +5,13 @@ import { ExtensionKit } from "../../extension-kit";
 interface EditorProps {
   editable?: boolean;
   initialContent?: Content;
+  index?: string
 }
 
 export default function RenderEditor({
   editable = true,
   initialContent = "This content is not yet available.",
+  index
 }: EditorProps) {
   const editor = useEditor({
     extensions: [...ExtensionKit()],
@@ -24,6 +26,12 @@ export default function RenderEditor({
   });
 
   useEffect(() => {
+    if (editor && initialContent) {
+      editor.commands.setContent(initialContent);
+    }
+  }, [editor, initialContent]);
+
+  useEffect(() => {
     return () => {
       if (editor) {
         editor.destroy();
@@ -33,7 +41,7 @@ export default function RenderEditor({
 
   return (
     <div className="mx-auto flex h-full w-full flex-col overflow-hidden bg-background text-foreground">
-      <EditorContent editor={editor} />
+      <EditorContent key={index} editor={editor} />
     </div>
   );
 }

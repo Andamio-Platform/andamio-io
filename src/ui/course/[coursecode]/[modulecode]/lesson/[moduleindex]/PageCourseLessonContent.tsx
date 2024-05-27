@@ -136,6 +136,7 @@ function Page({
     const editor = RenderEditor({
       editable: false,
       initialContent: lesson?.contentJson,
+      index: lesson?.sltId
     });
 
     return (

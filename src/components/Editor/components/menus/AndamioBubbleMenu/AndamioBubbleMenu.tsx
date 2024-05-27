@@ -6,10 +6,19 @@ import {
   FontItalicIcon,
   UnderlineIcon,
   StrikethroughIcon,
+  DividerVerticalIcon,
 } from "@radix-ui/react-icons";
 
 import { ToggleGroup, ToggleGroupItem } from "~/components/ui/toggle-group";
 import { EditLinkPopover } from "../TextMenu/components/EditLinkPopover";
+
+const editorColors = [
+  { name: "lightBlue", colorHex: "#86BBD8" },
+  { name: "darkBlue", colorHex: "#0C1B33" },
+  { name: "green", colorHex: "#598B2C" },
+  { name: "orange", colorHex: "#F26419" },
+  { name: "yellow", colorHex: "#F6AE2D" },
+];
 
 export function AndamioBubbleMenu({ editor }: { editor: Editor }) {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
@@ -33,7 +42,10 @@ export function AndamioBubbleMenu({ editor }: { editor: Editor }) {
       <div onKeyDown={handleKeyDown}>
         <BubbleMenu
           editor={editor}
-          className="edit-menu flex flex-row gap-1 rounded-md bg-gray-200"
+          className="edit-menu flex flex-row min-w-[530px] gap-1 bg-accent rounded-md border border-gray-300"
+          tippyOptions={{
+            placement: "top-end",
+          }}
         >
           <ToggleGroup type="multiple">
             <ToggleGroupItem
@@ -66,24 +78,38 @@ export function AndamioBubbleMenu({ editor }: { editor: Editor }) {
               onClick={() => editor.chain().focus().toggleStrike().run()}
               className={editor.isActive("strike") ? "is-active" : ""}
             >
-              <StrikethroughIcon className="h-4 w-4" />
+              <div>
+                <StrikethroughIcon className="h-4 w-4" />
+              </div>
             </ToggleGroupItem>
+            <DividerVerticalIcon className="h-8 text-gray-300" />
             <ToggleGroupItem
-              value="text-red"
-              aria-label="Toggle text-red"
-              onClick={() => editor.chain().focus().setColor("#FF0000").run()}
-              className={editor.isActive("text-red") ? "is-active" : ""}
+              value="text-default"
+              aria-label="Toggle text-default"
+              onClick={() => editor.chain().focus().setColor("var(--tw-color-foreground)").run()}
+              className={editor.isActive("text-default") ? "is-active" : ""}
             >
-              <div className="h-4 w-4 bg-[#FF0000]" />
+              <div className="h-4 w-4 bg-foreground" />
             </ToggleGroupItem>
-            <ToggleGroupItem
-              value="text-green"
-              aria-label="Toggle text-green"
-              onClick={() => editor.chain().focus().setColor("#00FF00").run()}
-              className={editor.isActive("text-green") ? "is-active" : ""}
-            >
-              <div className="h-4 w-4 bg-[#00FF00]" />
-            </ToggleGroupItem>
+            {editorColors.map((c, index) => (
+              <ToggleGroupItem
+                value={`text-${c.name}`}
+                aria-label={`Toggle text-${c.name}`}
+                onClick={() =>
+                  editor.chain().focus().setColor(c.colorHex).run()
+                }
+                className={editor.isActive(`text-${c.name}`) ? "is-active" : ""}
+                key={index}
+              >
+                <div
+                  className="h-4 w-4"
+                  style={{ backgroundColor: c.colorHex }}
+                />
+              </ToggleGroupItem>
+            ))}
+            <DividerVerticalIcon className="h-8 text-gray-300" />
+
+            
             <ToggleGroupItem
               value="href-link"
               aria-label="Toggle link"
@@ -97,8 +123,6 @@ export function AndamioBubbleMenu({ editor }: { editor: Editor }) {
             </ToggleGroupItem>
           </ToggleGroup>
 
-          {/* Next step - add Links! */}
-          {/* Next step - fix bubble menu in dark mode */}
         </BubbleMenu>
       </div>
     );

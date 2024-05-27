@@ -1,3 +1,4 @@
+import { Editor } from '@tiptap/react'
 import { Button } from '../../ui/Button'
 import { Icon } from '../../ui/Icon'
 import { Surface } from '../../ui/Surface'
@@ -7,10 +8,10 @@ import { useState, useCallback, useMemo } from 'react'
 export type LinkEditorPanelProps = {
   initialUrl?: string
   initialOpenInNewTab?: boolean
-  onSetLink: (url: string, openInNewTab?: boolean) => void
+  editor: Editor
 }
 
-export const useLinkEditorState = ({ initialUrl, initialOpenInNewTab, onSetLink }: LinkEditorPanelProps) => {
+export const useLinkEditorState = ({ initialUrl, initialOpenInNewTab, editor }: LinkEditorPanelProps) => {
   const [url, setUrl] = useState(initialUrl || '')
   const [openInNewTab, setOpenInNewTab] = useState(initialOpenInNewTab || false)
 
@@ -18,16 +19,18 @@ export const useLinkEditorState = ({ initialUrl, initialOpenInNewTab, onSetLink 
     setUrl(event.target.value)
   }, [])
 
+ 
+
   const isValidUrl = useMemo(() => /^(\S+):(\/\/)?\S+$/.test(url), [url])
 
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault()
       if (isValidUrl) {
-        onSetLink(url, openInNewTab)
+        editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
       }
     },
-    [url, isValidUrl, openInNewTab, onSetLink],
+    [url, isValidUrl, openInNewTab],
   )
 
   return {
@@ -41,8 +44,8 @@ export const useLinkEditorState = ({ initialUrl, initialOpenInNewTab, onSetLink 
   }
 }
 
-export const LinkEditorPanel = ({ onSetLink, initialOpenInNewTab, initialUrl }: LinkEditorPanelProps) => {
-  const state = useLinkEditorState({ onSetLink, initialOpenInNewTab, initialUrl })
+export const LinkEditorPanel = ({ initialOpenInNewTab, initialUrl, editor }: LinkEditorPanelProps) => {
+  const state = useLinkEditorState({ initialOpenInNewTab, initialUrl, editor })
 
   return (
     <Surface className="p-2">

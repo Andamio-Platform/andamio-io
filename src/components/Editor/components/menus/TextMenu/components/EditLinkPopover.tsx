@@ -1,23 +1,30 @@
-import { LinkEditorPanel } from '../../../panels'
-import { Icon } from '../../../ui/Icon'
-import { Toolbar } from '../../../ui/Toolbar'
-import * as Popover from '@radix-ui/react-popover'
+import { Link1Icon } from "@radix-ui/react-icons";
+import { Toolbar } from "../../../ui/Toolbar";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "~/components/ui/popover";
+import { BubbleMenu, Editor } from "@tiptap/react";
+import { LinkEditorPanel } from "../../../panels";
 
-export type EditLinkPopoverProps = {
-  onSetLink: (link: string, openInNewTab?: boolean) => void
-}
-
-export const EditLinkPopover = ({ onSetLink }: EditLinkPopoverProps) => {
+export const EditLinkPopover = ({
+  editor,
+  isOpen,
+  onClose,
+}: {
+  editor: Editor;
+  isOpen: boolean;
+  onClose: () => void;
+}) => {
   return (
-    <Popover.Root>
-      <Popover.Trigger asChild>
-        <Toolbar.Button tooltip="Set Link">
-          <Icon name="Link" />
-        </Toolbar.Button>
-      </Popover.Trigger>
-      <Popover.Content>
-        <LinkEditorPanel onSetLink={onSetLink} />
-      </Popover.Content>
-    </Popover.Root>
-  )
-}
+    <Popover>
+      <PopoverTrigger>
+        <Link1Icon className="h-4 w-4" />
+      </PopoverTrigger>
+      <PopoverContent className="edit-menu flex flex-row gap-1 rounded-md bg-gray-200">
+        <LinkEditorPanel editor={editor} />
+      </PopoverContent>
+    </Popover>
+  );
+};

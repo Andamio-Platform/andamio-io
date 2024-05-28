@@ -6,6 +6,8 @@ import { UTxO } from "@meshsdk/core";
 import useCourseOnchain from "~/hooks/useCourseOnchain";
 import { Network } from "~/config/Network";
 import maestro from "~/config/maestro";
+import { INDEXER_URL } from "~/config/indexer";
+import { useToast } from "~/components/ui/use-toast";
 
 interface RequestData {
   AssignmentCode: string;
@@ -16,6 +18,11 @@ interface RequestData {
   UserUTxOs: UTxOi[];
   address: string;
   changeAddress: string;
+  LocalStateValidatorAddress: string;
+  AssignmentValidatorAddress: string;
+  LocalStatePolicyID: string;
+  AssignmentValidatorRefUTxO: UTxOi;
+  CourseCreatorNFTPolicyID: string;
 }
 
 export default function AcceptDenyAssignment({
@@ -29,6 +36,7 @@ export default function AcceptDenyAssignment({
   decision: "accept" | "deny";
   assignmentCode: string;
 }) {
+  const { toast } = useToast()
   const { connected, wallet } = useWallet();
   const { courseOnchain, isLoadingCourseOnchain } = useCourseOnchain(
     courseId,
@@ -65,6 +73,22 @@ export default function AcceptDenyAssignment({
       });
     });
 
+    const res = await axios.get(
+      `${INDEXER_URL}/api/v1/instance-validator/fetchAssignmentValidatorRefUtxoByCourseNftPolicy?policy=${courseOnchain!.CourseCreatorNFTPolicyID!}`,
+    );
+    interface _utxo {
+      id: number;
+      tx_hash: string;
+      tx_id: number;
+      datum: {
+        bytes: string;
+      };
+      asset: string;
+      consumed: boolean;
+    }
+
+    const assignmentValidatorRefUTxO: _utxo = res.data;
+
     const req: RequestData = {
       AssignmentCode: assignmentCode,
       CollateralUTxO: CollateralUTxO,
@@ -80,6 +104,14 @@ export default function AcceptDenyAssignment({
       UserUTxOs: UserUTxOs,
       address: addr,
       changeAddress: addr,
+      LocalStateValidatorAddress: courseOnchain!.LocalStateValidatorAddress!,
+      AssignmentValidatorAddress: courseOnchain!.AssignmentValidatorAddress!,
+      LocalStatePolicyID: courseOnchain!.LocalStatePolicyID!,
+      AssignmentValidatorRefUTxO: {
+        TxID: assignmentValidatorRefUTxO.tx_hash,
+        TxIDIndex: assignmentValidatorRefUTxO.tx_id,
+      },
+      CourseCreatorNFTPolicyID: courseOnchain!.CourseCreatorNFTPolicyID!,
     };
 
     console.log(req);
@@ -95,6 +127,10 @@ export default function AcceptDenyAssignment({
     const txId = await wallet.submitTx(signedTx);
 
     console.log(txId);
+    toast({
+      title: "Transaction submitted",
+      description: `${txId}`,
+    })
   }
 
   return (

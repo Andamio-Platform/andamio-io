@@ -49,7 +49,7 @@ export default function RightSection({
         <Accordion
           type="single"
           collapsible
-          className="w-full bg-background px-3"
+          className="w-full bg-background p-3"
         >
           <AccordionItem value="item-1">
             <AccordionTrigger>Module SLTs</AccordionTrigger>
@@ -63,7 +63,7 @@ export default function RightSection({
       <Accordion
         type="single"
         collapsible
-        className="w-full bg-background px-3"
+        className="w-full bg-background p-3"
       >
         <AccordionItem value="item-1">
           <AccordionTrigger>Creator Notes</AccordionTrigger>
@@ -91,7 +91,7 @@ export default function RightSection({
       <Accordion
         type="single"
         collapsible
-        className="w-full bg-background px-3"
+        className="w-full bg-background p-3"
       >
         <AccordionItem value="item-1">
           <AccordionTrigger>Link to Video</AccordionTrigger>
@@ -104,7 +104,7 @@ export default function RightSection({
       <Accordion
         type="single"
         collapsible
-        className="w-full bg-background px-3"
+        className="w-full bg-background p-3"
       >
         <AccordionItem value="item-1">
           <AccordionTrigger>Navigation</AccordionTrigger>
@@ -142,6 +142,24 @@ export default function RightSection({
                 </>
               )}
             </Card>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+
+      <Accordion
+        type="single"
+        collapsible
+        className="w-full bg-background p-3"
+      >
+        <AccordionItem value="item-1">
+          <AccordionTrigger>Help</AccordionTrigger>
+          <AccordionContent>
+            <p className="py-2 text-xs font-bold">Add a Link</p>
+            <p className="pb-2 text-xs">When you highlight text and paste a URL from your clipboard, the highlighted text will become a link.</p>
+            <p className="pb-2 text-xs">You can also add a link by using the hover menu.</p>
+            <p className="py-2 text-xs font-bold">Add an Image</p>
+            <p className="pb-2 text-xs">To insert an image, use a &quot;slash&quot; command. In the editor, type <span className="font-mono">{"/image"}</span>. Then, when an image container appears, you can drag and drop an image from your computer into the Andamio editor.</p>
+            
           </AccordionContent>
         </AccordionItem>
       </Accordion>

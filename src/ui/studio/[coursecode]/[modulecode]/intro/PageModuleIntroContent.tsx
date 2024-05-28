@@ -22,6 +22,7 @@ import useAssignmentByCourseModule from "~/hooks/useAssignmentByCourseModule";
 import useIntroEditor from "~/ui/studio/hooks/useIntroEditor";
 import { AndamioBubbleMenu } from "~/components/Editor/components/menus/AndamioBubbleMenu";
 import { EditorContent } from "@tiptap/react";
+import ContentEditor from "~/ui/studio/components/ContentEditor";
 
 export default function PageModuleIntroContent({
   course,
@@ -232,14 +233,7 @@ export default function PageModuleIntroContent({
             <div className="flex w-full bg-card">
               <ResizablePanelGroup direction="horizontal" className="gap-2">
                 <ResizablePanel defaultSize={80}>
-                  <div className="mx-2 h-[calc(100vh-84px)] w-full overflow-y-auto border">
-                    <div className="mx-auto my-4">
-                      <div className="m-5 flex min-h-[90vh] w-full bg-background p-5 shadow-xl">
-                        {!!editor && <AndamioBubbleMenu editor={editor} />}
-                        <EditorContent editor={editor} />
-                      </div>
-                    </div>
-                  </div>
+                  {!!editor && <ContentEditor editor={editor} />}
                 </ResizablePanel>
                 <ResizableHandle />
                 <ResizablePanel defaultSize={20}>

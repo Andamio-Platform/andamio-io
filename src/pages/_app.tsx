@@ -5,6 +5,7 @@ import { SessionProvider } from "next-auth/react";
 import { type AppType } from "next/app";
 import { api } from "~/utils/api";
 import { Toaster } from "react-hot-toast";
+import { Toaster as T } from "~/components/ui/toaster";
 import { ThemeProvider } from "~/components/theme-provider";
 import { LightDarkToggle } from "~/ui/site/LightDarkToggle";
 import MenuBar from "~/ui/landing/MenuBar";
@@ -27,6 +28,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
           <Toaster position="top-right" />
           <div className="min-h-screen bg-background text-foreground">
             <Component {...pageProps} />
+            <T />
           </div>
           <DialogReportSupport />
         </MeshProvider>

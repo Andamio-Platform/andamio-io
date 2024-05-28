@@ -245,6 +245,7 @@ model CourseOnChainInstance {
   LocalStatePolicyID         String
   CourseInstanceUTxO         String
   LocalStatePolicyRefUTxO    String
+  AssignmentValidatorAddress String?
 
   @@index([courseId])
 }

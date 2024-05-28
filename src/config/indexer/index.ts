@@ -1,0 +1,1 @@
+export const INDEXER_URL = "https://indexer-interface.vercel.app"

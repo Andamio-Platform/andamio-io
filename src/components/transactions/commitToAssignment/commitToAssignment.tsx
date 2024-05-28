@@ -108,7 +108,7 @@ export default function CommitToAssignment({
       }
 
       const res = await axios.get(
-        `${INDEXER_URL}/api/v1/instance-validator/fetchLocalStateValildatorRefUtxoByCourseNftPolicy?policy=${courseOnchain?.CourseCreatorNFTPolicyID!}`,
+        `${INDEXER_URL}/api/v1/instance-validator/fetchLocalStateValildatorRefUtxoByCourseNftPolicy?policy=${courseOnchain!.CourseCreatorNFTPolicyID!}`,
       );
 
       const localStateValidatorRefUTxO: _utxo = res.data;
@@ -132,9 +132,9 @@ export default function CommitToAssignment({
         }, // match token with assignment code
         AssignmentCode: assignmentCode,
         StudentAssignmentInfo: "Assignment Info",
-        AssignmentValidatorAddress: courseOnchain?.AssignmentValidatorAddress!,
-        LocalStateValidatorAddress: courseOnchain?.LocalStateValidatorAddress!,
-        LocalStatePolicyID: courseOnchain?.LocalStatePolicyID!,
+        AssignmentValidatorAddress: courseOnchain!.AssignmentValidatorAddress!,
+        LocalStateValidatorAddress: courseOnchain!.LocalStateValidatorAddress!,
+        LocalStatePolicyID: courseOnchain!.LocalStatePolicyID!,
         LocalStateValidatorRefUTxO: {
           TxID: localStateValidatorRefUTxO.tx_hash,
           TxIDIndex: localStateValidatorRefUTxO.tx_id,

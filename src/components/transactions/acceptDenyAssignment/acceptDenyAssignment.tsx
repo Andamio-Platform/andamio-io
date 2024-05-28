@@ -3,11 +3,14 @@ import UTxOi from "../model";
 import { CardanoWallet, useWallet } from "@meshsdk/react";
 import { Button } from "~/components/ui/button";
 import { UTxO } from "@meshsdk/core";
+import useCourseOnchain from "~/hooks/useCourseOnchain";
+import { Network } from "~/config/Network";
+import maestro from "~/config/maestro";
 
 interface RequestData {
-  AssignmentCode: "string";
+  AssignmentCode: string;
   CollateralUTxO: UTxOi;
-  CourseFacilitatorDecision: "string";
+  CourseFacilitatorDecision: "accept" | "deny";
   CourseFacilitatorTokenUTxO: UTxOi;
   UserAssignmentUTxO: UTxOi;
   UserUTxOs: UTxOi[];
@@ -15,8 +18,22 @@ interface RequestData {
   changeAddress: string;
 }
 
-export default function AcceptDenyAssignment() {
+export default function AcceptDenyAssignment({
+  courseId,
+  learnerAlias,
+  decision,
+  assignmentCode,
+}: {
+  courseId: string;
+  learnerAlias: string;
+  decision: "accept" | "deny";
+  assignmentCode: string;
+}) {
   const { connected, wallet } = useWallet();
+  const { courseOnchain, isLoadingCourseOnchain } = useCourseOnchain(
+    courseId,
+    Network,
+  );
 
   async function onSubmit() {
     const addr = await wallet.getChangeAddress();
@@ -28,8 +45,20 @@ export default function AcceptDenyAssignment() {
     };
 
     const userUTxOs = await wallet.getUtxos();
+
+    const courseFacilitatorTokenUTxO = userUTxOs.find(
+      (utxo: UTxO) => utxo.output.amount.some((a) => a.unit.includes(courseOnchain!.CourseCreatorNFTPolicyID)),
+    );
+
+    const assignmentValidatorUtxos = await maestro.fetchAddressUTxOs(courseOnchain!.AssignmentValidatorAddress!);
+    const learnerAliasHex = Buffer.from(learnerAlias).toString("hex");
+    const assignmentValidatorUTxO = assignmentValidatorUtxos.find(
+      (utxo: UTxO) => utxo.output.amount.some((a) => a.unit.includes(learnerAliasHex)),
+    );
+
+    const remainingUTxOs = userUTxOs.filter(utxo => utxo !== coll_utxo && utxo !== courseFacilitatorTokenUTxO);
     const UserUTxOs: UTxOi[] = [];
-    userUTxOs.forEach((utxo: UTxO) => {
+    remainingUTxOs.forEach((utxo: UTxO) => {
       UserUTxOs.push({
         TxID: utxo.input.txHash,
         TxIDIndex: utxo.input.outputIndex,
@@ -37,24 +66,26 @@ export default function AcceptDenyAssignment() {
     });
 
     const req: RequestData = {
-      AssignmentCode: "string",
+      AssignmentCode: assignmentCode,
       CollateralUTxO: CollateralUTxO,
-      CourseFacilitatorDecision: "string",
+      CourseFacilitatorDecision: decision,
       CourseFacilitatorTokenUTxO: {
-        TxID: "string",
-        TxIDIndex: 0,
+        TxID: courseFacilitatorTokenUTxO.input.txHash,
+        TxIDIndex: courseFacilitatorTokenUTxO.input.outputIndex,
       },
       UserAssignmentUTxO: {
-        TxID: "string",
-        TxIDIndex: 0,
+        TxID: assignmentValidatorUTxO.input.txHash,
+        TxIDIndex: assignmentValidatorUTxO.input.outputIndex,
       },
       UserUTxOs: UserUTxOs,
       address: addr,
       changeAddress: addr,
     };
 
+    console.log(req);
+
     const response = await axios.post(
-      "/api/backend/txs/commitToAssignment",
+      "/api/backend/txs/acceptDenyAssignment",
       req,
     );
 

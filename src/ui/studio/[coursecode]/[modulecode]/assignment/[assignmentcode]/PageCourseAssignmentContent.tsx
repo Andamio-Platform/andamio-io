@@ -123,7 +123,7 @@ export default function PageCourseAssignmentContent({
   }, [editor?.isFocused]);
 
   useEffect(() => {
-    if (assignment) {
+    if (assignment && editor) {
       form.reset({
         title: assignment.title ?? "",
         description: assignment.description ?? "",
@@ -136,10 +136,10 @@ export default function PageCourseAssignmentContent({
         assignment.contentJson &&
         typeof assignment.contentJson === "object"
       ) {
-        editor?.commands.setContent(assignment.contentJson);
+        editor.commands.setContent(assignment.contentJson);
       }
     }
-  }, [assignment, isLoadingUpdate]);
+  }, [assignment, isLoadingUpdate, editor]);
 
   /**
    * START OF

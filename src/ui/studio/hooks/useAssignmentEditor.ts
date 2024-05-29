@@ -5,20 +5,16 @@ import { Assignment } from "~/types/db";
 
 export default function useAssignmentEditor(assignment: Assignment) {
   const ctx = api.useUtils();
-  // If needed:
-  //  const {} = useAssignment
 
-  if (assignment) {
-    const editor = useEditor({
-      extensions: [...ExtensionKit()],
-      content: "Write assignment content here...",
-      editorProps: {
-        attributes: {
-          class:
-            "prose prose-lg prose-headings:font-title font-default focus:outline-none max-w-full bg-background text-foreground prose-headings:text-foreground",
-        },
+  const editor = useEditor({
+    extensions: [...ExtensionKit()],
+    content: "Write assignment content here...",
+    editorProps: {
+      attributes: {
+        class:
+          "prose prose-lg prose-headings:font-title font-default focus:outline-none max-w-full bg-background text-foreground prose-headings:text-foreground",
       },
-    });
-    return { editor, ctx };
-  } else return { undefined, ctx };
+    },
+  });
+  return { editor, ctx };
 }

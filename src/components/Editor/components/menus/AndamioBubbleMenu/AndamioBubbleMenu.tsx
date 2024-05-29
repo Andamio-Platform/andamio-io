@@ -85,10 +85,10 @@ export function AndamioBubbleMenu({ editor }: { editor: Editor }) {
             <ToggleGroupItem
               value="text-default"
               aria-label="Toggle text-default"
-              onClick={() => editor.chain().focus().setColor("hsl(var(--success))").run()}
+              onClick={() => editor.chain().focus().setColor("hsl(var(--foreground))").run()}
               className={editor.isActive("text-default") ? "is-active" : ""}
             >
-              <div className="h-4 w-4" style={{ backgroundColor: "hsl(var(--success))"}} />
+              <div className="h-4 w-4" style={{ backgroundColor: "hsl(var(--foreground))"}} />
             </ToggleGroupItem>
             {editorColors.map((c, index) => (
               <ToggleGroupItem
@@ -108,7 +108,7 @@ export function AndamioBubbleMenu({ editor }: { editor: Editor }) {
             ))}
             <DividerVerticalIcon className="h-8 text-gray-300" />
 
-            
+
             <ToggleGroupItem
               value="href-link"
               aria-label="Toggle link"

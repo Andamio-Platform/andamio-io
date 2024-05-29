@@ -20,6 +20,7 @@ import { DialogGetLessonPlan } from "../../components/coach/DialogGetLessonPlan"
 import { useCourseStore } from "~/lib/zustand/course";
 import useLessonEditor from "~/ui/studio/hooks/useLessonEditor";
 import ContentEditor from "~/ui/studio/components/ContentEditor";
+import { useRouter } from 'next/router';
 
 export default function PageCourseLessonContent({
   course,
@@ -37,8 +38,10 @@ export default function PageCourseLessonContent({
   const courseCode = course.courseCode;
   const moduleCode = courseModule.moduleCode;
 
+  const router = useRouter();
+
   const { editor, lesson, refetchLesson, isLoadingLesson, ctx } =
-    useLessonEditor(courseCode, moduleCode, moduleIndex);
+  useLessonEditor(courseCode, moduleCode, moduleIndex);
 
   const [editLesson, setEditLesson] = useState<boolean>(false);
   const [isCreatingLesson, setIsCreatingLesson] = useState(false);
@@ -212,6 +215,39 @@ export default function PageCourseLessonContent({
    * END OF
    * andamio coach - get lesson plan
    */
+
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (editLesson) {
+        const confirmationMessage = "You have unsaved changes. Are you sure you want to leave?";
+        e.returnValue = confirmationMessage; // Standard for most browsers
+        return confirmationMessage;
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [editLesson]);
+
+  // Handle Next.js router events
+  useEffect(() => {
+    const handleRouteChange = () => {
+      if (editLesson && !confirm("You have unsaved changes. Are you sure you want to leave?")) {
+        // If the user cancels, stop the navigation
+        router.events.emit('routeChangeError');
+        throw 'Route change aborted.';
+      }
+    };
+
+    router.events.on('routeChangeStart', handleRouteChange);
+
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChange);
+    };
+  }, [editLesson, router]);
 
   if (lesson === undefined || lesson === null) {
     if (isLoadingCreate) {

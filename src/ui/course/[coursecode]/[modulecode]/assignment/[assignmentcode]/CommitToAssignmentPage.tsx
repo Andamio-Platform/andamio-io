@@ -10,8 +10,19 @@ import {
   SheetTrigger,
 } from "~/components/ui/sheet";
 import CommitToAssignment from "~/components/transactions/commitToAssignment/commitToAssignment";
+import { NextPageContext } from "next";
+import useCourse from "~/hooks/useCourse";
+import Loading from "~/components/loading";
 
-export default function CommitToAssignmentPage() {
+export default function CommitToAssignmentPage({
+  courseCode,
+  assignmentCode,
+}: {
+  courseCode: string;
+  assignmentCode: string;
+}) {
+  console.log(courseCode);
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -25,7 +36,10 @@ export default function CommitToAssignmentPage() {
           <SheetDescription>some text</SheetDescription>
         </SheetHeader>
         Info about the assignment...
-        <CommitToAssignment />
+        <CommitToAssignment
+          courseCode={courseCode}
+          assignmentCode={assignmentCode}
+        />
       </SheetContent>
     </Sheet>
   );

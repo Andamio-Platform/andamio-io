@@ -31,13 +31,13 @@ interface RequestData {
   LocalStatePolicyRefUTxO: UTxOi;
 }
 
-export default function MintLocalState({ courseId }: { courseId: string }) {
+export default function MintLocalState({ courseCode }: { courseCode: string }) {
   const router = useRouter();
 
   const { connected, wallet } = useWallet();
   const [isLoading, setIsLoading] = useState(false);
   const { courseOnchain, isLoadingCourseOnchain } = useCourseOnchain(
-    courseId,
+    courseCode,
     Network,
   );
 

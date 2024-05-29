@@ -14,6 +14,19 @@ import { Network } from "~/config/Network";
 import { INDEXER_URL } from "~/config/indexer";
 import { toast, useToast } from "~/components/ui/use-toast";
 import { set } from "date-fns";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "~/components/ui/form";
+import { Input } from "~/components/ui/input";
 
 interface RequestData {
   Address: string;
@@ -31,24 +44,40 @@ interface RequestData {
   LocalStateValidatorRefUTxO: UTxOi;
 }
 
+const FormSchema = z.object({
+  assignmentInfo: z.string().min(2, {
+    message: "Assignment Info must be at least 2 characters.",
+  }),
+});
+
 export default function CommitToAssignment({
-  courseId,
+  courseCode,
   assignmentCode,
 }: {
-  courseId: string;
+  courseCode: string;
   assignmentCode: string;
 }) {
   const router = useRouter();
-  const { toast } = useToast()
+  const { toast } = useToast();
 
   const { connected, wallet } = useWallet();
   const [isLoading, setIsLoading] = useState(false);
+
+  console.log("courseCode", courseCode);
+
   const { courseOnchain, isLoadingCourseOnchain } = useCourseOnchain(
-    courseId,
+    courseCode,
     Network,
   );
 
-  async function onSubmit() {
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      assignmentInfo: "",
+    },
+  });
+
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
     setIsLoading(true);
     try {
       const addr = await wallet.getChangeAddress();
@@ -80,14 +109,14 @@ export default function CommitToAssignment({
       ).toString("utf-8");
 
       const localStateUtxos = await maestro.fetchAddressUTxOs(
-        "addr_test1zq0mlfagzryh0h5ek8gzqdql6eu47r8eju8ts24wk66uuv6vlu7w7kccycfgum045pdq9h2rnnyt6ep7wghq27nmwr0qxmvrs0",
+        courseOnchain!.LocalStateValidatorAddress,
       );
       const localStateUtxo = localStateUtxos.find((utxo: UTxO) =>
         utxo.output.amount.some((a) => a.unit.includes(accessTokenNameHex!)),
       );
 
       const ModuleTokenUTxOs = await maestro.fetchAddressUTxOs(
-        "addr_test1zrwgmka397urn6492pzv8fztztxr9apfnv52mjzawlg55vjvlu7w7kccycfgum045pdq9h2rnnyt6ep7wghq27nmwr0qpaj3kf",
+        courseOnchain!.ModuleValidatorAddress,
       );
       const assignmentCodeHex = Buffer.from(assignmentCode, "utf-8").toString(
         "hex",
@@ -108,7 +137,7 @@ export default function CommitToAssignment({
       }
 
       const res = await axios.get(
-        `${INDEXER_URL}/api/v1/instance-validator/fetchLocalStateValildatorRefUtxoByCourseNftPolicy?policy=${courseOnchain!.CourseCreatorNFTPolicyID!}`,
+        `${INDEXER_URL}/api/v1/instance-validator/fetchLocalStateValildatorRefUtxoByCourseNftPolicy?policy=${courseOnchain!.CourseCreatorNFTPolicyID}`,
       );
 
       const localStateValidatorRefUTxO: _utxo = res.data;
@@ -131,10 +160,10 @@ export default function CommitToAssignment({
           TxIDIndex: moduleTokenUtxo.input.outputIndex,
         }, // match token with assignment code
         AssignmentCode: assignmentCode,
-        StudentAssignmentInfo: "Assignment Info",
-        AssignmentValidatorAddress: courseOnchain!.AssignmentValidatorAddress!,
-        LocalStateValidatorAddress: courseOnchain!.LocalStateValidatorAddress!,
-        LocalStatePolicyID: courseOnchain!.LocalStatePolicyID!,
+        StudentAssignmentInfo: data.assignmentInfo,
+        AssignmentValidatorAddress: courseOnchain!.AssignmentValidatorAddress,
+        LocalStateValidatorAddress: courseOnchain!.LocalStateValidatorAddress,
+        LocalStatePolicyID: courseOnchain!.LocalStatePolicyID,
         LocalStateValidatorRefUTxO: {
           TxID: localStateValidatorRefUTxO.tx_hash,
           TxIDIndex: localStateValidatorRefUTxO.tx_id,
@@ -158,7 +187,7 @@ export default function CommitToAssignment({
       toast({
         title: "Transaction submitted",
         description: `${txId}`,
-      })
+      });
       // setIsConfirming(true);
       // let confirmation = false;
       // while (!confirmation) {
@@ -184,7 +213,27 @@ export default function CommitToAssignment({
           {!connected ? (
             <CardanoWallet />
           ) : (
-            <Button onClick={onSubmit}>Commit</Button>
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="w-2/3 space-y-6"
+              >
+                <FormField
+                  control={form.control}
+                  name="assignmentInfo"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Assignment Info</FormLabel>
+                      <FormControl>
+                        <Input placeholder="enter assignment info" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button type="submit">Commit</Button>
+              </form>
+            </Form>
           )}
         </>
       ) : (

@@ -98,7 +98,7 @@ export default function DialogCourseOnChain({
     if (courseOnchain && courseOnchain.id) {
       update({
         id: courseOnchain.id,
-        courseId: course.id,
+        courseCode: course.courseCode,
         network: data.network,
         courseRefAddress: data.courseRefAddress,
         assignmentAddress: data.assignmentAddress,
@@ -112,7 +112,7 @@ export default function DialogCourseOnChain({
       });
     } else {
       const _data = {
-        courseId: course.id,
+        courseCode: course.courseCode,
         network: selectedNetwork,
         courseRefAddress: data.courseRefAddress,
         assignmentAddress: data.assignmentAddress,

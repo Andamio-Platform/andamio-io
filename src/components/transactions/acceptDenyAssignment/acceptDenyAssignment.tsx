@@ -26,20 +26,20 @@ interface RequestData {
 }
 
 export default function AcceptDenyAssignment({
-  courseId,
+  courseCode,
   learnerAlias,
   decision,
   assignmentCode,
 }: {
-  courseId: string;
+  courseCode: string;
   learnerAlias: string;
   decision: "accept" | "deny";
   assignmentCode: string;
 }) {
-  const { toast } = useToast()
+  const { toast } = useToast();
   const { connected, wallet } = useWallet();
   const { courseOnchain, isLoadingCourseOnchain } = useCourseOnchain(
-    courseId,
+    courseCode,
     Network,
   );
 
@@ -54,17 +54,24 @@ export default function AcceptDenyAssignment({
 
     const userUTxOs = await wallet.getUtxos();
 
-    const courseFacilitatorTokenUTxO = userUTxOs.find(
-      (utxo: UTxO) => utxo.output.amount.some((a) => a.unit.includes(courseOnchain!.CourseCreatorNFTPolicyID)),
+    const courseFacilitatorTokenUTxO = userUTxOs.find((utxo: UTxO) =>
+      utxo.output.amount.some((a) =>
+        a.unit.includes(courseOnchain!.CourseCreatorNFTPolicyID),
+      ),
     );
 
-    const assignmentValidatorUtxos = await maestro.fetchAddressUTxOs(courseOnchain!.AssignmentValidatorAddress!);
+    const assignmentValidatorUtxos = await maestro.fetchAddressUTxOs(
+      courseOnchain!.AssignmentValidatorAddress,
+    );
     const learnerAliasHex = Buffer.from(learnerAlias).toString("hex");
     const assignmentValidatorUTxO = assignmentValidatorUtxos.find(
-      (utxo: UTxO) => utxo.output.amount.some((a) => a.unit.includes(learnerAliasHex)),
+      (utxo: UTxO) =>
+        utxo.output.amount.some((a) => a.unit.includes(learnerAliasHex)),
     );
 
-    const remainingUTxOs = userUTxOs.filter(utxo => utxo !== coll_utxo && utxo !== courseFacilitatorTokenUTxO);
+    const remainingUTxOs = userUTxOs.filter(
+      (utxo) => utxo !== coll_utxo && utxo !== courseFacilitatorTokenUTxO,
+    );
     const UserUTxOs: UTxOi[] = [];
     remainingUTxOs.forEach((utxo: UTxO) => {
       UserUTxOs.push({
@@ -74,7 +81,7 @@ export default function AcceptDenyAssignment({
     });
 
     const res = await axios.get(
-      `${INDEXER_URL}/api/v1/instance-validator/fetchAssignmentValidatorRefUtxoByCourseNftPolicy?policy=${courseOnchain!.CourseCreatorNFTPolicyID!}`,
+      `${INDEXER_URL}/api/v1/instance-validator/fetchAssignmentValidatorRefUtxoByCourseNftPolicy?policy=${courseOnchain!.CourseCreatorNFTPolicyID}`,
     );
     interface _utxo {
       id: number;
@@ -104,14 +111,14 @@ export default function AcceptDenyAssignment({
       UserUTxOs: UserUTxOs,
       address: addr,
       changeAddress: addr,
-      LocalStateValidatorAddress: courseOnchain!.LocalStateValidatorAddress!,
-      AssignmentValidatorAddress: courseOnchain!.AssignmentValidatorAddress!,
-      LocalStatePolicyID: courseOnchain!.LocalStatePolicyID!,
+      LocalStateValidatorAddress: courseOnchain!.LocalStateValidatorAddress,
+      AssignmentValidatorAddress: courseOnchain!.AssignmentValidatorAddress,
+      LocalStatePolicyID: courseOnchain!.LocalStatePolicyID,
       AssignmentValidatorRefUTxO: {
         TxID: assignmentValidatorRefUTxO.tx_hash,
         TxIDIndex: assignmentValidatorRefUTxO.tx_id,
       },
-      CourseCreatorNFTPolicyID: courseOnchain!.CourseCreatorNFTPolicyID!,
+      CourseCreatorNFTPolicyID: courseOnchain!.CourseCreatorNFTPolicyID,
     };
 
     console.log(req);
@@ -130,7 +137,7 @@ export default function AcceptDenyAssignment({
     toast({
       title: "Transaction submitted",
       description: `${txId}`,
-    })
+    });
   }
 
   return (

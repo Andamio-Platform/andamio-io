@@ -108,7 +108,7 @@
 }
 
 .link {
-  @apply text-foreground hover:text-success;
+  @apply font-bold underline text-foreground hover:text-success;
 }
 
 .blockquote {

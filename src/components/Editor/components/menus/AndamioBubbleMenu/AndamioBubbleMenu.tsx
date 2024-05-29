@@ -13,11 +13,10 @@ import { ToggleGroup, ToggleGroupItem } from "~/components/ui/toggle-group";
 import { EditLinkPopover } from "../TextMenu/components/EditLinkPopover";
 
 const editorColors = [
-  { name: "lightBlue", colorHex: "#86BBD8" },
-  { name: "darkBlue", colorHex: "#0C1B33" },
-  { name: "green", colorHex: "#598B2C" },
-  { name: "orange", colorHex: "#F26419" },
-  { name: "yellow", colorHex: "#F6AE2D" },
+  { name: "blue", colorVar: "hsl(var(--editor-blue))" },
+  { name: "green", colorVar: "hsl(var(--editor-green))" },
+  { name: "orange", colorVar: "hsl(var(--editor-orange))" },
+  { name: "yellow", colorVar: "hsl(var(--editor-yellow))" },
 ];
 
 export function AndamioBubbleMenu({ editor }: { editor: Editor }) {
@@ -86,24 +85,24 @@ export function AndamioBubbleMenu({ editor }: { editor: Editor }) {
             <ToggleGroupItem
               value="text-default"
               aria-label="Toggle text-default"
-              onClick={() => editor.chain().focus().setColor("var(--tw-color-foreground)").run()}
+              onClick={() => editor.chain().focus().setColor("hsl(var(--success))").run()}
               className={editor.isActive("text-default") ? "is-active" : ""}
             >
-              <div className="h-4 w-4 bg-foreground" />
+              <div className="h-4 w-4" style={{ backgroundColor: "hsl(var(--success))"}} />
             </ToggleGroupItem>
             {editorColors.map((c, index) => (
               <ToggleGroupItem
                 value={`text-${c.name}`}
                 aria-label={`Toggle text-${c.name}`}
                 onClick={() =>
-                  editor.chain().focus().setColor(c.colorHex).run()
+                  editor.chain().focus().setColor(c.colorVar).run()
                 }
                 className={editor.isActive(`text-${c.name}`) ? "is-active" : ""}
                 key={index}
               >
                 <div
                   className="h-4 w-4"
-                  style={{ backgroundColor: c.colorHex }}
+                  style={{ backgroundColor: c.colorVar }}
                 />
               </ToggleGroupItem>
             ))}

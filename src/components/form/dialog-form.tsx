@@ -49,10 +49,10 @@ export default function DialogForm({
       <DialogTrigger onClick={() => setIsOpen(true)} asChild>
         {/* PICK UP HERE */}
         {hasIconButton ? (
-          <div className="flex flex-row gap-1 text-xs">
-            <GearIcon width="18" height="18" />
-            <p>Settings</p>
-          </div>
+          <Button intent="ghost" size="icon">
+            <GearIcon className="w-[14px] h-[14px] xl:w-[16px] xl:h-[16px]" />
+            <p className="text-xs lg:text-sm">Settings</p>
+          </Button>
         ) : (
           <Button intent={openButtonIntent} size="dialog" className="mx-auto">
             {openButton}

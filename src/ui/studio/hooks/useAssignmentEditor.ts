@@ -8,14 +8,10 @@ export default function useAssignmentEditor(assignment: Assignment) {
   // If needed:
   //  const {} = useAssignment
 
-  if (
-    assignment &&
-    assignment.contentJson &&
-    typeof assignment.contentJson === "object"
-  ) {
+  if (assignment) {
     const editor = useEditor({
       extensions: [...ExtensionKit()],
-      content: assignment?.contentJson,
+      content: "Write assignment content here...",
       editorProps: {
         attributes: {
           class:

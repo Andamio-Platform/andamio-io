@@ -24,7 +24,6 @@ import Link from "next/link";
 import DialogModule from "./dialogs/DialogModule";
 import IntroductionContainer from "./IntroductionContainer";
 import useSLTs from "~/hooks/useSLTs";
-import LoadingContentEditor from "./ContentEditor/ui/LoadingContentEditor";
 import LoadingCard from "./LoadingCard";
 import { format } from "date-fns";
 
@@ -159,7 +158,7 @@ export default function ModuleContainer({
 
   return (
     <div
-      className="mx-5 my-3 w-full rounded-md border border-secondary-foreground p-1 sm:mx-auto sm:w-[630px] md:w-[750px] lg:w-[850px] xl:w-[950px]"
+      className="mx-5 my-3 w-full rounded-md border border-secondary-foreground p-1 sm:mx-auto sm:w-[630px] md:w-[750px] lg:w-[800px] xl:w-[950px] 2xl:w-[1100px]"
       key={`${course.courseCode}-${currentModule.moduleCode}`}
     >
       <AccordionItem value={currentModule.moduleCode} disabled={moduleDialogOpen}>
@@ -238,7 +237,7 @@ export default function ModuleContainer({
                 assignment={assignment}
               />
               {currentModule.releaseDate && (
-                <p className="mx-auto w-11/12 pt-5">
+                <p className="mx-auto w-11/12 py-5">
                   This Module is scheduled for release on{" "}
                   {format(currentModule.releaseDate, "PPPP")}
                 </p>

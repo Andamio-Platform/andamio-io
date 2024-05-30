@@ -27,7 +27,7 @@ export default function ShowCourseOnchain({
   const isOwner = course.createdById === sessionData?.user?.id;
 
   const { courseOnchain, isLoadingCourseOnchain } = useCourseOnchain(
-    course.id,
+    course.courseCode,
     network,
   );
 

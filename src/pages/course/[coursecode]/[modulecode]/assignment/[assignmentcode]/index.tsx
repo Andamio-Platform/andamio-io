@@ -6,9 +6,11 @@ import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading
 export default function Page({
   courseCode,
   moduleCode,
+  assignmentCode,
 }: {
   courseCode: string;
   moduleCode: string;
+  assignmentCode: string;
 }) {
   const { courseModule, isLoadingModule } = useModuleByCourse(
     courseCode,
@@ -24,15 +26,17 @@ export default function Page({
       <PageCourseAssignmentContent
         courseCode={courseCode}
         courseModule={courseModule}
+        assignmentCode={assignmentCode}
       />
     );
   }
 }
 
 Page.getInitialProps = async (ctx: NextPageContext) => {
-  const { coursecode, modulecode } = ctx.query;
+  const { coursecode, modulecode, assignmentCode } = ctx.query;
   return {
     courseCode: coursecode,
     moduleCode: modulecode,
+    assignmentCode: assignmentCode,
   };
 };

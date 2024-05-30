@@ -23,6 +23,7 @@ import { AndamioBubbleMenu } from "~/components/Editor/components/menus/AndamioB
 import { EditorContent } from "@tiptap/react";
 import { LightDarkToggle } from "~/ui/site/LightDarkToggle";
 import ContentEditor from "~/ui/studio/components/ContentEditor";
+import { useRouter } from "next/router";
 
 // V2 - current
 export default function PageCourseAssignmentContent({
@@ -38,6 +39,8 @@ export default function PageCourseAssignmentContent({
 
   const courseCode = course.courseCode;
   const moduleCode = courseModule.moduleCode;
+
+  const router = useRouter();
 
   const { editor, ctx } = useAssignmentEditor(assignment);
 
@@ -123,7 +126,7 @@ export default function PageCourseAssignmentContent({
   }, [editor?.isFocused]);
 
   useEffect(() => {
-    if (assignment) {
+    if (assignment && editor) {
       form.reset({
         title: assignment.title ?? "",
         description: assignment.description ?? "",
@@ -136,10 +139,10 @@ export default function PageCourseAssignmentContent({
         assignment.contentJson &&
         typeof assignment.contentJson === "object"
       ) {
-        editor?.commands.setContent(assignment.contentJson);
+        editor.commands.setContent(assignment.contentJson);
       }
     }
-  }, [assignment, isLoadingUpdate]);
+  }, [assignment, isLoadingUpdate, editor]);
 
   /**
    * START OF
@@ -166,6 +169,43 @@ export default function PageCourseAssignmentContent({
    * END OF
    * andamio coach - get lesson plan
    */
+
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (editAssignment) {
+        const confirmationMessage =
+          "You have unsaved changes. Are you sure you want to leave?";
+        e.returnValue = confirmationMessage; // Standard for most browsers
+        return confirmationMessage;
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [editAssignment]);
+
+  // Handle Next.js router events
+  useEffect(() => {
+    const handleRouteChange = () => {
+      if (
+        editAssignment &&
+        !confirm("You have unsaved changes. Are you sure you want to leave?")
+      ) {
+        // If the user cancels, stop the navigation
+        router.events.emit("routeChangeError");
+        throw "Route change aborted.";
+      }
+    };
+
+    router.events.on("routeChangeStart", handleRouteChange);
+
+    return () => {
+      router.events.off("routeChangeStart", handleRouteChange);
+    };
+  }, [editAssignment, router]);
 
   if (assignment) {
     return (

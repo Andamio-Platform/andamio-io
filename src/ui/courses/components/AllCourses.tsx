@@ -202,12 +202,14 @@ function CourseOnChain(course: Course) {
       </DialogTrigger>
       <DialogContent className="flex items-center justify-center justify-items-center">
         <DialogHeader>
-          <DialogTitle>Thinking of taking this course?</DialogTitle>
+          <DialogTitle className="py-4">
+            Thinking of taking this course?
+          </DialogTitle>
           <DialogDescription>
             <Collapsible
               open={isOpen}
               onOpenChange={setIsOpen}
-              className="w-[350px] space-y-2"
+              className="w-[350px] space-y-2 py-4"
             >
               <div className="flex items-center justify-start">
                 <CollapsibleTrigger asChild>
@@ -216,11 +218,11 @@ function CourseOnChain(course: Course) {
               </div>
 
               <CollapsibleContent className="space-y-2">
-                <MintLocalState courseId={course.id} />
+                <MintLocalState courseCode={course.courseCode} />
               </CollapsibleContent>
             </Collapsible>
           </DialogDescription>
-          <DialogFooter className="text-xs sm:justify-start">
+          <DialogFooter className="py-4 text-xs sm:justify-start">
             <Link href={`/course/${course.courseCode}`}>
               I&apos;ll do it after taking a look inside first
             </Link>

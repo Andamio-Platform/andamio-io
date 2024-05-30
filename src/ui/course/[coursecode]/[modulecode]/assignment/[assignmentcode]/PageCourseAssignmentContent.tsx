@@ -19,9 +19,11 @@ import RenderEditor from "~/components/Editor/components/render/RenderEditor";
 export default function PageCourseAssignmentContent({
   courseCode,
   courseModule,
+  assignmentCode,
 }: {
   courseCode: string;
   courseModule: Module;
+  assignmentCode: string;
 }) {
   const { data: sessionData } = useSession();
 
@@ -39,7 +41,12 @@ export default function PageCourseAssignmentContent({
       <ModuleLayout courseCode={courseCode} courseModule={courseModule}>
         {assignment && assignment.live ? (
           <div className="mx-auto flex max-w-3xl flex-col gap-4 text-base leading-7 text-foreground">
-            <Page courseModule={courseModule} assignment={assignment} />
+            <Page
+              courseModule={courseModule}
+              assignment={assignment}
+              courseCode={courseCode}
+              assignmentCode={assignmentCode}
+            />
           </div>
         ) : assignment && !assignment.live ? (
           <div className="mx-auto flex max-w-3xl flex-col gap-4 text-base leading-7 text-foreground">
@@ -51,7 +58,12 @@ export default function PageCourseAssignmentContent({
               </AlertDescription>
             </Alert>
             {isCreator && (
-              <Page courseModule={courseModule} assignment={assignment} />
+              <Page
+                courseModule={courseModule}
+                assignment={assignment}
+                courseCode={courseCode}
+                assignmentCode={assignmentCode}
+              />
             )}
           </div>
         ) : isLoadingAssignment ? (
@@ -65,9 +77,13 @@ export default function PageCourseAssignmentContent({
 function Page({
   assignment,
   courseModule,
+  courseCode,
+  assignmentCode,
 }: {
   assignment: { slts: Slt[] } & Assignment;
   courseModule: Module;
+  courseCode: string;
+  assignmentCode: string;
 }) {
   const { data: sessionData } = useSession();
   const [currentCommitment, setCurrentCommitment] = useState<
@@ -127,7 +143,10 @@ function Page({
             assignmentId={assignment.id}
             assignmentCommitment={currentCommitment}
           />
-          <CommitToAssignmentPage />
+          <CommitToAssignmentPage
+            courseCode={courseCode}
+            assignmentCode={assignmentCode}
+          />
         </Card>
       </>
     );

@@ -8,6 +8,25 @@ import UTxOi from "~/components/transactions/model";
 import { Button } from "~/components/ui/button";
 import { blockfrostProvider } from "~/config/blockfrost";
 import { ACCESS_TOKEN_POLICY_ID } from "~/andamio.config";
+import maestro from "~/config/maestro";
+import useCourseOnchain from "~/hooks/useCourseOnchain";
+import { Network } from "~/config/Network";
+import { INDEXER_URL } from "~/config/indexer";
+import { toast, useToast } from "~/components/ui/use-toast";
+import { set } from "date-fns";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "~/components/ui/form";
+import { Input } from "~/components/ui/input";
 
 interface RequestData {
   Address: string;
@@ -25,13 +44,40 @@ interface RequestData {
   LocalStateValidatorRefUTxO: UTxOi;
 }
 
-export default function CommitToAssignment() {
+const FormSchema = z.object({
+  assignmentInfo: z.string().min(2, {
+    message: "Assignment Info must be at least 2 characters.",
+  }),
+});
+
+export default function CommitToAssignment({
+  courseCode,
+  assignmentCode,
+}: {
+  courseCode: string;
+  assignmentCode: string;
+}) {
   const router = useRouter();
+  const { toast } = useToast();
 
   const { connected, wallet } = useWallet();
   const [isLoading, setIsLoading] = useState(false);
 
-  async function onSubmit() {
+  console.log("courseCode", courseCode);
+
+  const { courseOnchain, isLoadingCourseOnchain } = useCourseOnchain(
+    courseCode,
+    Network,
+  );
+
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      assignmentInfo: "",
+    },
+  });
+
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
     setIsLoading(true);
     try {
       const addr = await wallet.getChangeAddress();
@@ -62,31 +108,65 @@ export default function CommitToAssignment() {
         "hex",
       ).toString("utf-8");
 
+      const localStateUtxos = await maestro.fetchAddressUTxOs(
+        courseOnchain!.LocalStateValidatorAddress,
+      );
+      const localStateUtxo = localStateUtxos.find((utxo: UTxO) =>
+        utxo.output.amount.some((a) => a.unit.includes(accessTokenNameHex!)),
+      );
+
+      const ModuleTokenUTxOs = await maestro.fetchAddressUTxOs(
+        courseOnchain!.ModuleValidatorAddress,
+      );
+      const assignmentCodeHex = Buffer.from(assignmentCode, "utf-8").toString(
+        "hex",
+      );
+      const moduleTokenUtxo = ModuleTokenUTxOs.find((utxo: UTxO) =>
+        utxo.output.amount.some((a) => a.unit.includes(assignmentCodeHex)),
+      );
+
+      interface _utxo {
+        id: number;
+        tx_hash: string;
+        tx_id: number;
+        datum: {
+          bytes: string;
+        };
+        asset: string;
+        consumed: boolean;
+      }
+
+      const res = await axios.get(
+        `${INDEXER_URL}/api/v1/instance-validator/fetchLocalStateValildatorRefUtxoByCourseNftPolicy?policy=${courseOnchain!.CourseCreatorNFTPolicyID}`,
+      );
+
+      const localStateValidatorRefUTxO: _utxo = res.data;
+
       const req: RequestData = {
         Address: addr,
         ChangeAddress: addr,
         UserUTxOs,
         CollateralUTxO,
         UserLocalStateUTxO: {
-          TxID: "",
-          TxIDIndex: 0,
+          TxID: localStateUtxo.input.txHash,
+          TxIDIndex: localStateUtxo.input.outputIndex,
         },
         UserAccessTokenUTxO: {
           TxID: accessTokenUtxo.input.txHash,
           TxIDIndex: accessTokenUtxo.input.outputIndex,
         },
         ModuleTokenUTxO: {
-          TxID: "",
-          TxIDIndex: 0,
-        },
-        AssignmentCode: "",
-        StudentAssignmentInfo: "Assignment Info",
-        AssignmentValidatorAddress: "",
-        LocalStateValidatorAddress: "",
-        LocalStatePolicyID: "",
+          TxID: moduleTokenUtxo.input.txHash,
+          TxIDIndex: moduleTokenUtxo.input.outputIndex,
+        }, // match token with assignment code
+        AssignmentCode: assignmentCode,
+        StudentAssignmentInfo: data.assignmentInfo,
+        AssignmentValidatorAddress: courseOnchain!.AssignmentValidatorAddress,
+        LocalStateValidatorAddress: courseOnchain!.LocalStateValidatorAddress,
+        LocalStatePolicyID: courseOnchain!.LocalStatePolicyID,
         LocalStateValidatorRefUTxO: {
-          TxID: "",
-          TxIDIndex: 0,
+          TxID: localStateValidatorRefUTxO.tx_hash,
+          TxIDIndex: localStateValidatorRefUTxO.tx_id,
         },
       };
 
@@ -101,9 +181,13 @@ export default function CommitToAssignment() {
 
       const signedTx = await wallet.signTx(unsignedTx, true);
       const txId = await wallet.submitTx(signedTx);
-
       console.log(txId);
 
+      setIsLoading(false);
+      toast({
+        title: "Transaction submitted",
+        description: `${txId}`,
+      });
       // setIsConfirming(true);
       // let confirmation = false;
       // while (!confirmation) {
@@ -113,7 +197,9 @@ export default function CommitToAssignment() {
 
       // set database
 
-      void router.push("/home");
+      // console.log()
+
+      // void router.push("/home");
     } catch (error) {
       setIsLoading(false);
       console.error("Error", error);
@@ -127,7 +213,27 @@ export default function CommitToAssignment() {
           {!connected ? (
             <CardanoWallet />
           ) : (
-            <Button onClick={onSubmit}>Commit</Button>
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="w-2/3 space-y-6"
+              >
+                <FormField
+                  control={form.control}
+                  name="assignmentInfo"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Assignment Info</FormLabel>
+                      <FormControl>
+                        <Input placeholder="enter assignment info" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button type="submit">Commit</Button>
+              </form>
+            </Form>
           )}
         </>
       ) : (

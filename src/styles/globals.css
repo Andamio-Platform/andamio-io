@@ -114,3 +114,7 @@
 .blockquote {
   @apply text-foreground
 }
+
+.custom-code {
+  @apply text-foreground font-mono
+}

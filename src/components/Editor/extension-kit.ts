@@ -8,10 +8,11 @@ import {
   ImageUpload,
   ImageBlock,
 } from "./extensions";
-import { Plugin } from "prosemirror-state";
 import { BubbleMenu } from "@tiptap/extension-bubble-menu";
 import { Color } from "@tiptap/extension-color";
+import { Code } from "@tiptap/extension-code";
 import TextStyle from "@tiptap/extension-text-style";
+import { markInputRule } from "@tiptap/react";
 
 const CustomBold = Bold.extend({
   renderHTML({ HTMLAttributes }) {
@@ -19,11 +20,28 @@ const CustomBold = Bold.extend({
   },
 });
 
+export const inputRegex = /(?:^|\s)(`(?!\s+`)((?:[^`]+))`(?!\s+`))$/
+
+const CustomCode = Code.extend({
+  renderHTML({ HTMLAttributes }) {
+    return ["code", {...HTMLAttributes, class: 'custom-code'}, 0];
+  },
+  addInputRules() {
+    return [
+      markInputRule({
+        find: inputRegex,
+        type: this.type,
+      })
+    ]
+  },
+})
+
 export function ExtensionKit() {
   return [
     StarterKit,
     Underline,
     CustomBold,
+    CustomCode,
     Link.configure({
       openOnClick: false,
     }),

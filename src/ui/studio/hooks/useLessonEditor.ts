@@ -2,6 +2,7 @@ import { api } from "~/utils/api";
 import useLesson from "../../../hooks/useLesson";
 import { useEditor } from "@tiptap/react";
 import { ExtensionKit } from "~/components/Editor/extension-kit";
+import { useEffect } from "react";
 
 export default function useLessonEditor(
   courseCode: string,
@@ -24,6 +25,17 @@ export default function useLessonEditor(
       },
     },
   });
+
+  useEffect(() => {
+    if (
+      lesson &&
+      lesson.contentJson &&
+      typeof lesson.contentJson === "object" &&
+      editor
+    ) {
+      editor?.commands.setContent(lesson.contentJson);
+    }
+  }, [lesson, editor]);
 
   return { editor, lesson, refetchLesson, isLoadingLesson, ctx };
 }

@@ -23,6 +23,7 @@ import useIntroEditor from "~/ui/studio/hooks/useIntroEditor";
 import { AndamioBubbleMenu } from "~/components/Editor/components/menus/AndamioBubbleMenu";
 import { EditorContent } from "@tiptap/react";
 import ContentEditor from "~/ui/studio/components/ContentEditor";
+import { useRouter } from "next/router";
 
 export default function PageModuleIntroContent({
   course,
@@ -39,6 +40,8 @@ export default function PageModuleIntroContent({
   const { editor, introduction, isLoadingIntro, refetchIntro } = useIntroEditor(
     courseModule.id,
   );
+
+  const router = useRouter();
 
   const { assignment } = useAssignmentByCourseModule(
     course.courseCode,
@@ -197,6 +200,43 @@ export default function PageModuleIntroContent({
    * END OF
    * andamio coach - get lesson plan
    */
+
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (editIntroduction) {
+        const confirmationMessage =
+          "You have unsaved changes. Are you sure you want to leave?";
+        e.returnValue = confirmationMessage; // Standard for most browsers
+        return confirmationMessage;
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [editIntroduction]);
+
+  // Handle Next.js router events
+  useEffect(() => {
+    const handleRouteChange = () => {
+      if (
+        editIntroduction &&
+        !confirm("You have unsaved changes. Are you sure you want to leave?")
+      ) {
+        // If the user cancels, stop the navigation
+        router.events.emit("routeChangeError");
+        throw "Route change aborted.";
+      }
+    };
+
+    router.events.on("routeChangeStart", handleRouteChange);
+
+    return () => {
+      router.events.off("routeChangeStart", handleRouteChange);
+    };
+  }, [editIntroduction, router]);
 
   if (introduction === undefined || introduction === null) {
     if (isLoadingIntroCreate) {

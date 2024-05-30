@@ -1,7 +1,7 @@
 import { Button } from "~/components/ui/button";
 import type { Course, Module, ModuleSLT } from "~/types/db";
 import DialogSLTDelete from "../dialogs/DialogSLTDelete";
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { type FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
@@ -102,7 +102,7 @@ export function RowSLT({
   module: Module;
   slt: ModuleSLT;
 }) {
-  if(!module) return
+  if (!module) return;
 
   const ctx = api.useUtils();
   const { setNodeRef } = useContext(SortableSltContext);
@@ -110,6 +110,16 @@ export function RowSLT({
   const [sltDeleteDialogOpen, setSltDeleteDialogOpen] =
     useState<boolean>(false);
   const [editSltText, setEditSltText] = useState<boolean>(false);
+
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLDivElement>) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        setEditSltText(false);
+      }
+    },
+    [],
+  );
 
   const { mutate: sltTextUpdate, isLoading: isLoadingUpdate } =
     api.slt.update.useMutation({
@@ -163,10 +173,10 @@ export function RowSLT({
   }, [editSltText]);
 
   return (
-    <div ref={setNodeRef}>
+    <div ref={setNodeRef} onKeyDown={handleKeyDown}>
       {module && (
         <div
-          className={`mx-auto my-1 grid h-[55px] w-full grid-cols-12 py-2 sm:w-[535px] md:w-[645px] lg:w-[735px] xl:w-[825px] ${isLoadingUpdate && "opacity-50"}`}
+          className={`mx-auto my-1 grid h-[55px] w-full grid-cols-12 py-2 sm:w-[535px] md:w-[630px] lg:w-[700px] xl:w-[850px] 2xl:w-[975px] ${isLoadingUpdate && "opacity-50"}`}
           key={`${module.moduleCode}-${slt.moduleIndex}`}
         >
           <div className="col-span-1 flex items-center">
@@ -188,15 +198,15 @@ export function RowSLT({
           </div>
 
           <div className="col-span-3 col-start-10 flex items-center justify-between px-8">
-            <Button intent="ghost" size="icon">
-              <Link
-                href={`/studio/${courseCode}/${module.moduleCode}/lesson/${slt.moduleIndex}`}
-                className="flex flex-row gap-1 text-xs"
-              >
-                <FileIcon width="18" height="18" />
-                <p>Lesson</p>
-              </Link>
-            </Button>
+            <Link
+              href={`/studio/${courseCode}/${module.moduleCode}/lesson/${slt.moduleIndex}`}
+              className="flex flex-row gap-1 text-xs"
+            >
+              <Button intent="ghost" size="icon">
+                <FileIcon className="w-[14px] h-[14px] xl:w-[16px] xl:h-[16px]" />
+                <p className="text-xs lg:text-sm">Lesson</p>
+              </Button>
+            </Link>
             <DialogSLTDelete
               sltDeleteDialogOpen={sltDeleteDialogOpen}
               setSltDeleteDialogOpen={setSltDeleteDialogOpen}
@@ -217,7 +227,7 @@ export function DragHandle() {
 
   return (
     <button
-      className="rounded-md px-1 transition-colors duration-250 ease-in-out hover:bg-accent"
+      className="duration-250 rounded-md px-1 transition-colors ease-in-out hover:bg-accent"
       {...attributes}
       {...listeners}
       ref={setNodeRef}

@@ -41,7 +41,7 @@ export default function PageCourse({ courseCode }: { courseCode: string }) {
       <>
         {course ? (
           <>
-            <div className="flex flex-col gap-4 sm:mx-auto sm:w-[630px] md:w-[750px] lg:w-[850px] xl:w-[950px]">
+            <div className="flex flex-col gap-4 sm:mx-auto sm:w-[630px] md:w-[750px] lg:w-[800px] xl:w-[950px] 2xl:w-[1100px]">
               <CourseTitle course={course} />
               <Tabs defaultValue="modules">
                 <TabsList className="my-3 w-full rounded-md border border-secondary-foreground">

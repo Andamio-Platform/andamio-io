@@ -15,6 +15,7 @@ import MyCoursesSection from "./MyCoursesSection";
 import { ACCESS_TOKEN_POLICY_ID } from "~/andamio.config";
 import { Button } from "~/components/ui/button";
 import Link from "next/link";
+import CreatorsSection from "./CreatorsSection";
 
 export default function DashboardPage({ username }: { username: string }) {
   const { setTheme } = useTheme();
@@ -54,6 +55,7 @@ export default function DashboardPage({ username }: { username: string }) {
           ) : (
             <NoAccessTokenInWallet />
           )}
+          <CreatorsSection />
         </div>
       )}
     </>

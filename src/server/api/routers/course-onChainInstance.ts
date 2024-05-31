@@ -1,4 +1,5 @@
 import { Network } from "@prisma/client";
+import { get } from "http";
 import { z } from "zod";
 
 import {
@@ -8,6 +9,10 @@ import {
 } from "~/server/api/trpc";
 
 export const courseOnChainInstanceRouter = createTRPCRouter({
+  getAllCoursesOnchain: publicProcedure.query(({ ctx }) => {
+    return ctx.db.courseOnChainInstance.findMany();
+  }),
+
   getCourseOnchainInstances: publicProcedure
     .input(
       z.object({

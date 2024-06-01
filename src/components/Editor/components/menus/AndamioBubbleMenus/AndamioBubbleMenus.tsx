@@ -1,16 +1,19 @@
-import { useCallback, useState } from "react";
 import { BubbleMenu, Editor } from "@tiptap/react";
-
 import {
   FontBoldIcon,
   FontItalicIcon,
   UnderlineIcon,
   StrikethroughIcon,
   DividerVerticalIcon,
+  Link1Icon,
 } from "@radix-ui/react-icons";
-
 import { ToggleGroup, ToggleGroupItem } from "~/components/ui/toggle-group";
-import { EditLinkPopover } from "../TextMenu/components/EditLinkPopover";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "~/components/ui/tooltip";
 
 const editorColors = [
   { name: "blue", colorVar: "hsl(var(--editor-blue))" },
@@ -20,28 +23,12 @@ const editorColors = [
 ];
 
 export function AndamioBubbleMenu({ editor }: { editor: Editor }) {
-  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
-
-  const handleKeyDown = useCallback(
-    (event: React.KeyboardEvent<HTMLDivElement>) => {
-      if (event.metaKey && event.key === "k") {
-        event.preventDefault();
-        setIsPopoverOpen(true);
-      }
-    },
-    [],
-  );
-
-  const handleClosePopover = useCallback(() => {
-    setIsPopoverOpen(false);
-  }, []);
-
   if (!!editor) {
     return (
-      <div onKeyDown={handleKeyDown}>
+      <div>
         <BubbleMenu
           editor={editor}
-          className="edit-menu flex flex-row min-w-[530px] gap-1 bg-accent rounded-md border border-gray-300"
+          className="edit-menu flex min-w-[560px] flex-row gap-1 rounded-md border border-gray-300 bg-accent p-1"
           tippyOptions={{
             placement: "top-end",
           }}
@@ -51,7 +38,7 @@ export function AndamioBubbleMenu({ editor }: { editor: Editor }) {
               value="bold"
               aria-label="Toggle bold"
               onClick={() => editor.chain().focus().toggleBold().run()}
-              className={editor.isActive("bold") ? "is-active" : ""}
+              data-state={editor.isActive("bold") ? "on" : "off"}
             >
               <FontBoldIcon className="h-4 w-4" />
             </ToggleGroupItem>
@@ -59,7 +46,7 @@ export function AndamioBubbleMenu({ editor }: { editor: Editor }) {
               value="italic"
               aria-label="Toggle italic"
               onClick={() => editor.chain().focus().toggleItalic().run()}
-              className={editor.isActive("italic") ? "is-active" : ""}
+              data-state={editor.isActive("italic") ? "on" : "off"}
             >
               <FontItalicIcon className="h-4 w-4" />
             </ToggleGroupItem>
@@ -67,7 +54,7 @@ export function AndamioBubbleMenu({ editor }: { editor: Editor }) {
               value="underline"
               aria-label="Toggle underline"
               onClick={() => editor.chain().focus().toggleUnderline().run()}
-              className={editor.isActive("underline") ? "is-active" : ""}
+              data-state={editor.isActive("underline") ? "on" : "off"}
             >
               <UnderlineIcon className="h-4 w-4" />
             </ToggleGroupItem>
@@ -75,7 +62,7 @@ export function AndamioBubbleMenu({ editor }: { editor: Editor }) {
               value="strikethrough"
               aria-label="Toggle strikethrough"
               onClick={() => editor.chain().focus().toggleStrike().run()}
-              className={editor.isActive("strike") ? "is-active" : ""}
+              data-state={editor.isActive("strike") ? "on" : "off"}
             >
               <div>
                 <StrikethroughIcon className="h-4 w-4" />
@@ -85,10 +72,21 @@ export function AndamioBubbleMenu({ editor }: { editor: Editor }) {
             <ToggleGroupItem
               value="text-default"
               aria-label="Toggle text-default"
-              onClick={() => editor.chain().focus().setColor("hsl(var(--foreground))").run()}
-              className={editor.isActive("text-default") ? "is-active" : ""}
+              onClick={() =>
+                editor.chain().focus().setColor("hsl(var(--foreground))").run()
+              }
+              data-state={
+                editor.isActive("textStyle", {
+                  color: "hsl(var(--foreground))",
+                })
+                  ? "on"
+                  : "off"
+              }
             >
-              <div className="h-4 w-4" style={{ backgroundColor: "hsl(var(--foreground))"}} />
+              <div
+                className="h-4 w-4"
+                style={{ backgroundColor: "hsl(var(--foreground))" }}
+              />
             </ToggleGroupItem>
             {editorColors.map((c, index) => (
               <ToggleGroupItem
@@ -97,7 +95,11 @@ export function AndamioBubbleMenu({ editor }: { editor: Editor }) {
                 onClick={() =>
                   editor.chain().focus().setColor(c.colorVar).run()
                 }
-                className={editor.isActive(`text-${c.name}`) ? "is-active" : ""}
+                data-state={
+                  editor.isActive("textStyle", { color: c.colorVar })
+                    ? "on"
+                    : "off"
+                }
                 key={index}
               >
                 <div
@@ -107,21 +109,21 @@ export function AndamioBubbleMenu({ editor }: { editor: Editor }) {
               </ToggleGroupItem>
             ))}
             <DividerVerticalIcon className="h-8 text-gray-300" />
-
-
-            <ToggleGroupItem
-              value="href-link"
-              aria-label="Toggle link"
-              className={editor.isActive("href-link") ? "is-active" : ""}
-            >
-              <EditLinkPopover
-                editor={editor}
-                isOpen={isPopoverOpen}
-                onClose={handleClosePopover}
-              />
-            </ToggleGroupItem>
+            <div className="Flex flex-row">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Link1Icon className="h-4 w-4" />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="text-xs">
+                      To create a link, paste a URL on any text.
+                    </p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
           </ToggleGroup>
-
         </BubbleMenu>
       </div>
     );

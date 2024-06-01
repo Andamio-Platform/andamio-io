@@ -1,6 +1,6 @@
 {
   "name": "andamio-platform",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "private": true,
   "type": "module",
   "scripts": {
@@ -72,6 +72,7 @@
     "next-auth": "^4.24.5",
     "next-themes": "^0.3.0",
     "novel": "0.2.6",
+    "prosemirror-inputrules": "^1.4.0",
     "react": "18.2.0",
     "react-autosave": "^0.4.4",
     "react-day-picker": "^8.10.1",

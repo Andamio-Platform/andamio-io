@@ -19,8 +19,6 @@ import HeaderSection from "../../components/HeaderSection";
 import RightSection from "../../components/RightSection";
 import { useCourseStore } from "~/lib/zustand/course";
 import useAssignmentEditor from "~/ui/studio/hooks/useAssignmentEditor";
-import { AndamioBubbleMenu } from "~/components/Editor/components/menus/AndamioBubbleMenu";
-import { EditorContent } from "@tiptap/react";
 import { LightDarkToggle } from "~/ui/site/LightDarkToggle";
 import ContentEditor from "~/ui/studio/components/ContentEditor";
 import { useRouter } from "next/router";

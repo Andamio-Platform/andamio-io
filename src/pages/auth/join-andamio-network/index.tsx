@@ -23,6 +23,7 @@ import MintAccessToken from "~/components/transactions/mintAccessToken/mintAcces
 import { api } from "~/utils/api";
 
 import { useSession } from "next-auth/react";
+import { BellIcon, BookOpenText, GlobeLockIcon } from "lucide-react";
 
 export default function JoinAndamioNetwork() {
   const router = useRouter();
@@ -46,37 +47,51 @@ export default function JoinAndamioNetwork() {
       {isLoadingUser || user?.hasMintedAccessToken ? (
         <Loading />
       ) : (
-        <Card className="w-[350px]">
-          <CardHeader>
-            <CardTitle>Join The Andamio Network</CardTitle>
-            <CardDescription>
-              Get a token that represents your membership in Andamio
+        <Card className="mx-auto w-11/12 lg:w-2/3">
+          <CardHeader className="text-center mb-10">
+            <CardTitle className="text-4xl my-5">Connect to the Andamio Network</CardTitle>
+            <CardDescription className="w-11/12 md:w-1/2 mx-auto">
+              Your Discord Account is connected to the Andamio Platform. To access the full
+              features of Andamio, you can also connect a Cardano wallet and
+              mint an Andamio Token.
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <CardFooter className="flex flex-col gap-3">
-              <Collapsible
-                open={isOpen}
-                onOpenChange={setIsOpen}
-                className="w-[350px] space-y-2"
-              >
-                <div className="flex items-center justify-center">
-                  <CollapsibleTrigger asChild>
-                    <Button>{isOpen ? <>Back</> : <>Get Token</>}</Button>
-                  </CollapsibleTrigger>
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+              <Link href="/course/andamio101">
+                <div className="flex w-full flex-col items-center justify-center rounded-md border border-foreground bg-primary p-5 text-primary-foreground hover:bg-primary/90">
+                  <BookOpenText width={50} height={50} className="mb-5" />
+                  <p>Tell me more</p>
                 </div>
-
-                <CollapsibleContent className="space-y-2">
-                  <MintAccessToken />
-                </CollapsibleContent>
-              </Collapsible>
-            </CardFooter>
-            {!isOpen && (
-              <Link href="/home" className="text-start text-sm">
-                I&apos;ll get it later
               </Link>
-            )}
+              <div>
+                <Collapsible
+                  open={isOpen}
+                  onOpenChange={setIsOpen}
+                  className=""
+                >
+                  <CollapsibleTrigger asChild>
+                    <div className="flex w-full flex-col items-center justify-center rounded-md border border-foreground bg-primary p-5 text-primary-foreground hover:bg-primary/90">
+                      <GlobeLockIcon width={50} height={50} className="mb-5" />
+                      <p>{isOpen ? <>Back</> : <>Get Token</>}</p>
+                    </div>
+                  </CollapsibleTrigger>
+
+                  <CollapsibleContent className="space-y-2">
+                    <MintAccessToken />
+                  </CollapsibleContent>
+                </Collapsible>
+              </div>
+              <Link href="/home" className="text-start text-sm">
+                <div className="flex w-full flex-col items-center justify-center rounded-md border border-foreground bg-primary p-5 text-primary-foreground hover:bg-primary/90">
+                  <BellIcon width={50} height={50} className="mb-5" />
+
+                  <p>I&apos;ll get it later</p>
+                </div>
+              </Link>
+            </div>
           </CardContent>
+          <CardFooter className="flex flex-col gap-3"></CardFooter>
         </Card>
       )}
     </div>

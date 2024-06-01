@@ -1,1 +1,1 @@
-export { AndamioBubbleMenus } from './AndamioBubbleMenus'
+export { AndamioBubbleMenu } from './AndamioBubbleMenus'

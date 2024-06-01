@@ -22,7 +22,7 @@ const editorColors = [
   { name: "yellow", colorVar: "hsl(var(--editor-yellow))" },
 ];
 
-export function AndamioBubbleMenus({ editor }: { editor: Editor }) {
+export function AndamioBubbleMenu({ editor }: { editor: Editor }) {
   if (!!editor) {
     return (
       <div>

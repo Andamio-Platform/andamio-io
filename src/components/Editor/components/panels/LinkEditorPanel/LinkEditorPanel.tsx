@@ -48,7 +48,7 @@ export const LinkEditorPanel = ({ initialOpenInNewTab, initialUrl, editor }: Lin
   const state = useLinkEditorState({ initialOpenInNewTab, initialUrl, editor })
 
   return (
-    <Surface className="p-2">
+    <>
       <form onSubmit={state.handleSubmit} className="flex items-center gap-2">
         <label className="flex items-center gap-2 p-2 rounded-lg bg-neutral-100 dark:bg-neutral-900 cursor-text">
           <Icon name="Link" className="flex-none text-foreground dark:text-primary-foreground" />
@@ -70,6 +70,6 @@ export const LinkEditorPanel = ({ initialOpenInNewTab, initialUrl, editor }: Lin
           <Toggle active={state.openInNewTab} onChange={state.setOpenInNewTab} />
         </label>
       </div>
-    </Surface>
+    </>
   )
 }

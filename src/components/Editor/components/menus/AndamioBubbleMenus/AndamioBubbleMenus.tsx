@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { BubbleMenu, Editor } from "@tiptap/react";
 import {
   FontBoldIcon,
@@ -9,8 +8,12 @@ import {
   Link1Icon,
 } from "@radix-ui/react-icons";
 import { ToggleGroup, ToggleGroupItem } from "~/components/ui/toggle-group";
-import { Popover, PopoverContent, PopoverTrigger } from "~/components/ui/popover";
-import { LinkEditorPanel } from "../../panels";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "~/components/ui/tooltip";
 
 const editorColors = [
   { name: "blue", colorVar: "hsl(var(--editor-blue))" },
@@ -19,23 +22,13 @@ const editorColors = [
   { name: "yellow", colorVar: "hsl(var(--editor-yellow))" },
 ];
 
-export function AndamioBubbleMenu({ editor }: { editor: Editor }) {
-  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
-
-  const handleToggleLink = () => {
-    setIsPopoverOpen((prev) => !prev);
-  };
-
-  const handleOpenChange = (open: boolean) => {
-    setIsPopoverOpen(open);
-  };
-
+export function AndamioBubbleMenus({ editor }: { editor: Editor }) {
   if (!!editor) {
     return (
       <div>
         <BubbleMenu
           editor={editor}
-          className="edit-menu flex min-w-[530px] flex-row gap-1 rounded-md border border-gray-300 bg-accent"
+          className="edit-menu flex min-w-[560px] flex-row gap-1 rounded-md border border-gray-300 bg-accent p-1"
           tippyOptions={{
             placement: "top-end",
           }}
@@ -116,16 +109,20 @@ export function AndamioBubbleMenu({ editor }: { editor: Editor }) {
               </ToggleGroupItem>
             ))}
             <DividerVerticalIcon className="h-8 text-gray-300" />
-            <Popover open={isPopoverOpen} onOpenChange={handleOpenChange}>
-              <PopoverTrigger asChild>
-                <button onClick={handleToggleLink}>
-                  <Link1Icon className="h-4 w-4" />
-                </button>
-              </PopoverTrigger>
-              <PopoverContent className="flex flex-row" asChild>
-                <LinkEditorPanel editor={editor} />
-              </PopoverContent>
-            </Popover>
+            <div className="Flex flex-row">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Link1Icon className="h-4 w-4" />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="text-xs">
+                      To create a link, paste a URL on any text.
+                    </p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
           </ToggleGroup>
         </BubbleMenu>
       </div>

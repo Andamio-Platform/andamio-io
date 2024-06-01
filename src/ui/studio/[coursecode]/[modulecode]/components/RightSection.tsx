@@ -143,9 +143,6 @@ export default function RightSection({
               When you highlight text and paste a URL from your clipboard, the
               highlighted text will become a link.
             </p>
-            <p className="pb-2 text-xs">
-              You can also add a link by using the hover menu.
-            </p>
             <p className="py-2 text-xs font-bold">Add an Image</p>
             <p className="pb-2 text-xs">
               To insert an image, use a &quot;slash&quot; command. In the

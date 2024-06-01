@@ -122,10 +122,9 @@
 /* CSS for Radix UI Toggle Group Items based on their state */
 [data-state='on'] {
   background-color: #e0e0e0; /* Light grey background for active state */
-  border: 1px solid #ccc; /* Border to indicate active state */
+  border: 1px solid #ccddee; /* Border to indicate active state */
 }
 
 [data-state='off'] {
-  background-color: #ffffff; /* White background for inactive state */
-  border: 1px solid transparent; /* No border for inactive state */
+  @apply bg-accent text-accent-foreground border border-accent/80
 }

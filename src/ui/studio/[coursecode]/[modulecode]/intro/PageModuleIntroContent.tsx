@@ -20,7 +20,7 @@ import RightSection from "../components/RightSection";
 import { useCourseStore } from "~/lib/zustand/course";
 import useAssignmentByCourseModule from "~/hooks/useAssignmentByCourseModule";
 import useIntroEditor from "~/ui/studio/hooks/useIntroEditor";
-import { AndamioBubbleMenu } from "~/components/Editor/components/menus/AndamioBubbleMenu";
+import { AndamioBubbleMenu } from "~/components/Editor/components/menus/AndamioBubbleMenus";
 import { EditorContent } from "@tiptap/react";
 import ContentEditor from "~/ui/studio/components/ContentEditor";
 import { useRouter } from "next/router";

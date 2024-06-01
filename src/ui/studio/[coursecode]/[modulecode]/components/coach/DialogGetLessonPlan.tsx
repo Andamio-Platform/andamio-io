@@ -47,12 +47,25 @@ export function DialogGetLessonPlan({
 
   async function addToLesson() {
     if (result) {
-      const toUpdateLessonEditor = [];
+      const toUpdateLessonEditor = [
+        {
+          attrs: {
+            level: 2,
+          },
+          content: [
+            {
+              type: "text",
+              text: "Here are some lesson sub-headings to help you get started:",
+            },
+          ],
+          type: "heading",
+        },
+      ];
 
       for (const _newData of result.split("\n")) {
         const _newRow = {
           attrs: {
-            level: 1,
+            level: 3,
           },
           content: [{ type: "text", text: _newData }],
           type: "heading",

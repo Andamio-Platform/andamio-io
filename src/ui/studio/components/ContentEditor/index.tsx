@@ -1,5 +1,5 @@
 import { Editor, EditorContent } from "@tiptap/react";
-import { AndamioBubbleMenu } from "~/components/Editor/components/menus/AndamioBubbleMenu";
+import { AndamioBubbleMenu } from "~/components/Editor/components/menus/AndamioBubbleMenus";
 
 export default function ContentEditor({ editor }: { editor: Editor }) {
   const handleClick = () => {

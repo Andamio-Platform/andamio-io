@@ -39,7 +39,7 @@ export function ChatList({ messages, sendMessage }: ChatListProps) {
         >
           <AnimatePresence>
             {messages &&
-              messages
+              [...new Set(messages)]
                 .sort((a, b) => a.timestamp! - b.timestamp!)
                 .map((message, index) => (
                   <motion.div

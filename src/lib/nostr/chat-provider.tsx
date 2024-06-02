@@ -72,6 +72,7 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
             pubkey: event.pubkey,
             timestamp: event.created_at,
           };
+
           setMessages((prev) => [...prev, newMessage]);
         },
       });
@@ -82,6 +83,7 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
   const subscribeRoom = useCallback(
     async (_roomId: string) => {
       await subscribe({ kinds: [42], "#d": [_roomId] });
+
       setRoomId(_roomId);
     },
     [subscribe],
@@ -93,7 +95,7 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
         const relay = await getRelay;
         if (relay === undefined) return;
 
-        let eventTemplate = {
+        const eventTemplate = {
           kind: 42,
           created_at: Math.floor(Date.now() / 1000),
           tags: [["d", roomId]],
@@ -106,25 +108,25 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
         await relay.publish(signedEvent);
       }
     },
-    [getRelay],
+    [getRelay, roomId, nostrChatUser],
   );
 
   function generateNsec() {
-    let sk = generateSecretKey();
-    let nsec = nip19.nsecEncode(sk);
-    let pk = getPublicKey(sk);
+    const sk = generateSecretKey();
+    const nsec = nip19.nsecEncode(sk);
+    const pk = getPublicKey(sk);
     return { nsec: nsec as string, pk: pk };
   }
 
   function resolveSk(nsec: string): Uint8Array {
-    let { data } = nip19.decode(nsec);
+    const { data } = nip19.decode(nsec);
     return data as Uint8Array;
   }
 
   useEffect(() => {
     if (user === undefined) return;
 
-    let _user = {
+    const _user = {
       id: user.id,
       nsec: user.nostrNsec ? user.nostrNsec : "",
       pubkey: user.nostrPubkey ? user.nostrPubkey : "",

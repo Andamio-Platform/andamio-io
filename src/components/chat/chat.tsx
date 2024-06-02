@@ -18,7 +18,7 @@ export function Chat({ roomId }: ChatProps) {
   }, [roomId]);
 
   const sendMessage = async (newMessage: Message) => {
-    await publishMessage(newMessage.message);
+    publishMessage(newMessage.message);
   };
 
   return (

@@ -3,7 +3,6 @@ import { useRef, useEffect } from "react";
 import { Avatar, AvatarImage } from "~/components/ui/avatar";
 import ChatBottombar from "./chat-bottombar";
 import { AnimatePresence, motion } from "framer-motion";
-import { Message } from "./chat-types";
 import { api } from "~/utils/api";
 import useNostrChat from "~/lib/nostr/chat-provider";
 import {
@@ -65,11 +64,11 @@ export function ChatList() {
                     )}
                   >
                     <div className="flex items-center gap-3">
-                      {(nostrChatUser &&
+                      {((nostrChatUser &&
                         message.pubkey !== nostrChatUser.pubkey) ||
-                        (nostrChatUser === undefined && (
-                          <UserAvatar pubkey={message.pubkey} />
-                        ))}
+                        nostrChatUser === undefined) && (
+                        <UserAvatar pubkey={message.pubkey} />
+                      )}
                       <span className="max-w-xs rounded-md bg-accent p-3">
                         {message.message}
                       </span>

@@ -12,14 +12,10 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
+import { FaceSmileIcon } from "@heroicons/react/24/outline";
 
-interface ChatListProps {
-  messages?: Message[];
-  sendMessage: (newMessage: Message) => void;
-}
-
-export function ChatList({ messages, sendMessage }: ChatListProps) {
-  const { nostrChatUser } = useNostrChat();
+export function ChatList() {
+  const { messages, nostrChatUser } = useNostrChat();
 
   const messagesContainerRef = useRef<HTMLDivElement>(null);
 
@@ -39,6 +35,7 @@ export function ChatList({ messages, sendMessage }: ChatListProps) {
         >
           <AnimatePresence>
             {messages &&
+              messages.length > 0 &&
               [...new Set(messages)]
                 .sort((a, b) => a.timestamp! - b.timestamp!)
                 .map((message, index) => (
@@ -83,9 +80,17 @@ export function ChatList({ messages, sendMessage }: ChatListProps) {
                     </div>
                   </motion.div>
                 ))}
+            {messages && messages.length === 0 && (
+              <div className="flex h-full w-full flex-col justify-center overflow-y-auto overflow-x-hidden">
+                <div className="flex flex-col items-center justify-center">
+                  <FaceSmileIcon className="h-16 w-16" />
+                  <span>No messages.</span>
+                </div>
+              </div>
+            )}
           </AnimatePresence>
         </div>
-        <ChatBottombar sendMessage={sendMessage} />
+        <ChatBottombar />
       </div>
     </TooltipProvider>
   );

@@ -7,16 +7,11 @@ import { AnimatePresence, motion, useAnimation } from "framer-motion";
 import { Textarea } from "../ui/textarea";
 import { EmojiPicker } from "./emoji-picker";
 import useNostrChat from "~/lib/nostr/chat-provider";
-import { Message } from "./chat-types";
-
-interface ChatBottombarProps {
-  sendMessage: (newMessage: Message) => void;
-}
 
 export const BottombarIcons = [{ icon: FileImage }, { icon: Paperclip }];
 
-export default function ChatBottombar({ sendMessage }: ChatBottombarProps) {
-  const { nostrChatUser } = useNostrChat();
+export default function ChatBottombar() {
+  const { userConnected, publishMessage } = useNostrChat();
 
   const [message, setMessage] = useState("");
   const [lastMessageSent, setLastMessageSent] = useState(0);
@@ -38,28 +33,20 @@ export default function ChatBottombar({ sendMessage }: ChatBottombarProps) {
   };
 
   const handleThumbsUp = () => {
-    if (nostrChatUser === undefined) return;
+    if (!userConnected) return;
 
     if (checkIfCanSend()) {
-      const newMessage: Message = {
-        pubkey: nostrChatUser.pubkey,
-        message: "👍",
-      };
-      sendMessage(newMessage);
+      publishMessage(message);
       setMessage("");
     }
   };
 
   const handleSend = () => {
-    if (nostrChatUser === undefined) return;
+    if (!userConnected) return;
 
     if (checkIfCanSend()) {
-      if (message.trim()) {
-        const newMessage: Message = {
-          pubkey: nostrChatUser.pubkey,
-          message: message.trim(),
-        };
-        sendMessage(newMessage);
+      if (message.trim().length > 0) {
+        publishMessage(message.trim());
         setMessage("");
 
         if (inputRef.current) {
@@ -117,7 +104,7 @@ export default function ChatBottombar({ sendMessage }: ChatBottombarProps) {
     }, 1000);
   }
 
-  if (nostrChatUser === undefined) return null;
+  if (!userConnected) return null;
 
   return (
     <div className="flex w-full items-center justify-between gap-2 p-2">

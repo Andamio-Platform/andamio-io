@@ -21,12 +21,13 @@ import { Message, User } from "~/components/chat/chat-types";
 const NostrChatContext = createContext({
   subscribeRoom: (roomId: string) => {},
   publishMessage: (message: string) => {},
-  messages: [] as Message[],
+  messages: [] as Message[] | undefined,
   nostrChatUser: {
     id: "",
     nsec: "",
     pubkey: "",
   } as User | undefined,
+  userConnected: false,
 });
 
 export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
@@ -40,11 +41,12 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
     onError: (e) => {},
   });
 
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[] | undefined>(undefined);
   const [roomId, setRoomId] = useState<string | undefined>(undefined);
   const [nostrChatUser, setNostrChatUser] = useState<undefined | User>(
     undefined,
   );
+  const [userConnected, setUserConnected] = useState<boolean>(false);
 
   const { data: user } = api.user.getUserById.useQuery(
     {
@@ -72,8 +74,7 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
             pubkey: event.pubkey,
             timestamp: event.created_at,
           };
-
-          setMessages((prev) => [...prev, newMessage]);
+          setMessages((prev) => [...(prev ?? []), newMessage]);
         },
       });
     },
@@ -153,6 +154,7 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     setNostrChatUser(_user);
+    setUserConnected(true);
   }, [user]);
 
   const memoedValue = useMemo(
@@ -166,6 +168,7 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
       setNostrChatUser,
       roomId,
       setRoomId,
+      userConnected,
     }),
     [
       subscribeRoom,
@@ -177,6 +180,7 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
       setNostrChatUser,
       roomId,
       setRoomId,
+      userConnected,
     ],
   );
 

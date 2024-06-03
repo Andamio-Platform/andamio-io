@@ -81,6 +81,22 @@ export const userRouter = createTRPCRouter({
       }
     }),
 
+  getUserByPubkey: publicProcedure
+    .input(z.object({ pubkey: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const user = await ctx.db.user.findMany({
+        where: {
+          nostrPubkey: input.pubkey,
+        },
+      });
+
+      if (user.length === 0) {
+        throw new Error("User not found");
+      } else {
+        return user[0];
+      }
+    }),
+
   updateHasMintedAccessToken: protectedProcedure
     .input(
       z.object({
@@ -131,6 +147,26 @@ export const userRouter = createTRPCRouter({
         },
         data: {
           unconfirmedTx: input.txHash,
+        },
+      });
+    }),
+
+  updateUserNsec: protectedProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+        nsec: z.string(),
+        pubkey: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.user.update({
+        where: {
+          id: input.userId,
+        },
+        data: {
+          nostrNsec: input.nsec,
+          nostrPubkey: input.pubkey,
         },
       });
     }),

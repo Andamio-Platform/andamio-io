@@ -156,7 +156,7 @@ export default function CreatorsSection() {
             setAssignments((assignments) => [
               ...assignments,
               {
-                alias: Buffer.from(asset!.unit.substring(62), "hex").toString(),
+                alias: Buffer.from(asset!.unit.substring(56), "hex").toString(),
                 assignmentCode: Buffer.from(
                   assignmentCodeJSON.bytes,
                   "hex",

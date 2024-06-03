@@ -33,10 +33,10 @@ export default function Page({
 }
 
 Page.getInitialProps = async (ctx: NextPageContext) => {
-  const { coursecode, modulecode, assignmentCode } = ctx.query;
+  const { coursecode, modulecode, assignmentcode } = ctx.query;
   return {
     courseCode: coursecode,
     moduleCode: modulecode,
-    assignmentCode: assignmentCode,
+    assignmentCode: assignmentcode,
   };
 };

@@ -14,6 +14,8 @@ import {
 import useCourseOnchain from "~/hooks/useCourseOnchain";
 import { Network } from "~/config/Network";
 import maestro from "~/config/maestro";
+import { UtxoWithSlot } from "@maestro-org/typescript-sdk";
+import { INDEXER_URL } from "~/config/indexer";
 
 interface RequestData {
   address: string;
@@ -72,13 +74,11 @@ export default function MintLocalState({ courseCode }: { courseCode: string }) {
         "hex",
       ).toString("utf-8");
 
-      // replace with indexer
-      const globalStateUtxos = await blockfrostProvider.fetchAddressUTxOs(
-        GLOBAL_STATE_VALIDATOR_ADDR,
+      const res = await axios.get(
+        `${INDEXER_URL}/api/global-state/utxoByAlias?alias=${accessTokenName}`,
       );
-      const globalStateUtxo = globalStateUtxos.find((utxo: UTxO) =>
-        utxo.output.amount.some((a) => a.unit.includes(accessTokenNameHex!)),
-      );
+
+      const globalStateUtxo: UtxoWithSlot = res.data.utxo;
 
       if (!courseOnchain) {
         throw new Error("Course not found on-chain");
@@ -92,8 +92,8 @@ export default function MintLocalState({ courseCode }: { courseCode: string }) {
         AccessTokenName: accessTokenName,
         UserInfo: "Andamio User",
         UserGlobalStateUTxO: {
-          TxID: globalStateUtxo.input.txHash,
-          TxIDIndex: globalStateUtxo.input.outputIndex,
+          TxID: globalStateUtxo.tx_hash,
+          TxIDIndex: globalStateUtxo.index,
         },
         UserAccessTokenUTxO: {
           TxID: accessTokenUtxo.input.txHash,

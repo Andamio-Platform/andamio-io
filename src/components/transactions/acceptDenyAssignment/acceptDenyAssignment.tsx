@@ -8,6 +8,7 @@ import { Network } from "~/config/Network";
 import maestro from "~/config/maestro";
 import { INDEXER_URL } from "~/config/indexer";
 import { useToast } from "~/components/ui/use-toast";
+import { UtxoWithSlot } from "@maestro-org/typescript-sdk";
 
 interface RequestData {
   AssignmentCode: string;
@@ -81,20 +82,10 @@ export default function AcceptDenyAssignment({
     });
 
     const res = await axios.get(
-      `${INDEXER_URL}/api/v1/instance-validator/fetchAssignmentValidatorRefUtxoByCourseNftPolicy?policy=${courseOnchain!.CourseCreatorNFTPolicyID}`,
+      `${INDEXER_URL}/api/instance-validator/assignmentValidatorRefUtxoByCourseNftPolicy?policy=${courseOnchain!.CourseCreatorNFTPolicyID}`,
     );
-    interface _utxo {
-      id: number;
-      tx_hash: string;
-      tx_id: number;
-      datum: {
-        bytes: string;
-      };
-      asset: string;
-      consumed: boolean;
-    }
 
-    const assignmentValidatorRefUTxO: _utxo = res.data;
+    const assignmentValidatorRefUTxO: UtxoWithSlot = res.data.utxo;
 
     const req: RequestData = {
       AssignmentCode: assignmentCode,
@@ -116,7 +107,7 @@ export default function AcceptDenyAssignment({
       LocalStatePolicyID: courseOnchain!.LocalStatePolicyID,
       AssignmentValidatorRefUTxO: {
         TxID: assignmentValidatorRefUTxO.tx_hash,
-        TxIDIndex: assignmentValidatorRefUTxO.tx_id,
+        TxIDIndex: assignmentValidatorRefUTxO.index,
       },
       CourseCreatorNFTPolicyID: courseOnchain!.CourseCreatorNFTPolicyID,
     };

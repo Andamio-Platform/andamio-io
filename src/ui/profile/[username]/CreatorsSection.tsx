@@ -135,7 +135,7 @@ export default function CreatorsSection() {
         const assignmentUTxOs = await maestro.fetchAddressUTxOs(
           course.AssignmentValidatorAddress,
         );
-        assignmentUTxOs.map(async (utxo: UTxO) => {
+        for (const utxo of assignmentUTxOs) {
           let asset;
           let datum: TimestampedDatum;
           let datumJSON: Datum;
@@ -144,27 +144,24 @@ export default function CreatorsSection() {
               item.unit.includes(course.LocalStatePolicyID),
             );
             datum = await maestroClient.datum.lookupDatum(
-              utxo.output.dataHash!,
+              utxo.output.dataHash,
             );
             datumJSON = datum.data.json as Datum;
           } catch (error) {
             throw error;
-          } finally {
-            const assignmentCodeJSON = datumJSON!.fields[0] as {
-              bytes: string;
-            };
-            setAssignments((assignments) => [
-              ...assignments,
-              {
-                alias: Buffer.from(asset!.unit.substring(56), "hex").toString(),
-                assignmentCode: Buffer.from(
-                  assignmentCodeJSON.bytes,
-                  "hex",
-                ).toString(),
-              },
-            ]);
           }
-        });
+          const assignmentCodeJSON = datumJSON!.fields[0] as { bytes: string };
+          setAssignments((assignments) => [
+            ...assignments,
+            {
+              alias: Buffer.from(asset!.unit.substring(56), "hex").toString(),
+              assignmentCode: Buffer.from(
+                assignmentCodeJSON.bytes,
+                "hex",
+              ).toString(),
+            },
+          ]);
+        }
       }
     };
 
@@ -190,8 +187,8 @@ export default function CreatorsSection() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {Assignments.map((assignment) => (
-              <TableRow>
+            {Assignments.map((assignment, i) => (
+              <TableRow key={i}>
                 <TableCell className="font-medium">
                   {assignment.alias}
                 </TableCell>

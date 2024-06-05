@@ -12,7 +12,7 @@ const maestro = new MaestroProvider({
 
 export default maestro;
 
-let maestroClient = new MaestroClient(
+const maestroClient = new MaestroClient(
   new Configuration({
     apiKey: maestro_key,
     network: "Preprod",

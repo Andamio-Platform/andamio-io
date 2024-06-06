@@ -2,14 +2,12 @@ import { api } from "~/utils/api";
 import { useEditor } from "@tiptap/react";
 import { ExtensionKit } from "~/components/Editor/extension-kit";
 import useIntroduction from "~/hooks/useIntroduction";
+import { useEffect } from "react";
 
-export default function useIntroEditor(
-  courseModuleId: string,
-) {
+export default function useIntroEditor(courseModuleId: string) {
   const ctx = api.useUtils();
-  const { introduction, refetchIntro, isLoadingIntro } = useIntroduction(
-    courseModuleId
-  );
+  const { introduction, refetchIntro, isLoadingIntro } =
+    useIntroduction(courseModuleId);
   const editor = useEditor({
     extensions: [...ExtensionKit()],
     content: "Write an introduction to the module here...",
@@ -20,6 +18,17 @@ export default function useIntroEditor(
       },
     },
   });
+
+  useEffect(() => {
+    if (
+      introduction &&
+      introduction.contentJson &&
+      typeof introduction.contentJson === "object" &&
+      editor
+    ) {
+      editor?.commands.setContent(introduction?.contentJson);
+    }
+  }, [introduction, editor]);
 
   return { editor, introduction, refetchIntro, isLoadingIntro, ctx };
 }

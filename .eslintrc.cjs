@@ -52,6 +52,8 @@ const config = {
     "@typescript-eslint/prefer-nullish-coalescing": "warn",
     "@typescript-eslint/no-unsafe-argument": "warn",
     "@typescript-eslint/no-empty-interface": "warn",
+    "@typescript-eslint/no-empty-function": "warn",
+    "@typescript-eslint/no-floating-promises": "warn",
   },
 };
 

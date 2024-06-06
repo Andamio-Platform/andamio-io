@@ -3,6 +3,7 @@ import { AlertTriangle, Leaf } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import RenderEditor from "~/components/Editor/components/render/RenderEditor";
+import { ChatContainer } from "~/components/chat/chat-container";
 import Loading from "~/components/loading";
 import VideoPlayer from "~/components/media/VideoPlayer";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
@@ -29,8 +30,6 @@ export default function PageCourseContent({
 
   const learnerId = sessionData?.user.learnerId;
   const learnerLessons = sessionData?.user.lessonIds;
-
-  console.log("Learner Lessons", learnerLessons);
 
   const { lesson, isLoadingLesson } = useLesson(
     courseCode,
@@ -129,14 +128,13 @@ function Page({
   lesson: Lesson;
   moduleCode: string;
 }) {
-
   // Next Step:
   // Use this pattern in all Course and Studio Routes
   if (lesson && lesson.contentJson && typeof lesson.contentJson === "object") {
     const editor = RenderEditor({
       editable: false,
       initialContent: lesson?.contentJson,
-      index: lesson?.sltId
+      index: lesson?.sltId,
     });
 
     return (
@@ -152,6 +150,9 @@ function Page({
         </div>
         {lesson.videoUrl && <VideoPlayer videoId={lesson.videoUrl} />}
         <div className="my-5">{editor}</div>
+        <div className="my-5">
+          <ChatContainer roomId={lesson.id} />
+        </div>
       </>
     );
   }

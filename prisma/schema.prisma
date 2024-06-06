@@ -170,6 +170,8 @@ enum AccessTier {
   FREE
   PREMIUM
   NETWORK
+  HIDDEN
+  FEATURED
 }
 
 model Course {

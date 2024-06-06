@@ -1,3 +1,4 @@
+import { AccessTier } from "@prisma/client";
 import { z } from "zod";
 
 import {
@@ -97,6 +98,7 @@ export const courseRouter = createTRPCRouter({
           category: input.category,
           imageUrl: input.imageUrl,
           videoUrl: input.videoUrl,
+          accessTier: "HIDDEN",
           createdBy: { connect: { id: ctx.session.user.creatorId } },
         },
       });
@@ -131,6 +133,7 @@ export const courseRouter = createTRPCRouter({
         category: z.string().optional(),
         imageUrl: z.string().optional(),
         videoUrl: z.string().optional(),
+        accessTier: z.nativeEnum(AccessTier).optional()
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -144,6 +147,7 @@ export const courseRouter = createTRPCRouter({
           category: input.category,
           imageUrl: input.imageUrl,
           videoUrl: input.videoUrl,
+          accessTier: input.accessTier,
         },
       });
     }),

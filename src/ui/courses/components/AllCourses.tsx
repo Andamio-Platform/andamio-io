@@ -23,29 +23,21 @@ import {
 import { Button } from "~/components/ui/button";
 import MintLocalState from "~/components/transactions/mintLocalState/mintLocalState";
 
-// Patch 0.2.8: Temporarily define public course list here:
-const publicCourseList = [
-  "andamio101",
-  "mesh",
-  "DFA-Genesis",
-  "ppbl2024",
-  "gpbl2024",
-];
 
 export default function AllCourses() {
   const { data: sessionData } = useSession();
 
   const { courses, isLoadingCourses } = useCourses();
-  const [freeCourses, setFreeCourses] = useState<CoursePublic[]>([]);
+  const [featuredCourses, setFeaturedCourses] = useState<CoursePublic[]>([]);
   const [premiumCourses, setPremiumCourses] = useState<CoursePublic[]>([]);
   const [networkCourses, setNetworkCourses] = useState<CoursePublic[]>([]);
 
   useEffect(() => {
     if (courses) {
-      const _free = courses.filter((c) => c.accessTier === "FREE");
+      const _featured = courses.filter((c) => c.accessTier === "FEATURED");
       const _network = courses.filter((c) => c.accessTier === "NETWORK");
       const _premium = courses.filter((c) => c.accessTier === "PREMIUM");
-      setFreeCourses(_free);
+      setFeaturedCourses(_featured);
       setPremiumCourses(_premium);
       setNetworkCourses(_network);
     }
@@ -57,22 +49,14 @@ export default function AllCourses() {
       {courses && (
         <>
           <div className="my-3 border-t border-accent-foreground py-3">
-            <h3 className="my-10 text-3xl font-bold">Free Courses</h3>
+            <h3 className="my-10 text-3xl font-bold">Featured Courses</h3>
 
             <ul
               role="list"
               className="mx-auto grid grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-3"
             >
-              {/* Patch 0.2.8: Temporarily hide free courses */}
-              {/* {freeCourses.map((course) => (
+              {featuredCourses.map((course) => (
                 <>{course && <CourseCard course={course} enabled={true} />}</>
-              ))} */}
-              {courses.map((course) => (
-                <>
-                  {publicCourseList.includes(course.courseCode) && (
-                    <CourseCard course={course} enabled={true} />
-                  )}
-                </>
               ))}
             </ul>
           </div>

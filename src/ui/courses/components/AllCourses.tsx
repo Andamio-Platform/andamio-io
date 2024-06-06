@@ -77,7 +77,7 @@ export default function AllCourses() {
             </ul>
           </div>
 
-          <div>
+          {/* <div>
             <div className="mx-auto grid grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-4">
               {courses.map((course, i) => (
                 <div key={i}>
@@ -93,7 +93,7 @@ export default function AllCourses() {
                 </div>
               ))}
             </div>
-          </div>
+          </div> */}
           {/* <div className="my-3 border-t border-accent-foreground py-3">
             <h3 className="py-5 text-3xl font-bold">
               Premium Courses / Discord Login

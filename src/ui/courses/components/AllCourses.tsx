@@ -23,6 +23,15 @@ import {
 import { Button } from "~/components/ui/button";
 import MintLocalState from "~/components/transactions/mintLocalState/mintLocalState";
 
+// Patch 0.2.8: Temporarily define public course list here:
+const publicCourseList = [
+  "andamio101",
+  "mesh",
+  "DFA-Genesis",
+  "ppbl2024",
+  "gpbl2024",
+];
+
 export default function AllCourses() {
   const { data: sessionData } = useSession();
 
@@ -52,10 +61,18 @@ export default function AllCourses() {
 
             <ul
               role="list"
-              className="mx-auto grid grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-4"
+              className="mx-auto grid grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-3"
             >
-              {freeCourses.map((course) => (
+              {/* Patch 0.2.8: Temporarily hide free courses */}
+              {/* {freeCourses.map((course) => (
                 <>{course && <CourseCard course={course} enabled={true} />}</>
+              ))} */}
+              {courses.map((course) => (
+                <>
+                  {publicCourseList.includes(course.courseCode) && (
+                    <CourseCard course={course} enabled={true} />
+                  )}
+                </>
               ))}
             </ul>
           </div>

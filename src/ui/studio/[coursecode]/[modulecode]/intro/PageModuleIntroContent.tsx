@@ -30,14 +30,11 @@ export default function PageModuleIntroContent({
   course: Course;
   courseModule: Module;
 }) {
-  const ctx = api.useUtils();
-
   if (!course) return null;
 
   const courseCode = course.courseCode;
-  const { editor, introduction, isLoadingIntro, refetchIntro } = useIntroEditor(
-    courseModule.id,
-  );
+  const { editor, introduction, isLoadingIntro, refetchIntro, ctx } =
+    useIntroEditor(courseModule.id);
 
   const router = useRouter();
 
@@ -149,7 +146,9 @@ export default function PageModuleIntroContent({
   }
 
   useEffect(() => {
-    setEditIntroduction(true);
+    if (editor?.isFocused) {
+      setEditIntroduction(true);
+    }
   }, [editor?.isFocused]);
 
   useEffect(() => {
@@ -261,7 +260,7 @@ export default function PageModuleIntroContent({
               editContent={editIntroduction}
               setEditContent={setEditIntroduction}
               isLoadingUpdate={isLoadingUpdate}
-              onCancel={() => onCancel}
+              onCancel={onCancel}
               onSubmit={form.handleSubmit(onSubmit)}
               courseContent={introduction}
               intent="introduction"

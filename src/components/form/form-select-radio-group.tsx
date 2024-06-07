@@ -29,7 +29,7 @@ export default function FormSelectRadioGroup(props: SelectProps) {
           {props.label && <FormLabel>{props.label}</FormLabel>}
           <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="my-3">
             {props.options.map((option) => (
-              <div className="flex flex-row gap-2 my-1 items-center">
+              <div className="flex flex-row gap-2 my-1 items-center" key={option.value}>
                 <RadioGroupItem
                   key={option.value}
                   value={option.value}

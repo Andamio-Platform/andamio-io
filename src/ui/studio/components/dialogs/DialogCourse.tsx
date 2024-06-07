@@ -8,6 +8,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "~/components/ui/form";
 import FormInput from "~/components/form/form-input";
 import DialogForm from "~/components/form/dialog-form";
+import { AccessTier } from "@prisma/client";
+import FormSelect from "~/components/form/form-select";
 
 export default function DialogCourse({ course }: { course?: Course }) {
   const ctx = api.useUtils();
@@ -55,6 +57,7 @@ export default function DialogCourse({ course }: { course?: Course }) {
     category: z.string().optional(),
     imageUrl: z.string().optional(),
     videoUrl: z.string().optional(),
+    accessTier: z.nativeEnum(AccessTier),
   });
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -66,6 +69,7 @@ export default function DialogCourse({ course }: { course?: Course }) {
       category: "",
       imageUrl: "",
       videoUrl: "",
+      accessTier: "HIDDEN",
     },
   });
 
@@ -78,6 +82,7 @@ export default function DialogCourse({ course }: { course?: Course }) {
         category: "",
         imageUrl: data.imageUrl,
         videoUrl: data.videoUrl,
+        accessTier: data.accessTier,
       });
     } else {
       create({
@@ -100,6 +105,7 @@ export default function DialogCourse({ course }: { course?: Course }) {
         category: "",
         imageUrl: course.imageUrl ?? "",
         videoUrl: course.videoUrl ?? "",
+        accessTier: course.accessTier ?? "HIDDEN",
       });
     }
   }, [course]);
@@ -154,6 +160,16 @@ export default function DialogCourse({ course }: { course?: Course }) {
             info="The Course Code is a unique string that appears in the course URL, and can be used as a shorthand title for your course."
             form={form}
             disabled={course !== undefined}
+          />
+
+          <FormSelect
+            name="accessTier"
+            label="Set Course Access Tier"
+            form={form}
+            options={Object.keys(AccessTier).map((type) => ({
+              value: type,
+              label: type,
+            }))}
           />
         </div>
       </DialogForm>

@@ -23,20 +23,21 @@ import {
 import { Button } from "~/components/ui/button";
 import MintLocalState from "~/components/transactions/mintLocalState/mintLocalState";
 
+
 export default function AllCourses() {
   const { data: sessionData } = useSession();
 
   const { courses, isLoadingCourses } = useCourses();
-  const [freeCourses, setFreeCourses] = useState<CoursePublic[]>([]);
+  const [featuredCourses, setFeaturedCourses] = useState<CoursePublic[]>([]);
   const [premiumCourses, setPremiumCourses] = useState<CoursePublic[]>([]);
   const [networkCourses, setNetworkCourses] = useState<CoursePublic[]>([]);
 
   useEffect(() => {
     if (courses) {
-      const _free = courses.filter((c) => c.accessTier === "FREE");
+      const _featured = courses.filter((c) => c.accessTier === "FEATURED");
       const _network = courses.filter((c) => c.accessTier === "NETWORK");
       const _premium = courses.filter((c) => c.accessTier === "PREMIUM");
-      setFreeCourses(_free);
+      setFeaturedCourses(_featured);
       setPremiumCourses(_premium);
       setNetworkCourses(_network);
     }
@@ -48,19 +49,19 @@ export default function AllCourses() {
       {courses && (
         <>
           <div className="my-3 border-t border-accent-foreground py-3">
-            <h3 className="my-10 text-3xl font-bold">Free Courses</h3>
+            <h3 className="my-10 text-3xl font-bold">Featured Courses</h3>
 
             <ul
               role="list"
-              className="mx-auto grid grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-4"
+              className="mx-auto grid grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-3"
             >
-              {freeCourses.map((course) => (
+              {featuredCourses.map((course) => (
                 <>{course && <CourseCard course={course} enabled={true} />}</>
               ))}
             </ul>
           </div>
 
-          <div>
+          {/* <div>
             <div className="mx-auto grid grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-4">
               {courses.map((course, i) => (
                 <div key={i}>
@@ -76,7 +77,7 @@ export default function AllCourses() {
                 </div>
               ))}
             </div>
-          </div>
+          </div> */}
           {/* <div className="my-3 border-t border-accent-foreground py-3">
             <h3 className="py-5 text-3xl font-bold">
               Premium Courses / Discord Login

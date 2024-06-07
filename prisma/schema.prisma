@@ -65,6 +65,8 @@ model User {
   unconfirmedTx        String?
   accessTokenMintTx    String?
   hasMintedAccessToken Boolean     @default(false)
+  nostrNsec            String?
+  nostrPubkey          String?
 }
 
 model VerificationToken {
@@ -168,6 +170,8 @@ enum AccessTier {
   FREE
   PREMIUM
   NETWORK
+  HIDDEN
+  FEATURED
 }
 
 model Course {

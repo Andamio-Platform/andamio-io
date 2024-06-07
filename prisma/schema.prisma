@@ -341,8 +341,7 @@ model AssignmentCommitment {
 
   learnerNotes String?
 
-  @@unique([assignmentId])
-  @@unique([learnerId])
+  @@unique([assignmentId, learnerId])
   @@index([assignmentId])
   @@index([learnerId])
   @@index([id])

@@ -14,9 +14,17 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   form: any;
   name: string;
   info?: string;
+  height?: number;
+  defaultValue?: string
 }
 
 export default function FormTextArea(props: InputProps) {
+  let textAreaHeight: string
+  if (props.height) {
+    const h = props.height.toString();
+    textAreaHeight = "min-h-[" + h + "px]"
+  }
+
   return (
     <FormField
       control={props.form.control}
@@ -26,7 +34,7 @@ export default function FormTextArea(props: InputProps) {
           {props.label && <FormLabel className="text-foreground">{props.label}</FormLabel>}
           {props.info && <FormDescription>{props.info}</FormDescription>}
           <FormControl>
-            <Textarea {...field} placeholder={props.placeholder} className="border-b borderforeground my-3" />
+            <Textarea {...field} placeholder={props.placeholder} defaultValue={props.defaultValue} className={`border-b borderforeground my-3 ${props.height && textAreaHeight}`} />
           </FormControl>
           <FormMessage />
         </FormItem>

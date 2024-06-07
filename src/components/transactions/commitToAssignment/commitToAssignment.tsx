@@ -27,6 +27,7 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
+import { UtxoWithSlot } from "@maestro-org/typescript-sdk";
 
 interface RequestData {
   Address: string;
@@ -62,8 +63,6 @@ export default function CommitToAssignment({
 
   const { connected, wallet } = useWallet();
   const [isLoading, setIsLoading] = useState(false);
-
-  console.log("courseCode", courseCode);
 
   const { courseOnchain, isLoadingCourseOnchain } = useCourseOnchain(
     courseCode,
@@ -125,22 +124,11 @@ export default function CommitToAssignment({
         utxo.output.amount.some((a) => a.unit.includes(assignmentCodeHex)),
       );
 
-      interface _utxo {
-        id: number;
-        tx_hash: string;
-        tx_id: number;
-        datum: {
-          bytes: string;
-        };
-        asset: string;
-        consumed: boolean;
-      }
-
       const res = await axios.get(
-        `${INDEXER_URL}/api/v1/instance-validator/fetchLocalStateValildatorRefUtxoByCourseNftPolicy?policy=${courseOnchain!.CourseCreatorNFTPolicyID}`,
+        `${INDEXER_URL}/api/instance-validator/localStateValildatorRefUtxoByCourseNftPolicy?policy=${courseOnchain!.CourseCreatorNFTPolicyID}`,
       );
 
-      const localStateValidatorRefUTxO: _utxo = res.data;
+      const localStateValidatorRefUTxO: UtxoWithSlot = res.data.utxo;
 
       const req: RequestData = {
         Address: addr,
@@ -166,7 +154,7 @@ export default function CommitToAssignment({
         LocalStatePolicyID: courseOnchain!.LocalStatePolicyID,
         LocalStateValidatorRefUTxO: {
           TxID: localStateValidatorRefUTxO.tx_hash,
-          TxIDIndex: localStateValidatorRefUTxO.tx_id,
+          TxIDIndex: localStateValidatorRefUTxO.index,
         },
       };
 

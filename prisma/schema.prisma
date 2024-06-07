@@ -325,6 +325,7 @@ enum AssignmentStatus {
   SAVE_FOR_LATER
   IN_PROGRESS
   COMPLETE
+  COMMITMENT
 }
 
 model AssignmentCommitment {

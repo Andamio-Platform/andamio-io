@@ -2,7 +2,6 @@ import type { InputHTMLAttributes } from "react";
 import {
   FormItem,
   FormLabel,
-  FormControl,
   FormDescription,
   FormMessage,
   FormField,
@@ -27,7 +26,7 @@ export default function FormSelectRadioGroup(props: SelectProps) {
       render={({ field }) => (
         <FormItem>
           {props.label && <FormLabel>{props.label}</FormLabel>}
-          <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="my-3">
+          <RadioGroup onValueChange={field.onChange} value={field.value} className="my-3">
             {props.options.map((option) => (
               <div className="flex flex-row gap-2 my-1 items-center" key={option.value}>
                 <RadioGroupItem
@@ -45,23 +44,4 @@ export default function FormSelectRadioGroup(props: SelectProps) {
       )}
     />
   );
-
-  // return (
-  //   <FormField
-  //     control={props.form.control}
-  //     name={props.name}
-  //     render={({ field }) => (
-  //       <FormItem>
-  //         {props.label && <FormLabel>{props.label}</FormLabel>}
-  //         <FormControl>
-  //           <Input {...field} />
-  //         </FormControl>
-  //         {props.placeholder && (
-  //           <FormDescription>{props.placeholder}</FormDescription>
-  //         )}
-  //         <FormMessage />
-  //       </FormItem>
-  //     )}
-  //   />
-  // );
 }

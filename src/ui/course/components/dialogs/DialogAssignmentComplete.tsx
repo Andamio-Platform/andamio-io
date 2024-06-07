@@ -99,6 +99,7 @@ export default function DialogAssignmentComplete({
     if (assignmentId) {
       form.reset({
         learnerNotes: assignmentCommitment?.learnerNotes ?? "",
+        status: assignmentCommitment?.status ?? "SAVE_FOR_LATER"
       });
     }
   }, [assignmentId, assignmentCommitment]);
@@ -145,6 +146,7 @@ export default function DialogAssignmentComplete({
               let _label = "Complete"
               if (type === "SAVE_FOR_LATER") _label = "Save for Later"
               if (type === "IN_PROGRESS") _label = "In Progress"
+              if (type === "COMMITMENT") _label = "Commitment"
               return {
                 value: type,
                 label: _label,

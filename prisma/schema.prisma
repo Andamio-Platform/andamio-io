@@ -322,9 +322,9 @@ model Assignment {
 }
 
 enum AssignmentStatus {
-  COMMITMENT
-  APPROVED
-  DENIED
+  SAVE_FOR_LATER
+  IN_PROGRESS
+  COMPLETE
 }
 
 model AssignmentCommitment {
@@ -336,9 +336,10 @@ model AssignmentCommitment {
   learnerId String
   learner   Learner @relation("LearnerAssignments", fields: [learnerId], references: [id])
 
-  status AssignmentStatus @default(COMMITMENT)
+  status   AssignmentStatus @default(SAVE_FOR_LATER)
+  favorite Boolean          @default(false)
 
-  evidenceString String?
+  learnerNotes String?
 
   @@unique([assignmentId])
   @@unique([learnerId])

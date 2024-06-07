@@ -29,7 +29,8 @@ declare module "next-auth" {
       assignmentCommitments: {
         assignmentId: string;
         assignmentCommitmentId: string;
-        evidenceString: string;
+        learnerNotes: string;
+        status: "SAVE_FOR_LATER" | "IN_PROGRESS" | "COMPLETE"
       }[];
       // ...other properties
       // role: UserRole;
@@ -77,7 +78,8 @@ export const authOptions: NextAuthOptions = {
               ? _user.learner.assignments.map((a) => ({
                   assignmentId: a.assignmentId,
                   assignmentCommitmentId: a.id,
-                  evidenceString: a.evidenceString,
+                  learnerNotes: a.learnerNotes,
+                  status: a.status
                 }))
               : [],
         },

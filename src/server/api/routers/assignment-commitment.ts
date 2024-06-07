@@ -50,11 +50,12 @@ export const assignmentCommitmentRouter = createTRPCRouter({
       });
     }),
 
-  create: protectedProcedure
+  setAssignmentStatus: protectedProcedure
     .input(
       z.object({
         assignmentId: z.string().min(1),
-        evidenceString: z.string().optional()
+        learnerNotes: z.string().optional(),
+        status: z.nativeEnum(AssignmentStatus),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -66,16 +67,18 @@ export const assignmentCommitmentRouter = createTRPCRouter({
         data: {
           assignment: { connect: { id: input.assignmentId } },
           learner: { connect: { id: ctx.session.user.learnerId } },
-          evidenceString: input.evidenceString
+          learnerNotes: input.learnerNotes,
+          status: input.status,
         },
       });
     }),
 
-  addEvidence: protectedProcedure
+  updateLearnerNotes: protectedProcedure
     .input(
       z.object({
         assignmentCommitmentId: z.string().min(1),
-        evidenceString: z.string().min(1),
+        learnerNotes: z.string().min(1),
+        status: z.nativeEnum(AssignmentStatus),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -101,60 +104,7 @@ export const assignmentCommitmentRouter = createTRPCRouter({
           id: input.assignmentCommitmentId,
         },
         data: {
-          evidenceString: input.evidenceString,
-        },
-      });
-    }),
-
-  review: protectedProcedure
-    .input(
-      z.object({
-        assignmentCommitmentId: z.string().min(1),
-        status: z.nativeEnum(AssignmentStatus),
-      }),
-    )
-    .mutation(async ({ ctx, input }) => {
-      if (!ctx.session.user.creatorId) {
-        throw new Error("User not authorized to review this assignment.");
-      }
-
-      const commitment = await ctx.db.assignmentCommitment.findUnique({
-        where: { id: input.assignmentCommitmentId },
-        include: {
-          assignment: {
-            include: {
-              module: {
-                include: {
-                  originalCourse: {
-                    include: {
-                      contributors: true,
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
-      });
-
-      if (!commitment) {
-        throw new Error("Assignment commitment not found.");
-      }
-
-      const isReviewer =
-        commitment.assignment.module.originalCourse.contributors.some(
-          (c) => c.id === ctx.session.user.creatorId,
-        );
-
-      if (!isReviewer) {
-        throw new Error("User is not authorized to review this assignment");
-      }
-
-      return ctx.db.assignmentCommitment.update({
-        where: {
-          id: input.assignmentCommitmentId,
-        },
-        data: {
+          learnerNotes: input.learnerNotes,
           status: input.status,
         },
       });

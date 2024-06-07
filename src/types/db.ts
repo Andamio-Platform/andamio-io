@@ -20,5 +20,6 @@ export type Introduction = RouterOutputs["introduction"]["getIntroduction"];
 export type AssignmentCommitment = {
   assignmentId: string;
   assignmentCommitmentId: string;
-  evidenceString: string;
+  learnerNotes: string;
+  status: "SAVE_FOR_LATER" | "IN_PROGRESS" | "COMPLETE"
 };

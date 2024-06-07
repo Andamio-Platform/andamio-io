@@ -11,10 +11,17 @@ import CourseLayout from "~/ui/course/components/layout/CourseLayout";
 import CommitToAssignmentPage from "./CommitToAssignmentPage";
 import ModuleLayout from "~/ui/course/components/layout/ModuleLayout";
 import SltList from "~/ui/studio/components/assignment-dashboard/slt-list";
-import DialogAssignmentCommitment from "~/ui/course/components/dialogs/DialogAssignmentCommitment";
+import DialogAssignmentComplete from "~/ui/course/components/dialogs/DialogAssignmentComplete";
 import { useEffect, useState } from "react";
-import { Card } from "~/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "~/components/ui/card";
 import RenderEditor from "~/components/Editor/components/render/RenderEditor";
+import { Badge } from "~/components/ui/badge";
+import { Button } from "~/components/ui/button";
 
 export default function PageCourseAssignmentContent({
   courseCode,
@@ -122,31 +129,52 @@ function Page({
           </div>
         </div>
         {editor}
-        {/* TO-DO: Only show CommitToAssignmentPage when there is a module token minted for the assignment */}
 
         <Card>
-          <h2>Assignment Status</h2>
-          {currentCommitment && (
-            <div className="my-5 rounded-lg bg-primary p-3 text-primary-foreground">
-              <h2>You are committed to this Assignment</h2>
-              {currentCommitment.evidenceString ? (
-                <p>Current evidence: {currentCommitment.evidenceString}</p>
-              ) : (
-                <p>
-                  You have not yet submitted evidence for this Assignment. Click
-                  the Update button to submit evidence.
-                </p>
-              )}
+          <CardHeader className="flex w-full flex-row items-center justify-between">
+            <h2 className="text-2xl font-bold">Assignment Status</h2>
+            {currentCommitment?.status === "COMPLETE" && (
+              <Badge className="bg-green-200 text-green-800">Complete</Badge>
+            )}
+            {currentCommitment?.status === "IN_PROGRESS" && (
+              <Badge className="bg-purple-200 text-purple-800">
+                In Progress
+              </Badge>
+            )}
+            {currentCommitment?.status === "SAVE_FOR_LATER" && (
+              <Badge className="bg-blue-200 text-blue-800">
+                Saved for Later
+              </Badge>
+            )}
+          </CardHeader>
+          <CardContent>
+            {currentCommitment && (
+              <>
+                <>
+                  <div className="my-5">
+                    {currentCommitment.learnerNotes && (
+                      <>
+                        <h2 className="mb-3 text-xl font-bold">My Notes</h2>
+                        <p>{currentCommitment.learnerNotes}</p>
+                      </>
+                    )}
+                  </div>
+                </>
+              </>
+            )}
+            <div className="flex flex-col gap-5">
+              <DialogAssignmentComplete
+                assignmentId={assignment.id}
+                assignmentCommitment={currentCommitment}
+              />
+              {/* TO-DO: Only show CommitToAssignmentPage when there is a module token minted for the assignment */}
+              {/* <CommitToAssignmentPage
+              courseCode={courseCode}
+              assignmentCode={assignmentCode}
+            /> */}
+              <Button disabled>Commit to Assignment (Coming Soon!)</Button>
             </div>
-          )}
-          <DialogAssignmentCommitment
-            assignmentId={assignment.id}
-            assignmentCommitment={currentCommitment}
-          />
-          <CommitToAssignmentPage
-            courseCode={courseCode}
-            assignmentCode={assignmentCode}
-          />
+          </CardContent>
         </Card>
       </>
     );

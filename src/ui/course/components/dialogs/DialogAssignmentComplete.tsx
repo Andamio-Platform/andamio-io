@@ -9,8 +9,12 @@ import DialogForm from "~/components/form/dialog-form";
 import FormInput from "~/components/form/form-input";
 import { AssignmentCommitment } from "~/types/db";
 import { useSession } from "next-auth/react";
+import { AssignmentStatus } from "@prisma/client";
+import FormTextArea from "~/components/form/form-textarea";
+import FormSelect from "~/components/form/form-select";
+import FormSelectRadioGroup from "~/components/form/form-select-radio-group";
 
-export default function DialogAssignmentCommitment({
+export default function DialogAssignmentComplete({
   assignmentId,
   assignmentCommitment,
 }: {
@@ -18,37 +22,37 @@ export default function DialogAssignmentCommitment({
   assignmentCommitment?: AssignmentCommitment;
 }) {
   const ctx = api.useUtils();
-  const { update: updateSession } = useSession()
+  const { update: updateSession } = useSession();
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const { mutate: create, isLoading: isLoadingCreate } =
-    api.assignmentCommitment.create.useMutation({
+    api.assignmentCommitment.setAssignmentStatus.useMutation({
       onSuccess: () => {
         setIsOpen(false);
-        toast.success("Successfully committed to Assignment");
+        toast.success("Assignment Completed!");
         void ctx.assignmentCommitment.getLearnerCommitments.invalidate();
         void ctx.assignmentCommitment.getAssignmentCommitments.invalidate();
-        void updateSession()
+        void updateSession();
       },
       onError: (e) => {
         const errorMessage = e.data?.zodError?.fieldErrors;
         if (errorMessage) {
           toast.error("Some inputs are missing or invalid");
         } else {
-          toast.error("Error committing to Assignment");
+          toast.error("Error completing Assignment");
         }
       },
     });
 
   const { mutate: updateEvidence, isLoading: isLoadingUpdate } =
-    api.assignmentCommitment.addEvidence.useMutation({
+    api.assignmentCommitment.updateLearnerNotes.useMutation({
       onSuccess: () => {
         setIsOpen(false);
-        toast.success("Successfully added evidence to Assignment");
+        toast.success("Successfully added personal notes to Assignment");
         void ctx.assignmentCommitment.getLearnerCommitments.invalidate();
         void ctx.assignmentCommitment.getAssignmentCommitments.invalidate();
-        void updateSession()
+        void updateSession();
       },
       onError: (e) => {
         const errorMessage = e.data?.zodError?.fieldErrors;
@@ -61,28 +65,32 @@ export default function DialogAssignmentCommitment({
     });
 
   const FormSchema = z.object({
-    evidenceString: z.string().optional(),
+    learnerNotes: z.string().optional(),
+    status: z.nativeEnum(AssignmentStatus),
+    // Add favorite star that makes the assignment show up on dashboard
   });
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      evidenceString: assignmentCommitment?.evidenceString ?? "",
+      learnerNotes: assignmentCommitment?.learnerNotes ?? "",
+      status: assignmentCommitment?.status ?? "IN_PROGRESS",
     },
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log("Check701", assignmentCommitment);
 
     if (assignmentCommitment) {
       updateEvidence({
         assignmentCommitmentId: assignmentCommitment.assignmentCommitmentId,
-        evidenceString: data.evidenceString ?? "",
+        learnerNotes: data.learnerNotes ?? "",
+        status: data.status
       });
     } else {
       create({
         assignmentId: assignmentId,
-        evidenceString: data.evidenceString ?? "",
+        learnerNotes: data.learnerNotes ?? "",
+        status: data.status,
       });
     }
   }
@@ -90,28 +98,30 @@ export default function DialogAssignmentCommitment({
   useEffect(() => {
     if (assignmentId) {
       form.reset({
-        evidenceString: assignmentCommitment?.evidenceString ?? "",
+        learnerNotes: assignmentCommitment?.learnerNotes ?? "",
       });
     }
-  }, [assignmentId]);
+  }, [assignmentId, assignmentCommitment]);
 
   return (
     <Form {...form}>
       <DialogForm
         openButton={
-          assignmentCommitment ? "Update Commitment" : "Commit Off-Chain"
+          assignmentCommitment
+            ? "Update Status"
+            : "Set Assignment Status"
         }
         openButtonIntent="dialog"
         title={
-          assignmentCommitment ? "Update Evidence" : "Commit to Assignment"
-        }
-        description={
           assignmentCommitment
-            ? "Evidence can be a text string. Refer to the Assignment for details."
-            : `Commit to Assignment ${assignmentId}. You can add evidence now or come back and update it later.`
+            ? "Update Status"
+            : "Set Assignment Status"
         }
+        description="You can use this space to write any personal notes about this Assignment. You will be able to review these notes on your dashboard. These notes will not be shared publicly."
         buttonLabel={
-          assignmentCommitment ? "Update Evidence" : "Commit to Assignment"
+          assignmentCommitment
+            ? "Update Status"
+            : "Set Assignment Status"
         }
         buttonLoading={isLoadingCreate || isLoadingUpdate}
         buttonDisabled={isLoadingCreate || isLoadingUpdate}
@@ -120,11 +130,26 @@ export default function DialogAssignmentCommitment({
         setIsOpen={setIsOpen}
       >
         <div className="mt-4 grid grid-cols-1 gap-4">
-          <FormInput
-            name="evidenceString"
-            label="Assignment Evidence String"
-            placeholder={assignmentCommitment?.evidenceString}
+          <FormTextArea
+            name="learnerNotes"
+            label="What do you want to remember about this assignment?"
+            defaultValue={form.getValues("learnerNotes")}
             form={form}
+            height={300}
+          />
+          <FormSelectRadioGroup
+            name="status"
+            label="Set Assignment Status"
+            form={form}
+            options={Object.keys(AssignmentStatus).map((type) => {
+              let _label = "Complete"
+              if (type === "SAVE_FOR_LATER") _label = "Save for Later"
+              if (type === "IN_PROGRESS") _label = "In Progress"
+              return {
+                value: type,
+                label: _label,
+              };
+            })}
           />
         </div>
       </DialogForm>

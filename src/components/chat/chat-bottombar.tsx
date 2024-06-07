@@ -36,7 +36,7 @@ export default function ChatBottombar() {
     if (!userConnected) return;
 
     if (checkIfCanSend()) {
-      publishMessage(message);
+      publishMessage("👍");
       setMessage("");
     }
   };
@@ -155,8 +155,7 @@ export default function ChatBottombar() {
         </motion.div>
 
         {message.trim() ? (
-          <Link
-            href="#"
+          <button
             className={cn(
               buttonVariants({ intent: "ghost", size: "icon" }),
               "h-9 w-9",
@@ -165,10 +164,9 @@ export default function ChatBottombar() {
             onClick={handleSend}
           >
             <SendHorizontal size={20} className="text-muted-foreground" />
-          </Link>
+          </button>
         ) : (
-          <Link
-            href="#"
+          <button
             className={cn(
               buttonVariants({ intent: "ghost", size: "icon" }),
               "h-9 w-9",
@@ -177,7 +175,7 @@ export default function ChatBottombar() {
             onClick={handleThumbsUp}
           >
             <ThumbsUp size={20} className="text-muted-foreground" />
-          </Link>
+          </button>
         )}
       </AnimatePresence>
     </div>

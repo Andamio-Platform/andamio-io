@@ -69,9 +69,8 @@ export function ChatList() {
                         nostrChatUser === undefined) && (
                         <UserAvatar pubkey={message.pubkey} />
                       )}
-                      <span className="max-w-xs rounded-md bg-accent p-3">
-                        {message.message}
-                      </span>
+                      <ChatMessage message={message.message} />
+
                       {nostrChatUser &&
                         message.pubkey === nostrChatUser.pubkey && (
                           <UserAvatar pubkey={message.pubkey} />
@@ -120,4 +119,15 @@ function UserAvatar({ pubkey }: { pubkey: string }) {
     );
 
   return null;
+}
+
+function ChatMessage({ message }: { message: string }) {
+  const isEmoji = /\p{Extended_Pictographic}/u.test(message);
+  return (
+    <span
+      className={`max-w-xs rounded-md bg-accent p-3 ${(isEmoji && message.length == 2) ? `text-3xl` : `text-lg`}`}
+    >
+      {message}
+    </span>
+  );
 }

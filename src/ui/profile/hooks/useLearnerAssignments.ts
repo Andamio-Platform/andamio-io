@@ -5,6 +5,7 @@ import { AssignmentCommitment } from "~/types/db";
 import { api } from "~/utils/api";
 
 type LearnerAssignment = {
+  id: string;
   title: string;
   assignmentCode: string;
   courseTitle: string;
@@ -13,11 +14,12 @@ type LearnerAssignment = {
   moduleCode: string;
   status: "SAVE_FOR_LATER" | "IN_PROGRESS" | "COMPLETE" | "COMMITMENT";
   learnerNote: string;
+  archived: boolean;
 };
 
 export default function useLearnerAssignments() {
   const ctx = api.useUtils();
-  const { data: sessionData } = useSession();
+  const { data: sessionData, update: updateSession } = useSession();
 
   const [assignmentStatuses, setAssignmentStatuses] = useState<
     AssignmentCommitment[]
@@ -25,7 +27,7 @@ export default function useLearnerAssignments() {
   const [learnerAssignments, setLearnerAssignments] = useState<
     LearnerAssignment[]>([]);
 
-  const { data: assignmentInfo } = api.assignment.getAssignments.useQuery(
+  const { data: assignmentInfo, isLoading, isError } = api.assignment.getAssignments.useQuery(
     {
       assignmentIds:
         sessionData?.user.assignmentCommitments.map((a) => a.assignmentId) ??
@@ -51,6 +53,7 @@ export default function useLearnerAssignments() {
 
         if (aInfo) {
           const _la: LearnerAssignment = {
+            id: as.assignmentCommitmentId,
             title: aInfo.title,
             assignmentCode: aInfo.assignmentCode,
             courseTitle: aInfo.module.originalCourse.title,
@@ -59,6 +62,7 @@ export default function useLearnerAssignments() {
             moduleCode: aInfo.module.moduleCode,
             status: as.status,
             learnerNote: as.learnerNotes,
+            archived: as.archived
           };
           _laList.push(_la);
         }
@@ -67,5 +71,5 @@ export default function useLearnerAssignments() {
     }
   }, [assignmentInfo, assignmentStatuses]);
 
-  return { assignmentStatuses, assignmentInfo, learnerAssignments };
+  return { assignmentStatuses, assignmentInfo, learnerAssignments, isLoading, isError, sessionData, updateSession };
 }

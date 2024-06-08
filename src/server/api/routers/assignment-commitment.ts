@@ -109,4 +109,74 @@ export const assignmentCommitmentRouter = createTRPCRouter({
         },
       });
     }),
+
+  setFavorite: protectedProcedure
+    .input(
+      z.object({
+        assignmentCommitmentId: z.string().min(1),
+        favorite: z.boolean(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      if (!ctx.session.user.learnerId) {
+        throw new Error("User does not have Learner role.");
+      }
+
+      const commitment = await ctx.db.assignmentCommitment.findUnique({
+        where: { id: input.assignmentCommitmentId },
+        include: {
+          learner: true,
+        },
+      });
+
+      const isLearner = commitment?.learnerId === ctx.session.user.learnerId;
+
+      if (!isLearner) {
+        throw new Error("Commitment does not belong to connected Learner.");
+      }
+
+      return ctx.db.assignmentCommitment.update({
+        where: {
+          id: input.assignmentCommitmentId,
+        },
+        data: {
+          favorite: input.favorite,
+        },
+      });
+    }),
+
+    setArchived: protectedProcedure
+    .input(
+      z.object({
+        assignmentCommitmentId: z.string().min(1),
+        archived: z.boolean(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      if (!ctx.session.user.learnerId) {
+        throw new Error("User does not have Learner role.");
+      }
+
+      const commitment = await ctx.db.assignmentCommitment.findUnique({
+        where: { id: input.assignmentCommitmentId },
+        include: {
+          learner: true,
+        },
+      });
+
+      const isLearner = commitment?.learnerId === ctx.session.user.learnerId;
+
+      if (!isLearner) {
+        throw new Error("Commitment does not belong to connected Learner.");
+      }
+
+      return ctx.db.assignmentCommitment.update({
+        where: {
+          id: input.assignmentCommitmentId,
+        },
+        data: {
+          archived: input.archived,
+        },
+      });
+    }),
 });

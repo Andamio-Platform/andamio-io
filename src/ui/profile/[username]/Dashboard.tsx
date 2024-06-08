@@ -44,8 +44,8 @@ export default function DashboardPage({ username }: { username: string }) {
   return (
     <>
       <MenuBar />
-      <div className="flex w-2/3 mx-auto mt-[150px] items-center justify-center">
-        <Tabs defaultValue="andamioNetwork">
+      <div className="flex w-full mx-auto mt-[150px] items-center justify-center">
+        <Tabs defaultValue="andamioNetwork" className="w-2/3">
           <TabsList className="my-3 w-full rounded-md border border-secondary-foreground">
             <TabsTrigger value="andamioNetwork">Network</TabsTrigger>
             <TabsTrigger value="learningJourney">
@@ -82,7 +82,7 @@ export default function DashboardPage({ username }: { username: string }) {
 function NotConnectedCardano() {
   return (
     <div className="flex w-full">
-      <Card>
+      <Card className="mx-auto">
         <CardHeader>
           <CardTitle>Connect to cardano</CardTitle>
           <CardDescription>

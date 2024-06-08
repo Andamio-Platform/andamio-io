@@ -75,7 +75,8 @@ export const authOptions: NextAuthOptions = {
                   assignmentId: a.assignmentId,
                   assignmentCommitmentId: a.id,
                   learnerNotes: a.learnerNotes,
-                  status: a.status
+                  status: a.status,
+                  archived: a.archived
                 }))
               : [],
         },

@@ -22,6 +22,7 @@ import {
 import RenderEditor from "~/components/Editor/components/render/RenderEditor";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
+import AssignmentBadges from "~/components/ui/assignment-badges";
 
 export default function PageCourseAssignmentContent({
   courseCode,
@@ -133,19 +134,7 @@ function Page({
         <Card>
           <CardHeader className="flex w-full flex-row items-center justify-between">
             <h2 className="text-2xl font-bold">Assignment Status</h2>
-            {currentCommitment?.status === "COMPLETE" && (
-              <Badge className="bg-green-200 text-green-800">Complete</Badge>
-            )}
-            {currentCommitment?.status === "IN_PROGRESS" && (
-              <Badge className="bg-purple-200 text-purple-800">
-                In Progress
-              </Badge>
-            )}
-            {currentCommitment?.status === "SAVE_FOR_LATER" && (
-              <Badge className="bg-blue-200 text-blue-800">
-                Saved for Later
-              </Badge>
-            )}
+          {currentCommitment?.status && <AssignmentBadges status={currentCommitment.status} />}
           </CardHeader>
           <CardContent>
             {currentCommitment && (

@@ -339,6 +339,7 @@ model AssignmentCommitment {
 
   status   AssignmentStatus @default(SAVE_FOR_LATER)
   favorite Boolean          @default(false)
+  archived Boolean          @default(false)
 
   learnerNotes String?
 

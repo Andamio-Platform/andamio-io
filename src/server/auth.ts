@@ -9,6 +9,7 @@ import DiscordProvider from "next-auth/providers/discord";
 
 import { env } from "~/env";
 import { db } from "~/server/db";
+import { AssignmentCommitment } from "~/types/db";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -26,12 +27,7 @@ declare module "next-auth" {
       accessTokenMintTx: string;
       hasMintedAccessToken: boolean;
       lessonIds: string[];
-      assignmentCommitments: {
-        assignmentId: string;
-        assignmentCommitmentId: string;
-        learnerNotes: string;
-        status: "SAVE_FOR_LATER" | "IN_PROGRESS" | "COMPLETE"
-      }[];
+      assignmentCommitments: AssignmentCommitment[];
       // ...other properties
       // role: UserRole;
     };

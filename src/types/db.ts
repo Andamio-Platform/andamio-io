@@ -21,5 +21,5 @@ export type AssignmentCommitment = {
   assignmentId: string;
   assignmentCommitmentId: string;
   learnerNotes: string;
-  status: "SAVE_FOR_LATER" | "IN_PROGRESS" | "COMPLETE"
+  status: "SAVE_FOR_LATER" | "IN_PROGRESS" | "COMPLETE" | "COMMITMENT"
 };

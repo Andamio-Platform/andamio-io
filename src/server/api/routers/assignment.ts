@@ -146,4 +146,36 @@ export const assignmentRouter = createTRPCRouter({
         },
       });
     }),
+  
+  getAssignments: publicProcedure
+    .input(
+      z.object({assignmentIds: z.array(z.string().min(1))})
+    )
+    .query(async ({ctx, input}) => {
+      const assignments = await ctx.db.assignment.findMany({
+        where: {
+          id: {
+            in: input.assignmentIds,
+          }
+        },
+        select: {
+          id: true,
+          title: true,
+          assignmentCode: true,
+          module: {
+            select: {
+              title: true,
+              moduleCode: true,
+              originalCourse: {
+                select: {
+                  title: true,
+                  courseCode: true,
+                }
+              }
+            }
+          }
+        }
+      })
+      return assignments
+    })
 });

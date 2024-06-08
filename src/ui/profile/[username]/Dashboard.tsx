@@ -16,6 +16,8 @@ import { ACCESS_TOKEN_POLICY_ID } from "~/andamio.config";
 import { Button } from "~/components/ui/button";
 import Link from "next/link";
 import CreatorsSection from "./CreatorsSection";
+import AssignmentsSection from "./AssignmentSection";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 
 export default function DashboardPage({ username }: { username: string }) {
   const { setTheme } = useTheme();
@@ -42,29 +44,44 @@ export default function DashboardPage({ username }: { username: string }) {
   return (
     <>
       <MenuBar />
-      {!connected ? (
-        <NotConnectedCardano />
-      ) : (
-        <div className="mx-auto mt-32 flex min-h-[50vh] max-w-7xl flex-col items-center justify-center gap-10 px-6 sm:mt-56 lg:px-8">
-          {accessToken ? (
-            <>
-              <AccessTokenSection accessToken={accessToken} />
+      <div className="flex w-2/3 mx-auto mt-[150px] items-center justify-center">
+        <Tabs defaultValue="andamioNetwork">
+          <TabsList className="my-3 w-full rounded-md border border-secondary-foreground">
+            <TabsTrigger value="andamioNetwork">Network</TabsTrigger>
+            <TabsTrigger value="learningJourney">
+              My Learning Journey
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="andamioNetwork" className="flex w-full">
+            {!connected ? (
+              <NotConnectedCardano />
+            ) : (
+              <>
+                {accessToken ? (
+                  <>
+                    <AccessTokenSection accessToken={accessToken} />
 
-              <MyCoursesSection accessToken={accessToken} />
-            </>
-          ) : (
-            <NoAccessTokenInWallet />
-          )}
-          <CreatorsSection />
-        </div>
-      )}
+                    <MyCoursesSection accessToken={accessToken} />
+                  </>
+                ) : (
+                  <NoAccessTokenInWallet />
+                )}
+                <CreatorsSection />
+              </>
+            )}
+          </TabsContent>
+          <TabsContent value="learningJourney" className="flex w-full">
+            <AssignmentsSection />
+          </TabsContent>
+        </Tabs>
+      </div>
     </>
   );
 }
 
 function NotConnectedCardano() {
   return (
-    <div className="mx-auto mt-32 min-h-[50vh] max-w-7xl px-6 sm:mt-56 lg:px-8">
+    <div className="flex w-full">
       <Card>
         <CardHeader>
           <CardTitle>Connect to cardano</CardTitle>
@@ -78,7 +95,10 @@ function NotConnectedCardano() {
           </div>
         </CardContent>
         <CardFooter>
-          <p className="text-sm">Info in your Dashboard are real-time data directly from the cardano blockchain.</p>
+          <p className="text-sm">
+            Info in your Dashboard are real-time data directly from the cardano
+            blockchain.
+          </p>
         </CardFooter>
       </Card>
     </div>

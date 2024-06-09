@@ -28,10 +28,10 @@
     --warning-foreground: 48 96% 89%;
     --success: 136 61% 35%;
     --success-foreground: 222.2 47.4% 11.2%;
-    --editor-blue: 217 76% 40%;
-    --editor-green: 92 76% 40%;
-    --editor-orange: 21 76% 40%;
-    --editor-yellow: 39 76% 40%;
+    --editor-blue: 217 90% 30%;
+    --editor-green: 92 90% 25%;
+    --editor-orange: 21 90% 30%;
+    --editor-yellow: 39 90% 30%;
   }
 
   .dark {
@@ -58,10 +58,10 @@
     --warning-foreground: 38 92% 50%;
     --success: 136 61% 65%;
     --success-foreground: 210 40% 98%;
-    --editor-blue: 217 90% 75%;
-    --editor-green: 92 90% 75%;
-    --editor-orange: 21 90% 75%;
-    --editor-yellow: 39 90% 75%;
+    --editor-blue: 217 90% 85%;
+    --editor-green: 92 90% 85%;
+    --editor-orange: 21 90% 85%;
+    --editor-yellow: 39 90% 85%;
   }
 }
 

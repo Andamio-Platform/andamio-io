@@ -1,4 +1,4 @@
-import MenuBar from "../../landing/MenuBar";
+import MenuBar from "../landing/MenuBar";
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { CardanoWallet, useWallet } from "@meshsdk/react";
@@ -19,7 +19,7 @@ import CreatorsSection from "./CreatorsSection";
 import AssignmentsSection from "./AssignmentSection";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 
-export default function DashboardPage({ username }: { username: string }) {
+export default function DashboardPage() {
   const { setTheme } = useTheme();
   const { wallet, connected } = useWallet();
   const [accessToken, setAccessToken] = useState(null);

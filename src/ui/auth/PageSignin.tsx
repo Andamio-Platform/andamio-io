@@ -2,6 +2,7 @@ import DiscordIcon from "~/components/icons/discord";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { Checkbox } from "~/components/ui/checkbox";
+import Link from "next/link";
 // import { Button } from "~/components/ui/button";
 
 export default function PageSignin({ redirectUrl }: { redirectUrl?: string }) {
@@ -37,7 +38,7 @@ export default function PageSignin({ redirectUrl }: { redirectUrl?: string }) {
                   htmlFor="terms"
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 >
-                  Accept terms and conditions
+                  Accept <Link href="/terms">terms and conditions</Link>
                 </label>
               </div>
               {Object.values(_providers).map((provider) => (

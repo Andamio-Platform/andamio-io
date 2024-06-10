@@ -11,6 +11,7 @@ import { LightDarkToggle } from "~/ui/site/LightDarkToggle";
 import MenuBar from "~/ui/landing/MenuBar";
 import { MeshProvider } from "@meshsdk/react";
 import { DialogReportSupport } from "~/ui/site/DialogReportSupport";
+import TncDialog from "~/ui/site/TncDialog";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -29,6 +30,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
           <div className="min-h-screen bg-background text-foreground">
             <Component {...pageProps} />
             <T />
+            <TncDialog />
           </div>
           <DialogReportSupport />
         </MeshProvider>

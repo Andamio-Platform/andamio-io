@@ -170,4 +170,22 @@ export const userRouter = createTRPCRouter({
         },
       });
     }),
+
+  updateUserTncVersion: protectedProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+        tncVersion: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.user.update({
+        where: {
+          id: input.userId,
+        },
+        data: {
+          tncVersion: input.tncVersion,
+        },
+      });
+    }),
 });

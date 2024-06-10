@@ -28,6 +28,7 @@ declare module "next-auth" {
       hasMintedAccessToken: boolean;
       lessonIds: string[];
       assignmentCommitments: AssignmentCommitment[];
+      tncVersion: string;
       // ...other properties
       // role: UserRole;
     };
@@ -79,6 +80,7 @@ export const authOptions: NextAuthOptions = {
                   archived: a.archived
                 }))
               : [],
+          tncVersion: _user?.tncVersion 
         },
       };
     },

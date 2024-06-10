@@ -67,6 +67,8 @@ model User {
   hasMintedAccessToken Boolean     @default(false)
   nostrNsec            String?
   nostrPubkey          String?
+
+  tncVersion String?
 }
 
 model VerificationToken {

@@ -27,7 +27,7 @@ export default function TncDialog() {
 
   useEffect(() => {
     if (
-      !!sessionData?.user.tncVersion &&
+      !!sessionData?.user &&
       sessionData.user.tncVersion != latestTncVersion
     ) {
       setIsOpen(true);

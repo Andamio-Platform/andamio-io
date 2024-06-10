@@ -1,4 +1,5 @@
 import { signOut, useSession } from "next-auth/react";
+import Link from "next/link";
 import { useState } from "react";
 
 export default function SideMenuSessionProfile() {
@@ -12,17 +13,20 @@ export default function SideMenuSessionProfile() {
   return (
     <li className="-mx-6 mt-auto">
       {isProfileMenuOpen && (
-        <button
-          onClick={() => void signOut({ callbackUrl: "/" })}
-          className="block w-full px-6 py-3 text-left text-sm font-semibold leading-6 text-foreground hover:bg-accent focus:outline-none"
-        >
-          Sign Out
-        </button>
+        <>
+          <button
+            onClick={() => void signOut({ callbackUrl: "/" })}
+            className="block w-full px-6 py-3 text-left text-sm font-semibold leading-6 text-foreground hover:bg-accent focus:outline-none"
+          >
+            Sign Out
+          </button>
+          <button className="block w-full px-6 py-3 text-left text-sm font-semibold leading-6 text-foreground hover:bg-accent focus:outline-none">
+            <Link href="/profile">Dashboard</Link>
+          </button>
+        </>
       )}
       <a
-        onClick={() =>
-          setIsProfileMenuOpen((prevState) => !prevState)
-        }
+        onClick={() => setIsProfileMenuOpen((prevState) => !prevState)}
         className="flex cursor-pointer items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-foreground hover:bg-accent"
       >
         <img
@@ -34,5 +38,5 @@ export default function SideMenuSessionProfile() {
         <span aria-hidden="true">{sessionData.user?.name}</span>
       </a>
     </li>
-  )
+  );
 }

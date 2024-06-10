@@ -32,7 +32,7 @@ export default function TncDialog() {
     ) {
       setIsOpen(true);
       setMustApproveTnc(true);
-    } else if (!sessionData?.user.tncVersion) {
+    } else if (!!sessionData?.user && !sessionData?.user.tncVersion) {
       setIsOpen(true);
       setMustApproveTnc(true);
     }

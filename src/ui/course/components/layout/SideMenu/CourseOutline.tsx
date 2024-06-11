@@ -68,7 +68,7 @@ export default function CourseOutline({
       >
       {courseModules?.sort(sortBy).map((courseModule, i) => {
         return (
-            <AccordionItem value={`module-${courseModule.moduleCode}`}>
+            <AccordionItem value={`module-${courseModule.moduleCode}`} key={`module-${courseModule.moduleCode}`}>
               <AccordionTrigger
                 className={classNames(
                   "bg-primary px-1 py-2 my-1 text-left text-primary-foreground hover:text-indigo-200",

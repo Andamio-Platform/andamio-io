@@ -148,7 +148,7 @@ export default function CourseOutline({
                     <div
                       className={classNames(
                         "grid grid-cols-5 gap-3 rounded-sm border border-primary hover:bg-indigo-200 py-1 text-sm leading-6",
-                        courseModule.assignments[0].assignmentCode === assignmentCode ? "border border-indigo-200" : ""
+                        courseModule.assignments[0].assignmentCode === assignmentCode ? "border-none" : ""
                       )}
                     >
                       <div className="flex items-center justify-center">

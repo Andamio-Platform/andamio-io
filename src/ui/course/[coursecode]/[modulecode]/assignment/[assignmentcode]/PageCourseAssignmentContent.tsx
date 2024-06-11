@@ -131,7 +131,7 @@ function Page({
         </div>
         {editor}
 
-        <Card>
+        <Card className="mt-10">
           <CardHeader className="flex w-full flex-row items-center justify-between">
             <h2 className="text-2xl font-bold">Assignment Status</h2>
           {currentCommitment?.status && <AssignmentBadges status={currentCommitment.status} />}

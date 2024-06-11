@@ -40,6 +40,13 @@ export default function CourseNavigation({
             </Button>
           </Link>
         )}
+        {moduleIndex == "assignment" && (
+          <Link href={`/course/${courseCode}/${courseModule.moduleCode}/lesson/${courseModule.slts.length}`}>
+            <Button intent="navigation">
+              Lesson {courseModule.moduleCode}.{courseModule.slts.length} <ArrowLeftIcon />
+            </Button>
+          </Link>
+        )}
       </div>
       <div>
         {_moduleIndex < courseModule.slts.length && (
@@ -54,24 +61,31 @@ export default function CourseNavigation({
             </Button>
           </Link>
         )}
-        {_moduleIndex == courseModule.slts.length && courseModule.assignments[0] && (
-          <Link
-            href={`/course/${courseCode}/${courseModule.moduleCode}/assignment/${courseModule.assignments[0].assignmentCode}`}
-          >
-            <Button intent="navigation">
-              <p>
-                Assignment {courseModule.assignments[0].assignmentCode}
-              </p>{" "}
-              <ArrowRightIcon />
-            </Button>
-          </Link>
-        )}
+        {_moduleIndex == courseModule.slts.length &&
+          courseModule.assignments[0] && (
+            <Link
+              href={`/course/${courseCode}/${courseModule.moduleCode}/assignment/${courseModule.assignments[0].assignmentCode}`}
+            >
+              <Button intent="navigation">
+                <p>Assignment {courseModule.assignments[0].assignmentCode}</p>{" "}
+                <ArrowRightIcon />
+              </Button>
+            </Link>
+          )}
         {moduleIndex == "intro" && (
           <Link
             href={`/course/${courseCode}/${courseModule.moduleCode}/lesson/1`}
           >
             <Button intent="navigation">
               <p>Lesson {courseModule.moduleCode}.1</p> <ArrowRightIcon />
+            </Button>
+          </Link>
+        )}
+
+        {moduleIndex == "assignment" && (
+          <Link href={`/course/${courseCode}`}>
+            <Button intent="navigation">
+              Return to Course Outline <ArrowRightIcon />
             </Button>
           </Link>
         )}

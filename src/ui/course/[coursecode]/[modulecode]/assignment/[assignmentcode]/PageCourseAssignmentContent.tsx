@@ -23,6 +23,7 @@ import RenderEditor from "~/components/Editor/components/render/RenderEditor";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import AssignmentBadges from "~/components/ui/assignment-badges";
+import CourseNavigation from "~/ui/course/components/ui/CourseNavigation";
 
 export default function PageCourseAssignmentContent({
   courseCode,
@@ -54,6 +55,11 @@ export default function PageCourseAssignmentContent({
               assignment={assignment}
               courseCode={courseCode}
               assignmentCode={assignmentCode}
+            />
+            <CourseNavigation
+              courseCode={courseCode}
+              courseModule={courseModule}
+              moduleIndex={"assignment"}
             />
           </div>
         ) : assignment && !assignment.live ? (

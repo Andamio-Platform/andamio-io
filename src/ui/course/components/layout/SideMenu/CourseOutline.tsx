@@ -8,36 +8,92 @@ import {
 import Link from "next/link";
 import useCourseModules from "~/hooks/useCourseModules";
 import classNames from "~/utils/classnames";
+import { DocumentIcon } from "@heroicons/react/24/outline";
+import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
+import { useRouter } from "next/router";
+
+function useCourseRoute() {
+  const router = useRouter();
+  const { coursecode, modulecode, moduleindex, assignmentcode } = router.query;
+
+  return {
+    courseCode: typeof coursecode === "string" ? coursecode : null,
+    moduleCode: typeof modulecode === "string" ? modulecode : null,
+    moduleIndex: typeof moduleindex === "string" ? moduleindex : null,
+    assignmentCode: typeof assignmentcode === "string" ? assignmentcode : null,
+  };
+}
 
 export default function CourseOutline({
-  courseCode,
+  currentCourseCode,
   isCreator,
 }: {
-  courseCode: string;
+  currentCourseCode: string;
   isCreator: boolean;
 }) {
+  const { courseCode, moduleCode, moduleIndex, assignmentCode } =
+    useCourseRoute();
+
   const { courseModules, isLoadingCourseModules } =
-    useCourseModules(courseCode);
+    useCourseModules(currentCourseCode);
 
   function sortBy(a: Module, b: Module) {
     return a.moduleCode > b.moduleCode ? 1 : -1;
   }
 
+  function accordionContentClassNames(active: boolean) {
+    return classNames(
+      "hover:text-accent-foreground-foreground text-foreground hover:bg-accent",
+      "p-2",
+      active ? "bg-indigo-200 hover:bg-indigo-200" : "",
+    );
+  }
+
+  if (isLoadingCourseModules) {
+    return <LoadingCircle />;
+  }
+
+  if (!courseModules || courseModules.length === 0) {
+    return <p className="my-5">This course does not have any contents</p>;
+  }
+
   return (
-    <div className="-mx-2 mt-3 space-y-1">
+    <div className="-mx-3 mt-3">
+      <Accordion
+        key={courseCode}
+        type="single"
+        collapsible
+        className="py-3"
+        defaultValue={`module-${moduleCode}`}
+      >
       {courseModules?.sort(sortBy).map((courseModule, i) => {
         return (
-          <Accordion key={courseModule.moduleCode} type="single" collapsible className="py-3">
-            <AccordionItem value="item-1">
+            <AccordionItem value={`module-${courseModule.moduleCode}`}>
               <AccordionTrigger
                 className={classNames(
-                  "hover:text-accent-foreground-foreground rounded-sm px-3 pb-3 text-foreground hover:bg-accent text-left",
+                  "bg-primary px-1 py-2 text-left text-primary-foreground hover:text-indigo-200",
                   "text-sm font-semibold",
                   "hover:no-underline",
                 )}
               >
                 {courseModule.moduleCode}: {courseModule.title}
               </AccordionTrigger>
+              {courseModule.introduction && (
+                <AccordionContent
+                  key={courseModule.introduction?.id}
+                  className={accordionContentClassNames(courseModule.moduleCode === moduleCode && !assignmentCode && !moduleIndex )}
+                >
+                  <Link
+                    href={
+                      courseModule?.introduction.live || isCreator
+                        ? `/course/${currentCourseCode}/${courseModule.moduleCode}`
+                        : "#"
+                    }
+                  >
+                    Start Module
+                  </Link>
+                </AccordionContent>
+              )}
 
               {courseModule.slts
                 .sort((a, b) => a.moduleIndex - b.moduleIndex)
@@ -45,9 +101,9 @@ export default function CourseOutline({
                   return (
                     <AccordionContent
                       key={slt.id}
-                      className={classNames(
-                        "hover:text-accent-foreground-foreground text-foreground hover:bg-accent",
-                        "rounded-md p-2",
+                      className={accordionContentClassNames(
+                        courseModule.moduleCode === moduleCode &&
+                          slt.moduleIndex.toString() === moduleIndex,
                       )}
                     >
                       <Link
@@ -55,17 +111,19 @@ export default function CourseOutline({
                           courseModule.lessons,
                           slt,
                           isCreator,
-                          courseCode,
+                          currentCourseCode,
                           courseModule,
                         )}
                       >
                         <p
                           className={classNames(
-                            "group flex gap-x-3 text-sm font-semibold leading-6 ml-2",
+                            "group flex gap-x-3 text-sm leading-6",
                           )}
                         >
-                          <span className="text-secondary-foreground">{courseModule.moduleCode}.{slt.moduleIndex}</span>
-                          {slt.sltText}
+                          <span className="text-secondary-foreground">
+                            {courseModule.moduleCode}.{slt.moduleIndex}
+                          </span>
+                          <span className="font-semibold">{slt.sltText}</span>
                         </p>
                       </Link>
                     </AccordionContent>
@@ -75,32 +133,40 @@ export default function CourseOutline({
               {courseModule && courseModule.assignments[0] && (
                 <AccordionContent
                   key={courseModule.assignments[0].assignmentCode}
-                  className={classNames(
-                    "hover:text-accent-foreground-foreground text-foreground hover:bg-accent",
-                    "rounded-md p-2",
+                  className={accordionContentClassNames(
+                    courseModule.assignments[0].assignmentCode ===
+                      assignmentCode,
                   )}
                 >
                   <Link
                     href={
                       courseModule?.assignments[0]?.live || isCreator
-                        ? `/course/${courseCode}/${courseModule.moduleCode}/assignment/${courseModule.assignments[0].assignmentCode}`
+                        ? `/course/${currentCourseCode}/${courseModule.moduleCode}/assignment/${courseModule.assignments[0].assignmentCode}`
                         : "#"
                     }
                   >
-                    <p
+                    <div
                       className={classNames(
-                        "group flex gap-x-3 text-sm font-semibold leading-6",
+                        "grid grid-cols-5 gap-3 rounded-sm border border-primary hover:bg-indigo-200 py-1 text-sm leading-6",
+                        courseModule.assignments[0].assignmentCode === assignmentCode ? "border border-indigo-200" : ""
                       )}
                     >
-                      <span>{courseModule.assignments[0].title}</span>
-                    </p>
+                      <div className="flex items-center justify-center">
+                        <DocumentIcon width={"15px"} height={"15px"} />
+                      </div>
+                      <div className="col-span-4">
+                        <p className="font-semibold">
+                          {courseModule.assignments[0].title}
+                        </p>
+                      </div>
+                    </div>
                   </Link>
                 </AccordionContent>
               )}
             </AccordionItem>
-          </Accordion>
         );
       })}
+      </Accordion>
     </div>
   );
 }

@@ -23,12 +23,14 @@ export default function Navigation() {
   return (
     <>
       {typeof coursecode === "string" &&
-        router.pathname.includes("/course/[coursecode]") && (
-          <>
-            <NavigationItems isCreator={isCreator} />
-            <CoursePage courseCode={coursecode} />
-          </>
-        )}
+      router.pathname.includes("/course/[coursecode]") ? (
+        <>
+          <NavigationItems isCreator={isCreator} />
+          <CoursePage courseCode={coursecode} />
+        </>
+      ) : (
+        <p>Select a course to view details</p>
+      )}
     </>
   );
 }
@@ -46,8 +48,8 @@ function NavigationItems({ isCreator }: { isCreator: boolean }) {
               href={item.href}
               className={classNames(
                 item.current
-                  ? "bg-accent text-accent-foreground-foreground"
-                  : "text-foreground hover:bg-accent hover:text-accent-foreground-foreground",
+                  ? "text-accent-foreground-foreground bg-accent"
+                  : "hover:text-accent-foreground-foreground text-foreground hover:bg-accent",
                 "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
               )}
             >
@@ -70,25 +72,9 @@ function NavigationItems({ isCreator }: { isCreator: boolean }) {
 }
 
 function CoursePage({ courseCode }: { courseCode: string }) {
-  // const router = useRouter();
-  // const { data: sessionData } = useSession();
-  // const { data: ownerCourses } = api.course.getCoursesByOwner.useQuery(
-  //   undefined,
-  //   { enabled: sessionData != null },
-  // );
   const { data: sessionData } = useSession();
   const { course, isLoadingCourse } = useCourse(courseCode);
   const { isCreator } = useValidateCreator(sessionData, courseCode);
-  // useEffect(() => {
-  //   if (course) {
-  //     navigationItems.push( {
-  //       name: course.title,
-  //       href: `/course/${course.courseCode}`,
-  //       icon: AcademicCapIcon,
-  //       current: false,
-  //     })
-  //   }
-  // }, [course]);
 
   return (
     <>
@@ -98,7 +84,7 @@ function CoursePage({ courseCode }: { courseCode: string }) {
             <Link
               href={`/course/${course?.courseCode}`}
               className={classNames(
-                "text-foreground hover:bg-accent hover:text-accent-foreground-foreground",
+                "hover:text-accent-foreground-foreground text-foreground hover:bg-accent",
                 "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
               )}
             >
@@ -112,160 +98,9 @@ function CoursePage({ courseCode }: { courseCode: string }) {
               {course?.title}
             </Link>
           </li>
-
         </ul>
-          <CourseOutline courseCode={courseCode} isCreator={isCreator} />
+        <CourseOutline currentCourseCode={courseCode} isCreator={isCreator} />
       </li>
-
-      {/* {sessionData && (
-        <li>
-          <div className="text-xs font-semibold leading-6 text-accent-foreground-foreground">
-            Your courses
-          </div>
-          <ul role="list" className="-mx-2 mt-2 space-y-1">
-            {ownerCourses?.map((course) => (
-              <li key={course.courseCode}>
-                <Link
-                  href={`/course/${course.courseCode}`}
-                  className={classNames(
-                    router.query.coursecode == course.courseCode
-                      ? "bg-accent text-primary"
-                      : "text-foreground hover:bg-accent hover:text-primary",
-                    "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
-                  )}
-                >
-                  <span
-                    className={classNames(
-                      router.query.coursecode == course.courseCode
-                        ? "border-primary text-primary"
-                        : "border-gray-200 text-accent-foreground-foreground group-hover:border-primary group-hover:text-primary",
-                      "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border bg-primary text-[0.625rem] font-medium",
-                    )}
-                  >
-                    {course.title.substring(0, 1)}
-                  </span>
-                  <span className="truncate">{course.title}</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </li>
-      )} */}
     </>
   );
 }
-
-// function ContentPage() {
-//   const router = useRouter();
-
-//   // still have this useQuery - after setting up correct route, replace with useCourseModules()
-//   const { data: modules } = api.module.getCourseModules.useQuery(
-//     {
-//       courseCode: router.query.coursecode as string,
-//     },
-//     { enabled: router.query.coursecode ? true : false },
-//   );
-
-//   // this should be ready for useCourse() hook - change after fixing everything above
-//   const { data: course } = api.course.getCourse.useQuery(
-//     {
-//       courseCode: router.query.coursecode as string,
-//     },
-//     { enabled: router.query.coursecode ? true : false },
-//   );
-
-//   function sortBy(a: Module, b: Module) {
-//     return a.moduleCode > b.moduleCode ? 1 : -1;
-//   }
-
-//   return (
-//     <>
-//       {course && (
-//         <li>
-//           <ul role="list" className="-mx-2 space-y-1">
-//             <li>
-//               <Link
-//                 href={`/course/${course.courseCode}`}
-//                 className={classNames(
-//                   "text-foreground hover:bg-accent hover:text-primary",
-//                   "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
-//                 )}
-//               >
-//                 <HomeIcon
-//                   className={classNames(
-//                     "text-accent-foreground-foreground group-hover:text-primary",
-//                     "h-6 w-6 shrink-0",
-//                   )}
-//                   aria-hidden="true"
-//                 />
-//                 {course.title}
-//               </Link>
-//             </li>
-//           </ul>
-//         </li>
-//       )}
-
-//       {/* todo james */}
-
-//       {modules && (
-//         <>
-//           {modules.sort(sortBy).map((module, i) => (
-//             <li key={`module${i}`}>
-//               <div className="text-xs font-semibold leading-6 text-accent-foreground-foreground">
-//                 {module.title}
-//               </div>
-//               <ul role="list" className="-mx-2 mt-2 space-y-1">
-//                 <SLTs slts={module.slts} moduleCode={module.moduleCode} />
-//               </ul>
-//             </li>
-//           ))}
-//         </>
-//       )}
-//     </>
-//   );
-// }
-
-// type SLT = RouterOutputs["module"]["getCourseModules"][number]["slts"][number];
-
-// function SLTs({ slts, moduleCode }: { slts: SLT[]; moduleCode: string }) {
-//   function sortBy(a: SLT, b: SLT) {
-//     return a.moduleIndex > b.moduleIndex ? 1 : -1;
-//   }
-
-//   const router = useRouter();
-
-//   return (
-//     <>
-//       {slts
-//         .sort(sortBy)
-//         .filter((slt) => {
-//           return slt.moduleIndex > 0;
-//         })
-//         .map((slt, i) => (
-//           <li key={slt.moduleIndex}>
-//             <Link
-//               href={`/course/${router.query.coursecode as string}/${moduleCode}/${slt.moduleIndex}`}
-//               className={classNames(
-//                 router.query.coursecode == slt.id
-//                   ? "bg-accent text-primary"
-//                   : "text-foreground hover:bg-accent hover:text-primary",
-//                 "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
-//               )}
-//             >
-//               <span
-//                 className={classNames(
-//                   router.query.coursecode == slt.id
-//                     ? "border-primary text-primary"
-//                     : "border-gray-200 text-accent-foreground-foreground group-hover:border-primary group-hover:text-primary",
-//                   "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border bg-primary text-[0.625rem] font-medium",
-//                 )}
-//               >
-//                 {slt.moduleIndex > 0 && slt.moduleIndex}
-//               </span>
-//               <span className="truncate">{slt.sltText}</span>
-//             </Link>
-//           </li>
-//         ))}
-//     </>
-//   );
-// }

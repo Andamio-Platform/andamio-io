@@ -123,7 +123,7 @@ function Page({
           <h1 className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
             {assignment.title}
           </h1>
-          <p className="py-5 text-xl leading-8">{assignment.description}</p>
+          {/* <p className="py-5 text-xl leading-8">{assignment.description}</p> */}
           {assignment.videoUrl && <VideoPlayer videoId={assignment.videoUrl} />}
           <div className="my-10">
             <SltList courseModule={courseModule} assignment={assignment} />

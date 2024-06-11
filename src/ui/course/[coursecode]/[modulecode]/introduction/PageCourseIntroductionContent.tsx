@@ -102,9 +102,9 @@ function Page({
             <h1 className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
               {introduction.title}
             </h1>
-            <p className="pb-10 text-xl leading-8">
+            {/* <p className="pb-10 text-xl leading-8">
               {introduction.description}
-            </p>
+            </p> */}
             {introduction.videoUrl && (
               <VideoPlayer videoId={introduction.videoUrl} />
             )}

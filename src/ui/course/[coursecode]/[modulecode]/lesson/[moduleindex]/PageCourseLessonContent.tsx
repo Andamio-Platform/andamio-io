@@ -146,7 +146,7 @@ function Page({
           <h1 className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
             {lesson.title}
           </h1>
-          <p className="text-xl leading-8">{lesson.description}</p>
+          {/* <p className="text-xl leading-8">{lesson.description}</p> */}
         </div>
         {lesson.videoUrl && <VideoPlayer videoId={lesson.videoUrl} />}
         <div className="my-5">{editor}</div>

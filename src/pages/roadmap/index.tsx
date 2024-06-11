@@ -9,13 +9,13 @@ const roadmapData = [
     ],
     network: ["Tokenomics proposal forming"],
     valueProps: [
-        "Learners can create accounts at andamio.io",
-        "Learners can track progress off-chain",
-        "Creators can create a course a write course content",
-        "Creators can deploy a course on-chain",
-        "Creators can manage a course",
-        "Andamio team tests on-chain course enrollment",
-        "Contributors can make treasury commitments"
+      "Learners can create accounts at andamio.io",
+      "Learners can track progress off-chain",
+      "Creators can create a course a write course content",
+      "Creators can deploy a course on-chain",
+      "Creators can manage a course",
+      "Andamio team tests on-chain course enrollment",
+      "Contributors can make treasury commitments",
     ],
     products: [
       "Early access to Andamio Studio for creators",
@@ -24,31 +24,36 @@ const roadmapData = [
   },
   {
     date: "July 2024",
-    andamioPlatform: ["Course Platform Preprod Public Release"],
+    andamioPlatform: [
+      "Course Platform Preprod Public Release",
+      "Course Platform Mainnet Release (MVP)",
+    ],
     network: [],
     valueProps: [
-        "Learners can enroll in a course on Cardano Preprod",
-        "Learners can Commit to an assignment on Cardano Preprod",
-        "Learners can track learning progress: on-chain",
-        "Creators can track learning progress: on-chain",
-        "Creators can create a course",
-        "Creators can deploy a course on-chain",
-        "Creators can manage a course on-chain",
-        "Creators can approve assignment commitments",
+      "Learners can enroll in a course on Cardano Preprod",
+      "Learners can Commit to an assignment on Cardano Preprod",
+      "Learners can track learning progress: on-chain",
+      "Creators can track learning progress: on-chain",
+      "Creators can create a course",
+      "Creators can deploy a course on-chain",
+      "Creators can manage a course on-chain",
+      "Creators can approve assignment commitments",
     ],
     products: [],
   },
   {
     date: "Q3 2024",
-    andamioPlatform: ["Course Platform Mainnet Release", "Contributor Platform Documentation available to clients"],
+    andamioPlatform: [
+      "Contributor Platform Documentation available to clients",
+    ],
     network: [],
     valueProps: [
-        "Learners can sign up for a course on Cardano Mainnet",
-        "Learners commit to an assignment on Cardano Mainnet",
-        "Learners can track learning progress: on-chain",
-        "Learners can complete a course and register the results to global state",
-        "Creators can create a course on Mainnet",
-        "Creators can approve assignment commitments on Mainnet",
+      "Learners can sign up for a course on Cardano Mainnet",
+      "Learners commit to an assignment on Cardano Mainnet",
+      "Learners can track learning progress: on-chain",
+      "Learners can complete a course and register the results to global state",
+      "Creators can create a course on Mainnet",
+      "Creators can approve assignment commitments on Mainnet",
     ],
     products: [],
   },
@@ -57,17 +62,17 @@ const roadmapData = [
     andamioPlatform: ["Andamio Platform: Full Public Release"],
     network: [],
     valueProps: [
-        "Learners can sign up for a course on Cardano Mainnet",
-        "Learners commit to an assignment on Cardano Mainnet",
-        "Learners can track learning progress: on-chain",
-        "Learners can complete a course and register the results to global state",
-        "Creators can create a course on Mainnet",
-        "Creators can approve assignment commitments on Mainnet",
-        "Learners can become contributors to organizations",
-        "Contributors can commit to projects",
-        "Organizations can place funds in contribution treasury",
-        "Organizations can approve projects for funding",
-        "Reviewers can distribute funds for completed projects"
+      "Learners can sign up for a course on Cardano Mainnet",
+      "Learners commit to an assignment on Cardano Mainnet",
+      "Learners can track learning progress: on-chain",
+      "Learners can complete a course and register the results to global state",
+      "Creators can create a course on Mainnet",
+      "Creators can approve assignment commitments on Mainnet",
+      "Learners can become contributors to organizations",
+      "Contributors can commit to projects",
+      "Organizations can place funds in contribution treasury",
+      "Organizations can approve projects for funding",
+      "Reviewers can distribute funds for completed projects",
     ],
     products: [],
   },
@@ -83,7 +88,7 @@ export default function RoadmapPage() {
         <h1 className="p-5 text-4xl font-bold">Andamio Roadmap</h1>
         <div className="relative z-10 p-5">
           <div
-            className="absolute inset-0 z-20 grid w-full h-[4000px] grid-cols-12 font-mono bg-gradient-to-b from-indigo-300 to-orange-300"
+            className="absolute inset-0 z-20 grid h-[4000px] w-full grid-cols-12 bg-gradient-to-b from-indigo-300 to-orange-300 font-mono"
             id="background-grid"
           >
             <div className="col-span-2 h-[4000px] border-r border-black/50">
@@ -116,17 +121,17 @@ export default function RoadmapPage() {
                 >
                   <div className="col-span-2 col-start-1 mx-2 my-1 flex flex-col items-center px-2">
                     {rmp.andamioPlatform.map((cp, j) => {
-                        let col = "bg-purple-800"
-                        if(cp.startsWith("Course")) {
-                            col = "bg-green-800"
-                        }
-                        if(cp.startsWith("Andamio Platform")) {
-                            col = "bg-gradient-to-r from-green-800 to-purple-800"
-                        }
+                      let col = "bg-purple-800";
+                      if (cp.startsWith("Course")) {
+                        col = "bg-green-800";
+                      }
+                      if (cp.startsWith("Andamio Platform")) {
+                        col = "bg-gradient-to-r from-green-800 to-purple-800";
+                      }
                       return (
                         <Card
                           size="md"
-                          className={`mx-auto my-1 flex w-11/12 items-center p-3 ${col} text-white text-lg`}
+                          className={`mx-auto my-1 flex w-11/12 items-center p-3 ${col} text-lg text-white`}
                           key={cp + j}
                         >
                           {cp}
@@ -139,7 +144,7 @@ export default function RoadmapPage() {
                     {rmp.network.map((network, j) => (
                       <Card
                         size="md"
-                        className="mx-auto my-1 flex w-11/12 items-center px-2 bg-blue-800 text-white"
+                        className="mx-auto my-1 flex w-11/12 items-center bg-blue-800 px-2 text-white"
                         key={network + j}
                       >
                         {network}
@@ -161,11 +166,13 @@ export default function RoadmapPage() {
                         col = "bg-pink-800";
                       }
 
-                      if (vp.startsWith("Contributors") || vp.startsWith("Organizations") || vp.startsWith("Reviewers")) {
+                      if (
+                        vp.startsWith("Contributors") ||
+                        vp.startsWith("Organizations") ||
+                        vp.startsWith("Reviewers")
+                      ) {
                         col = "bg-purple-800";
                       }
-
-
 
                       return (
                         <Card
@@ -182,7 +189,7 @@ export default function RoadmapPage() {
                     {rmp.products.map((pro, j) => (
                       <Card
                         size="md"
-                        className="mx-auto my-1 flex w-11/12 items-center px-2 bg-orange-800 text-white"
+                        className="mx-auto my-1 flex w-11/12 items-center bg-orange-800 px-2 text-white"
                         key={pro + j}
                       >
                         {pro}

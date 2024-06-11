@@ -34,8 +34,8 @@ export default function MyCoursesSection({
   }
 
   return (
-    <div className="mx-auto flex w-1/2 flex-col items-center">
-      <h1 className="flex items-center justify-center">
+    <div className="mx-auto flex w-full flex-col">
+      <h1 className="">
         You are currently enrolled in these courses:
       </h1>
 
@@ -56,9 +56,8 @@ export default function MyCoursesSection({
       ) : (
         <p>You have not registered with any courses on-chain</p>
       )}
-      <p className="mb-1 mt-5 w-1/3 text-center text-xs font-bold">
-        Note: This dashboard only shows your on-chain course enrollment data.
-        Andamio does not combine on-chain and off-chain data.
+      <p className="mb-1 mt-5 text-xs font-bold">
+        Note: This dashboard only shows your on-chain course enrollment data. If you want to see off-chain data, look at My Learning Journey.
       </p>
       <Badge className="mt-1">Learn More about Andamio Data Policy</Badge>
     </div>

@@ -44,29 +44,45 @@ export default function DashboardPage() {
   return (
     <>
       <MenuBar />
-      <div className="flex w-full mx-auto mt-[150px] items-center justify-center">
+      <div className="mx-auto mt-[150px] flex w-full items-center justify-center">
         <Tabs defaultValue="andamioNetwork" className="w-2/3">
-          <TabsList className="my-3 w-full rounded-md border border-secondary-foreground">
-            <TabsTrigger value="andamioNetwork">Network</TabsTrigger>
-            <TabsTrigger value="learningJourney">
+          <TabsList className="my-3 w-full rounded-md border border-secondary-foreground bg-indigo-800 text-white">
+            <TabsTrigger value="andamioNetwork" className="text-lg font-bold px-10 mx-10">Network</TabsTrigger>
+            <TabsTrigger value="learningJourney" className="text-lg font-bold px-10 mx-10">
               My Learning Journey
             </TabsTrigger>
           </TabsList>
-          <TabsContent value="andamioNetwork" className="flex w-full">
+          <TabsContent
+            value="andamioNetwork"
+            className="grid w-full grid-cols-9 gap-4"
+          >
             {!connected ? (
               <NotConnectedCardano />
             ) : (
               <>
+                <Card className="flex w-full col-span-9 justify-center items-center bg-indigo-800 text-white text-xl font-bold" size="md">
+                  Andamio Learner
+                </Card>
                 {accessToken ? (
                   <>
-                    <AccessTokenSection accessToken={accessToken} />
-
-                    <MyCoursesSection accessToken={accessToken} />
+                    <Card className="col-span-3 ">
+                      <AccessTokenSection accessToken={accessToken} />
+                    </Card>
+                    <Card className="col-span-6 row-span-2">
+                      MY ASSIGNMENTS SECTION
+                    </Card>
+                    <Card className="col-span-3">
+                      <MyCoursesSection accessToken={accessToken} />
+                    </Card>
                   </>
                 ) : (
                   <NoAccessTokenInWallet />
                 )}
+                <Card className="flex w-full col-span-9 justify-center items-center bg-indigo-800 text-white text-xl font-bold" size="md">
+                  Andamio Network Course Creator
+                </Card>
                 <CreatorsSection />
+
               </>
             )}
           </TabsContent>

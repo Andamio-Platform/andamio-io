@@ -44,7 +44,7 @@ export default function CourseOutline({
   function accordionContentClassNames(active: boolean) {
     return classNames(
       "hover:text-accent-foreground-foreground text-foreground hover:bg-accent",
-      "p-2",
+      "p-2 my-1",
       active ? "bg-indigo-200 hover:bg-indigo-200" : "",
     );
   }
@@ -71,7 +71,7 @@ export default function CourseOutline({
             <AccordionItem value={`module-${courseModule.moduleCode}`}>
               <AccordionTrigger
                 className={classNames(
-                  "bg-primary px-1 py-2 text-left text-primary-foreground hover:text-indigo-200",
+                  "bg-primary px-1 py-2 my-1 text-left text-primary-foreground hover:text-indigo-200",
                   "text-sm font-semibold",
                   "hover:no-underline",
                 )}
@@ -90,7 +90,7 @@ export default function CourseOutline({
                         : "#"
                     }
                   >
-                    Start Module
+                    <span className="font-semibold">Start Module</span>
                   </Link>
                 </AccordionContent>
               )}

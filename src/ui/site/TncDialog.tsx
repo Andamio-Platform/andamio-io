@@ -60,7 +60,7 @@ export default function TncDialog() {
         </h2>
 
         <p className="text-sm text-secondary-foreground">
-          Andamio Version 0.2.11
+          Andamio Version 0.2.12
         </p>
 
         <p className="py-1 font-medium">

@@ -55,7 +55,7 @@ export default function PageCourse({ courseCode }: { courseCode: string }) {
                     Variants
                   </TabsTrigger>
                   <TabsTrigger value="onchain" className="px-10">
-                    On-Chain Configuration
+                    Andamio Network Configuration
                   </TabsTrigger>
                 </TabsList>
                 <TabsContent value="modules">

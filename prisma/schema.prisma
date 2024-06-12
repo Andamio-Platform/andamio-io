@@ -232,16 +232,7 @@ enum Network {
 model CourseOnChainInstance {
   id String @id @default(cuid())
 
-  network              Network @default(PREPROD)
-  courseRefAddress     String?
-  assignmentAddress    String?
-  creatorCS            String?
-  facilitatorCS        String?
-  learnerCS            String?
-  moduleCS             String?
-  courseRefUTxO        String?
-  assignmentRefUTxO    String?
-  moduleMintingRefUTxO String?
+  network Network @default(PREPROD)
 
   course     Course @relation("CourseInstance", fields: [courseCode], references: [courseCode])
   courseCode String

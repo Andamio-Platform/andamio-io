@@ -4,7 +4,7 @@ import {
   CardFooter,
   CardHeader,
 } from "~/components/ui/card";
-import useLearnerAssignments from "./hooks/useLearnerAssignments";
+import useLearnerAssignmentStatuses from "./hooks/useLearnerAssignmentStatuses";
 import Link from "next/link";
 import AssignmentBadges from "~/components/ui/assignment-badges";
 import { Button } from "~/components/ui/button";
@@ -21,7 +21,7 @@ import {
 
 export default function AssignmentsSection() {
   const { learnerAssignments, sessionData, updateSession } =
-    useLearnerAssignments();
+    useLearnerAssignmentStatuses();
   const ctx = api.useUtils();
 
   const [showArchived, setShowArchived] = useState(false);
@@ -55,7 +55,7 @@ export default function AssignmentsSection() {
 
   return (
     <div className="flex w-full flex-col">
-      <div className="w-full grid grid-cols-1 gap-5">
+      <div className="grid w-full grid-cols-1 gap-5">
         <h2 className="text-2xl font-bold">My Assignments</h2>
         {learnerAssignments.map((la, i) => {
           if (la.archived && !showArchived) return null;
@@ -80,7 +80,9 @@ export default function AssignmentsSection() {
                     <Link
                       href={`/course/${la.courseCode}/${la.moduleCode}/assignment/${la.assignmentCode}`}
                     >
-                      <Button size="sm" className="mt-5">View Assignment</Button>
+                      <Button size="sm" className="mt-5">
+                        View Assignment
+                      </Button>
                     </Link>
                   </div>
                   <div className="col-span-2 rounded-md bg-white p-5">

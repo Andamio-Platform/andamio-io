@@ -37,37 +37,26 @@ export const courseOnChainInstanceRouter = createTRPCRouter({
       z.object({
         courseCode: z.string().min(1),
         network: z.nativeEnum(Network),
-        courseRefAddress: z.string().optional(),
-        assignmentAddress: z.string().optional(),
-        creatorCS: z.string().optional(),
-        facilitatorCS: z.string().optional(),
-        learnerCS: z.string().optional(),
-        moduleCS: z.string().optional(),
-        courseRefUTxO: z.string().optional(),
-        assignmentRefUTxO: z.string().optional(),
-        moduleMintingRefUTxO: z.string().optional(),
+        LocalStateValidatorAddress: z.string().optional(),
+        CourseCreatorNFTPolicyID: z.string().optional(),
+        LocalStatePolicyID: z.string().optional(),
+        CourseInstanceUTxO: z.string().optional(),
+        LocalStatePolicyRefUTxO: z.string().optional(),
+        AssignmentValidatorAddress: z.string().optional(),
+        ModuleValidatorAddress: z.string().optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
       return ctx.db.courseOnChainInstance.create({
         data: {
           network: input.network,
-          courseRefAddress: input.courseRefAddress,
-          assignmentAddress: input.assignmentAddress,
-          creatorCS: input.creatorCS,
-          facilitatorCS: input.facilitatorCS,
-          learnerCS: input.learnerCS,
-          moduleCS: input.moduleCS,
-          courseRefUTxO: input.courseRefUTxO,
-          assignmentRefUTxO: input.assignmentRefUTxO,
-          moduleMintingRefUTxO: input.moduleMintingRefUTxO,
-          LocalStateValidatorAddress: "", // Add the missing property
-          CourseCreatorNFTPolicyID: "", // Add the missing property
-          LocalStatePolicyID: "", // Add the missing property
-          CourseInstanceUTxO: "", // Add the missing property
-          LocalStatePolicyRefUTxO: "", // Add the missing property
-          AssignmentValidatorAddress: "", // Add the missing property
-          ModuleValidatorAddress: "", // Add the missing property
+          LocalStateValidatorAddress: input.LocalStateValidatorAddress ?? "",
+          CourseCreatorNFTPolicyID: input.CourseCreatorNFTPolicyID ?? "",
+          LocalStatePolicyID: input.LocalStatePolicyID ?? "",
+          CourseInstanceUTxO: input.CourseInstanceUTxO ?? "",
+          LocalStatePolicyRefUTxO: input.LocalStatePolicyRefUTxO ?? "",
+          AssignmentValidatorAddress: input.AssignmentValidatorAddress ?? "",
+          ModuleValidatorAddress: input.ModuleValidatorAddress ?? "",
           course: {
             connect: {
               courseCode: input.courseCode,
@@ -83,15 +72,13 @@ export const courseOnChainInstanceRouter = createTRPCRouter({
         id: z.string().min(1),
         courseCode: z.string().min(1),
         network: z.nativeEnum(Network),
-        courseRefAddress: z.string().optional(),
-        assignmentAddress: z.string().optional(),
-        creatorCS: z.string().optional(),
-        facilitatorCS: z.string().optional(),
-        learnerCS: z.string().optional(),
-        moduleCS: z.string().optional(),
-        courseRefUTxO: z.string().optional(),
-        assignmentRefUTxO: z.string().optional(),
-        moduleMintingRefUTxO: z.string().optional(),
+        LocalStateValidatorAddress: z.string().optional(),
+        CourseCreatorNFTPolicyID: z.string().optional(),
+        LocalStatePolicyID: z.string().optional(),
+        CourseInstanceUTxO: z.string().optional(),
+        LocalStatePolicyRefUTxO: z.string().optional(),
+        AssignmentValidatorAddress: z.string().optional(),
+        ModuleValidatorAddress: z.string().optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -102,15 +89,13 @@ export const courseOnChainInstanceRouter = createTRPCRouter({
         data: {
           course: { connect: { id: input.courseCode } },
           network: input.network,
-          courseRefAddress: input.courseRefAddress,
-          assignmentAddress: input.assignmentAddress,
-          creatorCS: input.creatorCS,
-          facilitatorCS: input.facilitatorCS,
-          learnerCS: input.learnerCS,
-          moduleCS: input.moduleCS,
-          courseRefUTxO: input.courseRefUTxO,
-          assignmentRefUTxO: input.assignmentRefUTxO,
-          moduleMintingRefUTxO: input.moduleMintingRefUTxO,
+          LocalStateValidatorAddress: input.LocalStateValidatorAddress ?? "",
+          CourseCreatorNFTPolicyID: input.CourseCreatorNFTPolicyID ?? "",
+          LocalStatePolicyID: input.LocalStatePolicyID ?? "",
+          CourseInstanceUTxO: input.CourseInstanceUTxO ?? "",
+          LocalStatePolicyRefUTxO: input.LocalStatePolicyRefUTxO ?? "",
+          AssignmentValidatorAddress: input.AssignmentValidatorAddress ?? "",
+          ModuleValidatorAddress: input.ModuleValidatorAddress ?? "",
         },
       });
     }),

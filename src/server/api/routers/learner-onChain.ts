@@ -14,14 +14,15 @@ export const learnerOnChainRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const courses = await ctx.db.courseOnChainInstance.findMany();
 
-      const courseQueries = courses.map((c) => {
-        return maestro
+      const courseQueries = courses.map(async (c) => {
+        const _course = await maestro
           .fetchAssetAddresses(c.LocalStatePolicyID + input.tokenName) // This is currently a lot of maestro queries - perfect to replace with local state indexer
           .then((res) => {
             if (res[0]?.address) {
               return c.courseCode;
             }
           });
+        return _course;
       });
 
       const courseList = await Promise.all(courseQueries);

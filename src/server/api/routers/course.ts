@@ -74,6 +74,18 @@ export const courseRouter = createTRPCRouter({
       });
     }),
 
+  getCoursesByCourseCodes: publicProcedure
+    .input(z.object({ courseCodes: z.array(z.string()) }))
+    .query(({ ctx, input }) => {
+      return ctx.db.course.findMany({
+        where: {
+          courseCode: {
+            in: input.courseCodes,
+          },
+        },
+      });
+    }),
+
   create: protectedProcedure
     .input(
       z.object({
@@ -133,7 +145,7 @@ export const courseRouter = createTRPCRouter({
         category: z.string().optional(),
         imageUrl: z.string().optional(),
         videoUrl: z.string().optional(),
-        accessTier: z.nativeEnum(AccessTier).optional()
+        accessTier: z.nativeEnum(AccessTier).optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {

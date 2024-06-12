@@ -17,7 +17,7 @@ type LearnerAssignment = {
   archived: boolean;
 };
 
-export default function useLearnerAssignments() {
+export default function useLearnerAssignmentStatuses() {
   const ctx = api.useUtils();
   const { data: sessionData, update: updateSession } = useSession();
 

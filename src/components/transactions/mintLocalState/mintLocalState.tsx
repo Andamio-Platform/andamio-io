@@ -103,11 +103,11 @@ export default function MintLocalState({ courseCode }: { courseCode: string }) {
         CourseCreatorNFTPolicyID: courseOnchain.CourseCreatorNFTPolicyID,
         LocalStatePolicyID: courseOnchain.LocalStatePolicyID,
         CourseInstanceUTxO: {
-          TxID: courseOnchain.CourseInstanceUTxO.substring(0, 65),
+          TxID: courseOnchain.CourseInstanceUTxO.substring(0, 64),
           TxIDIndex: parseInt(courseOnchain.CourseInstanceUTxO.substring(65)),
         },
         LocalStatePolicyRefUTxO: {
-          TxID: courseOnchain.LocalStatePolicyRefUTxO.substring(0, 65),
+          TxID: courseOnchain.LocalStatePolicyRefUTxO.substring(0, 64),
           TxIDIndex: parseInt(
             courseOnchain.LocalStatePolicyRefUTxO.substring(65),
           ),

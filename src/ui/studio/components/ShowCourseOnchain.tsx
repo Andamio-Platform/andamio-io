@@ -6,7 +6,7 @@ import { useSession } from "next-auth/react";
 import DialogCourseOnChain from "./dialogs/DialogCourseOnChain";
 import { Network } from "@prisma/client";
 import useCourseOnchain from "~/hooks/useCourseOnchain";
-import { Card } from "~/components/ui/card";
+import { Card, CardContent, CardHeader } from "~/components/ui/card";
 
 export default function ShowCourseOnchain({
   course,
@@ -24,7 +24,7 @@ export default function ShowCourseOnchain({
   >(undefined);
 
   const { data: sessionData } = useSession();
-  const isOwner = course.createdById === sessionData?.user?.id;
+  const isOwner = course.createdById === sessionData?.user?.creatorId;
 
   const { courseOnchain, isLoadingCourseOnchain } = useCourseOnchain(
     course.courseCode,
@@ -39,129 +39,99 @@ export default function ShowCourseOnchain({
 
   return (
     <>
-      {selectedOnChainInstance ? (
+      {selectedOnChainInstance && (
         <Card>
-          <table className="min-w-full border-separate border-spacing-0">
-            <thead>
-              <tr>
-                <th
-                  scope="col"
-                  className="sticky top-0 z-10 border-b border-accent-foreground bg-secondary bg-opacity-75 py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-foreground backdrop-blur backdrop-filter sm:pl-6 lg:pl-8"
+          <CardHeader className="flex flex-row items-center justify-between">
+            <p className="text-2xl font-bold">
+              Andamio Network Configuration (Network: {selectedOnChainInstance.network})
+            </p>
+            {isOwner && (
+              <div className="">
+                <Button
+                  onClick={() => {
+                    setShowDialog(true);
+                  }}
                 >
-                  On Chain Info (Network: {selectedOnChainInstance.network})
-                </th>
-                <th
-                  scope="col"
-                  className="sticky top-0 z-10 hidden border-b border-accent-foreground bg-secondary bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-foreground backdrop-blur backdrop-filter sm:table-cell"
-                >
-                  {isOwner && (
-                    <div className="flex place-content-end">
-                      <Button
-                        onClick={() => {
-                          setShowDialog(true);
-                        }}
-                      >
-                        Update
-                      </Button>
-                    </div>
-                  )}
-                </th>
-              </tr>
-            </thead>
-            <div className="grid grid-cols-2 gap-5">
-              <div className="py-5 pl-4 pr-3 text-sm sm:pl-0">
-                <div className="pb-1 pt-3 font-light uppercase text-foreground">
-                  Creator CS
-                </div>
-                <div className="mt-1 flex items-center gap-x-2 font-mono leading-5 text-foreground">
-                  <span className="break-normal">
-                    {selectedOnChainInstance.creatorCS}
-                  </span>
-                </div>
-                <div className="pb-1 pt-3 font-light uppercase text-foreground">
-                  Facilitator CS
-                </div>
-                <div className="mt-1 flex items-center gap-x-2 font-mono leading-5 text-foreground">
-                  <span className="break-normal">
-                    {selectedOnChainInstance.facilitatorCS}
-                  </span>
-                </div>
-                <div className="pb-1 pt-3 font-light uppercase text-foreground">
-                  Learner CS
-                </div>
-                <div className="mt-1 flex items-center gap-x-2 font-mono leading-5 text-foreground">
-                  <span className="break-normal">
-                    {selectedOnChainInstance.learnerCS}
-                  </span>
-                </div>
-                <div className="pb-1 pt-3 font-light uppercase text-foreground">
-                  Module CS
-                </div>
-                <div className="mt-1 flex items-center gap-x-2 font-mono leading-5 text-foreground">
-                  <span className="break-normal">
-                    {selectedOnChainInstance.moduleCS}
-                  </span>
-                </div>
+                  Update
+                </Button>
               </div>
-              <div className="py-5 pl-4 pr-3 text-sm sm:pl-0">
-                <div className="pb-1 pt-3 font-light uppercase text-foreground">
-                  CourseRef Address
+            )}
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1">
+              <div className="my-2 items-center gap-x-2 font-mono leading-5 text-foreground">
+                <div className="text-xs font-light text-foreground">
+                  LocalStateValidatorAddress
                 </div>
-                <div className="mt-1 flex items-center gap-x-2 font-mono leading-5 text-foreground">
-                  <span className="break-normal">
-                    {selectedOnChainInstance.courseRefAddress}
-                  </span>
+                <span className="break-normal text-sm">
+                  {selectedOnChainInstance.LocalStateValidatorAddress}
+                </span>
+              </div>
+              <div className="my-2 items-center gap-x-2 font-mono leading-5 text-foreground">
+                <div className="text-xs font-light text-foreground">
+                  CourseCreatorNFTPolicyID
                 </div>
+                <span className="break-normal text-sm">
+                  {selectedOnChainInstance.CourseCreatorNFTPolicyID}
+                </span>
+              </div>
+              <div className="my-2 items-center gap-x-2 font-mono leading-5 text-foreground">
+                <div className="text-xs font-light text-foreground">
+                  LocalStatePolicyID
+                </div>
+                <span className="break-normal text-sm">
+                  {selectedOnChainInstance.LocalStatePolicyID}
+                </span>
+              </div>
+              <div className="my-2 items-center gap-x-2 font-mono leading-5 text-foreground">
+                <div className="text-xs font-light text-foreground">
+                  CourseInstanceUTxO
+                </div>
+                <span className="break-normal text-sm">
+                  {selectedOnChainInstance.CourseInstanceUTxO}
+                </span>
+              </div>
 
-                <div className="pb-1 pt-3 font-light uppercase text-foreground">
-                  Assignment Address
+              <div className="my-2 items-center gap-x-2 font-mono leading-5 text-foreground">
+                <div className="text-xs font-light text-foreground">
+                  LocalStatePolicyRefUTxO
                 </div>
-                <div className="mt-1 flex items-center gap-x-2 font-mono leading-5 text-foreground">
-                  <span className="break-normal">
-                    {selectedOnChainInstance.assignmentAddress}
-                  </span>
-                </div>
+                <span className="break-normal text-sm">
+                  {selectedOnChainInstance.LocalStatePolicyRefUTxO}
+                </span>
+              </div>
 
-                <div className="pb-1 pt-3 font-light uppercase text-foreground">
-                  AssignmentRefUTxO
+              <div className="my-2 items-center gap-x-2 font-mono leading-5 text-foreground">
+                <div className="text-xs font-light text-foreground">
+                  AssignmentValidatorAddress
                 </div>
-                <div className="mt-1 flex items-center gap-x-2 font-mono leading-5 text-foreground">
-                  <span className="break-normal">
-                    {selectedOnChainInstance.assignmentRefUTxO}
-                  </span>
-                </div>
+                <span className="break-normal text-sm">
+                  {selectedOnChainInstance.AssignmentValidatorAddress}
+                </span>
+              </div>
 
-                <div className="pb-1 pt-3 font-light uppercase text-foreground">
-                  CourseRefUTxO
+              <div className="my-2 items-center gap-x-2 font-mono leading-5 text-foreground">
+                <div className="text-xs font-light text-foreground">
+                  ModuleValidatorAddress
                 </div>
-                <div className="mt-1 flex items-center gap-x-2 font-mono leading-5 text-foreground">
-                  <span className="break-normal">
-                    {selectedOnChainInstance.courseRefUTxO}
-                  </span>
-                </div>
-                <div className="pb-1 pt-3 font-light uppercase text-foreground">
-                  ModuleMintingRefUTxO
-                </div>
+                <span className="break-normal text-sm">
+                  {selectedOnChainInstance.ModuleValidatorAddress}
+                </span>
+              </div>
 
-                <div className="mt-1 flex items-center gap-x-2 font-mono leading-5 text-foreground">
-                  <span className="break-normal">
-                    {selectedOnChainInstance.moduleMintingRefUTxO}
-                  </span>
-                </div>
-
-                <div className="pb-1 pt-3 font-light uppercase text-foreground">
+              <div className="my-2 items-center gap-x-2 font-mono leading-5 text-foreground">
+                <div className="text-xs font-light text-foreground">
                   Instance ID
                 </div>
-                <div className="mt-1 flex items-center gap-x-2 font-mono leading-5 text-foreground">
-                  <span className="break-normal">
-                    {selectedOnChainInstance.id}
-                  </span>
-                </div>
+                <span className="break-normal text-sm">
+                  {selectedOnChainInstance.id}
+                </span>
               </div>
             </div>
-          </table>
+          </CardContent>
         </Card>
-      ) : (
+      )}
+      <div className="mt-5">
         <DialogCourseOnChain
           dialogOpen={showDialog}
           setDialogOpen={setShowDialog}
@@ -169,7 +139,7 @@ export default function ShowCourseOnchain({
           courseOnchain={selectedOnChainInstance}
           selectedNetwork={network}
         />
-      )}
+      </div>
     </>
   );
 }

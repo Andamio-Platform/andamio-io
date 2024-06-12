@@ -63,30 +63,26 @@ export default function DialogCourseOnChain({
   // Todo: Add validation for CS, Addr, and UTxO types
   const FormSchema = z.object({
     network: z.nativeEnum(Network),
-    courseRefAddress: z.string().optional(),
-    assignmentAddress: z.string().optional(),
-    creatorCS: z.string().optional(),
-    facilitatorCS: z.string().optional(),
-    learnerCS: z.string().optional(),
-    moduleCS: z.string().optional(),
-    courseRefUTxO: z.string().optional(),
-    assignmentRefUTxO: z.string().optional(),
-    moduleMintingRefUTxO: z.string().optional(),
+    LocalStateValidatorAddress: z.string().optional(),
+    CourseCreatorNFTPolicyID: z.string().optional(),
+    LocalStatePolicyID: z.string().optional(),
+    CourseInstanceUTxO: z.string().optional(),
+    LocalStatePolicyRefUTxO: z.string().optional(),
+    AssignmentValidatorAddress: z.string().optional(),
+    ModuleValidatorAddress: z.string().optional(),
   });
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       network: "PREPROD",
-      courseRefAddress: "",
-      assignmentAddress: "",
-      creatorCS: "",
-      facilitatorCS: "",
-      learnerCS: "",
-      moduleCS: "",
-      courseRefUTxO: "",
-      assignmentRefUTxO: "",
-      moduleMintingRefUTxO: "",
+      LocalStateValidatorAddress: "",
+      CourseCreatorNFTPolicyID: "",
+      LocalStatePolicyID: "",
+      CourseInstanceUTxO: "",
+      LocalStatePolicyRefUTxO: "",
+      AssignmentValidatorAddress: "",
+      ModuleValidatorAddress: "",
     },
   });
 
@@ -100,29 +96,25 @@ export default function DialogCourseOnChain({
         id: courseOnchain.id,
         courseCode: course.courseCode,
         network: data.network,
-        courseRefAddress: data.courseRefAddress,
-        assignmentAddress: data.assignmentAddress,
-        creatorCS: data.creatorCS,
-        facilitatorCS: data.facilitatorCS,
-        learnerCS: data.learnerCS,
-        moduleCS: data.moduleCS,
-        courseRefUTxO: data.courseRefUTxO,
-        assignmentRefUTxO: data.assignmentRefUTxO,
-        moduleMintingRefUTxO: data.moduleMintingRefUTxO,
+        LocalStateValidatorAddress: data.LocalStateValidatorAddress,
+        CourseCreatorNFTPolicyID: data.CourseCreatorNFTPolicyID,
+        LocalStatePolicyID: data.LocalStatePolicyID,
+        CourseInstanceUTxO: data.CourseInstanceUTxO,
+        LocalStatePolicyRefUTxO: data.LocalStatePolicyRefUTxO,
+        AssignmentValidatorAddress: data.AssignmentValidatorAddress,
+        ModuleValidatorAddress: data.ModuleValidatorAddress,
       });
     } else {
       const _data = {
         courseCode: course.courseCode,
         network: selectedNetwork,
-        courseRefAddress: data.courseRefAddress,
-        assignmentAddress: data.assignmentAddress,
-        creatorCS: data.creatorCS,
-        facilitatorCS: data.facilitatorCS,
-        learnerCS: data.learnerCS,
-        moduleCS: data.moduleCS,
-        courseRefUTxO: data.courseRefUTxO,
-        assignmentRefUTxO: data.assignmentRefUTxO,
-        moduleMintingRefUTxO: data.moduleMintingRefUTxO,
+        LocalStateValidatorAddress: data.LocalStateValidatorAddress,
+        CourseCreatorNFTPolicyID: data.CourseCreatorNFTPolicyID,
+        LocalStatePolicyID: data.LocalStatePolicyID,
+        CourseInstanceUTxO: data.CourseInstanceUTxO,
+        LocalStatePolicyRefUTxO: data.LocalStatePolicyRefUTxO,
+        AssignmentValidatorAddress: data.AssignmentValidatorAddress,
+        ModuleValidatorAddress: data.ModuleValidatorAddress,
       };
       create(_data);
     }
@@ -132,15 +124,15 @@ export default function DialogCourseOnChain({
     if (dialogOpen && courseOnchain) {
       form.reset({
         network: courseOnchain.network ?? "PREPROD",
-        courseRefAddress: courseOnchain.courseRefAddress ?? "",
-        assignmentAddress: courseOnchain.assignmentAddress ?? "",
-        creatorCS: courseOnchain.creatorCS ?? "",
-        facilitatorCS: courseOnchain.facilitatorCS ?? "",
-        learnerCS: courseOnchain.learnerCS ?? "",
-        moduleCS: courseOnchain.moduleCS ?? "",
-        courseRefUTxO: courseOnchain.courseRefUTxO ?? "",
-        assignmentRefUTxO: courseOnchain.assignmentRefUTxO ?? "",
-        moduleMintingRefUTxO: courseOnchain.moduleMintingRefUTxO ?? "",
+        LocalStateValidatorAddress:
+          courseOnchain.LocalStateValidatorAddress ?? "",
+        CourseCreatorNFTPolicyID: courseOnchain.CourseCreatorNFTPolicyID ?? "",
+        LocalStatePolicyID: courseOnchain.LocalStatePolicyID ?? "",
+        CourseInstanceUTxO: courseOnchain.CourseInstanceUTxO ?? "",
+        LocalStatePolicyRefUTxO: courseOnchain.LocalStatePolicyRefUTxO ?? "",
+        AssignmentValidatorAddress:
+          courseOnchain.AssignmentValidatorAddress ?? "",
+        ModuleValidatorAddress: courseOnchain.ModuleValidatorAddress ?? "",
       });
     }
   }, [dialogOpen]);
@@ -148,7 +140,7 @@ export default function DialogCourseOnChain({
   return (
     <Form {...form}>
       <DialogForm
-        openButton="Add On Chain Info"
+        openButton={courseOnchain ? "Update Network Config" : "Add Network Config"}
         openButtonIntent="dialog"
         title={
           courseOnchain
@@ -166,48 +158,38 @@ export default function DialogCourseOnChain({
           <div className="mt-4 grid grid-cols-1 gap-y-4">
             <p className="text-xl font-bold">Network: {selectedNetwork}</p>
             <FormInput
-              name="courseRefAddress"
-              label="Course Reference Address"
+              name="LocalStateValidatorAddress"
+              label="LocalStateValidatorAddress"
               form={form}
             />
             <FormInput
-              name="assignmentAddress"
-              label="Assignment Address"
+              name="CourseCreatorNFTPolicyID"
+              label="CourseCreatorNFTPolicyID"
               form={form}
             />
             <FormInput
-              name="creatorCS"
-              label="Creator Currency Symbol"
+              name="LocalStatePolicyID"
+              label="LocalStatePolicyID"
               form={form}
             />
             <FormInput
-              name="facilitatorCS"
-              label="Facilitator Currency Symbol"
+              name="CourseInstanceUTxO"
+              label="CourseInstanceUTxO"
               form={form}
             />
             <FormInput
-              name="learnerCS"
-              label="Learning Currency Symbol"
+              name="LocalStatePolicyRefUTxO"
+              label="LocalStatePolicyRefUTxO"
               form={form}
             />
             <FormInput
-              name="moduleCS"
-              label="Module Currency Symbol"
+              name="AssignmentValidatorAddress"
+              label="AssignmentValidatorAddress"
               form={form}
             />
             <FormInput
-              name="courseRefUTxO"
-              label="Course Reference Reference UTxO"
-              form={form}
-            />
-            <FormInput
-              name="assignmentRefUTxO"
-              label="Assignment Reference UTxO"
-              form={form}
-            />
-            <FormInput
-              name="moduleMintingRefUTxO"
-              label="Module Minting Reference UTxO"
+              name="ModuleValidatorAddress"
+              label="ModuleValidatorAddress"
               form={form}
             />
             <p>Onchain Instance Id: {courseOnchain.id}</p>
@@ -216,48 +198,38 @@ export default function DialogCourseOnChain({
           <div className="mt-4 grid grid-cols-1 gap-y-4">
             <p className="text-xl font-bold">Network: {selectedNetwork}</p>
             <FormInput
-              name="courseRefAddress"
-              label="Course Reference Address"
+              name="LocalStateValidatorAddress"
+              label="LocalStateValidatorAddress"
               form={form}
             />
             <FormInput
-              name="assignmentAddress"
-              label="Assignment Address"
+              name="CourseCreatorNFTPolicyID"
+              label="CourseCreatorNFTPolicyID"
               form={form}
             />
             <FormInput
-              name="creatorCS"
-              label="Creator Currency Symbol"
+              name="LocalStatePolicyID"
+              label="LocalStatePolicyID"
               form={form}
             />
             <FormInput
-              name="facilitatorCS"
-              label="Facilitator Currency Symbol"
+              name="CourseInstanceUTxO"
+              label="CourseInstanceUTxO"
               form={form}
             />
             <FormInput
-              name="learnerCS"
-              label="Learning Currency Symbol"
+              name="LocalStatePolicyRefUTxO"
+              label="LocalStatePolicyRefUTxO"
               form={form}
             />
             <FormInput
-              name="moduleCS"
-              label="Module Currency Symbol"
+              name="AssignmentValidatorAddress"
+              label="AssignmentValidatorAddress"
               form={form}
             />
             <FormInput
-              name="courseRefUTxO"
-              label="Course Reference Reference UTxO"
-              form={form}
-            />
-            <FormInput
-              name="assignmentRefUTxO"
-              label="Assignment Reference UTxO"
-              form={form}
-            />
-            <FormInput
-              name="moduleMintingRefUTxO"
-              label="Module Minting Reference UTxO"
+              name="ModuleValidatorAddress"
+              label="ModuleValidatorAddress"
               form={form}
             />
           </div>

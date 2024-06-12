@@ -47,8 +47,16 @@ export default function DashboardPage() {
       <div className="mx-auto mt-[150px] flex w-full items-center justify-center">
         <Tabs defaultValue="andamioNetwork" className="w-2/3">
           <TabsList className="my-3 w-full rounded-md border border-secondary-foreground bg-indigo-800 text-white">
-            <TabsTrigger value="andamioNetwork" className="text-lg font-bold px-10 mx-10">Network</TabsTrigger>
-            <TabsTrigger value="learningJourney" className="text-lg font-bold px-10 mx-10">
+            <TabsTrigger
+              value="andamioNetwork"
+              className="mx-10 px-10 text-lg font-bold"
+            >
+              Network
+            </TabsTrigger>
+            <TabsTrigger
+              value="learningJourney"
+              className="mx-10 px-10 text-lg font-bold"
+            >
               My Learning Journey
             </TabsTrigger>
           </TabsList>
@@ -57,10 +65,15 @@ export default function DashboardPage() {
             className="grid w-full grid-cols-9 gap-4"
           >
             {!connected ? (
-              <NotConnectedCardano />
+              <div className="col-span-5 col-start-3 my-5">
+                <NotConnectedCardano />
+              </div>
             ) : (
               <>
-                <Card className="flex w-full col-span-9 justify-center items-center bg-indigo-800 text-white text-xl font-bold" size="md">
+                <Card
+                  className="col-span-9 flex w-full items-center justify-center bg-indigo-800 text-xl font-bold text-white"
+                  size="md"
+                >
                   Andamio Learner
                 </Card>
                 {accessToken ? (
@@ -69,20 +82,39 @@ export default function DashboardPage() {
                       <AccessTokenSection accessToken={accessToken} />
                     </Card>
                     <Card className="col-span-6 row-span-2">
-                      MY ASSIGNMENTS SECTION
+                      <CardHeader>
+                        <h1 className="text-2xl font-bold">
+                          Current Assignments
+                        </h1>
+                      </CardHeader>
+                      <CardContent></CardContent>
                     </Card>
-                    <Card className="col-span-3">
+                    <div className="col-span-3 row-span-2">
                       <MyCoursesSection accessToken={accessToken} />
+                    </div>
+
+                    <Card className="col-span-6">
+                      <CardHeader>
+                        <h1 className="text-2xl font-bold">
+                          {" "}
+                          Completed Courses
+                        </h1>
+                      </CardHeader>
+                      <CardContent></CardContent>
                     </Card>
                   </>
                 ) : (
-                  <NoAccessTokenInWallet />
+                  <div className="col-span-5 col-start-3 my-5">
+                    <NoAccessTokenInWallet />
+                  </div>
                 )}
-                <Card className="flex w-full col-span-9 justify-center items-center bg-indigo-800 text-white text-xl font-bold" size="md">
+                <Card
+                  className="col-span-9 flex w-full items-center justify-center bg-indigo-800 text-xl font-bold text-white"
+                  size="md"
+                >
                   Andamio Network Course Creator
                 </Card>
                 <CreatorsSection />
-
               </>
             )}
           </TabsContent>

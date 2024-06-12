@@ -10,6 +10,7 @@ import FormInput from "~/components/form/form-input";
 import DialogForm from "~/components/form/dialog-form";
 import { AccessTier } from "@prisma/client";
 import FormSelect from "~/components/form/form-select";
+import FormTextArea from "~/components/form/form-textarea";
 
 export default function DialogCourse({ course }: { course?: Course }) {
   const ctx = api.useUtils();
@@ -144,10 +145,11 @@ export default function DialogCourse({ course }: { course?: Course }) {
             placeholder={`Add a Course Title`}
           />
 
-          <FormInput
+          <FormTextArea
             name="description"
             label="Course Description"
             form={form}
+            height={150}
           />
 
           <FormInput name="imageUrl" label="Cover Image URL" form={form} />

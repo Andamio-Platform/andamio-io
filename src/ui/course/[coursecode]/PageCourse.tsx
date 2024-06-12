@@ -27,6 +27,7 @@ import {
   DocumentCheckIcon,
 } from "@heroicons/react/24/outline";
 import Metatags from "~/components/site/metatags";
+import Markdown from "react-markdown";
 
 export default function PageCourse({
   courseCode,
@@ -94,7 +95,9 @@ export default function PageCourse({
         <h1 className="text-[3rem] font-bold leading-[5rem]">
           {_course.title}
         </h1>
-        <div className="py-10 text-xl leading-8">{_course.description}</div>
+        <div className="prose py-10 text-xl leading-8 dark:prose-invert">
+          <Markdown>{_course.description}</Markdown>
+        </div>
         <div className="grid grid-cols-1 gap-5 lg:gap-10">
           <div>
             {_course.videoUrl && (

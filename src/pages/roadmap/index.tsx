@@ -2,13 +2,25 @@ import { Card } from "~/components/ui/card";
 
 const roadmapData = [
   {
-    date: "June 2024",
+    date: "2023",
+    andamioPlatform: [],
+    features: [],
+    products: [],
+    community: [],
+  },
+  {
+    date: "Q1 2024",
+    andamioPlatform: [],
+    features: [],
+    products: [],
+    community: [],
+  },
+  {
+    date: "Q2 2024",
     andamioPlatform: [
-      "Course Platform Preprod Internal Release",
       "Contributor Platform Mainnet prototype currently testing at Gimbalabs",
     ],
-    network: ["Tokenomics proposal forming"],
-    valueProps: [
+    features: [
       "Learners can create accounts at andamio.io",
       "Learners can track progress off-chain",
       "Creators can create a course a write course content",
@@ -21,15 +33,12 @@ const roadmapData = [
       "Early access to Andamio Studio for creators",
       "Train-the-trainer workshops",
     ],
+    community: [],
   },
   {
     date: "July 2024",
-    andamioPlatform: [
-      "Course Platform Preprod Public Release",
-      "Course Platform Mainnet Release (MVP)",
-    ],
-    network: [],
-    valueProps: [
+    andamioPlatform: ["Course Platform Preprod Release"],
+    features: [
       "Learners can enroll in a course on Cardano Preprod",
       "Learners can Commit to an assignment on Cardano Preprod",
       "Learners can track learning progress: on-chain",
@@ -40,14 +49,16 @@ const roadmapData = [
       "Creators can approve assignment commitments",
     ],
     products: [],
+    community: ["Andamio Public Discord", "Beta testing"],
   },
   {
     date: "Q3 2024",
     andamioPlatform: [
+      "Course Platform Mainnet Release",
+
       "Contributor Platform Documentation available to clients",
     ],
-    network: [],
-    valueProps: [
+    features: [
       "Learners can sign up for a course on Cardano Mainnet",
       "Learners commit to an assignment on Cardano Mainnet",
       "Learners can track learning progress: on-chain",
@@ -56,12 +67,12 @@ const roadmapData = [
       "Creators can approve assignment commitments on Mainnet",
     ],
     products: [],
+    community: [],
   },
   {
     date: "November 2024",
     andamioPlatform: ["Andamio Platform: Full Public Release"],
-    network: [],
-    valueProps: [
+    features: [
       "Learners can sign up for a course on Cardano Mainnet",
       "Learners commit to an assignment on Cardano Mainnet",
       "Learners can track learning progress: on-chain",
@@ -75,6 +86,7 @@ const roadmapData = [
       "Reviewers can distribute funds for completed projects",
     ],
     products: [],
+    community: [],
   },
 ];
 
@@ -96,13 +108,11 @@ export default function RoadmapPage() {
                 Andamio Platform
               </p>
             </div>
-            <div className="col-span-2 h-[4000px] border-r border-black/50">
-              <p className="py-3 text-center text-xl font-bold">
-                Andamio Network
-              </p>
-            </div>
             <div className="col-span-2 h-[4000px] border-r border-black/50 ">
-              <p className="py-3 text-center text-xl font-bold">Value Props</p>
+              <p className="py-3 text-center text-xl font-bold">Features</p>
+            </div>
+            <div className="col-span-2 h-[4000px] border-r border-black/50">
+              <p className="py-3 text-center text-xl font-bold">Community</p>
             </div>
             <div className="col-span-2 h-[4000px] ">
               <p className="py-3 text-center text-xl font-bold">Products</p>
@@ -128,6 +138,9 @@ export default function RoadmapPage() {
                       if (cp.startsWith("Andamio Platform")) {
                         col = "bg-gradient-to-r from-green-800 to-purple-800";
                       }
+                      if (cp.startsWith("INTERNAL")) {
+                        col = "bg-red-800";
+                      }
                       return (
                         <Card
                           size="md"
@@ -139,20 +152,8 @@ export default function RoadmapPage() {
                       );
                     })}
                   </div>
-
                   <div className="col-span-2 col-start-3 mx-2 my-1 flex flex-col items-center px-2 text-sm">
-                    {rmp.network.map((network, j) => (
-                      <Card
-                        size="md"
-                        className="mx-auto my-1 flex w-11/12 items-center bg-blue-800 px-2 text-white"
-                        key={network + j}
-                      >
-                        {network}
-                      </Card>
-                    ))}
-                  </div>
-                  <div className="col-span-2 col-start-5 mx-2 my-1 flex flex-col items-center px-2 text-sm">
-                    {rmp.valueProps.map((vp, j) => {
+                    {rmp.features.map((vp, j) => {
                       let col = "bg-gray-800";
                       if (vp.startsWith("Learners")) {
                         col = "bg-green-800";
@@ -185,6 +186,18 @@ export default function RoadmapPage() {
                       );
                     })}
                   </div>
+                  <div className="col-span-2 col-start-5 mx-2 my-1 flex flex-col items-center px-2 text-sm">
+                    {rmp.community.map((community, j) => (
+                      <Card
+                        size="md"
+                        className="mx-auto my-1 flex w-11/12 items-center bg-blue-800 px-2 text-white"
+                        key={community + j}
+                      >
+                        {community}
+                      </Card>
+                    ))}
+                  </div>
+
                   <div className="col-span-2 col-start-7 mx-2 my-1 flex flex-col items-center px-2 text-sm">
                     {rmp.products.map((pro, j) => (
                       <Card

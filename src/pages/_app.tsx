@@ -5,13 +5,12 @@ import { SessionProvider } from "next-auth/react";
 import { type AppType } from "next/app";
 import { api } from "~/utils/api";
 import { Toaster } from "react-hot-toast";
-import { Toaster as T } from "~/components/ui/toaster";
+import { Toaster as UiToaster } from "~/components/ui/toaster";
 import { ThemeProvider } from "~/components/theme-provider";
-import { LightDarkToggle } from "~/ui/site/LightDarkToggle";
-import MenuBar from "~/ui/landing/MenuBar";
 import { MeshProvider } from "@meshsdk/react";
 import { DialogReportSupport } from "~/ui/site/DialogReportSupport";
 import TncDialog from "~/ui/site/TncDialog";
+import Metatags from "~/components/site/metatags";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -24,12 +23,13 @@ const MyApp: AppType<{ session: Session | null }> = ({
       enableSystem={false}
       disableTransitionOnChange
     >
+      <Metatags />
       <SessionProvider session={session}>
         <MeshProvider>
           <Toaster position="top-right" />
           <div className="min-h-screen bg-background text-foreground">
             <Component {...pageProps} />
-            <T />
+            <UiToaster />
             <TncDialog />
           </div>
           <DialogReportSupport />

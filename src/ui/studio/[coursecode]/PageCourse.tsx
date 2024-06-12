@@ -14,6 +14,7 @@ import SelectNetwork from "~/components/select-network";
 import { CourseVariant } from "~/types/db";
 import ModuleComponent from "../components/ModuleComponent";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
+import Metatags from "~/components/site/metatags";
 
 export default function PageCourse({ courseCode }: { courseCode: string }) {
   const { course, isLoadingCourse } = useCourseByOwner(courseCode);
@@ -41,6 +42,7 @@ export default function PageCourse({ courseCode }: { courseCode: string }) {
       <>
         {course ? (
           <>
+            <Metatags title={course.title} />
             <div className="flex flex-col gap-4 sm:mx-auto sm:w-[630px] md:w-[750px] lg:w-[800px] xl:w-[950px] 2xl:w-[1100px]">
               <CourseTitle course={course} />
               <Tabs defaultValue="modules">
@@ -90,7 +92,11 @@ export default function PageCourse({ courseCode }: { courseCode: string }) {
             </div>
           </>
         ) : (
-          isLoadingCourse && <div className="flex min-h-[90vh] items-center"><Loading size={50} /></div>
+          isLoadingCourse && (
+            <div className="flex min-h-[90vh] items-center">
+              <Loading size={50} />
+            </div>
+          )
         )}
       </>
     </StudioLayout>

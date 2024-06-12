@@ -26,6 +26,7 @@ import {
   DocumentTextIcon,
   DocumentCheckIcon,
 } from "@heroicons/react/24/outline";
+import Metatags from "~/components/site/metatags";
 
 export default function PageCourse({
   courseCode,
@@ -88,6 +89,7 @@ export default function PageCourse({
 
   return (
     <CourseLayout>
+      <Metatags title={_course.title} />
       <div className="mx-auto flex w-full max-w-5xl flex-col md:w-11/12 lg:w-11/12">
         <h1 className="text-[3rem] font-bold leading-[5rem]">
           {_course.title}

@@ -6,10 +6,6 @@ import Hero from "./Hero";
 import LogoCloud from "./LogoCloud";
 import Features from "./Features";
 import FeaturedCourses from "./FeaturedCourses";
-import Testimonial from "./Testimonial";
-import Pricing from "./Pricing";
-import FAQs from "./FAQs";
-import CTA from "./CTA";
 import Footer from "./Footer";
 
 export default function PageLanding() {

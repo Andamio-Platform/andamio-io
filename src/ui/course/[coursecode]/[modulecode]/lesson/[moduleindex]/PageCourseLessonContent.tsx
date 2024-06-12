@@ -6,6 +6,7 @@ import RenderEditor from "~/components/Editor/components/render/RenderEditor";
 import { ChatContainer } from "~/components/chat/chat-container";
 import Loading from "~/components/loading";
 import VideoPlayer from "~/components/media/VideoPlayer";
+import Metatags from "~/components/site/metatags";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import useLesson from "~/hooks/useLesson";
 import useSLT from "~/hooks/useSLT";
@@ -68,6 +69,7 @@ export default function PageCourseContent({
   return (
     <CourseLayout>
       <ModuleLayout courseCode={courseCode} courseModule={courseModule}>
+        <Metatags title={lesson?.title ?? undefined} />
         {lesson && lesson.live ? (
           <div className="mx-auto flex max-w-3xl flex-col gap-4 text-base leading-7 text-foreground">
             <Page

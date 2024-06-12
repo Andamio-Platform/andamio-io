@@ -24,6 +24,7 @@ import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import AssignmentBadges from "~/components/ui/assignment-badges";
 import CourseNavigation from "~/ui/course/components/ui/CourseNavigation";
+import Metatags from "~/components/site/metatags";
 
 export default function PageCourseAssignmentContent({
   courseCode,
@@ -48,6 +49,7 @@ export default function PageCourseAssignmentContent({
   return (
     <CourseLayout>
       <ModuleLayout courseCode={courseCode} courseModule={courseModule}>
+        <Metatags title={assignment?.title ?? undefined} />
         {assignment && assignment.live ? (
           <div className="mx-auto flex max-w-3xl flex-col gap-4 text-base leading-7 text-foreground">
             <Page
@@ -140,7 +142,9 @@ function Page({
         <Card className="mt-10">
           <CardHeader className="flex w-full flex-row items-center justify-between">
             <h2 className="text-2xl font-bold">Assignment Status</h2>
-          {currentCommitment?.status && <AssignmentBadges status={currentCommitment.status} />}
+            {currentCommitment?.status && (
+              <AssignmentBadges status={currentCommitment.status} />
+            )}
           </CardHeader>
           <CardContent>
             {currentCommitment && (

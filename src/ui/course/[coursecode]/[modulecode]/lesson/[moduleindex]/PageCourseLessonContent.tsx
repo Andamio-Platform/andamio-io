@@ -16,6 +16,7 @@ import CourseLayout from "~/ui/course/components/layout/CourseLayout";
 import ModuleLayout from "~/ui/course/components/layout/ModuleLayout";
 import CourseNavigation from "~/ui/course/components/ui/CourseNavigation";
 import { api } from "~/utils/api";
+import SkeletonParagraph from "~/components/site/skeleton-paragraph";
 
 export default function PageCourseContent({
   courseCode,
@@ -101,7 +102,9 @@ export default function PageCourseContent({
             )}
           </div>
         ) : isLoadingLesson || isLoadingSLT ? (
-          <Loading />
+          <div className="mx-auto flex max-w-3xl flex-col gap-4 text-base leading-7 text-foreground">
+            <SkeletonParagraph />
+          </div>
         ) : (
           <div className="mx-auto flex max-w-3xl flex-col gap-4 text-base leading-7 text-foreground">
             <Alert variant="success">

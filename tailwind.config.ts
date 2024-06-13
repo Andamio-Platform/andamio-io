@@ -78,6 +78,12 @@ const config = {
       },
     },
   },
+  safelist: [
+    'w-1/4',
+    'w-2/4',
+    'w-3/4',
+    'w-1/2',
+  ],
   plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
 } satisfies Config;
 

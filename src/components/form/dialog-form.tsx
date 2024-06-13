@@ -2,7 +2,9 @@ import {
   ArrowUpIcon,
   CrossCircledIcon,
   GearIcon,
+  PlusCircledIcon,
   SymbolIcon,
+  TrashIcon,
 } from "@radix-ui/react-icons";
 import { Button } from "../ui/button";
 import {
@@ -22,6 +24,7 @@ export default function DialogForm({
   openButtonIntent,
   title,
   description,
+  icon,
   buttonLabel,
   buttonLoading,
   buttonDisabled,
@@ -34,6 +37,7 @@ export default function DialogForm({
   openButtonIntent: "module" | "default" | "dialog";
   title: string;
   description?: string;
+  icon?: string;
   buttonLabel: string;
   buttonLoading: boolean;
   buttonDisabled: boolean;
@@ -48,11 +52,33 @@ export default function DialogForm({
     <Dialog open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
       <DialogTrigger onClick={() => setIsOpen(true)} asChild>
         {/* PICK UP HERE */}
-        {hasIconButton ? (
-          <Button intent="ghost" size="icon">
-            <GearIcon className="w-[14px] h-[14px] xl:w-[16px] xl:h-[16px]" />
-            <p className="text-xs lg:text-sm">Settings</p>
-          </Button>
+        {icon ? (
+          <>
+            {icon === "settings" && (
+              <Button intent="ghost" size="icon">
+                <GearIcon className="h-[14px] w-[14px] xl:h-[16px] xl:w-[16px]" />
+                <p className="mx-1 text-xs lg:text-sm">Settings</p>
+              </Button>
+            )}
+            {icon === "delete" && (
+              <Button intent="ghost" size="icon">
+                <TrashIcon className="h-[14px] w-[14px] xl:h-[16px] xl:w-[16px]" />
+                <p className="mx-1 text-xs lg:text-sm">Delete</p>
+              </Button>
+            )}
+            {icon === "bigPlus" && (
+              <Button size="xl" className="w-[200px]">
+                <PlusCircledIcon className="h-[14px] w-[14px] xl:h-[25px] xl:w-[25px]" />
+                <p className="mx-5 text-xs lg:text-sm">{openButton}</p>
+              </Button>
+            )}
+            {icon === "plus" && (
+              <Button intent={openButtonIntent} size="dialog" className="mx-auto">
+                <PlusCircledIcon className="h-[14px] w-[14px] xl:h-[16px] xl:w-[16px]" />
+                <p className="mx-2 text-xs lg:text-sm">{openButton}</p>
+              </Button>
+            )}
+          </>
         ) : (
           <Button intent={openButtonIntent} size="dialog" className="mx-auto">
             {openButton}

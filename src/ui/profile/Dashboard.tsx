@@ -18,6 +18,7 @@ import Link from "next/link";
 import CreatorsSection from "./CreatorsSection";
 import AssignmentsSection from "./AssignmentSection";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
+import AssignmentCommitmentsSection from "./AssignmentCommitmentsSection";
 
 export default function DashboardPage() {
   const { setTheme } = useTheme();
@@ -78,18 +79,13 @@ export default function DashboardPage() {
                 </Card>
                 {accessToken ? (
                   <>
-                    <Card className="col-span-3 ">
+                    <Card className="col-span-3">
                       <AccessTokenSection accessToken={accessToken} />
                     </Card>
-                    <Card className="col-span-6 row-span-2">
-                      <CardHeader>
-                        <h1 className="text-2xl font-bold">
-                          Current Assignments
-                        </h1>
-                      </CardHeader>
-                      <CardContent></CardContent>
-                    </Card>
-                    <div className="col-span-3 row-span-2">
+                    <div className="col-span-6">
+                      <AssignmentCommitmentsSection accessToken={accessToken} />
+                    </div>
+                    <div className="col-span-3">
                       <MyCoursesSection accessToken={accessToken} />
                     </div>
 

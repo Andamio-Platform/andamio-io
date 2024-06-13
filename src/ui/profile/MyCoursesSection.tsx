@@ -1,10 +1,9 @@
 import { AssetExtended } from "@meshsdk/core";
-import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { Badge } from "~/components/ui/badge";
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
 import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
-import { api } from "~/utils/api";
+import useLearnerNetworkStatus from "./hooks/useLearnerNetworkStatus";
 
 export default function MyCoursesSection({
   accessToken,
@@ -13,20 +12,10 @@ export default function MyCoursesSection({
 }) {
   if (!accessToken) return;
 
-  const { data: courseEnrollments, isLoading: isLoadingCourseEnrollments } =
-    api.learnerOnchain.getCoursesByTokenName.useQuery({
-      tokenName: accessToken.unit.substring(62),
-    });
+  const { courseInfos, courseEnrollments, isLoadingCourseEnrollments, isLoadingCourseInfos} = useLearnerNetworkStatus(accessToken)
 
-  const { data: courseInfos, isLoading: isLoadingCourseInfo } =
-    api.course.getCoursesByCourseCodes.useQuery(
-      {
-        courseCodes: courseEnrollments ?? [""],
-      },
-      { enabled: !!courseEnrollments },
-    );
 
-  if (isLoadingCourseInfo || isLoadingCourseEnrollments) {
+  if (isLoadingCourseInfos || isLoadingCourseEnrollments) {
     return (
       <div>
         <LoadingCircle />
@@ -40,6 +29,7 @@ export default function MyCoursesSection({
         <h1 className="text-2xl font-bold">Active Courses</h1>
       </CardHeader>
       <CardContent>
+        <pre>{JSON.stringify(courseEnrollments, null, 2)}</pre>
         <p className="">You are currently enrolled in these courses:</p>
         {courseInfos ? (
           <div>

@@ -11,7 +11,7 @@ import CourseLayout from "~/ui/course/components/layout/CourseLayout";
 import CommitToAssignmentPage from "./CommitToAssignmentPage";
 import ModuleLayout from "~/ui/course/components/layout/ModuleLayout";
 import SltList from "~/ui/studio/components/assignment-dashboard/slt-list";
-import DialogAssignmentComplete from "~/ui/course/components/dialogs/DialogAssignmentComplete";
+import DialogAssignmentLearnerStatus from "~/ui/course/components/dialogs/DialogAssignmentLearnerStatus";
 import { useEffect, useState } from "react";
 import {
   Card,
@@ -158,16 +158,15 @@ function Page({
               </>
             )}
             <div className="flex flex-col gap-5">
-              <DialogAssignmentComplete
+              <DialogAssignmentLearnerStatus
                 assignmentId={assignment.id}
                 assignmentCommitment={currentCommitment}
               />
               {/* TO-DO: Only show CommitToAssignmentPage when there is a module token minted for the assignment */}
-              {/* <CommitToAssignmentPage
+              <CommitToAssignmentPage
               courseCode={courseCode}
               assignmentCode={assignmentCode}
-            /> */}
-              <Button disabled>Commit to Assignment (Coming Soon!)</Button>
+            />
             </div>
           </CardContent>
         </Card>

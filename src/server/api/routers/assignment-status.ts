@@ -7,7 +7,7 @@ import {
   publicProcedure,
 } from "~/server/api/trpc";
 
-export const assignmentCommitmentRouter = createTRPCRouter({
+export const assignmentStatusRouter = createTRPCRouter({
   getLearnerCommitments: protectedProcedure.query(async ({ ctx }) => {
     if (!ctx.session.user.learnerId) {
       throw new Error("User does not have Learner role.");

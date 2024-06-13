@@ -93,6 +93,7 @@ export default function DialogSLT({
             openButtonIntent="dialog"
             title="Create New SLT"
             description={`Write Student Learning Target ${currentModule.moduleCode}.${currentModule.slts.length + 1}`}
+            icon="plus"
             buttonLabel="Add SLT"
             buttonLoading={isLoadingCreate}
             buttonDisabled={isLoadingCreate}

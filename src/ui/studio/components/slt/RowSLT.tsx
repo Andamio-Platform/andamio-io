@@ -1,7 +1,14 @@
 import { Button } from "~/components/ui/button";
 import type { Course, Module, ModuleSLT } from "~/types/db";
 import DialogSLTDelete from "../dialogs/DialogSLTDelete";
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { type FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
@@ -113,7 +120,7 @@ export function RowSLT({
 
   const handleKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLDivElement>) => {
-      if (event.key === 'Escape') {
+      if (event.key === "Escape") {
         event.preventDefault();
         setEditSltText(false);
       }
@@ -200,11 +207,11 @@ export function RowSLT({
           <div className="col-span-3 col-start-10 flex items-center justify-between px-8">
             <Link
               href={`/studio/${courseCode}/${module.moduleCode}/lesson/${slt.moduleIndex}`}
-              className="flex flex-row gap-1 text-xs"
+              className=""
             >
               <Button intent="ghost" size="icon">
-                <FileIcon className="w-[14px] h-[14px] xl:w-[16px] xl:h-[16px]" />
-                <p className="text-xs lg:text-sm">Lesson</p>
+                <FileIcon className="h-[14px] w-[14px] xl:h-[16px] xl:w-[16px]" />
+                <p className="mx-1 text-xs lg:text-sm">Lesson</p>
               </Button>
             </Link>
             <DialogSLTDelete

@@ -219,7 +219,7 @@ export default function DialogModule({
     }
 
     if (!!currentCourseModule && currentCourseModule.releaseDate) {
-      setModuleReleaseDate(currentCourseModule.releaseDate)
+      setModuleReleaseDate(currentCourseModule.releaseDate);
     }
   }, [moduleDialogOpen, courseModules, currentCourseModule, course]);
 
@@ -256,6 +256,7 @@ export default function DialogModule({
             ? "You are editing a module. Make changes and click 'Save'."
             : "Create a new module by filling in the details below."
         }
+        icon={moduleCode ? "settings" : "bigPlus"}
         buttonLabel={currentCourseModule ? "Save" : "Create"}
         buttonLoading={isLoadingCreate || isLoadingUpdate}
         buttonDisabled={isLoadingCreate || isLoadingUpdate}
@@ -296,8 +297,12 @@ export default function DialogModule({
             <PopoverTrigger asChild>
               <Button intent="outline">
                 <CalendarIcon className="mr-2 h-4 w-4" />
-                Module Release Date: {" "}
-                {moduleReleaseDate ? format(moduleReleaseDate, "PPP") : <span>Pick a date</span>}
+                Module Release Date:{" "}
+                {moduleReleaseDate ? (
+                  format(moduleReleaseDate, "PPP")
+                ) : (
+                  <span>Pick a date</span>
+                )}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0 text-primary-foreground">

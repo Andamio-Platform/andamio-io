@@ -40,7 +40,6 @@ export default function ModuleContainer({
 }) {
   if (!course) return;
 
-
   const ctx = api.useUtils();
 
   const [moduleDialogOpen, setModuleDialogOpen] = useState<boolean>(false);
@@ -161,7 +160,10 @@ export default function ModuleContainer({
       className="mx-5 my-3 w-full rounded-md border border-secondary-foreground p-1 sm:mx-auto sm:w-[630px] md:w-[750px] lg:w-[800px] xl:w-[950px] 2xl:w-[1100px]"
       key={`${course.courseCode}-${currentModule.moduleCode}`}
     >
-      <AccordionItem value={currentModule.moduleCode} disabled={moduleDialogOpen}>
+      <AccordionItem
+        value={currentModule.moduleCode}
+        disabled={moduleDialogOpen}
+      >
         <AccordionTrigger className="flex w-full flex-row justify-between rounded-md bg-primary px-3 py-3 text-primary-foreground">
           <div className="grid w-full grid-cols-12 py-1">
             <div className="col-span-1">{currentModule.moduleCode}</div>
@@ -215,13 +217,6 @@ export default function ModuleContainer({
                 </SortableContext>
                 {/* todo implelment the rest of dnd-kit - look at codesandbox example - can imagine extracting this component and adding overlay */}
               </DndContext>
-              <DialogSLT
-                sltDialogOpen={sltDialogOpen}
-                setSltDialogOpen={setSltDialogOpen}
-                courseCode={course.courseCode}
-                currentModule={currentModule}
-              />
-
               {assignment && (
                 <Link
                   href={`/studio/${course.courseCode}/${currentModule.moduleCode}/assignment/${assignment.assignmentCode}`}
@@ -229,19 +224,27 @@ export default function ModuleContainer({
                   <AssignmentContainer assignment={assignment} />
                 </Link>
               )}
-              <DialogAssignment
-                assignmentDialogOpen={assignmentDialogOpen}
-                setAssignmentDialogOpen={setAssignmentDialogOpen}
-                courseCode={course.courseCode}
-                courseModule={currentModule}
-                assignment={assignment}
-              />
               {currentModule.releaseDate && (
                 <p className="mx-auto w-11/12 py-5">
                   This Module is scheduled for release on{" "}
                   {format(currentModule.releaseDate, "PPPP")}
                 </p>
               )}
+              <div className="items center mx-auto my-5 flex w-2/3 flex-row justify-between">
+                <DialogSLT
+                  sltDialogOpen={sltDialogOpen}
+                  setSltDialogOpen={setSltDialogOpen}
+                  courseCode={course.courseCode}
+                  currentModule={currentModule}
+                />
+                <DialogAssignment
+                  assignmentDialogOpen={assignmentDialogOpen}
+                  setAssignmentDialogOpen={setAssignmentDialogOpen}
+                  courseCode={course.courseCode}
+                  courseModule={currentModule}
+                  assignment={assignment}
+                />
+              </div>
             </div>
           </>
         </AccordionContent>

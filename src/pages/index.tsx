@@ -24,10 +24,12 @@ export default function Landing() {
   return (
     <>
       <Metatags />
-      {client !== undefined && (
+      {client !== undefined ? (
         <>
           {client ? <PageCourse courseId={client.courseId} /> : <PageLanding />}
         </>
+      ) : (
+        <PageLanding />
       )}
     </>
   );

@@ -14,7 +14,7 @@ import FormTextArea from "~/components/form/form-textarea";
 import FormSelect from "~/components/form/form-select";
 import FormSelectRadioGroup from "~/components/form/form-select-radio-group";
 
-export default function DialogAssignmentComplete({
+export default function DialogAssignmentLearnerStatus({
   assignmentId,
   assignmentCommitment,
 }: {

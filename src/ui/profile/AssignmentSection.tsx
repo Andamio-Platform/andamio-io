@@ -29,11 +29,11 @@ export default function AssignmentsSection() {
   const {
     mutate: updateArchivedStatus,
     isLoading: isLoadingUpdatedArchivedStatus,
-  } = api.assignmentCommitment.setArchived.useMutation({
+  } = api.assignmentStatus.setArchived.useMutation({
     onSuccess: () => {
       toast.success("Assignment archived");
-      void ctx.assignmentCommitment.getLearnerCommitments.invalidate();
-      void ctx.assignmentCommitment.getAssignmentCommitments.invalidate();
+      void ctx.assignmentStatus.getLearnerCommitments.invalidate();
+      void ctx.assignmentStatus.getAssignmentCommitments.invalidate();
       void updateSession();
     },
     onError: (e) => {

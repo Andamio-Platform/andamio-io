@@ -13,7 +13,7 @@ import { learnerRouter } from "./routers/learner";
 import { introductionRouter } from "./routers/introduction";
 import { userWalletRouter } from "./routers/user-wallet";
 import { clientDomainsRouter } from "./routers/clients-domain";
-import { assignmentCommitmentRouter } from "./routers/assignment-commitment";
+import { assignmentStatusRouter } from "./routers/assignment-status";
 import { learnerOnChainRouter } from "./routers/learner-onChain";
 
 /**
@@ -39,7 +39,7 @@ export const appRouter = createTRPCRouter({
 
   learnerOnchain: learnerOnChainRouter,
 
-  assignmentCommitment: assignmentCommitmentRouter,
+  assignmentStatus: assignmentStatusRouter,
 
   clientDomains: clientDomainsRouter,
 });

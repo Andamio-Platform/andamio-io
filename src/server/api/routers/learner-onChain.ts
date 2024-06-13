@@ -19,13 +19,16 @@ export const learnerOnChainRouter = createTRPCRouter({
           .fetchAssetAddresses(c.LocalStatePolicyID + input.tokenName) // This is currently a lot of maestro queries - perfect to replace with local state indexer
           .then((res) => {
             if (res[0]?.address) {
-              return c.courseCode;
+              return {
+                course: c.courseCode,
+                assignment: res[0]?.address === c.AssignmentValidatorAddress,
+              };
             }
           });
-        return _course;
+        if (_course) return _course;
       });
 
       const courseList = await Promise.all(courseQueries);
-      return courseList.filter((c): c is string => c !== undefined);
+      return courseList.filter((c) => c !== undefined && c.course !== undefined);
     }),
 });

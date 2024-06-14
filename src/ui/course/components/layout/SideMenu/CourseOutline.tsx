@@ -66,12 +66,15 @@ export default function CourseOutline({
         className="py-3"
         defaultValue={`module-${moduleCode}`}
       >
-      {courseModules?.sort(sortBy).map((courseModule, i) => {
-        return (
-            <AccordionItem value={`module-${courseModule.moduleCode}`} key={`module-${courseModule.moduleCode}`}>
+        {courseModules?.sort(sortBy).map((courseModule, i) => {
+          return (
+            <AccordionItem
+              value={`module-${courseModule.moduleCode}`}
+              key={`module-${courseModule.moduleCode}`}
+            >
               <AccordionTrigger
                 className={classNames(
-                  "bg-primary px-1 py-2 my-1 text-left text-primary-foreground hover:text-indigo-200",
+                  "my-1 bg-primary px-1 py-2 text-left text-primary-foreground hover:text-indigo-200",
                   "text-sm font-semibold",
                   "hover:no-underline",
                 )}
@@ -81,7 +84,11 @@ export default function CourseOutline({
               {courseModule.introduction && (
                 <AccordionContent
                   key={courseModule.introduction?.id}
-                  className={accordionContentClassNames(courseModule.moduleCode === moduleCode && !assignmentCode && !moduleIndex )}
+                  className={accordionContentClassNames(
+                    courseModule.moduleCode === moduleCode &&
+                      !assignmentCode &&
+                      !moduleIndex,
+                  )}
                 >
                   <Link
                     href={
@@ -147,14 +154,20 @@ export default function CourseOutline({
                   >
                     <div
                       className={classNames(
-                        "grid grid-cols-5 gap-3 rounded-sm border border-primary hover:bg-indigo-200 py-1 text-sm leading-6",
-                        courseModule.assignments[0].assignmentCode === assignmentCode ? "border-none" : ""
+                        "grid grid-cols-5 gap-3 rounded-sm border border-primary py-1 text-sm leading-6 hover:bg-indigo-200",
+                        courseModule.assignments[0].assignmentCode ===
+                          assignmentCode
+                          ? "border-none"
+                          : "",
                       )}
                     >
                       <div className="flex items-center justify-center">
                         <DocumentIcon width={"15px"} height={"15px"} />
                       </div>
-                      <div className="col-span-4">
+                      <div className="col-span-4 flex flex-col justify-start">
+                        <p className="font-semibold">
+                          Assignment {courseModule.assignments[0].assignmentCode}:
+                        </p>
                         <p className="font-semibold">
                           {courseModule.assignments[0].title}
                         </p>
@@ -164,8 +177,8 @@ export default function CourseOutline({
                 </AccordionContent>
               )}
             </AccordionItem>
-        );
-      })}
+          );
+        })}
       </Accordion>
     </div>
   );

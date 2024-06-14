@@ -50,30 +50,30 @@ export default function DialogForm({
 
   return (
     <Dialog open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
-      <DialogTrigger onClick={() => setIsOpen(true)} asChild>
+      <DialogTrigger asChild>
         {/* PICK UP HERE */}
         {icon ? (
           <>
             {icon === "settings" && (
-              <Button intent="ghost" size="icon">
+              <Button intent="ghost" size="icon" onClick={() => setIsOpen(true)}>
                 <GearIcon className="h-[14px] w-[14px] xl:h-[16px] xl:w-[16px]" />
                 <p className="mx-1 text-xs lg:text-sm">Settings</p>
               </Button>
             )}
             {icon === "delete" && (
-              <Button intent="ghost" size="icon">
+              <Button intent="ghost" size="icon" onClick={() => setIsOpen(true)}>
                 <TrashIcon className="h-[14px] w-[14px] xl:h-[16px] xl:w-[16px]" />
                 <p className="mx-1 text-xs lg:text-sm">Delete</p>
               </Button>
             )}
             {icon === "bigPlus" && (
-              <Button size="xl" className="w-[200px]">
+              <Button size="xl" className="w-[200px]" onClick={() => setIsOpen(true)}>
                 <PlusCircledIcon className="h-[14px] w-[14px] xl:h-[25px] xl:w-[25px]" />
                 <p className="mx-5 text-xs lg:text-sm">{openButton}</p>
               </Button>
             )}
             {icon === "plus" && (
-              <Button intent={openButtonIntent} size="dialog" className="mx-auto">
+              <Button intent={openButtonIntent} size="dialog" className="mx-auto" onClick={() => setIsOpen(true)}>
                 <PlusCircledIcon className="h-[14px] w-[14px] xl:h-[16px] xl:w-[16px]" />
                 <p className="mx-2 text-xs lg:text-sm">{openButton}</p>
               </Button>

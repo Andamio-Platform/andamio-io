@@ -22,12 +22,10 @@ interface RequestData {
   changeAddress: string;
   UserUTxOs: UTxOi[];
   CollateralUTxO: UTxOi;
-  AccessTokenName: string;
-  UserInfo: string;
   UserGlobalStateUTxO: UTxOi;
   UserAccessTokenUTxO: UTxOi;
   LocalStateValidatorAddress: string;
-  CourseCreatorNFTPolicyID: string;
+  CourseNFTPolicyID: string;
   LocalStatePolicyID: string;
   CourseInstanceUTxO: UTxOi;
   LocalStatePolicyRefUTxO: UTxOi;
@@ -78,7 +76,7 @@ export default function MintLocalState({ courseCode }: { courseCode: string }) {
         `${INDEXER_URL}/api/global-state/utxoByAlias?alias=${accessTokenName}`,
       );
 
-      const globalStateUtxo: UtxoWithSlot = res.data.utxo;
+      const globalStateUtxo: UtxoWithSlot = res.data;
 
       if (!courseOnchain) {
         throw new Error("Course not found on-chain");
@@ -89,8 +87,6 @@ export default function MintLocalState({ courseCode }: { courseCode: string }) {
         changeAddress: addr,
         UserUTxOs,
         CollateralUTxO,
-        AccessTokenName: accessTokenName,
-        UserInfo: "Andamio User",
         UserGlobalStateUTxO: {
           TxID: globalStateUtxo.tx_hash,
           TxIDIndex: globalStateUtxo.index,
@@ -100,7 +96,7 @@ export default function MintLocalState({ courseCode }: { courseCode: string }) {
           TxIDIndex: accessTokenUtxo.input.outputIndex,
         },
         LocalStateValidatorAddress: courseOnchain.LocalStateValidatorAddress,
-        CourseCreatorNFTPolicyID: courseOnchain.CourseCreatorNFTPolicyID,
+        CourseNFTPolicyID: courseOnchain.CourseCreatorNFTPolicyID,
         LocalStatePolicyID: courseOnchain.LocalStatePolicyID,
         CourseInstanceUTxO: {
           TxID: courseOnchain.CourseInstanceUTxO.substring(0, 64),

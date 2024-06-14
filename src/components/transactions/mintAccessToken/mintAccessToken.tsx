@@ -18,8 +18,8 @@ import maestro from "~/config/maestro";
 import { api } from "~/utils/api";
 
 interface RequestData {
-  address: string;
-  changeAddress: string;
+  Address: string;
+  ChangeAddress: string;
   UserUTxOs: UTxOi[];
   CollateralUTxO: UTxOi;
   AccessTokenName: string;
@@ -139,8 +139,8 @@ export default function MintAccessToken() {
       };
 
       const req: RequestData = {
-        address: addr,
-        changeAddress: addr,
+        Address: addr,
+        ChangeAddress: addr,
         UserUTxOs,
         CollateralUTxO,
         AccessTokenName: data.tokenAlias,

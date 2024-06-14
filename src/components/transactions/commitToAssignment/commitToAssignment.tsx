@@ -128,7 +128,7 @@ export default function CommitToAssignment({
         `${INDEXER_URL}/api/instance-validator/localStateValildatorRefUtxoByCourseNftPolicy?policy=${courseOnchain!.CourseCreatorNFTPolicyID}`,
       );
 
-      const localStateValidatorRefUTxO: UtxoWithSlot = res.data.utxo;
+      const localStateValidatorRefUTxO: UtxoWithSlot = res.data;
 
       const req: RequestData = {
         Address: addr,

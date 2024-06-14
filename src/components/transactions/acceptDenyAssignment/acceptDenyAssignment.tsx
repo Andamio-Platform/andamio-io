@@ -11,9 +11,13 @@ import { useToast } from "~/components/ui/use-toast";
 import { UtxoWithSlot } from "@maestro-org/typescript-sdk";
 
 interface RequestData {
+  // CourseGovernanceUTxO: UTxOi;
+  // CourseNFTTokenName: string;
+  // CourseFacilitatorAccessTokenName: string;
   AssignmentCode: string;
   CollateralUTxO: UTxOi;
   CourseFacilitatorDecision: "accept" | "deny";
+  // CourseFacilitatorAccessTokenUTxO: UTxOi;
   CourseFacilitatorTokenUTxO: UTxOi;
   UserAssignmentUTxO: UTxOi;
   UserUTxOs: UTxOi[];
@@ -23,6 +27,7 @@ interface RequestData {
   AssignmentValidatorAddress: string;
   LocalStatePolicyID: string;
   AssignmentValidatorRefUTxO: UTxOi;
+  // CourseNFTPolicyID: string;
   CourseCreatorNFTPolicyID: string;
 }
 
@@ -85,7 +90,7 @@ export default function AcceptDenyAssignment({
       `${INDEXER_URL}/api/instance-validator/assignmentValidatorRefUtxoByCourseNftPolicy?policy=${courseOnchain!.CourseCreatorNFTPolicyID}`,
     );
 
-    const assignmentValidatorRefUTxO: UtxoWithSlot = res.data.utxo;
+    const assignmentValidatorRefUTxO: UtxoWithSlot = res.data;
 
     const req: RequestData = {
       AssignmentCode: assignmentCode,

@@ -1,1 +1,1 @@
-export const INDEXER_URL = "https://andamio-api.vercel.app"
+export const INDEXER_URL = "https://dev.andamio.io"

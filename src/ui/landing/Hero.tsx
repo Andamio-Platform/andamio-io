@@ -27,7 +27,7 @@ export default function Hero() {
               contribution opportunities. It helps to teach new skills, create
               strong community ties and onboard skilled contributors.
             </p>
-            <p className="mt-6 text-lg leading-8 ">v0.2.14</p>
+            <p className="mt-6 text-lg leading-8 ">v0.2.15</p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <Link href={`/auth/signin`}>
                 <span className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">

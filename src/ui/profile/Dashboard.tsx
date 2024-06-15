@@ -19,11 +19,19 @@ import CreatorsSection from "./CreatorsSection";
 import AssignmentsSection from "./AssignmentSection";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import AssignmentCommitmentsSection from "./AssignmentCommitmentsSection";
+import GlobalStateDatum from "./GlobalStateDatum";
+import CourseStateDatum from "./CourseStateDatum";
 
 export default function DashboardPage() {
   const { setTheme } = useTheme();
   const { wallet, connected } = useWallet();
   const [accessToken, setAccessToken] = useState(null);
+  const [alias, setAlias] = useState<string>("");
+  const [courses, setCourses] = useState<{
+    LsCs: string;
+    AssignmentList: string[];
+    Minted: boolean;
+}[]>([]);
 
   useEffect(() => {
     const fetchAccessToken = async () => {
@@ -32,6 +40,8 @@ export default function DashboardPage() {
         asset.unit.includes(ACCESS_TOKEN_POLICY_ID),
       );
       setAccessToken(accessToken);
+      const alias = Buffer.from(accessToken.unit.substring(62), "hex").toString();
+      setAlias(alias);
     };
 
     if (connected) {
@@ -118,6 +128,12 @@ export default function DashboardPage() {
             <AssignmentsSection />
           </TabsContent>
         </Tabs>
+      </div>
+      <div>
+        {alias && <GlobalStateDatum alias={alias} setCourses={setCourses} />}
+        {courses && courses.length > 0 && courses.map(course => (
+          <CourseStateDatum courseNftPolicy={course.LsCs} alias={alias} />
+        ))}
       </div>
     </>
   );

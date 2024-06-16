@@ -27,8 +27,8 @@ export default function AllCourses() {
       {isLoadingCourses && <Loading />}
       {courses && (
         <>
-          <div className="my-3 border-t border-accent-foreground py-3">
-            <h3 className="my-10 text-3xl font-bold">Featured Courses</h3>
+          <div className="my-3 border-t border-accent-foreground/50 py-3">
+            <h3 className="my-10 text-3xl font-bold text-center">Featured Courses</h3>
 
             <div
               role="list"

@@ -195,7 +195,7 @@ export default function CommitToAssignment({
   }
 
   return (
-    <div className="mx-4 flex items-center justify-center rounded-md border px-4 py-3 font-mono text-sm">
+    <div className="flex w-full items-center justify-center rounded-md border py-3 font-mono text-sm">
       {!isLoading ? (
         <>
           {!connected ? (
@@ -204,7 +204,7 @@ export default function CommitToAssignment({
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="w-2/3 space-y-6"
+                className="w-11/12 mx-auto space-y-6"
               >
                 <FormField
                   control={form.control}

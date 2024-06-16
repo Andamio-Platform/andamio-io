@@ -38,7 +38,10 @@ export default function DashboardPage() {
         asset.unit.includes(ACCESS_TOKEN_POLICY_ID),
       );
       setAccessToken(accessToken);
-      const alias = Buffer.from(accessToken.unit.substring(62), "hex").toString();
+      const alias = Buffer.from(
+        accessToken.unit.substring(62),
+        "hex",
+      ).toString();
       setAlias(alias);
     };
 
@@ -104,7 +107,21 @@ export default function DashboardPage() {
                           Completed Courses
                         </h1>
                       </CardHeader>
-                      <CardContent></CardContent>
+                      <CardContent>
+                   
+                            <div className="text-xs">
+        <h1>Global State Datum</h1>
+        {alias && <GlobalStateDatum alias={alias} setCourses={setCourses} />}
+        <h1>Course State Datum</h1>
+        {courses && courses.length > 0 && courses.map(course => (
+          <CourseStateDatum courseNftPolicy={course.LsCs} alias={alias} />
+        ))}
+        <h1>Assignment Datum</h1>
+        {courses && courses.length > 0 && courses.map(course => (
+          <AssignmentDatum courseNftPolicy={course.LsCs} alias={alias} />
+        ))}
+      </div>
+                      </CardContent>
                     </Card>
                   </>
                 ) : (
@@ -127,18 +144,7 @@ export default function DashboardPage() {
           </TabsContent>
         </Tabs>
       </div>
-      <div>
-        <h1>Global State Datum</h1>
-        {alias && <GlobalStateDatum alias={alias} setCourses={setCourses} />}
-        <h1>Course State Datum</h1>
-        {courses && courses.length > 0 && courses.map(course => (
-          <CourseStateDatum courseNftPolicy={course.LsCs} alias={alias} />
-        ))}
-        <h1>Assignment Datum</h1>
-        {courses && courses.length > 0 && courses.map(course => (
-          <AssignmentDatum courseNftPolicy={course.LsCs} alias={alias} />
-        ))}
-      </div>
+      
     </>
   );
 }

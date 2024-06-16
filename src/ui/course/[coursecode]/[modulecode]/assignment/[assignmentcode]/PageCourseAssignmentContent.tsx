@@ -8,7 +8,7 @@ import useAssignmentByCourseModule from "~/hooks/useAssignmentByCourseModule";
 import useValidateCreator from "~/hooks/useValidateCreator";
 import { AssignmentCommitment, Module } from "~/types/db";
 import CourseLayout from "~/ui/course/components/layout/CourseLayout";
-import CommitToAssignmentPage from "./CommitToAssignmentPage";
+import DialogAssignmentCommitmentOnNetwork from "./DialogAssignmentCommitmentOnNetwork";
 import ModuleLayout from "~/ui/course/components/layout/ModuleLayout";
 import SltList from "~/ui/studio/components/assignment-dashboard/slt-list";
 import DialogAssignmentLearnerStatus from "~/ui/course/components/dialogs/DialogAssignmentLearnerStatus";
@@ -149,21 +149,29 @@ function Page({
                   <div className="my-5">
                     {currentCommitment.learnerNotes && (
                       <>
-                        <h2 className="mb-3 text-xl font-bold">My Notes</h2>
+                        <h2 className="mb-3 text-xl font-bold">Personal Assignment Notes</h2>
+                        <div className="bg-background text-foreground p-3">
                         <p>{currentCommitment.learnerNotes}</p>
+
+                        </div>
                       </>
                     )}
                   </div>
                 </>
               </>
             )}
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-3 justify-center">
               <DialogAssignmentLearnerStatus
                 assignmentId={assignment.id}
                 assignmentCommitment={currentCommitment}
               />
-              {/* TO-DO: Only show CommitToAssignmentPage when there is a module token minted for the assignment */}
-              <CommitToAssignmentPage
+              {/* TODO 2024-06-17 */}
+              {/* TODO: Only show CommitToAssignmentPage when there is a module token minted for the assignment */}
+              {/* TODO: Show current commitment status of learner - ie: if already committed, show that - maybe involve sessionData? */}
+              {/* TODO: Handle wallet connected state, so that if connected, user does not have to connect agin */}
+              <div className="border-t border-primary my-3" />
+              <h2 className="mb-3 text-xl font-bold">Network Commitment</h2>
+              <DialogAssignmentCommitmentOnNetwork
               courseCode={courseCode}
               assignmentCode={assignmentCode}
             />

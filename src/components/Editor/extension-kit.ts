@@ -7,6 +7,7 @@ import {
   SlashCommand,
   ImageUpload,
   ImageBlock,
+  TextAlign,
 } from "./extensions";
 import { BubbleMenu } from "@tiptap/extension-bubble-menu";
 import { Color } from "@tiptap/extension-color";
@@ -62,5 +63,8 @@ export function ExtensionKit() {
     BubbleMenu,
     Color,
     TextStyle,
+    TextAlign.configure({
+      types: ["heading", "paragraph"],
+    }),
   ];
 }

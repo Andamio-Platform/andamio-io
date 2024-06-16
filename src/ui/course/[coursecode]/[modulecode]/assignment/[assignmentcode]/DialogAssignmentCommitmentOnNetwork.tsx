@@ -10,11 +10,8 @@ import {
   SheetTrigger,
 } from "~/components/ui/sheet";
 import CommitToAssignment from "~/components/transactions/commitToAssignment/commitToAssignment";
-import { NextPageContext } from "next";
-import useCourse from "~/hooks/useCourse";
-import Loading from "~/components/loading";
 
-export default function CommitToAssignmentPage({
+export default function DialogAssignmentCommitmentOnNetwork({
   courseCode,
   assignmentCode,
 }: {

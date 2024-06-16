@@ -8,7 +8,7 @@ import useAssignmentByCourseModule from "~/hooks/useAssignmentByCourseModule";
 import useValidateCreator from "~/hooks/useValidateCreator";
 import { AssignmentCommitment, Module } from "~/types/db";
 import CourseLayout from "~/ui/course/components/layout/CourseLayout";
-import CommitToAssignmentPage from "./CommitToAssignmentPage";
+import DialogAssignmentCommitmentOnNetwork from "./DialogAssignmentCommitmentOnNetwork";
 import ModuleLayout from "~/ui/course/components/layout/ModuleLayout";
 import SltList from "~/ui/studio/components/assignment-dashboard/slt-list";
 import DialogAssignmentLearnerStatus from "~/ui/course/components/dialogs/DialogAssignmentLearnerStatus";
@@ -162,8 +162,11 @@ function Page({
                 assignmentId={assignment.id}
                 assignmentCommitment={currentCommitment}
               />
-              {/* TO-DO: Only show CommitToAssignmentPage when there is a module token minted for the assignment */}
-              <CommitToAssignmentPage
+              {/* TODO 2024-06-17 */}
+              {/* TODO: Only show CommitToAssignmentPage when there is a module token minted for the assignment */}
+              {/* TODO: Show current commitment status of learner - ie: if already committed, show that - maybe involve sessionData? */}
+              {/* TODO: Handle wallet connected state, so that if connected, user does not have to connect agin */}
+              <DialogAssignmentCommitmentOnNetwork
               courseCode={courseCode}
               assignmentCode={assignmentCode}
             />

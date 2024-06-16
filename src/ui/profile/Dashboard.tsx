@@ -113,12 +113,12 @@ export default function DashboardPage() {
         <h1>Global State Datum</h1>
         {alias && <GlobalStateDatum alias={alias} setCourses={setCourses} />}
         <h1>Course State Datum</h1>
-        {courses && courses.length > 0 && courses.map(course => (
-          <CourseStateDatum courseNftPolicy={course.LsCs} alias={alias} />
+        {courses && courses.length > 0 && courses.map((course, i) => (
+          <CourseStateDatum courseNftPolicy={course.LsCs} alias={alias} key={i}/>
         ))}
         <h1>Assignment Datum</h1>
-        {courses && courses.length > 0 && courses.map(course => (
-          <AssignmentDatum courseNftPolicy={course.LsCs} alias={alias} />
+        {courses && courses.length > 0 && courses.map((course, i) => (
+          <AssignmentDatum courseNftPolicy={course.LsCs} alias={alias} key={i}/>
         ))}
       </div>
                       </CardContent>

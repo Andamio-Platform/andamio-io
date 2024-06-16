@@ -21,17 +21,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import AssignmentCommitmentsSection from "./AssignmentCommitmentsSection";
 import GlobalStateDatum from "./GlobalStateDatum";
 import CourseStateDatum from "./CourseStateDatum";
+import { DecodedTokenInfo } from "@andamiojs/datum-utils";
+import AssignmentDatum from "./AssignmentDatum";
 
 export default function DashboardPage() {
   const { setTheme } = useTheme();
   const { wallet, connected } = useWallet();
   const [accessToken, setAccessToken] = useState(null);
   const [alias, setAlias] = useState<string>("");
-  const [courses, setCourses] = useState<{
-    LsCs: string;
-    AssignmentList: string[];
-    Minted: boolean;
-}[]>([]);
+  const [courses, setCourses] = useState<DecodedTokenInfo[]>([]);
 
   useEffect(() => {
     const fetchAccessToken = async () => {
@@ -130,9 +128,15 @@ export default function DashboardPage() {
         </Tabs>
       </div>
       <div>
+        <h1>Global State Datum</h1>
         {alias && <GlobalStateDatum alias={alias} setCourses={setCourses} />}
+        <h1>Course State Datum</h1>
         {courses && courses.length > 0 && courses.map(course => (
           <CourseStateDatum courseNftPolicy={course.LsCs} alias={alias} />
+        ))}
+        <h1>Assignment Datum</h1>
+        {courses && courses.length > 0 && courses.map(course => (
+          <AssignmentDatum courseNftPolicy={course.LsCs} alias={alias} />
         ))}
       </div>
     </>

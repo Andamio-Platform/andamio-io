@@ -7,12 +7,14 @@ import {
   SlashCommand,
   ImageUpload,
   ImageBlock,
+  TextAlign,
 } from "./extensions";
 import { BubbleMenu } from "@tiptap/extension-bubble-menu";
 import { Color } from "@tiptap/extension-color";
 import { Code } from "@tiptap/extension-code";
 import TextStyle from "@tiptap/extension-text-style";
-import { markInputRule } from "@tiptap/react";
+import { ReactNodeViewRenderer, markInputRule } from "@tiptap/react";
+import { TipTapLink } from "./components/link";
 
 const CustomBold = Bold.extend({
   renderHTML({ HTMLAttributes }) {
@@ -20,21 +22,28 @@ const CustomBold = Bold.extend({
   },
 });
 
-export const inputRegex = /(?:^|\s)(`(?!\s+`)((?:[^`]+))`(?!\s+`))$/
+export const inputRegex = /(?:^|\s)(`(?!\s+`)((?:[^`]+))`(?!\s+`))$/;
 
 const CustomCode = Code.extend({
   renderHTML({ HTMLAttributes }) {
-    return ["code", {...HTMLAttributes, class: 'custom-code'}, 0];
+    return ["code", { ...HTMLAttributes, class: "custom-code" }, 0];
   },
   addInputRules() {
     return [
       markInputRule({
         find: inputRegex,
         type: this.type,
-      })
-    ]
+      }),
+    ];
   },
-})
+});
+
+const CustomLink = Link.extend({
+  openOnClick: false,
+  addNodeView() {
+    return ReactNodeViewRenderer(TipTapLink);
+  },
+});
 
 export function ExtensionKit() {
   return [
@@ -42,9 +51,7 @@ export function ExtensionKit() {
     Underline,
     CustomBold,
     CustomCode,
-    Link.configure({
-      openOnClick: false,
-    }),
+    CustomLink,
     Heading.configure({
       levels: [1, 2, 3, 4, 5, 6],
     }),
@@ -56,5 +63,8 @@ export function ExtensionKit() {
     BubbleMenu,
     Color,
     TextStyle,
+    TextAlign.configure({
+      types: ["heading", "paragraph"],
+    }),
   ];
 }

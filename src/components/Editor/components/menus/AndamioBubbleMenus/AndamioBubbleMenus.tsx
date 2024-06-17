@@ -6,14 +6,14 @@ import {
   StrikethroughIcon,
   DividerVerticalIcon,
   Link1Icon,
+  LinkBreak1Icon,
+  CodeIcon,
+  ListBulletIcon,
+  QuoteIcon,
 } from "@radix-ui/react-icons";
 import { ToggleGroup, ToggleGroupItem } from "~/components/ui/toggle-group";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "~/components/ui/tooltip";
+import { useCallback } from "react";
+import { ListOrderedIcon } from "lucide-react";
 
 const editorColors = [
   { name: "blue", colorVar: "hsl(var(--editor-blue))" },
@@ -23,12 +23,25 @@ const editorColors = [
 ];
 
 export function AndamioBubbleMenu({ editor }: { editor: Editor }) {
+  const setLink = useCallback(() => {
+    const previousUrl = editor.getAttributes("link").href;
+    const url = window.prompt("URL", previousUrl);
+    if (url === null) {
+      return;
+    }
+    if (url === "") {
+      editor.chain().focus().extendMarkRange("link").unsetLink().run();
+      return;
+    }
+    editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run();
+  }, [editor]);
+
   if (!!editor) {
     return (
       <div>
         <BubbleMenu
           editor={editor}
-          className="edit-menu flex min-w-[560px] flex-row gap-1 rounded-md border border-gray-300 bg-accent p-1"
+          className="edit-menu flex flex-row gap-1 rounded-md border border-gray-300 bg-accent p-1"
           tippyOptions={{
             placement: "top-end",
           }}
@@ -68,7 +81,122 @@ export function AndamioBubbleMenu({ editor }: { editor: Editor }) {
                 <StrikethroughIcon className="h-4 w-4" />
               </div>
             </ToggleGroupItem>
+
             <DividerVerticalIcon className="h-8 text-gray-300" />
+
+            <ToggleGroupItem
+              value="heading1"
+              aria-label="header 1"
+              onClick={() =>
+                editor.chain().focus().toggleHeading({ level: 1 }).run()
+              }
+              data-state={
+                editor.isActive("heading", { level: 1 }) ? "is-active" : ""
+              }
+            >
+              H1
+            </ToggleGroupItem>
+
+            <ToggleGroupItem
+              value="heading2"
+              aria-label="header 2"
+              onClick={() =>
+                editor.chain().focus().toggleHeading({ level: 2 }).run()
+              }
+              data-state={
+                editor.isActive("heading", { level: 2 }) ? "is-active" : ""
+              }
+            >
+              H2
+            </ToggleGroupItem>
+
+            <ToggleGroupItem
+              value="heading3"
+              aria-label="header 3"
+              onClick={() =>
+                editor.chain().focus().toggleHeading({ level: 3 }).run()
+              }
+              data-state={
+                editor.isActive("heading", { level: 3 }) ? "is-active" : ""
+              }
+            >
+              H3
+            </ToggleGroupItem>
+
+            <DividerVerticalIcon className="h-8 text-gray-300" />
+
+            <ToggleGroupItem
+              value="linkset"
+              aria-label="linkset"
+              onClick={setLink}
+            >
+              <Link1Icon className="h-4 w-4" />
+            </ToggleGroupItem>
+
+            <ToggleGroupItem
+              value="linkset"
+              aria-label="linkset"
+              onClick={() => editor.chain().focus().unsetLink().run()}
+              disabled={!editor.isActive("link")}
+            >
+              <LinkBreak1Icon className="h-4 w-4" />
+            </ToggleGroupItem>
+
+            <DividerVerticalIcon className="h-8 text-gray-300" />
+
+            <ToggleGroupItem
+              value="codeblock"
+              aria-label="codeblock"
+              onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+            >
+              <CodeIcon className="h-4 w-4" />
+            </ToggleGroupItem>
+
+            <ToggleGroupItem
+              value="quoteblock"
+              aria-label="quoteblock"
+              onClick={() => editor.chain().focus().toggleBlockquote().run()}
+            >
+              <QuoteIcon className="h-4 w-4" />
+            </ToggleGroupItem>
+
+            <ToggleGroupItem
+              value="bullet"
+              aria-label="bullet"
+              onClick={() => editor.chain().focus().toggleBulletList().run()}
+            >
+              <ListBulletIcon className="h-4 w-4" />
+            </ToggleGroupItem>
+
+            <ToggleGroupItem
+              value="number"
+              aria-label="number"
+              onClick={() => editor.chain().focus().toggleOrderedList().run()}
+            >
+              <ListOrderedIcon className="h-4 w-4" />
+            </ToggleGroupItem>
+
+            {/* 
+            <ToggleGroupItem
+              value="aligncenter"
+              aria-label="aligncenter"
+              onClick={() =>
+                editor.chain().focus().setTextAlign("center").run()
+              }
+            >
+              <TextAlignCenterIcon className="h-4 w-4" />
+            </ToggleGroupItem>
+
+            <ToggleGroupItem
+              value="alignright"
+              aria-label="alignright"
+              onClick={() => editor.chain().focus().setTextAlign("right").run()}
+            >
+              <TextAlignRightIcon className="h-4 w-4" />
+            </ToggleGroupItem> */}
+
+            <DividerVerticalIcon className="h-8 text-gray-300" />
+
             <ToggleGroupItem
               value="text-default"
               aria-label="Toggle text-default"
@@ -88,6 +216,7 @@ export function AndamioBubbleMenu({ editor }: { editor: Editor }) {
                 style={{ backgroundColor: "hsl(var(--foreground))" }}
               />
             </ToggleGroupItem>
+
             {editorColors.map((c, index) => (
               <ToggleGroupItem
                 value={`text-${c.name}`}
@@ -108,8 +237,8 @@ export function AndamioBubbleMenu({ editor }: { editor: Editor }) {
                 />
               </ToggleGroupItem>
             ))}
-            <DividerVerticalIcon className="h-8 text-gray-300" />
-            <div className="Flex flex-row">
+
+            {/* <div className="Flex flex-row">
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
@@ -122,7 +251,7 @@ export function AndamioBubbleMenu({ editor }: { editor: Editor }) {
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
-            </div>
+            </div> */}
           </ToggleGroup>
         </BubbleMenu>
       </div>

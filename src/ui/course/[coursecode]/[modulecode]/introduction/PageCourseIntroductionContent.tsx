@@ -4,6 +4,7 @@ import Link from "next/link";
 import RenderEditor from "~/components/Editor/components/render/RenderEditor";
 import Loading from "~/components/loading";
 import VideoPlayer from "~/components/media/VideoPlayer";
+import Metatags from "~/components/site/metatags";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { Card } from "~/components/ui/card";
 import useIntroduction from "~/hooks/useIntroduction";
@@ -34,6 +35,7 @@ export default function PageCourseIntroductionContent({
   return (
     <CourseLayout>
       <ModuleLayout courseCode={courseCode} courseModule={courseModule}>
+        <Metatags title={introduction?.title ?? undefined} />
         {introduction && introduction.live ? (
           <div className="mx-auto flex max-w-3xl flex-col gap-4 text-base leading-7 text-foreground">
             <Page

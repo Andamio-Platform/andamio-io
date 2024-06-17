@@ -47,7 +47,10 @@ export const api = createTRPCNext<AppRouter>({
         defaultOptions: {
           queries: {
             refetchOnWindowFocus: false,
-            staleTime: 1000 * 60 * 5, // 5 minutes
+            refetchIntervalInBackground: false,
+            refetchOnMount: false,
+            staleTime: 1000 * 60 * 60, // 60 minutes
+            cacheTime: 1000 * 60 * 60 * 24, // 24 hours
           },
         },
       },

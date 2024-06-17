@@ -1,14 +1,14 @@
-'use client'
+"use client";
 
 // TODO: File causes circular dependency issue in ESLint
 /* eslint-disable */
-export { StarterKit } from '@tiptap/starter-kit'
-export { Highlight } from '@tiptap/extension-highlight'
+export { StarterKit } from "@tiptap/starter-kit";
+export { Highlight } from "@tiptap/extension-highlight";
 // export { CharacterCount } from '@tiptap/extension-character-count'
-export { Underline } from '@tiptap/extension-underline'
+export { Underline } from "@tiptap/extension-underline";
 // export { Placeholder } from '@tiptap/extension-placeholder'
 // export { Emoji, gitHubEmojis } from '@tiptap-pro/extension-emoji'
-// export { TextAlign } from '@tiptap/extension-text-align'
+export { TextAlign } from "@tiptap/extension-text-align";
 // export { TextStyle } from '@tiptap/extension-text-style'
 // export { FontFamily } from '@tiptap/extension-font-family'
 // export { Typography } from '@tiptap/extension-typography'
@@ -33,18 +33,18 @@ export { Underline } from '@tiptap/extension-underline'
 // export { AiImage } from './AiImage'
 // export { Table, TableCell, TableHeader, TableRow } from './Table'
 // export { HorizontalRule } from './HorizontalRule'
-export { Heading } from './Heading'
+export { Heading } from "./Heading";
 // export { Document } from './Document'
 // export { TrailingNode } from './TrailingNode'
-export { SlashCommand } from './SlashCommand'
+export { SlashCommand } from "./SlashCommand";
 // export { FontSize } from './FontSize'
 // export { Figure } from './Figure'
 // export { Figcaption } from './Figcaption'
 // export { BlockquoteFigure } from './BlockquoteFigure'
 // export { Quote } from './BlockquoteFigure/Quote'
 // export { QuoteCaption } from './BlockquoteFigure/QuoteCaption'
-export { Link } from './Link'
-export { ImageUpload } from './ImageUpload'
-export { ImageBlock } from './ImageBlock'
+export { Link } from "./Link";
+export { ImageUpload } from "./ImageUpload";
+export { ImageBlock } from "./ImageBlock";
 // export { Columns, Column } from './MultiColumn'
 // export { emojiSuggestion } from './EmojiSuggestion'

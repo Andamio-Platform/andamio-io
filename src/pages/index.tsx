@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Metatags from "~/components/site/metatags";
 import PageCourse from "~/ui/course/[coursecode]/PageCourse";
 import PageLanding from "~/ui/landing/PageLanding";
 import { api } from "~/utils/api";
@@ -22,10 +23,13 @@ export default function Landing() {
 
   return (
     <>
-      {client !== undefined && (
+      <Metatags />
+      {client !== undefined ? (
         <>
           {client ? <PageCourse courseId={client.courseId} /> : <PageLanding />}
         </>
+      ) : (
+        <PageLanding />
       )}
     </>
   );

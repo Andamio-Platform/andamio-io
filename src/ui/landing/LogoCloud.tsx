@@ -31,7 +31,7 @@ export default function LogoCloud() {
         />
       </div>
       <div className="mt-16 flex justify-center">
-        <p className="rounded-md p-4 text-sm leading-6 text-gray-600 ring-1 ring-inset ring-gray-300 transition duration-300 hover:ring-gray-400">
+        <div className="rounded-md p-4 text-sm leading-6 text-gray-600 ring-1 ring-inset ring-gray-300 transition duration-300 hover:ring-gray-400">
           <p>
             Gimbalabs used the Andamio Content Management System to create a
             Plutus Project-Based Learning course to onboard developers to the
@@ -42,7 +42,7 @@ export default function LogoCloud() {
               Read our case study <span aria-hidden="true">&rarr;</span>
             </span>
           </Link>
-        </p>
+        </div>
       </div>
     </div>
   );

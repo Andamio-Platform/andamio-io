@@ -108,23 +108,28 @@
 }
 
 .link {
-  @apply font-bold underline text-foreground hover:text-success;
+  @apply font-bold text-foreground underline hover:text-success;
 }
 
 .blockquote {
-  @apply text-foreground
+  @apply text-foreground;
 }
 
 .custom-code {
-  @apply text-foreground font-mono
+  @apply font-mono text-foreground;
 }
 
 /* CSS for Radix UI Toggle Group Items based on their state */
-[data-state='on'] {
+[data-state="on"] {
   background-color: #e0e0e0; /* Light grey background for active state */
   border: 1px solid #ccddee; /* Border to indicate active state */
 }
 
-[data-state='off'] {
-  @apply bg-accent text-accent-foreground border border-accent/80
+[data-state="off"] {
+  @apply border border-accent/80 bg-accent text-accent-foreground;
+}
+
+/* override the tiptap default */
+.tippy-box {
+  max-width: fit-content !important;
 }

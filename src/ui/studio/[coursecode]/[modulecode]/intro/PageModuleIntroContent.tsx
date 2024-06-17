@@ -22,6 +22,7 @@ import useAssignmentByCourseModule from "~/hooks/useAssignmentByCourseModule";
 import useIntroEditor from "~/ui/studio/hooks/useIntroEditor";
 import ContentEditor from "~/ui/studio/components/ContentEditor";
 import { useRouter } from "next/router";
+import Metatags from "~/components/site/metatags";
 
 export default function PageModuleIntroContent({
   course,
@@ -251,6 +252,7 @@ export default function PageModuleIntroContent({
   if (introduction) {
     return (
       <>
+        <Metatags title={introduction.title} />
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <HeaderSection

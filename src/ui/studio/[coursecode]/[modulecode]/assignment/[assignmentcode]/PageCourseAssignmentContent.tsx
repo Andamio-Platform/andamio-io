@@ -22,6 +22,7 @@ import useAssignmentEditor from "~/ui/studio/hooks/useAssignmentEditor";
 import { LightDarkToggle } from "~/ui/site/LightDarkToggle";
 import ContentEditor from "~/ui/studio/components/ContentEditor";
 import { useRouter } from "next/router";
+import Metatags from "~/components/site/metatags";
 
 // V2 - current
 export default function PageCourseAssignmentContent({
@@ -208,6 +209,7 @@ export default function PageCourseAssignmentContent({
   if (assignment) {
     return (
       <>
+        <Metatags title={assignment.title} />
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <HeaderSection

@@ -20,7 +20,8 @@ import { DialogGetLessonPlan } from "../../components/coach/DialogGetLessonPlan"
 import { useCourseStore } from "~/lib/zustand/course";
 import useLessonEditor from "~/ui/studio/hooks/useLessonEditor";
 import ContentEditor from "~/ui/studio/components/ContentEditor";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
+import Metatags from "~/components/site/metatags";
 
 export default function PageCourseLessonContent({
   course,
@@ -41,7 +42,7 @@ export default function PageCourseLessonContent({
   const router = useRouter();
 
   const { editor, lesson, refetchLesson, isLoadingLesson, ctx } =
-  useLessonEditor(courseCode, moduleCode, moduleIndex);
+    useLessonEditor(courseCode, moduleCode, moduleIndex);
 
   const [editLesson, setEditLesson] = useState<boolean>(false);
   const [isCreatingLesson, setIsCreatingLesson] = useState(false);
@@ -219,33 +220,37 @@ export default function PageCourseLessonContent({
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       if (editLesson) {
-        const confirmationMessage = "You have unsaved changes. Are you sure you want to leave?";
+        const confirmationMessage =
+          "You have unsaved changes. Are you sure you want to leave?";
         e.returnValue = confirmationMessage; // Standard for most browsers
         return confirmationMessage;
       }
     };
 
-    window.addEventListener('beforeunload', handleBeforeUnload);
+    window.addEventListener("beforeunload", handleBeforeUnload);
 
     return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, [editLesson]);
 
   // Handle Next.js router events
   useEffect(() => {
     const handleRouteChange = () => {
-      if (editLesson && !confirm("You have unsaved changes. Are you sure you want to leave?")) {
+      if (
+        editLesson &&
+        !confirm("You have unsaved changes. Are you sure you want to leave?")
+      ) {
         // If the user cancels, stop the navigation
-        router.events.emit('routeChangeError');
-        throw 'Route change aborted.';
+        router.events.emit("routeChangeError");
+        throw "Route change aborted.";
       }
     };
 
-    router.events.on('routeChangeStart', handleRouteChange);
+    router.events.on("routeChangeStart", handleRouteChange);
 
     return () => {
-      router.events.off('routeChangeStart', handleRouteChange);
+      router.events.off("routeChangeStart", handleRouteChange);
     };
   }, [editLesson, router]);
 
@@ -260,49 +265,52 @@ export default function PageCourseLessonContent({
 
   if (lesson) {
     return (
-      <div className="flex w-full flex-col">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <HeaderSection
-              form={form}
-              course={course}
-              courseModule={courseModule}
-              editContent={editLesson}
-              setEditContent={setEditLesson}
-              isLoadingUpdate={isLoadingUpdate}
-              onCancel={onCancel}
-              onSubmit={form.handleSubmit(onSubmit)}
-              slt={slt}
-              courseContent={lesson}
-              intent="lesson"
-              setGetLessonPlanDialogOpen={setGetLessonPlanDialogOpen}
-            />
+      <>
+        <Metatags title={lesson.title ?? undefined} />
+        <div className="flex w-full flex-col">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              <HeaderSection
+                form={form}
+                course={course}
+                courseModule={courseModule}
+                editContent={editLesson}
+                setEditContent={setEditLesson}
+                isLoadingUpdate={isLoadingUpdate}
+                onCancel={onCancel}
+                onSubmit={form.handleSubmit(onSubmit)}
+                slt={slt}
+                courseContent={lesson}
+                intent="lesson"
+                setGetLessonPlanDialogOpen={setGetLessonPlanDialogOpen}
+              />
 
-            <div className="flex w-full bg-card">
-              <ResizablePanelGroup direction="horizontal" className="gap-2">
-                <ResizablePanel defaultSize={80}>
-                  {!!editor && <ContentEditor editor={editor} />}
-                </ResizablePanel>
-                <ResizableHandle />
-                <ResizablePanel defaultSize={20}>
-                  <RightSection
-                    form={form}
-                    course={course}
-                    courseModule={courseModule}
-                    slt={slt}
-                  />
-                </ResizablePanel>
-              </ResizablePanelGroup>
-            </div>
-          </form>
-        </Form>
-        <LightDarkToggle />
-        <DialogGetLessonPlan
-          open={getLessonPlanDialogOpen}
-          setOpen={setGetLessonPlanDialogOpen}
-          slt={slt}
-        />
-      </div>
+              <div className="flex w-full bg-card">
+                <ResizablePanelGroup direction="horizontal" className="gap-2">
+                  <ResizablePanel defaultSize={80}>
+                    {!!editor && <ContentEditor editor={editor} />}
+                  </ResizablePanel>
+                  <ResizableHandle />
+                  <ResizablePanel defaultSize={20}>
+                    <RightSection
+                      form={form}
+                      course={course}
+                      courseModule={courseModule}
+                      slt={slt}
+                    />
+                  </ResizablePanel>
+                </ResizablePanelGroup>
+              </div>
+            </form>
+          </Form>
+          <LightDarkToggle />
+          <DialogGetLessonPlan
+            open={getLessonPlanDialogOpen}
+            setOpen={setGetLessonPlanDialogOpen}
+            slt={slt}
+          />
+        </div>
+      </>
     );
   }
 }

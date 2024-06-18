@@ -10,6 +10,7 @@ import { INDEXER_URL } from "~/config/indexer";
 import { useToast } from "~/components/ui/use-toast";
 import { Asset, UtxoWithSlot } from "@maestro-org/typescript-sdk";
 import { ACCESS_TOKEN_POLICY_ID } from "~/andamio.config";
+import { DecodedAssignmentDecisionDatum, DecodedCourseInstanceDatum } from "@andamiojs/datum-utils";
 interface RequestData {
   CourseGovernanceUTxO: UTxOi;
   CourseNFTTokenName: string;
@@ -30,22 +31,16 @@ interface RequestData {
 }
 
 export default function AcceptDenyAssignment({
-  courseCode,
-  learnerAlias,
+  courseNftPolicy,
+  assignment,
   decision,
-  assignmentCode,
 }: {
-  courseCode: string;
-  learnerAlias: string;
+  courseNftPolicy: string;
+  assignment: DecodedAssignmentDecisionDatum;
   decision: "accept" | "deny";
-  assignmentCode: string;
 }) {
   const { toast } = useToast();
   const { connected, wallet } = useWallet();
-  const { courseOnchain, isLoadingCourseOnchain } = useCourseOnchain(
-    courseCode,
-    Network,
-  );
 
   async function onSubmit() {
     const addr = await wallet.getChangeAddress();
@@ -59,28 +54,22 @@ export default function AcceptDenyAssignment({
     const userUTxOs = await wallet.getUtxos();
 
     const courseFacilitatorAccessTokenUTxO = userUTxOs.find((utxo: UTxO) =>
-      utxo.output.amount.some((a) =>
-        a.unit.includes(ACCESS_TOKEN_POLICY_ID),
-      ),
+      utxo.output.amount.some((a) => a.unit.includes(ACCESS_TOKEN_POLICY_ID)),
     );
 
-    const accessToken = courseFacilitatorAccessTokenUTxO?.output.amount.find((item: Asset) =>
-      item.unit.includes(ACCESS_TOKEN_POLICY_ID),
+    const accessToken = courseFacilitatorAccessTokenUTxO?.output.amount.find(
+      (item: Asset) => item.unit.includes(ACCESS_TOKEN_POLICY_ID),
     );
     const accessTokenNameHex = accessToken?.unit.substring(62);
     const accessTokenName = Buffer.from(
       accessTokenNameHex ? accessTokenNameHex : "",
       "hex",
     ).toString("utf-8");
+    const assignmentValidatorUTxO_res = await axios.get(
+      `${INDEXER_URL}/api/assignment-validator/assignmentValidatorUtxoByCourseNftPolicyAndAlias?policy=${courseNftPolicy}&alias=${assignment.CourseState.CsdUserName}`,
+    );
 
-    const assignmentValidatorUtxos = await maestro.fetchAddressUTxOs(
-      courseOnchain!.AssignmentValidatorAddress,
-    );
-    const learnerAliasHex = Buffer.from(learnerAlias).toString("hex");
-    const assignmentValidatorUTxO = assignmentValidatorUtxos.find(
-      (utxo: UTxO) =>
-        utxo.output.amount.some((a) => a.unit.includes(learnerAliasHex)),
-    );
+const assignmentValidatorUTxO = assignmentValidatorUTxO_res.data;
 
     const remainingUTxOs = userUTxOs.filter(
       (utxo) => utxo !== coll_utxo && utxo !== courseFacilitatorAccessTokenUTxO,
@@ -94,26 +83,39 @@ export default function AcceptDenyAssignment({
     });
 
     const res = await axios.get(
-      `${INDEXER_URL}/api/instance-validator/assignmentValidatorRefUtxoByCourseNftPolicy?policy=${courseOnchain!.CourseCreatorNFTPolicyID}`,
+      `${INDEXER_URL}/api/instance-validator/assignmentValidatorRefUtxoByCourseNftPolicy?policy=${courseNftPolicy}`,
     );
 
     const assignmentValidatorRefUTxO: UtxoWithSlot = res.data;
 
     const courseGovernanceUTxO_res = await axios.get(
-      `${INDEXER_URL}/api/course-governance-validator/utxoByCourseNftPolicy?policy=${courseOnchain!.CourseCreatorNFTPolicyID}`,
+      `${INDEXER_URL}/api/course-governance-validator/utxoByCourseNftPolicy?policy=${courseNftPolicy}`,
+    );
+  
+    const instance_res = await axios.get(
+      `${INDEXER_URL}/api/instance-validator/decodedCourseInstanceDatumByCourseNftPolicy?policy=${courseNftPolicy}`,
     );
 
+    const instance: DecodedCourseInstanceDatum = instance_res.data;
+
+
     const courseGovernanceUTxO: UtxoWithSlot = courseGovernanceUTxO_res.data;
-    const courseNFTTokenName = courseGovernanceUTxO.assets.find((asset: Asset) => asset.unit.includes(courseOnchain!.CourseCreatorNFTPolicyID))?.unit.substring(56);
+    const courseNFTTokenName = courseGovernanceUTxO.assets
+      .find((asset: Asset) =>
+        asset.unit.includes(courseNftPolicy),
+      )
+      ?.unit.substring(56);
 
     const req: RequestData = {
       CourseGovernanceUTxO: {
         TxID: courseGovernanceUTxO.tx_hash,
         TxIDIndex: courseGovernanceUTxO.index,
       },
-      CourseNFTTokenName: courseNFTTokenName!,
+      CourseNFTTokenName: Buffer.from(courseNFTTokenName!, "hex").toString(
+        "utf-8",
+      ),
       CourseFacilitatorAccessTokenName: accessTokenName,
-      AssignmentCode: assignmentCode,
+      AssignmentCode: assignment.CommittedAssignmentId,
       CollateralUTxO: CollateralUTxO,
       CourseFacilitatorDecision: decision,
       CourseFacilitatorAccessTokenUTxO: {
@@ -121,20 +123,20 @@ export default function AcceptDenyAssignment({
         TxIDIndex: courseFacilitatorAccessTokenUTxO.input.outputIndex,
       },
       UserAssignmentUTxO: {
-        TxID: assignmentValidatorUTxO.input.txHash,
-        TxIDIndex: assignmentValidatorUTxO.input.outputIndex,
+        TxID: assignmentValidatorUTxO.tx_hash,
+        TxIDIndex: assignmentValidatorUTxO.index,
       },
       UserUTxOs: UserUTxOs,
       address: addr,
       changeAddress: addr,
-      LocalStateValidatorAddress: courseOnchain!.LocalStateValidatorAddress,
-      AssignmentValidatorAddress: courseOnchain!.AssignmentValidatorAddress,
-      LocalStatePolicyID: courseOnchain!.LocalStatePolicyID,
+      LocalStateValidatorAddress: instance.CourseStateAddr,
+      AssignmentValidatorAddress: instance.AssignmentAddrs[0]!,
+      LocalStatePolicyID: instance.LearnerCsList[0]!,
       AssignmentValidatorRefUTxO: {
         TxID: assignmentValidatorRefUTxO.tx_hash,
         TxIDIndex: assignmentValidatorRefUTxO.index,
       },
-      CourseNFTPolicyID: courseOnchain!.CourseCreatorNFTPolicyID,
+      CourseNFTPolicyID: courseNftPolicy,
     };
 
     console.log(req);

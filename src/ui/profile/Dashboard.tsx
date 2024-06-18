@@ -15,7 +15,7 @@ import MyCoursesSection from "./MyCoursesSection";
 import { ACCESS_TOKEN_POLICY_ID } from "~/andamio.config";
 import { Button } from "~/components/ui/button";
 import Link from "next/link";
-import CreatorsSection from "./CreatorsSection";
+import CreatorsSection from "./creator/CreatorsSection";
 import AssignmentsSection from "./AssignmentSection";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import AssignmentCommitmentsSection from "./AssignmentCommitmentsSection";
@@ -71,6 +71,12 @@ export default function DashboardPage() {
             >
               My Learning Journey
             </TabsTrigger>
+            <TabsTrigger
+              value="creator"
+              className="mx-10 px-10 text-lg font-bold"
+            >
+              Creator's Section
+            </TabsTrigger>
           </TabsList>
           <TabsContent
             value="andamioNetwork"
@@ -108,19 +114,35 @@ export default function DashboardPage() {
                         </h1>
                       </CardHeader>
                       <CardContent>
-                   
-                            <div className="text-xs">
-        <h1>Global State Datum</h1>
-        {alias && <GlobalStateDatum alias={alias} setCourses={setCourses} />}
-        <h1>Course State Datum</h1>
-        {courses && courses.length > 0 && courses.map((course, i) => (
-          <CourseStateDatum courseNftPolicy={course.LsCs} alias={alias} key={i}/>
-        ))}
-        <h1>Assignment Datum</h1>
-        {courses && courses.length > 0 && courses.map((course, i) => (
-          <AssignmentDatum courseNftPolicy={course.LsCs} alias={alias} key={i}/>
-        ))}
-      </div>
+                        <div className="text-xs">
+                          <h1>Global State Datum</h1>
+                          {alias && (
+                            <GlobalStateDatum
+                              alias={alias}
+                              setCourses={setCourses}
+                            />
+                          )}
+                          <h1>Course State Datum</h1>
+                          {courses &&
+                            courses.length > 0 &&
+                            courses.map((course, i) => (
+                              <CourseStateDatum
+                                courseNftPolicy={course.LsCs}
+                                alias={alias}
+                                key={i}
+                              />
+                            ))}
+                          <h1>Assignment Datum</h1>
+                          {courses &&
+                            courses.length > 0 &&
+                            courses.map((course, i) => (
+                              <AssignmentDatum
+                                courseNftPolicy={course.LsCs}
+                                alias={alias}
+                                key={i}
+                              />
+                            ))}
+                        </div>
                       </CardContent>
                     </Card>
                   </>
@@ -129,22 +151,24 @@ export default function DashboardPage() {
                     <NoAccessTokenInWallet />
                   </div>
                 )}
-                <Card
-                  className="col-span-9 flex w-full items-center justify-center bg-indigo-800 text-xl font-bold text-white"
-                  size="md"
-                >
-                  Andamio Network Course Creator
-                </Card>
-                <CreatorsSection />
+                
               </>
             )}
           </TabsContent>
           <TabsContent value="learningJourney" className="flex w-full">
             <AssignmentsSection />
           </TabsContent>
+          <TabsContent value="creator" className="flex w-full items-center justify-center">
+            {!connected ? (
+              <div className="col-span-5 col-start-3 my-5">
+                <NotConnectedCardano />
+              </div>
+            ) : (
+              <CreatorsSection accessTokenAlias={alias} />
+            )}
+          </TabsContent>
         </Tabs>
       </div>
-      
     </>
   );
 }

@@ -13,6 +13,7 @@ export default function PageHome() {
   useEffect(() => {
     setTheme("light");
   }, []);
+
   return (
     <>
       <MenuBar />

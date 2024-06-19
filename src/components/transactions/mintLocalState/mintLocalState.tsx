@@ -16,6 +16,7 @@ import { Network } from "~/config/Network";
 import maestro from "~/config/maestro";
 import { UtxoWithSlot } from "@maestro-org/typescript-sdk";
 import { INDEXER_URL } from "~/config/indexer";
+import { DecodedCourseInstanceDatum } from "@andamiojs/datum-utils";
 
 interface RequestData {
   address: string;
@@ -81,6 +82,22 @@ export default function MintLocalState({ courseCode }: { courseCode: string }) {
       if (!courseOnchain) {
         throw new Error("Course not found on-chain");
       }
+      const instance_res = await axios.get(
+        `${INDEXER_URL}/api/instance-validator/decodedCourseInstanceDatumByCourseNftPolicy?policy=${courseOnchain!.CourseCreatorNFTPolicyID}`,
+      );
+
+      const instance: DecodedCourseInstanceDatum = instance_res.data;
+
+      const CourseInstanceUTxO_res = await axios.get(
+        `${INDEXER_URL}/api/instance-validator/courseInstanceUtxoByCourseNftPolicy?policy=${courseOnchain!.CourseCreatorNFTPolicyID}`,
+      );
+      const CourseInstanceUTxO: UtxoWithSlot = CourseInstanceUTxO_res.data;
+
+      const LocalStatePolicyRefUTxO_res = await axios.get(
+        `${INDEXER_URL}/api/instance-validator/localStatePolicyRefUtxoByCourseNftPolicy?policy=${courseOnchain!.CourseCreatorNFTPolicyID}`,
+      );
+      const LocalStatePolicyRefUTxO: UtxoWithSlot =
+        LocalStatePolicyRefUTxO_res.data;
 
       const req: RequestData = {
         address: addr,
@@ -95,18 +112,16 @@ export default function MintLocalState({ courseCode }: { courseCode: string }) {
           TxID: accessTokenUtxo.input.txHash,
           TxIDIndex: accessTokenUtxo.input.outputIndex,
         },
-        LocalStateValidatorAddress: courseOnchain.LocalStateValidatorAddress,
+        LocalStateValidatorAddress: instance.CourseStateAddr,
         CourseNFTPolicyID: courseOnchain.CourseCreatorNFTPolicyID,
-        LocalStatePolicyID: courseOnchain.LocalStatePolicyID,
+        LocalStatePolicyID: instance.LearnerCsList[0]!,
         CourseInstanceUTxO: {
-          TxID: courseOnchain.CourseInstanceUTxO.substring(0, 64),
-          TxIDIndex: parseInt(courseOnchain.CourseInstanceUTxO.substring(65)),
+          TxID: CourseInstanceUTxO.tx_hash,
+          TxIDIndex: CourseInstanceUTxO.index,
         },
         LocalStatePolicyRefUTxO: {
-          TxID: courseOnchain.LocalStatePolicyRefUTxO.substring(0, 64),
-          TxIDIndex: parseInt(
-            courseOnchain.LocalStatePolicyRefUTxO.substring(65),
-          ),
+          TxID: LocalStatePolicyRefUTxO.tx_hash,
+          TxIDIndex: LocalStatePolicyRefUTxO.index,
         },
       };
 

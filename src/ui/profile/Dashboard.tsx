@@ -75,7 +75,7 @@ export default function DashboardPage() {
               value="creator"
               className="mx-10 px-10 text-lg font-bold"
             >
-              Creator's Section
+              Creator Section
             </TabsTrigger>
           </TabsList>
           <TabsContent
@@ -151,7 +151,7 @@ export default function DashboardPage() {
                     <NoAccessTokenInWallet />
                   </div>
                 )}
-                
+
               </>
             )}
           </TabsContent>
@@ -160,7 +160,7 @@ export default function DashboardPage() {
           </TabsContent>
           <TabsContent value="creator" className="flex w-full items-center justify-center">
             {!connected ? (
-              <div className="col-span-5 col-start-3 my-5">
+              <div className="my-5">
                 <NotConnectedCardano />
               </div>
             ) : (

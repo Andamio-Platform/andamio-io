@@ -30,11 +30,11 @@ export default function CreatorsSection({
     useCreatorsCoursesPolicies(accessTokenAlias);
 
   return (
-    <div>
+    <>
       {data &&
         data.map((c, i) => (
           <CommittedAssignments key={i} courseNftPolicy={c} />
         ))}
-    </div>
+    </>
   );
 }

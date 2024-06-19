@@ -10,7 +10,10 @@ import { INDEXER_URL } from "~/config/indexer";
 import { useToast } from "~/components/ui/use-toast";
 import { Asset, UtxoWithSlot } from "@maestro-org/typescript-sdk";
 import { ACCESS_TOKEN_POLICY_ID } from "~/andamio.config";
-import { DecodedAssignmentDecisionDatum, DecodedCourseInstanceDatum } from "@andamiojs/datum-utils";
+import {
+  DecodedAssignmentDecisionDatum,
+  DecodedCourseInstanceDatum,
+} from "@andamiojs/datum-utils";
 interface RequestData {
   CourseGovernanceUTxO: UTxOi;
   CourseNFTTokenName: string;
@@ -69,7 +72,7 @@ export default function AcceptDenyAssignment({
       `${INDEXER_URL}/api/assignment-validator/assignmentValidatorUtxoByCourseNftPolicyAndAlias?policy=${courseNftPolicy}&alias=${assignment.CourseState.CsdUserName}`,
     );
 
-const assignmentValidatorUTxO = assignmentValidatorUTxO_res.data;
+    const assignmentValidatorUTxO = assignmentValidatorUTxO_res.data;
 
     const remainingUTxOs = userUTxOs.filter(
       (utxo) => utxo !== coll_utxo && utxo !== courseFacilitatorAccessTokenUTxO,
@@ -91,19 +94,16 @@ const assignmentValidatorUTxO = assignmentValidatorUTxO_res.data;
     const courseGovernanceUTxO_res = await axios.get(
       `${INDEXER_URL}/api/course-governance-validator/utxoByCourseNftPolicy?policy=${courseNftPolicy}`,
     );
-  
+
     const instance_res = await axios.get(
       `${INDEXER_URL}/api/instance-validator/decodedCourseInstanceDatumByCourseNftPolicy?policy=${courseNftPolicy}`,
     );
 
     const instance: DecodedCourseInstanceDatum = instance_res.data;
 
-
     const courseGovernanceUTxO: UtxoWithSlot = courseGovernanceUTxO_res.data;
     const courseNFTTokenName = courseGovernanceUTxO.assets
-      .find((asset: Asset) =>
-        asset.unit.includes(courseNftPolicy),
-      )
+      .find((asset: Asset) => asset.unit.includes(courseNftPolicy))
       ?.unit.substring(56);
 
     const req: RequestData = {
@@ -159,12 +159,14 @@ const assignmentValidatorUTxO = assignmentValidatorUTxO_res.data;
   }
 
   return (
-    <div className="mx-4 flex items-center justify-center rounded-md border px-4 py-3 font-mono text-sm">
+    <>
       {!connected ? (
         <CardanoWallet />
       ) : (
-        <Button onClick={onSubmit}>Action</Button>
+        <Button onClick={onSubmit} className="font-mono">
+          {decision} assignment
+        </Button>
       )}
-    </div>
+    </>
   );
 }

@@ -10,6 +10,8 @@ import {
   TableRow,
 } from "~/components/ui/table";
 import AcceptDenyAssignment from "~/components/transactions/acceptDenyAssignment/acceptDenyAssignment";
+import { api } from "~/utils/api";
+import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
 
 export default function CommittedAssignments({
   courseNftPolicy,
@@ -19,54 +21,69 @@ export default function CommittedAssignments({
   const { data, isLoading, isError, error } =
     useAssignmentDatums(courseNftPolicy);
 
+  const { data: courseInfo, isLoading: isLoadingCourseInfo } =
+    api.courseOnChainInstance.getCourseByCourseNftPolicy.useQuery(
+      {
+        CourseCreatorNFTPolicyID: courseNftPolicy,
+      },
+      { enabled: !!courseNftPolicy },
+    );
+
+  if (isLoadingCourseInfo) return <LoadingCircle />;
+
   return (
-    <div>
-      <Card className="col-span-6 row-span-2" size="md">
-        <CardHeader className="flex flex-row items-center gap-2 rounded-t-md bg-indigo-200 p-2">
+    <div className="flex w-full flex-col">
+      <div className="grid w-full grid-cols-1 gap-5">
+        <Card
+          className="flex w-full items-center justify-between bg-indigo-800 px-24 text-xl font-bold text-white"
+          size="md"
+        >
           <DocumentCheckIcon width={"35px"} height={"35px"} />
-          <h2>{courseNftPolicy} - Approve Student Assignments</h2>
-        </CardHeader>
-        <CardContent>
-          {data && (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[100px]">Alias</TableHead>
-                  <TableHead>Assignment</TableHead>
-                  <TableHead>Accept</TableHead>
-                  <TableHead>Deny</TableHead>
+          <h2>
+            {courseInfo?.title} ({courseInfo?.courseCode}) - Approve Student
+            Assignments
+          </h2>
+        </Card>
+
+        {data && (
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Alias</TableHead>
+                <TableHead>Assignment</TableHead>
+                <TableHead>Accept</TableHead>
+                <TableHead>Deny</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody className="text-left">
+              {data.map((assignment, i) => (
+                <TableRow key={i}>
+                  <TableCell className="font-medium">
+                    {assignment.CourseState.CsdUserName}
+                  </TableCell>
+                  <TableCell>{assignment.CommittedAssignmentId}</TableCell>
+                  <TableCell>
+                    <AcceptDenyAssignment
+                      key={i}
+                      courseNftPolicy={courseNftPolicy}
+                      assignment={assignment}
+                      decision="accept"
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <AcceptDenyAssignment
+                      key={i}
+                      courseNftPolicy={courseNftPolicy}
+                      assignment={assignment}
+                      decision="deny"
+                    />
+                  </TableCell>
                 </TableRow>
-              </TableHeader>
-              <TableBody>
-                {data.map((assignment, i) => (
-                  <TableRow key={i}>
-                    <TableCell className="font-medium">
-                      {assignment.CourseState.CsdUserName}
-                    </TableCell>
-                    <TableCell>{assignment.CommittedAssignmentId}</TableCell>
-                    <TableCell>
-                      <AcceptDenyAssignment
-                        key={i}
-                        courseNftPolicy={courseNftPolicy}
-                        assignment={assignment}
-                        decision="accept"
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <AcceptDenyAssignment
-                        key={i}
-                        courseNftPolicy={courseNftPolicy}
-                        assignment={assignment}
-                        decision="deny"
-                      />
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          )}
-        </CardContent>
-      </Card>
+              ))}
+            </TableBody>
+          </Table>
+        )}
+      </div>
     </div>
   );
 }

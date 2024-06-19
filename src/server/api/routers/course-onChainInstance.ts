@@ -99,4 +99,28 @@ export const courseOnChainInstanceRouter = createTRPCRouter({
         },
       });
     }),
+  getCourseByCourseNftPolicy: publicProcedure
+    .input(z.object({ CourseCreatorNFTPolicyID: z.string().min(1) }))
+    .query(async ({ ctx, input }) => {
+      const courseOnChainInstance =
+        await ctx.db.courseOnChainInstance.findFirst({
+          where: {
+            CourseCreatorNFTPolicyID: input.CourseCreatorNFTPolicyID,
+          },
+          include: {
+            course: true,
+          },
+        });
+
+      if (!courseOnChainInstance || !courseOnChainInstance.course) {
+        throw new Error(
+          "Course not found for the provided CourseCreatorNFTPolicyID",
+        );
+      }
+
+      return {
+        courseCode: courseOnChainInstance.course.courseCode,
+        title: courseOnChainInstance.course.title,
+      };
+    }),
 });

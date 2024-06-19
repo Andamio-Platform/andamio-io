@@ -1,6 +1,6 @@
 import { DecodedGlobalStateDatum, DecodedTokenInfo } from "@andamiojs/datum-utils";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import useGlobalStateDatum from "./hooks/useGlobalStateDatum";
+import useGlobalStateDatum from "../../hooks-onchain/useGlobalStateDatum";
 import CourseStateDatum from "./CourseStateDatum";
 
 export default function GlobalStateDatum({alias, setCourses}:{alias: string, setCourses: Dispatch<SetStateAction<DecodedTokenInfo[]>>}) {

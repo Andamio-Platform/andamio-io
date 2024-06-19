@@ -162,13 +162,7 @@ export default function MintLocalState({ courseCode }: { courseCode: string }) {
   return (
     <div className="mx-4 flex items-center justify-center rounded-md border px-4 py-3 font-mono text-sm">
       {!isLoading && !isLoadingCourseOnchain ? (
-        <>
-          {!connected ? (
-            <CardanoWallet />
-          ) : (
-            <Button onClick={onSubmit}>Enroll now</Button>
-          )}
-        </>
+        <Button onClick={onSubmit}>Enroll now</Button>
       ) : (
         <>
           {/* {isConfirming && <p>Confirming transaction...</p>} */}

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Badge } from "~/components/ui/badge";
 import { Course, CoursePublic } from "~/types/db";
 import {
@@ -25,6 +25,8 @@ import {
   CardHeader,
 } from "~/components/ui/card";
 import { useSession } from "next-auth/react";
+import { CardanoWallet, useWallet } from "@meshsdk/react";
+import checkIfEnrolled from "../utils/checkIfEnrolled";
 
 export default function CourseCard({
   course,
@@ -33,15 +35,34 @@ export default function CourseCard({
   course: CoursePublic;
   enabled: boolean;
 }) {
+  const { connected, wallet } = useWallet();
   const [isOpen, setIsOpen] = useState(false);
   const { data: sessionData } = useSession();
+  const [isEnrolled, setIsEnrolled] = useState(false);
 
   // Next step 2024-06-12: Show learner enrollment status from course page
 
+  useEffect(() => {
+    (async () => {
+      if (connected &&  course.onchainInstance[0]) {
+        console.log("check")
+        const isEnrolled = await checkIfEnrolled(
+          course.onchainInstance[0].CourseCreatorNFTPolicyID,
+          wallet,
+        );
+        setIsEnrolled(isEnrolled);
+      }
+    })();
+  }, [wallet]);
+
   if (!course) return;
   return (
-    <Card key={course.id} className="shadow-xl border-none bg-blue-200" size="md">
-      <CardHeader className="relative p-0 m-0">
+    <Card
+      key={course.id}
+      className="border-none bg-blue-200 shadow-xl"
+      size="md"
+    >
+      <CardHeader className="relative m-0 p-0">
         <img
           className="aspect-[3/2] w-full rounded-t-md object-cover"
           src={
@@ -100,7 +121,19 @@ export default function CourseCard({
                     </div>
 
                     <CollapsibleContent className="space-y-2">
-                      <MintLocalState courseCode={course.courseCode} />
+                      <>
+                        {!connected ? (
+                          <CardanoWallet />
+                        ) : (
+                          <>
+                            {isEnrolled ? (
+                              <div>Already Enrolled</div>
+                            ) : (
+                              <MintLocalState courseCode={course.courseCode} />
+                            )}
+                          </>
+                        )}
+                      </>
                     </CollapsibleContent>
                   </Collapsible>
                 </DialogDescription>

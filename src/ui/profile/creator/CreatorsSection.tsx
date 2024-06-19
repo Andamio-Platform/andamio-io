@@ -18,7 +18,7 @@ import {
 } from "~/components/ui/table";
 import maestro, { maestroClient } from "~/config/maestro";
 import useAllCoursesOnchain from "~/hooks/useAllCoursesOnchain";
-import useCreatorsCoursesPolicies from "../hooks/useCreatorsCoursesPolicies";
+import useCreatorsCoursesPolicies from "../../../hooks-onchain/useCreatorsCoursesPolicies";
 import CommittedAssignments from "./CommittedAssignments";
 
 export default function CreatorsSection({

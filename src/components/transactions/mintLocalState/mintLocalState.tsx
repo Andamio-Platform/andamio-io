@@ -83,18 +83,18 @@ export default function MintLocalState({ courseCode }: { courseCode: string }) {
         throw new Error("Course not found on-chain");
       }
       const instance_res = await axios.get(
-        `${INDEXER_URL}/api/instance-validator/decodedCourseInstanceDatumByCourseNftPolicy?policy=${courseOnchain!.CourseCreatorNFTPolicyID}`,
+        `${INDEXER_URL}/api/instance-validator/decodedCourseInstanceDatumByCourseNftPolicy?policy=${courseOnchain.CourseCreatorNFTPolicyID}`,
       );
 
       const instance: DecodedCourseInstanceDatum = instance_res.data;
 
       const CourseInstanceUTxO_res = await axios.get(
-        `${INDEXER_URL}/api/instance-validator/courseInstanceUtxoByCourseNftPolicy?policy=${courseOnchain!.CourseCreatorNFTPolicyID}`,
+        `${INDEXER_URL}/api/instance-validator/courseInstanceUtxoByCourseNftPolicy?policy=${courseOnchain.CourseCreatorNFTPolicyID}`,
       );
       const CourseInstanceUTxO: UtxoWithSlot = CourseInstanceUTxO_res.data;
 
       const LocalStatePolicyRefUTxO_res = await axios.get(
-        `${INDEXER_URL}/api/instance-validator/localStatePolicyRefUtxoByCourseNftPolicy?policy=${courseOnchain!.CourseCreatorNFTPolicyID}`,
+        `${INDEXER_URL}/api/instance-validator/localStatePolicyRefUtxoByCourseNftPolicy?policy=${courseOnchain.CourseCreatorNFTPolicyID}`,
       );
       const LocalStatePolicyRefUTxO: UtxoWithSlot =
         LocalStatePolicyRefUTxO_res.data;

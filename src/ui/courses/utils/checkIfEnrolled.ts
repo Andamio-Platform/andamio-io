@@ -11,6 +11,9 @@ export default async function checkIfEnrolled(
   const accessToken = userAssets.find((asset) =>
     asset.unit.includes(ACCESS_TOKEN_POLICY_ID),
   );
+
+  if (!accessToken) return false
+
   const alias = Buffer.from(accessToken.unit.substring(62), "hex").toString();
 
   const response = await fetch(

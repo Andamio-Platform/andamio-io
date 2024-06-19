@@ -37,12 +37,14 @@ export default function DashboardPage() {
       const accessToken = userAssets.find((asset) =>
         asset.unit.includes(ACCESS_TOKEN_POLICY_ID),
       );
-      setAccessToken(accessToken);
-      const alias = Buffer.from(
-        accessToken.unit.substring(62),
-        "hex",
-      ).toString();
-      setAlias(alias);
+      if (accessToken) {
+        setAccessToken(accessToken);
+        const alias = Buffer.from(
+          accessToken.unit.substring(62),
+          "hex",
+        ).toString();
+        setAlias(alias);
+      }
     };
 
     if (connected) {
@@ -151,14 +153,16 @@ export default function DashboardPage() {
                     <NoAccessTokenInWallet />
                   </div>
                 )}
-
               </>
             )}
           </TabsContent>
           <TabsContent value="learningJourney" className="flex w-full">
             <AssignmentsSection />
           </TabsContent>
-          <TabsContent value="creator" className="flex w-full items-center justify-center">
+          <TabsContent
+            value="creator"
+            className="flex w-full items-center justify-center"
+          >
             {!connected ? (
               <div className="my-5">
                 <NotConnectedCardano />

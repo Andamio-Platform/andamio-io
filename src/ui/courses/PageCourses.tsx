@@ -2,16 +2,31 @@ import { signIn, useSession } from "next-auth/react";
 import { Button } from "~/components/ui/button";
 import AllCourses from "./components/AllCourses";
 import MenuBar from "../landing/MenuBar";
+import { useWallet, useWalletList } from "@meshsdk/react";
+import { useEffect, useState } from "react";
 // import FeaturedCourses from "./components/FeaturedCourses";
 
 export default function PageCourses() {
   const { data: sessionData } = useSession();
+  const wallets = useWalletList();
+
+  const [walletOption, setWalletOption] = useState<string | undefined>(
+    undefined,
+  );
+
+  useEffect(() => {
+    if (wallets && wallets[0] && wallets[0].name) {
+      setWalletOption(wallets[0].name);
+    }
+  }, [wallets]);
+
+  const { connected, connect } = useWallet();
 
   return (
     <>
       <MenuBar />
 
-      <div className="mx-auto max-w-7xl px-6 sm:mt-48 lg:px-8 min-h-[50vh]">
+      <div className="mx-auto min-h-[50vh] max-w-7xl px-6 sm:mt-48 lg:px-8">
         <div className="mx-auto lg:mx-0">
           <h1 className="my-[78px] text-[3rem] font-bold leading-[5rem]">
             Andamio Course List
@@ -27,16 +42,31 @@ export default function PageCourses() {
                     });
                   }}
                 >
-                  Connect to Andamio
+                  Connect to Andamio Platform
                 </Button>
               </div>
             </div>
           )}
           <p className="mt-6 text-lg leading-8 text-gray-600">
             {sessionData
-              ? `Connected to Andamio as ${sessionData.user.name}`
+              ? `Connected to Andamio Platform as ${sessionData.user.name}`
               : "You are not logged in. Browse courses for free. When you are ready, connect to the Andamio Network."}
           </p>
+          <div className="mt-6 text-lg leading-8 text-gray-600">
+            {!connected && wallets && !!wallets[0]?.name ? (
+              <div className="flex basis-1/3 flex-col gap-4">
+                <div className="grow">
+                  {walletOption && (
+                    <Button onClick={() => connect(walletOption)}>
+                      Connect {walletOption} Wallet to Andamio Network
+                    </Button>
+                  )}
+                </div>
+              </div>
+            ) : (
+              "Connected to Andamio Network"
+            )}
+          </div>
         </div>
         <AllCourses />
       </div>

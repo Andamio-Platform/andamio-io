@@ -44,8 +44,8 @@ export default function CourseCard({
 
   useEffect(() => {
     (async () => {
-      if (connected &&  course.onchainInstance[0]) {
-        console.log("check")
+      if (connected && course.onchainInstance[0]) {
+        console.log("check");
         const isEnrolled = await checkIfEnrolled(
           course.onchainInstance[0].CourseCreatorNFTPolicyID,
           wallet,
@@ -97,54 +97,66 @@ export default function CourseCard({
         </Link>
 
         {course.onchainInstance.length !== 0 && (
-          <Dialog>
-            <DialogTrigger>
-              <Button>Enroll</Button>
-            </DialogTrigger>
-            <DialogContent className="flex items-center justify-center justify-items-center">
-              <DialogHeader>
-                <DialogTitle className="py-4">
-                  Thinking of taking this course?
-                </DialogTitle>
-                <DialogDescription>
-                  <Collapsible
-                    open={isOpen}
-                    onOpenChange={setIsOpen}
-                    className="w-[350px] space-y-2 py-4"
-                  >
-                    <div className="flex items-center justify-start">
-                      <CollapsibleTrigger asChild>
-                        <Button>
-                          {isOpen ? <>Back</> : <>Enroll On-Chain</>}
-                        </Button>
-                      </CollapsibleTrigger>
-                    </div>
+          <>
+            {!isEnrolled ? (
+              <Dialog>
+                <DialogTrigger>
+                  <Button>Enroll</Button>
+                </DialogTrigger>
+                <DialogContent className="flex items-center justify-center justify-items-center">
+                  <DialogHeader>
+                    <DialogTitle className="py-4">
+                      Thinking of taking this course?
+                    </DialogTitle>
+                    <DialogDescription>
+                      <Collapsible
+                        open={isOpen}
+                        onOpenChange={setIsOpen}
+                        className="w-[350px] space-y-2 py-4"
+                      >
+                        <div className="flex items-center justify-start">
+                          <CollapsibleTrigger asChild>
+                            <Button>
+                              {isOpen ? <>Back</> : <>Enroll On-Chain</>}
+                            </Button>
+                          </CollapsibleTrigger>
+                        </div>
 
-                    <CollapsibleContent className="space-y-2">
-                      <>
-                        {!connected ? (
-                          <CardanoWallet />
-                        ) : (
+                        <CollapsibleContent className="space-y-2">
                           <>
-                            {isEnrolled ? (
-                              <div>Already Enrolled</div>
+                            {!connected ? (
+                              <CardanoWallet />
                             ) : (
-                              <MintLocalState courseCode={course.courseCode} />
+                              <>
+                                {isEnrolled ? (
+                                  <div>Currently Enrolled</div>
+                                ) : (
+                                  <MintLocalState
+                                    courseCode={course.courseCode}
+                                  />
+                                )}
+                              </>
                             )}
                           </>
-                        )}
-                      </>
-                    </CollapsibleContent>
-                  </Collapsible>
-                </DialogDescription>
-                <DialogFooter className="py-4 text-xs sm:justify-start">
-                  <Link href={`/course/${course.courseCode}`}>
-                    I&apos;ll do it after taking a look inside first
-                  </Link>
-                </DialogFooter>
-              </DialogHeader>
-            </DialogContent>
-          </Dialog>
+                        </CollapsibleContent>
+                      </Collapsible>
+                    </DialogDescription>
+                    <DialogFooter className="py-4 text-xs sm:justify-start">
+                      <Link href={`/course/${course.courseCode}`}>
+                        I&apos;ll do it after taking a look inside first
+                      </Link>
+                    </DialogFooter>
+                  </DialogHeader>
+                </DialogContent>
+              </Dialog>
+            ) : (
+              <Link href={`/course/${course.courseCode}`}>
+                <Button className="bg-success text-white">
+                  Currently Enrolled
+                </Button>
+              </Link>
+            )}
+          </>
         )}
       </CardFooter>
     </Card>

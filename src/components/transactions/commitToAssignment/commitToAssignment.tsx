@@ -28,6 +28,7 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { UtxoWithSlot } from "@maestro-org/typescript-sdk";
+import { DecodedCourseInstanceDatum } from "@andamiojs/datum-utils";
 
 interface RequestData {
   Address: string;
@@ -107,28 +108,31 @@ export default function CommitToAssignment({
         "hex",
       ).toString("utf-8");
 
-      const localStateUtxos = await maestro.fetchAddressUTxOs(
-        courseOnchain!.LocalStateValidatorAddress,
-      );
-      const localStateUtxo = localStateUtxos.find((utxo: UTxO) =>
-        utxo.output.amount.some((a) => a.unit.includes(accessTokenNameHex!)),
-      );
+      if (!courseOnchain) {
+        throw new Error("Course not found on-chain");
+      }
 
-      const ModuleTokenUTxOs = await maestro.fetchAddressUTxOs(
-        courseOnchain!.ModuleValidatorAddress,
-      );
-      const assignmentCodeHex = Buffer.from(assignmentCode, "utf-8").toString(
-        "hex",
-      );
-      const moduleTokenUtxo = ModuleTokenUTxOs.find((utxo: UTxO) =>
-        utxo.output.amount.some((a) => a.unit.includes(assignmentCodeHex)),
-      );
-
-      const res = await axios.get(
+      const localStateValidatorRefUTxO_res = await axios.get(
         `${INDEXER_URL}/api/instance-validator/localStateValildatorRefUtxoByCourseNftPolicy?policy=${courseOnchain!.CourseCreatorNFTPolicyID}`,
       );
+      const localStateValidatorRefUTxO: UtxoWithSlot =
+        localStateValidatorRefUTxO_res.data;
 
-      const localStateValidatorRefUTxO: UtxoWithSlot = res.data;
+      const localStateUtxo_res = await axios.get(
+        `${INDEXER_URL}/api/course-state/courseStateUtxoByCourseNftPolicyAndAlias?policy=${courseOnchain!.CourseCreatorNFTPolicyID}&alias=${accessTokenName}`,
+      );
+      const localStateUtxo: UtxoWithSlot = localStateUtxo_res.data;
+
+      const moduleTokenUtxo_res = await axios.get(
+        `${INDEXER_URL}/api/module-ref/moduleRefValidatorUtxoByCourseNftPolicyAndTokenName?policy=${courseOnchain!.CourseCreatorNFTPolicyID}&token_name=${assignmentCode}`,
+      );
+      const moduleTokenUtxo: UtxoWithSlot = moduleTokenUtxo_res.data;
+
+      const instance_res = await axios.get(
+        `${INDEXER_URL}/api/instance-validator/decodedCourseInstanceDatumByCourseNftPolicy?policy=${courseOnchain.CourseCreatorNFTPolicyID}`,
+      );
+
+      const instance: DecodedCourseInstanceDatum = instance_res.data;
 
       const req: RequestData = {
         Address: addr,
@@ -136,22 +140,22 @@ export default function CommitToAssignment({
         UserUTxOs,
         CollateralUTxO,
         UserLocalStateUTxO: {
-          TxID: localStateUtxo.input.txHash,
-          TxIDIndex: localStateUtxo.input.outputIndex,
+          TxID: localStateUtxo.tx_hash,
+          TxIDIndex: localStateUtxo.index,
         },
         UserAccessTokenUTxO: {
           TxID: accessTokenUtxo.input.txHash,
           TxIDIndex: accessTokenUtxo.input.outputIndex,
         },
         ModuleTokenUTxO: {
-          TxID: moduleTokenUtxo.input.txHash,
-          TxIDIndex: moduleTokenUtxo.input.outputIndex,
+          TxID: moduleTokenUtxo.tx_hash,
+          TxIDIndex: moduleTokenUtxo.index,
         }, // match token with assignment code
         AssignmentCode: assignmentCode,
         StudentAssignmentInfo: data.assignmentInfo,
-        AssignmentValidatorAddress: courseOnchain!.AssignmentValidatorAddress,
-        LocalStateValidatorAddress: courseOnchain!.LocalStateValidatorAddress,
-        LocalStatePolicyID: courseOnchain!.LocalStatePolicyID,
+        AssignmentValidatorAddress: instance.AssignmentAddrs[0]!,
+        LocalStateValidatorAddress: instance.CourseStateAddr,
+        LocalStatePolicyID: instance.LearnerCsList[0]!,
         LocalStateValidatorRefUTxO: {
           TxID: localStateValidatorRefUTxO.tx_hash,
           TxIDIndex: localStateValidatorRefUTxO.index,
@@ -204,7 +208,7 @@ export default function CommitToAssignment({
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="w-11/12 mx-auto space-y-6"
+                className="mx-auto w-11/12 space-y-6"
               >
                 <FormField
                   control={form.control}

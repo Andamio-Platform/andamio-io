@@ -23,6 +23,7 @@ import CompletedCourses from "./CompletedCourses";
 import CourseStateDatum from "./CompletedAssignments";
 import { DecodedTokenInfo } from "@andamiojs/datum-utils";
 import AssignmentDatum from "./CommittedAssignment";
+import { useRouter } from "next/router";
 
 export default function DashboardPage() {
   const { setTheme } = useTheme();
@@ -185,6 +186,13 @@ function NotConnectedCardano() {
 }
 
 function NoAccessTokenInWallet() {
+  const router = useRouter();
+  const handleRemintClick = () => {
+    void router.push({
+      pathname: "/auth/join-andamio-network",
+      query: { remint: 'true' },
+    });
+  };
   return (
     <div>
       <Card>
@@ -195,8 +203,8 @@ function NoAccessTokenInWallet() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Button>
-            <Link href={"/auth/join-andamio-network"}>Get Token</Link>
+          <Button onClick={handleRemintClick}>
+            Get Token
           </Button>
         </CardContent>
         <CardFooter>

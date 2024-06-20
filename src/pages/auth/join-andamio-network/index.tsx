@@ -27,6 +27,7 @@ import { BellIcon, BookOpenText, GlobeLockIcon } from "lucide-react";
 
 export default function JoinAndamioNetwork() {
   const router = useRouter();
+  const { remint } = router.query;
 
   const { data: sessionData } = useSession();
   const { data: user, isLoading: isLoadingUser } =
@@ -34,7 +35,9 @@ export default function JoinAndamioNetwork() {
       id: sessionData?.user.id ? sessionData?.user.id : "",
     });
 
-  if (user?.hasMintedAccessToken) {
+    console.log(user?.hasMintedAccessToken, remint)
+
+  if (user?.hasMintedAccessToken && remint!=='true') {
     void router.push("/home");
   }
 
@@ -44,7 +47,7 @@ export default function JoinAndamioNetwork() {
 
   return (
     <div className="flex h-screen items-center justify-center">
-      {isLoadingUser || user?.hasMintedAccessToken ? (
+      {isLoadingUser ? (
         <Loading />
       ) : (
         <Card className="mx-auto w-11/12 lg:w-2/3">

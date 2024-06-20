@@ -14,6 +14,7 @@ import Loading from "~/components/loading";
 import UTxOi from "~/components/transactions/model";
 import { Button } from "~/components/ui/button";
 import { Form } from "~/components/ui/form";
+import { INDEXER_URL } from "~/config/indexer";
 import maestro from "~/config/maestro";
 import { api } from "~/utils/api";
 
@@ -248,9 +249,6 @@ export default function MintAccessToken() {
 }
 
 export const CheckTokenAliasAvailability = async (tokenAlias: string) => {
-  const response = await axios.post(
-    "/api/backend/dbQueries/checkAccessTokenAliasAvailability",
-    { tokenAlias: tokenAlias },
-  );
+  const response = await axios.get(`${INDEXER_URL}/api/aliasAvailability?alias=${tokenAlias}`)
   return response.data.isAvailable;
 };

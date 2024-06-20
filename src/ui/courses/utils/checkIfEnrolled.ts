@@ -23,6 +23,8 @@ export default async function checkIfEnrolled(
   const datum: DecodedGlobalStateDatum = await response.json();
   let enrolled = false;
 
+  if (!datum || !datum.TokenInfos) return false
+
   enrolled = datum.TokenInfos.some((tokenInfo) => {
     if (tokenInfo.LsCs === courseNftPolicy && tokenInfo.Minted) {
       return true;

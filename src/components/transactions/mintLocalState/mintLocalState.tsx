@@ -17,6 +17,7 @@ import maestro from "~/config/maestro";
 import { UtxoWithSlot } from "@maestro-org/typescript-sdk";
 import { INDEXER_URL } from "~/config/indexer";
 import { DecodedCourseInstanceDatum } from "@andamiojs/datum-utils";
+import { useToast } from "~/components/ui/use-toast";
 
 interface RequestData {
   address: string;
@@ -34,6 +35,7 @@ interface RequestData {
 
 export default function MintLocalState({ courseCode }: { courseCode: string }) {
   const router = useRouter();
+  const { toast } = useToast();
 
   const { connected, wallet } = useWallet();
   const [isLoading, setIsLoading] = useState(false);
@@ -151,7 +153,11 @@ export default function MintLocalState({ courseCode }: { courseCode: string }) {
       // }
 
       // set database
-
+      setIsLoading(false);
+      toast({
+        title: "Transaction submitted",
+        description: `${txId}`,
+      });
       void router.push("/home"); // maybe change to Dashboard?
     } catch (error) {
       setIsLoading(false);

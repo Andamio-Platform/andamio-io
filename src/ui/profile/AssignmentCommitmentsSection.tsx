@@ -1,11 +1,17 @@
 import { Card, CardHeader, CardContent } from "~/components/ui/card";
 import useLearnerNetworkStatus from "./hooks/useLearnerNetworkStatus";
 import { AssetExtended } from "@meshsdk/core";
+import CommittedAssignment from "./CommittedAssignment";
+import { DecodedTokenInfo } from "@andamiojs/datum-utils";
 
 export default function AssignmentCommitmentsSection({
   accessToken,
+  alias,
+  courses,
 }: {
   accessToken: AssetExtended;
+  alias: string;
+  courses: DecodedTokenInfo[];
 }) {
   const { courseEnrollments } = useLearnerNetworkStatus(accessToken);
 
@@ -24,10 +30,19 @@ export default function AssignmentCommitmentsSection({
               : "No current commitments"}
           </div>
         ))}
-        <p className="py-5 text-sm font-bold">
+        {courses &&
+          courses.length > 0 &&
+          courses.map((course, i) => (
+            <CommittedAssignment
+              courseNftPolicy={course.LsCs}
+              alias={alias}
+              key={i}
+            />
+          ))}
+        {/* <p className="py-5 text-sm font-bold">
           Note: Assignment details will be added to this Assignment Dashboard
           after on-chain upgrades to Andamio are deployed.
-        </p>
+        </p> */}
       </CardContent>
     </Card>
   );

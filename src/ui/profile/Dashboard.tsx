@@ -19,10 +19,10 @@ import CreatorsSection from "./creator/CreatorsSection";
 import AssignmentsSection from "./AssignmentSection";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import AssignmentCommitmentsSection from "./AssignmentCommitmentsSection";
-import GlobalStateDatum from "./GlobalStateDatum";
-import CourseStateDatum from "./CourseStateDatum";
+import CompletedCourses from "./CompletedCourses";
+import CourseStateDatum from "./CompletedAssignments";
 import { DecodedTokenInfo } from "@andamiojs/datum-utils";
-import AssignmentDatum from "./AssignmentDatum";
+import AssignmentDatum from "./CommittedAssignment";
 
 export default function DashboardPage() {
   const { setTheme } = useTheme();
@@ -102,10 +102,10 @@ export default function DashboardPage() {
                       <AccessTokenSection accessToken={accessToken} />
                     </Card>
                     <div className="col-span-6">
-                      <AssignmentCommitmentsSection accessToken={accessToken} />
+                      <AssignmentCommitmentsSection accessToken={accessToken} alias={alias} courses={courses} />
                     </div>
                     <div className="col-span-3">
-                      <MyCoursesSection accessToken={accessToken} />
+                      <MyCoursesSection accessToken={accessToken}  alias={alias} courses={courses} />
                     </div>
 
                     <Card className="col-span-6">
@@ -117,33 +117,14 @@ export default function DashboardPage() {
                       </CardHeader>
                       <CardContent>
                         <div className="text-xs">
-                          <h1>Global State Datum</h1>
                           {alias && (
-                            <GlobalStateDatum
+                            <CompletedCourses
                               alias={alias}
                               setCourses={setCourses}
                             />
                           )}
-                          <h1>Course State Datum</h1>
-                          {courses &&
-                            courses.length > 0 &&
-                            courses.map((course, i) => (
-                              <CourseStateDatum
-                                courseNftPolicy={course.LsCs}
-                                alias={alias}
-                                key={i}
-                              />
-                            ))}
-                          <h1>Assignment Datum</h1>
-                          {courses &&
-                            courses.length > 0 &&
-                            courses.map((course, i) => (
-                              <AssignmentDatum
-                                courseNftPolicy={course.LsCs}
-                                alias={alias}
-                                key={i}
-                              />
-                            ))}
+                          
+                          
                         </div>
                       </CardContent>
                     </Card>

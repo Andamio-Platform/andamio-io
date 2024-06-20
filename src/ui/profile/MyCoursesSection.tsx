@@ -4,16 +4,26 @@ import { Badge } from "~/components/ui/badge";
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
 import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
 import useLearnerNetworkStatus from "./hooks/useLearnerNetworkStatus";
+import CourseStateDatum from "./CompletedAssignments";
+import { DecodedTokenInfo } from "@andamiojs/datum-utils";
 
 export default function MyCoursesSection({
   accessToken,
+  alias,
+  courses,
 }: {
   accessToken: AssetExtended;
+  alias: string;
+  courses: DecodedTokenInfo[];
 }) {
   if (!accessToken) return;
 
-  const { courseInfos, courseEnrollments, isLoadingCourseEnrollments, isLoadingCourseInfos} = useLearnerNetworkStatus(accessToken)
-
+  const {
+    courseInfos,
+    courseEnrollments,
+    isLoadingCourseEnrollments,
+    isLoadingCourseInfos,
+  } = useLearnerNetworkStatus(accessToken);
 
   if (isLoadingCourseInfos || isLoadingCourseEnrollments) {
     return (
@@ -47,6 +57,23 @@ export default function MyCoursesSection({
         ) : (
           <p>You have not registered with any courses on-chain</p>
         )}
+        {courses &&
+          courses.length > 0 &&
+          courses.map((course, i) => (
+            <div className="bg-slate-400">
+            { course.Minted &&
+
+              <div className="break-all">
+                {course.LsCs}
+            </div>
+            }
+              <CourseStateDatum
+                courseNftPolicy={course.LsCs}
+                alias={alias}
+                key={i}
+              />
+            </div>
+          ))}
         <p className="my-5 text-xs font-bold">
           Note: This dashboard only shows your on-chain course enrollment data.
           If you want to see off-chain data, look at My Learning Journey.

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 const footerData = {
@@ -13,8 +14,8 @@ const footerData = {
     { name: "Twitter", href: "https://twitter.com/AndamioPlatform" },
   ],
   Legal: [
-    { name: "Privacy Policy", href: "#" },
-    { name: "Terms of Use", href: "#" },
+    { name: "Privacy Policy", href: "/privacy-policy" },
+    { name: "Terms of Use", href: "/terms" },
   ],
 };
 
@@ -32,12 +33,12 @@ export default function Footer() {
                 <ul className="mt-4 space-y-4">
                   {links.map((link) => (
                     <li key={link.name}>
-                      <a
+                      <Link
                         href={link.href}
-                        className="text-base text-gray-400 hover:text-black"
+                        className="text-base text-gray-400 hover:text-gray-300"
                       >
                         {link.name}
-                      </a>
+                      </Link>
                     </li>
                   ))}
                 </ul>

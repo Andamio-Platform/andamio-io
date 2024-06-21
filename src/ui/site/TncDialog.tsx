@@ -5,7 +5,7 @@ import { Dialog, DialogContent, DialogHeader } from "~/components/ui/dialog";
 import { api } from "~/utils/api";
 import Link from "next/link";
 
-const latestTncVersion = "0.0.0";
+const latestTncVersion = "1.0.0";
 
 export default function TncDialog() {
   const ctx = api.useUtils();
@@ -53,14 +53,14 @@ export default function TncDialog() {
     <Dialog open={isOpen}>
       <DialogContent>
         <DialogHeader className="font-bold">
-          Changes to Terms and Conditions
+          Changes to Terms and Conditions + Privacy Policy
         </DialogHeader>
         <h2 className="text-sm text-secondary-foreground">
-          Terms and Conditions Version 0.0.0 (pre-release)
+          Terms and Conditions Version 1.0.0
         </h2>
 
         <p className="text-sm text-secondary-foreground">
-          Andamio Version 0.2.18
+          Andamio Version 0.2.19
         </p>
 
         <p className="py-1 font-medium">
@@ -71,12 +71,12 @@ export default function TncDialog() {
           platform is evolving rapidly, so please expect changes.
         </p>
         <p className="py-1 font-medium">
-          We are currently putting finishing touches on a Terms + Conditions
-          document and a Privacy Policy. You will be notified by this
-          application when these documents are updated. Until then, the Andamio
-          team reserves all rights to remove users, change access permissions,
-          and edit content published on the Andamio Platform.
+          Please review the updated Andamio Terms and Conditions and Privacy Policy:
         </p>
+        <ul className="list-disc ml-5 mb-8">
+          <li className="py-1 underline text-indigo-900">Terms and Conditions</li>
+          <li className="py-1 underline text-indigo-900">Privacy Policy</li>
+        </ul>
         <Button onClick={handleApprovalClick}>OK</Button>
       </DialogContent>
     </Dialog>

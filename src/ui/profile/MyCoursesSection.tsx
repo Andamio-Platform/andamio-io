@@ -60,7 +60,7 @@ export default function MyCoursesSection({
         {courses &&
           courses.length > 0 &&
           courses.map((course, i) => (
-            <div className="bg-slate-400">
+            <div className="bg-slate-400" key={i}>
             { course.Minted &&
 
               <div className="break-all">

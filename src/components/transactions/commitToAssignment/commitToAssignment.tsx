@@ -113,18 +113,18 @@ export default function CommitToAssignment({
       }
 
       const localStateValidatorRefUTxO_res = await axios.get(
-        `${INDEXER_URL}/api/instance-validator/localStateValildatorRefUtxoByCourseNftPolicy?policy=${courseOnchain!.CourseCreatorNFTPolicyID}`,
+        `${INDEXER_URL}/api/instance-validator/localStateValildatorRefUtxoByCourseNftPolicy?policy=${courseOnchain.CourseCreatorNFTPolicyID}`,
       );
       const localStateValidatorRefUTxO: UtxoWithSlot =
         localStateValidatorRefUTxO_res.data;
 
       const localStateUtxo_res = await axios.get(
-        `${INDEXER_URL}/api/course-state/courseStateUtxoByCourseNftPolicyAndAlias?policy=${courseOnchain!.CourseCreatorNFTPolicyID}&alias=${accessTokenName}`,
+        `${INDEXER_URL}/api/course-state/courseStateUtxoByCourseNftPolicyAndAlias?policy=${courseOnchain.CourseCreatorNFTPolicyID}&alias=${accessTokenName}`,
       );
       const localStateUtxo: UtxoWithSlot = localStateUtxo_res.data;
 
       const moduleTokenUtxo_res = await axios.get(
-        `${INDEXER_URL}/api/module-ref/moduleRefValidatorUtxoByCourseNftPolicyAndTokenName?policy=${courseOnchain!.CourseCreatorNFTPolicyID}&token_name=${assignmentCode}`,
+        `${INDEXER_URL}/api/module-ref/moduleRefValidatorUtxoByCourseNftPolicyAndTokenName?policy=${courseOnchain.CourseCreatorNFTPolicyID}&token_name=${assignmentCode}`,
       );
       const moduleTokenUtxo: UtxoWithSlot = moduleTokenUtxo_res.data;
 

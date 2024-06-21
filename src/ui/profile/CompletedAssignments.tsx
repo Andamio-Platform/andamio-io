@@ -26,7 +26,7 @@ export default function CompletedAssignments({
     <>
       {data &&
         data.CompletedAssignments.map((c, i) => (
-          <div>
+          <div key={i}>
             <h3>Completed Assignments</h3>
             <p key={i}>{c}</p>
           </div>

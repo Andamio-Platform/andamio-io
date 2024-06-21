@@ -31,7 +31,7 @@ export default function CompletedCourses({
         data.TokenInfos.map((c, i) => {
           if (!c.Minted) {
             return (
-              <div>
+              <div key={i}>
                 <p>{c.LsCs}</p>
                 <div>
                   <h3>Completed Assignments</h3>

@@ -2,3 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
+h1 {
+    @apply text-4xl py-8 font-semibold
+}
+
+h2 {
+    @apply text-3xl py-5 font-semibold
+}
+
+h3 {
+    @apply text-2xl pt-8 pb-2 font-semibold
+}
+
+p {
+    @apply py-2 tracking-wide leading-7
+}
+
+ul {
+    @apply list-disc ml-8 py-2
+}
+
+ol {
+    @apply list-decimal ml-8 py-2
+}
+
+li {
+    @apply pb-1 tracking-wide leading-7
+}
+
+a {
+    @apply text-indigo-900 hover:text-indigo-700 font-bold
+}
+
+hr {
+    @apply border border-black mt-12
+}

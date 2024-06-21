@@ -2,8 +2,8 @@
 import { getBlogPageContent } from "../../lib/blogposts";
 import Markdoc from "@markdoc/markdoc";
 import { parseBlogMarkdocFrontmatter } from "../../utils/markdown";
-import styles from "./Blog.module.css";
 import { TransformedPageContent } from "../../utils/transformedPageContent";
+import Link from "next/link";
 
 export type Props = {
   blogPostId: string;
@@ -22,18 +22,19 @@ export default function Page({ params }: { params: Props }) {
   const data = getFrontmatter(params.blogPostId);
 
   return (
-    <>
-      <div className="bg-primary text-primary-content p-2 md:p-5 my-3 md:m-5 shadow-lg grid grid-cols-1 md:grid-cols-3">
-        <div className="p-1 md:p-5">
-          <p className="text-sm font-bold text-info pb-3">ANDAMIO BLOG</p>
-          <h1 className="text-xl md:text-4xl leading-[3.5rem] font-bold">{data?.title}</h1>
-          <h3 className="uppercase text-sm py-3">published: {data?.date}</h3>
-          <p className="uppercase text-sm py-3">by {data?.author}</p>
-        </div>
-        <div className="md:col-span-2 p-1 md:p-5">
-          <div className={styles.blogPostContainer}>{<TransformedPageContent content={content} />}</div>
-        </div>
+    <div className="flex flex-col w-full md:w-5/6 lg:w-2/5 mx-auto my-24">
+      <div className="">
+        <p className="text-sm font-bold text-info">
+          <Link href="/">ANDAMIO BLOG</Link>
+        </p>
+        <h1 className="">{data?.title}</h1>
+        <p className="text-sm">
+          {data?.date}: by {data?.author}
+        </p>
       </div>
-    </>
+      <div className="pt-10">
+        <div>{<TransformedPageContent content={content} />}</div>
+      </div>
+    </div>
   );
 }

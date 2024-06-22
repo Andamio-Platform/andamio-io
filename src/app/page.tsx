@@ -16,20 +16,25 @@ export default async function BlogPage() {
         <Suspense fallback={<div>Loading...</div>}>
           {sortedBlogPosts &&
             sortedBlogPosts.map((blogPost: BlogPost) => (
-              <Link href={`${blogPost.title}`}>
-                <Card key={blogPost.title} className="flex flex-col border-t-foreground rounded-none mb-8">
+              <Card key={blogPost.title} className="flex flex-col rounded-none mb-8 px-10">
+                <Link href={`${blogPost.title}`}>
                   <h2 className="text-2xl font-bold py-3 mb-3 border-b">
                     {blogPost.title}: {blogPost.frontmatter.title}
                   </h2>
+                  {blogPost.frontmatter.image && (
+                    <Image
+                      src={blogPost.frontmatter.image}
+                      height={1675}
+                      width={1029}
+                      alt={blogPost.frontmatter.image}
+                    />
+                  )}
                   <div className="flex flex-row justify-between font-mono ">
                     <p>{blogPost.frontmatter.date}</p>
                     <p>{blogPost.frontmatter.author}</p>
                   </div>
-                </Card>
-                {blogPost.frontmatter.image && (
-                  <Image src={blogPost.frontmatter.image} height={1675} width={1029} alt={blogPost.frontmatter.image} />
-                )}
-              </Link>
+                </Link>
+              </Card>
             ))}
         </Suspense>
       </div>

@@ -15,37 +15,37 @@ const proposals = [
   {
     title: "FC Barcelona + Community management + Using Cardano tech",
     description:
-      "Write a very short para here about this proposal telling why they should vote for this, how it can make the world a better place.",
+      "Using Cardano-native technology to onboard members, train them, encourage contributions, and build their reputation within the Barça fan community.",
     link: "https://cardano.ideascale.com/c/idea/125751",
   },
   {
     title: "Andamio Purpose Sidechain / Layer 2 Concept",
     description:
-      "Write a very short para here about this proposal telling why they should vote for this, how it can make the world a better place.",
+      "Implementing a purpose-built Cardano network sidechain with Layer 2 solutions to streamline and secure educational transactions and data management.",
     link: "https://cardano.ideascale.com/c/idea/122585",
   },
   {
     title: "Adapting On-Chain Reputation to Catalyst Voices",
     description:
-      "Write a very short para here about this proposal telling why they should vote for this, how it can make the world a better place.",
+      "Contribute to the progress of Catalyst Voices by implementing on-chain, role-based reputation-building capabilities.",
     link: "https://cardano.ideascale.com/c/idea/122267",
   },
   {
     title: "Enabling Advanced Contribution and Skills Tracking via APIs",
     description:
-      "Write a very short para here about this proposal telling why they should vote for this, how it can make the world a better place.",
+      "Enabling seamless integration of contribution tracking and token creation capabilities into existing applications via robust API services.",
     link: "https://cardano.ideascale.com/c/idea/122101",
   },
   {
     title: "Skills and contribution infrastructure on Cardano",
     description:
-      "Write a very short para here about this proposal telling why they should vote for this, how it can make the world a better place.",
+      "Andamio infrastructure enables skills acquisition and connecting to contribution opportunities to achieve the highest levels of community engagement and efficiency of work.",
     link: "https://cardano.ideascale.com/c/idea/122087",
   },
   {
     title: "Developing a Self Sovereign On-chain Identity (SSOI)",
     description:
-      "Write a very short para here about this proposal telling why they should vote for this, how it can make the world a better place.",
+      "Develop a decentralized identity solution on Cardano that grants users full control over their identity while leveraging the blockchain's security and transparency.",
     link: "https://cardano.ideascale.com/c/idea/122055",
   },
 ];

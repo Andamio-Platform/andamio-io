@@ -22,7 +22,7 @@ export default function Page({ params }: { params: Props }) {
   const data = getFrontmatter(params.blogPostId);
 
   return (
-    <div className="flex flex-col w-full md:w-5/6 lg:w-2/5 mx-auto my-24">
+    <div className="flex flex-col w-11/12 md:w-5/6 lg:w-2/5 mx-auto my-24">
       <div className="">
         <p className="text-sm font-bold text-info">
           <Link href="/">ANDAMIO BLOG</Link>

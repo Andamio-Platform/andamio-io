@@ -57,6 +57,7 @@
     "@t3-oss/env-nextjs": "^0.7.1",
     "@tanstack/react-query": "^4.36.1",
     "@tippyjs/react": "^4.2.6",
+    "@tiptap/extension-history": "^2.4.0",
     "@tiptap/extension-link": "^2.2.4",
     "@tiptap/extension-text-align": "^2.4.0",
     "@tiptap/pm": "^2.2.4",

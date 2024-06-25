@@ -75,7 +75,7 @@ export default function PageCourseContent({
       <ModuleLayout courseCode={courseCode} courseModule={courseModule}>
         <Metatags title={lesson?.title ?? undefined} />
         {lesson && lesson.live ? (
-          <div className="mx-auto flex max-w-3xl flex-col gap-4 text-base leading-7 text-foreground">
+          <div className="mx-auto flex w-11/12 max-w-5xl flex-col gap-4 text-base leading-7 text-foreground">
             <Page
               slt={slt}
               lesson={lesson}
@@ -88,7 +88,7 @@ export default function PageCourseContent({
             />
           </div>
         ) : lesson && !lesson.live ? (
-          <div className="mx-auto flex max-w-3xl flex-col gap-4 text-base leading-7 text-foreground">
+          <div className="mx-auto flex w-11/12 max-w-5xl flex-col gap-4 text-base leading-7 text-foreground">
             <Alert variant="warning">
               <AlertTriangle className="h-4 w-4" />
               <AlertTitle>Lesson is not Live!</AlertTitle>
@@ -105,11 +105,11 @@ export default function PageCourseContent({
             )}
           </div>
         ) : isLoadingLesson || isLoadingSLT ? (
-          <div className="mx-auto flex max-w-3xl flex-col gap-4 text-base leading-7 text-foreground">
+          <div className="mx-auto flex w-11/12 max-w-5xl flex-col gap-4 text-base leading-7 text-foreground">
             <SkeletonParagraph />
           </div>
         ) : (
-          <div className="mx-auto flex max-w-3xl flex-col gap-4 text-base leading-7 text-foreground">
+          <div className="mx-auto flex w-11/12 max-w-5xl flex-col gap-4 text-base leading-7 text-foreground">
             <Alert variant="success">
               <Leaf className="h-4 w-4" />
               <AlertTitle>

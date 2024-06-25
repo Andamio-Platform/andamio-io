@@ -39,7 +39,7 @@ export default function PageCourseIntroductionContent({
       <ModuleLayout courseCode={courseCode} courseModule={courseModule}>
         <Metatags title={introduction?.title ?? undefined} />
         {introduction && introduction.live ? (
-          <div className="mx-auto flex max-w-3xl flex-col gap-4 text-base leading-7 text-foreground">
+          <div className="mx-auto flex w-11/12 max-w-5xl flex-col gap-4 text-base leading-7 text-foreground">
             <Page
               slts={courseModule.slts}
               introduction={introduction}
@@ -53,7 +53,7 @@ export default function PageCourseIntroductionContent({
             />
           </div>
         ) : introduction && !introduction.live ? (
-          <div className="mx-auto flex max-w-3xl flex-col gap-4 text-base leading-7 text-foreground">
+          <div className="mx-auto flex w-11/12 max-w-5xl flex-col gap-4 text-base leading-7 text-foreground">
             <Alert variant="warning">
               <AlertTriangle className="h-4 w-4" />
               <AlertTitle>introduction is not Live!</AlertTitle>

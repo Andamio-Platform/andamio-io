@@ -51,7 +51,7 @@ export default function PageCourseAssignmentContent({
       <ModuleLayout courseCode={courseCode} courseModule={courseModule}>
         <Metatags title={assignment?.title ?? undefined} />
         {assignment && assignment.live ? (
-          <div className="mx-auto flex max-w-3xl flex-col gap-4 text-base leading-7 text-foreground">
+          <div className="mx-auto flex w-11/12 max-w-5xl flex-col gap-4 text-base leading-7 text-foreground">
             <Page
               courseModule={courseModule}
               assignment={assignment}
@@ -65,7 +65,7 @@ export default function PageCourseAssignmentContent({
             />
           </div>
         ) : assignment && !assignment.live ? (
-          <div className="mx-auto flex max-w-3xl flex-col gap-4 text-base leading-7 text-foreground">
+          <div className="mx-auto flex w-11/12 max-w-5xl flex-col gap-4 text-base leading-7 text-foreground">
             <Alert variant="warning">
               <AlertTriangle className="h-4 w-4" />
               <AlertTitle>Assignment is not Live!</AlertTitle>

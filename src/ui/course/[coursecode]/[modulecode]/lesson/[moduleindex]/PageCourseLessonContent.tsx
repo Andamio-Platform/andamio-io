@@ -18,6 +18,9 @@ import CourseNavigation from "~/ui/course/components/ui/CourseNavigation";
 import { api } from "~/utils/api";
 import SkeletonParagraph from "~/components/site/skeleton-paragraph";
 
+import 'highlight.js/styles/atom-one-dark.css'
+
+
 export default function PageCourseContent({
   courseCode,
   courseModule,

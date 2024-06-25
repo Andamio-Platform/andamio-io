@@ -20,11 +20,11 @@ import {
   CardHeader,
 } from "~/components/ui/card";
 import RenderEditor from "~/components/Editor/components/render/RenderEditor";
-import { Badge } from "~/components/ui/badge";
-import { Button } from "~/components/ui/button";
 import AssignmentBadges from "~/components/ui/assignment-badges";
 import CourseNavigation from "~/ui/course/components/ui/CourseNavigation";
 import Metatags from "~/components/site/metatags";
+
+import 'highlight.js/styles/atom-one-dark.css'
 
 export default function PageCourseAssignmentContent({
   courseCode,

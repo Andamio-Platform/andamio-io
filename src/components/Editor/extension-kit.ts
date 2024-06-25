@@ -11,10 +11,31 @@ import {
 } from "./extensions";
 import { BubbleMenu } from "@tiptap/extension-bubble-menu";
 import { Color } from "@tiptap/extension-color";
-import { Code } from "@tiptap/extension-code";
 import TextStyle from "@tiptap/extension-text-style";
 import { ReactNodeViewRenderer, markInputRule } from "@tiptap/react";
 import { TipTapLink } from "./components/link";
+import CustomCodeBlockLowlight from "./extensions/CodeBlock/CustomCodeBlockLowlight";
+
+
+// -- Start Codeblock Config
+// Languages
+import { common, createLowlight } from "lowlight";
+import javascript from "highlight.js/lib/languages/javascript";
+import typescript from "highlight.js/lib/languages/typescript";
+import go from "highlight.js/lib/languages/go";
+import bash from "highlight.js/lib/languages/bash";
+import python from "highlight.js/lib/languages/python";
+import haskell from "highlight.js/lib/languages/haskell";
+
+const lowlight = createLowlight(common);
+lowlight.register({ javascript });
+lowlight.register({ typescript });
+lowlight.register({ go });
+lowlight.register({ bash });
+lowlight.register({ python });
+lowlight.register({ haskell });
+
+// -- END Codeblock Config
 
 const CustomBold = Bold.extend({
   renderHTML({ HTMLAttributes }) {
@@ -24,20 +45,6 @@ const CustomBold = Bold.extend({
 
 export const inputRegex = /(?:^|\s)(`(?!\s+`)((?:[^`]+))`(?!\s+`))$/;
 
-const CustomCode = Code.extend({
-  renderHTML({ HTMLAttributes }) {
-    return ["code", { ...HTMLAttributes, class: "custom-code" }, 0];
-  },
-  addInputRules() {
-    return [
-      markInputRule({
-        find: inputRegex,
-        type: this.type,
-      }),
-    ];
-  },
-});
-
 const CustomLink = Link.extend({
   openOnClick: false,
   addNodeView() {
@@ -46,11 +53,18 @@ const CustomLink = Link.extend({
 });
 
 export function ExtensionKit() {
+
   return [
-    StarterKit,
+    StarterKit.configure({
+      codeBlock: false,
+      // implement custom code next
+      // code: false,
+    }),
+    CustomCodeBlockLowlight.configure({
+      lowlight
+    }),
     Underline,
     CustomBold,
-    CustomCode,
     CustomLink,
     Heading.configure({
       levels: [1, 2, 3, 4, 5, 6],

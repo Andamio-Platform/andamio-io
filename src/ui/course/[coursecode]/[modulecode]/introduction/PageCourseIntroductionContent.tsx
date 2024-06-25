@@ -15,6 +15,8 @@ import ModuleLayout from "~/ui/course/components/layout/ModuleLayout";
 import CourseNavigation from "~/ui/course/components/ui/CourseNavigation";
 import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
 
+import 'highlight.js/styles/atom-one-dark.css'
+
 export default function PageCourseIntroductionContent({
   courseCode,
   courseModule,

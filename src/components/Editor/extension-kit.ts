@@ -58,6 +58,7 @@ export function ExtensionKit() {
     }),
     CodeBlockLowlight.configure({
       lowlight,
+      defaultLanguage: "bash"
     }),
     Underline,
     CustomBold,

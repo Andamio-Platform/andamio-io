@@ -43,7 +43,6 @@ const CustomBold = Bold.extend({
   },
 });
 
-export const inputRegex = /(?:^|\s)(`(?!\s+`)((?:[^`]+))`(?!\s+`))$/;
 
 const CustomLink = Link.extend({
   openOnClick: false,

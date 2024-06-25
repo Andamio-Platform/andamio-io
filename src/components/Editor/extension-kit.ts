@@ -1,5 +1,6 @@
 import { Underline } from "@tiptap/extension-underline";
 import Bold from "@tiptap/extension-bold";
+import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import {
   StarterKit,
   Link,
@@ -14,8 +15,6 @@ import { Color } from "@tiptap/extension-color";
 import TextStyle from "@tiptap/extension-text-style";
 import { ReactNodeViewRenderer, markInputRule } from "@tiptap/react";
 import { TipTapLink } from "./components/link";
-import CustomCodeBlockLowlight from "./extensions/CodeBlock/CustomCodeBlockLowlight";
-
 
 // -- Start Codeblock Config
 // Languages
@@ -43,7 +42,6 @@ const CustomBold = Bold.extend({
   },
 });
 
-
 const CustomLink = Link.extend({
   openOnClick: false,
   addNodeView() {
@@ -52,15 +50,14 @@ const CustomLink = Link.extend({
 });
 
 export function ExtensionKit() {
-
   return [
     StarterKit.configure({
-      codeBlock: false,
+      // codeBlock: false,
       // implement custom code next
       // code: false,
     }),
-    CustomCodeBlockLowlight.configure({
-      lowlight
+    CodeBlockLowlight.configure({
+      lowlight,
     }),
     Underline,
     CustomBold,

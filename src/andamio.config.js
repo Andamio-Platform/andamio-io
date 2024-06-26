@@ -1,2 +1,3 @@
+export const NETWORK = "PREPROD"
 export const ACCESS_TOKEN_POLICY_ID = "2338f623197e6db983612da0a74baeac62ffd693d454785108c26b5f"
 export const GLOBAL_STATE_VALIDATOR_ADDR = "addr_test1xz5ra84gy5e2ckw659zz3zzjv6h33925ezqk8lg8hp7ftqyx0j94wtj6ercvzj48g97tnjhvn50l2r5efamja2edd86qttncg9"

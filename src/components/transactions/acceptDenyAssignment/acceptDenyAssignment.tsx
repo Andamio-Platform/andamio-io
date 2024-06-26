@@ -4,7 +4,6 @@ import { CardanoWallet, useWallet } from "@meshsdk/react";
 import { Button } from "~/components/ui/button";
 import { UTxO } from "@meshsdk/core";
 import useCourseOnchain from "~/hooks/useCourseOnchain";
-import { Network } from "~/config/Network";
 import maestro from "~/config/maestro";
 import { INDEXER_URL } from "~/config/indexer";
 import { useToast } from "~/components/ui/use-toast";

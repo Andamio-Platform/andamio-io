@@ -12,7 +12,7 @@ import {
   GLOBAL_STATE_VALIDATOR_ADDR,
 } from "~/andamio.config";
 import useCourseOnchain from "~/hooks/useCourseOnchain";
-import { Network } from "~/config/Network";
+import { NETWORK } from "~/andamio.config";
 import maestro from "~/config/maestro";
 import { UtxoWithSlot } from "@maestro-org/typescript-sdk";
 import { INDEXER_URL } from "~/config/indexer";
@@ -41,7 +41,7 @@ export default function MintLocalState({ courseCode }: { courseCode: string }) {
   const [isLoading, setIsLoading] = useState(false);
   const { courseOnchain, isLoadingCourseOnchain } = useCourseOnchain(
     courseCode,
-    Network,
+    NETWORK,
   );
 
   async function onSubmit() {

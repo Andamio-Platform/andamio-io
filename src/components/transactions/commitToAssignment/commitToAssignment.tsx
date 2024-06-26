@@ -10,7 +10,7 @@ import { blockfrostProvider } from "~/config/blockfrost";
 import { ACCESS_TOKEN_POLICY_ID } from "~/andamio.config";
 import maestro from "~/config/maestro";
 import useCourseOnchain from "~/hooks/useCourseOnchain";
-import { Network } from "~/config/Network";
+import { NETWORK } from "~/andamio.config";
 import { INDEXER_URL } from "~/config/indexer";
 import { toast, useToast } from "~/components/ui/use-toast";
 import { set } from "date-fns";
@@ -67,7 +67,7 @@ export default function CommitToAssignment({
 
   const { courseOnchain, isLoadingCourseOnchain } = useCourseOnchain(
     courseCode,
-    Network,
+    NETWORK,
   );
 
   const form = useForm<z.infer<typeof FormSchema>>({

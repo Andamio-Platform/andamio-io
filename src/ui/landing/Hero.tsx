@@ -1,5 +1,5 @@
-import Link from "~/components/link";
-import GetStartedButton from "./GetStartedButton";
+import Link from "next/link";
+import ViewCoursesButton from "./ViewCoursesButton";
 
 export default function Hero() {
   return (
@@ -30,13 +30,13 @@ export default function Hero() {
             </p>
             <p className="mt-6 text-lg leading-8 ">v0.2.20</p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
-              <GetStartedButton />
-              <a
-                href="#"
+              <ViewCoursesButton />
+              <Link
+                href="/auth/signin"
                 className="text-sm font-semibold leading-6 text-gray-900"
               >
-                Learn more <span aria-hidden="true">→</span>
-              </a>
+                Course Creators <span aria-hidden="true">→</span>
+              </Link>
             </div>
           </div>
           {/* <div className="mt-16 flow-root sm:mt-24">

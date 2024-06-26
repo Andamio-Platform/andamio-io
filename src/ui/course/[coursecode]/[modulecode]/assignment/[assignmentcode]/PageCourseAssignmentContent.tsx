@@ -1,4 +1,4 @@
-import { Assignment, Slt } from "@prisma/client";
+import { Slt } from "@prisma/client";
 import { AlertTriangle } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Loading from "~/components/loading";
@@ -6,25 +6,20 @@ import VideoPlayer from "~/components/media/VideoPlayer";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import useAssignmentByCourseModule from "~/hooks/useAssignmentByCourseModule";
 import useValidateCreator from "~/hooks/useValidateCreator";
-import { AssignmentCommitment, Module } from "~/types/db";
+import { Assignment, AssignmentCommitment, Module } from "~/types/db";
 import CourseLayout from "~/ui/course/components/layout/CourseLayout";
-import DialogAssignmentCommitmentOnNetwork from "./DialogAssignmentCommitmentOnNetwork";
 import ModuleLayout from "~/ui/course/components/layout/ModuleLayout";
 import SltList from "~/ui/studio/components/assignment-dashboard/slt-list";
-import DialogAssignmentLearnerStatus from "~/ui/course/components/dialogs/DialogAssignmentLearnerStatus";
 import { useEffect, useState } from "react";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "~/components/ui/card";
+
 import RenderEditor from "~/components/Editor/components/render/RenderEditor";
-import AssignmentBadges from "~/components/ui/assignment-badges";
 import CourseNavigation from "~/ui/course/components/ui/CourseNavigation";
 import Metatags from "~/components/site/metatags";
 
-import 'highlight.js/styles/atom-one-dark.css'
+import "highlight.js/styles/atom-one-dark.css";
+import NetworkCommitmentCard from "~/ui/course/components/assignments/cards/NetworkCommitmentCard";
+import PersonalNotesCard from "~/ui/course/components/assignments/cards/PersonalNotesCard";
+import { CardanoWallet, useWallet } from "@meshsdk/react";
 
 export default function PageCourseAssignmentContent({
   courseCode,
@@ -37,24 +32,22 @@ export default function PageCourseAssignmentContent({
 }) {
   const { data: sessionData } = useSession();
 
-  // const assignmentCommitments = sessionData?.u
-
-  const { assignment, isLoadingAssignment } = useAssignmentByCourseModule(
-    courseCode,
-    courseModule.moduleCode,
-  );
+  const { assignment, isLoadingAssignment, isAssignmentOnchain } =
+    useAssignmentByCourseModule(courseCode, courseModule.moduleCode);
 
   const { isCreator } = useValidateCreator(sessionData, courseCode);
 
   return (
     <CourseLayout>
       <ModuleLayout courseCode={courseCode} courseModule={courseModule}>
+        {isAssignmentOnchain
+          ? "Assignment is on chain!"
+          : "Assignment is not on-chain!"}
         <Metatags title={assignment?.title ?? undefined} />
         {assignment && assignment.live ? (
           <div className="mx-auto flex w-11/12 max-w-5xl flex-col gap-4 text-base leading-7 text-foreground">
             <Page
               courseModule={courseModule}
-              assignment={assignment}
               courseCode={courseCode}
               assignmentCode={assignmentCode}
             />
@@ -76,7 +69,6 @@ export default function PageCourseAssignmentContent({
             {isCreator && (
               <Page
                 courseModule={courseModule}
-                assignment={assignment}
                 courseCode={courseCode}
                 assignmentCode={assignmentCode}
               />
@@ -91,29 +83,37 @@ export default function PageCourseAssignmentContent({
 }
 
 function Page({
-  assignment,
   courseModule,
   courseCode,
   assignmentCode,
 }: {
-  assignment: { slts: Slt[] } & Assignment;
   courseModule: Module;
   courseCode: string;
   assignmentCode: string;
 }) {
   const { data: sessionData } = useSession();
+  const { connected } = useWallet();
   const [currentCommitment, setCurrentCommitment] = useState<
     AssignmentCommitment | undefined
   >(undefined);
 
+  const {
+    assignment,
+    isLoadingAssignment,
+    isAssignmentOnchain,
+    isLoadingAssignmentOnchain,
+    isLearnerCommitted,
+    isLoadingLearnerCommitted,
+  } = useAssignmentByCourseModule(courseCode, courseModule.moduleCode);
+
   useEffect(() => {
-    if (sessionData) {
+    if (sessionData && assignment) {
       const currentCommitment = sessionData?.user.assignmentCommitments.find(
         (a) => a.assignmentId === assignment.id,
       );
       setCurrentCommitment(currentCommitment);
     }
-  }, [sessionData]);
+  }, [sessionData, assignment]);
 
   if (
     assignment &&
@@ -139,49 +139,48 @@ function Page({
         </div>
         {editor}
 
-        <Card className="mt-10">
-          <CardHeader className="flex w-full flex-row items-center justify-between">
-            <h2 className="text-2xl font-bold">Assignment Status</h2>
-            {currentCommitment?.status && (
-              <AssignmentBadges status={currentCommitment.status} />
-            )}
-          </CardHeader>
-          <CardContent>
-            {currentCommitment && (
-              <>
-                <>
-                  <div className="my-5">
-                    {currentCommitment.learnerNotes && (
-                      <>
-                        <h2 className="mb-3 text-xl font-bold">Personal Assignment Notes</h2>
-                        <div className="bg-background text-foreground p-3">
-                        <p>{currentCommitment.learnerNotes}</p>
-
-                        </div>
-                      </>
-                    )}
-                  </div>
-                </>
-              </>
-            )}
-            <div className="flex flex-col gap-3 justify-center">
-              <DialogAssignmentLearnerStatus
-                assignmentId={assignment.id}
-                assignmentCommitment={currentCommitment}
-              />
-              {/* TODO 2024-06-17 */}
-              {/* TODO: Only show CommitToAssignmentPage when there is a module token minted for the assignment */}
-              {/* TODO: Show current commitment status of learner - ie: if already committed, show that - maybe involve sessionData? */}
-              {/* TODO: Handle wallet connected state, so that if connected, user does not have to connect agin */}
-              <div className="border-t border-primary my-3" />
-              <h2 className="mb-3 text-xl font-bold">Network Commitment</h2>
-              <DialogAssignmentCommitmentOnNetwork
-              courseCode={courseCode}
-              assignmentCode={assignmentCode}
-            />
+        <div className="mt-10 grid grid-cols-1 gap-3 md:grid-cols-2">
+          <PersonalNotesCard
+            currentCommitment={currentCommitment}
+            assignment={assignment}
+          />
+          {!connected ? (
+            <div className="">
+              <CardanoWallet />
             </div>
-          </CardContent>
-        </Card>
+          ) : (
+            <NetworkCommitmentCard
+              assignmentCode={assignmentCode}
+              courseCode={courseCode}
+            />
+          )}
+
+          <div className="col-span-2">
+            <pre>
+              {isLoadingAssignment ? "Loading Assignment" : "Assignment Loaded"}
+            </pre>
+            <pre>
+              {isAssignmentOnchain
+                ? "Assignment is on-chain"
+                : "Assignment not on-chain"}
+            </pre>
+            <pre>
+              {isLoadingAssignmentOnchain
+                ? "Loading Assignment on-chain status"
+                : "Assignment on-chain status Loaded"}
+            </pre>
+            <pre>
+              {isLearnerCommitted
+                ? "You are committed to this assignment"
+                : "You are not committed"}
+            </pre>
+            <pre>
+              {isLoadingLearnerCommitted
+                ? "Loading commitment status"
+                : "Assignment Commitment status Loaded"}
+            </pre>
+          </div>
+        </div>
       </>
     );
   }

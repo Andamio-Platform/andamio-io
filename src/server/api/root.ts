@@ -15,6 +15,7 @@ import { userWalletRouter } from "./routers/user-wallet";
 import { clientDomainsRouter } from "./routers/clients-domain";
 import { assignmentStatusRouter } from "./routers/assignment-status";
 import { learnerOnChainRouter } from "./routers/learner-onChain";
+import { assignmentValidatorRouter } from "./routers/assignment-validator";
 
 /**
  * This is the primary router for your server.
@@ -40,6 +41,7 @@ export const appRouter = createTRPCRouter({
   learnerOnchain: learnerOnChainRouter,
 
   assignmentStatus: assignmentStatusRouter,
+  assignmentValidator: assignmentValidatorRouter,
 
   clientDomains: clientDomainsRouter,
 });

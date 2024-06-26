@@ -55,15 +55,18 @@ const FormSchema = z.object({
 export default function CommitToAssignment({
   courseCode,
   assignmentCode,
+  isCommitted,
 }: {
   courseCode: string;
   assignmentCode: string;
+  isCommitted: boolean;
 }) {
   const router = useRouter();
   const { toast } = useToast();
 
   const { connected, wallet } = useWallet();
   const [isLoading, setIsLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   const { courseOnchain, isLoadingCourseOnchain } = useCourseOnchain(
     courseCode,
@@ -191,7 +194,7 @@ export default function CommitToAssignment({
 
       // console.log()
 
-      // void router.push("/home");
+      setSubmitted(true);
     } catch (error) {
       setIsLoading(false);
       console.error("Error", error);
@@ -204,6 +207,10 @@ export default function CommitToAssignment({
         <>
           {!connected ? (
             <CardanoWallet />
+          ) : isCommitted ? (
+            <p>Already in Commitment</p>
+          ) : submitted ? (
+            <p>Submitted</p>
           ) : (
             <Form {...form}>
               <form

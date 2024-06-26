@@ -17,7 +17,7 @@ import useCourseOnchain from "~/hooks/useCourseOnchain";
 import { NETWORK } from "~/andamio.config";
 import axios from "axios";
 import { INDEXER_URL } from "~/config/indexer";
-import { DecodedModuleRefDatum } from "@andamiojs/datum-utils";
+import { DecodedAssignmentDecisionDatum, DecodedModuleRefDatum } from "@andamiojs/datum-utils";
 import { useEffect, useState } from "react";
 
 export default function DialogAssignmentCommitmentOnNetwork({
@@ -27,12 +27,14 @@ export default function DialogAssignmentCommitmentOnNetwork({
   courseCode: string;
   assignmentCode: string;
 }) {
-  const { connected } = useWallet();
+  const { wallet, connected } = useWallet();
   const [assignmentOnChain, setAssignmentOnChain] = useState(false);
   const { courseOnchain, isLoadingCourseOnchain } = useCourseOnchain(
     courseCode,
     NETWORK,
   );
+  const { data, isLoading, isError, error } = useAccessToken(wallet);
+  const [isCommitted, setIsCommitted] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -42,10 +44,16 @@ export default function DialogAssignmentCommitmentOnNetwork({
         assignmentCode,
       });
       setAssignmentOnChain(onChain);
+      console.log("a", data)
+      if (!data?.alias) return;
+      const committed = await AlreadyCommittedToAssignment({
+        alias: data.alias,
+        CourseCreatorNFTPolicyID: courseOnchain.CourseCreatorNFTPolicyID,
+        assignmentCode,
+      })
+      setIsCommitted(committed);
     })();
-  }, [courseOnchain, assignmentCode]);
-
-  console.log(courseCode);
+  }, [courseOnchain, assignmentCode, wallet, connected, data]);
 
   return (
     <>
@@ -74,6 +82,7 @@ export default function DialogAssignmentCommitmentOnNetwork({
             <CommitToAssignment
               courseCode={courseCode}
               assignmentCode={assignmentCode}
+              isCommitted={isCommitted}
             />
             <DialogFooter>
               <p className="pt-5 text-xs font-bold">
@@ -115,13 +124,29 @@ type Modules = {
   decoded_datum: DecodedModuleRefDatum;
 };
 
-// async function AlreadyCommittedToAssignment({
-//   wallet,
-//   assignmentCode,
-// }: {
-//   wallet: BrowserWallet;
-//   assignmentCode: string;
-// }) {
-//   const { data, isLoading, isError, error } = useAccessToken(wallet);
-// }
+async function AlreadyCommittedToAssignment({
+   alias,
+  CourseCreatorNFTPolicyID,
+  assignmentCode,
+}: {
+  alias: string;
+  CourseCreatorNFTPolicyID: string;
+  assignmentCode: string;
+}) {
+  try {
+    const assignment_res = await axios.get(
+      `${INDEXER_URL}/api/assignment-validator/decodedAssignmentValidatorUtxoByCourseNftPolicyAndAlias?policy=${CourseCreatorNFTPolicyID}&alias=${alias}`,
+    );
+    const assignment: DecodedAssignmentDecisionDatum = assignment_res.data;
+    console.log(assignment);
+    if (assignment.CommittedAssignmentId === assignmentCode) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    return false;
+  }
+  
+}
 

@@ -3,7 +3,7 @@ import {
   DecodedTokenInfo,
 } from "@andamiojs/datum-utils";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import useGlobalStateDatum from "../../hooks-onchain/useGlobalStateDatum";
+import useGlobalStateDatum from "../../hooks/onchain/useGlobalStateDatum";
 import CourseStateDatum from "./CompletedAssignments";
 
 export default function CompletedCourses({

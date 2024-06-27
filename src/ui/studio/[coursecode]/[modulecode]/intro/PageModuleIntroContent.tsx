@@ -18,11 +18,11 @@ import HeaderSection from "../components/HeaderSection";
 import RightSection from "../components/RightSection";
 
 import { useCourseStore } from "~/lib/zustand/course";
-import useAssignmentByCourseModule from "~/hooks/useAssignmentByCourseModule";
 import useIntroEditor from "~/ui/studio/hooks/useIntroEditor";
 import ContentEditor from "~/ui/studio/components/ContentEditor";
 import { useRouter } from "next/router";
 import Metatags from "~/components/site/metatags";
+import useAssignment from "~/hooks/useAssignment";
 
 export default function PageModuleIntroContent({
   course,
@@ -39,7 +39,7 @@ export default function PageModuleIntroContent({
 
   const router = useRouter();
 
-  const { assignment } = useAssignmentByCourseModule(
+  const { assignment } = useAssignment(
     course.courseCode,
     courseModule.moduleCode,
   );

@@ -11,7 +11,7 @@ import {
 import CommitToAssignment from "~/components/transactions/commitToAssignment/commitToAssignment";
 import { useWallet } from "@meshsdk/react";
 import Link from "next/link";
-import useAssignmentByCourseModule from "~/hooks/useAssignmentByCourseModule";
+import useAssignmentNetworkStatus from "~/hooks/onchain/useAssignmentNetworkStatus";
 
 export default function DialogAssignmentCommitmentOnNetwork({
   courseCode,
@@ -23,7 +23,7 @@ export default function DialogAssignmentCommitmentOnNetwork({
   const { connected } = useWallet();
 
   // For now, assume that assignmentCode must match moduleCode
-  const { isAssignmentOnchain, isLearnerCommitted } = useAssignmentByCourseModule(courseCode, assignmentCode)
+  const { isAssignmentOnchain, isLearnerCommitted } = useAssignmentNetworkStatus(courseCode, assignmentCode)
 
   // We can still keep this: <p>Assignment {assignmentCode} is not published on chain</p> right here
   // But it will only be needed to catch edge cases - this button should be hidden in UI if Assignment is not published

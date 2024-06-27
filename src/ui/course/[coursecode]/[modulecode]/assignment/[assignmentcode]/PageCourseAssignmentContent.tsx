@@ -4,7 +4,6 @@ import { useSession } from "next-auth/react";
 import Loading from "~/components/loading";
 import VideoPlayer from "~/components/media/VideoPlayer";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
-import useAssignmentByCourseModule from "~/hooks/useAssignmentByCourseModule";
 import useValidateCreator from "~/hooks/useValidateCreator";
 import { Assignment, AssignmentCommitment, Module } from "~/types/db";
 import CourseLayout from "~/ui/course/components/layout/CourseLayout";
@@ -20,6 +19,8 @@ import "highlight.js/styles/atom-one-dark.css";
 import NetworkCommitmentCard from "~/ui/course/components/assignments/cards/NetworkCommitmentCard";
 import PersonalNotesCard from "~/ui/course/components/assignments/cards/PersonalNotesCard";
 import { CardanoWallet, useWallet } from "@meshsdk/react";
+import useAssignmentNetworkStatus from "~/hooks/onchain/useAssignmentNetworkStatus";
+import NoOnchainAssignmentCard from "~/ui/course/components/assignments/cards/NoOnchainAssignmentCard";
 
 export default function PageCourseAssignmentContent({
   courseCode,
@@ -33,16 +34,13 @@ export default function PageCourseAssignmentContent({
   const { data: sessionData } = useSession();
 
   const { assignment, isLoadingAssignment, isAssignmentOnchain } =
-    useAssignmentByCourseModule(courseCode, courseModule.moduleCode);
+    useAssignmentNetworkStatus(courseCode, courseModule.moduleCode);
 
   const { isCreator } = useValidateCreator(sessionData, courseCode);
 
   return (
     <CourseLayout>
       <ModuleLayout courseCode={courseCode} courseModule={courseModule}>
-        {isAssignmentOnchain
-          ? "Assignment is on chain!"
-          : "Assignment is not on-chain!"}
         <Metatags title={assignment?.title ?? undefined} />
         {assignment && assignment.live ? (
           <div className="mx-auto flex w-11/12 max-w-5xl flex-col gap-4 text-base leading-7 text-foreground">
@@ -104,7 +102,7 @@ function Page({
     isLoadingAssignmentOnchain,
     isLearnerCommitted,
     isLoadingLearnerCommitted,
-  } = useAssignmentByCourseModule(courseCode, courseModule.moduleCode);
+  } = useAssignmentNetworkStatus(courseCode, courseModule.moduleCode);
 
   useEffect(() => {
     if (sessionData && assignment) {
@@ -144,15 +142,22 @@ function Page({
             currentCommitment={currentCommitment}
             assignment={assignment}
           />
-          {!connected ? (
-            <div className="">
-              <CardanoWallet />
-            </div>
+
+          {isAssignmentOnchain ? (
+            <>
+              {connected ? (
+                <NetworkCommitmentCard
+                  assignmentCode={assignmentCode}
+                  courseCode={courseCode}
+                />
+              ) : (
+                <div className="">
+                  <CardanoWallet />
+                </div>
+              )}
+            </>
           ) : (
-            <NetworkCommitmentCard
-              assignmentCode={assignmentCode}
-              courseCode={courseCode}
-            />
+            <NoOnchainAssignmentCard />
           )}
 
           <div className="col-span-2">

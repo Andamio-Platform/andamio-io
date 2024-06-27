@@ -8,7 +8,7 @@ import {
 import AssignmentBadges from "~/components/ui/assignment-badges";
 import DialogAssignmentCommitmentOnNetwork from "../dialogs/DialogAssignmentCommitmentOnNetwork";
 import { AssignmentCommitment } from "~/types/db";
-import useAssignmentByCourseModule from "~/hooks/useAssignmentByCourseModule";
+import useAssignmentNetworkStatus from "~/hooks/onchain/useAssignmentNetworkStatus";
 
 export default function NetworkCommitmentCard({
   courseCode,
@@ -24,7 +24,7 @@ export default function NetworkCommitmentCard({
     isLoadingAssignmentOnchain,
     isLearnerCommitted,
     isLoadingLearnerCommitted,
-  } = useAssignmentByCourseModule(courseCode, assignmentCode);
+  } = useAssignmentNetworkStatus(courseCode, assignmentCode);
   // here we assume that assignment code matches module code
 
   return (

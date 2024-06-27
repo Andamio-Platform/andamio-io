@@ -1,28 +1,25 @@
 import { useWallet } from "@meshsdk/react";
+import useAssignment from "../useAssignment";
 import { useAccessToken } from "~/ui/profile/hooks/useAccessToken";
-import { api } from "~/utils/api";
 import { NETWORK } from "~/andamio.config";
-import useCourseOnchain from "~/hooks/useCourseOnchain";
+import useCourseOnchain from "../useCourseOnchain";
+import { api } from "~/utils/api";
 
-export default function useAssignmentByCourseModule(
+export default function useAssignmentNetworkStatus(
   courseCode: string,
   moduleCode: string,
 ) {
-  const { wallet } = useWallet();
-  const { data: accessTokenData } = useAccessToken(wallet);
-
-  const { courseOnchain } = useCourseOnchain(courseCode, NETWORK);
-
   const {
-    data: assignment,
-    isLoading: isLoadingAssignment,
-    isError: isErrorAssignment,
-    error: errorAssignment,
-    refetch: refetchAssignment,
-  } = api.assignment.getAssignmentByCourseModuleCodes.useQuery({
-    courseCode,
-    moduleCode,
-  });
+    assignment,
+    isLoadingAssignment,
+    isErrorAssignment,
+    errorAssignment,
+  } = useAssignment(courseCode, moduleCode);
+
+  const { wallet } = useWallet();
+
+  const { data: accessTokenData } = useAccessToken(wallet);
+  const { courseOnchain } = useCourseOnchain(courseCode, NETWORK);
 
   const { data: isAssignmentOnchain, isLoading: isLoadingAssignmentOnchain } =
     api.assignmentValidator.isAssignmentOnchain.useQuery(
@@ -53,7 +50,6 @@ export default function useAssignmentByCourseModule(
     isLoadingAssignment,
     isErrorAssignment,
     errorAssignment,
-    refetchAssignment,
     isAssignmentOnchain,
     isLoadingAssignmentOnchain,
     isLearnerCommitted,

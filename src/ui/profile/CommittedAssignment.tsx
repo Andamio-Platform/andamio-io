@@ -1,6 +1,6 @@
 import { DecodedAssignmentDecisionDatum } from "@andamiojs/datum-utils";
 import { useEffect, useState } from "react";
-import useAssignmentDatum from "../../hooks-onchain/useAssignmentDatum";
+import useAssignmentDatum from "../../hooks/onchain/useAssignmentDatum";
 
 export default function CommittedAssignment({
   courseNftPolicy,

@@ -9,7 +9,7 @@ import VideoPlayer from "~/components/media/VideoPlayer";
 import Metatags from "~/components/site/metatags";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import useLesson from "~/hooks/useLesson";
-import useSLT from "~/hooks/useSLT";
+import useSLTs from "~/hooks/useSLTs";
 import useValidateCreator from "~/hooks/useValidateCreator";
 import { Module } from "~/types/db";
 import CourseLayout from "~/ui/course/components/layout/CourseLayout";
@@ -64,7 +64,7 @@ export default function PageCourseContent({
 
   const { isCreator } = useValidateCreator(sessionData, courseCode);
 
-  const { slt, isLoadingSLT } = useSLT(
+  const { slt, isLoadingSLT } = useSLTs(
     courseCode,
     courseModule.moduleCode,
     parseInt(moduleIndex),

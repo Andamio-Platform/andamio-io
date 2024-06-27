@@ -3,11 +3,25 @@ import { api } from "~/utils/api";
 export default function useSLTs(
   courseCode: string,
   moduleCode: string,
+  moduleIndex?: number,
 ) {
-  const { data: slts, isLoading: isLoadingSLTs, isFetched: isFetchedSLTs } = api.slt.getModuleSLTs.useQuery({
+  const {
+    data: moduleSLTs,
+    isLoading: isLoadingModuleSLTs,
+    isFetched: isFetchedModuleSLTs,
+  } = api.slt.getModuleSLTs.useQuery({
     courseCode,
     moduleCode,
   });
 
-  return { slts, isLoadingSLTs, isFetchedSLTs };
+  const { data: slt, isLoading: isLoadingSLT } = api.slt.getSLT.useQuery(
+    {
+      courseCode: courseCode,
+      moduleCode: moduleCode,
+      moduleIndex: moduleIndex!,
+    },
+    { enabled: !!moduleIndex },
+  );
+
+  return { moduleSLTs, isLoadingModuleSLTs, isFetchedModuleSLTs, slt, isLoadingSLT };
 }

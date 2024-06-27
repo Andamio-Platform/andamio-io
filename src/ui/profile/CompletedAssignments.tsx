@@ -1,6 +1,6 @@
 import { DecodedCourseStateDatum } from "@andamiojs/datum-utils";
 import { useEffect, useState } from "react";
-import useCourseStateDatum from "../../hooks-onchain/useCourseStateDatum";
+import useCourseStateDatum from "../../hooks/onchain/useCourseStateDatum";
 
 export default function CompletedAssignments({
   courseNftPolicy,

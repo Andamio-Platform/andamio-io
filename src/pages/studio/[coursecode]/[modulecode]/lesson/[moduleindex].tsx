@@ -1,7 +1,7 @@
 import { NextPageContext } from "next";
 import useCourseByOwner from "~/hooks/useCourseByOwner";
 import useModuleByCourse from "~/hooks/useModuleByCourse";
-import useSLT from "~/hooks/useSLT";
+import useSLTs from "~/hooks/useSLTs";
 import PageCourseLessonContent from "~/ui/studio/[coursecode]/[modulecode]/lesson/[moduleindex]/PageCourseLessonContent";
 import LoadingContentEditor from "~/ui/studio/components/ContentEditor/ui/LoadingContentEditor";
 import StudioLayout from "~/ui/studio/components/layout/StudioLayout";
@@ -17,7 +17,7 @@ export default function LessonStudioPage({
 }) {
   if (moduleIndex && typeof moduleIndex == "string") {
     const sltIndex = parseInt(moduleIndex);
-    const { slt, isLoadingSLT } = useSLT(courseCode, moduleCode, sltIndex);
+    const { slt, isLoadingSLT } = useSLTs(courseCode, moduleCode, sltIndex);
     const { course, isLoadingCourse } = useCourseByOwner(courseCode);
     const { courseModule, isLoadingModule } = useModuleByCourse(
       courseCode,

@@ -19,13 +19,15 @@ import {
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
 import AssignmentContainer from "./AssignmentContainer";
-import useAssignmentByModule from "~/hooks/useAssignmentByModule";
 import Link from "next/link";
 import DialogModule from "./dialogs/DialogModule";
 import IntroductionContainer from "./IntroductionContainer";
 import useSLTs from "~/hooks/useSLTs";
 import LoadingCard from "./LoadingCard";
 import { format } from "date-fns";
+import LoadingCircle from "./ContentEditor/ui/icons/loading-circle";
+import useAssignment from "~/hooks/useAssignment";
+import { Slt } from "@prisma/client";
 
 type sltI = { slt: ModuleSLT; sltIndex: number; id: string };
 
@@ -53,11 +55,12 @@ export default function ModuleContainer({
 
   const [activeSLT, setActiveSLT] = useState<Active | null>(null);
 
-  const { assignment, isLoadingAssignment } = useAssignmentByModule(
-    currentModule.id,
+  const { assignment, isLoadingAssignment } = useAssignment(
+    course.courseCode,
+    currentModule.moduleCode,
   );
 
-  const { slts, isLoadingSLTs, isFetchedSLTs } = useSLTs(
+  const { moduleSLTs, isLoadingModuleSLTs, isFetchedModuleSLTs } = useSLTs(
     course.courseCode,
     currentModule.moduleCode,
   );
@@ -132,15 +135,15 @@ export default function ModuleContainer({
   useEffect(() => {
     const _slts: sltI[] = [];
 
-    if (slts) {
-      slts.forEach((slt) => {
+    if (moduleSLTs) {
+      moduleSLTs.forEach((slt: Slt) => {
         _slts.push({ slt: slt, sltIndex: slt.moduleIndex, id: slt.id });
       });
 
       const sortedSlts = _slts.slice().sort((a, b) => a.sltIndex - b.sltIndex);
       setSltIndexes(sortedSlts);
     }
-  }, [slts, isFetchedSLTs]);
+  }, [moduleSLTs, isFetchedModuleSLTs]);
 
   function onUpdateSltList() {
     const _updateSlts: { id: string; moduleIndex: number }[] = [];
@@ -151,7 +154,7 @@ export default function ModuleContainer({
     updateSltIndexes(_updateSlts);
   }
 
-  if (isLoadingSLTs) {
+  if (isLoadingModuleSLTs) {
     return <LoadingCard>Loading SLTs</LoadingCard>;
   }
 
@@ -217,12 +220,18 @@ export default function ModuleContainer({
                 </SortableContext>
                 {/* todo implelment the rest of dnd-kit - look at codesandbox example - can imagine extracting this component and adding overlay */}
               </DndContext>
-              {assignment && (
-                <Link
-                  href={`/studio/${course.courseCode}/${currentModule.moduleCode}/assignment/${assignment.assignmentCode}`}
-                >
-                  <AssignmentContainer assignment={assignment} />
-                </Link>
+              {isLoadingAssignment ? (
+                <LoadingCircle />
+              ) : (
+                <>
+                  {assignment && (
+                    <Link
+                      href={`/studio/${course.courseCode}/${currentModule.moduleCode}/assignment/${assignment.assignmentCode}`}
+                    >
+                      <AssignmentContainer assignment={assignment} />
+                    </Link>
+                  )}
+                </>
               )}
               {currentModule.releaseDate && (
                 <p className="mx-auto w-11/12 py-5">

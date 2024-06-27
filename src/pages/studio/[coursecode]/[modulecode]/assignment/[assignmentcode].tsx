@@ -1,5 +1,5 @@
 import { NextPageContext } from "next";
-import useAssignmentByCourseModule from "~/hooks/useAssignmentByCourseModule";
+import useAssignment from "~/hooks/useAssignment";
 import useCourseByOwner from "~/hooks/useCourseByOwner";
 import useModuleByCourse from "~/hooks/useModuleByCourse";
 import PageCourseAssignmentContent from "~/ui/studio/[coursecode]/[modulecode]/assignment/[assignmentcode]/PageCourseAssignmentContent";
@@ -16,7 +16,7 @@ export default function AssignmentStudioPage({
   assignmentCode: string;
 }) {
   if (assignmentCode) {
-    const { assignment, isLoadingAssignment } = useAssignmentByCourseModule(
+    const { assignment, isLoadingAssignment } = useAssignment(
       courseCode,
       moduleCode,
     );

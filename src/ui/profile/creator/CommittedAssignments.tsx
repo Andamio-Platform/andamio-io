@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
-import useAssignmentDatums from "../../../hooks-onchain/useAssignmentDatums";
+import useAssignmentDatums from "../../../hooks/onchain/useAssignmentDatums";
 import { DocumentCheckIcon } from "@heroicons/react/24/outline";
 import {
   Table,

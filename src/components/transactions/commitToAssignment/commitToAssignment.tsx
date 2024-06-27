@@ -9,7 +9,7 @@ import { Button } from "~/components/ui/button";
 import { blockfrostProvider } from "~/config/blockfrost";
 import { ACCESS_TOKEN_POLICY_ID } from "~/andamio.config";
 import maestro from "~/config/maestro";
-import useCourseOnchain from "~/hooks/useCourseOnchain";
+import useNetworkCourseConfig from "~/hooks/course/useNetworkCourseConfig";
 import { NETWORK } from "~/andamio.config";
 import { INDEXER_URL } from "~/config/indexer";
 import { toast, useToast } from "~/components/ui/use-toast";
@@ -68,7 +68,7 @@ export default function CommitToAssignment({
   const [isLoading, setIsLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  const { courseOnchain, isLoadingCourseOnchain } = useCourseOnchain(
+  const { courseOnchain, isLoadingCourseOnchain } = useNetworkCourseConfig(
     courseCode,
     NETWORK,
   );

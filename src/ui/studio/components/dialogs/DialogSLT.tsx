@@ -10,7 +10,7 @@ import { Form } from "~/components/ui/form";
 import FormInput from "~/components/form/form-input";
 import { useEffect } from "react";
 import FormSelect from "~/components/form/form-select";
-import useCourseModules from "~/hooks/useCourseModules";
+import useCourseModules from "~/hooks/course/useCourseModules";
 import Loading from "~/components/loading";
 import DialogForm from "~/components/form/dialog-form";
 

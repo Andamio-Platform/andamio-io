@@ -1,5 +1,5 @@
 import Loading from "~/components/loading";
-import useCourses from "~/hooks/useCourses";
+import useCourses from "~/hooks/course/useCourses";
 import CourseCard from "./CourseCard";
 import { useEffect, useState } from "react";
 import { CoursePublic } from "~/types/db";

@@ -5,7 +5,7 @@ import DialogModule from "~/ui/studio/components/dialogs/DialogModule";
 // import useCourseModulesAndVariants from "~/hooks/useCourseModulesAndVariants";
 import ModuleContainer from "./ModuleContainer";
 import { Accordion } from "~/components/ui/accordion";
-import useCourseModules from "~/hooks/useCourseModules";
+import useCourseModules from "~/hooks/course/useCourseModules";
 
 export default function ModuleComponent({ course }: { course: Course }) {
   const [moduleDialogOpen, setModuleDialogOpen] = useState<boolean>(false);

@@ -22,11 +22,11 @@ import AssignmentContainer from "./AssignmentContainer";
 import Link from "next/link";
 import DialogModule from "./dialogs/DialogModule";
 import IntroductionContainer from "./IntroductionContainer";
-import useSLTs from "~/hooks/useSLTs";
+import useSLTs from "~/hooks/course/useSLTs";
 import LoadingCard from "./LoadingCard";
 import { format } from "date-fns";
 import LoadingCircle from "./ContentEditor/ui/icons/loading-circle";
-import useAssignment from "~/hooks/useAssignment";
+import useAssignment from "~/hooks/course/useAssignment";
 import { Slt } from "@prisma/client";
 
 type sltI = { slt: ModuleSLT; sltIndex: number; id: string };

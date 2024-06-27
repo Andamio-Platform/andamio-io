@@ -3,8 +3,8 @@ import Link from "next/link";
 import classNames from "~/utils/classnames";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
-import useCourse from "~/hooks/useCourse";
-import useValidateCreator from "~/hooks/useValidateCreator";
+import useCourse from "~/hooks/course/useCourse";
+import useValidateCreator from "~/hooks/course/useValidateCreator";
 import { PenTool } from "lucide-react";
 import CourseOutline from "./CourseOutline";
 

@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import Loading from "~/components/loading";
 import VideoPlayer from "~/components/media/VideoPlayer";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
-import useValidateCreator from "~/hooks/useValidateCreator";
+import useValidateCreator from "~/hooks/course/useValidateCreator";
 import { Assignment, AssignmentCommitment, Module } from "~/types/db";
 import CourseLayout from "~/ui/course/components/layout/CourseLayout";
 import ModuleLayout from "~/ui/course/components/layout/ModuleLayout";

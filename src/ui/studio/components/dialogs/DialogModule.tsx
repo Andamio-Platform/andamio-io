@@ -11,9 +11,9 @@ import FormInput from "~/components/form/form-input";
 import { useEffect, useState } from "react";
 import DialogForm from "~/components/form/dialog-form";
 import FormSelect from "~/components/form/form-select";
-import useModule from "~/hooks/useModule";
-import useModuleByCourse from "~/hooks/useModuleByCourse";
-import useCourseModules from "~/hooks/useCourseModules";
+import useModule from "~/hooks/course/useModule";
+import useModuleByCourse from "~/hooks/course/useModuleByCourse";
+import useCourseModules from "~/hooks/course/useCourseModules";
 
 import {
   Popover,

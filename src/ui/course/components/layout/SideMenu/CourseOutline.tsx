@@ -6,7 +6,7 @@ import {
   AccordionTrigger,
 } from "~/components/ui/accordion";
 import Link from "next/link";
-import useCourseModules from "~/hooks/useCourseModules";
+import useCourseModules from "~/hooks/course/useCourseModules";
 import classNames from "~/utils/classnames";
 import { DocumentIcon } from "@heroicons/react/24/outline";
 import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";

@@ -9,16 +9,16 @@ import CourseLayout from "../components/layout/CourseLayout";
 import { signIn, useSession } from "next-auth/react";
 import { useCourseStore } from "~/lib/zustand/course";
 import mergeObjects from "~/utils/mergeObjects";
-import useCourseVariants from "~/hooks/useCourseVariants";
-import useCourseModules from "~/hooks/useCourseModules";
-import useCourse from "~/hooks/useCourse";
+import useCourseVariants from "~/hooks/course/useCourseVariants";
+import useCourseModules from "~/hooks/course/useCourseModules";
+import useCourse from "~/hooks/course/useCourse";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "~/components/ui/accordion";
-import useCourseById from "~/hooks/useCourseById";
+import useCourseById from "~/hooks/course/useCourseById";
 import { Badge } from "~/components/ui/badge";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
@@ -91,7 +91,7 @@ export default function PageCourse({
   return (
     <CourseLayout>
       <Metatags title={_course.title} />
-      <div className="mx-auto flex w-full w-11/12 max-w-5xl flex-col md:w-11/12 lg:w-11/12">
+      <div className="mx-auto flex w-11/12 max-w-5xl flex-col">
         <h1 className="text-[3rem] font-bold leading-[5rem]">
           {_course.title}
         </h1>

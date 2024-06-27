@@ -1,8 +1,8 @@
 import { useWallet } from "@meshsdk/react";
-import useAssignment from "../useAssignment";
+import useAssignment from "../course/useAssignment";
 import { useAccessToken } from "~/ui/profile/hooks/useAccessToken";
 import { NETWORK } from "~/andamio.config";
-import useCourseOnchain from "../useCourseOnchain";
+import useNetworkCourseConfig from "../course/useNetworkCourseConfig";
 import { api } from "~/utils/api";
 
 export default function useAssignmentNetworkStatus(
@@ -19,7 +19,7 @@ export default function useAssignmentNetworkStatus(
   const { wallet } = useWallet();
 
   const { data: accessTokenData } = useAccessToken(wallet);
-  const { courseOnchain } = useCourseOnchain(courseCode, NETWORK);
+  const { courseOnchain } = useNetworkCourseConfig(courseCode, NETWORK);
 
   const { data: isAssignmentOnchain, isLoading: isLoadingAssignmentOnchain } =
     api.assignmentValidator.isAssignmentOnchain.useQuery(

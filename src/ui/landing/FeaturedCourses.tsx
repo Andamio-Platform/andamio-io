@@ -1,7 +1,7 @@
 import Link from "~/components/link";
 import Loading from "~/components/loading";
 import { CourseCardHoverEffect } from "~/components/ui/card-hover-effect";
-import useCourses from "~/hooks/useCourses";
+import useCourses from "~/hooks/course/useCourses";
 import CourseButtonCard from "../studio/components/course/CourseButtonCard";
 import CourseCard from "../courses/components/CourseCard";
 

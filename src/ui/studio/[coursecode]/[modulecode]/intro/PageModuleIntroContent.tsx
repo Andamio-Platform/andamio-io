@@ -22,7 +22,7 @@ import useIntroEditor from "~/ui/studio/hooks/useIntroEditor";
 import ContentEditor from "~/ui/studio/components/ContentEditor";
 import { useRouter } from "next/router";
 import Metatags from "~/components/site/metatags";
-import useAssignment from "~/hooks/useAssignment";
+import useAssignment from "~/hooks/course/useAssignment";
 
 export default function PageModuleIntroContent({
   course,

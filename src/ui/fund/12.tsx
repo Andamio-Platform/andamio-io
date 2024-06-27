@@ -81,7 +81,7 @@ export default function Fund12() {
                 </h1>
 
                 <p className="mt-6 text-xl leading-8 text-gray-600">
-                  Write a very short para here.
+                  
                 </p>
               </div>
               <div className="mt-16 flow-root sm:mt-24">

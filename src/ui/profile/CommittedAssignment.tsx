@@ -1,6 +1,6 @@
 import { DecodedAssignmentDecisionDatum } from "@andamiojs/datum-utils";
 import { useEffect, useState } from "react";
-import useAssignmentDatum from "../../hooks/onchain/useAssignmentDatum";
+import useAssignmentDatums from "../../hooks/onchain/useAssignmentDatums";
 
 export default function CommittedAssignment({
   courseNftPolicy,
@@ -9,18 +9,21 @@ export default function CommittedAssignment({
   courseNftPolicy: string;
   alias: string;
 }) {
-  const [courseState, setAssignment] = useState<
-    DecodedAssignmentDecisionDatum | undefined
-  >(undefined);
-  const { data, isLoading, isError, error } = useAssignmentDatum(
-    courseNftPolicy,
-    alias,
-  );
-  useEffect(() => {
-    setAssignment(data);
-  }, [data]);
+  const {
+    assignmentDatum,
+    isLoadingAssignmentDatum,
+    isErrorAssignmentDatum,
+    errorAssignmentDatum,
+  } = useAssignmentDatums(courseNftPolicy, alias);
 
-  return data && <div>
-    {courseNftPolicy} - {data.CommittedAssignmentId} - {data.StudentAssignmentInfo? data.StudentAssignmentInfo : "No Assignment Info"}
-  </div>;
+  return (
+    assignmentDatum && (
+      <div>
+        {courseNftPolicy} - {assignmentDatum.CommittedAssignmentId} -{" "}
+        {assignmentDatum.StudentAssignmentInfo
+          ? assignmentDatum.StudentAssignmentInfo
+          : "No Assignment Info"}
+      </div>
+    )
+  );
 }

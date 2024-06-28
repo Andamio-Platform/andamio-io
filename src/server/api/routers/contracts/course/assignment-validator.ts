@@ -48,7 +48,7 @@ export const assignmentValidatorRouter = createTRPCRouter({
         alias: z.string().min(1),
       }),
     )
-    .query(async ({ ctx, input }) => {
+    .query(async ({ input }) => {
       const res = await axios.get(
         `${INDEXER_URL}/api/assignment-validator/decodedAssignmentValidatorUtxoByCourseNftPolicyAndAlias?policy=${input.courseCreatorNFTPolicyID}&alias=${input.alias}`,
       );
@@ -59,4 +59,33 @@ export const assignmentValidatorRouter = createTRPCRouter({
         return false;
       }
     }),
+
+  getDecodedCourseAssignmentDatums: protectedProcedure
+    .input(
+      z.object({
+        courseNftPolicy: z.string().length(56),
+      }),
+    )
+    .query(async ({ input }) => {
+      const res = await axios.get(
+        `${INDEXER_URL}/api/assignment-validator/decodedAssignmentDatumsByCourseNftPolicy?policy=${input.courseNftPolicy}`,
+      );
+      const result: DecodedAssignmentDecisionDatum[] = res.data
+      return result
+    }),
+  
+  getDecodedCourseAssignmentDatumsByAlias: protectedProcedure
+  .input(
+    z.object({
+      courseCreatorNFTPolicyID: z.string().length(56),
+      alias: z.string().min(1),
+    }),
+  )
+  .query(async ({ input }) => {
+    const res = await axios.get(
+      `${INDEXER_URL}/api/assignment-validator/decodedAssignmentValidatorUtxoByCourseNftPolicyAndAlias?policy=${input.courseCreatorNFTPolicyID}&alias=${input.alias}`,
+    );
+    const result: DecodedAssignmentDecisionDatum = res.data
+    return result
+  }),
 });

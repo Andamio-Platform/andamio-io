@@ -12,17 +12,13 @@ import {
 } from "~/components/ui/card";
 import AccessTokenSection from "./AccessTokenSection";
 import MyCoursesSection from "./MyCoursesSection";
-import { ACCESS_TOKEN_POLICY_ID } from "~/andamio.config";
 import { Button } from "~/components/ui/button";
-import Link from "next/link";
 import CreatorsSection from "./creator/CreatorsSection";
 import AssignmentsSection from "./AssignmentSection";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import AssignmentCommitmentsSection from "./AssignmentCommitmentsSection";
 import CompletedCourses from "./CompletedCourses";
-import CourseStateDatum from "./CompletedAssignments";
 import { DecodedTokenInfo } from "@andamiojs/datum-utils";
-import AssignmentDatum from "./CommittedAssignment";
 import { useRouter } from "next/router";
 import { useAccessToken } from "./hooks/useAccessToken";
 

@@ -18,7 +18,7 @@ export default function CommittedAssignments({
 }: {
   courseNftPolicy: string;
 }) {
-  const { data, isLoading, isError, error } =
+  const { listCourseAssignmentDatums, isLoadingListCourseAssignmentDatums, isErrorListCourseAssignmentDatums, errorListCourseAssignmentDatums } =
     useAssignmentDatums(courseNftPolicy);
 
   const { data: courseInfo, isLoading: isLoadingCourseInfo } =
@@ -45,7 +45,7 @@ export default function CommittedAssignments({
           </h2>
         </Card>
 
-        {data && (
+        {listCourseAssignmentDatums && (
           <Table>
             <TableHeader>
               <TableRow>
@@ -56,7 +56,7 @@ export default function CommittedAssignments({
               </TableRow>
             </TableHeader>
             <TableBody className="text-left">
-              {data.map((assignment, i) => (
+              {listCourseAssignmentDatums.map((assignment, i) => (
                 <TableRow key={i}>
                   <TableCell className="font-medium">
                     {assignment.CourseState.CsdUserName}

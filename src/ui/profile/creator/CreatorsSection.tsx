@@ -1,22 +1,3 @@
-import { DocumentCheckIcon, DocumentIcon } from "@heroicons/react/24/outline";
-import { TimestampedDatum } from "@maestro-org/typescript-sdk";
-import { Asset, AssetExtended, UTxO } from "@meshsdk/core";
-import { useWallet } from "@meshsdk/react";
-import { CourseOnChainInstance } from "@prisma/client";
-import { Pencil1Icon } from "@radix-ui/react-icons";
-import { use, useEffect, useState } from "react";
-import AcceptDenyAssignment from "~/components/transactions/acceptDenyAssignment/acceptDenyAssignment";
-import { Button } from "~/components/ui/button";
-import { Card, CardContent, CardHeader } from "~/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "~/components/ui/table";
-import maestro, { maestroClient } from "~/config/maestro";
 import useCreatorsCoursesPolicies from "../../../hooks/onchain/useCreatorsCoursesPolicies";
 import CommittedAssignments from "./CommittedAssignments";
 
@@ -25,13 +6,13 @@ export default function CreatorsSection({
 }: {
   accessTokenAlias: string;
 }) {
-  const { data, isLoading, isError, error } =
+  const { creatorCoursePolicies, isLoadingCreatorCoursePolicies, isErrorCreatorCoursePolicies, errorCreatorCoursePolicies } =
     useCreatorsCoursesPolicies(accessTokenAlias);
 
   return (
     <>
-      {data &&
-        data.map((c, i) => (
+      {creatorCoursePolicies &&
+        creatorCoursePolicies.map((c, i) => (
           <CommittedAssignments key={i} courseNftPolicy={c} />
         ))}
     </>

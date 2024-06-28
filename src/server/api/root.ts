@@ -18,6 +18,7 @@ import { assignmentStatusRouter } from "./routers/database/course/assignment-sta
 import { learnerOnChainRouter } from "./routers/contracts/course/learner-onChain";
 import { assignmentValidatorRouter } from "./routers/contracts/course/assignment-validator";
 import { localStateValidatorRouter } from "./routers/contracts/course/local-state-validator";
+import { courseGovernanceValidatorRouter } from "./routers/contracts/course/course-governance-validator";
 
 import { clientDomainsRouter } from "./routers/premium/clients-domain";
 
@@ -48,6 +49,7 @@ export const appRouter = createTRPCRouter({
   assignmentStatus: assignmentStatusRouter,
   assignmentValidator: assignmentValidatorRouter,
   localStateValidator: localStateValidatorRouter,
+  courseGovernanceValidator: courseGovernanceValidatorRouter,
 
   // premium features
   clientDomains: clientDomainsRouter,

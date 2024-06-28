@@ -9,23 +9,17 @@ export default function CompletedAssignments({
   courseNftPolicy: string;
   alias: string;
 }) {
-  const [courseState, setCourseState] = useState<
-    DecodedCourseStateDatum | undefined
-  >(undefined);
-
-  const { data, isLoading, isError, error } = useCourseStateDatum(
-    courseNftPolicy,
-    alias,
-  );
-
-  useEffect(() => {
-    setCourseState(data);
-  }, [data]);
+  const {
+    courseStateDatum,
+    isLoadingCourseStateDatum,
+    isErrorCourseStateDatum,
+    errorCourseStateDatum,
+  } = useCourseStateDatum(courseNftPolicy, alias);
 
   return (
     <>
-      {data &&
-        data.CompletedAssignments.map((c, i) => (
+      {courseStateDatum &&
+        courseStateDatum.CompletedAssignments.map((c, i) => (
           <div key={i}>
             <h3>Completed Assignments</h3>
             <p key={i}>{c}</p>

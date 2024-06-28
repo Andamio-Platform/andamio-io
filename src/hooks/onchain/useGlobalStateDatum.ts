@@ -1,13 +1,17 @@
-import { useQuery } from "@tanstack/react-query"; 
-import { INDEXER_URL } from "~/config/indexer";
-import { DecodedGlobalStateDatum } from "@andamiojs/datum-utils"
+import { api } from "~/utils/api";
 
 export default function useGlobalStateDatum(alias: string) {
-  return useQuery<DecodedGlobalStateDatum, unknown>(['globalState', alias], async () => {
-    const response = await fetch(`${INDEXER_URL}/api/global-state/decodedGlobalStateDatumByAlias?alias=${alias}`, {cache: "no-store"});
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    return response.json() as Promise<DecodedGlobalStateDatum>;
-  });
+  const {
+    data: globalStateDatum,
+    isLoading: isLoadingGlobalStateDatum,
+    isError: isErrorGlobalStateDatum,
+    error: errorGlobalStateDatum,
+  } = api.globalStateValidator.getGlobalStateDatumByAlias.useQuery({ alias });
+
+  return {
+    globalStateDatum,
+    isLoadingGlobalStateDatum,
+    isErrorGlobalStateDatum,
+    errorGlobalStateDatum,
+  };
 }

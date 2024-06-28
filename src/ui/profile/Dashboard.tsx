@@ -108,7 +108,6 @@ export default function DashboardPage() {
                           {alias && (
                             <CompletedCourses
                               alias={alias}
-                              setCourses={setCourses}
                             />
                           )}
                           

@@ -9,8 +9,8 @@ import { Button } from "~/components/ui/button";
 import { blockfrostProvider } from "~/config/blockfrost";
 import { ACCESS_TOKEN_POLICY_ID } from "~/andamio.config";
 import maestro from "~/config/maestro";
-import useCourseOnchain from "~/hooks/useCourseOnchain";
-import { Network } from "~/config/Network";
+import useNetworkCourseConfig from "~/hooks/onchain/useNetworkCourseConfig";
+import { NETWORK } from "~/andamio.config";
 import { INDEXER_URL } from "~/config/indexer";
 import { toast, useToast } from "~/components/ui/use-toast";
 import { set } from "date-fns";
@@ -55,19 +55,22 @@ const FormSchema = z.object({
 export default function CommitToAssignment({
   courseCode,
   assignmentCode,
+  isCommitted,
 }: {
   courseCode: string;
   assignmentCode: string;
+  isCommitted: boolean;
 }) {
   const router = useRouter();
   const { toast } = useToast();
 
   const { connected, wallet } = useWallet();
   const [isLoading, setIsLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
-  const { courseOnchain, isLoadingCourseOnchain } = useCourseOnchain(
+  const { courseOnchain, isLoadingCourseOnchain } = useNetworkCourseConfig(
     courseCode,
-    Network,
+    NETWORK,
   );
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -191,7 +194,7 @@ export default function CommitToAssignment({
 
       // console.log()
 
-      // void router.push("/home");
+      setSubmitted(true);
     } catch (error) {
       setIsLoading(false);
       console.error("Error", error);
@@ -204,6 +207,10 @@ export default function CommitToAssignment({
         <>
           {!connected ? (
             <CardanoWallet />
+          ) : isCommitted ? (
+            <p>Already in Commitment</p>
+          ) : submitted ? (
+            <p>Submitted</p>
           ) : (
             <Form {...form}>
               <form

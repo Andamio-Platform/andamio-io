@@ -1,8 +1,6 @@
 import { AssetExtended } from "@meshsdk/core";
 import { useState } from "react";
 import { api } from "~/utils/api";
-import maestro from "~/config/maestro";
-import { useQuery } from "@tanstack/react-query";
 
 export default function useLearnerNetworkStatus(accessToken: AssetExtended) {
   // Todo: find or implement onchain assignment commitment type

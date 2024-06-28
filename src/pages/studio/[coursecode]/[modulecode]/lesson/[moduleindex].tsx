@@ -1,7 +1,7 @@
 import { NextPageContext } from "next";
-import useCourseByOwner from "~/hooks/useCourseByOwner";
-import useModuleByCourse from "~/hooks/useModuleByCourse";
-import useSLT from "~/hooks/useSLT";
+import useCoursesByOwner from "~/hooks/course/useCoursesByOwner";
+import useModuleByCourse from "~/hooks/course/useModuleByCourse";
+import useSLTs from "~/hooks/course/useSLTs";
 import PageCourseLessonContent from "~/ui/studio/[coursecode]/[modulecode]/lesson/[moduleindex]/PageCourseLessonContent";
 import LoadingContentEditor from "~/ui/studio/components/ContentEditor/ui/LoadingContentEditor";
 import StudioLayout from "~/ui/studio/components/layout/StudioLayout";
@@ -17,14 +17,14 @@ export default function LessonStudioPage({
 }) {
   if (moduleIndex && typeof moduleIndex == "string") {
     const sltIndex = parseInt(moduleIndex);
-    const { slt, isLoadingSLT } = useSLT(courseCode, moduleCode, sltIndex);
-    const { course, isLoadingCourse } = useCourseByOwner(courseCode);
+    const { slt, isLoadingSLT } = useSLTs(courseCode, moduleCode, sltIndex);
+    const { course, isLoadingCourses } = useCoursesByOwner(courseCode);
     const { courseModule, isLoadingModule } = useModuleByCourse(
       courseCode,
       moduleCode,
     );
 
-    if (isLoadingSLT || isLoadingCourse || isLoadingModule) {
+    if (isLoadingSLT || isLoadingCourses || isLoadingModule) {
       return (
         <div className="flex min-h-screen w-full content-center items-center justify-center">
           <LoadingContentEditor>Loading Lesson</LoadingContentEditor>

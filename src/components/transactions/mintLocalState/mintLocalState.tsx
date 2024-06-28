@@ -11,8 +11,8 @@ import {
   ACCESS_TOKEN_POLICY_ID,
   GLOBAL_STATE_VALIDATOR_ADDR,
 } from "~/andamio.config";
-import useCourseOnchain from "~/hooks/useCourseOnchain";
-import { Network } from "~/config/Network";
+import useNetworkCourseConfig from "~/hooks/onchain/useNetworkCourseConfig";
+import { NETWORK } from "~/andamio.config";
 import maestro from "~/config/maestro";
 import { UtxoWithSlot } from "@maestro-org/typescript-sdk";
 import { INDEXER_URL } from "~/config/indexer";
@@ -39,9 +39,9 @@ export default function MintLocalState({ courseCode }: { courseCode: string }) {
 
   const { connected, wallet } = useWallet();
   const [isLoading, setIsLoading] = useState(false);
-  const { courseOnchain, isLoadingCourseOnchain } = useCourseOnchain(
+  const { courseOnchain, isLoadingCourseOnchain } = useNetworkCourseConfig(
     courseCode,
-    Network,
+    NETWORK,
   );
 
   async function onSubmit() {

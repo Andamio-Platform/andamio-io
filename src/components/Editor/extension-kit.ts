@@ -25,6 +25,7 @@ import go from "highlight.js/lib/languages/go";
 import bash from "highlight.js/lib/languages/bash";
 import python from "highlight.js/lib/languages/python";
 import haskell from "highlight.js/lib/languages/haskell";
+import json from "highlight.js/lib/languages/json"
 
 const lowlight = createLowlight(common);
 lowlight.register({ javascript });
@@ -33,6 +34,9 @@ lowlight.register({ go });
 lowlight.register({ bash });
 lowlight.register({ python });
 lowlight.register({ haskell });
+lowlight.register({ json });
+// enable rust for aiken highlighting
+// or is aiken addedes
 
 // -- END Codeblock Config
 

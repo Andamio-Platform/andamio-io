@@ -1,9 +1,6 @@
 import { api } from "~/utils/api";
 
-export default function useAssignmentByCourseModule(
-  courseCode: string,
-  moduleCode: string,
-) {
+export default function useAssignment(courseCode: string, moduleCode: string) {
   const {
     data: assignment,
     isLoading: isLoadingAssignment,
@@ -15,5 +12,5 @@ export default function useAssignmentByCourseModule(
     moduleCode,
   });
 
-  return { assignment, isLoadingAssignment, isErrorAssignment, errorAssignment, refetchAssignment };
+  return { assignment, isLoadingAssignment, isErrorAssignment, errorAssignment };
 }

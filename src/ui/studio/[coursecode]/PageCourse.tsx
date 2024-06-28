@@ -5,7 +5,7 @@ import CourseTitle from "~/ui/studio/components/CourseTitle";
 import ListCourseManagers from "~/ui/studio/components/ListCourseManagers";
 import ListCourseVariants from "../components/ListCourseVariants";
 
-import useCourseByOwner from "~/hooks/useCourseByOwner";
+import useCoursesByOwner from "~/hooks/course/useCoursesByOwner";
 import { useSession } from "next-auth/react";
 import ShowCourseOnchain from "../components/ShowCourseOnchain";
 import { Network } from "@prisma/client";
@@ -17,7 +17,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import Metatags from "~/components/site/metatags";
 
 export default function PageCourse({ courseCode }: { courseCode: string }) {
-  const { course, isLoadingCourse } = useCourseByOwner(courseCode);
+  const { course, isLoadingCourses } = useCoursesByOwner(courseCode);
   const [selectedNetwork, setSelectedNetwork] = useState<Network>("PREPROD");
   const [selectedVariant, setSelectedVariant] = useState<
     CourseVariant | undefined
@@ -92,7 +92,7 @@ export default function PageCourse({ courseCode }: { courseCode: string }) {
             </div>
           </>
         ) : (
-          isLoadingCourse && (
+          isLoadingCourses && (
             <div className="flex min-h-[90vh] items-center">
               <Loading size={50} />
             </div>

@@ -1,10 +1,12 @@
 import Link from "~/components/link";
 import Loading from "~/components/loading";
 import { CourseCardHoverEffect } from "~/components/ui/card-hover-effect";
-import useCourses from "~/hooks/useCourses";
+import useCourses from "~/hooks/course/useCourses";
 import CourseButtonCard from "../studio/components/course/CourseButtonCard";
+import CourseCard from "../courses/components/CourseCard";
 
-const featuredCourseCodes = ["dp2024", "ppbl2024", "mesh", "APBLHK"];
+const featuredCourseCodes = ["ppbl2024", "mesh"];
+// const featuredCourseCodes = ["ec2024", "nc2024"];
 
 export default function FeaturedCourses() {
   const { courses, isLoadingCourses } = useCourses();
@@ -48,18 +50,11 @@ export default function FeaturedCourses() {
           //   ))}
           // </dl>
           <div className="mx-auto max-w-5xl px-8">
-            <div className="grid grid-cols-1 py-10 md:grid-cols-2">
+            <div className="grid grid-cols-1 py-10 md:grid-cols-2 gap-10">
               {courses.map((course, i) => (
                 <>
                   {featuredCourseCodes.includes(course.courseCode) && (
-                    <CourseCardHoverEffect
-                      course={{
-                        title: course.title,
-                        description: course.description ?? "",
-                        link: `/course/${course.courseCode}`,
-                      }}
-                      idx={i}
-                    />
+                    <CourseCard course={course} enabled={true} />
                   )}
                 </>
               ))}

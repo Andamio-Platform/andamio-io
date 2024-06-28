@@ -4,7 +4,7 @@ import {
   CardFooter,
   CardHeader,
 } from "~/components/ui/card";
-import useLearnerAssignmentStatuses from "./hooks/useLearnerAssignmentStatuses";
+import useLearnerAssignmentStatuses from "~/hooks/course/useLearnerAssignmentStatuses";
 import Link from "next/link";
 import AssignmentBadges from "~/components/ui/assignment-badges";
 import { Button } from "~/components/ui/button";

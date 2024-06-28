@@ -12,18 +12,15 @@ import {
 } from "~/components/ui/card";
 import AccessTokenSection from "./AccessTokenSection";
 import MyCoursesSection from "./MyCoursesSection";
-import { ACCESS_TOKEN_POLICY_ID } from "~/andamio.config";
 import { Button } from "~/components/ui/button";
-import Link from "next/link";
 import CreatorsSection from "./creator/CreatorsSection";
 import AssignmentsSection from "./AssignmentSection";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import AssignmentCommitmentsSection from "./AssignmentCommitmentsSection";
 import CompletedCourses from "./CompletedCourses";
-import CourseStateDatum from "./CompletedAssignments";
 import { DecodedTokenInfo } from "@andamiojs/datum-utils";
-import AssignmentDatum from "./CommittedAssignment";
 import { useRouter } from "next/router";
+import { useAccessToken } from "~/hooks/onchain/useAccessToken";
 
 export default function DashboardPage() {
   const { setTheme } = useTheme();
@@ -32,26 +29,16 @@ export default function DashboardPage() {
   const [alias, setAlias] = useState<string>("");
   const [courses, setCourses] = useState<DecodedTokenInfo[]>([]);
 
-  useEffect(() => {
-    const fetchAccessToken = async () => {
-      const userAssets = await wallet.getAssets();
-      const accessToken = userAssets.find((asset) =>
-        asset.unit.includes(ACCESS_TOKEN_POLICY_ID),
-      );
-      if (accessToken) {
-        setAccessToken(accessToken);
-        const alias = Buffer.from(
-          accessToken.unit.substring(62),
-          "hex",
-        ).toString();
-        setAlias(alias);
-      }
-    };
-
-    if (connected) {
-      void fetchAccessToken();
-    }
-  }, [wallet]);
+ const { data, isLoading, isError, error } = useAccessToken(wallet);
+ 
+ useEffect(() => {
+   if (connected && data?.accessToken) {
+     setAccessToken(data.accessToken);
+   }
+   if (connected && data?.alias) {
+     setAlias(data.alias);
+   }
+ }, [connected, data]);
 
   useEffect(() => {
     setTheme("light");
@@ -121,7 +108,6 @@ export default function DashboardPage() {
                           {alias && (
                             <CompletedCourses
                               alias={alias}
-                              setCourses={setCourses}
                             />
                           )}
                           

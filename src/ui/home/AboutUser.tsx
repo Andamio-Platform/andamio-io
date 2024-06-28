@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
 import { api } from "~/utils/api";
-import GetStartedButton from "../landing/GetStartedButton";
+import GetStartedButton from "../landing/ViewCoursesButton";
 import CTA from "../landing/CTA";
 
 export default function AboutUser() {

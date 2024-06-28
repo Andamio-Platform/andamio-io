@@ -5,7 +5,7 @@ import { api } from "~/utils/api";
 import { useSession } from "next-auth/react";
 import DialogCourseOnChain from "./dialogs/DialogCourseOnChain";
 import { Network } from "@prisma/client";
-import useCourseOnchain from "~/hooks/useCourseOnchain";
+import useNetworkCourseConfig from "~/hooks/onchain/useNetworkCourseConfig";
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
 
 export default function ShowCourseOnchain({
@@ -26,7 +26,7 @@ export default function ShowCourseOnchain({
   const { data: sessionData } = useSession();
   const isOwner = course.createdById === sessionData?.user?.creatorId;
 
-  const { courseOnchain, isLoadingCourseOnchain } = useCourseOnchain(
+  const { courseOnchain, isLoadingCourseOnchain } = useNetworkCourseConfig(
     course.courseCode,
     network,
   );

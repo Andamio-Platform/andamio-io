@@ -14,7 +14,10 @@ export default function AssignmentBadges({status} : {status: AssignmentStatus}) 
         <Badge className="bg-blue-200 text-blue-800">Saved for Later</Badge>
       )}
       {status === "COMMITMENT" && (
-        <Badge className="bg-purple-200 text-purple-800">Commitment Made</Badge>
+        <Badge className="bg-purple-200 text-purple-800">Committed</Badge>
+      )}
+      {status === "NETWORK_READY" && (
+        <Badge className="bg-orange-200 text-orange-800">Ready to Commit</Badge>
       )}
     </>
   );

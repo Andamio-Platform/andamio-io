@@ -319,6 +319,7 @@ enum AssignmentStatus {
   IN_PROGRESS
   COMPLETE
   COMMITMENT
+  NETWORK_READY
 }
 
 model AssignmentCommitment {

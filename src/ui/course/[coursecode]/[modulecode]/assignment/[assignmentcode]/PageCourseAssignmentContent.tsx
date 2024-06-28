@@ -21,6 +21,7 @@ import PersonalNotesCard from "~/ui/course/components/assignments/cards/Personal
 import { CardanoWallet, useWallet } from "@meshsdk/react";
 import useAssignmentNetworkStatus from "~/hooks/onchain/useAssignmentNetworkStatus";
 import NoOnchainAssignmentCard from "~/ui/course/components/assignments/cards/NoOnchainAssignmentCard";
+import ConnectWalletCard from "~/ui/course/components/assignments/cards/ConnectWalletCard";
 
 export default function PageCourseAssignmentContent({
   courseCode,
@@ -151,16 +152,15 @@ function Page({
                   courseCode={courseCode}
                 />
               ) : (
-                <div className="">
-                  <CardanoWallet />
-                </div>
+                <ConnectWalletCard />
               )}
             </>
           ) : (
             <NoOnchainAssignmentCard />
           )}
 
-          <div className="col-span-2">
+          {/* For testing: */}
+          {/* <div className="col-span-2">
             <pre>
               {isLoadingAssignment ? "Loading Assignment" : "Assignment Loaded"}
             </pre>
@@ -184,7 +184,7 @@ function Page({
                 ? "Loading commitment status"
                 : "Assignment Commitment status Loaded"}
             </pre>
-          </div>
+          </div> */}
         </div>
       </>
     );

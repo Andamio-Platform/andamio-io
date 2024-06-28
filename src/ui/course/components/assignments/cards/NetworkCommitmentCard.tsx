@@ -32,11 +32,12 @@ export default function NetworkCommitmentCard({
       <CardHeader className="flex w-full flex-row items-center justify-between">
         <h2 className="text-xl font-bold">Assignment Commitment</h2>
 
-        <AssignmentBadges status="COMMITMENT" />
+{ isLearnerCommitted && <AssignmentBadges status="COMMITMENT" />}
+{ isAssignmentOnchain && !isLearnerCommitted && <AssignmentBadges status="NETWORK_READY" />}
+        
       </CardHeader>
       <CardContent>
         <div className="flex flex-col justify-center gap-3">
-          <h2 className="mb-3">Make a Commitment on the Andamio Network</h2>
           {isLoadingLearnerCommitted ? (
             "Loading"
           ) : (

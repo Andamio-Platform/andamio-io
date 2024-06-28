@@ -35,7 +35,10 @@ export default function PageCourseAssignmentContent({
   const { data: sessionData } = useSession();
 
   const { assignment, isLoadingAssignment, isAssignmentOnchain } =
-    useAssignmentNetworkStatus(courseCode, courseModule.moduleCode);
+    useAssignmentNetworkStatus({
+      courseCode: courseCode,
+      moduleCode: courseModule.moduleCode,
+    });
 
   const { isCreator } = useValidateCreator(sessionData, courseCode);
 
@@ -103,7 +106,10 @@ function Page({
     isLoadingAssignmentOnchain,
     isLearnerCommitted,
     isLoadingLearnerCommitted,
-  } = useAssignmentNetworkStatus(courseCode, courseModule.moduleCode);
+  } = useAssignmentNetworkStatus({
+    courseCode: courseCode,
+    moduleCode: courseModule.moduleCode,
+  });
 
   useEffect(() => {
     if (sessionData && assignment) {

@@ -5,10 +5,15 @@ import useNetworkCourseConfig from "./useNetworkCourseConfig";
 import { api } from "~/utils/api";
 import { useAccessToken } from "./useAccessToken";
 
-export default function useAssignmentNetworkStatus(
-  courseCode: string,
-  moduleCode: string,
-) {
+// In each hook, use a dictionary as params
+
+export default function useAssignmentNetworkStatus({
+  courseCode,
+  moduleCode,
+}: {
+  courseCode: string;
+  moduleCode: string;
+}) {
   const {
     assignment,
     isLoadingAssignment,

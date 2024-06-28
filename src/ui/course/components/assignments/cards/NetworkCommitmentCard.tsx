@@ -24,7 +24,10 @@ export default function NetworkCommitmentCard({
     isLoadingAssignmentOnchain,
     isLearnerCommitted,
     isLoadingLearnerCommitted,
-  } = useAssignmentNetworkStatus(courseCode, assignmentCode);
+  } = useAssignmentNetworkStatus({
+    courseCode: courseCode,
+    moduleCode: assignmentCode,
+  });
   // here we assume that assignment code matches module code
 
   return (
@@ -32,9 +35,10 @@ export default function NetworkCommitmentCard({
       <CardHeader className="flex w-full flex-row items-center justify-between">
         <h2 className="text-xl font-bold">Assignment Commitment</h2>
 
-{ isLearnerCommitted && <AssignmentBadges status="COMMITMENT" />}
-{ isAssignmentOnchain && !isLearnerCommitted && <AssignmentBadges status="NETWORK_READY" />}
-        
+        {isLearnerCommitted && <AssignmentBadges status="COMMITMENT" />}
+        {isAssignmentOnchain && !isLearnerCommitted && (
+          <AssignmentBadges status="NETWORK_READY" />
+        )}
       </CardHeader>
       <CardContent>
         <div className="flex flex-col justify-center gap-3">

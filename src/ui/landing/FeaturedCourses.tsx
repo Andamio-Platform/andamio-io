@@ -5,6 +5,18 @@ import useCourses from "~/hooks/course/useCourses";
 import CourseButtonCard from "../studio/components/course/CourseButtonCard";
 import CourseCard from "../courses/components/CourseCard";
 
+// are there any metrics we can use to decide which courses are featured?
+  // number of learners
+  // number of commitments
+  // number of learners to complete the course
+  // number of modules
+  // amount of on-chain engagement / course enrollment
+  // how often is this course used a pre-req?
+     // for contributor-facing projects?
+     // future: for other courses?
+  // some kind of referral process?
+// if a lot of learners are engaged in a course, does that course get featured?
+// if a client is paying, do they get any privileges?
 const featuredCourseCodes = ["ppbl2024", "mesh"];
 // const featuredCourseCodes = ["ec2024", "nc2024"];
 

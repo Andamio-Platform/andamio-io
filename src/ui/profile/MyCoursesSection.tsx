@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Badge } from "~/components/ui/badge";
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
 import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
-import useLearnerNetworkStatus from "./hooks/useLearnerNetworkStatus";
+import useLearnerNetworkStatus from "~/hooks/onchain/useLearnerNetworkStatus";
 import CourseStateDatum from "./CompletedAssignments";
 import { DecodedTokenInfo } from "@andamiojs/datum-utils";
 

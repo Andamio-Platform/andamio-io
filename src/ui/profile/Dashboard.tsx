@@ -20,7 +20,7 @@ import AssignmentCommitmentsSection from "./AssignmentCommitmentsSection";
 import CompletedCourses from "./CompletedCourses";
 import { DecodedTokenInfo } from "@andamiojs/datum-utils";
 import { useRouter } from "next/router";
-import { useAccessToken } from "./hooks/useAccessToken";
+import { useAccessToken } from "~/hooks/onchain/useAccessToken";
 
 export default function DashboardPage() {
   const { setTheme } = useTheme();

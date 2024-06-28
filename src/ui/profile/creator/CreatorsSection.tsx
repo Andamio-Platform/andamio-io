@@ -1,4 +1,4 @@
-import useCreatorsCoursesPolicies from "../../../hooks/onchain/useCreatorsCoursesPolicies";
+import useCreatorsCoursesPolicies from "~/hooks/onchain/useCreatorsCoursesPolicies";
 import CommittedAssignments from "./CommittedAssignments";
 
 export default function CreatorsSection({

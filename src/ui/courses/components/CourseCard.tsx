@@ -40,8 +40,6 @@ export default function CourseCard({
   const { data: sessionData } = useSession();
   const [isEnrolled, setIsEnrolled] = useState(false);
 
-  // Next step 2024-06-12: Show learner enrollment status from course page
-
   useEffect(() => {
     (async () => {
       if (connected && course.onchainInstance[0]) {

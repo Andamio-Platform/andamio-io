@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardContent } from "~/components/ui/card";
-import useLearnerNetworkStatus from "./hooks/useLearnerNetworkStatus";
+import useLearnerNetworkStatus from "~/hooks/onchain/useLearnerNetworkStatus";
 import { AssetExtended } from "@meshsdk/core";
 import CommittedAssignment from "./CommittedAssignment";
 import { DecodedTokenInfo } from "@andamiojs/datum-utils";

@@ -1,5 +1,5 @@
 import { QueryFunctionContext, useQuery } from "@tanstack/react-query";
-import { ACCESS_TOKEN_POLICY_ID } from "../../../andamio.config";
+import { ACCESS_TOKEN_POLICY_ID } from "../../andamio.config";
 import { AssetExtended, BrowserWallet } from "@meshsdk/core";
 
 const fetchAccessToken = async ({ queryKey }: QueryFunctionContext<BrowserWallet[]>) => {

@@ -11,7 +11,7 @@ import {
   ACCESS_TOKEN_POLICY_ID,
   GLOBAL_STATE_VALIDATOR_ADDR,
 } from "~/andamio.config";
-import useNetworkCourseConfig from "~/hooks/course/useNetworkCourseConfig";
+import useNetworkCourseConfig from "~/hooks/onchain/useNetworkCourseConfig";
 import { NETWORK } from "~/andamio.config";
 import maestro from "~/config/maestro";
 import { UtxoWithSlot } from "@maestro-org/typescript-sdk";

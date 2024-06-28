@@ -1,21 +1,24 @@
 import { createTRPCRouter } from "~/server/api/trpc";
-import { courseRouter } from "./routers/course";
-import { moduleRouter } from "./routers/module";
-import { userRouter } from "./routers/user";
-import { courseVariantRouter } from "./routers/course-variant";
-import { moduleVariantRouter } from "./routers/module-variant";
-import { courseOnChainInstanceRouter } from "./routers/course-onChainInstance";
-import { sltRouter } from "./routers/slt";
-import { lessonRouter } from "./routers/lesson";
-import { assignmentRouter } from "./routers/assignment";
-import { creatorRouter } from "./routers/creator";
-import { learnerRouter } from "./routers/learner";
-import { introductionRouter } from "./routers/introduction";
-import { userWalletRouter } from "./routers/user-wallet";
-import { clientDomainsRouter } from "./routers/clients-domain";
-import { assignmentStatusRouter } from "./routers/assignment-status";
-import { learnerOnChainRouter } from "./routers/learner-onChain";
-import { assignmentValidatorRouter } from "./routers/assignment-validator";
+import { userRouter } from "./routers/database/user/user";
+import { userWalletRouter } from "./routers/database/user/user-wallet";
+
+import { courseRouter } from "./routers/database/course/course";
+import { moduleRouter } from "./routers/database/course/module";
+import { courseVariantRouter } from "./routers/database/course/course-variant";
+import { moduleVariantRouter } from "./routers/database/course/module-variant";
+import { courseOnChainInstanceRouter } from "./routers/database/course/course-onChainInstance";
+import { sltRouter } from "./routers/database/course/slt";
+import { lessonRouter } from "./routers/database/course/lesson";
+import { assignmentRouter } from "./routers/database/course/assignment";
+import { creatorRouter } from "./routers/database/course/creator";
+import { learnerRouter } from "./routers/database/course/learner";
+import { introductionRouter } from "./routers/database/course/introduction";
+import { assignmentStatusRouter } from "./routers/database/course/assignment-status"
+;
+import { learnerOnChainRouter } from "./routers/contracts/course/learner-onChain";
+import { assignmentValidatorRouter } from "./routers/contracts/course/assignment-validator";
+
+import { clientDomainsRouter } from "./routers/premium/clients-domain";
 
 /**
  * This is the primary router for your server.
@@ -28,6 +31,7 @@ export const appRouter = createTRPCRouter({
   creator: creatorRouter,
   learner: learnerRouter,
 
+  // course off-chain
   course: courseRouter,
   module: moduleRouter,
   courseVariant: courseVariantRouter,
@@ -38,11 +42,12 @@ export const appRouter = createTRPCRouter({
   assignment: assignmentRouter,
   introduction: introductionRouter,
 
+  // course on-chain
   learnerOnchain: learnerOnChainRouter,
-
   assignmentStatus: assignmentStatusRouter,
   assignmentValidator: assignmentValidatorRouter,
 
+  // premium features
   clientDomains: clientDomainsRouter,
 });
 

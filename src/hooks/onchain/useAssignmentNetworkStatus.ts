@@ -2,7 +2,7 @@ import { useWallet } from "@meshsdk/react";
 import useAssignment from "../course/useAssignment";
 import { useAccessToken } from "~/ui/profile/hooks/useAccessToken";
 import { NETWORK } from "~/andamio.config";
-import useNetworkCourseConfig from "../course/useNetworkCourseConfig";
+import useNetworkCourseConfig from "./useNetworkCourseConfig";
 import { api } from "~/utils/api";
 
 export default function useAssignmentNetworkStatus(

@@ -5,7 +5,7 @@ import { api } from "~/utils/api";
 import { useSession } from "next-auth/react";
 import DialogCourseOnChain from "./dialogs/DialogCourseOnChain";
 import { Network } from "@prisma/client";
-import useNetworkCourseConfig from "~/hooks/course/useNetworkCourseConfig";
+import useNetworkCourseConfig from "~/hooks/onchain/useNetworkCourseConfig";
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
 
 export default function ShowCourseOnchain({

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Badge } from "~/components/ui/badge";
-import { Course, CoursePublic } from "~/types/db";
+import { CoursePublic } from "~/types/db";
 import {
   Dialog,
   DialogContent,

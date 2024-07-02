@@ -27,6 +27,7 @@ import {
 import { useSession } from "next-auth/react";
 import { CardanoWallet, useWallet } from "@meshsdk/react";
 import checkIfEnrolled from "../utils/checkIfEnrolled";
+import Markdown from "react-markdown";
 
 export default function CourseCard({
   course,
@@ -70,9 +71,9 @@ export default function CourseCard({
         />
         <div className="absolute bottom-2 right-2">
           {course.accessTier == "FREE" && <Badge variant="free">Free</Badge>}
-          {course.accessTier == "FEATURED" && (
+          {/* {course.accessTier == "FEATURED" && (
             <Badge variant="free">Featured</Badge>
-          )}
+          )} */}
           {course.accessTier == "PREMIUM" && (
             <Badge variant="premium">Premium</Badge>
           )}
@@ -85,8 +86,8 @@ export default function CourseCard({
         <h3 className="text-lg font-semibold leading-8 tracking-tight text-foreground">
           {course.title}
         </h3>
-        <p className="prose text-sm">
-          {course.description && truncateString(course.description, 100)}
+        <p className="prose max-h-16 overflow-hidden text-sm">
+          {course.description && <Markdown>{course.description}</Markdown>}
         </p>
       </CardContent>
       <CardFooter className="flex flex-row gap-5">

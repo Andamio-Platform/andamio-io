@@ -14,6 +14,7 @@ const navigation = [
   { name: "Calendar", href: "/calendar" },
   { name: "Blog", href: "https://blog.andamio.io" },
   { name: "Fund 12", href: "/fund/12" },
+  { name: "Roadmap", href: "/roadmap" },
 ];
 
 export default function LandingMenuBar() {

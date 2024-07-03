@@ -26,7 +26,7 @@ const roadmapData = [
       "Creators can create a course a write course content",
       "Creators can deploy a course on-chain",
       "Creators can manage a course",
-      "Andamio team tests on-chain course enrollment",
+      // "Andamio team tests on-chain course enrollment",
       "Contributors can make treasury commitments",
     ],
     products: [
@@ -114,9 +114,9 @@ export default function RoadmapPage() {
             <div className="col-span-2 h-[4000px] border-r border-black/50">
               <p className="py-3 text-center text-xl font-bold">Community</p>
             </div>
-            <div className="col-span-2 h-[4000px] ">
+            {/* <div className="col-span-2 h-[4000px] ">
               <p className="py-3 text-center text-xl font-bold">Products</p>
-            </div>
+            </div> */}
             <div className="col-span-4 h-[4000px]"></div>
           </div>
           <div
@@ -197,7 +197,7 @@ export default function RoadmapPage() {
                       </Card>
                     ))}
                   </div>
-
+{/* 
                   <div className="col-span-2 col-start-7 mx-2 my-1 flex flex-col items-center px-2 text-sm">
                     {rmp.products.map((pro, j) => (
                       <Card
@@ -208,7 +208,7 @@ export default function RoadmapPage() {
                         {pro}
                       </Card>
                     ))}
-                  </div>
+                  </div> */}
                 </div>
                 <Card className="col-span-3 col-start-10 flex items-center rounded-none border-none bg-orange-800/70 text-4xl text-white">
                   {rmp.date}

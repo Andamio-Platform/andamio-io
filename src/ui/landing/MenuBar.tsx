@@ -39,14 +39,18 @@ function Desktop({
   const { data: sessionData } = useSession();
   return (
     <nav
-      className="flex items-center justify-between p-6 lg:px-8"
+      className="flex items-center justify-between bg-white p-6 lg:px-8"
       aria-label="Global"
     >
       <div className="flex lg:flex-1">
         <span className="-m-1.5 p-1.5">
           <Link href="/">
             <span className="sr-only">Andamio</span>
-            <img className="h-8 w-auto" src="/andamio-logo.svg" alt="Andamio" />
+            <img
+              className="h-8 w-auto"
+              src="/andamio-logo-w-typography.jpg"
+              alt="Andamio"
+            />
           </Link>
         </span>
       </div>

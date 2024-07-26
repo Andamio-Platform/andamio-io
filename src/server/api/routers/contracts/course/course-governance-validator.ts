@@ -1,6 +1,5 @@
-import axios from "axios";
 import { z } from "zod";
-import { INDEXER_URL } from "~/config/indexer";
+import { indexerGet } from "~/lib/axios/indexer";
 
 import {
   createTRPCRouter,
@@ -16,10 +15,13 @@ export const courseGovernanceValidatorRouter = createTRPCRouter({
       }),
     )
     .query(async ({ input }) => {
-      const res = await axios.get(
-        `${INDEXER_URL}/api/course-governance-validator/creatorsCoursePoliciesByAlias?alias=${input.alias}`,
-      );
-      const result: string[] = res.data
-      return result
+      const result = (await indexerGet(
+        `course-governance-validator/creatorsCoursePoliciesByAlias?alias=${input.alias}`,
+      )) as string[];
+      // const res = await axios.get(
+      //   `${INDEXER_URL}/api/course-governance-validator/creatorsCoursePoliciesByAlias?alias=${input.alias}`,
+      // );
+      // const result: string[] = res.data;
+      return result;
     }),
 });

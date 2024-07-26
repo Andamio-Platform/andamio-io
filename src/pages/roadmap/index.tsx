@@ -101,124 +101,51 @@ export default function RoadmapPage() {
       >
         <div className="mx-auto w-full">
           <h1 className="p-5 text-4xl font-bold">Andamio Roadmap</h1>
-          <div className="relative z-10 p-5">
-            <div
-              className="absolute inset-0 z-20 grid h-[3020px] w-full grid-cols-12 bg-gradient-to-b from-indigo-300 to-orange-300"
-              id="background-grid"
-            >
-              <div className="col-span-3 h-[3020px] border-r border-black/50">
-                <p className="py-3 text-center text-xl font-bold">
-                  Andamio Platform
-                </p>
-              </div>
-              <div className="col-span-3 h-[3020px] border-r border-black/50 ">
-                <p className="py-3 text-center text-xl font-bold">Features</p>
-              </div>
-              <div className="col-span-3 h-[3020px]">
-                <p className="py-3 text-center text-xl font-bold">Community</p>
-              </div>
-              {/* <div className="col-span-2 h-[4000px] ">
-              <p className="py-3 text-center text-xl font-bold">Products</p>
-            </div> */}
-              <div className="col-span-4 "></div>
-            </div>
-            <div
-              className="absolute inset-0 z-30 grid w-full grid-cols-12 gap-3 font-bold opacity-90"
-              id="foreground-grid"
-            >
-              {roadmapData.map((rmp, i) => (
-                <>
-                  <div
-                    className="col-span-9 grid w-full grid-cols-9 py-24"
-                    key={i}
-                  >
-                    <div className="col-span-3 col-start-1 mx-2 my-1 flex flex-col items-center px-2">
-                      {rmp.andamioPlatform.map((cp, j) => {
-                        let col = "bg-purple-800";
-                        if (cp.startsWith("Course")) {
-                          col = "bg-green-800";
-                        }
-                        if (cp.startsWith("Andamio Platform")) {
-                          col = "bg-gradient-to-r from-green-800 to-purple-800";
-                        }
-                        if (cp.startsWith("INTERNAL")) {
-                          col = "bg-red-800";
-                        }
-                        return (
-                          <Card
-                            size="md"
-                            className={`mx-auto my-1 flex w-11/12 items-center p-3 ${col} text-lg text-white`}
-                            key={cp + j}
-                          >
-                            {cp}
-                          </Card>
-                        );
-                      })}
+          <p className="py-3 text-center text-xl font-bold">Andamio Platform</p>
+          <p className="py-3 text-center text-xl font-bold">Features</p>
+          <p className="py-3 text-center text-xl font-bold">Community</p>
+          <div
+            className="w-full font-bold opacity-90"
+            id="foreground-grid"
+          >
+            {roadmapData.map((rmp, i) => (
+              <>
+                <div
+                  className="w-full py-24"
+                  key={i}
+                >
+                  <div className="flex w-11/12 mx-auto my-5 text-4xl">
+{rmp.date}
                     </div>
-                    <div className="col-span-3 col-start-4 mx-2 my-1 flex flex-col items-center px-2 text-sm">
-                      {rmp.features.map((vp, j) => {
-                        let col = "bg-gray-800";
-                        if (vp.startsWith("Learners")) {
-                          col = "bg-green-800";
-                        }
-
-                        if (vp.startsWith("Creators")) {
-                          col = "bg-green-800";
-                        }
-
-                        if (vp.startsWith("Andamio")) {
-                          col = "bg-pink-800";
-                        }
-
-                        if (
-                          vp.startsWith("Contributors") ||
-                          vp.startsWith("Organizations") ||
-                          vp.startsWith("Reviewers")
-                        ) {
-                          col = "bg-purple-800";
-                        }
-
-                        return (
-                          <Card
-                            size="md"
-                            className={`mx-auto my-1 flex w-11/12 items-center px-2 ${col} text-white`}
-                            key={vp + j}
-                          >
-                            {vp}
-                          </Card>
-                        );
-                      })}
-                    </div>
-                    <div className="col-span-3 col-start-7 mx-2 my-1 flex flex-col items-center px-2 text-sm">
-                      {rmp.community.map((community, j) => (
+                  <div className="mx-2 my-1 flex flex-col items-center px-2">
+                    {rmp.andamioPlatform.map((cp, j) => {
+                      return (
                         <Card
                           size="md"
-                          className="mx-auto my-1 flex w-11/12 items-center bg-blue-800 px-2 text-white"
-                          key={community + j}
+                          className={`mx-auto my-1 flex w-11/12 items-center p-3 text-lg `}
+                          key={cp + j}
                         >
-                          {community}
+                          {cp}
                         </Card>
-                      ))}
-                    </div>
-                    {/* 
-                  <div className="col-span-2 col-start-7 mx-2 my-1 flex flex-col items-center px-2 text-sm">
-                    {rmp.products.map((pro, j) => (
-                      <Card
-                        size="md"
-                        className="mx-auto my-1 flex w-11/12 items-center bg-orange-800 px-2 text-white"
-                        key={pro + j}
-                      >
-                        {pro}
-                      </Card>
-                    ))}
-                  </div> */}
+                      );
+                    })}
                   </div>
-                  <Card className="col-span-3 col-start-10 flex items-center rounded-none border-none bg-orange-800/70 text-4xl text-white">
-                    {rmp.date}
-                  </Card>
-                </>
-              ))}
-            </div>
+                  <div className="mx-2 my-1 flex flex-col items-center px-2 text-sm">
+                    {rmp.features.map((vp, j) => {
+                      return (
+                        <Card
+                          size="md"
+                          className={`mx-auto my-1 flex w-11/12 items-center px-2`}
+                          key={vp + j}
+                        >
+                          {vp}
+                        </Card>
+                      );
+                    })}
+                  </div>
+                </div>
+              </>
+            ))}
           </div>
         </div>
       </main>

@@ -1,9 +1,7 @@
-import { FieldValues, useForm } from "react-hook-form";
+import { type FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
-import { Course, Module } from "~/types/db";
-import { Button } from "~/components/ui/button";
-import { ArrowPathIcon } from "@heroicons/react/24/outline";
+import { type Module } from "~/types/db";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "~/components/ui/form";
@@ -80,7 +78,7 @@ export default function DialogSLT({
       sltText: "",
       moduleId: currentModule.id ?? "",
     });
-  }, [sltDialogOpen, isLoadingCreate]);
+  }, [sltDialogOpen, isLoadingCreate, currentModule.id, form]);
 
   return (
     <>
@@ -101,8 +99,7 @@ export default function DialogSLT({
             isOpen={sltDialogOpen}
             setIsOpen={setSltDialogOpen}
           >
-            <p>
-            </p>
+            <p></p>
             {/* Todo: look at the line above. If a different module is selected from the menu below, then the SLT id should update dynamically */}
 
             <div className="mt-4 grid grid-cols-1 gap-y-4">

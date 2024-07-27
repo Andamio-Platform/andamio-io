@@ -104,19 +104,13 @@ export default function RoadmapPage() {
           <p className="py-3 text-center text-xl font-bold">Andamio Platform</p>
           <p className="py-3 text-center text-xl font-bold">Features</p>
           <p className="py-3 text-center text-xl font-bold">Community</p>
-          <div
-            className="w-full font-bold opacity-90"
-            id="foreground-grid"
-          >
+          <div className="w-full font-bold opacity-90" id="foreground-grid">
             {roadmapData.map((rmp, i) => (
               <>
-                <div
-                  className="w-full py-24"
-                  key={i}
-                >
-                  <div className="flex w-11/12 mx-auto my-5 text-4xl">
-{rmp.date}
-                    </div>
+                <div className="w-full py-24" key={i}>
+                  <div className="mx-auto my-5 flex w-11/12 text-4xl">
+                    {rmp.date}
+                  </div>
                   <div className="mx-2 my-1 flex flex-col items-center px-2">
                     {rmp.andamioPlatform.map((cp, j) => {
                       return (

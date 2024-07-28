@@ -18,6 +18,9 @@ const config = {
       },
     },
     extend: {
+      fontFamily: {
+        beckman: ["Beckman", "ui-sans-serif", "system-ui"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -78,12 +81,7 @@ const config = {
       },
     },
   },
-  safelist: [
-    'w-1/4',
-    'w-2/4',
-    'w-3/4',
-    'w-1/2',
-  ],
+  safelist: ["w-1/4", "w-2/4", "w-3/4", "w-1/2"],
   plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
 } satisfies Config;
 

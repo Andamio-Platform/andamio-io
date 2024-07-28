@@ -1,0 +1,126 @@
+export interface Roadmap {
+  era: string;
+  year: string;
+  epics: Epic[];
+}
+
+export interface Epic {
+  name: string;
+  description: string;
+  features: string[];
+  status: "complete" | "proposed" | "inProgress" | "planned";
+  quarter: 1 | 2 | 3 | 4;
+}
+
+// whitepaper?
+
+export const roadmap: Roadmap[] = [
+  {
+    era: "Founding & Vision",
+    year: "2023",
+    epics: [
+      {
+        name: "Andamio Founded",
+        description:
+          "By a group of Catalyst veterans, Gimbalabs team members, and Cardano builders",
+        features: [],
+        status: "complete",
+        quarter: 2,
+      },
+      {
+        name: "Team forming and Org-building",
+        description:
+          "Clarifying itentions for Andamio in how we organize and build it",
+        features: [],
+        status: "complete",
+        quarter: 2,
+      },
+      {
+        name: "Protoype and design",
+        description: "Testing at Gimbalabs",
+        features: [],
+        status: "complete",
+        quarter: 3,
+      },
+      {
+        name: "DAOs <3 smart contracts for skill-acquisition and contribution tracking",
+        description: "Catalyst Fund 10 Proposal",
+        features: [],
+        status: "complete",
+        quarter: 4,
+      },
+    ],
+  },
+  {
+    era: "Andamio 1.0: Building Partnerships & Designing the System",
+    year: "2024",
+    epics: [
+      {
+        name: "Andamio Course Platform Prototype",
+        description:
+          "Initial designs and deployment of Andamio course application.",
+        features: [],
+        status: "complete",
+        quarter: 1,
+      },
+      {
+        name: "Alpha Onboarding to Course Platform",
+        description:
+          "Content plaform testing with Deep Funding Academy, Governance Guild, Gimbalabs and Mesh",
+        features: [],
+        status: "complete",
+        quarter: 1,
+      },
+      {
+        name: "Catalyst F11: Andamio CLI and Cardano Go",
+        description: "Access token and enrollment coming in November 2024",
+        features: [],
+        status: "inProgress",
+        quarter: 2,
+      },
+      {
+        name: "Andamio Contributor Platform Prototype",
+        description: "Testing at Gimbalabs",
+        features: ["Contributors can make treasury commitments"],
+        status: "inProgress",
+        quarter: 3,
+      },
+      {
+        name: "Andamio Course Platform: Preproduction Release",
+        description:
+          "For students of Plutus PBL and Mesh PBL, public testing on Cardano Preprod",
+        features: [],
+        status: "inProgress",
+        quarter: 3,
+      },
+      {
+        name: "Andamio Course Platform: Public Mainnet Release",
+        description: "Access token and enrollment coming in November 2024",
+        features: [],
+        status: "planned",
+        quarter: 4,
+      },
+      {
+        name: "Developing a Self Sovereign On-chain Identity (SSOI)",
+        description: "Catalyst Fund 12 Proposal",
+        features: [],
+        status: "planned",
+        quarter: 4,
+      },
+      {
+        name: "Andamio Purpose Sidechain / Layer 2 Concept",
+        description: "Catalyst Fund 12 Proposal",
+        features: [],
+        status: "planned",
+        quarter: 4,
+      },
+      {
+        name: "Catalyst F12: Delivering for Partners",
+        description: "Providing solution for funded projects",
+        features: [],
+        status: "planned",
+        quarter: 4,
+      },
+    ],
+  },
+];

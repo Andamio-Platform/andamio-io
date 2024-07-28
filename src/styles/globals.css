@@ -73,6 +73,13 @@
     @apply bg-background text-foreground;
   }
 }
+@font-face {
+  font-family: "Beckman";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/fonts/bennBeckmanMedium.woff2) format("woff2");
+}
 
 .CollapsibleContent {
   overflow: hidden;

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Markdown from "react-markdown";
 import { Card } from "~/components/ui/card";
 import type { Course } from "~/types/db";
 
@@ -13,7 +14,9 @@ export default function CourseButtonCard({
     <Link href={link}>
       <Card className="" intent="course">
         <p className="text-sm font-medium">{course?.title}</p>
-        <p className="mt-1 text-sm">{course?.description}</p>
+        <p className="mt-1 text-sm">
+          <Markdown>{course?.description}</Markdown>
+        </p>
       </Card>
     </Link>
   );

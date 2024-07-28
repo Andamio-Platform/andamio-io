@@ -1,3 +1,67 @@
-export default function RoadmapEpicComponent() {
-  return <h1 className="text-4xl">Epic component</h1>;
+import { Badge } from "~/components/ui/badge";
+import { type Epic } from "~/roadmap";
+
+// TODO: Set color based on status
+// Represent the quarter or date in a helpful way
+
+export default function RoadmapEpicComponent({
+  epic,
+  key,
+}: {
+  epic: Epic;
+  key: number;
+}) {
+  let statusMessage = "";
+  let dotColor = "bg-black";
+  let borderColor = "border-l-black";
+  switch (epic.status) {
+    case "planned":
+      statusMessage = "Planning";
+      dotColor = "bg-blue-400";
+      borderColor = "border-blue-800";
+      break;
+    case "inProgress":
+      statusMessage = "In Progress";
+      dotColor = "bg-orange-400";
+      borderColor = "border-orange-800";
+      break;
+    case "proposed":
+      statusMessage = "Proposal";
+      dotColor = "bg-purple-400";
+      borderColor = "border-purple-400";
+      break;
+    case "complete":
+      statusMessage = "Complete";
+      dotColor = "bg-green-400";
+      borderColor = "border-green-400";
+      break;
+      borderColor = "bg-blue-400";
+    default:
+      break;
+  }
+  return (
+    <>
+      <div
+        key={key}
+        className="col-span-1 mx-auto my-5 flex flex-row items-center"
+      >
+        <h2 className="text-center font-beckman text-2xl">Q{epic.quarter}</h2>
+      </div>
+      <div
+        key={key}
+        className="col-span-5 mx-auto my-5 flex w-full flex-row items-center justify-between"
+      >
+        <div
+          className={`mr-4 mt-1 h-4 w-4 flex-shrink-0 rounded-full ${dotColor}`}
+        ></div>
+        <div
+          className={`flex w-full flex-col border-l-2 ${borderColor} pl-8 text-sm`}
+        >
+          <h1 className="font-beckman text-lg">{epic.name}</h1>
+          <p className="">{epic.description}</p>
+        </div>
+        <Badge variant={epic.status}>{statusMessage}</Badge>
+      </div>
+    </>
+  );
 }

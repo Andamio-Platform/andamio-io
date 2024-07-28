@@ -22,7 +22,7 @@ export const roadmap: Roadmap[] = [
       {
         name: "Andamio Founded",
         description:
-          "By a group of Catalyst veterans, Gimbalabs team members, and Cardano builders",
+          "By a group of Catalyst veterans, Gimbalabs contributors, and Cardano builders",
         features: [],
         status: "complete",
         quarter: 2,
@@ -36,8 +36,9 @@ export const roadmap: Roadmap[] = [
         quarter: 2,
       },
       {
-        name: "Protoype and design",
-        description: "Testing at Gimbalabs",
+        name: "Andamio system designs",
+        description:
+          "Refining and combining components prototyped at Bridge Builders, Gimbalabs, Mesh, and ODIN",
         features: [],
         status: "complete",
         quarter: 3,
@@ -120,6 +121,20 @@ export const roadmap: Roadmap[] = [
         features: [],
         status: "planned",
         quarter: 4,
+      },
+    ],
+  },
+  {
+    era: "Andamio 2.0: Andamio Network Initialization",
+    year: "2025",
+    epics: [
+      {
+        name: "Andamio Contributor Platform Mainnet Release",
+        description:
+          "Initial designs and deployment of Andamio course application.",
+        features: [],
+        status: "planned",
+        quarter: 1,
       },
     ],
   },

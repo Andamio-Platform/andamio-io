@@ -1,7 +1,7 @@
-import { FieldValues, useForm } from "react-hook-form";
+import { type FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
-import { Course, Module } from "~/types/db";
+import { type Course, type Module } from "~/types/db";
 import { Button } from "~/components/ui/button";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { z } from "zod";
@@ -11,8 +11,6 @@ import FormInput from "~/components/form/form-input";
 import { useEffect, useState } from "react";
 import DialogForm from "~/components/form/dialog-form";
 import FormSelect from "~/components/form/form-select";
-import useModule from "~/hooks/course/useModule";
-import useModuleByCourse from "~/hooks/course/useModuleByCourse";
 import useCourseModules from "~/hooks/course/useCourseModules";
 
 import {
@@ -40,12 +38,11 @@ export default function DialogModule({
   moduleCode?: string;
   course: Course;
 }) {
-  if (!course) return;
   const ctx = api.useUtils();
 
   // 2024-03-08
   // MUST FIX THIS TYPE
-  const { courseModules } = useCourseModules(course.courseCode);
+  const { courseModules } = useCourseModules(course?.courseCode ?? "");
   const [currentCourseModule, setCurrentCourseModule] = useState<
     Module | undefined
   >(undefined);
@@ -81,10 +78,10 @@ export default function DialogModule({
         setModuleDialogOpen(false);
         toast.success("Module created!");
         void ctx.module.getCourseModules.invalidate({
-          courseCode: course.courseCode,
+          courseCode: course?.courseCode,
         });
         void ctx.course.getCourse.invalidate({
-          courseCode: course.courseCode,
+          courseCode: course?.courseCode,
         });
       },
       onError: (e) => {
@@ -103,7 +100,7 @@ export default function DialogModule({
         setModuleDialogOpen(false);
         toast.success("Module updated!");
         void ctx.module.getCourseModules.invalidate({
-          courseCode: course.courseCode,
+          courseCode: course?.courseCode,
         });
       },
       onError: (e) => {
@@ -122,7 +119,7 @@ export default function DialogModule({
         setModuleDialogOpen(false);
         toast.success("Module created!");
         void ctx.module.getCourseModules.invalidate({
-          courseCode: course.courseCode,
+          courseCode: course?.courseCode,
         });
       },
       onError: (e) => {
@@ -239,7 +236,7 @@ export default function DialogModule({
         setCurrentCourseModule(_module);
       }
     }
-  }, [course, moduleCode]);
+  }, [course, moduleCode, courseModules]);
 
   return (
     <Form {...form}>

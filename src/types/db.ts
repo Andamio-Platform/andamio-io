@@ -1,4 +1,4 @@
-import { RouterOutputs } from "~/utils/api";
+import { type RouterOutputs } from "~/utils/api";
 
 export type Course = RouterOutputs["course"]["getCourse"];
 export type CoursePublic = RouterOutputs["course"]["getCourses"][number];
@@ -14,13 +14,13 @@ export type CourseOnChainInstance =
   RouterOutputs["courseOnChainInstance"]["getCourseOnchainInstances"];
 export type ModuleSLT = RouterOutputs["slt"]["getModuleSLTs"][number];
 export type Lesson = RouterOutputs["lesson"]["getModuleLessons"][number];
-export type Assignment =
-  RouterOutputs["assignment"]["getAssignmentByModuleId"];
+export type Assignment = RouterOutputs["assignment"]["getAssignmentByModuleId"];
 export type Introduction = RouterOutputs["introduction"]["getIntroduction"];
 export type AssignmentCommitment = {
   assignmentId: string;
   assignmentCommitmentId: string;
   learnerNotes: string;
-  status: "SAVE_FOR_LATER" | "IN_PROGRESS" | "COMPLETE" | "COMMITMENT"
+  status: "SAVE_FOR_LATER" | "IN_PROGRESS" | "COMPLETE" | "COMMITMENT";
   archived: boolean;
 };
+

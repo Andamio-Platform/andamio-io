@@ -10,7 +10,7 @@ export default function AboutPage() {
       <MenuBar />
 
       <div className="card z-10 mx-auto mt-24 max-w-5xl p-5 font-mono shadow-xl">
-        <h1 className="text-2xl py-5">Welcome to Andamio!</h1>
+        <h1 className="py-5 text-2xl">Welcome to Andamio!</h1>
         <p className="py-3 font-medium">
           Andamio is a new kind of platform for learning and contribution
           management. It is built to enable people to onboard and contribute to

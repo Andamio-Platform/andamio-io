@@ -1,11 +1,11 @@
-import { AssetExtended } from "@meshsdk/core";
+import { type AssetExtended } from "@meshsdk/core";
 import Link from "next/link";
 import { Badge } from "~/components/ui/badge";
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
 import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
 import useLearnerNetworkStatus from "~/hooks/onchain/useLearnerNetworkStatus";
 import CourseStateDatum from "./CompletedAssignments";
-import { DecodedTokenInfo } from "@andamiojs/datum-utils";
+import { type DecodedTokenInfo } from "@andamiojs/datum-utils";
 
 export default function MyCoursesSection({
   accessToken,
@@ -61,12 +61,7 @@ export default function MyCoursesSection({
           courses.length > 0 &&
           courses.map((course, i) => (
             <div className="bg-slate-400" key={i}>
-            { course.Minted &&
-
-              <div className="break-all">
-                {course.LsCs}
-            </div>
-            }
+              {course.Minted && <div className="break-all">{course.LsCs}</div>}
               <CourseStateDatum
                 courseNftPolicy={course.LsCs}
                 alias={alias}

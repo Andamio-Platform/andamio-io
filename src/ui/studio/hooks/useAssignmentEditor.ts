@@ -1,7 +1,7 @@
 import { api } from "~/utils/api";
-import { Content, useEditor } from "@tiptap/react";
+import { useEditor } from "@tiptap/react";
 import { ExtensionKit } from "~/components/Editor/extension-kit";
-import { Assignment } from "~/types/db";
+import { type Assignment } from "~/types/db";
 
 export default function useAssignmentEditor(assignment: Assignment) {
   const ctx = api.useUtils();

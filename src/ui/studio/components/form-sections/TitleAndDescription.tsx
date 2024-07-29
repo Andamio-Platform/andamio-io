@@ -1,7 +1,7 @@
-import React from 'react';
-import { FieldValues } from 'react-hook-form';
-import { ToggleEditableField } from '~/components/ui/toggle-editable-field';
-import { ToggleEditableTextArea } from '~/components/ui/toggle-editable-text-area';
+import React from "react";
+import { type FieldValues } from "react-hook-form";
+import { ToggleEditableField } from "~/components/ui/toggle-editable-field";
+import { ToggleEditableTextArea } from "~/components/ui/toggle-editable-text-area";
 
 export default function TitleAndDescription({
   form,
@@ -33,7 +33,7 @@ export default function TitleAndDescription({
           setEditText={setEdit}
           text={title ?? "Edit this lesson title"}
           hasForm={true}
-          placeholder='Lesson Title'
+          placeholder="Lesson Title"
         />
       </div>
       <div className="my-3">
@@ -48,9 +48,10 @@ export default function TitleAndDescription({
           text={description ?? "Edit description"}
           hideButtons={true}
           hasForm={true}
-          placeholder='Add an optional lesson description here. When you are planning a lesson, this is a good place to write your first ideas.'
+          placeholder="Add an optional lesson description here. When you are planning a lesson, this is a good place to write your first ideas."
         />
       </div>
     </div>
   );
 }
+

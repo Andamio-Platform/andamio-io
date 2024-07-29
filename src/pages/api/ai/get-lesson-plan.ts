@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { type NextApiRequest, type NextApiResponse } from "next";
 import axios from "axios";
 import { db } from "~/server/db";
 import { MODEL_SERVER_URL } from "~/config/ai";

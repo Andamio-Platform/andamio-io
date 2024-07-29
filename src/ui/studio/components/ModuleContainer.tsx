@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Course, Module, ModuleSLT, ModuleVariant } from "~/types/db";
+import { type Course, type Module, type ModuleSLT } from "~/types/db";
 import DialogAssignment from "./dialogs/DialogAssignment";
 import DialogSLT from "./dialogs/DialogSLT";
 import { SortableSLT } from "./slt/RowSLT";
@@ -9,7 +9,7 @@ import {
   AccordionTrigger,
 } from "~/components/ui/accordion";
 
-import { DndContext, closestCenter, Active } from "@dnd-kit/core";
+import { DndContext, closestCenter, type Active } from "@dnd-kit/core";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import {
   SortableContext,
@@ -27,7 +27,7 @@ import LoadingCard from "./LoadingCard";
 import { format } from "date-fns";
 import LoadingCircle from "./ContentEditor/ui/icons/loading-circle";
 import useAssignment from "~/hooks/course/useAssignment";
-import { Slt } from "@prisma/client";
+import { type Slt } from "@prisma/client";
 
 type sltI = { slt: ModuleSLT; sltIndex: number; id: string };
 

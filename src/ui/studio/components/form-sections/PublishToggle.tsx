@@ -1,4 +1,4 @@
-import { FieldValues } from "react-hook-form";
+import { type FieldValues } from "react-hook-form";
 import FormSwitch from "~/components/form/form-switch";
 
 export default function PublishToggle({

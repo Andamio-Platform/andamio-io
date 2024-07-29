@@ -1,11 +1,7 @@
 import { AssignmentStatus } from "@prisma/client";
 import { z } from "zod";
 
-import {
-  createTRPCRouter,
-  protectedProcedure,
-  publicProcedure,
-} from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const assignmentStatusRouter = createTRPCRouter({
   getLearnerCommitments: protectedProcedure.query(async ({ ctx }) => {
@@ -145,7 +141,7 @@ export const assignmentStatusRouter = createTRPCRouter({
       });
     }),
 
-    setArchived: protectedProcedure
+  setArchived: protectedProcedure
     .input(
       z.object({
         assignmentCommitmentId: z.string().min(1),

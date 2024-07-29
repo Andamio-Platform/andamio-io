@@ -1,4 +1,4 @@
-import { NextPageContext } from "next";
+import { type NextPageContext } from "next";
 import PageCourse from "~/ui/course/[coursecode]/PageCourse";
 
 export default function Page({ courseCode }: { courseCode: string }) {

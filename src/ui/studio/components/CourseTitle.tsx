@@ -1,4 +1,4 @@
-import { Course } from "~/types/db";
+import { type Course } from "~/types/db";
 import { useSession } from "next-auth/react";
 import DialogCourse from "~/ui/studio/components/dialogs/DialogCourse";
 import Markdown from "react-markdown";

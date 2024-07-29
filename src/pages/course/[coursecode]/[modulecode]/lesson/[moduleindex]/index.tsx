@@ -1,4 +1,4 @@
-import { NextPageContext } from "next";
+import { type NextPageContext } from "next";
 import useModuleByCourse from "~/hooks/course/useModuleByCourse";
 import PageCourseContent from "~/ui/course/[coursecode]/[modulecode]/lesson/[moduleindex]/PageCourseLessonContent";
 import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";

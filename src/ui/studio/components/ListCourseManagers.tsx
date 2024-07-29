@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "~/components/ui/button";
-import { Course } from "~/types/db";
+import { type Course } from "~/types/db";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
@@ -23,6 +23,7 @@ export default function ListCourseManagers({ course }: { course: Course }) {
       onError: (e) => {
         // const errorMessage = e.data?.zodError?.fieldErrors;
         toast.error("Something went wrong. Please try again.");
+        console.log(e);
       },
     });
 

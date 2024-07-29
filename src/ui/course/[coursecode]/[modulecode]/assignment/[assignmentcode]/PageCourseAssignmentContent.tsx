@@ -1,11 +1,10 @@
-import { Slt } from "@prisma/client";
 import { AlertTriangle } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Loading from "~/components/loading";
 import VideoPlayer from "~/components/media/VideoPlayer";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import useValidateCreator from "~/hooks/course/useValidateCreator";
-import { Assignment, AssignmentCommitment, Module } from "~/types/db";
+import { type AssignmentCommitment, type Module } from "~/types/db";
 import CourseLayout from "~/ui/course/components/layout/CourseLayout";
 import ModuleLayout from "~/ui/course/components/layout/ModuleLayout";
 import SltList from "~/ui/studio/components/assignment-dashboard/slt-list";
@@ -18,7 +17,7 @@ import Metatags from "~/components/site/metatags";
 import "highlight.js/styles/atom-one-dark.css";
 import NetworkCommitmentCard from "~/ui/course/components/assignments/cards/NetworkCommitmentCard";
 import PersonalNotesCard from "~/ui/course/components/assignments/cards/PersonalNotesCard";
-import { CardanoWallet, useWallet } from "@meshsdk/react";
+import { useWallet } from "@meshsdk/react";
 import useAssignmentNetworkStatus from "~/hooks/onchain/useAssignmentNetworkStatus";
 import NoOnchainAssignmentCard from "~/ui/course/components/assignments/cards/NoOnchainAssignmentCard";
 import ConnectWalletCard from "~/ui/course/components/assignments/cards/ConnectWalletCard";
@@ -34,11 +33,10 @@ export default function PageCourseAssignmentContent({
 }) {
   const { data: sessionData } = useSession();
 
-  const { assignment, isLoadingAssignment, isAssignmentOnchain } =
-    useAssignmentNetworkStatus({
-      courseCode: courseCode,
-      moduleCode: courseModule.moduleCode,
-    });
+  const { assignment, isLoadingAssignment } = useAssignmentNetworkStatus({
+    courseCode: courseCode,
+    moduleCode: courseModule.moduleCode,
+  });
 
   const { isCreator } = useValidateCreator(sessionData, courseCode);
 
@@ -99,14 +97,7 @@ function Page({
     AssignmentCommitment | undefined
   >(undefined);
 
-  const {
-    assignment,
-    isLoadingAssignment,
-    isAssignmentOnchain,
-    isLoadingAssignmentOnchain,
-    isLearnerCommitted,
-    isLoadingLearnerCommitted,
-  } = useAssignmentNetworkStatus({
+  const { assignment, isAssignmentOnchain } = useAssignmentNetworkStatus({
     courseCode: courseCode,
     moduleCode: courseModule.moduleCode,
   });

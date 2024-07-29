@@ -1,6 +1,5 @@
-import { DecodedCourseStateDatum } from "@andamiojs/datum-utils";
-import { useEffect, useState } from "react";
 import useCourseStateDatum from "~/hooks/onchain/useCourseStateDatum";
+import LoadingCircle from "../studio/components/ContentEditor/ui/icons/loading-circle";
 
 export default function CompletedAssignments({
   courseNftPolicy,
@@ -16,6 +15,17 @@ export default function CompletedAssignments({
     errorCourseStateDatum,
   } = useCourseStateDatum(courseNftPolicy, alias);
 
+  if (isLoadingCourseStateDatum) {
+    return <LoadingCircle />;
+  }
+
+  if (isErrorCourseStateDatum) {
+    return (
+      <div>
+        <pre>{JSON.stringify(errorCourseStateDatum, null, 2)}</pre>
+      </div>
+    );
+  }
   return (
     <>
       {courseStateDatum &&

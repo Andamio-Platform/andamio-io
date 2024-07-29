@@ -1,5 +1,5 @@
 import { Button } from "~/components/ui/button";
-import type { Course, Module, ModuleSLT } from "~/types/db";
+import type { Module, ModuleSLT } from "~/types/db";
 import DialogSLTDelete from "../dialogs/DialogSLTDelete";
 import {
   createContext,
@@ -15,11 +15,7 @@ import { api } from "~/utils/api";
 import Link from "next/link";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  CrossCircledIcon,
-  DragHandleDots2Icon,
-  FileIcon,
-} from "@radix-ui/react-icons";
+import { DragHandleDots2Icon, FileIcon } from "@radix-ui/react-icons";
 import { ToggleEditableField } from "~/components/ui/toggle-editable-field";
 import type { DraggableSyntheticListeners } from "@dnd-kit/core";
 import { useSortable } from "@dnd-kit/sortable";

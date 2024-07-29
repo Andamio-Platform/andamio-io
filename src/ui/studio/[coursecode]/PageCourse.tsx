@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Loading from "~/components/loading";
 import StudioLayout from "~/ui/studio/components/layout/StudioLayout";
 import CourseTitle from "~/ui/studio/components/CourseTitle";
@@ -6,12 +6,11 @@ import ListCourseManagers from "~/ui/studio/components/ListCourseManagers";
 import ListCourseVariants from "../components/ListCourseVariants";
 
 import useCoursesByOwner from "~/hooks/course/useCoursesByOwner";
-import { useSession } from "next-auth/react";
 import ShowCourseOnchain from "../components/ShowCourseOnchain";
 import { Network } from "@prisma/client";
 import FormFieldset from "~/components/form/form-fieldset";
 import SelectNetwork from "~/components/select-network";
-import { CourseVariant } from "~/types/db";
+// import { type CourseVariant } from "~/types/db";
 import ModuleComponent from "../components/ModuleComponent";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import Metatags from "~/components/site/metatags";
@@ -19,16 +18,9 @@ import Metatags from "~/components/site/metatags";
 export default function PageCourse({ courseCode }: { courseCode: string }) {
   const { course, isLoadingCourses } = useCoursesByOwner(courseCode);
   const [selectedNetwork, setSelectedNetwork] = useState<Network>("PREPROD");
-  const [selectedVariant, setSelectedVariant] = useState<
-    CourseVariant | undefined
-  >(undefined);
-
-  const tabs = [
-    { name: "Modules", value: "modules" },
-    { name: "Managers", value: "managers" },
-    { name: "Variants", value: "variants" },
-    { name: "On-Chain Info", value: "onchain" },
-  ];
+  //  const [selectedVariant, setSelectedVariant] = useState<
+  //  CourseVariant | undefined
+  //>(undefined);
 
   const handleNetworkSelectionChange = (
     event: React.ChangeEvent<HTMLSelectElement>,

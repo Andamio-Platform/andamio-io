@@ -1,21 +1,20 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { UTxO } from "@meshsdk/core";
+import { type UTxO } from "@meshsdk/core";
 import { CardanoWallet, useNetwork, useWallet } from "@meshsdk/react";
 import axios from "axios";
 import debounce from "lodash.debounce";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { use, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
 import FormInput from "~/components/form/form-input";
 import Loading from "~/components/loading";
-import UTxOi from "~/components/transactions/model";
+import type UTxOi from "~/components/transactions/model";
 import { Button } from "~/components/ui/button";
 import { Form } from "~/components/ui/form";
 import { INDEXER_URL } from "~/config/indexer";
-import maestro from "~/config/maestro";
 import { api } from "~/utils/api";
 
 interface RequestData {
@@ -249,6 +248,8 @@ export default function MintAccessToken() {
 }
 
 export const CheckTokenAliasAvailability = async (tokenAlias: string) => {
-  const response = await axios.get(`${INDEXER_URL}/api/aliasAvailability?alias=${tokenAlias}`)
+  const response = await axios.get(
+    `${INDEXER_URL}/api/aliasAvailability?alias=${tokenAlias}`,
+  );
   return response.data.isAvailable;
 };

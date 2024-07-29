@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Module } from "~/types/db";
+import { type Module } from "~/types/db";
 
 export default function ModuleLayout({
   children,

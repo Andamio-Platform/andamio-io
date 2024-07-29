@@ -1,10 +1,5 @@
 import { CardanoWallet } from "@meshsdk/react";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "~/components/ui/card";
+import { Card, CardContent, CardHeader } from "~/components/ui/card";
 
 export default function ConnectWalletCard() {
   return (

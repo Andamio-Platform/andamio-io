@@ -3,8 +3,7 @@ import Loading from "~/components/loading";
 import VideoPlayer from "~/components/media/VideoPlayer";
 import { Button } from "~/components/ui/button";
 import Link from "~/components/link";
-import CircleIcon from "~/components/icons/circle";
-import { CourseVariant, Lesson, Module, ModuleSLT } from "~/types/db";
+import { type CourseVariant, type Module, type ModuleSLT } from "~/types/db";
 import CourseLayout from "../components/layout/CourseLayout";
 import { signIn, useSession } from "next-auth/react";
 import { useCourseStore } from "~/lib/zustand/course";
@@ -21,7 +20,6 @@ import {
 import useCourseById from "~/hooks/course/useCourseById";
 import { Badge } from "~/components/ui/badge";
 import { format } from "date-fns";
-import { useEffect, useState } from "react";
 import {
   DocumentTextIcon,
   DocumentCheckIcon,
@@ -45,10 +43,9 @@ export default function PageCourse({
   const { course: courseByCode, isLoadingCourse: isLoadingCourseByCode } =
     useCourse(courseCode);
 
-  const course = courseById || courseByCode;
+  const course = courseById ?? courseByCode;
 
-  const { listCourseVariant, setSelectedVariantName, selectedCourseVariant } =
-    useCourseVariants(course?.id);
+  const { selectedCourseVariant } = useCourseVariants(course?.id);
 
   const setCourseVariant = useCourseStore((state) => state.setCourseVariant);
 
@@ -56,7 +53,7 @@ export default function PageCourse({
     return <Loading />;
   }
 
-  const _courseCode = courseCode || course?.courseCode;
+  const _courseCode = courseCode ?? course?.courseCode;
 
   function getCourse() {
     let _course = course;

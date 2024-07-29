@@ -32,7 +32,7 @@ export default function MintLocalState({ courseCode }: { courseCode: string }) {
   const router = useRouter();
   const { toast } = useToast();
 
-  const { connected, wallet } = useWallet();
+  const { wallet } = useWallet();
   const [isLoading, setIsLoading] = useState(false);
   const { courseOnchain, isLoadingCourseOnchain } = useNetworkCourseConfig(
     courseCode,

@@ -1,17 +1,15 @@
 import { Check, ChevronDown } from "lucide-react";
-import type { Dispatch, SetStateAction } from "react";
 import { EditorBubbleItem, useEditor } from "novel";
 
 import { Button } from "~/components/ui/button";
-import { Popover, PopoverContent, PopoverTrigger } from "~/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "~/components/ui/popover";
 export interface BubbleColorMenuItem {
   name: string;
   color: string;
-}
-
-interface ColorSelectorProps {
-  isOpen: boolean;
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 const TEXT_COLORS: BubbleColorMenuItem[] = [
@@ -92,11 +90,6 @@ const HIGHLIGHT_COLORS: BubbleColorMenuItem[] = [
   },
 ];
 
-interface ColorSelectorProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-}
-
 export const ColorSelector = ({
   open,
   onOpenChange,
@@ -138,7 +131,7 @@ export const ColorSelector = ({
         align="start"
       >
         <div className="flex flex-col">
-          <div className="text-muted-foreground my-1 px-2 text-sm font-semibold">
+          <div className="my-1 px-2 text-sm font-semibold text-muted-foreground">
             Color
           </div>
           {TEXT_COLORS.map(({ name, color }, index) => (
@@ -153,7 +146,7 @@ export const ColorSelector = ({
                     .setColor(color || "")
                     .run();
               }}
-              className="hover:bg-accent flex cursor-pointer items-center justify-between px-2 py-1 text-sm"
+              className="flex cursor-pointer items-center justify-between px-2 py-1 text-sm hover:bg-accent"
             >
               <div className="flex items-center gap-2">
                 <div
@@ -168,7 +161,7 @@ export const ColorSelector = ({
           ))}
         </div>
         <div>
-          <div className="text-muted-foreground my-1 px-2 text-sm font-semibold">
+          <div className="my-1 px-2 text-sm font-semibold text-muted-foreground">
             Background
           </div>
           {HIGHLIGHT_COLORS.map(({ name, color }, index) => (
@@ -178,7 +171,7 @@ export const ColorSelector = ({
                 editor.commands.unsetHighlight();
                 name !== "Default" && editor.commands.setHighlight({ color });
               }}
-              className="hover:bg-accent flex cursor-pointer items-center justify-between px-2 py-1 text-sm"
+              className="flex cursor-pointer items-center justify-between px-2 py-1 text-sm hover:bg-accent"
             >
               <div className="flex items-center gap-2">
                 <div

@@ -7,7 +7,7 @@ import React, {
   useEffect,
 } from "react";
 import { Relay } from "nostr-tools/relay";
-import { Filter } from "nostr-tools";
+import { type Filter } from "nostr-tools";
 import {
   finalizeEvent,
   generateSecretKey,
@@ -16,7 +16,7 @@ import {
 import * as nip19 from "nostr-tools/nip19";
 import { api } from "~/utils/api";
 import { useSession } from "next-auth/react";
-import { Message, User } from "~/components/chat/chat-types";
+import { type Message, type User } from "~/components/chat/chat-types";
 
 const NostrChatContext = createContext({
   subscribeRoom: (roomId: string) => {},

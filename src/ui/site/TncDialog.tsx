@@ -3,7 +3,6 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogHeader } from "~/components/ui/dialog";
 import { api } from "~/utils/api";
-import Link from "next/link";
 
 const latestTncVersion = "1.0.0";
 
@@ -47,7 +46,7 @@ export default function TncDialog() {
     }
   }
 
-  if(!sessionData) return
+  if (!sessionData) return;
 
   return (
     <Dialog open={isOpen}>
@@ -71,11 +70,14 @@ export default function TncDialog() {
           platform is evolving rapidly, so please expect changes.
         </p>
         <p className="py-1 font-medium">
-          Please review the updated Andamio Terms and Conditions and Privacy Policy:
+          Please review the updated Andamio Terms and Conditions and Privacy
+          Policy:
         </p>
-        <ul className="list-disc ml-5 mb-8">
-          <li className="py-1 underline text-indigo-900">Terms and Conditions</li>
-          <li className="py-1 underline text-indigo-900">Privacy Policy</li>
+        <ul className="mb-8 ml-5 list-disc">
+          <li className="py-1 text-indigo-900 underline">
+            Terms and Conditions
+          </li>
+          <li className="py-1 text-indigo-900 underline">Privacy Policy</li>
         </ul>
         <Button onClick={handleApprovalClick}>OK</Button>
       </DialogContent>

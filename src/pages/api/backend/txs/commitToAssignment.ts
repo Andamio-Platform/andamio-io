@@ -1,8 +1,11 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import axios from 'axios';
+import { type NextApiRequest, type NextApiResponse } from "next";
+import axios from "axios";
 import { env } from "~/env";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   const requestData = req.body;
   const api = `${env.GCP_BACKEND}/api/v1/tx/commit-to-assignment`;
 

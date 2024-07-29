@@ -1,7 +1,7 @@
-import { FieldValues, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
-import { Course, User } from "~/types/db";
+import { type Course, type User } from "~/types/db";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { Combobox } from "@headlessui/react";
 import { useState } from "react";
@@ -22,14 +22,14 @@ export default function DialogCourseManager({
   const [selectedPerson, setSelectedPerson] = useState<User | null>(null);
 
   // Todo: make a hook?
-  const { data: searchUsers, isLoading } = api.user.getUserByName.useQuery({
+  const { data: searchUsers } = api.user.getUserByName.useQuery({
     username: query,
   });
-  const filteredPeople = query === "" ? [] : searchUsers ?? [];
+  const filteredPeople = query === "" ? [] : (searchUsers ?? []);
 
   const ctx = api.useUtils();
 
-  const { register, handleSubmit, reset } = useForm();
+  const { handleSubmit } = useForm();
 
   const { mutate, isLoading: isLoadingAddCourseManager } =
     api.course.addCourseContributor.useMutation({
@@ -48,7 +48,7 @@ export default function DialogCourseManager({
       },
     });
 
-  function onSubmit(data: FieldValues) {
+  function onSubmit() {
     if (course && selectedPerson) {
       mutate({
         courseCode: course.courseCode,
@@ -69,7 +69,7 @@ export default function DialogCourseManager({
       buttonLabel="Add"
       buttonDisabled={selectedPerson === null}
       buttonLoading={isLoadingAddCourseManager}
-      handleSubmit={handleSubmit((data) => onSubmit(data))}
+      handleSubmit={handleSubmit(() => onSubmit())}
       isOpen={dialogOpen}
       setIsOpen={setDialogOpen}
     >

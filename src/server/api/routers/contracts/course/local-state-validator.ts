@@ -1,17 +1,9 @@
 import axios from "axios";
 import { z } from "zod";
-import {
-  DecodedAssignmentDecisionDatum,
-  DecodedCourseStateDatum,
-  DecodedModuleRefDatum,
-} from "@andamiojs/datum-utils";
+import { type DecodedCourseStateDatum } from "@andamiojs/datum-utils";
 import { INDEXER_URL } from "~/config/indexer";
 
-import {
-  createTRPCRouter,
-  protectedProcedure,
-  publicProcedure,
-} from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const localStateValidatorRouter = createTRPCRouter({
   getCourseStateDatumByAlias: protectedProcedure
@@ -25,7 +17,7 @@ export const localStateValidatorRouter = createTRPCRouter({
       const res = await axios.get(
         `${INDEXER_URL}/api/course-state/decodedCourseStateDatumByCourseNftPolicyAndAlias?policy=${input.courseNftPolicy}&alias=${input.alias}`,
       );
-      const result: DecodedCourseStateDatum = res.data
-      return result
+      const result: DecodedCourseStateDatum = res.data;
+      return result;
     }),
 });

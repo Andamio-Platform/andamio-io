@@ -1,8 +1,8 @@
-import { FieldValues, useForm } from "react-hook-form";
+import { type FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
 import { useEffect } from "react";
-import { Course, CourseOnChainInstance } from "~/types/db";
+import { type Course, type CourseOnChainInstance } from "~/types/db";
 import { Network } from "@prisma/client";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -140,7 +140,9 @@ export default function DialogCourseOnChain({
   return (
     <Form {...form}>
       <DialogForm
-        openButton={courseOnchain ? "Update Network Config" : "Add Network Config"}
+        openButton={
+          courseOnchain ? "Update Network Config" : "Add Network Config"
+        }
         openButtonIntent="dialog"
         title={
           courseOnchain

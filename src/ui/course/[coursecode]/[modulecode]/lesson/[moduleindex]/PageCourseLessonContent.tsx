@@ -1,25 +1,23 @@
-import { Lesson, Slt } from "@prisma/client";
+import { type Lesson, type Slt } from "@prisma/client";
 import { AlertTriangle, Leaf } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import RenderEditor from "~/components/Editor/components/render/RenderEditor";
 import { ChatContainer } from "~/components/chat/chat-container";
-import Loading from "~/components/loading";
 import VideoPlayer from "~/components/media/VideoPlayer";
 import Metatags from "~/components/site/metatags";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import useLesson from "~/hooks/course/useLesson";
 import useSLTs from "~/hooks/course/useSLTs";
 import useValidateCreator from "~/hooks/course/useValidateCreator";
-import { Module } from "~/types/db";
+import { type Module } from "~/types/db";
 import CourseLayout from "~/ui/course/components/layout/CourseLayout";
 import ModuleLayout from "~/ui/course/components/layout/ModuleLayout";
 import CourseNavigation from "~/ui/course/components/ui/CourseNavigation";
 import { api } from "~/utils/api";
 import SkeletonParagraph from "~/components/site/skeleton-paragraph";
 
-import 'highlight.js/styles/atom-one-dark.css'
-
+import "highlight.js/styles/atom-one-dark.css";
 
 export default function PageCourseContent({
   courseCode,
@@ -49,7 +47,7 @@ export default function PageCourseContent({
         void updateSessionData();
       },
       onError: (e) => {
-        // Handle error
+        console.log(e); // Handle error
       },
     });
 

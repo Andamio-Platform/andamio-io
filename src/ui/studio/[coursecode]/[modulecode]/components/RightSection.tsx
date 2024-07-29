@@ -1,30 +1,21 @@
-import { Assignment, Course, Lesson, Module, ModuleSLT } from "~/types/db";
+import {
+  type Assignment,
+  type Course,
+  type Module,
+  type ModuleSLT,
+} from "~/types/db";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "~/components/ui/accordion";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "~/components/ui/card";
-import { Input } from "~/components/ui/input";
-import { Label } from "~/components/ui/label";
-import { Textarea } from "~/components/ui/textarea";
+import { Card } from "~/components/ui/card";
 import Link from "next/link";
-import { Form, FormControl, FormField, FormItem } from "~/components/ui/form";
-import ControlPanel from "~/ui/studio/components/form-sections/ControlPanel";
-import CardSLT from "~/ui/studio/components/slt/CardSLT";
 import { Button } from "~/components/ui/button";
 import { ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons";
 import VideoLink from "~/ui/studio/components/form-sections/VideoLink";
-import { ToggleEditableField } from "~/components/ui/toggle-editable-field";
-import { FieldValues } from "react-hook-form";
+import { type FieldValues } from "react-hook-form";
 import FormTextArea from "~/components/form/form-textarea";
 import SltList from "~/ui/studio/components/assignment-dashboard/slt-list";
 

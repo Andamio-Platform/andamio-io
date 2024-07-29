@@ -1,7 +1,6 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { z } from "zod";
-import { AssignmentCommitment } from "~/types/db";
+import { type AssignmentCommitment } from "~/types/db";
 import { api } from "~/utils/api";
 
 type LearnerAssignment = {
@@ -25,9 +24,14 @@ export default function useLearnerAssignmentStatuses() {
     AssignmentCommitment[]
   >([]);
   const [learnerAssignments, setLearnerAssignments] = useState<
-    LearnerAssignment[]>([]);
+    LearnerAssignment[]
+  >([]);
 
-  const { data: assignmentInfo, isLoading, isError } = api.assignment.getAssignments.useQuery(
+  const {
+    data: assignmentInfo,
+    isLoading,
+    isError,
+  } = api.assignment.getAssignments.useQuery(
     {
       assignmentIds:
         sessionData?.user.assignmentCommitments.map((a) => a.assignmentId) ??
@@ -62,7 +66,7 @@ export default function useLearnerAssignmentStatuses() {
             moduleCode: aInfo.module.moduleCode,
             status: as.status,
             learnerNote: as.learnerNotes,
-            archived: as.archived
+            archived: as.archived,
           };
           _laList.push(_la);
         }
@@ -71,5 +75,13 @@ export default function useLearnerAssignmentStatuses() {
     }
   }, [assignmentInfo, assignmentStatuses]);
 
-  return { assignmentStatuses, assignmentInfo, learnerAssignments, isLoading, isError, sessionData, updateSession };
+  return {
+    assignmentStatuses,
+    assignmentInfo,
+    learnerAssignments,
+    isLoading,
+    isError,
+    sessionData,
+    updateSession,
+  };
 }

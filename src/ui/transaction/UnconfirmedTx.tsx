@@ -1,6 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
-import { useSession } from "next-auth/react";
-import axios from "axios";
 import useUnconfirmedTx from "./useUnconfirmedTx";
 import {
   Popover,
@@ -8,13 +5,6 @@ import {
   PopoverTrigger,
 } from "~/components/ui/popover";
 import { Loader } from "lucide-react";
-
-interface Response {
-  block: string;
-  state: string;
-  timestamp: string;
-  transaction_hash: string;
-}
 
 export default function UnconfirmedTx({
   unconfirmedTxHash,
@@ -29,10 +19,15 @@ export default function UnconfirmedTx({
       <PopoverTrigger>
         <Loader />
       </PopoverTrigger>
-      <PopoverContent className="bg-white max-w-fit">
+      <PopoverContent className="max-w-fit bg-white">
         {isLoading && <div>Loading...</div>}
         {error && <div>Error</div>}
-        {data && <>{unconfirmedTxHash.substring(0,3)}...{unconfirmedTxHash.substring(61)} : {data.state}</>}
+        {data && (
+          <>
+            {unconfirmedTxHash.substring(0, 3)}...
+            {unconfirmedTxHash.substring(61)} : {data.state}
+          </>
+        )}
       </PopoverContent>
     </Popover>
   );

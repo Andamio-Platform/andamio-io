@@ -9,7 +9,7 @@ import DiscordProvider from "next-auth/providers/discord";
 
 import { env } from "~/env";
 import { db } from "~/server/db";
-import { AssignmentCommitment } from "~/types/db";
+import { type AssignmentCommitment } from "~/types/db";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -77,10 +77,10 @@ export const authOptions: NextAuthOptions = {
                   assignmentCommitmentId: a.id,
                   learnerNotes: a.learnerNotes,
                   status: a.status,
-                  archived: a.archived
+                  archived: a.archived,
                 }))
               : [],
-          tncVersion: _user?.tncVersion 
+          tncVersion: _user?.tncVersion,
         },
       };
     },

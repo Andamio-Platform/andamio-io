@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { useState } from "react";
 
-import { Button } from "~/components/ui/button";
 import {
   Card,
   CardContent,
@@ -35,9 +34,9 @@ export default function JoinAndamioNetwork() {
       id: sessionData?.user.id ? sessionData?.user.id : "",
     });
 
-    console.log(user?.hasMintedAccessToken, remint)
+  console.log(user?.hasMintedAccessToken, remint);
 
-  if (user?.hasMintedAccessToken && remint!=='true') {
+  if (user?.hasMintedAccessToken && remint !== "true") {
     void router.push("/home");
   }
 
@@ -51,12 +50,14 @@ export default function JoinAndamioNetwork() {
         <Loading />
       ) : (
         <Card className="mx-auto w-11/12 lg:w-2/3">
-          <CardHeader className="text-center mb-10">
-            <CardTitle className="text-4xl my-5">Connect to the Andamio Network</CardTitle>
-            <CardDescription className="w-11/12 md:w-1/2 mx-auto">
-              Your Discord Account is connected to the Andamio Platform. To access the full
-              features of Andamio, you can also connect a Cardano wallet and
-              mint an Andamio Token.
+          <CardHeader className="mb-10 text-center">
+            <CardTitle className="my-5 text-4xl">
+              Connect to the Andamio Network
+            </CardTitle>
+            <CardDescription className="mx-auto w-11/12 md:w-1/2">
+              Your Discord Account is connected to the Andamio Platform. To
+              access the full features of Andamio, you can also connect a
+              Cardano wallet and mint an Andamio Token.
             </CardDescription>
           </CardHeader>
           <CardContent>

@@ -1,6 +1,4 @@
 import {
-  ArrowUpIcon,
-  CrossCircledIcon,
   GearIcon,
   PlusCircledIcon,
   SymbolIcon,
@@ -15,8 +13,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import { useState } from "react";
-import Link from "next/link";
 
 export default function DialogForm({
   children,
@@ -45,9 +41,6 @@ export default function DialogForm({
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
 }) {
-  const hasIconButton =
-    openButton == "delete" || openButton == "moduleSettings";
-
   return (
     <Dialog open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
       <DialogTrigger asChild>
@@ -55,25 +48,42 @@ export default function DialogForm({
         {icon ? (
           <>
             {icon === "settings" && (
-              <Button intent="ghost" size="icon" onClick={() => setIsOpen(true)}>
+              <Button
+                intent="ghost"
+                size="icon"
+                onClick={() => setIsOpen(true)}
+              >
                 <GearIcon className="h-[14px] w-[14px] xl:h-[16px] xl:w-[16px]" />
                 <p className="mx-1 text-xs lg:text-sm">Settings</p>
               </Button>
             )}
             {icon === "delete" && (
-              <Button intent="ghost" size="icon" onClick={() => setIsOpen(true)}>
+              <Button
+                intent="ghost"
+                size="icon"
+                onClick={() => setIsOpen(true)}
+              >
                 <TrashIcon className="h-[14px] w-[14px] xl:h-[16px] xl:w-[16px]" />
                 <p className="mx-1 text-xs lg:text-sm">Delete</p>
               </Button>
             )}
             {icon === "bigPlus" && (
-              <Button size="xl" className="w-[200px]" onClick={() => setIsOpen(true)}>
+              <Button
+                size="xl"
+                className="w-[200px]"
+                onClick={() => setIsOpen(true)}
+              >
                 <PlusCircledIcon className="h-[14px] w-[14px] xl:h-[25px] xl:w-[25px]" />
                 <p className="mx-5 text-xs lg:text-sm">{openButton}</p>
               </Button>
             )}
             {icon === "plus" && (
-              <Button intent={openButtonIntent} size="dialog" className="mx-auto" onClick={() => setIsOpen(true)}>
+              <Button
+                intent={openButtonIntent}
+                size="dialog"
+                className="mx-auto"
+                onClick={() => setIsOpen(true)}
+              >
                 <PlusCircledIcon className="h-[14px] w-[14px] xl:h-[16px] xl:w-[16px]" />
                 <p className="mx-2 text-xs lg:text-sm">{openButton}</p>
               </Button>

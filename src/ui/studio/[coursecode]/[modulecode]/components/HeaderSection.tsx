@@ -1,32 +1,17 @@
 import {
-  Assignment,
-  Course,
-  Introduction,
-  Lesson,
-  Module,
-  ModuleSLT,
+  type Assignment,
+  type Course,
+  type Introduction,
+  type Lesson,
+  type Module,
+  type ModuleSLT,
 } from "~/types/db";
-import {
-  Menubar,
-  MenubarContent,
-  MenubarItem,
-  MenubarMenu,
-  MenubarSeparator,
-  MenubarShortcut,
-  MenubarTrigger,
-  MenubarCheckboxItem,
-} from "~/components/ui/menubar";
 
-import { useForm, FieldValues } from "react-hook-form";
-import Link from "next/link";
-import { Form, FormControl, FormField, FormItem } from "~/components/ui/form";
+import { type FieldValues } from "react-hook-form";
 import ControlPanel from "~/ui/studio/components/form-sections/ControlPanel";
 import CardSLT from "~/ui/studio/components/slt/CardSLT";
-import { ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons";
-import VideoLink from "~/ui/studio/components/form-sections/VideoLink";
 import { ToggleEditableField } from "~/components/ui/toggle-editable-field";
 import ContentEditorMenuBar from "./ContentEditorMenuBar";
-import { DialogGetLessonPlan } from "./coach/DialogGetLessonPlan";
 
 type CourseContent = Lesson | Assignment | Introduction;
 

@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
-import { Course, Module, ModuleSLT } from "~/types/db";
+import { type Module, type ModuleSLT } from "~/types/db";
 import DialogForm from "~/components/form/dialog-form";
 
 export default function DialogSLTDelete({
@@ -23,7 +23,7 @@ export default function DialogSLTDelete({
 
   const { mutate: sltDelete, isLoading: isLoadingDelete } =
     api.slt.delete.useMutation({
-      onSuccess: (data) => {
+      onSuccess: () => {
         setSltDeleteDialogOpen(false);
         toast.success("Student Learning Target deleted");
         void ctx.slt.getModuleSLTs.invalidate({

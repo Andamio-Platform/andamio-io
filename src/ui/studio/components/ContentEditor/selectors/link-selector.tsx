@@ -1,13 +1,7 @@
 import { cn } from "../utils";
 import { useEditor } from "novel";
 import { Check, Trash } from "lucide-react";
-import {
-  type Dispatch,
-  type FC,
-  type SetStateAction,
-  useEffect,
-  useRef,
-} from "react";
+import { useEffect, useRef } from "react";
 import { Popover, PopoverTrigger } from "@radix-ui/react-popover";
 import { PopoverContent } from "../../../../../components/ui/popover";
 import { Button } from "~/components/ui/button";

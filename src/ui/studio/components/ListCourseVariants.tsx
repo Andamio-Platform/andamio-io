@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { Button } from "~/components/ui/button";
-import { Course, CourseVariant } from "~/types/db";
+import { type Course, type CourseVariant } from "~/types/db";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
-import DialogCourseManager from "~/ui/studio/components/dialogs/DialogCourseManager";
 import DialogCourseVariant from "./dialogs/DialogCourseVariant";
 import CircleIcon from "~/components/icons/circle";
 import { Card } from "~/components/ui/card";
@@ -18,7 +17,7 @@ export default function ListCourseVariants({ course }: { course: Course }) {
 
   const ctx = api.useUtils();
 
-  if (!course) return
+  if (!course) return;
 
   // Todo: replace this hook when we implement variants
   const { data: variants, isLoading: isLoadingVariants } =
@@ -35,6 +34,7 @@ export default function ListCourseVariants({ course }: { course: Course }) {
       onError: (e) => {
         // const errorMessage = e.data?.zodError?.fieldErrors;
         toast.error("Something went wrong. Please try again.");
+        console.log(e);
       },
     });
 

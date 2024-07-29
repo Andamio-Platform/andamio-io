@@ -1,17 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useSession } from "next-auth/react";
 import { maestro_key } from "~/config/maestro";
-import { env } from "~/env";
 
-export default function useUnconfirmedTx(unconfirmedTxHash : string) {
-//   const { data: sessionData } = useSession();
+export default function useUnconfirmedTx(unconfirmedTxHash: string) {
+  //   const { data: sessionData } = useSession();
 
-//   console.log(sessionData);
+  //   console.log(sessionData);
 
-//   if (!sessionData?.user?.unconfirmedTx) {
-//     throw new Error("No unconfirmed transaction found in session data");
-//   }
+  //   if (!sessionData?.user?.unconfirmedTx) {
+  //     throw new Error("No unconfirmed transaction found in session data");
+  //   }
 
   const txHash = unconfirmedTxHash;
 
@@ -37,3 +35,4 @@ export default function useUnconfirmedTx(unconfirmedTxHash : string) {
 
   return { data, error, isLoading };
 }
+

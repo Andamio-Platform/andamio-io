@@ -1,4 +1,4 @@
-import { Lesson, Module, Slt } from "@prisma/client";
+import { type Lesson, type Module, type Slt } from "@prisma/client";
 import {
   Accordion,
   AccordionContent,
@@ -66,7 +66,7 @@ export default function CourseOutline({
         className="py-3"
         defaultValue={`module-${moduleCode}`}
       >
-        {courseModules?.sort(sortBy).map((courseModule, i) => {
+        {courseModules?.sort(sortBy).map((courseModule) => {
           return (
             <AccordionItem
               value={`module-${courseModule.moduleCode}`}
@@ -92,7 +92,7 @@ export default function CourseOutline({
                 >
                   <Link
                     href={
-                      courseModule?.introduction.live || isCreator
+                      (courseModule?.introduction.live ?? isCreator)
                         ? `/course/${currentCourseCode}/${courseModule.moduleCode}`
                         : "#"
                     }
@@ -147,7 +147,7 @@ export default function CourseOutline({
                 >
                   <Link
                     href={
-                      courseModule?.assignments[0]?.live || isCreator
+                      (courseModule?.assignments[0]?.live ?? isCreator)
                         ? `/course/${currentCourseCode}/${courseModule.moduleCode}/assignment/${courseModule.assignments[0].assignmentCode}`
                         : "#"
                     }
@@ -166,7 +166,8 @@ export default function CourseOutline({
                       </div>
                       <div className="col-span-4 flex flex-col justify-start">
                         <p className="font-semibold">
-                          Assignment {courseModule.assignments[0].assignmentCode}:
+                          Assignment{" "}
+                          {courseModule.assignments[0].assignmentCode}:
                         </p>
                         <p className="font-semibold">
                           {courseModule.assignments[0].title}
@@ -193,7 +194,7 @@ function isLessonLive(
 ) {
   const lesson = lessons.find((lesson) => lesson.sltId === slt.id);
 
-  if ((lesson && lesson.live) || isCreator) {
+  if ((lesson && lesson.live) ?? isCreator) {
     return `/course/${courseCode}/${module.moduleCode}/lesson/${slt.moduleIndex}`;
   }
   return "#";

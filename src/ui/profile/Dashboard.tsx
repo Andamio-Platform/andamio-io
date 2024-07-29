@@ -18,7 +18,7 @@ import AssignmentsSection from "./AssignmentSection";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import AssignmentCommitmentsSection from "./AssignmentCommitmentsSection";
 import CompletedCourses from "./CompletedCourses";
-import { DecodedTokenInfo } from "@andamiojs/datum-utils";
+import { type DecodedTokenInfo } from "@andamiojs/datum-utils";
 import { useRouter } from "next/router";
 import { useAccessToken } from "~/hooks/onchain/useAccessToken";
 
@@ -29,16 +29,16 @@ export default function DashboardPage() {
   const [alias, setAlias] = useState<string>("");
   const [courses, setCourses] = useState<DecodedTokenInfo[]>([]);
 
- const { data, isLoading, isError, error } = useAccessToken(wallet);
- 
- useEffect(() => {
-   if (connected && data?.accessToken) {
-     setAccessToken(data.accessToken);
-   }
-   if (connected && data?.alias) {
-     setAlias(data.alias);
-   }
- }, [connected, data]);
+  const { data } = useAccessToken(wallet);
+
+  useEffect(() => {
+    if (connected && data?.accessToken) {
+      setAccessToken(data.accessToken);
+    }
+    if (connected && data?.alias) {
+      setAlias(data.alias);
+    }
+  }, [connected, data]);
 
   useEffect(() => {
     setTheme("light");
@@ -90,10 +90,18 @@ export default function DashboardPage() {
                       <AccessTokenSection accessToken={accessToken} />
                     </Card>
                     <div className="col-span-6">
-                      <AssignmentCommitmentsSection accessToken={accessToken} alias={alias} courses={courses} />
+                      <AssignmentCommitmentsSection
+                        accessToken={accessToken}
+                        alias={alias}
+                        courses={courses}
+                      />
                     </div>
                     <div className="col-span-3">
-                      <MyCoursesSection accessToken={accessToken}  alias={alias} courses={courses} />
+                      <MyCoursesSection
+                        accessToken={accessToken}
+                        alias={alias}
+                        courses={courses}
+                      />
                     </div>
 
                     <Card className="col-span-6">
@@ -105,13 +113,7 @@ export default function DashboardPage() {
                       </CardHeader>
                       <CardContent>
                         <div className="text-xs">
-                          {alias && (
-                            <CompletedCourses
-                              alias={alias}
-                            />
-                          )}
-                          
-                          
+                          {alias && <CompletedCourses alias={alias} />}
                         </div>
                       </CardContent>
                     </Card>
@@ -176,7 +178,7 @@ function NoAccessTokenInWallet() {
   const handleRemintClick = () => {
     void router.push({
       pathname: "/auth/join-andamio-network",
-      query: { remint: 'true' },
+      query: { remint: "true" },
     });
   };
   return (
@@ -189,9 +191,7 @@ function NoAccessTokenInWallet() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Button onClick={handleRemintClick}>
-            Get Token
-          </Button>
+          <Button onClick={handleRemintClick}>Get Token</Button>
         </CardContent>
         <CardFooter>
           <p className="text-sm">

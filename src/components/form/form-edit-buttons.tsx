@@ -1,5 +1,5 @@
 import React from "react";
-import { CheckCircledIcon, CrossCircledIcon } from "@radix-ui/react-icons";
+import { CheckCircledIcon } from "@radix-ui/react-icons";
 import { Button } from "../ui/button";
 
 interface FormEditButtonsProps {
@@ -20,8 +20,8 @@ export default function FormEditButtons({
               className="rounded-full bg-success text-primary-foreground"
               width="22"
               height="22"
-            />
-            {" "} Save
+            />{" "}
+            Save
           </Button>
         </div>
       )}

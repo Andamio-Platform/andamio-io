@@ -1,13 +1,7 @@
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "~/components/ui/card";
+import { Card, CardContent, CardHeader } from "~/components/ui/card";
 
 import AssignmentBadges from "~/components/ui/assignment-badges";
 import DialogAssignmentCommitmentOnNetwork from "../dialogs/DialogAssignmentCommitmentOnNetwork";
-import { AssignmentCommitment } from "~/types/db";
 import useAssignmentNetworkStatus from "~/hooks/onchain/useAssignmentNetworkStatus";
 
 export default function NetworkCommitmentCard({
@@ -17,17 +11,11 @@ export default function NetworkCommitmentCard({
   courseCode: string;
   assignmentCode: string;
 }) {
-  const {
-    assignment,
-    isLoadingAssignment,
-    isAssignmentOnchain,
-    isLoadingAssignmentOnchain,
-    isLearnerCommitted,
-    isLoadingLearnerCommitted,
-  } = useAssignmentNetworkStatus({
-    courseCode: courseCode,
-    moduleCode: assignmentCode,
-  });
+  const { isAssignmentOnchain, isLearnerCommitted, isLoadingLearnerCommitted } =
+    useAssignmentNetworkStatus({
+      courseCode: courseCode,
+      moduleCode: assignmentCode,
+    });
   // here we assume that assignment code matches module code
 
   return (

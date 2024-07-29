@@ -1,7 +1,7 @@
-import { FieldValues, useForm } from "react-hook-form";
+import { type FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
-import { Assignment, Course, Module } from "~/types/db";
+import { type Assignment, type Module } from "~/types/db";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "~/components/ui/form";
@@ -79,7 +79,7 @@ export default function DialogAssignment({
         void ctx.assignment.getAssignmentByCourseModuleCodes.invalidate({
           courseCode: courseCode,
           moduleCode: _module?.moduleCode,
-        })
+        });
         setAssignmentDialogOpen(false);
       },
       onError: (e) => {

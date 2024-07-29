@@ -1,13 +1,8 @@
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "~/components/ui/card";
+import { Card, CardContent, CardHeader } from "~/components/ui/card";
 
 import AssignmentBadges from "~/components/ui/assignment-badges";
 import DialogAssignmentLearnerStatus from "~/ui/course/components/assignments/dialogs/DialogAssignmentLearnerStatus";
-import { Assignment, AssignmentCommitment } from "~/types/db";
+import { type Assignment, type AssignmentCommitment } from "~/types/db";
 
 export default function PersonalNotesCard({
   currentCommitment,

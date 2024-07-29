@@ -1,4 +1,4 @@
-import { Module } from "~/types/db";
+import { type Module } from "~/types/db";
 
 export default function LessonList({ module }: { module: Module }) {
   return (

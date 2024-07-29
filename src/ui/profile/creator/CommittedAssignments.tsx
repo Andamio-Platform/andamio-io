@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader } from "~/components/ui/card";
+import { Card } from "~/components/ui/card";
 import useAssignmentDatums from "~/hooks/onchain/useAssignmentDatums";
 import { DocumentCheckIcon } from "@heroicons/react/24/outline";
 import {
@@ -18,8 +18,7 @@ export default function CommittedAssignments({
 }: {
   courseNftPolicy: string;
 }) {
-  const { listCourseAssignmentDatums, isLoadingListCourseAssignmentDatums, isErrorListCourseAssignmentDatums, errorListCourseAssignmentDatums } =
-    useAssignmentDatums(courseNftPolicy);
+  const { listCourseAssignmentDatums } = useAssignmentDatums(courseNftPolicy);
 
   const { data: courseInfo, isLoading: isLoadingCourseInfo } =
     api.courseOnChainInstance.getCourseByCourseNftPolicy.useQuery(

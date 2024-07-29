@@ -1,4 +1,4 @@
-import { CourseVariant } from "@prisma/client";
+import { type CourseVariant } from "@prisma/client";
 import { create } from "zustand";
 
 interface CourseState {

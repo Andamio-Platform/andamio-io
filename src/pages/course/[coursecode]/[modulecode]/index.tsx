@@ -1,4 +1,4 @@
-import { NextPageContext } from "next";
+import { type NextPageContext } from "next";
 import useModuleByCourse from "~/hooks/course/useModuleByCourse";
 import PageCourseIntroductionContent from "~/ui/course/[coursecode]/[modulecode]/introduction/PageCourseIntroductionContent";
 import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
@@ -15,15 +15,11 @@ export default function Page({
     moduleCode,
   );
 
-
-
   if (isLoadingModule) {
     return <LoadingCircle />;
   }
 
   if (courseModule) {
-    
-
     return (
       <PageCourseIntroductionContent
         courseCode={courseCode}

@@ -1,4 +1,4 @@
-import { DecodedGlobalStateDatum } from "@andamiojs/datum-utils";
+import { type DecodedGlobalStateDatum } from "@andamiojs/datum-utils";
 import axios from "axios";
 import { z } from "zod";
 import { INDEXER_URL } from "~/config/indexer";
@@ -20,7 +20,7 @@ export const globalStateValidatorRouter = createTRPCRouter({
       const res = await axios.get(
         `${INDEXER_URL}/api/global-state/decodedGlobalStateDatumByAlias?alias=${input.alias}`,
       );
-      const result: DecodedGlobalStateDatum = res.data
-      return result
+      const result: DecodedGlobalStateDatum = res.data;
+      return result;
     }),
 });

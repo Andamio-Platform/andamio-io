@@ -1,17 +1,23 @@
 import useGlobalStateDatum from "~/hooks/onchain/useGlobalStateDatum";
+import LoadingCircle from "../studio/components/ContentEditor/ui/icons/loading-circle";
 
-export default function CompletedCourses({
-  alias,
-}: {
-  alias: string;
-}) {
+export default function CompletedCourses({ alias }: { alias: string }) {
   const {
     globalStateDatum,
     isLoadingGlobalStateDatum,
     isErrorGlobalStateDatum,
     errorGlobalStateDatum,
   } = useGlobalStateDatum(alias);
-
+  if (isLoadingGlobalStateDatum) {
+    return <LoadingCircle />;
+  }
+  if (isErrorGlobalStateDatum) {
+    return (
+      <div>
+        <pre>{JSON.stringify(errorGlobalStateDatum, null, 2)}</pre>
+      </div>
+    );
+  }
   return (
     <>
       {globalStateDatum &&

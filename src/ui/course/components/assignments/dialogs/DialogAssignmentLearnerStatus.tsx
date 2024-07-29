@@ -6,12 +6,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form } from "~/components/ui/form";
 import DialogForm from "~/components/form/dialog-form";
-import FormInput from "~/components/form/form-input";
-import { AssignmentCommitment } from "~/types/db";
+import { type AssignmentCommitment } from "~/types/db";
 import { useSession } from "next-auth/react";
 import { AssignmentStatus } from "@prisma/client";
 import FormTextArea from "~/components/form/form-textarea";
-import FormSelect from "~/components/form/form-select";
 import FormSelectRadioGroup from "~/components/form/form-select-radio-group";
 
 export default function DialogAssignmentLearnerStatus({

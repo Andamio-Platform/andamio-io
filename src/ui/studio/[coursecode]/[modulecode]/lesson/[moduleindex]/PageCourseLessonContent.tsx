@@ -1,4 +1,4 @@
-import { Course, Module, ModuleSLT } from "~/types/db";
+import type { Course, Module, ModuleSLT } from "~/types/db";
 import { LightDarkToggle } from "~/ui/site/LightDarkToggle";
 import { api } from "~/utils/api";
 import { useEffect, useState } from "react";

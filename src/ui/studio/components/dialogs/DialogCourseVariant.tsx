@@ -1,8 +1,8 @@
-import { FieldValues, useForm } from "react-hook-form";
+import { type FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
 import { useEffect } from "react";
-import { Course, CourseVariant } from "~/types/db";
+import { type Course, type CourseVariant } from "~/types/db";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import FormInput from "~/components/form/form-input";

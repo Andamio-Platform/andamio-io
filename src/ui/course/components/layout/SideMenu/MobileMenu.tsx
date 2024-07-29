@@ -2,7 +2,7 @@ import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import Navigation from "./Navigation";
-import { RouterOutputs } from "~/utils/api";
+import { type RouterOutputs } from "~/utils/api";
 
 export type Course = RouterOutputs["course"]["getCoursesByOwner"][number];
 
@@ -29,7 +29,7 @@ export default function MobileMenu({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-forground" />
+          <div className="bg-forground fixed inset-0" />
         </Transition.Child>
 
         <div className="fixed inset-0 flex">

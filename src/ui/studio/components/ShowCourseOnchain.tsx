@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { Button } from "~/components/ui/button";
-import { Course, CourseOnChainInstance, CourseVariant } from "~/types/db";
-import { api } from "~/utils/api";
+import { type Course, type CourseOnChainInstance } from "~/types/db";
 import { useSession } from "next-auth/react";
 import DialogCourseOnChain from "./dialogs/DialogCourseOnChain";
-import { Network } from "@prisma/client";
+import { type Network } from "@prisma/client";
 import useNetworkCourseConfig from "~/hooks/onchain/useNetworkCourseConfig";
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
 
@@ -43,7 +42,8 @@ export default function ShowCourseOnchain({
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
             <p className="text-2xl font-bold">
-              Andamio Network Configuration (Network: {selectedOnChainInstance.network})
+              Andamio Network Configuration (Network:{" "}
+              {selectedOnChainInstance.network})
             </p>
             {isOwner && (
               <div className="">

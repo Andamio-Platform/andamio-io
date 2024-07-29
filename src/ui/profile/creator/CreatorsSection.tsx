@@ -6,7 +6,7 @@ export default function CreatorsSection({
 }: {
   accessTokenAlias: string;
 }) {
-  const { creatorCoursePolicies, isLoadingCreatorCoursePolicies, isErrorCreatorCoursePolicies, errorCreatorCoursePolicies } =
+  const { creatorCoursePolicies } =
     useCreatorsCoursesPolicies(accessTokenAlias);
 
   return (

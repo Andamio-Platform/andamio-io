@@ -1,24 +1,30 @@
-import { Editor } from '@tiptap/react'
+import { type Editor } from "@tiptap/react";
 
 // import { AiWriter, AiImage, Figcaption, HorizontalRule, ImageBlock, ImageUpload, Link, CodeBlock } from '../extensions'
-import { Link , ImageBlock, ImageUpload,} from '../../extensions'
+import { Link, ImageBlock, ImageUpload } from "../../extensions";
 
 export const isTableGripSelected = (node: HTMLElement) => {
-  let container = node
+  let container = node;
 
-  while (container && !['TD', 'TH'].includes(container.tagName)) {
-    container = container.parentElement!
+  while (container && !["TD", "TH"].includes(container.tagName)) {
+    container = container.parentElement!;
   }
 
-  const gripColumn = container && container.querySelector && container.querySelector('a.grip-column.selected')
-  const gripRow = container && container.querySelector && container.querySelector('a.grip-row.selected')
+  const gripColumn =
+    container &&
+    container.querySelector &&
+    container.querySelector("a.grip-column.selected");
+  const gripRow =
+    container &&
+    container.querySelector &&
+    container.querySelector("a.grip-row.selected");
 
-  if (gripColumn || gripRow) {
-    return true
+  if (gripColumn ?? gripRow) {
+    return true;
   }
 
-  return false
-}
+  return false;
+};
 
 export const isCustomNodeSelected = (editor: Editor, node: HTMLElement) => {
   const customNodes = [
@@ -31,9 +37,12 @@ export const isCustomNodeSelected = (editor: Editor, node: HTMLElement) => {
     // AiWriter.name,
     // AiImage.name,
     // Figcaption.name,
-  ]
+  ];
 
-  return customNodes.some(type => editor.isActive(type)) || isTableGripSelected(node)
-}
+  return (
+    customNodes.some((type) => editor.isActive(type)) ||
+    isTableGripSelected(node)
+  );
+};
 
-export default isCustomNodeSelected
+export default isCustomNodeSelected;

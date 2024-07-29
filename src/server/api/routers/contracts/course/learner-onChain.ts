@@ -1,12 +1,7 @@
-import { User } from "@prisma/client";
 import { z } from "zod";
 import maestro from "~/config/maestro";
 
-import {
-  createTRPCRouter,
-  protectedProcedure,
-  publicProcedure,
-} from "~/server/api/trpc";
+import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 export const learnerOnChainRouter = createTRPCRouter({
   getCoursesByTokenName: publicProcedure
@@ -29,6 +24,8 @@ export const learnerOnChainRouter = createTRPCRouter({
       });
 
       const courseList = await Promise.all(courseQueries);
-      return courseList.filter((c) => c !== undefined && c.course !== undefined);
+      return courseList.filter(
+        (c) => c !== undefined && c.course !== undefined,
+      );
     }),
 });

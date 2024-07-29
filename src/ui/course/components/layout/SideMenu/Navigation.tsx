@@ -73,7 +73,7 @@ function NavigationItems({ isCreator }: { isCreator: boolean }) {
 
 function CoursePage({ courseCode }: { courseCode: string }) {
   const { data: sessionData } = useSession();
-  const { course, isLoadingCourse } = useCourse(courseCode);
+  const { course } = useCourse(courseCode);
   const { isCreator } = useValidateCreator(sessionData, courseCode);
 
   return (

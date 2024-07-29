@@ -1,4 +1,4 @@
-import { Editor } from "@tiptap/react";
+import { type Editor } from "@tiptap/react";
 
 export const getRenderContainer = (editor: Editor, nodeType: string) => {
   const {
@@ -16,7 +16,7 @@ export const getRenderContainer = (editor: Editor, nodeType: string) => {
   if (
     (element &&
       element.getAttribute("data-type") &&
-      element.getAttribute("data-type") === nodeType) ||
+      element.getAttribute("data-type") === nodeType) ??
     (element && element.classList && element.classList.contains(nodeType))
   ) {
     return element;

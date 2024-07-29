@@ -1,7 +1,11 @@
-import { AssignmentStatus } from "@prisma/client";
+import type { AssignmentStatus } from "@prisma/client";
 import { Badge } from "./badge";
 
-export default function AssignmentBadges({status} : {status: AssignmentStatus}) {
+export default function AssignmentBadges({
+  status,
+}: {
+  status: AssignmentStatus;
+}) {
   return (
     <>
       {status === "COMPLETE" && (

@@ -1,22 +1,17 @@
-import { Asset, BlockfrostProvider, UTxO } from "@meshsdk/core";
-import { CardanoWallet, useWallet } from "@meshsdk/react";
+import { type Asset, type UTxO } from "@meshsdk/core";
+import { useWallet } from "@meshsdk/react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import Loading from "~/components/loading";
-import UTxOi from "~/components/transactions/model";
+import type UTxOi from "~/components/transactions/model";
 import { Button } from "~/components/ui/button";
-import { blockfrostProvider } from "~/config/blockfrost";
-import {
-  ACCESS_TOKEN_POLICY_ID,
-  GLOBAL_STATE_VALIDATOR_ADDR,
-} from "~/andamio.config";
+import { ACCESS_TOKEN_POLICY_ID } from "~/andamio.config";
 import useNetworkCourseConfig from "~/hooks/onchain/useNetworkCourseConfig";
 import { NETWORK } from "~/andamio.config";
-import maestro from "~/config/maestro";
-import { UtxoWithSlot } from "@maestro-org/typescript-sdk";
+import { type UtxoWithSlot } from "@maestro-org/typescript-sdk";
 import { INDEXER_URL } from "~/config/indexer";
-import { DecodedCourseInstanceDatum } from "@andamiojs/datum-utils";
+import { type DecodedCourseInstanceDatum } from "@andamiojs/datum-utils";
 import { useToast } from "~/components/ui/use-toast";
 
 interface RequestData {

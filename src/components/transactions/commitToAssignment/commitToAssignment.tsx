@@ -1,34 +1,30 @@
-import { Asset, BlockfrostProvider, UTxO } from "@meshsdk/core";
+import { type Asset, type UTxO } from "@meshsdk/core";
 import { CardanoWallet, useWallet } from "@meshsdk/react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import Loading from "~/components/loading";
-import UTxOi from "~/components/transactions/model";
+import type UTxOi from "~/components/transactions/model";
 import { Button } from "~/components/ui/button";
-import { blockfrostProvider } from "~/config/blockfrost";
 import { ACCESS_TOKEN_POLICY_ID } from "~/andamio.config";
-import maestro from "~/config/maestro";
 import useNetworkCourseConfig from "~/hooks/onchain/useNetworkCourseConfig";
 import { NETWORK } from "~/andamio.config";
 import { INDEXER_URL } from "~/config/indexer";
-import { toast, useToast } from "~/components/ui/use-toast";
-import { set } from "date-fns";
+import { useToast } from "~/components/ui/use-toast";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-import { UtxoWithSlot } from "@maestro-org/typescript-sdk";
-import { DecodedCourseInstanceDatum } from "@andamiojs/datum-utils";
+import { type UtxoWithSlot } from "@maestro-org/typescript-sdk";
+import { type DecodedCourseInstanceDatum } from "@andamiojs/datum-utils";
 
 interface RequestData {
   Address: string;
@@ -61,17 +57,13 @@ export default function CommitToAssignment({
   assignmentCode: string;
   isCommitted: boolean;
 }) {
-  const router = useRouter();
   const { toast } = useToast();
 
   const { connected, wallet } = useWallet();
   const [isLoading, setIsLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  const { courseOnchain, isLoadingCourseOnchain } = useNetworkCourseConfig(
-    courseCode,
-    NETWORK,
-  );
+  const { courseOnchain } = useNetworkCourseConfig(courseCode, NETWORK);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),

@@ -1,4 +1,4 @@
-import { BubbleMenu, Editor } from "@tiptap/react";
+import { BubbleMenu, type Editor } from "@tiptap/react";
 import {
   FontBoldIcon,
   FontItalicIcon,
@@ -24,7 +24,7 @@ const editorColors = [
 
 export function AndamioBubbleMenu({ editor }: { editor: Editor }) {
   const setLink = useCallback(() => {
-    const previousUrl = editor.getAttributes("link").href;
+    const previousUrl: string = editor.getAttributes("link").href;
     const url = window.prompt("URL", previousUrl);
     if (url === null) {
       return;

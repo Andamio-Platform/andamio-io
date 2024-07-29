@@ -1,17 +1,17 @@
-import { useEditor, EditorContent, Content } from "@tiptap/react";
+import { useEditor, EditorContent, type Content } from "@tiptap/react";
 import { useEffect } from "react";
 import { ExtensionKit } from "../../extension-kit";
 
 interface EditorProps {
   editable?: boolean;
   initialContent?: Content;
-  index?: string
+  index?: string;
 }
 
 export default function RenderEditor({
   editable = true,
   initialContent = "This content is not yet available.",
-  index
+  index,
 }: EditorProps) {
   const editor = useEditor({
     extensions: [...ExtensionKit()],

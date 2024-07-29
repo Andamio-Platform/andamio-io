@@ -1,9 +1,7 @@
 import React from "react";
 import {
   FormItem,
-  FormLabel, // todo
   FormControl,
-  FormDescription,
   FormMessage,
   FormField,
   Form,
@@ -13,11 +11,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "~/utils/shadcn";
 import { Button } from "./button";
-import {
-  CheckCircledIcon,
-  CrossCircledIcon,
-  Pencil1Icon,
-} from "@radix-ui/react-icons";
+import { Pencil1Icon } from "@radix-ui/react-icons";
 import FormEditButtons from "../form/form-edit-buttons";
 import FormEditableField from "../form/form-editable-field";
 

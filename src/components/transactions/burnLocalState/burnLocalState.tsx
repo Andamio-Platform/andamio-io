@@ -1,12 +1,12 @@
 import { useToast } from "~/components/ui/use-toast";
-import UTxOi from "../model";
+import type UTxOi from "../model";
 import { CardanoWallet, useWallet } from "@meshsdk/react";
 import axios from "axios";
-import { Asset, UTxO } from "@meshsdk/core";
+import { type Asset, type UTxO } from "@meshsdk/core";
 import { ACCESS_TOKEN_POLICY_ID } from "~/andamio.config";
 import { INDEXER_URL } from "~/config/indexer";
-import { UtxoWithSlot } from "@maestro-org/typescript-sdk";
-import { DecodedCourseInstanceDatum } from "@andamiojs/datum-utils";
+import { type UtxoWithSlot } from "@maestro-org/typescript-sdk";
+import { type DecodedCourseInstanceDatum } from "@andamiojs/datum-utils";
 import { Button } from "~/components/ui/button";
 
 interface RequestData {

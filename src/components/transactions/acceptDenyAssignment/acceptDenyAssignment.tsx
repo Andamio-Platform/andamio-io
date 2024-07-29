@@ -1,17 +1,15 @@
 import axios from "axios";
-import UTxOi from "../model";
+import type UTxOi from "../model";
 import { CardanoWallet, useWallet } from "@meshsdk/react";
 import { Button } from "~/components/ui/button";
-import { UTxO } from "@meshsdk/core";
-import useNetworkCourseConfig from "~/hooks/onchain/useNetworkCourseConfig";
-import maestro from "~/config/maestro";
+import { type UTxO } from "@meshsdk/core";
 import { INDEXER_URL } from "~/config/indexer";
 import { useToast } from "~/components/ui/use-toast";
-import { Asset, UtxoWithSlot } from "@maestro-org/typescript-sdk";
+import { type Asset, type UtxoWithSlot } from "@maestro-org/typescript-sdk";
 import { ACCESS_TOKEN_POLICY_ID } from "~/andamio.config";
 import {
-  DecodedAssignmentDecisionDatum,
-  DecodedCourseInstanceDatum,
+  type DecodedAssignmentDecisionDatum,
+  type DecodedCourseInstanceDatum,
 } from "@andamiojs/datum-utils";
 interface RequestData {
   CourseGovernanceUTxO: UTxOi;

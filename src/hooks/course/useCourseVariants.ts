@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { CourseVariant } from "~/types/db";
+import { type CourseVariant } from "~/types/db";
 import { api } from "~/utils/api";
 
 export default function useCourseVariants(courseId: string | undefined) {
@@ -42,7 +42,7 @@ export default function useCourseVariants(courseId: string | undefined) {
         setSelectedCourseVariant(undefined);
       }
     }
-  }, [selectedVariantName]);
+  }, [selectedVariantName, courseVariants]);
 
   return {
     courseVariants,

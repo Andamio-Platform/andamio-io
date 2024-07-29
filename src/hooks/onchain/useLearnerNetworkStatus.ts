@@ -1,10 +1,9 @@
-import { AssetExtended } from "@meshsdk/core";
-import { useState } from "react";
+import { type AssetExtended } from "@meshsdk/core";
 import { api } from "~/utils/api";
 
 export default function useLearnerNetworkStatus(accessToken: AssetExtended) {
   // Todo: find or implement onchain assignment commitment type
-  const [currentAssignments, setCurrentAssignments] = useState<any[]>([]);
+  //  const [currentAssignments, setCurrentAssignments] = useState<any[]>([]);
 
   const { data: courseEnrollments, isLoading: isLoadingCourseEnrollments } =
     api.learnerOnchain.getCoursesByTokenName.useQuery({

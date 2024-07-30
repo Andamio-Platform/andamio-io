@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { type Course, type Module, type ModuleSLT } from "~/types/db";
 import DialogAssignment from "./dialogs/DialogAssignment";
 import DialogSLT from "./dialogs/DialogSLT";
@@ -40,8 +40,6 @@ export default function ModuleContainer({
   course: Course;
   // variants?: ModuleVariant[];
 }) {
-  if (!course) return;
-
   const ctx = api.useUtils();
 
   const [moduleDialogOpen, setModuleDialogOpen] = useState<boolean>(false);
@@ -56,22 +54,22 @@ export default function ModuleContainer({
   const [activeSLT, setActiveSLT] = useState<Active | null>(null);
 
   const { assignment, isLoadingAssignment } = useAssignment(
-    course.courseCode,
+    course?.courseCode ?? "",
     currentModule.moduleCode,
   );
 
   const { moduleSLTs, isLoadingModuleSLTs, isFetchedModuleSLTs } = useSLTs(
-    course.courseCode,
+    course?.courseCode ?? "",
     currentModule.moduleCode,
   );
 
   // Todo - implement the rest of dnd-kit
   // How does this help?
   // Figure out how to only invoke dnd when hamburger is touched
-  const activeItem = useMemo(
-    () => sltIndexes.find((s) => s.slt.id === activeSLT?.id),
-    [activeSLT, sltIndexes],
-  );
+  // const activeItem = useMemo(
+  //  () => sltIndexes.find((s) => s.slt.id === activeSLT?.id),
+  //  [activeSLT, sltIndexes],
+  // );
 
   // Todo = Variant Epic: This logic doesn't work - we get the same variant tab on each module.
   // However, the problem is more than this - module variants are not updating correctly.
@@ -84,7 +82,8 @@ export default function ModuleContainer({
   // }
 
   const onDragEnd = (event: { active: any; over: any }) => {
-    const { active, over } = event;
+    const { active, over }: { active: { id: string }; over: { id: string } } =
+      event;
     if (active.id === over.id) {
       return;
     }
@@ -103,7 +102,7 @@ export default function ModuleContainer({
       onUpdateSltList();
       setOrderChanged(false);
     }
-  }, [sltIndexes]);
+  }, [sltIndexes, orderChanged]);
 
   // Todo: "Autosave"
   // Implement delay logic so that save doesn't happen right away
@@ -112,10 +111,10 @@ export default function ModuleContainer({
     api.slt.updateModuleIndexes.useMutation({
       onSuccess: (data) => {
         void ctx.module.getCourseModules.invalidate({
-          courseCode: course.courseCode,
+          courseCode: course?.courseCode,
         });
         void ctx.slt.getModuleSLTs.invalidate({
-          courseCode: course.courseCode,
+          courseCode: course?.courseCode,
           moduleCode: currentModule.moduleCode,
         });
       },
@@ -161,7 +160,7 @@ export default function ModuleContainer({
   return (
     <div
       className="mx-5 my-3 w-full rounded-md border border-secondary-foreground p-1 sm:mx-auto sm:w-[630px] md:w-[750px] lg:w-[800px] xl:w-[950px] 2xl:w-[1100px]"
-      key={`${course.courseCode}-${currentModule.moduleCode}`}
+      key={`${course?.courseCode}-${currentModule.moduleCode}`}
     >
       <AccordionItem
         value={currentModule.moduleCode}
@@ -192,7 +191,7 @@ export default function ModuleContainer({
           <>
             <div className="flex flex-col pt-3">
               <IntroductionContainer
-                courseCode={course.courseCode}
+                courseCode={course?.courseCode ?? ""}
                 moduleCode={currentModule.moduleCode}
               />
 
@@ -212,9 +211,8 @@ export default function ModuleContainer({
                     <SortableSLT
                       slt={sI.slt}
                       module={currentModule}
-                      courseCode={course.courseCode}
+                      courseCode={course?.courseCode ?? ""}
                       key={sI.slt.id}
-                      isLoading={false}
                     />
                   ))}
                 </SortableContext>
@@ -226,7 +224,7 @@ export default function ModuleContainer({
                 <>
                   {assignment && (
                     <Link
-                      href={`/studio/${course.courseCode}/${currentModule.moduleCode}/assignment/${assignment.assignmentCode}`}
+                      href={`/studio/${course?.courseCode}/${currentModule.moduleCode}/assignment/${assignment.assignmentCode}`}
                     >
                       <AssignmentContainer assignment={assignment} />
                     </Link>
@@ -243,13 +241,13 @@ export default function ModuleContainer({
                 <DialogSLT
                   sltDialogOpen={sltDialogOpen}
                   setSltDialogOpen={setSltDialogOpen}
-                  courseCode={course.courseCode}
+                  courseCode={course?.courseCode ?? ""}
                   currentModule={currentModule}
                 />
                 <DialogAssignment
                   assignmentDialogOpen={assignmentDialogOpen}
                   setAssignmentDialogOpen={setAssignmentDialogOpen}
-                  courseCode={course.courseCode}
+                  courseCode={course?.courseCode ?? ""}
                   courseModule={currentModule}
                   assignment={assignment}
                 />

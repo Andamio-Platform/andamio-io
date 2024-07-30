@@ -10,13 +10,11 @@ import useCourseModules from "~/hooks/course/useCourseModules";
 export default function ModuleComponent({ course }: { course: Course }) {
   const [moduleDialogOpen, setModuleDialogOpen] = useState<boolean>(false);
 
-  if (!course) return;
-
   // const { modules, moduleVariants, isLoading, refetch } =
   //   useCourseModulesAndVariants(course.courseCode, course.variants);
 
   const { courseModules, isLoadingCourseModules } = useCourseModules(
-    course.courseCode,
+    course?.courseCode ?? "",
   );
 
   return (

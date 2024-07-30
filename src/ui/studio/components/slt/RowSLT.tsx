@@ -44,12 +44,10 @@ export function SortableSLT({
   slt,
   module,
   courseCode,
-  isLoading, // todo
 }: {
   slt: ModuleSLT;
   module: Module;
   courseCode: string;
-  isLoading: boolean;
 }) {
   const {
     attributes,
@@ -105,8 +103,6 @@ export function RowSLT({
   module: Module;
   slt: ModuleSLT;
 }) {
-  if (!module) return;
-
   const ctx = api.useUtils();
   const { setNodeRef } = useContext(SortableSltContext);
 
@@ -173,7 +169,7 @@ export function RowSLT({
         sltText: slt.sltText,
       });
     }
-  }, [editSltText]);
+  }, [editSltText, slt.sltText]);
 
   return (
     <div ref={setNodeRef} onKeyDown={handleKeyDown}>

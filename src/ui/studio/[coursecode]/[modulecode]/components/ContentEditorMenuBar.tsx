@@ -1,4 +1,4 @@
-import { Course, Module } from "~/types/db";
+import { type Course, type Module } from "~/types/db";
 import {
   Menubar,
   MenubarContent,
@@ -10,10 +10,9 @@ import {
   MenubarCheckboxItem,
 } from "~/components/ui/menubar";
 
-import { FieldValues } from "react-hook-form";
+import { type FieldValues } from "react-hook-form";
 import Link from "next/link";
 import { FormControl, FormField, FormItem } from "~/components/ui/form";
-import ControlPanel from "~/ui/studio/components/form-sections/ControlPanel";
 
 export default function ContentEditorMenuBar({
   form,
@@ -74,11 +73,8 @@ export default function ContentEditorMenuBar({
 
           <MenubarSeparator />
           <MenubarItem>
-            <Link href={publishedLink}>
-
-            View as Learner
-            </Link>
-            </MenubarItem>
+            <Link href={publishedLink}>View as Learner</Link>
+          </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
       <MenubarMenu>
@@ -114,11 +110,7 @@ export default function ContentEditorMenuBar({
           <MenubarSeparator />
           <MenubarItem>
             {" "}
-            <Link
-              href={`/studio/${course.courseCode}`}
-            >
-              Course Page
-            </Link>
+            <Link href={`/studio/${course.courseCode}`}>Course Page</Link>
           </MenubarItem>
         </MenubarContent>
       </MenubarMenu>

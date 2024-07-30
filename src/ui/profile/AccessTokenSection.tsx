@@ -1,7 +1,4 @@
-import { AssetExtended } from "@meshsdk/core";
-import { useWallet } from "@meshsdk/react";
-import { useEffect, useState } from "react";
-import { ACCESS_TOKEN_POLICY_ID } from "~/andamio.config";
+import { type AssetExtended } from "@meshsdk/core";
 
 export default function AccessTokenSection({
   accessToken,
@@ -10,8 +7,8 @@ export default function AccessTokenSection({
 }) {
   return (
     <div className="text-center">
-      <h2 className="text-xl font-bold py-5">Andamio Access Token</h2>
-      <p className="text-lg pt-5">
+      <h2 className="py-5 text-xl font-bold">Andamio Access Token</h2>
+      <p className="pt-5 text-lg">
         <b>
           {accessToken
             ? " " +

@@ -12,7 +12,7 @@ export default function PageHome() {
 
   useEffect(() => {
     setTheme("light");
-  }, []);
+  }, [setTheme]);
 
   return (
     <>

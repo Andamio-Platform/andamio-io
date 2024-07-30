@@ -1,4 +1,4 @@
-import { NextPageContext } from "next";
+import { type NextPageContext } from "next";
 import useCoursesByOwner from "~/hooks/course/useCoursesByOwner";
 import useModuleByCourse from "~/hooks/course/useModuleByCourse";
 import useSLTs from "~/hooks/course/useSLTs";

@@ -1,11 +1,11 @@
 import { Storage } from "@google-cloud/storage";
-import { NextApiRequest, NextApiResponse } from "next";
+import { type NextApiRequest, type NextApiResponse } from "next";
 import formidable from "formidable";
 import { BUCKET_NAME, CREDENTIALS, PROJECT_ID } from "~/config/gcp";
 
 const storage = new Storage({
   projectId: PROJECT_ID,
-  credentials: CREDENTIALS
+  credentials: CREDENTIALS,
 });
 const bucket = storage.bucket(BUCKET_NAME);
 
@@ -21,7 +21,7 @@ export default async function handler(
 ) {
   const form = formidable({});
 
-  console.log("Uploading file....", req)
+  console.log("Uploading file....", req);
 
   form.parse(req, async (err, _fields, files) => {
     if (err) {
@@ -29,7 +29,7 @@ export default async function handler(
       return;
     }
 
-    console.log("file....", files)
+    console.log("file....", files);
 
     if (!files.file) {
       res

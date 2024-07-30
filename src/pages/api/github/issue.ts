@@ -2,10 +2,14 @@ import { type NextApiRequest, type NextApiResponse } from "next";
 import { Octokit } from "@octokit/core";
 import { env } from "~/env";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
+interface Request extends NextApiRequest {
+  body: {
+    title: string;
+    body: string;
+  };
+}
+
+export default async function handler(req: Request, res: NextApiResponse) {
   const octokit = new Octokit({
     auth: env.GITHUB_TOKEN,
   });

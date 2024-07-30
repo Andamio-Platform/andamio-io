@@ -7,12 +7,7 @@ export default function CommittedAssignment({
   courseNftPolicy: string;
   alias: string;
 }) {
-  const {
-    assignmentDatum,
-    isLoadingAssignmentDatum,
-    isErrorAssignmentDatum,
-    errorAssignmentDatum,
-  } = useAssignmentDatums(courseNftPolicy, alias);
+  const { assignmentDatum } = useAssignmentDatums(courseNftPolicy, alias);
 
   return (
     assignmentDatum && (

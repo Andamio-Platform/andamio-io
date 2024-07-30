@@ -1,20 +1,17 @@
-import Link from "~/components/link";
 import Loading from "~/components/loading";
-import { CourseCardHoverEffect } from "~/components/ui/card-hover-effect";
 import useCourses from "~/hooks/course/useCourses";
-import CourseButtonCard from "../studio/components/course/CourseButtonCard";
 import CourseCard from "../courses/components/CourseCard";
 
 // are there any metrics we can use to decide which courses are featured?
-  // number of learners
-  // number of commitments
-  // number of learners to complete the course
-  // number of modules
-  // amount of on-chain engagement / course enrollment
-  // how often is this course used a pre-req?
-     // for contributor-facing projects?
-     // future: for other courses?
-  // some kind of referral process?
+// number of learners
+// number of commitments
+// number of learners to complete the course
+// number of modules
+// amount of on-chain engagement / course enrollment
+// how often is this course used a pre-req?
+// for contributor-facing projects?
+// future: for other courses?
+// some kind of referral process?
 // if a lot of learners are engaged in a course, does that course get featured?
 // if a client is paying, do they get any privileges?
 const featuredCourseCodes = ["ppbl2024", "mesh"];
@@ -62,11 +59,11 @@ export default function FeaturedCourses() {
           //   ))}
           // </dl>
           <div className="mx-auto max-w-5xl px-8">
-            <div className="grid grid-cols-1 py-10 md:grid-cols-2 gap-10">
-              {courses.map((course, i) => (
+            <div className="grid grid-cols-1 gap-10 py-10 md:grid-cols-2">
+              {courses.map((course) => (
                 <>
                   {featuredCourseCodes.includes(course.courseCode) && (
-                    <CourseCard course={course} enabled={true} />
+                    <CourseCard course={course} />
                   )}
                 </>
               ))}

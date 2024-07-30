@@ -4,7 +4,7 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "~/components/link";
 import { useSession } from "next-auth/react";
 import MenuBarSessionProfile from "../auth/MenuBarSessionProfile";
-import UnconfirmedTx from "../transaction/UnconfirmedTx";
+import Image from "next/image";
 
 const navigation = [
   { name: "Courses", href: "/courses" },
@@ -45,7 +45,9 @@ function Desktop({
         <span className="-m-1.5 p-1.5">
           <Link href="/">
             <span className="sr-only">Andamio</span>
-            <img
+            <Image
+              width={40}
+              height={40}
               className="h-8 w-auto"
               src="/andamio-logo-w-typography.jpg"
               alt="Andamio"
@@ -108,7 +110,9 @@ function Mobile({
         <div className="flex items-center justify-between">
           <span className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
-            <img
+            <Image
+              width={40}
+              height={40}
               className="h-8 w-auto"
               src="/andamio-logo.svg"
               alt="Andamio logo"

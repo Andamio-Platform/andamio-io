@@ -1,5 +1,3 @@
-import Link from "next/link";
-import { Card } from "~/components/ui/card";
 import Footer from "~/ui/landing/Footer";
 import MenuBar from "~/ui/landing/MenuBar";
 
@@ -19,11 +17,11 @@ export default function PrivacyPolicyPage() {
           1. Introduction
         </h2>
         <p className="py-2">
-          Andamio (&quot;we&quot;, &quot;our&quot;, &quot;us&quot;) is committed to protecting your privacy.
-          This Privacy Policy explains how we collect, use, disclose, and
-          safeguard your information when you use our services. By accessing or
-          using Andamio, you agree to the collection and use of information in
-          accordance with this policy.
+          Andamio (&quot;we&quot;, &quot;our&quot;, &quot;us&quot;) is committed
+          to protecting your privacy. This Privacy Policy explains how we
+          collect, use, disclose, and safeguard your information when you use
+          our services. By accessing or using Andamio, you agree to the
+          collection and use of information in accordance with this policy.
         </p>
 
         <h2 className="pb-4 pt-8 text-2xl font-bold underline">

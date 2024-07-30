@@ -3,10 +3,14 @@ import axios from "axios";
 import { db } from "~/server/db";
 import { MODEL_SERVER_URL } from "~/config/ai";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
+interface Request extends NextApiRequest {
+  body: {
+    slt: string;
+    userId: string;
+  };
+}
+
+export default async function handler(req: Request, res: NextApiResponse) {
   const newData = await db.andamioAIQueries.create({
     data: {
       type: "get-lesson-plan",

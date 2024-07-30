@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Badge } from "~/components/ui/badge";
-import { CoursePublic } from "~/types/db";
+import { type CoursePublic } from "~/types/db";
 import {
   Dialog,
   DialogContent,
@@ -24,25 +24,18 @@ import {
   CardFooter,
   CardHeader,
 } from "~/components/ui/card";
-import { useSession } from "next-auth/react";
 import { CardanoWallet, useWallet } from "@meshsdk/react";
 import checkIfEnrolled from "../utils/checkIfEnrolled";
 import Markdown from "react-markdown";
+import Image from "next/image";
 
-export default function CourseCard({
-  course,
-  enabled,
-}: {
-  course: CoursePublic;
-  enabled: boolean;
-}) {
+export default function CourseCard({ course }: { course: CoursePublic }) {
   const { connected, wallet } = useWallet();
   const [isOpen, setIsOpen] = useState(false);
-  const { data: sessionData } = useSession();
   const [isEnrolled, setIsEnrolled] = useState(false);
 
   useEffect(() => {
-    (async () => {
+    const check = async () => {
       if (connected && course.onchainInstance[0]) {
         console.log("check");
         const isEnrolled = await checkIfEnrolled(
@@ -51,8 +44,9 @@ export default function CourseCard({
         );
         setIsEnrolled(isEnrolled);
       }
-    })();
-  }, [wallet]);
+    };
+    void check();
+  }, [wallet, connected, course.onchainInstance]);
 
   if (!course) return;
   return (
@@ -62,7 +56,9 @@ export default function CourseCard({
       size="md"
     >
       <CardHeader className="relative m-0 p-0">
-        <img
+        <Image
+          width={600}
+          height={400}
           className="aspect-[3/2] w-full rounded-t-md object-cover"
           src={
             course.imageUrl ? course.imageUrl : "/images/sample-covers/1.jpg"
@@ -160,16 +156,4 @@ export default function CourseCard({
       </CardFooter>
     </Card>
   );
-}
-
-function CourseDetails({ course }: { course: CoursePublic }) {
-  return <></>;
-}
-
-function truncateString(str: string, maxLength: number): string {
-  if (str.length <= maxLength) {
-    return str;
-  } else {
-    return str.slice(0, maxLength) + "...";
-  }
 }

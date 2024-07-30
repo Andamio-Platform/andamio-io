@@ -1,8 +1,8 @@
 import axios from "axios";
 import { z } from "zod";
 import {
-  DecodedAssignmentDecisionDatum,
-  DecodedModuleRefDatum,
+  type DecodedAssignmentDecisionDatum,
+  type DecodedModuleRefDatum,
 } from "@andamiojs/datum-utils";
 import { INDEXER_URL } from "~/config/indexer";
 
@@ -20,7 +20,7 @@ export const assignmentValidatorRouter = createTRPCRouter({
         assignmentCode: z.string().min(3),
       }),
     )
-    .query(async ({ ctx, input }) => {
+    .query(async ({ input }) => {
       const res = await axios.get(
         `${INDEXER_URL}/api/module-ref/decodedModuleRefDatumsByCourseNftPolicy?policy=${input.courseCreatorNFTPolicyID}`,
       );
@@ -70,22 +70,22 @@ export const assignmentValidatorRouter = createTRPCRouter({
       const res = await axios.get(
         `${INDEXER_URL}/api/assignment-validator/decodedAssignmentDatumsByCourseNftPolicy?policy=${input.courseNftPolicy}`,
       );
-      const result: DecodedAssignmentDecisionDatum[] = res.data
-      return result
+      const result: DecodedAssignmentDecisionDatum[] = res.data;
+      return result;
     }),
-  
+
   getDecodedCourseAssignmentDatumsByAlias: protectedProcedure
-  .input(
-    z.object({
-      courseCreatorNFTPolicyID: z.string().length(56),
-      alias: z.string().min(1),
+    .input(
+      z.object({
+        courseCreatorNFTPolicyID: z.string().length(56),
+        alias: z.string().min(1),
+      }),
+    )
+    .query(async ({ input }) => {
+      const res = await axios.get(
+        `${INDEXER_URL}/api/assignment-validator/decodedAssignmentValidatorUtxoByCourseNftPolicyAndAlias?policy=${input.courseCreatorNFTPolicyID}&alias=${input.alias}`,
+      );
+      const result: DecodedAssignmentDecisionDatum = res.data;
+      return result;
     }),
-  )
-  .query(async ({ input }) => {
-    const res = await axios.get(
-      `${INDEXER_URL}/api/assignment-validator/decodedAssignmentValidatorUtxoByCourseNftPolicyAndAlias?policy=${input.courseCreatorNFTPolicyID}&alias=${input.alias}`,
-    );
-    const result: DecodedAssignmentDecisionDatum = res.data
-    return result
-  }),
 });

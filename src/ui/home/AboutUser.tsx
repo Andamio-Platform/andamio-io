@@ -5,10 +5,8 @@ import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
 import { api } from "~/utils/api";
 import GetStartedButton from "../landing/ViewCoursesButton";
-import CTA from "../landing/CTA";
 
 export default function AboutUser() {
-  const ctx = api.useUtils();
   const { data: sessionData, update: updateSession } = useSession();
 
   // ok make some buttons so that user can become
@@ -19,7 +17,7 @@ export default function AboutUser() {
 
   const { mutate: learnerCreate, isLoading: isLoadingLearner } =
     api.learner.create.useMutation({
-      onSuccess: (data) => {
+      onSuccess: () => {
         toast.success("Ok, you are a Learner!");
       },
       onError: (e) => {
@@ -121,8 +119,8 @@ export default function AboutUser() {
                 // <CTA />
                 <>
                   <p className="prose mx-auto my-6 text-left text-lg">
-                    If you would like to join us in this early stage of the Andamio story, we
-                    would like to hear from you!
+                    If you would like to join us in this early stage of the
+                    Andamio story, we would like to hear from you!
                   </p>
                   <Link href="/contact">
                     <Button>Get in Touch</Button>

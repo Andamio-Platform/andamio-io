@@ -5,7 +5,6 @@ import { Button } from "~/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -55,7 +54,7 @@ export default function Fund12() {
 
   useEffect(() => {
     setTheme("light");
-  }, []);
+  }, [setTheme]);
 
   return (
     <>

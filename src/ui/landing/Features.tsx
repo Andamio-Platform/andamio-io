@@ -1,11 +1,4 @@
-import {
-  AcademicCapIcon,
-  ArrowPathIcon,
-  CloudArrowUpIcon,
-  FingerPrintIcon,
-  LockClosedIcon,
-  RocketLaunchIcon,
-} from "@heroicons/react/24/outline";
+import { AcademicCapIcon, RocketLaunchIcon } from "@heroicons/react/24/outline";
 import { LightbulbIcon, UsersIcon } from "lucide-react";
 
 // const features = [

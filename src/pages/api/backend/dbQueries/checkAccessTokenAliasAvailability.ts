@@ -2,16 +2,26 @@ import { type NextApiRequest, type NextApiResponse } from "next";
 import axios from "axios";
 import { env } from "~/env";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
+interface Request extends NextApiRequest {
+  body: {
+    tokenAlias: string;
+  };
+}
+
+interface Response extends NextApiResponse {
+  data: {
+    IsUsed: boolean;
+    isExist: boolean;
+  };
+}
+
+export default async function handler(req: Request, res: NextApiResponse) {
   console.log("Request Body:", req.body);
   const requestData = req.body;
   const api = `${env.GCP_BACKEND}/api/v1/tx/check-access-token-name-aveliblity/${requestData.tokenAlias}`;
 
   try {
-    const response = await axios.post(api);
+    const response: Response = await axios.post(api);
 
     const responseData = response.data;
     res

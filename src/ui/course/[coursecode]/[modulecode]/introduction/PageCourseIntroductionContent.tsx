@@ -9,13 +9,13 @@ import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { Card } from "~/components/ui/card";
 import useIntroduction from "~/hooks/course/useIntroduction";
 import useValidateCreator from "~/hooks/course/useValidateCreator";
-import { Introduction, Module, ModuleSLT } from "~/types/db";
+import { type Introduction, type Module, type ModuleSLT } from "~/types/db";
 import CourseLayout from "~/ui/course/components/layout/CourseLayout";
 import ModuleLayout from "~/ui/course/components/layout/ModuleLayout";
 import CourseNavigation from "~/ui/course/components/ui/CourseNavigation";
 import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
 
-import 'highlight.js/styles/atom-one-dark.css'
+import "highlight.js/styles/atom-one-dark.css";
 
 export default function PageCourseIntroductionContent({
   courseCode,

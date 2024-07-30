@@ -9,11 +9,11 @@ import FeaturedCourses from "./FeaturedCourses";
 import Footer from "./Footer";
 
 export default function PageLanding() {
-  const { theme, setTheme } = useTheme();
+  const { setTheme } = useTheme();
 
   useEffect(() => {
     setTheme("light");
-  }, []);
+  }, [setTheme]);
 
   return (
     <div className="bg-white">

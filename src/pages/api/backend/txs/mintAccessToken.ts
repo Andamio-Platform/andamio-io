@@ -2,6 +2,9 @@ import { type NextApiRequest, type NextApiResponse } from "next";
 import axios from "axios";
 import { env } from "~/env";
 
+interface ResponseData {
+  unsignedTxCBOR: string;
+}
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
@@ -16,7 +19,7 @@ export default async function handler(
       },
     });
 
-    const responseData = response.data;
+    const responseData: ResponseData = response.data;
     res.status(200).json({ unsignedTxCBOR: responseData.unsignedTxCBOR });
   } catch (error) {
     console.error("Error:", error);

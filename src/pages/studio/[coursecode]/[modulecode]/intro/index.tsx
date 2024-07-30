@@ -1,9 +1,8 @@
-import { NextPageContext } from "next";
+import { type NextPageContext } from "next";
 import useCoursesByOwner from "~/hooks/course/useCoursesByOwner";
 import useModuleByCourse from "~/hooks/course/useModuleByCourse";
 import PageModuleIntroContent from "~/ui/studio/[coursecode]/[modulecode]/intro/PageModuleIntroContent";
 import LoadingContentEditor from "~/ui/studio/components/ContentEditor/ui/LoadingContentEditor";
-import StudioLayout from "~/ui/studio/components/layout/StudioLayout";
 
 interface IntroductionStudioPageProps {
   courseCode: string;
@@ -16,7 +15,7 @@ const IntroductionStudioPage = ({
 }: IntroductionStudioPageProps) => {
   const { courseModule, isLoadingModule } = useModuleByCourse(
     courseCode,
-    moduleCode
+    moduleCode,
   );
   const { course, isLoadingCourses } = useCoursesByOwner(courseCode);
 
@@ -53,7 +52,7 @@ const ModuleNotFoundMessage = () => (
 );
 
 IntroductionStudioPage.getInitialProps = async (
-  ctx: NextPageContext
+  ctx: NextPageContext,
 ): Promise<IntroductionStudioPageProps> => {
   const { coursecode, modulecode } = ctx.query;
 

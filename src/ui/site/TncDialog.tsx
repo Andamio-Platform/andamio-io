@@ -15,13 +15,16 @@ export default function TncDialog() {
 
   const { mutate: updateTncVersion } =
     api.user.updateUserTncVersion.useMutation({
-      onSuccess: () => {
+      onSuccess: async () => {
         void ctx.user.getUserById.invalidate();
         void ctx.user.getUserByName.invalidate();
         setIsOpen(false);
         setMustApproveTnc(false);
+        await updateSession();
       },
-      onError: (e) => {},
+      onError: (e) => {
+        console.log(e);
+      },
     });
 
   useEffect(() => {
@@ -35,7 +38,7 @@ export default function TncDialog() {
       setIsOpen(true);
       setMustApproveTnc(true);
     }
-  }, [sessionData?.user.tncVersion]);
+  }, [sessionData?.user.tncVersion, sessionData?.user]);
 
   function handleApprovalClick() {
     if (sessionData?.user) {
@@ -46,7 +49,7 @@ export default function TncDialog() {
     }
   }
 
-  if (!sessionData) return;
+  if (!sessionData || !mustApproveTnc) return;
 
   return (
     <Dialog open={isOpen}>

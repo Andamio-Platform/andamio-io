@@ -6,10 +6,10 @@ import Link from "~/components/link";
  * but `addNodeView` dont seems to work
  * even though its `completed` https://github.com/ueberdosis/tiptap/issues/1669
  */
-export const TipTapLink = (props: any) => {
+export const TipTapLink = ({ href }: { href: string }) => {
   return (
     <NodeViewWrapper>
-      <Link href={props.href}>hey</Link>
+      <Link href={href}>hey</Link>
     </NodeViewWrapper>
   );
 };

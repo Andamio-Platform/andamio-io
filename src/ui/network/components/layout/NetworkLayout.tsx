@@ -1,6 +1,5 @@
 import MenuBar from "~/ui/landing/MenuBar";
 import { useSession } from "next-auth/react";
-import SideMenu from "../../../studio/components/layout/SideMenu";
 import PageSignin from "~/ui/auth/PageSignin";
 import { useRouter } from "next/router";
 import { LightDarkToggle } from "~/ui/site/LightDarkToggle";

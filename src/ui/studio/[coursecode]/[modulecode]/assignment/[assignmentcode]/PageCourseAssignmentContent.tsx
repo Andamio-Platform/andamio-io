@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { api } from "~/utils/api";
-import { Assignment, Course, Module } from "~/types/db";
+import { type Assignment, type Course, type Module } from "~/types/db";
 import { Form } from "~/components/ui/form";
 
 import {
@@ -34,9 +34,7 @@ export default function PageCourseAssignmentContent({
   courseModule: Module;
   assignment: Assignment;
 }) {
-  if (!course) return;
-
-  const courseCode = course.courseCode;
+  const courseCode = course?.courseCode;
   const moduleCode = courseModule.moduleCode;
 
   const router = useRouter();
@@ -47,7 +45,7 @@ export default function PageCourseAssignmentContent({
 
   const { mutate: update, isLoading: isLoadingUpdate } =
     api.assignment.update.useMutation({
-      onSuccess: async (data) => {
+      onSuccess: async () => {
         toast.success("Assignment updated!");
         setEditAssignment(false);
         void ctx.assignment.getAssignmentByCourseModuleCodes.invalidate({

@@ -14,7 +14,7 @@ export function Chat({ roomId }: ChatProps) {
     if (loaded.current) return;
     subscribeRoom(roomId);
     loaded.current = true;
-  }, [roomId]);
+  }, [roomId, subscribeRoom]);
 
   return (
     <div className="flex h-full w-full flex-col justify-between">

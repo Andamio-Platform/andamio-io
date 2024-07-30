@@ -1,7 +1,6 @@
 import { type Asset, type UTxO } from "@meshsdk/core";
 import { CardanoWallet, useWallet } from "@meshsdk/react";
 import axios from "axios";
-import { useRouter } from "next/router";
 import { useState } from "react";
 import Loading from "~/components/loading";
 import type UTxOi from "~/components/transactions/model";
@@ -85,7 +84,11 @@ export default function CommitToAssignment({
           TxIDIndex: utxo.input.outputIndex,
         });
       });
-      const coll_utxo = await wallet.getCollateral();
+      const coll_utxo: UTxO[] = await wallet.getCollateral();
+      if (!coll_utxo[0] || coll_utxo[0] === undefined) {
+        throw new Error("Cannot find collateral utxo");
+        return;
+      }
       const CollateralUTxO: UTxOi = {
         TxID: coll_utxo[0].input.txHash,
         TxIDIndex: coll_utxo[0].input.outputIndex,
@@ -159,7 +162,7 @@ export default function CommitToAssignment({
 
       console.log(req);
 
-      const response = await axios.post(
+      const response: { data: { unsignedTxCBOR: string } } = await axios.post(
         "/api/backend/txs/commitToAssignment",
         req,
       );

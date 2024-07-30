@@ -60,13 +60,15 @@ export default function AssignmentStudioPage({
       );
     }
 
-    return (
-      <PageCourseAssignmentContent
-        course={course}
-        courseModule={courseModule}
-        assignment={assignment}
-      />
-    );
+    if (course && courseModule && assignment) {
+      return (
+        <PageCourseAssignmentContent
+          course={course}
+          courseModule={courseModule}
+          assignment={assignment}
+        />
+      );
+    }
   }
 }
 

@@ -34,111 +34,115 @@ export default function BurnLocalState({
 
   async function onSubmit() {
     const addr = await wallet.getChangeAddress();
-    const coll_utxo = await wallet.getCollateral();
-    const userUTxOs = await wallet.getUtxos();
+    const coll_utxo: UTxO[] = await wallet.getCollateral();
+    const userUTxOs: UTxO[] = await wallet.getUtxos();
 
-    const accessTokenUTxO = userUTxOs.find((utxo: UTxO) =>
-      utxo.output.amount.some((a) => a.unit.includes(ACCESS_TOKEN_POLICY_ID)),
-    );
+    if (userUTxOs && coll_utxo[0]) {
+      const accessTokenUTxO: UTxO | undefined = userUTxOs.find((utxo: UTxO) =>
+        utxo.output.amount.some((a) => a.unit.includes(ACCESS_TOKEN_POLICY_ID)),
+      );
 
-    const accessToken = accessTokenUTxO?.output.amount.find((item: Asset) =>
-      item.unit.includes(ACCESS_TOKEN_POLICY_ID),
-    );
-    const accessTokenNameHex = accessToken?.unit.substring(62);
-    const accessTokenName = Buffer.from(
-      accessTokenNameHex ? accessTokenNameHex : "",
-      "hex",
-    ).toString("utf-8");
+      if (!accessTokenUTxO) return;
 
-    const remainingUTxOs = userUTxOs.filter(
-      (utxo) => utxo !== coll_utxo && utxo !== accessTokenUTxO,
-    );
-    const UserUTxOs: UTxOi[] = [];
-    remainingUTxOs.forEach((utxo: UTxO) => {
-      UserUTxOs.push({
-        TxID: utxo.input.txHash,
-        TxIDIndex: utxo.input.outputIndex,
+      const accessToken = accessTokenUTxO?.output.amount.find((item: Asset) =>
+        item.unit.includes(ACCESS_TOKEN_POLICY_ID),
+      );
+      const accessTokenNameHex = accessToken?.unit.substring(62);
+      const accessTokenName = Buffer.from(
+        accessTokenNameHex ? accessTokenNameHex : "",
+        "hex",
+      ).toString("utf-8");
+
+      const remainingUTxOs = userUTxOs.filter(
+        (utxo) => utxo !== coll_utxo[0] && utxo !== accessTokenUTxO,
+      );
+      const UserUTxOs: UTxOi[] = [];
+      remainingUTxOs.forEach((utxo: UTxO) => {
+        UserUTxOs.push({
+          TxID: utxo.input.txHash,
+          TxIDIndex: utxo.input.outputIndex,
+        });
       });
-    });
 
-    const UserLocalStateUTxO_res = await axios.get(
-      `${INDEXER_URL}/api/course-state/courseStateUtxoByCourseNftPolicyAndAlias?policy=${courseNftPolicy}&alias=${accessTokenName}`,
-    );
-    const UserLocalStateUTxO: UtxoWithSlot = UserLocalStateUTxO_res.data;
+      const UserLocalStateUTxO_res = await axios.get(
+        `${INDEXER_URL}/api/course-state/courseStateUtxoByCourseNftPolicyAndAlias?policy=${courseNftPolicy}&alias=${accessTokenName}`,
+      );
+      const UserLocalStateUTxO: UtxoWithSlot = UserLocalStateUTxO_res.data;
 
-    const UserGlobalStateUTxO_res = await axios.get(
-      `${INDEXER_URL}/api/global-state/utxoByAlias?alias=${accessTokenName}`,
-    );
-    const UserGlobalStateUTxO: UtxoWithSlot = UserGlobalStateUTxO_res.data;
+      const UserGlobalStateUTxO_res = await axios.get(
+        `${INDEXER_URL}/api/global-state/utxoByAlias?alias=${accessTokenName}`,
+      );
+      const UserGlobalStateUTxO: UtxoWithSlot = UserGlobalStateUTxO_res.data;
 
-    const LocalStateValidatorRefUTxO_res = await axios.get(
-      `${INDEXER_URL}/api/instance-validator/localStateValildatorRefUtxoByCourseNftPolicy?policy=${courseNftPolicy}`,
-    );
-    const LocalStateValidatorRefUTxO: UtxoWithSlot =
-      LocalStateValidatorRefUTxO_res.data;
+      const LocalStateValidatorRefUTxO_res = await axios.get(
+        `${INDEXER_URL}/api/instance-validator/localStateValildatorRefUtxoByCourseNftPolicy?policy=${courseNftPolicy}`,
+      );
+      const LocalStateValidatorRefUTxO: UtxoWithSlot =
+        LocalStateValidatorRefUTxO_res.data;
 
-    const LocalStatePolicyRefUTxO_res = await axios.get(
-      `${INDEXER_URL}/api/instance-validator/localStatePolicyRefUtxoByCourseNftPolicy?policy=${courseNftPolicy}`,
-    );
-    const LocalStatePolicyRefUTxO: UtxoWithSlot =
-      LocalStatePolicyRefUTxO_res.data;
+      const LocalStatePolicyRefUTxO_res = await axios.get(
+        `${INDEXER_URL}/api/instance-validator/localStatePolicyRefUtxoByCourseNftPolicy?policy=${courseNftPolicy}`,
+      );
+      const LocalStatePolicyRefUTxO: UtxoWithSlot =
+        LocalStatePolicyRefUTxO_res.data;
 
-    const instance_res = await axios.get(
-      `${INDEXER_URL}/api/instance-validator/decodedCourseInstanceDatumByCourseNftPolicy?policy=${courseNftPolicy}`,
-    );
+      const instance_res = await axios.get(
+        `${INDEXER_URL}/api/instance-validator/decodedCourseInstanceDatumByCourseNftPolicy?policy=${courseNftPolicy}`,
+      );
 
-    const instance: DecodedCourseInstanceDatum = instance_res.data;
+      const instance: DecodedCourseInstanceDatum = instance_res.data;
 
-    const req: RequestData = {
-      Address: addr,
-      ChangeAddress: addr,
-      UserUTxOs: UserUTxOs,
-      CollateralUTxO: {
-        TxID: coll_utxo[0].input.txHash,
-        TxIDIndex: coll_utxo[0].input.outputIndex,
-      },
-      AccessTokenName: accessTokenName,
-      UserLocalStateUTxO: {
-        TxID: UserLocalStateUTxO.tx_hash,
-        TxIDIndex: UserLocalStateUTxO.index,
-      },
-      UserGlobalStateUTxO: {
-        TxID: UserGlobalStateUTxO.tx_hash,
-        TxIDIndex: UserGlobalStateUTxO.index,
-      },
-      UserAccessTokenUTxO: {
-        TxID: accessTokenUTxO!.input.txHash,
-        TxIDIndex: accessTokenUTxO!.input.outputIndex,
-      },
-      CourseNFTPolicyID: courseNftPolicy,
-      LocalStateValidatorRefUTxO: {
-        TxID: LocalStateValidatorRefUTxO.tx_hash,
-        TxIDIndex: LocalStateValidatorRefUTxO.index,
-      },
-      LocalStatePolicyRefUTxO: {
-        TxID: LocalStatePolicyRefUTxO.tx_hash,
-        TxIDIndex: LocalStatePolicyRefUTxO.index,
-      },
-      LocalStatePolicyID: instance.LearnerCsList[0]!,
-    };
+      const req: RequestData = {
+        Address: addr,
+        ChangeAddress: addr,
+        UserUTxOs: UserUTxOs,
+        CollateralUTxO: {
+          TxID: coll_utxo[0].input.txHash,
+          TxIDIndex: coll_utxo[0].input.outputIndex,
+        },
+        AccessTokenName: accessTokenName,
+        UserLocalStateUTxO: {
+          TxID: UserLocalStateUTxO.tx_hash,
+          TxIDIndex: UserLocalStateUTxO.index,
+        },
+        UserGlobalStateUTxO: {
+          TxID: UserGlobalStateUTxO.tx_hash,
+          TxIDIndex: UserGlobalStateUTxO.index,
+        },
+        UserAccessTokenUTxO: {
+          TxID: accessTokenUTxO.input.txHash,
+          TxIDIndex: accessTokenUTxO.input.outputIndex,
+        },
+        CourseNFTPolicyID: courseNftPolicy,
+        LocalStateValidatorRefUTxO: {
+          TxID: LocalStateValidatorRefUTxO.tx_hash,
+          TxIDIndex: LocalStateValidatorRefUTxO.index,
+        },
+        LocalStatePolicyRefUTxO: {
+          TxID: LocalStatePolicyRefUTxO.tx_hash,
+          TxIDIndex: LocalStatePolicyRefUTxO.index,
+        },
+        LocalStatePolicyID: instance.LearnerCsList[0]!,
+      };
 
-    console.log(req);
+      console.log(req);
 
-    const response = await axios.post(
-      "/api/backend/txs/burnLocalStateToken",
-      req,
-    );
+      const response: { data: { unsignedTxCBOR: string } } = await axios.post(
+        "/api/backend/txs/burnLocalStateToken",
+        req,
+      );
 
-    const unsignedTx = response.data.unsignedTxCBOR;
+      const unsignedTx = response.data.unsignedTxCBOR;
 
-    const signedTx = await wallet.signTx(unsignedTx, true);
-    const txId = await wallet.submitTx(signedTx);
+      const signedTx = await wallet.signTx(unsignedTx, true);
+      const txId = await wallet.submitTx(signedTx);
 
-    console.log(txId);
-    toast({
-      title: "Transaction submitted",
-      description: `${txId}`,
-    });
+      console.log(txId);
+      toast({
+        title: "Transaction submitted",
+        description: `${txId}`,
+      });
+    }
   }
 
   return (

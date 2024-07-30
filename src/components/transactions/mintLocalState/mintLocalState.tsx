@@ -52,7 +52,10 @@ export default function MintLocalState({ courseCode }: { courseCode: string }) {
           TxIDIndex: utxo.input.outputIndex,
         });
       });
-      const coll_utxo = await wallet.getCollateral();
+      const coll_utxo: UTxO[] = await wallet.getCollateral();
+      if (!coll_utxo || coll_utxo[0] === undefined) {
+        throw new Error("Cannot find collateral utxo");
+      }
       const CollateralUTxO: UTxOi = {
         TxID: coll_utxo[0].input.txHash,
         TxIDIndex: coll_utxo[0].input.outputIndex,
@@ -124,7 +127,10 @@ export default function MintLocalState({ courseCode }: { courseCode: string }) {
 
       console.log(req);
 
-      const response = await axios.post("/api/backend/txs/mintLocalState", req);
+      const response: { data: { unsignedTxCBOR: string } } = await axios.post(
+        "/api/backend/txs/mintLocalState",
+        req,
+      );
 
       console.log(response.data);
 

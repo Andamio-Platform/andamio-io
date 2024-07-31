@@ -13,7 +13,7 @@ import {
 import { BubbleMenu } from "@tiptap/extension-bubble-menu";
 import { Color } from "@tiptap/extension-color";
 import TextStyle from "@tiptap/extension-text-style";
-import { ReactNodeViewRenderer, markInputRule } from "@tiptap/react";
+import { ReactNodeViewRenderer } from "@tiptap/react";
 import { TipTapLink } from "./components/link";
 
 // -- Start Codeblock Config
@@ -25,7 +25,7 @@ import go from "highlight.js/lib/languages/go";
 import bash from "highlight.js/lib/languages/bash";
 import python from "highlight.js/lib/languages/python";
 import haskell from "highlight.js/lib/languages/haskell";
-import json from "highlight.js/lib/languages/json"
+import json from "highlight.js/lib/languages/json";
 
 const lowlight = createLowlight(common);
 lowlight.register({ javascript });
@@ -62,7 +62,7 @@ export function ExtensionKit() {
     }),
     CodeBlockLowlight.configure({
       lowlight,
-      defaultLanguage: "bash"
+      defaultLanguage: "bash",
     }),
     Underline,
     CustomBold,

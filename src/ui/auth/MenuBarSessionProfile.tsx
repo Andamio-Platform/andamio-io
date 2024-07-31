@@ -19,7 +19,6 @@ import {
   HoverCardTrigger,
 } from "~/components/ui/hover-card";
 import { useRouter } from "next/router";
-import Image from "next/image";
 
 export default function MenuBarSessionProfile() {
   const router = useRouter();
@@ -53,9 +52,8 @@ export default function MenuBarSessionProfile() {
       <PopoverTrigger className="flex items-center gap-x-4 text-sm font-semibold leading-6 text-foreground">
         <span className="sr-only">Your profile</span>
         <span aria-hidden="true">{sessionData.user?.name}</span>
-        <Image
-          width={32}
-          height={32}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
           className="h-8 w-8 rounded-full bg-accent"
           src={sessionData.user?.image ?? ""}
           alt=""

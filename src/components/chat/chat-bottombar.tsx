@@ -23,7 +23,7 @@ export default function ChatBottombar() {
   const checkIfCanSend = () => {
     const currentTime = new Date().getTime();
     if (currentTime - lastMessageSent < 10000) {
-      shake();
+      void shake();
       return false;
     } else {
       setLastMessageSent(currentTime);

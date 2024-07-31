@@ -25,25 +25,23 @@ export default function AssignmentsSection() {
 
   const [showArchived, setShowArchived] = useState(false);
 
-  const {
-    mutate: updateArchivedStatus,
-    isLoading: isLoadingUpdatedArchivedStatus,
-  } = api.assignmentStatus.setArchived.useMutation({
-    onSuccess: () => {
-      toast.success("Assignment archived");
-      void ctx.assignmentStatus.getLearnerCommitments.invalidate();
-      void ctx.assignmentStatus.getAssignmentCommitments.invalidate();
-      void updateSession();
-    },
-    onError: (e) => {
-      const errorMessage = e.data?.zodError?.fieldErrors;
-      if (errorMessage) {
-        toast.error(JSON.stringify(errorMessage));
-      } else {
-        toast.error("Error updating the Assignment");
-      }
-    },
-  });
+  const { mutate: updateArchivedStatus } =
+    api.assignmentStatus.setArchived.useMutation({
+      onSuccess: () => {
+        toast.success("Assignment archived");
+        void ctx.assignmentStatus.getLearnerCommitments.invalidate();
+        void ctx.assignmentStatus.getAssignmentCommitments.invalidate();
+        void updateSession();
+      },
+      onError: (e) => {
+        const errorMessage = e.data?.zodError?.fieldErrors;
+        if (errorMessage) {
+          toast.error(JSON.stringify(errorMessage));
+        } else {
+          toast.error("Error updating the Assignment");
+        }
+      },
+    });
 
   function handleArchive(assignment: string, archived: boolean) {
     updateArchivedStatus({

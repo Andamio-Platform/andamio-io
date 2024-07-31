@@ -1,4 +1,5 @@
 import { signOut, useSession } from "next-auth/react";
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -29,7 +30,9 @@ export default function SideMenuSessionProfile() {
         onClick={() => setIsProfileMenuOpen((prevState) => !prevState)}
         className="flex cursor-pointer items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-foreground hover:bg-accent"
       >
-        <img
+        <Image
+          width={32}
+          height={32}
           className="h-8 w-8 rounded-full bg-accent"
           src={sessionData.user?.image ?? ""}
           alt=""

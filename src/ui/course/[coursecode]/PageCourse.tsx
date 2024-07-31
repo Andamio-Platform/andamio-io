@@ -38,10 +38,8 @@ export default function PageCourse({
 
   const learnerLessons = sessionData?.user.lessonIds;
 
-  const { course: courseById, isLoadingCourse: isLoadingCourseById } =
-    useCourseById(courseId);
-  const { course: courseByCode, isLoadingCourse: isLoadingCourseByCode } =
-    useCourse(courseCode);
+  const { course: courseById } = useCourseById(courseId);
+  const { course: courseByCode } = useCourse(courseCode);
 
   const course = courseById ?? courseByCode;
 
@@ -56,7 +54,6 @@ export default function PageCourse({
   const _courseCode = courseCode ?? course?.courseCode;
 
   function getCourse() {
-    let _course = course;
     let _courseVariant = undefined;
 
     if (selectedCourseVariant) {
@@ -66,18 +63,18 @@ export default function PageCourse({
       setCourseVariant(undefined);
     }
 
-    if (_courseVariant) {
-      //@ts-expect-error todo merging need improvement
-      _course = mergeObjects(_courseVariant, _course);
-    }
+    const _currentCourseVariant: Record<string, any> = mergeObjects(
+      _courseVariant,
+      course,
+    );
 
-    return { _course, _courseVariant };
+    return { _currentCourseVariant, _courseVariant };
   }
-  const { _course, _courseVariant } = getCourse();
+  const { _currentCourseVariant, _courseVariant } = getCourse();
 
-  if (_course === undefined) return <></>;
+  if (_currentCourseVariant === undefined) return <></>;
 
-  if (_course === null) {
+  if (_currentCourseVariant === null) {
     return (
       <CourseLayout>
         <h1>Course not found</h1>
@@ -87,20 +84,20 @@ export default function PageCourse({
 
   return (
     <CourseLayout>
-      <Metatags title={_course.title} />
+      <Metatags title={_currentCourseVariant.title} />
       <div className="mx-auto flex w-11/12 max-w-5xl flex-col">
         <h1 className="text-[3rem] font-bold leading-[5rem]">
-          {_course.title}
+          {_currentCourseVariant.title}
         </h1>
         <div className="prose py-10 text-xl leading-8 dark:prose-invert">
-          <Markdown>{_course.description}</Markdown>
+          <Markdown>{_currentCourseVariant.description}</Markdown>
         </div>
         <div className="grid grid-cols-1 gap-5 lg:gap-10">
           <div>
-            {_course.videoUrl && (
+            {_currentCourseVariant.videoUrl && (
               <div className="flex flex-col gap-4 md:flex-row">
                 <div className="grow">
-                  <VideoPlayer videoId={_course.videoUrl} />
+                  <VideoPlayer videoId={_currentCourseVariant.videoUrl} />
                 </div>
               </div>
             )}
@@ -127,7 +124,7 @@ export default function PageCourse({
               Click a Module to view Student Learning Targets
             </p>
             <ListModules
-              courseCode={_course.courseCode}
+              courseCode={_currentCourseVariant.courseCode}
               _courseVariant={_courseVariant}
               learnerLessons={learnerLessons ? learnerLessons : []}
             />

@@ -1,13 +1,17 @@
+import Image from "next/image";
+
 export default function Testimonial() {
   return (
     <div className="mx-auto mt-32 max-w-7xl sm:mt-56 sm:px-6 lg:px-8">
       <div className="relative overflow-hidden bg-primary px-6 py-20 shadow-xl sm:rounded-3xl sm:px-10 sm:py-24 md:px-12 lg:px-20">
-        <img
+        <Image
+          width={200}
+          height={200}
           className="absolute inset-0 h-full w-full object-cover brightness-150 saturate-0"
           src="https://meshjs.dev/logo-mesh/mesh.png"
           alt=""
         />
-        <div className="absolute inset-0 bg-forground mix-blend-multiply" />
+        <div className="bg-forground absolute inset-0 mix-blend-multiply" />
         <div
           className="absolute -left-80 -top-56 transform-gpu blur-3xl"
           aria-hidden="true"
@@ -33,7 +37,9 @@ export default function Testimonial() {
           />
         </div>
         <div className="relative mx-auto max-w-2xl lg:mx-0">
-          <img
+          <Image
+            width={200}
+            height={200}
             className="h-12 w-auto"
             src="https://meshjs.dev/logo-mesh/white/logo-meshbackground-512x512.png"
             alt=""

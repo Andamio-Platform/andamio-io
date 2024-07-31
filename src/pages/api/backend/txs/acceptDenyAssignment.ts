@@ -10,11 +10,15 @@ export default async function handler(
   const api = `${env.GCP_BACKEND}/api/v1/tx/accept-deny-assignment`;
 
   try {
-    const response = await axios.post(api, requestData, {
-      headers: {
-        "Content-Type": "application/json",
+    const response: { data: { unsignedTxCBOR: string } } = await axios.post(
+      api,
+      requestData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
       },
-    });
+    );
 
     const responseData = response.data;
     res.status(200).json({ unsignedTxCBOR: responseData.unsignedTxCBOR });

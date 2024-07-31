@@ -6,22 +6,21 @@ import StudioLayout from "~/ui/studio/components/layout/StudioLayout";
 import { api } from "~/utils/api";
 
 export default function AddCreatorPage() {
-  const { data: sessionData, update: updateSession } = useSession();
+  const { data: sessionData } = useSession();
 
-  const { mutate: creatorCreate, isLoading: isLoadingCreator } =
-    api.creator.create.useMutation({
-      onSuccess: (data) => {
-        toast.success("Ok, you are a Creator!");
-      },
-      onError: (e) => {
-        const errorMessage = e.data?.zodError?.fieldErrors;
-        if (errorMessage) {
-          toast.error("Cannot add creator");
-        } else {
-          toast.error("Creator ID taken. Please try again.");
-        }
-      },
-    });
+  const { mutate: creatorCreate } = api.creator.create.useMutation({
+    onSuccess: () => {
+      toast.success("Ok, you are a Creator!");
+    },
+    onError: (e) => {
+      const errorMessage = e.data?.zodError?.fieldErrors;
+      if (errorMessage) {
+        toast.error("Cannot add creator");
+      } else {
+        toast.error("Creator ID taken. Please try again.");
+      }
+    },
+  });
 
   function onEnableCreator() {
     if (sessionData) {
@@ -35,7 +34,9 @@ export default function AddCreatorPage() {
     <StudioLayout>
       <h1>Add Creator</h1>
       {sessionData && sessionData.user.creatorId ? (
-        <Link href="/studio">You&apos;re a Course Creator - go build a Course!</Link>
+        <Link href="/studio">
+          You&apos;re a Course Creator - go build a Course!
+        </Link>
       ) : (
         <Button onClick={onEnableCreator}>Be a Course Creator</Button>
       )}

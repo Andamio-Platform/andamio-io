@@ -7,6 +7,7 @@ import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
 import DialogCourseManager from "~/ui/studio/components/dialogs/DialogCourseManager";
 import { Card } from "~/components/ui/card";
+import Image from "next/image";
 
 export default function ListCourseManagers({ course }: { course: Course }) {
   const [showAddManagerDialog, setShowAddManagerDialog] =
@@ -67,7 +68,9 @@ export default function ListCourseManagers({ course }: { course: Course }) {
                   <div className="flex items-center">
                     {contributor.user.image && (
                       <div className="h-11 w-11 flex-shrink-0">
-                        <img
+                        <Image
+                          width={32}
+                          height={32}
                           className="h-11 w-11 rounded-full"
                           src={contributor.user.image}
                           alt=""

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
 import { z } from "zod";
@@ -91,15 +91,18 @@ export default function DialogAssignmentLearnerStatus({
       });
     }
   }
-
-  useEffect(() => {
+  const resetForm = useCallback(() => {
     if (assignmentId) {
       form.reset({
         learnerNotes: assignmentCommitment?.learnerNotes ?? "",
         status: assignmentCommitment?.status ?? "SAVE_FOR_LATER",
       });
     }
-  }, [assignmentId, assignmentCommitment]);
+  }, [form, assignmentId, assignmentCommitment]);
+
+  useEffect(() => {
+    resetForm();
+  }, [resetForm]);
 
   return (
     <Form {...form}>

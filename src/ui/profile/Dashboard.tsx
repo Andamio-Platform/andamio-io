@@ -38,6 +38,7 @@ export default function DashboardPage() {
     }
     if (connected && data?.alias) {
       setAlias(data.alias);
+      setCourses([]);
     }
   }, [connected, data]);
 

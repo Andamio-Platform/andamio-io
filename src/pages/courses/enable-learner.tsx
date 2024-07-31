@@ -7,24 +7,23 @@ import { api } from "~/utils/api";
 
 export default function AddLearnerPage() {
   const ctx = api.useUtils();
-  const { data: sessionData, update: updateSession } = useSession();
+  const { data: sessionData } = useSession();
 
-  const { mutate: learnerCreate, isLoading: isLoadingLearner } =
-    api.learner.create.useMutation({
-      onSuccess: (data) => {
-        toast.success("Ok, you are a Learner!");
-        void ctx.user.getUserById.invalidate();
-        void ctx.user.getUserByName.invalidate();
-      },
-      onError: (e) => {
-        const errorMessage = e.data?.zodError?.fieldErrors;
-        if (errorMessage) {
-          toast.error("Cannot add learner");
-        } else {
-          toast.error("Learner ID taken. Please try again.");
-        }
-      },
-    });
+  const { mutate: learnerCreate } = api.learner.create.useMutation({
+    onSuccess: () => {
+      toast.success("Ok, you are a Learner!");
+      void ctx.user.getUserById.invalidate();
+      void ctx.user.getUserByName.invalidate();
+    },
+    onError: (e) => {
+      const errorMessage = e.data?.zodError?.fieldErrors;
+      if (errorMessage) {
+        toast.error("Cannot add learner");
+      } else {
+        toast.error("Learner ID taken. Please try again.");
+      }
+    },
+  });
 
   function onEnableLearner() {
     if (sessionData) {

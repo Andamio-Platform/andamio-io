@@ -9,7 +9,7 @@ import {
   DialogTitle,
 } from "~/components/ui/dialog";
 import axios from "axios";
-import { ModuleSLT } from "~/types/db";
+import { type ModuleSLT } from "~/types/db";
 import { useCourseStore } from "~/lib/zustand/course";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
@@ -35,10 +35,11 @@ export function DialogGetLessonPlan({
     setLoading(true);
 
     if (sessionData) {
-      const resLessonPlan = await axios.post(`/api/ai/get-lesson-plan`, {
-        slt: slt.sltText,
-        userId: sessionData.user.id,
-      });
+      const resLessonPlan: { data: { data: { final_output: string } } } =
+        await axios.post(`/api/ai/get-lesson-plan`, {
+          slt: slt.sltText,
+          userId: sessionData.user.id,
+        });
       // console.log("resLessonPlan", resLessonPlan.data);
       setResult(resLessonPlan.data.data.final_output);
     }

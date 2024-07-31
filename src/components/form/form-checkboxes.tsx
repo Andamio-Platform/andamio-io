@@ -11,15 +11,14 @@ import {
 } from "~/components/ui/form";
 
 interface SelectProps extends InputHTMLAttributes<HTMLInputElement> {
-    label?: string;
-    form: any;
-    name: string;
-    options: { id: string, value: string, label: string }[];
-    info?: string;
-  }
+  label?: string;
+  form: any;
+  name: string;
+  options: { id: string; value: string; label: string }[];
+  info?: string;
+}
 
 export function FormCheckboxes(props: SelectProps) {
-
   return (
     <FormField
       control={props.form.control}
@@ -28,9 +27,7 @@ export function FormCheckboxes(props: SelectProps) {
         <FormItem className="text-foreground">
           <div className="mb-1 text-foreground">
             <FormLabel className="text-base">{props.label}</FormLabel>
-            <FormDescription className="">
-              {props.info}
-            </FormDescription>
+            <FormDescription className="">{props.info}</FormDescription>
           </div>
           {props.options.map((item) => (
             <FormField

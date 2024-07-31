@@ -2,8 +2,6 @@ import { useState } from "react";
 import { Button } from "~/components/ui/button";
 import { type Course, type CourseVariant } from "~/types/db";
 import { api } from "~/utils/api";
-import toast from "react-hot-toast";
-import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
 import DialogCourseVariant from "./dialogs/DialogCourseVariant";
 import CircleIcon from "~/components/icons/circle";
@@ -15,30 +13,14 @@ export default function ListCourseVariants({ course }: { course: Course }) {
     CourseVariant | undefined
   >(undefined);
 
-  const ctx = api.useUtils();
-
+  const { data: sessionData } = useSession();
   if (!course) return;
 
   // Todo: replace this hook when we implement variants
-  const { data: variants, isLoading: isLoadingVariants } =
-    api.courseVariant.getCourseVariants.useQuery({
-      courseId: course.id,
-    });
+  const { data: variants } = api.courseVariant.getCourseVariants.useQuery({
+    courseId: course.id,
+  });
 
-  const { mutate: removeCourseManager, isLoading } =
-    api.course.removeCourseManager.useMutation({
-      onSuccess: () => {
-        toast.success("Course manager remove!");
-        void ctx.course.getCoursesByOwner.invalidate();
-      },
-      onError: (e) => {
-        // const errorMessage = e.data?.zodError?.fieldErrors;
-        toast.error("Something went wrong. Please try again.");
-        console.log(e);
-      },
-    });
-
-  const { data: sessionData } = useSession();
   const isOwner = course.createdById === sessionData?.user?.id;
 
   return (
@@ -93,24 +75,7 @@ export default function ListCourseVariants({ course }: { course: Course }) {
                   </div>
                 </td>
                 <td className="text-right">
-                  {isOwner && (
-                    <Button
-                      color="red"
-                      // onClick={() =>
-                      //   removeCourseManager({
-                      //     courseCode: course.courseCode,
-                      //     userId: manager.id,
-                      //   })
-                      // }
-                      disabled={isLoading}
-                    >
-                      {isLoading ? (
-                        <ArrowPathIcon className="h-5 w-5 animate-spin" />
-                      ) : (
-                        <>Remove</>
-                      )}
-                    </Button>
-                  )}
+                  {isOwner && <Button color="red"></Button>}
                 </td>
               </tr>
             ))}

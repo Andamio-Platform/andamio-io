@@ -162,14 +162,17 @@ export function RowSLT({
       sltText: data.sltText,
     });
   }
-
-  useEffect(() => {
+  const resetForm = useCallback(() => {
     if (form && slt.sltText) {
       form.reset({
         sltText: slt.sltText,
       });
     }
-  }, [editSltText, slt.sltText]);
+  }, [form, slt]);
+
+  useEffect(() => {
+    resetForm();
+  }, [editSltText, resetForm]);
 
   return (
     <div ref={setNodeRef} onKeyDown={handleKeyDown}>

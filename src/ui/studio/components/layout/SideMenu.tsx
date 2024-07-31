@@ -6,6 +6,8 @@ import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import SideMenuSessionProfile from "~/ui/auth/SideMenuSessionProfile";
+import Image from "next/image";
+import LoadingCircle from "../ContentEditor/ui/icons/loading-circle";
 
 const navigation = [
   { name: "Studio", href: "/studio", icon: HomeIcon, current: false },
@@ -25,6 +27,8 @@ export default function SideMenu() {
     });
 
   const router = useRouter();
+
+  if (isLoading) return <LoadingCircle />;
 
   return (
     <div>
@@ -83,7 +87,9 @@ export default function SideMenu() {
 
                 <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-secondary px-6 pb-2">
                   <div className="flex h-16 shrink-0 items-center">
-                    <img
+                    <Image
+                      width={32}
+                      height={32}
                       className="h-8 w-auto"
                       src="/andamio-logo.svg"
                       alt="Andamio"
@@ -165,7 +171,13 @@ export default function SideMenu() {
         {/* Sidebar component, swap this element with another sidebar if you like */}
         <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-foreground bg-background px-6">
           <div className="flex h-16 shrink-0 items-center">
-            <img className="h-8 w-auto" src="/andamio-logo.svg" alt="Andamio" />
+            <Image
+              width={32}
+              height={32}
+              className="h-8 w-auto"
+              src="/andamio-logo.svg"
+              alt="Andamio"
+            />
           </div>
           <nav className="flex flex-1 flex-col">
             <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -248,7 +260,9 @@ export default function SideMenu() {
           Studio
         </div>
         <span className="sr-only">Your profile</span>
-        <img
+        <Image
+          width={32}
+          height={32}
           className="h-8 w-8 rounded-full bg-accent"
           src={sessionData?.user?.image ?? ""}
           alt=""

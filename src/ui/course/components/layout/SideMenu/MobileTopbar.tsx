@@ -1,5 +1,6 @@
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 
 export default function MobileTopbar({
   setSidebarOpen,
@@ -22,7 +23,9 @@ export default function MobileTopbar({
         Learning Platform
       </div>
       <span className="sr-only">Your profile</span>
-      <img
+      <Image
+        width={32}
+        height={32}
         className="h-8 w-8 rounded-full bg-accent"
         src={sessionData?.user?.image ?? ""}
         alt=""

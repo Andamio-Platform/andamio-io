@@ -1,7 +1,7 @@
 import type { Course, Module, ModuleSLT } from "~/types/db";
 import { LightDarkToggle } from "~/ui/site/LightDarkToggle";
 import { api } from "~/utils/api";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,6 +22,7 @@ import useLessonEditor from "~/ui/studio/hooks/useLessonEditor";
 import ContentEditor from "~/ui/studio/components/ContentEditor";
 import { useRouter } from "next/router";
 import Metatags from "~/components/site/metatags";
+import { type JSONContent } from "novel";
 
 export default function PageCourseLessonContent({
   course,
@@ -34,9 +35,7 @@ export default function PageCourseLessonContent({
   moduleIndex: number;
   slt: ModuleSLT;
 }) {
-  if (!course) return;
-
-  const courseCode = course.courseCode;
+  const courseCode = course?.courseCode ?? "";
   const moduleCode = courseModule.moduleCode;
 
   const router = useRouter();
@@ -57,7 +56,7 @@ export default function PageCourseLessonContent({
           moduleCode: moduleCode,
         });
         void ctx.module.getCourseModules.invalidate({
-          courseCode: course.courseCode,
+          courseCode: course?.courseCode,
         });
         void ctx.lesson.getLesson.invalidate({
           moduleCode: moduleCode,
@@ -159,6 +158,34 @@ export default function PageCourseLessonContent({
     }
   }
 
+  const setEditorContent = useCallback(() => {
+    if (
+      !!editor &&
+      !isLoadingUpdate &&
+      lesson?.contentJson &&
+      typeof lesson?.contentJson === "object"
+    ) {
+      editor.commands.setContent(lesson.contentJson);
+    }
+  }, [editor, lesson, isLoadingUpdate]);
+
+  useEffect(() => {
+    if (editor?.isFocused) {
+      setEditLesson(true);
+    }
+  }, [editor?.isFocused]);
+
+  const resetForm = useCallback(() => {
+    if (lesson) {
+      form.reset({
+        title: lesson?.title ?? "",
+        description: lesson?.description ?? "",
+        videoUrl: lesson?.videoUrl ?? "",
+        live: lesson?.live ? lesson?.live : false,
+      });
+    }
+  }, [form, lesson]);
+
   useEffect(() => {
     if (editor?.isFocused) {
       setEditLesson(true);
@@ -167,30 +194,10 @@ export default function PageCourseLessonContent({
 
   useEffect(() => {
     if (lesson) {
-      // todo: implement lesson variant
-      // const _lesson = lessonVariant
-      //   ? mergeObjects(lessonVariant, lesson)
-      //   : lesson;
-
-      if (lesson) {
-        form.reset({
-          title: lesson.title ?? "",
-          description: lesson.description ?? "",
-          videoUrl: lesson.videoUrl ?? "",
-          live: lesson.live ?? false,
-        });
-
-        if (
-          !isLoadingUpdate &&
-          lesson.contentJson &&
-          typeof lesson.contentJson === "object"
-        ) {
-          editor?.commands.setContent(lesson.contentJson);
-        }
-      }
+      resetForm();
+      setEditorContent();
     }
-    // }, [lesson, lessonVariant]);
-  }, [lesson]);
+  }, [lesson, setEditorContent, resetForm]);
 
   /**
    * START OF
@@ -200,17 +207,21 @@ export default function PageCourseLessonContent({
   const updateLessonEdit = useCourseStore((state) => state.updateLessonEdit);
   const [getLessonPlanDialogOpen, setGetLessonPlanDialogOpen] = useState(false);
 
-  useEffect(() => {
-    if (updateLessonEdit && editor) {
-      const _json = editor.getJSON();
+  const setNewEditorContent = useCallback(() => {
+    if (updateLessonEdit && !!editor) {
+      const _json: JSONContent = editor.getJSON();
       if (_json && _json.content) {
         for (const _newData of updateLessonEdit) {
           _json.content.push(_newData);
         }
+
         editor.commands.setContent(_json.content);
       }
     }
-  }, [updateLessonEdit]);
+  }, [updateLessonEdit, editor]);
+  useEffect(() => {
+    setNewEditorContent();
+  }, [updateLessonEdit, setNewEditorContent]);
 
   /**
    * END OF

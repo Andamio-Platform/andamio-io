@@ -1,5 +1,5 @@
 import StatusDot from "~/components/ui/status-dot";
-import { type Assignment, type Module } from "~/types/db";
+import { type ModuleSLT, type Assignment, type Module } from "~/types/db";
 
 export default function SltList({
   courseModule,
@@ -10,14 +10,21 @@ export default function SltList({
 }) {
   if (!assignment) return;
 
-  const statuses: any = [];
+  interface SltStatus extends ModuleSLT {
+    assessed: boolean;
+  }
+  const statuses: SltStatus[] = [];
 
   const sortedSlts = courseModule.slts
     .slice()
     .sort((a, b) => a.moduleIndex - b.moduleIndex);
 
   sortedSlts.forEach((s) => {
-    const assessed = assignment.slts.find((t) => t.id == s.id);
+    const findSlt = assignment.slts.find((t) => t.id == s.id);
+
+    let assessed = false;
+    if (!!findSlt) assessed = true;
+
     statuses.push({ ...s, assessed });
   });
 
@@ -27,7 +34,7 @@ export default function SltList({
         <p>Student Learning Targets</p>
       </div>
       <div className="px-2 py-1">
-        {statuses.map((s: any) => (
+        {statuses.map((s: SltStatus) => (
           <p key={s.id} className="">
             <StatusDot status={s.assessed ? "ASSESS" : "SUPPORT"} />{" "}
             {courseModule.moduleCode}.{s.moduleIndex}: {s.sltText}

@@ -1,6 +1,6 @@
 // dream big!
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
@@ -23,6 +23,7 @@ import { LightDarkToggle } from "~/ui/site/LightDarkToggle";
 import ContentEditor from "~/ui/studio/components/ContentEditor";
 import { useRouter } from "next/router";
 import Metatags from "~/components/site/metatags";
+import { type JSONContent } from "novel";
 
 // V2 - current
 export default function PageCourseAssignmentContent({
@@ -39,7 +40,7 @@ export default function PageCourseAssignmentContent({
 
   const router = useRouter();
 
-  const { editor, ctx } = useAssignmentEditor(assignment);
+  const { editor, ctx } = useAssignmentEditor();
 
   const [editAssignment, setEditAssignment] = useState<boolean>(false);
 
@@ -116,30 +117,37 @@ export default function PageCourseAssignmentContent({
     }
   }
 
+  const setEditorContent = useCallback(() => {
+    if (
+      !!editor &&
+      !isLoadingUpdate &&
+      assignment?.contentJson &&
+      typeof assignment?.contentJson === "object"
+    ) {
+      editor.commands.setContent(assignment.contentJson);
+    }
+  }, [editor, assignment, isLoadingUpdate]);
   useEffect(() => {
     if (editor?.isFocused) {
       setEditAssignment(true);
     }
   }, [editor?.isFocused]);
 
-  useEffect(() => {
-    if (assignment && editor) {
-      form.reset({
-        title: assignment.title ?? "",
-        description: assignment.description ?? "",
-        videoUrl: assignment.videoUrl ?? "",
-        live: assignment.live ? assignment.live : false,
-      });
+  const resetForm = useCallback(() => {
+    form.reset({
+      title: assignment?.title ?? "",
+      description: assignment?.description ?? "",
+      videoUrl: assignment?.videoUrl ?? "",
+      live: assignment?.live ? assignment?.live : false,
+    });
+  }, [form, assignment]);
 
-      if (
-        !isLoadingUpdate &&
-        assignment.contentJson &&
-        typeof assignment.contentJson === "object"
-      ) {
-        editor.commands.setContent(assignment.contentJson);
-      }
+  useEffect(() => {
+    if (assignment) {
+      resetForm();
+      setEditorContent();
     }
-  }, [assignment, isLoadingUpdate, editor]);
+  }, [assignment, isLoadingUpdate, setEditorContent, resetForm]);
 
   /**
    * START OF
@@ -148,10 +156,9 @@ export default function PageCourseAssignmentContent({
 
   const updateLessonEdit = useCourseStore((state) => state.updateLessonEdit);
   const [getLessonPlanDialogOpen, setGetLessonPlanDialogOpen] = useState(false);
-
-  useEffect(() => {
-    if (updateLessonEdit && editor) {
-      const _json = editor.getJSON();
+  const setNewEditorContent = useCallback(() => {
+    if (updateLessonEdit && !!editor) {
+      const _json: JSONContent = editor.getJSON();
       if (_json && _json.content) {
         for (const _newData of updateLessonEdit) {
           _json.content.push(_newData);
@@ -160,7 +167,10 @@ export default function PageCourseAssignmentContent({
         editor.commands.setContent(_json.content);
       }
     }
-  }, [updateLessonEdit]);
+  }, [updateLessonEdit, editor]);
+  useEffect(() => {
+    setNewEditorContent();
+  }, [updateLessonEdit, setNewEditorContent]);
 
   /**
    * END OF
@@ -223,7 +233,6 @@ export default function PageCourseAssignmentContent({
               intent="assignment"
               setGetLessonPlanDialogOpen={setGetLessonPlanDialogOpen}
             />
-
             <div className="flex w-full bg-card">
               <ResizablePanelGroup direction="horizontal" className="gap-2">
                 <ResizablePanel defaultSize={80}>
@@ -242,6 +251,7 @@ export default function PageCourseAssignmentContent({
             </div>
           </form>
         </Form>
+        {getLessonPlanDialogOpen && "Andamio AI"}
         <LightDarkToggle />
       </>
     );

@@ -1,7 +1,7 @@
 import type { Course, Module } from "~/types/db";
 import { LightDarkToggle } from "~/ui/site/LightDarkToggle";
 import { api } from "~/utils/api";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,6 +23,7 @@ import ContentEditor from "~/ui/studio/components/ContentEditor";
 import { useRouter } from "next/router";
 import Metatags from "~/components/site/metatags";
 import useAssignment from "~/hooks/course/useAssignment";
+import { type JSONContent } from "novel";
 
 export default function PageModuleIntroContent({
   course,
@@ -46,12 +47,12 @@ export default function PageModuleIntroContent({
 
   const { mutate: introCreate, isLoading: isLoadingIntroCreate } =
     api.introduction.create.useMutation({
-      onSuccess: async (data) => {
-        toast.success("Module Introduction created!");
-        await refetchIntro();
+      onSuccess: async () => {
         void ctx.module.getCourseModules.invalidate({
           courseCode: courseCode,
         });
+        await refetchIntro();
+        toast.success("Module Introduction created!");
       },
       onError: (e) => {
         const errorMessage = e.data?.zodError?.fieldErrors;
@@ -65,16 +66,16 @@ export default function PageModuleIntroContent({
 
   const { mutate: update, isLoading: isLoadingUpdate } =
     api.introduction.update.useMutation({
-      onSuccess: async (data) => {
-        toast.success("Introduction updated!");
+      onSuccess: async () => {
         setEditIntroduction(false);
-        await refetchIntro();
         void ctx.introduction.getIntroduction.invalidate({
           moduleId: courseModule.id,
         });
         void ctx.module.getCourseModules.invalidate({
           courseCode: courseCode,
         });
+        await refetchIntro();
+        toast.success("Introduction updated!");
       },
       onError: (e) => {
         const errorMessage = e.data?.zodError?.fieldErrors;
@@ -144,32 +145,27 @@ export default function PageModuleIntroContent({
     }
   }
 
-  useEffect(() => {
-    if (editor?.isFocused) {
-      setEditIntroduction(true);
-    }
-  }, [editor?.isFocused]);
-
-  useEffect(() => {
+  const resetForm = useCallback(() => {
     if (introduction) {
-      if (introduction) {
-        form.reset({
-          title: introduction.title ?? "",
-          description: introduction.description ?? "",
-          videoUrl: introduction.videoUrl ?? "",
-          live: introduction.live ? introduction.live : false,
-        });
-
-        if (
-          !isLoadingUpdate &&
-          introduction.contentJson &&
-          typeof introduction.contentJson === "object"
-        ) {
-          editor?.commands.setContent(introduction.contentJson);
-        }
-      }
+      form.reset({
+        title: introduction.title ?? "",
+        description: introduction.description ?? "",
+        videoUrl: introduction.videoUrl ?? "",
+        live: introduction.live ? introduction.live : false,
+      });
     }
-  }, [introduction, isLoadingIntro]);
+  }, [form, introduction]);
+
+  const setEditorContent = useCallback(() => {
+    if (
+      introduction &&
+      !isLoadingUpdate &&
+      introduction.contentJson &&
+      typeof introduction.contentJson === "object"
+    ) {
+      editor?.commands.setContent(introduction.contentJson);
+    }
+  }, [editor, introduction, isLoadingUpdate]);
 
   /**
    * START OF
@@ -178,10 +174,9 @@ export default function PageModuleIntroContent({
 
   const updateLessonEdit = useCourseStore((state) => state.updateLessonEdit);
   const [getLessonPlanDialogOpen, setGetLessonPlanDialogOpen] = useState(false);
-
-  useEffect(() => {
+  const setNewEditorContent = useCallback(() => {
     if (updateLessonEdit && !!editor) {
-      const _json = editor.getJSON();
+      const _json: JSONContent = editor.getJSON();
       if (_json && _json.content) {
         for (const _newData of updateLessonEdit) {
           _json.content.push(_newData);
@@ -190,7 +185,30 @@ export default function PageModuleIntroContent({
         editor.commands.setContent(_json.content);
       }
     }
-  }, [updateLessonEdit]);
+  }, [updateLessonEdit, editor]);
+
+  useEffect(() => {
+    if (editor?.isFocused) {
+      setEditIntroduction(true);
+    }
+  }, [editor?.isFocused]);
+
+  useEffect(() => {
+    if (introduction) {
+      resetForm();
+      setEditorContent();
+    }
+  }, [
+    introduction,
+    isLoadingIntro,
+    isLoadingUpdate,
+    resetForm,
+    setEditorContent,
+  ]);
+
+  useEffect(() => {
+    setNewEditorContent();
+  }, [updateLessonEdit, setNewEditorContent]);
 
   /**
    * END OF
@@ -285,6 +303,7 @@ export default function PageModuleIntroContent({
             </div>
           </form>
         </Form>
+        {getLessonPlanDialogOpen && "Andamio AI"}
         <LightDarkToggle />
       </>
     );

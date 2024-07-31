@@ -7,9 +7,9 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "~/server/auth";
 import PageSignin from "~/ui/auth/PageSignin";
 
-export default function SignIn({
-  providers,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function SignIn({}: InferGetServerSidePropsType<
+  typeof getServerSideProps
+>) {
   return <PageSignin />;
   // // todo: hardcode providers for now, because on vercel, it's not working
   // const _providers = [

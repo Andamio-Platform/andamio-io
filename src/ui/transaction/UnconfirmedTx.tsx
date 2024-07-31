@@ -11,9 +11,11 @@ export default function UnconfirmedTx({
 }: {
   unconfirmedTxHash: string | undefined;
 }) {
-  if (!unconfirmedTxHash) return null;
-  const { data, error, isLoading } = useUnconfirmedTx(unconfirmedTxHash);
+  const { data, isError, isLoading } = useUnconfirmedTx(
+    unconfirmedTxHash ?? "",
+  );
 
+  if (!unconfirmedTxHash) return null;
   return (
     <Popover>
       <PopoverTrigger>
@@ -21,7 +23,7 @@ export default function UnconfirmedTx({
       </PopoverTrigger>
       <PopoverContent className="max-w-fit bg-white">
         {isLoading && <div>Loading...</div>}
-        {error && <div>Error</div>}
+        {isError && <div>Error</div>}
         {data && (
           <>
             {unconfirmedTxHash.substring(0, 3)}...

@@ -16,14 +16,14 @@ export default function MyCoursesSection({
   alias: string;
   courses: DecodedTokenInfo[];
 }) {
-  if (!accessToken) return;
-
   const {
     courseInfos,
     courseEnrollments,
     isLoadingCourseEnrollments,
     isLoadingCourseInfos,
   } = useLearnerNetworkStatus(accessToken);
+
+  if (!accessToken) return;
 
   if (isLoadingCourseInfos || isLoadingCourseEnrollments) {
     return (

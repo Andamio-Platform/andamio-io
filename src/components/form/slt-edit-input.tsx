@@ -1,9 +1,7 @@
 import type { InputHTMLAttributes } from "react";
 import {
   FormItem,
-  FormLabel,
   FormControl,
-  FormDescription,
   FormMessage,
   FormField,
 } from "~/components/ui/form";
@@ -24,7 +22,11 @@ export default function SltEditInput(props: InputProps) {
       render={({ field }) => (
         <FormItem className="flex w-11/12 ">
           <FormControl className="flex w-full">
-            <Input {...field} placeholder={props.placeholder} className="flex w-full border border-slate-400" />
+            <Input
+              {...field}
+              placeholder={props.placeholder}
+              className="flex w-full border border-slate-400"
+            />
           </FormControl>
           <FormMessage />
         </FormItem>

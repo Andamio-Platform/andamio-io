@@ -7,7 +7,7 @@ import { api } from "~/utils/api";
 import GetStartedButton from "../landing/ViewCoursesButton";
 
 export default function AboutUser() {
-  const { data: sessionData, update: updateSession } = useSession();
+  const { data: sessionData } = useSession();
 
   // ok make some buttons so that user can become
   // then test it
@@ -15,20 +15,19 @@ export default function AboutUser() {
 
   // any time left? ok look at UI components...
 
-  const { mutate: learnerCreate, isLoading: isLoadingLearner } =
-    api.learner.create.useMutation({
-      onSuccess: () => {
-        toast.success("Ok, you are a Learner!");
-      },
-      onError: (e) => {
-        const errorMessage = e.data?.zodError?.fieldErrors;
-        if (errorMessage) {
-          toast.error("Some SLT inputs are missing or invalid");
-        } else {
-          toast.error("SLT ID taken. Please try again.");
-        }
-      },
-    });
+  const { mutate: learnerCreate } = api.learner.create.useMutation({
+    onSuccess: () => {
+      toast.success("Ok, you are a Learner!");
+    },
+    onError: (e) => {
+      const errorMessage = e.data?.zodError?.fieldErrors;
+      if (errorMessage) {
+        toast.error("Some SLT inputs are missing or invalid");
+      } else {
+        toast.error("SLT ID taken. Please try again.");
+      }
+    },
+  });
 
   function onEnableLearner() {
     if (sessionData) {

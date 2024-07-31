@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { type Course, type Module, type ModuleSLT } from "~/types/db";
 import DialogAssignment from "./dialogs/DialogAssignment";
 import DialogSLT from "./dialogs/DialogSLT";
@@ -41,7 +41,7 @@ export default function ModuleContainer({
   // variants?: ModuleVariant[];
 }) {
   const ctx = api.useUtils();
-
+  const [isAccordionOpen, setIsAccordionOpen] = useState<boolean>(false);
   const [moduleDialogOpen, setModuleDialogOpen] = useState<boolean>(false);
 
   const [sltDialogOpen, setSltDialogOpen] = useState<boolean>(false);
@@ -63,6 +63,30 @@ export default function ModuleContainer({
     currentModule.moduleCode,
   );
 
+  const { mutate: updateSltIndexes, isLoading: isLoadingIndexUpdate } =
+    api.slt.updateModuleIndexes.useMutation({
+      onSuccess: () => {
+        void ctx.module.getCourseModules.invalidate({
+          courseCode: course?.courseCode,
+        });
+        void ctx.slt.getModuleSLTs.invalidate({
+          courseCode: course?.courseCode,
+          moduleCode: currentModule.moduleCode,
+        });
+        setActiveSLT(null);
+      },
+      onError: (e) => {
+        const errorMessage = e.data?.zodError?.fieldErrors;
+        if (errorMessage) {
+          toast.error("Some SLT inputs are missing or invalid");
+        } else {
+          toast.error("SLT ID taken. Please try again.");
+        }
+      },
+      onSettled: () => {
+        toast.success("Updated ordering");
+      },
+    });
   // Todo - implement the rest of dnd-kit
   // How does this help?
   // Figure out how to only invoke dnd when hamburger is touched
@@ -97,39 +121,24 @@ export default function ModuleContainer({
     setOrderChanged(true);
   };
 
+  const onUpdateSltList = useCallback(() => {
+    const _updateSlts: { id: string; moduleIndex: number }[] = [];
+    sltIndexes.forEach((s, i) => {
+      _updateSlts.push({ id: s.slt.id, moduleIndex: i + 1 });
+    });
+
+    updateSltIndexes(_updateSlts);
+  }, [sltIndexes, updateSltIndexes]);
+
   useEffect(() => {
     if (orderChanged) {
       onUpdateSltList();
       setOrderChanged(false);
     }
-  }, [sltIndexes, orderChanged]);
+  }, [sltIndexes, orderChanged, onUpdateSltList]);
 
   // Todo: "Autosave"
   // Implement delay logic so that save doesn't happen right away
-
-  const { mutate: updateSltIndexes, isLoading: isLoadingIndexUpdate } =
-    api.slt.updateModuleIndexes.useMutation({
-      onSuccess: (data) => {
-        void ctx.module.getCourseModules.invalidate({
-          courseCode: course?.courseCode,
-        });
-        void ctx.slt.getModuleSLTs.invalidate({
-          courseCode: course?.courseCode,
-          moduleCode: currentModule.moduleCode,
-        });
-      },
-      onError: (e) => {
-        const errorMessage = e.data?.zodError?.fieldErrors;
-        if (errorMessage) {
-          toast.error("Some SLT inputs are missing or invalid");
-        } else {
-          toast.error("SLT ID taken. Please try again.");
-        }
-      },
-      onSettled: () => {
-        toast.success("Updated ordering");
-      },
-    });
 
   useEffect(() => {
     const _slts: sltI[] = [];
@@ -144,29 +153,23 @@ export default function ModuleContainer({
     }
   }, [moduleSLTs, isFetchedModuleSLTs]);
 
-  function onUpdateSltList() {
-    const _updateSlts: { id: string; moduleIndex: number }[] = [];
-    sltIndexes.forEach((s, i) => {
-      _updateSlts.push({ id: s.slt.id, moduleIndex: i + 1 });
-    });
-
-    updateSltIndexes(_updateSlts);
-  }
-
   if (isLoadingModuleSLTs) {
     return <LoadingCard>Loading SLTs</LoadingCard>;
   }
 
   return (
     <div
-      className="mx-5 my-3 w-full rounded-md border border-secondary-foreground p-1 sm:mx-auto sm:w-[630px] md:w-[750px] lg:w-[800px] xl:w-[950px] 2xl:w-[1100px]"
+      className="mx-5 my-3 w-full rounded-md border border-secondary-foreground sm:mx-auto sm:w-[630px] md:w-[750px] lg:w-[800px] xl:w-[950px] 2xl:w-[1100px]"
       key={`${course?.courseCode}-${currentModule.moduleCode}`}
     >
       <AccordionItem
         value={currentModule.moduleCode}
         disabled={moduleDialogOpen}
+        onClick={() => setIsAccordionOpen(!isAccordionOpen)}
       >
-        <AccordionTrigger className="flex w-full flex-row justify-between rounded-md bg-primary px-3 py-3 text-primary-foreground">
+        <AccordionTrigger
+          className={`flex w-full flex-row justify-between ${isAccordionOpen ? "rounded-t-md" : "rounded-md"} bg-primary px-3 py-3 text-primary-foreground`}
+        >
           <div className="grid w-full grid-cols-12 py-1">
             <div className="col-span-1">{currentModule.moduleCode}</div>
             <div className="col-span-3">
@@ -254,6 +257,9 @@ export default function ModuleContainer({
               </div>
             </div>
           </>
+          {(activeSLT ?? isLoadingIndexUpdate) && (
+            <div className="flex h-8 w-full rounded-b-md bg-amber-500" />
+          )}
         </AccordionContent>
       </AccordionItem>
     </div>

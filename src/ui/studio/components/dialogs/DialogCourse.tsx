@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { type Course } from "~/types/db";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -97,27 +97,38 @@ export default function DialogCourse({ course }: { course?: Course }) {
     }
   }
 
+  const resetForm = useCallback(() => {
+    form.reset({
+      courseCode: course?.courseCode,
+      title: course?.title,
+      description: course?.description ?? "",
+      category: "",
+      imageUrl: course?.imageUrl ?? "",
+      videoUrl: course?.videoUrl ?? "",
+      accessTier: course?.accessTier ?? "HIDDEN",
+    });
+  }, [form, course]);
+
   useEffect(() => {
     if (course) {
-      form.reset({
-        courseCode: course.courseCode,
-        title: course.title,
-        description: course.description ?? "",
-        category: "",
-        imageUrl: course.imageUrl ?? "",
-        videoUrl: course.videoUrl ?? "",
-        accessTier: course.accessTier ?? "HIDDEN",
-      });
+      resetForm();
     }
-  }, [course]);
+  }, [course, resetForm]);
+
+  const getTitle = useCallback(() => form.getValues("title"), [form]);
+
+  const setCourseCode = useCallback(
+    (value: string) => form.setValue("courseCode", value),
+    [form],
+  );
 
   useEffect(() => {
     if (!course) {
-      const courseTitle = form.getValues("title");
+      const courseTitle = getTitle();
       const abbrev = getFirstLetters(courseTitle);
-      form.setValue("courseCode", abbrev + "2024");
+      setCourseCode(abbrev + "2024");
     }
-  }, [form.getValues("title")]);
+  }, [course, getTitle, setCourseCode]);
 
   return (
     <Form {...form}>

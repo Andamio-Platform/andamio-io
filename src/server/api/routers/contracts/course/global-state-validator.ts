@@ -3,11 +3,7 @@ import axios from "axios";
 import { z } from "zod";
 import { INDEXER_URL } from "~/config/indexer";
 
-import {
-  createTRPCRouter,
-  protectedProcedure,
-  publicProcedure,
-} from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const globalStateValidatorRouter = createTRPCRouter({
   getGlobalStateDatumByAlias: protectedProcedure

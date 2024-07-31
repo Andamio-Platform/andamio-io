@@ -1,8 +1,6 @@
 import { LightDarkToggle } from "~/ui/site/LightDarkToggle";
 
 export default function ColorsPage() {
-  const colorVariables: string[] = [];
-
   return (
     <div className="mx-auto my-10 grid w-11/12 grid-cols-6 gap-10">
       <div>

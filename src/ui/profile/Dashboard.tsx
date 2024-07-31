@@ -21,11 +21,12 @@ import CompletedCourses from "./CompletedCourses";
 import { type DecodedTokenInfo } from "@andamiojs/datum-utils";
 import { useRouter } from "next/router";
 import { useAccessToken } from "~/hooks/onchain/useAccessToken";
+import { type AssetExtended } from "@meshsdk/core";
 
 export default function DashboardPage() {
   const { setTheme } = useTheme();
   const { wallet, connected } = useWallet();
-  const [accessToken, setAccessToken] = useState(null);
+  const [accessToken, setAccessToken] = useState<AssetExtended | null>(null);
   const [alias, setAlias] = useState<string>("");
   const [courses, setCourses] = useState<DecodedTokenInfo[]>([]);
 
@@ -42,7 +43,7 @@ export default function DashboardPage() {
 
   useEffect(() => {
     setTheme("light");
-  }, []);
+  }, [setTheme]);
   return (
     <>
       <MenuBar />

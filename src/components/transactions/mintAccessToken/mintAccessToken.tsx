@@ -93,20 +93,22 @@ export default function MintAccessToken() {
 
   // Debounced API call
   const validateTokenAlias = useCallback(
-    debounce(async (tokenAlias) => {
-      const isAvailable = await CheckTokenAliasAvailability(tokenAlias);
-      if (!isAvailable) {
-        setIsAvailable(false);
-        setError("tokenAlias", {
-          type: "availability",
-          message: "This alias is already taken.",
-        });
-      } else {
-        clearErrors("tokenAlias");
-        setIsAvailable(true);
-      }
-    }, 500),
-    [],
+    (tokenAlias: string) => {
+      debounce(async () => {
+        const isAvailable = await CheckTokenAliasAvailability(tokenAlias);
+        if (!isAvailable) {
+          setIsAvailable(false);
+          setError("tokenAlias", {
+            type: "availability",
+            message: "This alias is already taken.",
+          });
+        } else {
+          clearErrors("tokenAlias");
+          setIsAvailable(true);
+        }
+      }, 500);
+    },
+    [clearErrors, setError],
   );
 
   // Watch for changes in tokenAlias field
@@ -132,10 +134,10 @@ export default function MintAccessToken() {
           TxIDIndex: utxo.input.outputIndex,
         });
       });
-      const coll_utxo = await wallet.getCollateral();
+      const coll_utxo: UTxO[] = await wallet.getCollateral();
       const CollateralUTxO: UTxOi = {
-        TxID: coll_utxo[0].input.txHash,
-        TxIDIndex: coll_utxo[0].input.outputIndex,
+        TxID: coll_utxo[0]?.input.txHash ?? "",
+        TxIDIndex: coll_utxo[0]?.input.outputIndex ?? 0,
       };
 
       const req: RequestData = {
@@ -147,7 +149,7 @@ export default function MintAccessToken() {
         UserInfo: "Andamio User",
       };
 
-      const response = await axios.post(
+      const response: { data: { unsignedTxCBOR: string } } = await axios.post(
         "/api/backend/txs/mintAccessToken",
         req,
       );
@@ -247,8 +249,10 @@ export default function MintAccessToken() {
   );
 }
 
-export const CheckTokenAliasAvailability = async (tokenAlias: string) => {
-  const response = await axios.get(
+export const CheckTokenAliasAvailability = async (
+  tokenAlias: string,
+): Promise<boolean> => {
+  const response: { data: { isAvailable: boolean } } = await axios.get(
     `${INDEXER_URL}/api/aliasAvailability?alias=${tokenAlias}`,
   );
   return response.data.isAvailable;

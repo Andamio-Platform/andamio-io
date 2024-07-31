@@ -15,58 +15,56 @@ export default function LessonStudioPage({
   moduleCode: string;
   moduleIndex: string;
 }) {
-  if (moduleIndex && typeof moduleIndex == "string") {
-    const sltIndex = parseInt(moduleIndex);
-    const { slt, isLoadingSLT } = useSLTs(courseCode, moduleCode, sltIndex);
-    const { course, isLoadingCourses } = useCoursesByOwner(courseCode);
-    const { courseModule, isLoadingModule } = useModuleByCourse(
-      courseCode,
-      moduleCode,
-    );
+  const sltIndex = parseInt(moduleIndex);
+  const { slt, isLoadingSLT } = useSLTs(courseCode, moduleCode, sltIndex);
+  const { course, isLoadingCourses } = useCoursesByOwner(courseCode);
+  const { courseModule, isLoadingModule } = useModuleByCourse(
+    courseCode,
+    moduleCode,
+  );
 
-    if (isLoadingSLT || isLoadingCourses || isLoadingModule) {
-      return (
-        <div className="flex min-h-screen w-full content-center items-center justify-center">
-          <LoadingContentEditor>Loading Lesson</LoadingContentEditor>
-        </div>
-      );
-    }
-
-    // Todo: Extract one component for these, add some style, and improve with interactions.
-    if (!course) {
-      return (
-        <StudioLayout>
-          <h1>This Course does not exist. Want to build it?</h1>
-        </StudioLayout>
-      );
-    }
-    if (!courseModule) {
-      return (
-        <StudioLayout>
-          <h1>
-            There is no Course Module with that Module Code in this Course. Want
-            to create it?
-          </h1>
-        </StudioLayout>
-      );
-    }
-    if (!slt) {
-      return (
-        <StudioLayout>
-          <h1>No Student Learning Target found at this address</h1>
-        </StudioLayout>
-      );
-    }
-
+  if (isLoadingSLT || isLoadingCourses || isLoadingModule) {
     return (
-      <PageCourseLessonContent
-        course={course}
-        courseModule={courseModule}
-        moduleIndex={sltIndex}
-        slt={slt}
-      />
+      <div className="flex min-h-screen w-full content-center items-center justify-center">
+        <LoadingContentEditor>Loading Lesson</LoadingContentEditor>
+      </div>
     );
-  } else return <div>We are not ready!</div>;
+  }
+
+  // Todo: Extract one component for these, add some style, and improve with interactions.
+  if (!course) {
+    return (
+      <StudioLayout>
+        <h1>This Course does not exist. Want to build it?</h1>
+      </StudioLayout>
+    );
+  }
+  if (!courseModule) {
+    return (
+      <StudioLayout>
+        <h1>
+          There is no Course Module with that Module Code in this Course. Want
+          to create it?
+        </h1>
+      </StudioLayout>
+    );
+  }
+  if (!slt) {
+    return (
+      <StudioLayout>
+        <h1>No Student Learning Target found at this address</h1>
+      </StudioLayout>
+    );
+  }
+
+  return (
+    <PageCourseLessonContent
+      course={course}
+      courseModule={courseModule}
+      moduleIndex={sltIndex}
+      slt={slt}
+    />
+  );
 }
 
 LessonStudioPage.getInitialProps = async (ctx: NextPageContext) => {

@@ -20,8 +20,7 @@ import {
 } from "~/components/ui/tooltip";
 
 export default function AssignmentsSection() {
-  const { learnerAssignments, sessionData, updateSession } =
-    useLearnerAssignmentStatuses();
+  const { learnerAssignments, updateSession } = useLearnerAssignmentStatuses();
   const ctx = api.useUtils();
 
   const [showArchived, setShowArchived] = useState(false);

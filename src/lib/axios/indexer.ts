@@ -6,8 +6,8 @@ export const indexer = axios.create({
   headers: { cache: "no-store" },
 });
 
-export async function indexerGet(url: string) {
-  const res = await indexer.get(url);
+export async function indexerGet<T>(url: string): Promise<T> {
+  const res = await indexer.get<T>(url);
   if (res.status === 200) {
     return res.data;
   }

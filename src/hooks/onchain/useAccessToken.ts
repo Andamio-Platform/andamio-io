@@ -7,7 +7,7 @@ const fetchAccessToken = async ({
 }: QueryFunctionContext<BrowserWallet[]>) => {
   const wallet = queryKey[0]!;
   const userAssets = await wallet.getAssets();
-  const accessToken = userAssets.find((asset: AssetExtended) =>
+  const accessToken: AssetExtended = userAssets.find((asset: AssetExtended) =>
     asset.unit.includes(ACCESS_TOKEN_POLICY_ID),
   );
   return accessToken;
@@ -27,4 +27,3 @@ export const useAccessToken = (wallet: BrowserWallet) => {
     },
   });
 };
-

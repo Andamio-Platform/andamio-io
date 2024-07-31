@@ -6,9 +6,11 @@ import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { Combobox } from "@headlessui/react";
 import { useState } from "react";
 import DialogForm from "~/components/form/dialog-form";
+import Image from "next/image";
 
-// Todo: review forms
-
+// TODO: Replace with ShadCN components
+//
+//
 export default function DialogCourseManager({
   dialogOpen,
   setDialogOpen,
@@ -111,7 +113,9 @@ export default function DialogCourseManager({
                         <>
                           <div className="flex items-center">
                             {person.image && (
-                              <img
+                              <Image
+                                width={40}
+                                height={40}
                                 src={person.image}
                                 alt=""
                                 className="h-6 w-6 flex-shrink-0 rounded-full"

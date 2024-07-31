@@ -2,7 +2,7 @@ import { ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { Button } from "~/components/ui/button";
 import { Card } from "~/components/ui/card";
-import { Course, Module, ModuleSLT } from "~/types/db";
+import { type Module } from "~/types/db";
 
 export default function CourseNavigation({
   courseCode,
@@ -41,9 +41,12 @@ export default function CourseNavigation({
           </Link>
         )}
         {moduleIndex == "assignment" && (
-          <Link href={`/course/${courseCode}/${courseModule.moduleCode}/lesson/${courseModule.slts.length}`}>
+          <Link
+            href={`/course/${courseCode}/${courseModule.moduleCode}/lesson/${courseModule.slts.length}`}
+          >
             <Button intent="navigation">
-              Lesson {courseModule.moduleCode}.{courseModule.slts.length} <ArrowLeftIcon />
+              Lesson {courseModule.moduleCode}.{courseModule.slts.length}{" "}
+              <ArrowLeftIcon />
             </Button>
           </Link>
         )}

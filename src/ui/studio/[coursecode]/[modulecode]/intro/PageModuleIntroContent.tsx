@@ -31,16 +31,14 @@ export default function PageModuleIntroContent({
   course: Course;
   courseModule: Module;
 }) {
-  if (!course) return null;
-
-  const courseCode = course.courseCode;
+  const courseCode = course?.courseCode;
   const { editor, introduction, isLoadingIntro, refetchIntro, ctx } =
     useIntroEditor(courseModule.id);
 
   const router = useRouter();
 
   const { assignment } = useAssignment(
-    course.courseCode,
+    course?.courseCode ?? "",
     courseModule.moduleCode,
   );
   const [editIntroduction, setEditIntroduction] = useState<boolean>(false);

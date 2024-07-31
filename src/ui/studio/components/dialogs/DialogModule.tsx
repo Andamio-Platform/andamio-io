@@ -8,7 +8,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "~/components/ui/form";
 import FormInput from "~/components/form/form-input";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import DialogForm from "~/components/form/dialog-form";
 import FormSelect from "~/components/form/form-select";
 import useCourseModules from "~/hooks/course/useCourseModules";
@@ -220,14 +220,18 @@ export default function DialogModule({
     }
   }, [moduleDialogOpen, courseModules, currentCourseModule, course]);
 
-  useEffect(() => {
+  const resetForm = useCallback(() => {
     form.reset({
       moduleCode: moduleCode ?? "",
       title: currentCourseModule?.title ?? "",
       description: currentCourseModule?.description ?? "",
       releaseDate: currentCourseModule?.releaseDate ?? undefined,
     });
-  }, [moduleDialogOpen, currentCourseModule, newModuleCodeOptions, moduleCode]);
+  }, [form, currentCourseModule, moduleCode]);
+
+  useEffect(() => {
+    resetForm();
+  }, [moduleDialogOpen, resetForm]);
 
   useEffect(() => {
     if (courseModules && moduleCode) {

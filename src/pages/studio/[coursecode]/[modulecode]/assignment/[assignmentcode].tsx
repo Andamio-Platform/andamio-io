@@ -9,66 +9,62 @@ import StudioLayout from "~/ui/studio/components/layout/StudioLayout";
 export default function AssignmentStudioPage({
   courseCode,
   moduleCode,
-  assignmentCode,
 }: {
   courseCode: string;
   moduleCode: string;
-  assignmentCode: string;
 }) {
-  if (assignmentCode) {
-    const { assignment, isLoadingAssignment } = useAssignment(
-      courseCode,
-      moduleCode,
+  const { assignment, isLoadingAssignment } = useAssignment(
+    courseCode,
+    moduleCode,
+  );
+  const { course, isLoadingCourses } = useCoursesByOwner(courseCode);
+  const { courseModule, isLoadingModule } = useModuleByCourse(
+    courseCode,
+    moduleCode,
+  );
+
+  if (isLoadingAssignment || isLoadingCourses || isLoadingModule) {
+    return (
+      <div className="flex min-h-screen w-full content-center items-center justify-center">
+        <LoadingContentEditor>Loading Assignment Editor</LoadingContentEditor>
+      </div>
     );
-    const { course, isLoadingCourses } = useCoursesByOwner(courseCode);
-    const { courseModule, isLoadingModule } = useModuleByCourse(
-      courseCode,
-      moduleCode,
+  }
+
+  // Todo: Extract one component for these, add some style, and improve with interactions.
+  if (!course) {
+    return (
+      <StudioLayout>
+        <h1>This Course does not exist. Want to build it?</h1>
+      </StudioLayout>
     );
+  }
+  if (!courseModule) {
+    return (
+      <StudioLayout>
+        <h1>
+          There is no Course Module with that Module Code in this Course. Want
+          to create it?
+        </h1>
+      </StudioLayout>
+    );
+  }
+  if (!assignment) {
+    return (
+      <StudioLayout>
+        <h1>This Assignment does not exist. What to create it?</h1>
+      </StudioLayout>
+    );
+  }
 
-    if (isLoadingAssignment || isLoadingCourses || isLoadingModule) {
-      return (
-        <div className="flex min-h-screen w-full content-center items-center justify-center">
-          <LoadingContentEditor>Loading Assignment Editor</LoadingContentEditor>
-        </div>
-      );
-    }
-
-    // Todo: Extract one component for these, add some style, and improve with interactions.
-    if (!course) {
-      return (
-        <StudioLayout>
-          <h1>This Course does not exist. Want to build it?</h1>
-        </StudioLayout>
-      );
-    }
-    if (!courseModule) {
-      return (
-        <StudioLayout>
-          <h1>
-            There is no Course Module with that Module Code in this Course. Want
-            to create it?
-          </h1>
-        </StudioLayout>
-      );
-    }
-    if (!assignment) {
-      return (
-        <StudioLayout>
-          <h1>This Assignment does not exist. What to create it?</h1>
-        </StudioLayout>
-      );
-    }
-
-    if (course && courseModule && assignment) {
-      return (
-        <PageCourseAssignmentContent
-          course={course}
-          courseModule={courseModule}
-          assignment={assignment}
-        />
-      );
-    }
+  if (course && courseModule && assignment) {
+    return (
+      <PageCourseAssignmentContent
+        course={course}
+        courseModule={courseModule}
+        assignment={assignment}
+      />
+    );
   }
 }
 

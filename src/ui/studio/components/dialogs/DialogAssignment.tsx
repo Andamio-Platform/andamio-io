@@ -6,7 +6,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "~/components/ui/form";
 import FormInput from "~/components/form/form-input";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import useCourseModules from "~/hooks/course/useCourseModules";
 import Loading from "~/components/loading";
 import { FormCheckboxes } from "~/components/form/form-checkboxes";
@@ -125,18 +125,22 @@ export default function DialogAssignment({
     }
   }
 
-  useEffect(() => {
+  const resetForm = useCallback(() => {
     form.reset({
       assignmentCode:
         assignment?.assignmentCode ?? `assignment${courseModule.moduleCode}`,
       assignmentTitle: assignment?.title ?? "",
       sltIds: assignment?.slts.map((s) => s.id) ?? [],
     });
-  }, [assignmentDialogOpen]);
+  }, [form, assignment, courseModule]);
+
+  useEffect(() => {
+    resetForm();
+  }, [assignmentDialogOpen, assignment, courseModule, resetForm]);
 
   return (
     <>
-      {isLoadingCourseModules ? (
+      {isLoadingCourseModules || isLoadingAssignmentUpdate ? (
         <Loading />
       ) : (
         <Form {...form}>

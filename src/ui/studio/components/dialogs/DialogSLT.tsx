@@ -6,7 +6,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "~/components/ui/form";
 import FormInput from "~/components/form/form-input";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import FormSelect from "~/components/form/form-select";
 import useCourseModules from "~/hooks/course/useCourseModules";
 import Loading from "~/components/loading";
@@ -72,13 +72,16 @@ export default function DialogSLT({
       sltText: data.sltText,
     });
   }
-
-  useEffect(() => {
+  const resetForm = useCallback(() => {
     form.reset({
       sltText: "",
       moduleId: currentModule.id ?? "",
     });
-  }, [sltDialogOpen, isLoadingCreate, currentModule.id, form]);
+  }, [form, currentModule]);
+
+  useEffect(() => {
+    resetForm();
+  }, [sltDialogOpen, isLoadingCreate, resetForm]);
 
   return (
     <>

@@ -1,7 +1,7 @@
 import { type FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { type Course, type CourseOnChainInstance } from "~/types/db";
 import { Network } from "@prisma/client";
 import { z } from "zod";
@@ -23,7 +23,6 @@ export default function DialogCourseOnChain({
   courseOnchain?: CourseOnChainInstance;
   selectedNetwork: Network;
 }) {
-  if (!course) return;
   const ctx = api.useUtils();
 
   const { mutate: create, isLoading: isLoadingCreate } =
@@ -120,22 +119,26 @@ export default function DialogCourseOnChain({
     }
   }
 
+  const resetForm = useCallback(() => {
+    form.reset({
+      network: courseOnchain?.network ?? "PREPROD",
+      LocalStateValidatorAddress:
+        courseOnchain?.LocalStateValidatorAddress ?? "",
+      CourseCreatorNFTPolicyID: courseOnchain?.CourseCreatorNFTPolicyID ?? "",
+      LocalStatePolicyID: courseOnchain?.LocalStatePolicyID ?? "",
+      CourseInstanceUTxO: courseOnchain?.CourseInstanceUTxO ?? "",
+      LocalStatePolicyRefUTxO: courseOnchain?.LocalStatePolicyRefUTxO ?? "",
+      AssignmentValidatorAddress:
+        courseOnchain?.AssignmentValidatorAddress ?? "",
+      ModuleValidatorAddress: courseOnchain?.ModuleValidatorAddress ?? "",
+    });
+  }, [form, courseOnchain]);
+
   useEffect(() => {
     if (dialogOpen && courseOnchain) {
-      form.reset({
-        network: courseOnchain.network ?? "PREPROD",
-        LocalStateValidatorAddress:
-          courseOnchain.LocalStateValidatorAddress ?? "",
-        CourseCreatorNFTPolicyID: courseOnchain.CourseCreatorNFTPolicyID ?? "",
-        LocalStatePolicyID: courseOnchain.LocalStatePolicyID ?? "",
-        CourseInstanceUTxO: courseOnchain.CourseInstanceUTxO ?? "",
-        LocalStatePolicyRefUTxO: courseOnchain.LocalStatePolicyRefUTxO ?? "",
-        AssignmentValidatorAddress:
-          courseOnchain.AssignmentValidatorAddress ?? "",
-        ModuleValidatorAddress: courseOnchain.ModuleValidatorAddress ?? "",
-      });
+      resetForm();
     }
-  }, [dialogOpen]);
+  }, [dialogOpen, courseOnchain, resetForm]);
 
   return (
     <Form {...form}>

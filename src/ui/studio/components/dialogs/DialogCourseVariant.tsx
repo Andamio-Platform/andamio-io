@@ -1,7 +1,7 @@
 import { type FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { type Course, type CourseVariant } from "~/types/db";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -96,14 +96,18 @@ export default function DialogCourseVariant({
     }
   }
 
-  useEffect(() => {
+  const resetForm = useCallback(() => {
     form.reset({
       variantCode: courseVariant?.variantCode ?? "",
       title: courseVariant?.title ?? "",
       description: courseVariant?.description ?? "",
       videoUrl: courseVariant?.videoUrl ?? "",
     });
-  }, [dialogOpen]);
+  }, [courseVariant, form]);
+
+  useEffect(() => {
+    resetForm();
+  }, [dialogOpen, resetForm]);
 
   return (
     <Form {...form}>

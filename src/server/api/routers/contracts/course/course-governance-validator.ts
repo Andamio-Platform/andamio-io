@@ -1,11 +1,7 @@
 import { z } from "zod";
 import { indexerGet } from "~/lib/axios/indexer";
 
-import {
-  createTRPCRouter,
-  protectedProcedure,
-  publicProcedure,
-} from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const courseGovernanceValidatorRouter = createTRPCRouter({
   getCreatorCoursePoliciesByAlias: protectedProcedure
@@ -15,9 +11,9 @@ export const courseGovernanceValidatorRouter = createTRPCRouter({
       }),
     )
     .query(async ({ input }) => {
-      const result = (await indexerGet(
+      const result = await indexerGet<string[]>(
         `course-governance-validator/creatorsCoursePoliciesByAlias?alias=${input.alias}`,
-      )) as string[];
+      );
       // const res = await axios.get(
       //   `${INDEXER_URL}/api/course-governance-validator/creatorsCoursePoliciesByAlias?alias=${input.alias}`,
       // );

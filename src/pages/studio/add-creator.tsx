@@ -5,6 +5,7 @@ import { Button } from "~/components/ui/button";
 import StudioLayout from "~/ui/studio/components/layout/StudioLayout";
 import { api } from "~/utils/api";
 
+// TODO: Build a user journey from first login to Course Creator status
 export default function AddCreatorPage() {
   const { data: sessionData } = useSession();
 

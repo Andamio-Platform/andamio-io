@@ -1,10 +1,9 @@
-import axios from "axios";
 import { z } from "zod";
 import {
   type DecodedAssignmentDecisionDatum,
   type DecodedModuleRefDatum,
 } from "@andamiojs/datum-utils";
-import { INDEXER_URL } from "~/config/indexer";
+import { indexerGet } from "~/lib/axios/indexer";
 
 import {
   createTRPCRouter,
@@ -21,14 +20,14 @@ export const assignmentValidatorRouter = createTRPCRouter({
       }),
     )
     .query(async ({ input }) => {
-      const res = await axios.get(
-        `${INDEXER_URL}/api/module-ref/decodedModuleRefDatumsByCourseNftPolicy?policy=${input.courseCreatorNFTPolicyID}`,
-      );
-      const onchainCourseModules: {
+      type OnchainCourseModule = {
         module_token: string;
         decoded_datum: DecodedModuleRefDatum;
-      }[] = res.data;
+      };
 
+      const onchainCourseModules = await indexerGet<OnchainCourseModule[]>(
+        `module-ref/decodedModuleRefDatumsByCourseNftPolicy?policy=${input.courseCreatorNFTPolicyID}`,
+      );
       if (
         onchainCourseModules.some(
           (m) => m.module_token === input.assignmentCode,
@@ -49,10 +48,9 @@ export const assignmentValidatorRouter = createTRPCRouter({
       }),
     )
     .query(async ({ input }) => {
-      const res = await axios.get(
-        `${INDEXER_URL}/api/assignment-validator/decodedAssignmentValidatorUtxoByCourseNftPolicyAndAlias?policy=${input.courseCreatorNFTPolicyID}&alias=${input.alias}`,
+      const assignment = await indexerGet<DecodedAssignmentDecisionDatum>(
+        `assignment-validator/decodedAssignmentValidatorUtxoByCourseNftPolicyAndAlias?policy=${input.courseCreatorNFTPolicyID}&alias=${input.alias}`,
       );
-      const assignment: DecodedAssignmentDecisionDatum = res.data;
       if (assignment.CommittedAssignmentId === input.assignmentCode) {
         return true;
       } else {
@@ -67,11 +65,10 @@ export const assignmentValidatorRouter = createTRPCRouter({
       }),
     )
     .query(async ({ input }) => {
-      const res = await axios.get(
-        `${INDEXER_URL}/api/assignment-validator/decodedAssignmentDatumsByCourseNftPolicy?policy=${input.courseNftPolicy}`,
+      const assignments = await indexerGet<DecodedAssignmentDecisionDatum[]>(
+        `assignment-validator/decodedAssignmentDatumsByCourseNftPolicy?policy=${input.courseNftPolicy}`,
       );
-      const result: DecodedAssignmentDecisionDatum[] = res.data;
-      return result;
+      return assignments;
     }),
 
   getDecodedCourseAssignmentDatumsByAlias: protectedProcedure
@@ -82,10 +79,9 @@ export const assignmentValidatorRouter = createTRPCRouter({
       }),
     )
     .query(async ({ input }) => {
-      const res = await axios.get(
-        `${INDEXER_URL}/api/assignment-validator/decodedAssignmentValidatorUtxoByCourseNftPolicyAndAlias?policy=${input.courseCreatorNFTPolicyID}&alias=${input.alias}`,
+      const assignments = await indexerGet<DecodedAssignmentDecisionDatum>(
+        `assignment-validator/decodedAssignmentValidatorUtxoByCourseNftPolicyAndAlias?policy=${input.courseCreatorNFTPolicyID}&alias=${input.alias}`,
       );
-      const result: DecodedAssignmentDecisionDatum = res.data;
-      return result;
+      return assignments;
     }),
 });

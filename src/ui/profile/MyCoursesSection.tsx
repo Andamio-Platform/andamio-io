@@ -1,4 +1,4 @@
-import { type AssetExtended } from "@meshsdk/core";
+import { type Asset } from "@meshsdk/core";
 import Link from "next/link";
 import { Badge } from "~/components/ui/badge";
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
@@ -12,7 +12,7 @@ export default function MyCoursesSection({
   alias,
   courses,
 }: {
-  accessToken: AssetExtended;
+  accessToken: Asset;
   alias: string;
   courses: DecodedTokenInfo[];
 }) {

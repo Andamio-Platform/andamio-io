@@ -6,6 +6,8 @@ import {
 } from "~/components/ui/popover";
 import { Loader } from "lucide-react";
 
+// TODO: How often does this retrigger?
+
 export default function UnconfirmedTx({
   unconfirmedTxHash,
 }: {

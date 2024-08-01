@@ -5,6 +5,8 @@ import { Button } from "~/components/ui/button";
 import StudioLayout from "~/ui/studio/components/layout/StudioLayout";
 import { api } from "~/utils/api";
 
+// TODO: Build a process for User be enabled as Learner -- OR, finally make Learner a default upon first login.
+
 export default function AddLearnerPage() {
   const ctx = api.useUtils();
   const { data: sessionData } = useSession();

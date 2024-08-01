@@ -3,6 +3,8 @@ import maestro from "~/config/maestro";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
+// TODO: James ask Nelson if this is completely outdated now :)
+
 export const learnerOnChainRouter = createTRPCRouter({
   getCoursesByTokenName: publicProcedure
     .input(z.object({ tokenName: z.string().min(3) }))

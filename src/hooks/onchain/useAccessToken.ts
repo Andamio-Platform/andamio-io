@@ -1,25 +1,20 @@
 import { type DecodedTokenInfo } from "@andamiojs/datum-utils";
 import { ACCESS_TOKEN_POLICY_ID } from "../../andamio.config";
-import {
-  type UTxO,
-  type Asset,
-  type AssetExtended,
-  hexToString,
-} from "@meshsdk/core";
-import { useWallet } from "@meshsdk/react";
+import { type UTxO, type Asset, hexToString } from "@meshsdk/core";
 import { useCallback, useEffect, useState } from "react";
+import { useWallet } from "@meshsdk/react";
 
 // TODO: For course list use:
 // import { DecodedTokenInfo } from "@andamiojs/datum-utils";
+// TODO: Triage this on Friday 2024-08-02 -- why is wallet.getUtxos not working?
 
 export const useAccessToken = () => {
-  const { wallet } = useWallet();
-
+  const { connected, wallet } = useWallet();
   // placeholder:
   const accessTokenCourses: DecodedTokenInfo[] = [];
-  const [accessTokenAsset, setAccessTokenAsset] = useState<
-    AssetExtended | undefined
-  >(undefined);
+  const [accessTokenAsset, setAccessTokenAsset] = useState<Asset | undefined>(
+    undefined,
+  );
   const [accessTokenUtxo, setAccessTokenUtxo] = useState<UTxO | undefined>(
     undefined,
   );
@@ -27,36 +22,33 @@ export const useAccessToken = () => {
     undefined,
   );
 
-  const getAssetTokenAsset = useCallback(async () => {
-    const assets = await wallet.getAssets();
-    const accessToken: AssetExtended | undefined = assets.find(
-      (asset: AssetExtended) => asset.unit.includes(ACCESS_TOKEN_POLICY_ID),
-    );
-    if (accessToken) {
-      setAccessTokenAsset(accessToken);
-      const alias = hexToString(accessToken.unit.substring(62));
-      setAccessTokenAlias(alias);
-    }
-  }, [wallet]);
-
   const getAssetTokenUtxo = useCallback(async () => {
-    const utxos: UTxO[] | undefined = await wallet.getUtxos();
-    const accessToken: UTxO | undefined = utxos.find((utxo: UTxO) => {
-      utxo.output.amount.some((a: Asset) =>
-        a.unit.includes(ACCESS_TOKEN_POLICY_ID),
-      );
-    });
-    if (accessToken) {
-      setAccessTokenUtxo(accessToken);
+    if (!!wallet) {
+      const utxos: UTxO[] | undefined = await wallet.getUtxos();
+      const atUtxo: UTxO | undefined = utxos.find((utxo: UTxO) => {
+        return utxo.output.amount.some((a: Asset) =>
+          a.unit.startsWith(ACCESS_TOKEN_POLICY_ID),
+        );
+      });
+      if (atUtxo) {
+        setAccessTokenUtxo(atUtxo);
+        const atAsset: Asset | undefined = atUtxo.output.amount.find(
+          (asset: Asset) => asset.unit.includes(ACCESS_TOKEN_POLICY_ID),
+        );
+        if (atAsset) {
+          const alias = hexToString(atAsset.unit.substring(62));
+          setAccessTokenAsset(atAsset);
+          setAccessTokenAlias(alias);
+        }
+      }
     }
   }, [wallet]);
 
   useEffect(() => {
-    if (wallet) {
-      void getAssetTokenAsset();
+    if (connected) {
       void getAssetTokenUtxo();
     }
-  }, [wallet, getAssetTokenAsset, getAssetTokenUtxo]);
+  }, [wallet, getAssetTokenUtxo, connected]);
 
   return {
     accessTokenAsset,

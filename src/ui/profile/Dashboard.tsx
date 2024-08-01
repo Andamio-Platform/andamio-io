@@ -74,22 +74,22 @@ export default function DashboardPage() {
                 >
                   Andamio Learner
                 </Card>
-                {accessTokenAsset && accessTokenAlias ? (
+                {accessTokenAsset ? (
                   <>
                     <Card className="col-span-3">
-                      <AccessTokenSection accessToken={accessTokenAsset} />
+                      <AccessTokenSection alias={accessTokenAlias ?? ""} />
                     </Card>
                     <div className="col-span-6">
                       <AssignmentCommitmentsSection
                         accessToken={accessTokenAsset}
-                        alias={accessTokenAlias}
+                        alias={accessTokenAlias ?? ""}
                         courses={accessTokenCourses}
                       />
                     </div>
                     <div className="col-span-3">
                       <MyCoursesSection
                         accessToken={accessTokenAsset}
-                        alias={accessTokenAlias}
+                        alias={accessTokenAlias ?? ""}
                         courses={accessTokenCourses}
                       />
                     </div>

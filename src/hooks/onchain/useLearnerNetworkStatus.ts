@@ -1,7 +1,7 @@
-import { type AssetExtended } from "@meshsdk/core";
+import { type Asset } from "@meshsdk/core";
 import { api } from "~/utils/api";
 
-export default function useLearnerNetworkStatus(accessToken: AssetExtended) {
+export default function useLearnerNetworkStatus(accessToken: Asset) {
   // Todo: find or implement onchain assignment commitment type
   //  const [currentAssignments, setCurrentAssignments] = useState<any[]>([]);
 

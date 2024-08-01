@@ -1,6 +1,6 @@
 import { Card, CardHeader, CardContent } from "~/components/ui/card";
 import useLearnerNetworkStatus from "~/hooks/onchain/useLearnerNetworkStatus";
-import { type AssetExtended } from "@meshsdk/core";
+import { type Asset } from "@meshsdk/core";
 import CommittedAssignment from "./CommittedAssignment";
 import { type DecodedTokenInfo } from "@andamiojs/datum-utils";
 
@@ -9,7 +9,7 @@ export default function AssignmentCommitmentsSection({
   alias,
   courses,
 }: {
-  accessToken: AssetExtended;
+  accessToken: Asset;
   alias: string;
   courses: DecodedTokenInfo[];
 }) {

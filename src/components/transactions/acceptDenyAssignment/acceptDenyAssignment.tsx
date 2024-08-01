@@ -55,7 +55,7 @@ export default function AcceptDenyAssignment({
 
       const userUTxOs = await wallet.getUtxos();
 
-      const courseFacilitatorAccessTokenUTxO: UTxO = userUTxOs.find(
+      const courseFacilitatorAccessTokenUTxO: UTxO | undefined = userUTxOs.find(
         (utxo: UTxO) =>
           utxo.output.amount.some((a) =>
             a.unit.includes(ACCESS_TOKEN_POLICY_ID),
@@ -79,7 +79,7 @@ export default function AcceptDenyAssignment({
 
       const remainingUTxOs = userUTxOs.filter(
         (utxo) =>
-          utxo !== coll_utxo && utxo !== courseFacilitatorAccessTokenUTxO,
+          utxo !== coll_utxo[0] && utxo !== courseFacilitatorAccessTokenUTxO,
       );
       const UserUTxOs: UTxOi[] = [];
       remainingUTxOs.forEach((utxo: UTxO) => {
@@ -123,8 +123,8 @@ export default function AcceptDenyAssignment({
         CollateralUTxO: CollateralUTxO,
         CourseFacilitatorDecision: decision,
         CourseFacilitatorAccessTokenUTxO: {
-          TxID: courseFacilitatorAccessTokenUTxO.input.txHash,
-          TxIDIndex: courseFacilitatorAccessTokenUTxO.input.outputIndex,
+          TxID: courseFacilitatorAccessTokenUTxO?.input.txHash ?? "",
+          TxIDIndex: courseFacilitatorAccessTokenUTxO?.input.outputIndex ?? 0,
         },
         UserAssignmentUTxO: {
           TxID: assignmentValidatorUTxO.tx_hash,

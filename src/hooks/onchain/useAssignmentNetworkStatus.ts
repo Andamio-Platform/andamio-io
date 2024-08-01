@@ -1,4 +1,3 @@
-import { useWallet } from "@meshsdk/react";
 import useAssignment from "../course/useAssignment";
 import { NETWORK } from "~/andamio.config";
 import useNetworkCourseConfig from "./useNetworkCourseConfig";
@@ -21,9 +20,7 @@ export default function useAssignmentNetworkStatus({
     errorAssignment,
   } = useAssignment(courseCode, moduleCode);
 
-  const { wallet } = useWallet();
-
-  const { data: accessTokenData } = useAccessToken(wallet);
+  const { accessTokenAlias } = useAccessToken();
   const { courseOnchain } = useNetworkCourseConfig(courseCode, NETWORK);
 
   const { data: isAssignmentOnchain, isLoading: isLoadingAssignmentOnchain } =
@@ -45,9 +42,9 @@ export default function useAssignmentNetworkStatus({
       {
         courseCreatorNFTPolicyID: courseOnchain?.CourseCreatorNFTPolicyID ?? "",
         assignmentCode: assignment?.assignmentCode ?? "",
-        alias: accessTokenData?.alias ?? "",
+        alias: accessTokenAlias ?? "",
       },
-      { enabled: !!accessTokenData && !!accessTokenData.alias },
+      { enabled: !!accessTokenAlias },
     );
 
   return {

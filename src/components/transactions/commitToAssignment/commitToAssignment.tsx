@@ -1,11 +1,10 @@
-import { type Asset, type UTxO } from "@meshsdk/core";
+import { type UTxO } from "@meshsdk/core";
 import { CardanoWallet, useWallet } from "@meshsdk/react";
 import axios from "axios";
 import { useState } from "react";
 import Loading from "~/components/loading";
 import type UTxOi from "~/components/transactions/model";
 import { Button } from "~/components/ui/button";
-import { ACCESS_TOKEN_POLICY_ID } from "~/andamio.config";
 import useNetworkCourseConfig from "~/hooks/onchain/useNetworkCourseConfig";
 import { NETWORK } from "~/andamio.config";
 import { INDEXER_URL } from "~/config/indexer";
@@ -24,6 +23,7 @@ import {
 import { Input } from "~/components/ui/input";
 import { type UtxoWithSlot } from "@maestro-org/typescript-sdk";
 import { type DecodedCourseInstanceDatum } from "@andamiojs/datum-utils";
+import { useAccessToken } from "~/hooks/onchain/useAccessToken";
 
 interface RequestData {
   Address: string;
@@ -59,6 +59,8 @@ export default function CommitToAssignment({
   const { toast } = useToast();
 
   const { connected, wallet } = useWallet();
+  const { accessTokenUtxo, accessTokenAlias, accessTokenAsset } =
+    useAccessToken();
   const [isLoading, setIsLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
@@ -73,126 +75,115 @@ export default function CommitToAssignment({
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     setIsLoading(true);
-    try {
-      const addr = await wallet.getChangeAddress();
-      // sum utxos with mininum ADA 10
-      const userUTxOs = await wallet.getUtxos();
-      const UserUTxOs: UTxOi[] = [];
-      userUTxOs.forEach((utxo: UTxO) => {
-        UserUTxOs.push({
-          TxID: utxo.input.txHash,
-          TxIDIndex: utxo.input.outputIndex,
+    if (accessTokenUtxo && accessTokenAsset && accessTokenAlias) {
+      try {
+        const addr = await wallet.getChangeAddress();
+        // sum utxos with mininum ADA 10
+        const userUTxOs = await wallet.getUtxos();
+        const UserUTxOs: UTxOi[] = [];
+        userUTxOs.forEach((utxo: UTxO) => {
+          UserUTxOs.push({
+            TxID: utxo.input.txHash,
+            TxIDIndex: utxo.input.outputIndex,
+          });
         });
-      });
-      const coll_utxo: UTxO[] = await wallet.getCollateral();
-      if (!coll_utxo[0] || coll_utxo[0] === undefined) {
-        throw new Error("Cannot find collateral utxo");
-        return;
+        const coll_utxo: UTxO[] = await wallet.getCollateral();
+        if (!coll_utxo[0] || coll_utxo[0] === undefined) {
+          throw new Error("Cannot find collateral utxo");
+        }
+        const CollateralUTxO: UTxOi = {
+          TxID: coll_utxo[0].input.txHash,
+          TxIDIndex: coll_utxo[0].input.outputIndex,
+        };
+
+        if (!courseOnchain) {
+          throw new Error("Course not found on-chain");
+        }
+
+        const localStateValidatorRefUTxO_res = await axios.get(
+          `${INDEXER_URL}/api/instance-validator/localStateValildatorRefUtxoByCourseNftPolicy?policy=${courseOnchain.CourseCreatorNFTPolicyID}`,
+        );
+        const localStateValidatorRefUTxO: UtxoWithSlot =
+          localStateValidatorRefUTxO_res.data;
+
+        const localStateUtxo_res = await axios.get(
+          `${INDEXER_URL}/api/course-state/courseStateUtxoByCourseNftPolicyAndAlias?policy=${courseOnchain.CourseCreatorNFTPolicyID}&alias=${accessTokenAlias}`,
+        );
+        const localStateUtxo: UtxoWithSlot = localStateUtxo_res.data;
+
+        const moduleTokenUtxo_res = await axios.get(
+          `${INDEXER_URL}/api/module-ref/moduleRefValidatorUtxoByCourseNftPolicyAndTokenName?policy=${courseOnchain.CourseCreatorNFTPolicyID}&token_name=${assignmentCode}`,
+        );
+        const moduleTokenUtxo: UtxoWithSlot = moduleTokenUtxo_res.data;
+
+        const instance_res = await axios.get(
+          `${INDEXER_URL}/api/instance-validator/decodedCourseInstanceDatumByCourseNftPolicy?policy=${courseOnchain.CourseCreatorNFTPolicyID}`,
+        );
+
+        const instance: DecodedCourseInstanceDatum = instance_res.data;
+
+        const req: RequestData = {
+          Address: addr,
+          ChangeAddress: addr,
+          UserUTxOs,
+          CollateralUTxO,
+          UserLocalStateUTxO: {
+            TxID: localStateUtxo.tx_hash,
+            TxIDIndex: localStateUtxo.index,
+          },
+          UserAccessTokenUTxO: {
+            TxID: accessTokenUtxo.input.txHash,
+            TxIDIndex: accessTokenUtxo.input.outputIndex,
+          },
+          ModuleTokenUTxO: {
+            TxID: moduleTokenUtxo.tx_hash,
+            TxIDIndex: moduleTokenUtxo.index,
+          }, // match token with assignment code
+          AssignmentCode: assignmentCode,
+          StudentAssignmentInfo: data.assignmentInfo,
+          AssignmentValidatorAddress: instance.AssignmentAddrs[0]!,
+          LocalStateValidatorAddress: instance.CourseStateAddr,
+          LocalStatePolicyID: instance.LearnerCsList[0]!,
+          LocalStateValidatorRefUTxO: {
+            TxID: localStateValidatorRefUTxO.tx_hash,
+            TxIDIndex: localStateValidatorRefUTxO.index,
+          },
+        };
+
+        console.log(req);
+
+        const response: { data: { unsignedTxCBOR: string } } = await axios.post(
+          "/api/backend/txs/commitToAssignment",
+          req,
+        );
+
+        const unsignedTx = response.data.unsignedTxCBOR;
+
+        const signedTx = await wallet.signTx(unsignedTx, true);
+        const txId = await wallet.submitTx(signedTx);
+        console.log(txId);
+
+        setIsLoading(false);
+        toast({
+          title: "Transaction submitted",
+          description: `${txId}`,
+        });
+        // setIsConfirming(true);
+        // let confirmation = false;
+        // while (!confirmation) {
+        //   await new Promise((resolve) => setTimeout(resolve, 3000));
+        //   confirmation = await ConfirmTx(txId);
+        // }
+
+        // set database
+
+        // console.log()
+
+        setSubmitted(true);
+      } catch (error) {
+        setIsLoading(false);
+        console.error("Error", error);
       }
-      const CollateralUTxO: UTxOi = {
-        TxID: coll_utxo[0].input.txHash,
-        TxIDIndex: coll_utxo[0].input.outputIndex,
-      };
-
-      const accessTokenUtxo: UTxO = userUTxOs.find((utxo: UTxO) =>
-        utxo.output.amount.some((a) => a.unit.includes(ACCESS_TOKEN_POLICY_ID)),
-      );
-      const accessToken = accessTokenUtxo?.output.amount.find((item: Asset) =>
-        item.unit.includes(ACCESS_TOKEN_POLICY_ID),
-      );
-      const accessTokenNameHex = accessToken?.unit.substring(62);
-      const accessTokenName = Buffer.from(
-        accessTokenNameHex ? accessTokenNameHex : "",
-        "hex",
-      ).toString("utf-8");
-
-      if (!courseOnchain) {
-        throw new Error("Course not found on-chain");
-      }
-
-      const localStateValidatorRefUTxO_res = await axios.get(
-        `${INDEXER_URL}/api/instance-validator/localStateValildatorRefUtxoByCourseNftPolicy?policy=${courseOnchain.CourseCreatorNFTPolicyID}`,
-      );
-      const localStateValidatorRefUTxO: UtxoWithSlot =
-        localStateValidatorRefUTxO_res.data;
-
-      const localStateUtxo_res = await axios.get(
-        `${INDEXER_URL}/api/course-state/courseStateUtxoByCourseNftPolicyAndAlias?policy=${courseOnchain.CourseCreatorNFTPolicyID}&alias=${accessTokenName}`,
-      );
-      const localStateUtxo: UtxoWithSlot = localStateUtxo_res.data;
-
-      const moduleTokenUtxo_res = await axios.get(
-        `${INDEXER_URL}/api/module-ref/moduleRefValidatorUtxoByCourseNftPolicyAndTokenName?policy=${courseOnchain.CourseCreatorNFTPolicyID}&token_name=${assignmentCode}`,
-      );
-      const moduleTokenUtxo: UtxoWithSlot = moduleTokenUtxo_res.data;
-
-      const instance_res = await axios.get(
-        `${INDEXER_URL}/api/instance-validator/decodedCourseInstanceDatumByCourseNftPolicy?policy=${courseOnchain.CourseCreatorNFTPolicyID}`,
-      );
-
-      const instance: DecodedCourseInstanceDatum = instance_res.data;
-
-      const req: RequestData = {
-        Address: addr,
-        ChangeAddress: addr,
-        UserUTxOs,
-        CollateralUTxO,
-        UserLocalStateUTxO: {
-          TxID: localStateUtxo.tx_hash,
-          TxIDIndex: localStateUtxo.index,
-        },
-        UserAccessTokenUTxO: {
-          TxID: accessTokenUtxo.input.txHash,
-          TxIDIndex: accessTokenUtxo.input.outputIndex,
-        },
-        ModuleTokenUTxO: {
-          TxID: moduleTokenUtxo.tx_hash,
-          TxIDIndex: moduleTokenUtxo.index,
-        }, // match token with assignment code
-        AssignmentCode: assignmentCode,
-        StudentAssignmentInfo: data.assignmentInfo,
-        AssignmentValidatorAddress: instance.AssignmentAddrs[0]!,
-        LocalStateValidatorAddress: instance.CourseStateAddr,
-        LocalStatePolicyID: instance.LearnerCsList[0]!,
-        LocalStateValidatorRefUTxO: {
-          TxID: localStateValidatorRefUTxO.tx_hash,
-          TxIDIndex: localStateValidatorRefUTxO.index,
-        },
-      };
-
-      console.log(req);
-
-      const response: { data: { unsignedTxCBOR: string } } = await axios.post(
-        "/api/backend/txs/commitToAssignment",
-        req,
-      );
-
-      const unsignedTx = response.data.unsignedTxCBOR;
-
-      const signedTx = await wallet.signTx(unsignedTx, true);
-      const txId = await wallet.submitTx(signedTx);
-      console.log(txId);
-
-      setIsLoading(false);
-      toast({
-        title: "Transaction submitted",
-        description: `${txId}`,
-      });
-      // setIsConfirming(true);
-      // let confirmation = false;
-      // while (!confirmation) {
-      //   await new Promise((resolve) => setTimeout(resolve, 3000));
-      //   confirmation = await ConfirmTx(txId);
-      // }
-
-      // set database
-
-      // console.log()
-
-      setSubmitted(true);
-    } catch (error) {
-      setIsLoading(false);
-      console.error("Error", error);
     }
   }
 

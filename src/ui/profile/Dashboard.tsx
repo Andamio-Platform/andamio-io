@@ -1,5 +1,5 @@
 import MenuBar from "../landing/MenuBar";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useTheme } from "next-themes";
 import { CardanoWallet, useWallet } from "@meshsdk/react";
 import {
@@ -18,29 +18,17 @@ import AssignmentsSection from "./AssignmentSection";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import AssignmentCommitmentsSection from "./AssignmentCommitmentsSection";
 import CompletedCourses from "./CompletedCourses";
-import { type DecodedTokenInfo } from "@andamiojs/datum-utils";
 import { useRouter } from "next/router";
 import { useAccessToken } from "~/hooks/onchain/useAccessToken";
-import { type AssetExtended } from "@meshsdk/core";
 
 export default function DashboardPage() {
   const { setTheme } = useTheme();
-  const { wallet, connected } = useWallet();
-  const [accessToken, setAccessToken] = useState<AssetExtended | null>(null);
-  const [alias, setAlias] = useState<string>("");
-  const [courses, setCourses] = useState<DecodedTokenInfo[]>([]);
+  const { connected } = useWallet();
 
-  const { data } = useAccessToken(wallet);
-
-  useEffect(() => {
-    if (connected && data?.accessToken) {
-      setAccessToken(data.accessToken);
-    }
-    if (connected && data?.alias) {
-      setAlias(data.alias);
-      setCourses([]);
-    }
-  }, [connected, data]);
+  // TODO: Include currentCourses list in useAccessToken -
+  // Use import { DecodedTokenInfo } from "@andamiojs/datum-utils";
+  const { accessTokenAlias, accessTokenAsset, accessTokenCourses } =
+    useAccessToken();
 
   useEffect(() => {
     setTheme("light");
@@ -86,23 +74,23 @@ export default function DashboardPage() {
                 >
                   Andamio Learner
                 </Card>
-                {accessToken ? (
+                {accessTokenAsset && accessTokenAlias ? (
                   <>
                     <Card className="col-span-3">
-                      <AccessTokenSection accessToken={accessToken} />
+                      <AccessTokenSection accessToken={accessTokenAsset} />
                     </Card>
                     <div className="col-span-6">
                       <AssignmentCommitmentsSection
-                        accessToken={accessToken}
-                        alias={alias}
-                        courses={courses}
+                        accessToken={accessTokenAsset}
+                        alias={accessTokenAlias}
+                        courses={accessTokenCourses}
                       />
                     </div>
                     <div className="col-span-3">
                       <MyCoursesSection
-                        accessToken={accessToken}
-                        alias={alias}
-                        courses={courses}
+                        accessToken={accessTokenAsset}
+                        alias={accessTokenAlias}
+                        courses={accessTokenCourses}
                       />
                     </div>
 
@@ -115,7 +103,9 @@ export default function DashboardPage() {
                       </CardHeader>
                       <CardContent>
                         <div className="text-xs">
-                          {alias && <CompletedCourses alias={alias} />}
+                          {accessTokenAlias && (
+                            <CompletedCourses alias={accessTokenAlias} />
+                          )}
                         </div>
                       </CardContent>
                     </Card>
@@ -140,7 +130,7 @@ export default function DashboardPage() {
                 <NotConnectedCardano />
               </div>
             ) : (
-              <CreatorsSection accessTokenAlias={alias} />
+              <CreatorsSection accessTokenAlias={accessTokenAlias ?? ""} />
             )}
           </TabsContent>
         </Tabs>

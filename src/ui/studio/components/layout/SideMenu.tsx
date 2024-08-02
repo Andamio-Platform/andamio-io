@@ -2,12 +2,12 @@ import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Bars3Icon, HomeIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
-import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import SideMenuSessionProfile from "~/ui/auth/SideMenuSessionProfile";
 import Image from "next/image";
 import LoadingCircle from "../ContentEditor/ui/icons/loading-circle";
+import useCoursesByOwner from "~/hooks/course/useCoursesByOwner";
 
 const navigation = [
   { name: "Studio", href: "/studio", icon: HomeIcon, current: false },
@@ -21,14 +21,11 @@ export default function SideMenu() {
   const { data: sessionData } = useSession();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const { data: ownerCourses, isLoading } =
-    api.course.getCoursesByOwner.useQuery(undefined, {
-      enabled: sessionData != null,
-    });
+  const { ownerCourses, isLoadingCourses } = useCoursesByOwner();
 
   const router = useRouter();
 
-  if (isLoading) return <LoadingCircle />;
+  if (isLoadingCourses) return <LoadingCircle />;
 
   return (
     <div>

@@ -10,8 +10,8 @@ import {
   TableRow,
 } from "~/components/ui/table";
 import AcceptDenyAssignment from "~/components/transactions/acceptDenyAssignment/acceptDenyAssignment";
-import { api } from "~/utils/api";
 import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
+import useCourseByPolicyId from "~/hooks/onchain/useCourseByPolicyId";
 
 export default function CommittedAssignments({
   courseNftPolicy,
@@ -20,13 +20,8 @@ export default function CommittedAssignments({
 }) {
   const { listCourseAssignmentDatums } = useAssignmentDatums(courseNftPolicy);
 
-  const { data: courseInfo, isLoading: isLoadingCourseInfo } =
-    api.courseOnChainInstance.getCourseByCourseNftPolicy.useQuery(
-      {
-        CourseCreatorNFTPolicyID: courseNftPolicy,
-      },
-      { enabled: !!courseNftPolicy },
-    );
+  const { courseInfo, isLoadingCourseInfo } =
+    useCourseByPolicyId(courseNftPolicy);
 
   if (isLoadingCourseInfo) return <LoadingCircle />;
 

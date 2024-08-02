@@ -8,8 +8,11 @@ import { useState } from "react";
 import DialogForm from "~/components/form/dialog-form";
 import Image from "next/image";
 
-// TODO: Replace with ShadCN components
-//
+// TODO: Update this component
+// Make sprint task to update this component to match new patterns:
+// 1. ShadCN components - or at least check on deprecated Combobox components below
+// 2. Consider making useQuery into a hook?
+// -> Is it likely we'll want to re-use this logic? Is there any risk to performance in the Combobox?
 //
 export default function DialogCourseManager({
   dialogOpen,
@@ -23,7 +26,7 @@ export default function DialogCourseManager({
   const [query, setQuery] = useState("");
   const [selectedPerson, setSelectedPerson] = useState<User | null>(null);
 
-  // Todo: make a hook?
+  // Make a hook?
   const { data: searchUsers } = api.user.getUserByName.useQuery({
     username: query,
   });

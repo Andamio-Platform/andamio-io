@@ -1,32 +1,24 @@
-import { api } from "~/utils/api";
 import Loading from "~/components/loading";
 import CourseButtonCard from "./course/CourseButtonCard";
-import { useSession } from "next-auth/react";
 import { Card } from "~/components/ui/card";
 import Link from "next/link";
 import { Button } from "~/components/ui/button";
+import useCoursesByOwner from "~/hooks/course/useCoursesByOwner";
 
 export default function ListCourses() {
-  const { data: sessionData } = useSession();
-
-  // Here is leftover useQuery :)
-  const { data: courses, isLoading } = api.course.getCoursesByOwner.useQuery(
-    undefined,
-    { enabled: sessionData != null },
-  );
-
+  const { ownerCourses, isLoadingCourses } = useCoursesByOwner();
   return (
     <>
-      {courses === undefined && isLoading && (
+      {ownerCourses === undefined && isLoadingCourses && (
         <div className="flex min-h-[90vh] items-center">
           <Loading />
         </div>
       )}
-      {courses && (
+      {ownerCourses && (
         <>
-          {courses.length > 0 ? (
+          {ownerCourses.length > 0 ? (
             <div className="grid gap-4 md:grid-cols-2">
-              {courses.map((course) => {
+              {ownerCourses.map((course) => {
                 return (
                   <CourseButtonCard
                     key={course.id}

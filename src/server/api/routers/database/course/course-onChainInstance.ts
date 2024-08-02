@@ -98,6 +98,7 @@ export const courseOnChainInstanceRouter = createTRPCRouter({
         },
       });
     }),
+
   getCourseByCourseNftPolicy: publicProcedure
     .input(z.object({ CourseCreatorNFTPolicyID: z.string().min(1) }))
     .query(async ({ ctx, input }) => {

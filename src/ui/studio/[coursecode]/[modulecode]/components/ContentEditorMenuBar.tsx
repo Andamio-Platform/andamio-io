@@ -1,3 +1,5 @@
+// TODO:
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { type Course, type Module } from "~/types/db";
 import {
   Menubar,

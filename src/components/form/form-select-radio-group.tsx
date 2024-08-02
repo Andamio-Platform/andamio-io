@@ -1,3 +1,5 @@
+// TODO:
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import type { InputHTMLAttributes } from "react";
 import {
   FormItem,
@@ -26,9 +28,16 @@ export default function FormSelectRadioGroup(props: SelectProps) {
       render={({ field }) => (
         <FormItem>
           {props.label && <FormLabel>{props.label}</FormLabel>}
-          <RadioGroup onValueChange={field.onChange} value={field.value} className="my-3">
+          <RadioGroup
+            onValueChange={field.onChange}
+            value={field.value}
+            className="my-3"
+          >
             {props.options.map((option) => (
-              <div className="flex flex-row gap-2 my-1 items-center" key={option.value}>
+              <div
+                className="my-1 flex flex-row items-center gap-2"
+                key={option.value}
+              >
                 <RadioGroupItem
                   key={option.value}
                   value={option.value}

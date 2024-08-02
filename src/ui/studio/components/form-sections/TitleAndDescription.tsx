@@ -1,3 +1,5 @@
+// TODO:
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import React from "react";
 import { type FieldValues } from "react-hook-form";
 import { ToggleEditableField } from "~/components/ui/toggle-editable-field";
@@ -54,4 +56,3 @@ export default function TitleAndDescription({
     </div>
   );
 }
-

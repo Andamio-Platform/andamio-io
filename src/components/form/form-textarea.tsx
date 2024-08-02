@@ -1,3 +1,5 @@
+// TODO:
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import type { InputHTMLAttributes } from "react";
 import {
   FormItem,
@@ -15,14 +17,14 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   info?: string;
   height?: number;
-  defaultValue?: string
+  defaultValue?: string;
 }
 
 export default function FormTextArea(props: InputProps) {
-  let textAreaHeight: string
+  let textAreaHeight: string;
   if (props.height) {
     const h = props.height.toString();
-    textAreaHeight = "min-h-[" + h + "px]"
+    textAreaHeight = "min-h-[" + h + "px]";
   }
 
   return (
@@ -31,10 +33,17 @@ export default function FormTextArea(props: InputProps) {
       name={props.name}
       render={({ field }) => (
         <FormItem>
-          {props.label && <FormLabel className="text-foreground">{props.label}</FormLabel>}
+          {props.label && (
+            <FormLabel className="text-foreground">{props.label}</FormLabel>
+          )}
           {props.info && <FormDescription>{props.info}</FormDescription>}
           <FormControl>
-            <Textarea {...field} placeholder={props.placeholder} defaultValue={props.defaultValue} className={`border-b borderforeground my-3 ${props.height && textAreaHeight}`} />
+            <Textarea
+              {...field}
+              placeholder={props.placeholder}
+              defaultValue={props.defaultValue}
+              className={`borderforeground my-3 border-b ${props.height && textAreaHeight}`}
+            />
           </FormControl>
           <FormMessage />
         </FormItem>

@@ -1,5 +1,4 @@
-
-import { Storage } from "@google-cloud/storage";
+// import { Storage } from "@google-cloud/storage";
 // const {Storage} = require("@google-cloud/storage");
 // const Multer = require("multer");
 
@@ -19,7 +18,7 @@ import { Storage } from "@google-cloud/storage";
 
 export class API {
   public static uploadImage = async (file: any) => {
-    console.log("Uploading image...", file)
+    console.log("Uploading image...", file);
     await new Promise((r) => setTimeout(r, 500));
     return "/andamio.png";
 

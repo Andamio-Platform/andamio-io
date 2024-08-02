@@ -10,7 +10,7 @@ export const ImageUploader = ({
   onUpload: (url: string) => void;
 }) => {
   const { loading, uploadFile } = useUploader({ onUpload });
-  const { handleUploadClick, ref } = useFileUpload();
+  const { ref } = useFileUpload();
   const { draggedInside, onDrop, onDragEnter, onDragLeave } = useDropZone({
     uploader: uploadFile,
   });

@@ -1,23 +1,23 @@
 import { cn } from "../../lib/utils";
-import { memo, useCallback } from "react";
+import { memo } from "react";
 import { type Editor } from "@tiptap/react";
 // import { TableOfContents } from '../TableOfContents'
 
 export const Sidebar = memo(
   ({
-    editor,
+    // editor,
     isOpen,
-    onClose,
+    // onClose,
   }: {
     editor: Editor;
     isOpen?: boolean;
     onClose: () => void;
   }) => {
-    const handlePotentialClose = useCallback(() => {
-      if (window.innerWidth < 1024) {
-        onClose();
-      }
-    }, [onClose]);
+    // const handlePotentialClose = useCallback(() => {
+    // if (window.innerWidth < 1024) {
+    // onClose();
+    // }
+    // }, [onClose]);
 
     const windowClassName = cn(
       "absolute top-0 left-0 bg-primary lg:bg-forground lg:backdrop-blur-xl h-full lg:h-auto lg:relative z-[999] w-0 duration-300 transition-all",

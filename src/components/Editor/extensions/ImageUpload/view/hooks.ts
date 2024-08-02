@@ -1,5 +1,16 @@
+// TODO:
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+
 import { v4 as uuid } from "uuid";
-import { DragEvent, useCallback, useEffect, useRef, useState } from "react";
+import {
+  type DragEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import toast from "react-hot-toast";
 
 export const useUploader = ({
@@ -36,7 +47,6 @@ export const useUploader = ({
         } catch (error) {
           toast.error((error as Error).message || "Something went wrong");
         }
-
       } catch (errPayload: any) {
         const error =
           errPayload?.response?.data?.error || "Something went wrong";

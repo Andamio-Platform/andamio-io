@@ -7,10 +7,7 @@ interface FormEditButtonsProps {
   setEditText: (editText: boolean) => void;
 }
 
-export default function FormEditButtons({
-  hideButtons,
-  setEditText,
-}: FormEditButtonsProps) {
+export default function FormEditButtons({ hideButtons }: FormEditButtonsProps) {
   return (
     <>
       {!hideButtons && (

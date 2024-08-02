@@ -1,8 +1,13 @@
-import { Editor, Extension } from "@tiptap/core";
+// TODO:
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+import { type Editor, Extension } from "@tiptap/core";
 import { ReactRenderer } from "@tiptap/react";
 import Suggestion, {
-  SuggestionProps,
-  SuggestionKeyDownProps,
+  type SuggestionProps,
+  type SuggestionKeyDownProps,
 } from "@tiptap/suggestion";
 import { PluginKey } from "@tiptap/pm/state";
 import tippy from "tippy.js";
@@ -144,7 +149,7 @@ export const SlashCommand = Extension.create({
 
               const { view } = props.editor;
 
-              const editorNode = view.dom;
+              // const editorNode = view.dom;
 
               const getReferenceClientRect = () => {
                 if (!props.clientRect) {
@@ -172,7 +177,7 @@ export const SlashCommand = Extension.create({
                 }
 
                 // Account for when the editor is bound inside a container that doesn't go all the way to the edge of the screen
-                const editorXOffset = editorNode.getBoundingClientRect().x;
+                // const editorXOffset = editorNode.getBoundingClientRect().x;
                 return new DOMRect(rect.x, yPos, rect.width, rect.height);
               };
 

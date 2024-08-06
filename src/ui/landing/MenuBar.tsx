@@ -46,8 +46,8 @@ function Desktop({
           <Link href="/">
             <span className="sr-only">Andamio</span>
             <Image
-              width={40}
-              height={40}
+              width={200}
+              height={200}
               className="h-8 w-auto"
               src="/andamio-logo-w-typography.jpg"
               alt="Andamio"

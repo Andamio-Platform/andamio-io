@@ -5,18 +5,18 @@
 @layer base {
   :root {
     --background: 222.2 8% 95%;
-    --foreground: 222.2 7.6% 12.9%;
-    --card: 222.2 8% 89%;
+    --foreground: 220 15% 16%;
+    --card: 36 11% 91%;
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    --primary: 222.2 7.6% 12.9%;
+    --primary: 203, 51%, 25%;
     --primary-foreground: 222.2 8% 95%;
-    --secondary: 210 40% 96.1%;
+    --secondary: 10, 64%, 55%;
     --secondary-foreground: 222.2 47.4% 11.2%;
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 99.3% 46.9%;
-    --accent: 210 40% 96.1%;
+    --accent: 39 86% 66%;
     --accent-foreground: 222.2 47.4% 11.2%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
@@ -70,7 +70,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background font-workSans text-foreground;
   }
 }
 @font-face {
@@ -79,6 +79,20 @@
   font-weight: 400;
   font-display: swap;
   src: url(/fonts/bennBeckmanMedium.woff2) format("woff2");
+}
+
+@font-face {
+  font-family: "WorkSans";
+  font-weight: 100 900;
+  font-display: swap;
+  src: url(/fonts/WorkSans-VariableFont_wght.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "LibreFranklin";
+  font-weight: 100 900;
+  font-display: swap;
+  src: url(/fonts/LibreFranklin-VariableFont_wght.ttf) format("truetype");
 }
 
 .CollapsibleContent {

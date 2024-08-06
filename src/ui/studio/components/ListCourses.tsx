@@ -17,7 +17,7 @@ export default function ListCourses() {
       {ownerCourses && (
         <>
           {ownerCourses.length > 0 ? (
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4">
               {ownerCourses.map((course) => {
                 return (
                   <CourseButtonCard

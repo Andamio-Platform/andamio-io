@@ -17,10 +17,15 @@ const config = {
         "2xl": "1400px",
       },
     },
+    fontFamily: {
+      sans: ["LibreFranklin", "ui-sans-serif", "system-ui"],
+      mono: ["ui-monospace"],
+      serif: ["ui-serif"],
+      beckman: ["Beckman", "ui-sans-serif", "system-ui"],
+      workSans: ["WorkSans"],
+      libreFranklin: ["LibreFranklin"],
+    },
     extend: {
-      fontFamily: {
-        beckman: ["Beckman", "ui-sans-serif", "system-ui"],
-      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

@@ -38,23 +38,14 @@ export default function DashboardPage() {
       <MenuBar />
       <div className="mx-auto mt-[150px] flex w-full items-center justify-center">
         <Tabs defaultValue="andamioNetwork" className="w-2/3">
-          <TabsList className="my-3 w-full rounded-md border border-secondary-foreground bg-indigo-800 text-white">
-            <TabsTrigger
-              value="andamioNetwork"
-              className="mx-10 px-10 text-lg font-bold"
-            >
-              Network
+          <TabsList className="my-3 w-full rounded-md">
+            <TabsTrigger value="andamioNetwork" className="px-10">
+              Andamio Network
             </TabsTrigger>
-            <TabsTrigger
-              value="learningJourney"
-              className="mx-10 px-10 text-lg font-bold"
-            >
+            <TabsTrigger value="learningJourney" className="px-10">
               My Learning Journey
             </TabsTrigger>
-            <TabsTrigger
-              value="creator"
-              className="mx-10 px-10 text-lg font-bold"
-            >
+            <TabsTrigger value="creator" className="px-10">
               Creator Section
             </TabsTrigger>
           </TabsList>

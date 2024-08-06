@@ -93,7 +93,6 @@ export default function DialogCourseOnChain({
     if (courseOnchain && courseOnchain.id) {
       update({
         id: courseOnchain.id,
-        courseCode: course.courseCode,
         network: data.network,
         LocalStateValidatorAddress: data.LocalStateValidatorAddress,
         CourseCreatorNFTPolicyID: data.CourseCreatorNFTPolicyID,

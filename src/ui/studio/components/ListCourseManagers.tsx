@@ -68,9 +68,7 @@ export default function ListCourseManagers({ course }: { course: Course }) {
                   <div className="flex items-center">
                     {contributor.user.image && (
                       <div className="h-11 w-11 flex-shrink-0">
-                        <Image
-                          width={32}
-                          height={32}
+                        <img
                           className="h-11 w-11 rounded-full"
                           src={contributor.user.image}
                           alt=""

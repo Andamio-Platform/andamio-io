@@ -69,7 +69,6 @@ export const courseOnChainInstanceRouter = createTRPCRouter({
     .input(
       z.object({
         id: z.string().min(1),
-        courseCode: z.string().min(1),
         network: z.nativeEnum(Network),
         LocalStateValidatorAddress: z.string().optional(),
         CourseCreatorNFTPolicyID: z.string().optional(),
@@ -86,7 +85,6 @@ export const courseOnChainInstanceRouter = createTRPCRouter({
           id: input.id,
         },
         data: {
-          course: { connect: { id: input.courseCode } },
           network: input.network,
           LocalStateValidatorAddress: input.LocalStateValidatorAddress ?? "",
           CourseCreatorNFTPolicyID: input.CourseCreatorNFTPolicyID ?? "",

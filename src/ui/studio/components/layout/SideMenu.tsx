@@ -257,9 +257,7 @@ export default function SideMenu() {
           Studio
         </div>
         <span className="sr-only">Your profile</span>
-        <Image
-          width={32}
-          height={32}
+        <img
           className="h-8 w-8 rounded-full bg-accent"
           src={sessionData?.user?.image ?? ""}
           alt=""

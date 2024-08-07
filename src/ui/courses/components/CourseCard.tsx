@@ -56,7 +56,7 @@ export default function CourseCard({ course }: { course: CoursePublic }) {
       size="md"
     >
       <CardHeader className="relative m-0 p-0">
-        <Image
+        <img
           width={600}
           height={400}
           className="aspect-[3/2] w-full rounded-t-md object-cover"

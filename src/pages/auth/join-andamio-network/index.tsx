@@ -17,7 +17,7 @@ import {
 
 import { useRouter } from "next/router";
 import Loading from "~/components/loading";
-import MintAccessToken from "~/components/transactions/mintAccessToken/mintAccessToken";
+import MintAccessToken from "~/components/transactions/MintAccessToken";
 
 import { api } from "~/utils/api";
 

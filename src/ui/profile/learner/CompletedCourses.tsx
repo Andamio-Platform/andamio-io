@@ -1,5 +1,5 @@
 import useGlobalStateDatum from "~/hooks/onchain/useGlobalStateDatum";
-import LoadingCircle from "../studio/components/ContentEditor/ui/icons/loading-circle";
+import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
 
 export default function CompletedCourses({ alias }: { alias: string }) {
   const {

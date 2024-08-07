@@ -257,6 +257,7 @@ export default function SideMenu() {
           Studio
         </div>
         <span className="sr-only">Your profile</span>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           className="h-8 w-8 rounded-full bg-accent"
           src={sessionData?.user?.image ?? ""}

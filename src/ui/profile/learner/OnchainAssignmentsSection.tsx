@@ -1,6 +1,5 @@
 import { useWallet } from "@meshsdk/react";
 import { useAccessToken } from "~/hooks/onchain/useAccessToken";
-import ConnectWalletCard from "../course/components/assignments/cards/ConnectWalletCard";
 import { Button } from "~/components/ui/button";
 import {
   Card,
@@ -10,10 +9,10 @@ import {
   CardFooter,
   CardTitle,
 } from "~/components/ui/card";
-import AccessTokenSection from "./AccessTokenSection";
 import AssignmentCommitmentsSection from "./AssignmentCommitmentsSection";
 import CompletedCourses from "./CompletedCourses";
 import MyCoursesSection from "./MyCoursesSection";
+import ConnectWalletCard from "~/ui/course/components/assignments/cards/ConnectWalletCard";
 
 export default function OnchainAssignmentsSection() {
   const { connected } = useWallet();
@@ -35,9 +34,6 @@ export default function OnchainAssignmentsSection() {
           </Card>
           {accessTokenAsset ? (
             <>
-              <Card className="">
-                <AccessTokenSection alias={accessTokenAlias ?? ""} />
-              </Card>
               <div className="">
                 <AssignmentCommitmentsSection
                   accessToken={accessTokenAsset}

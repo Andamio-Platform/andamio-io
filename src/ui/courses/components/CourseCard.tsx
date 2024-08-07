@@ -27,7 +27,6 @@ import {
 import { CardanoWallet, useWallet } from "@meshsdk/react";
 import checkIfEnrolled from "../utils/checkIfEnrolled";
 import Markdown from "react-markdown";
-import Image from "next/image";
 
 export default function CourseCard({ course }: { course: CoursePublic }) {
   const { connected, wallet } = useWallet();
@@ -56,6 +55,7 @@ export default function CourseCard({ course }: { course: CoursePublic }) {
       size="md"
     >
       <CardHeader className="relative m-0 p-0">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           width={600}
           height={400}

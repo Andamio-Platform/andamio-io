@@ -1,5 +1,5 @@
 import useCourseStateDatum from "~/hooks/onchain/useCourseStateDatum";
-import LoadingCircle from "../studio/components/ContentEditor/ui/icons/loading-circle";
+import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
 
 export default function CompletedAssignments({
   courseNftPolicy,

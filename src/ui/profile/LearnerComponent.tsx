@@ -2,9 +2,12 @@ import { CardanoWallet, useWallet } from "@meshsdk/react";
 import { useAccessToken } from "~/hooks/onchain/useAccessToken";
 import useGlobalStateDatum from "~/hooks/onchain/useGlobalStateDatum";
 import MintAccessToken from "~/components/transactions/MintAccessToken";
-import { Card } from "~/components/ui/card";
 import { useState } from "react";
-import { Button } from "~/components/ui/button";
+import CurrentCourseSidebarItem from "./learner/CurrentCourseSidebarItem";
+import DashboardDataComponent from "./dashboard-home/DashboardDataComponent";
+import CourseDetails from "./learner/CourseDetails";
+import { useLearnerAssignmentStatuses } from "~/hooks/course/useLearnerAssignmentStatuses";
+import OnchainAssignmentsSection from "./learner/OnchainAssignmentsSection";
 
 const testData: { policyId: string; courseTitle: string }[] = [
   {
@@ -32,6 +35,7 @@ export default function LearnerComponent() {
   const { connected } = useWallet();
   const { accessTokenCourses, accessTokenAlias } = useAccessToken();
   const { globalStateDatum } = useGlobalStateDatum(accessTokenAlias ?? "");
+  const { learnerAssignments } = useLearnerAssignmentStatuses();
 
   const [selectedCourse, setSelectedCourse] = useState<string | undefined>(
     undefined,
@@ -39,73 +43,87 @@ export default function LearnerComponent() {
   return (
     <div>
       <div className="grid grid-cols-3 gap-5">
-        <div className="col-span-1 border border-primary p-5">
+        <div className="col-span-1">
           {!connected ? (
             <CardanoWallet />
           ) : (
             <>
-              <h2>Do you need an access token?</h2>
               {connected && !accessTokenAlias ? (
                 <div>
-                  Yes you need one.
                   <MintAccessToken />
                 </div>
               ) : (
                 <>
-                  <div>Access Token Name: {accessTokenAlias}</div>
-                  <div>User Info: {globalStateDatum?.UserInfo}</div>
+                  <DashboardDataComponent
+                    title="Your Access Token"
+                    data={accessTokenAlias ?? ""}
+                    label={globalStateDatum?.UserInfo ?? ""}
+                  />
                 </>
               )}
             </>
           )}
         </div>
-        <div className="col-span-1 border border-primary p-5">
-          {globalStateDatum?.TokenInfos.length} COURSES!
-        </div>
-        <div className="col-span-1 border border-primary p-5">
-          6 GOALS COMPLETED link - view goals
-        </div>
-        <div className="col-span-1 row-span-9 bg-secondary">
-          COURSES - can this animate in on wallet connected?
+        <DashboardDataComponent
+          title="Andamio Courses"
+          data={globalStateDatum?.TokenInfos.length.toString() ?? ""}
+          label="courses enrolled"
+        />
+        <DashboardDataComponent
+          title="Assignments"
+          data={learnerAssignments.length.toString() ?? ""}
+          label="assignments viewed in courses"
+        />
+      </div>
+      <div className="mt-24 grid grid-cols-4 gap-5">
+        <div className="col-span-1 row-span-9 ">
           <h2 className="py-5 font-beckman">Current Courses</h2>
           {globalStateDatum?.TokenInfos.map((ti, i) => (
-            <Card key={i}>
-              <h2>
-                Make me a Current Course Card Component - at the core of the
-                Learner Dashboard. With information about Assignments, status,
-                etc.
-              </h2>
-              <p>{ti.LsCs}</p>
-            </Card>
+            <CurrentCourseSidebarItem
+              lsCs={ti.LsCs}
+              key={i}
+              selectedCourse={selectedCourse}
+              setSelectedCourse={setSelectedCourse}
+            />
           ))}
           <h2 className="py-5 font-beckman">Completed Courses</h2>
           {testData.map((t, i) => (
-            <Card key={i}>
-              {t.courseTitle}
-              <Button onClick={() => setSelectedCourse(t.courseTitle)}>
-                View
-              </Button>
-            </Card>
+            <CurrentCourseSidebarItem
+              lsCs={t.policyId}
+              key={i}
+              selectedCourse={selectedCourse}
+              setSelectedCourse={setSelectedCourse}
+            />
           ))}
         </div>
         {/* Move these details to Course level view - this page should be a list of courses */}
         {/* <AssignmentsSection /> */}
         {/* <OnchainAssignmentsSection /> */}
         {selectedCourse ? (
-          <div>{selectedCourse}</div>
+          <CourseDetails
+            lsCs={selectedCourse}
+            learnerAssignments={learnerAssignments}
+          />
         ) : (
           <>
-            <div className="col-span-2 border border-primary p-5">
+            <div className="col-span-3 border border-primary p-5">
               <p>My Goals - Needed Prereqs or otherwise saved Courses</p>
             </div>
-            <div className="col-span-2 border border-primary p-5">
+            <div className="col-span-3 border border-primary p-5">
               <h2>ACCESS TOKEN COURSES: Todo - finish that nice hook</h2>
               <pre>{JSON.stringify(accessTokenCourses, null, 2)}</pre>
             </div>
           </>
         )}
-        <div className="col-span-3 border border-primary p-5">
+        <div className="col-span-4 border border-primary p-5">
           <p>CTA: Want to explore more? Browse all courses!</p>
+          <p>
+            CTA: Or, choose a Goal Path and complete the pre-requisites - write
+            about this idea + bring to team.
+          </p>
+        </div>
+        <div className="col-span-4 border border-primary p-5">
+          <OnchainAssignmentsSection />
         </div>
       </div>
     </div>

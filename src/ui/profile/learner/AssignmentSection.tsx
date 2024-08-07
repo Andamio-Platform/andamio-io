@@ -4,7 +4,6 @@ import {
   CardFooter,
   CardHeader,
 } from "~/components/ui/card";
-import useLearnerAssignmentStatuses from "~/hooks/course/useLearnerAssignmentStatuses";
 import Link from "next/link";
 import AssignmentBadges from "~/components/ui/assignment-badges";
 import { Button } from "~/components/ui/button";
@@ -18,9 +17,17 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
+import {
+  useLearnerAssignmentStatuses,
+  type LearnerAssignment,
+} from "~/hooks/course/useLearnerAssignmentStatuses";
 
-export default function AssignmentsSection() {
-  const { learnerAssignments, updateSession } = useLearnerAssignmentStatuses();
+export default function AssignmentsSection({
+  learnerAssignments,
+}: {
+  learnerAssignments: LearnerAssignment[];
+}) {
+  const { updateSession } = useLearnerAssignmentStatuses();
   const ctx = api.useUtils();
 
   const [showArchived, setShowArchived] = useState(false);
@@ -53,7 +60,6 @@ export default function AssignmentsSection() {
   return (
     <div className="flex w-full flex-col">
       <div className="grid w-full grid-cols-1 gap-5">
-        <h2 className="text-2xl font-bold">My Assignments</h2>
         {learnerAssignments.map((la, i) => {
           if (la.archived && !showArchived) return null;
 

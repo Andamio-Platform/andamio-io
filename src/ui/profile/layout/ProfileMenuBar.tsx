@@ -2,8 +2,6 @@ import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "~/components/link";
-import { useSession } from "next-auth/react";
-import Image from "next/image";
 
 const navigation = [
   { name: "My Profile", href: "/profile" },
@@ -34,7 +32,6 @@ function Desktop({
 }: {
   setMobileMenuOpen: (open: boolean) => void;
 }) {
-  const { data: sessionData } = useSession();
   return (
     <nav
       className="flex items-center justify-between bg-secondary px-6 text-primary-foreground lg:px-8"

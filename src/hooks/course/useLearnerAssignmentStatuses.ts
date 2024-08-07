@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { type AssignmentCommitment } from "~/types/db";
 import { api } from "~/utils/api";
 
-type LearnerAssignment = {
+export type LearnerAssignment = {
   id: string;
   title: string;
   assignmentCode: string;
@@ -16,7 +16,7 @@ type LearnerAssignment = {
   archived: boolean;
 };
 
-export default function useLearnerAssignmentStatuses() {
+export function useLearnerAssignmentStatuses() {
   const ctx = api.useUtils();
   const { data: sessionData, update: updateSession } = useSession();
 

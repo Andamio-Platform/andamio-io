@@ -1,32 +1,30 @@
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { Button } from "~/components/ui/button";
 import useCourse from "~/hooks/course/useCourse";
 import { type LearnerAssignment } from "~/hooks/course/useLearnerAssignmentStatuses";
-import useCourseByPolicyId from "~/hooks/onchain/useCourseByPolicyId";
 import AssignmentsSection from "./AssignmentSection";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
-import { useLearnerSavedCourses } from "~/hooks/course/useLearnerSavedCourses";
+import useLearnerSavedCourses from "~/hooks/course/useLearnerSavedCourses";
 import LearnerCourseModuleDetailsComponent from "./LearnerCourseModuleDetailsComponent";
 import useCourseModuleWithAssignmentSummary from "~/hooks/course/useCourseModuleWithAssignmentSummary";
 
 export default function CourseDetails({
-  lsCs,
+  currentCourseCode,
   learnerAssignments,
 }: {
-  lsCs: string;
+  currentCourseCode: string;
   learnerAssignments: LearnerAssignment[];
 }) {
   const ctx = api.useUtils();
   const { data: sessionData, update: updateSessionData } = useSession();
-  const { courseInfo } = useCourseByPolicyId(lsCs);
-  const { course } = useCourse(courseInfo?.courseCode ?? "");
-  const { courseModuleOverviews } = useCourseModuleWithAssignmentSummary(
-    courseInfo?.courseCode ?? "",
-  );
-  const { savedCoursePolicies } = useLearnerSavedCourses();
+  const { course, isLoadingCourse } = useCourse(currentCourseCode);
+  const { courseModuleOverviews } =
+    useCourseModuleWithAssignmentSummary(currentCourseCode);
+  const { savedCourses } = useLearnerSavedCourses();
   const [isCourseSaved, setIsCourseSaved] = useState<boolean>(true);
   const [courseAssignments, setCourseAssignments] = useState<
     LearnerAssignment[]
@@ -60,13 +58,13 @@ export default function CourseDetails({
   }, [course, learnerAssignments]);
 
   useEffect(() => {
-    if (savedCoursePolicies) {
-      const saved = savedCoursePolicies.find(
-        (c) => c.courseCreatorNFTPolicyId === lsCs,
+    if (savedCourses) {
+      const saved = savedCourses.find(
+        (c) => c.courseCode === currentCourseCode,
       );
       setIsCourseSaved(!!saved);
     }
-  }, [savedCoursePolicies, lsCs]);
+  }, [savedCourses, currentCourseCode]);
 
   const handleSaveCourse = () => {
     if (sessionData && course?.id) {
@@ -85,6 +83,13 @@ export default function CourseDetails({
       });
     }
   };
+
+  if (isLoadingCourse)
+    return (
+      <div className="col-span-3 flex min-h-[500px] w-full animate-pulse items-center justify-center">
+        <Image src="/andamio.png" width={200} height={200} alt="loading" />
+      </div>
+    );
 
   return (
     <div className="col-span-3 grid w-full grid-cols-2 px-5">

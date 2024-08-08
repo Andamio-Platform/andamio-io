@@ -9,6 +9,8 @@ export type CourseModuleWithAssignmentSummary =
 export type User = RouterOutputs["user"]["getUserByName"][number];
 export type Creator = RouterOutputs["creator"]["getCreatorByUser"];
 export type Learner = RouterOutputs["learner"]["getLearnerByUser"];
+export type LearnerSavedCourse =
+  RouterOutputs["learner"]["getSavedCoursesByLearner"][number];
 export type CourseVariant =
   RouterOutputs["courseVariant"]["getCourseVariants"][number];
 export type ModuleVariant =

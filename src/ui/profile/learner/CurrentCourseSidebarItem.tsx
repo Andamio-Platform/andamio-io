@@ -17,19 +17,21 @@ export default function CurrentCourseSidebarItem({
   const { courseInfo, isLoadingCourseInfo } = useCourseByPolicyId(lsCs);
   const [color, setColor] = useState<string>("background");
   useEffect(() => {
-    if (selectedCourse === lsCs) {
+    if (selectedCourse === courseInfo?.courseCode) {
       setColor("accent");
     } else {
       setColor("background");
     }
-  }, [selectedCourse, lsCs]);
+  }, [selectedCourse, courseInfo]);
   if (isLoadingCourseInfo) return <LoadingCircle />;
   return (
     <Card key={key} intent="sideNav" className={`bg-${color}`}>
       <h2>{courseInfo?.title}</h2>
       <div className="flex flex-row gap-2">
         <p>3/10</p>
-        <Button onClick={() => setSelectedCourse(lsCs)}>VIEW</Button>
+        <Button onClick={() => setSelectedCourse(courseInfo?.courseCode)}>
+          VIEW
+        </Button>
       </div>
     </Card>
   );

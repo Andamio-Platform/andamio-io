@@ -13,8 +13,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "~/components/ui/accordion";
-import { useLearnerSavedCourses } from "~/hooks/course/useLearnerSavedCourses";
+import useLearnerSavedCourses from "~/hooks/course/useLearnerSavedCourses";
 import { Button } from "~/components/ui/button";
+import SavedCourseSidebarItem from "./learner/SavedCourseSidebarItem";
 
 export default function LearnerComponent() {
   const { connected } = useWallet();
@@ -22,55 +23,57 @@ export default function LearnerComponent() {
   const { globalStateDatum } = useGlobalStateDatum(accessTokenAlias ?? "");
   const { learnerAssignments } = useLearnerAssignmentStatuses();
 
-  const { savedCoursePolicies } = useLearnerSavedCourses();
-  const [selectedCourse, setSelectedCourse] = useState<string | undefined>(
-    undefined,
-  );
+  const { savedCourses } = useLearnerSavedCourses();
+  const [selectedCourseCode, setSelectedCourseCode] = useState<
+    string | undefined
+  >(undefined);
   return (
     <div>
       <div className="grid grid-cols-4 gap-5">
         <div className="col-span-1 row-span-9 bg-gray-300">
           <h2
-            className="cursor-pointer py-5 font-beckman text-base hover:text-secondary"
-            onClick={() => setSelectedCourse(undefined)}
+            className="ml-2 cursor-pointer py-5 font-beckman text-base hover:text-secondary"
+            onClick={() => setSelectedCourseCode(undefined)}
           >
             Learner Dashboard Home
           </h2>
-          <h2 className="py-5 font-beckman">Current Network Courses</h2>
+          <h2 className="ml-2 py-5 font-beckman">Current Network Courses</h2>
           {globalStateDatum?.TokenInfos.map((ti, i) => (
             <CurrentCourseSidebarItem
               lsCs={ti.LsCs}
               key={i}
-              selectedCourse={selectedCourse}
-              setSelectedCourse={setSelectedCourse}
+              selectedCourse={selectedCourseCode}
+              setSelectedCourse={setSelectedCourseCode}
             />
           ))}
-          <Accordion type="single" collapsible disabled={!savedCoursePolicies}>
+          <Accordion type="single" collapsible disabled={!savedCourses}>
             <AccordionItem value="completed">
-              <AccordionTrigger>
-                <h2 className="py-5 font-beckman text-base">Saved Courses</h2>
+              <AccordionTrigger className="pr-5">
+                <h2 className="ml-2 py-5 font-beckman text-base">
+                  Saved Courses
+                </h2>
               </AccordionTrigger>
               <AccordionContent>
-                {savedCoursePolicies?.map((t, i) => (
-                  <CurrentCourseSidebarItem
-                    lsCs={t.courseCreatorNFTPolicyId ?? ""}
+                {savedCourses?.map((t, i) => (
+                  <SavedCourseSidebarItem
                     key={i}
-                    selectedCourse={selectedCourse}
-                    setSelectedCourse={setSelectedCourse}
+                    savedCourse={t}
+                    selectedCourseCode={selectedCourseCode ?? ""}
+                    setSelectedCourseCode={setSelectedCourseCode}
                   />
                 ))}
               </AccordionContent>
             </AccordionItem>
           </Accordion>
-          <h2 className="py-5 font-beckman">View All Assignments</h2>
-          <h2 className="py-5 font-beckman">View Completed Courses</h2>
+          <h2 className="ml-2 py-5 font-beckman">View All Assignments</h2>
+          <h2 className="ml-2 py-5 font-beckman">View Completed Courses</h2>
         </div>
         {/* Move these details to Course level view - this page should be a list of courses */}
         {/* <AssignmentsSection /> */}
         {/* <OnchainAssignmentsSection /> */}
-        {selectedCourse ? (
+        {selectedCourseCode ? (
           <CourseDetails
-            lsCs={selectedCourse}
+            currentCourseCode={selectedCourseCode}
             learnerAssignments={learnerAssignments}
           />
         ) : (

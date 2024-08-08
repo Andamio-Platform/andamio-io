@@ -87,12 +87,15 @@ export const learnerRouter = createTRPCRouter({
         learnerId: z.string().min(1),
       }),
     )
-    .query(({ ctx, input }) => {
-      const courses = ctx.db.learner.findUnique({
+    .query(async ({ ctx, input }) => {
+      const learner = await ctx.db.learner.findUnique({
         where: { id: input.learnerId },
         select: { savedCourses: true },
       });
-      return courses;
+      if (!learner) {
+        throw new Error("Learner not found");
+      }
+      return learner.savedCourses;
     }),
 
   saveCourseForLearner: publicProcedure

@@ -3,7 +3,7 @@ import {
   type Course,
   type Introduction,
   type Lesson,
-  type Module,
+  type CourseModuleOverview,
   type ModuleSLT,
 } from "~/types/db";
 
@@ -31,7 +31,7 @@ export default function HeaderSection({
 }: {
   form: FieldValues;
   course: Course;
-  courseModule: Module;
+  courseModule: CourseModuleOverview;
   editContent: boolean;
   setEditContent: React.Dispatch<React.SetStateAction<boolean>>;
   isLoadingUpdate: boolean;

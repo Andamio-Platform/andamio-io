@@ -4,7 +4,10 @@ import Loading from "~/components/loading";
 import VideoPlayer from "~/components/media/VideoPlayer";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import useValidateCreator from "~/hooks/course/useValidateCreator";
-import { type AssignmentCommitment, type Module } from "~/types/db";
+import {
+  type AssignmentCommitment,
+  type CourseModuleOverview,
+} from "~/types/db";
 import CourseLayout from "~/ui/course/components/layout/CourseLayout";
 import ModuleLayout from "~/ui/course/components/layout/ModuleLayout";
 import SltList from "~/ui/studio/components/assignment-dashboard/slt-list";
@@ -28,7 +31,7 @@ export default function PageCourseAssignmentContent({
   assignmentCode,
 }: {
   courseCode: string;
-  courseModule: Module;
+  courseModule: CourseModuleOverview;
   assignmentCode: string;
 }) {
   const { data: sessionData } = useSession();
@@ -87,7 +90,7 @@ function Page({
   courseCode,
   assignmentCode,
 }: {
-  courseModule: Module;
+  courseModule: CourseModuleOverview;
   courseCode: string;
   assignmentCode: string;
 }) {

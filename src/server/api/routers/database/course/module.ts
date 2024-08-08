@@ -35,16 +35,16 @@ export const moduleRouter = createTRPCRouter({
               id: true,
               title: true,
               live: true,
-              sltId: true
+              sltId: true,
             },
           },
           assignments: true,
-          introduction: true
+          introduction: true,
         },
       });
     }),
 
-  getCourseModules: publicProcedure
+  getCourseModuleOverviews: publicProcedure
     .input(z.object({ courseCode: z.string() }))
     .query(({ ctx, input }) => {
       return ctx.db.module.findMany({
@@ -65,7 +65,6 @@ export const moduleRouter = createTRPCRouter({
               moduleIndex: true,
               moduleId: true,
               sltText: true,
-              assignments: true,
               createdById: true,
             },
           },
@@ -74,11 +73,50 @@ export const moduleRouter = createTRPCRouter({
               id: true,
               title: true,
               live: true,
-              sltId: true
+              sltId: true,
             },
           },
-          assignments: true,
-          introduction: true
+          assignments: {
+            select: {
+              id: true,
+              title: true,
+              assignmentCode: true,
+              live: true,
+            },
+          },
+          introduction: {
+            select: {
+              id: true,
+              live: true,
+            },
+          },
+        },
+      });
+    }),
+
+  getCourseModuleWithAssignmentSummary: publicProcedure
+    .input(z.object({ courseCode: z.string() }))
+    .query(({ ctx, input }) => {
+      return ctx.db.module.findMany({
+        where: {
+          originalCourse: {
+            courseCode: input.courseCode,
+          },
+        },
+        include: {
+          originalCourse: {
+            select: {
+              courseCode: true,
+            },
+          },
+          assignments: {
+            select: {
+              id: true,
+              title: true,
+              assignmentCode: true,
+              live: true,
+            },
+          },
         },
       });
     }),
@@ -90,7 +128,7 @@ export const moduleRouter = createTRPCRouter({
         moduleCode: z.string().min(1),
         title: z.string().min(1),
         description: z.string().optional(),
-        releaseDate: z.coerce.date().optional()
+        releaseDate: z.coerce.date().optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -121,7 +159,7 @@ export const moduleRouter = createTRPCRouter({
         moduleCode: z.string().min(1, "Module code is required"),
         title: z.string().min(1, "Title is required"),
         description: z.string(),
-        releaseDate: z.coerce.date().optional()
+        releaseDate: z.coerce.date().optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {

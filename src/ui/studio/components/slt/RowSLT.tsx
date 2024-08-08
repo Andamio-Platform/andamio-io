@@ -1,5 +1,5 @@
 import { Button } from "~/components/ui/button";
-import type { Module, ModuleSLT } from "~/types/db";
+import type { CourseModuleOverview, ModuleSLT } from "~/types/db";
 import DialogSLTDelete from "../dialogs/DialogSLTDelete";
 import {
   createContext,
@@ -46,7 +46,7 @@ export function SortableSLT({
   courseCode,
 }: {
   slt: ModuleSLT;
-  module: Module;
+  module: CourseModuleOverview;
   courseCode: string;
 }) {
   const {
@@ -100,7 +100,7 @@ export function RowSLT({
   slt,
 }: {
   courseCode: string;
-  module: Module;
+  module: CourseModuleOverview;
   slt: ModuleSLT;
 }) {
   const ctx = api.useUtils();
@@ -129,7 +129,7 @@ export function RowSLT({
           courseCode: courseCode,
           moduleCode: module.moduleCode,
         });
-        void ctx.module.getCourseModules.invalidate({
+        void ctx.module.getCourseModuleOverviews.invalidate({
           courseCode: courseCode,
         });
       },

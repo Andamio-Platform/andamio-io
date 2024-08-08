@@ -9,7 +9,11 @@ import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { Card } from "~/components/ui/card";
 import useIntroduction from "~/hooks/course/useIntroduction";
 import useValidateCreator from "~/hooks/course/useValidateCreator";
-import { type Introduction, type Module, type ModuleSLT } from "~/types/db";
+import {
+  type Introduction,
+  type CourseModuleOverview,
+  type ModuleSLT,
+} from "~/types/db";
 import CourseLayout from "~/ui/course/components/layout/CourseLayout";
 import ModuleLayout from "~/ui/course/components/layout/ModuleLayout";
 import CourseNavigation from "~/ui/course/components/ui/CourseNavigation";
@@ -22,7 +26,7 @@ export default function PageCourseIntroductionContent({
   courseModule,
 }: {
   courseCode: string;
-  courseModule: Module;
+  courseModule: CourseModuleOverview;
 }) {
   const { data: sessionData } = useSession();
 

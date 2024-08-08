@@ -1,14 +1,14 @@
 import { type FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
-import { type Module } from "~/types/db";
+import { type CourseModuleOverview } from "~/types/db";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "~/components/ui/form";
 import FormInput from "~/components/form/form-input";
 import { useCallback, useEffect } from "react";
 import FormSelect from "~/components/form/form-select";
-import useCourseModules from "~/hooks/course/useCourseModules";
+import useCourseModuleOverviews from "~/hooks/course/useCourseModuleOverviews";
 import Loading from "~/components/loading";
 import DialogForm from "~/components/form/dialog-form";
 
@@ -21,24 +21,26 @@ export default function DialogSLT({
   sltDialogOpen: boolean;
   setSltDialogOpen: (open: boolean) => void;
   courseCode: string;
-  currentModule: Module;
+  currentModule: CourseModuleOverview;
 }) {
   const ctx = api.useUtils();
 
-  const { courseModules, isLoadingCourseModules } =
-    useCourseModules(courseCode);
+  const { courseModuleOverviews, isLoadingCourseModules } =
+    useCourseModuleOverviews(courseCode);
 
   const { mutate: sltCreate, isLoading: isLoadingCreate } =
     api.slt.create.useMutation({
       onSuccess: (data) => {
         setSltDialogOpen(false);
         toast.success("Student Learning Target  created!");
-        const _module = courseModules?.find((c) => c.id === data.moduleId);
+        const _module = courseModuleOverviews?.find(
+          (c) => c.id === data.moduleId,
+        );
         void ctx.slt.getModuleSLTs.invalidate({
           courseCode: courseCode,
           moduleCode: _module?.moduleCode,
         });
-        void ctx.module.getCourseModules.invalidate({
+        void ctx.module.getCourseModuleOverviews.invalidate({
           courseCode: courseCode,
         });
       },
@@ -112,8 +114,8 @@ export default function DialogSLT({
                 name="moduleId"
                 form={form}
                 options={
-                  courseModules
-                    ? courseModules.map((module) => ({
+                  courseModuleOverviews
+                    ? courseModuleOverviews.map((module) => ({
                         value: module.id,
                         label: `${module.title} (${module.moduleCode})`,
                       }))

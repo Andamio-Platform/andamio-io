@@ -1,4 +1,4 @@
-import type { Course, Module, ModuleSLT } from "~/types/db";
+import type { Course, CourseModuleOverview, ModuleSLT } from "~/types/db";
 import { LightDarkToggle } from "~/ui/site/LightDarkToggle";
 import { api } from "~/utils/api";
 import { useCallback, useEffect, useState } from "react";
@@ -31,7 +31,7 @@ export default function PageCourseLessonContent({
   slt,
 }: {
   course: Course;
-  courseModule: Module;
+  courseModule: CourseModuleOverview;
   moduleIndex: number;
   slt: ModuleSLT;
 }) {
@@ -55,7 +55,7 @@ export default function PageCourseLessonContent({
           courseCode: courseCode,
           moduleCode: moduleCode,
         });
-        void ctx.module.getCourseModules.invalidate({
+        void ctx.module.getCourseModuleOverviews.invalidate({
           courseCode: course?.courseCode,
         });
         void ctx.lesson.getLesson.invalidate({

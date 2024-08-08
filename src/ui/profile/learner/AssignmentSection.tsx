@@ -67,19 +67,16 @@ export default function AssignmentsSection({
             <Card className="" key={i}>
               <CardHeader>
                 <div className="flex w-full flex-row justify-between">
-                  <p className="text-xl font-bold">{la.title}</p>
+                  <p className="text font-bold">{la.title}</p>
+                  <p className="pb-2 text-xs font-bold">
+                    Module {la.moduleCode}: {la.moduleTitle}
+                  </p>
                   <AssignmentBadges status={la.status} />
                 </div>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-3 gap-10">
                   <div>
-                    <p className="pb-2 text-xs font-bold">
-                      Course {la.courseCode}: {la.courseTitle}
-                    </p>
-                    <p className="pb-2 text-xs font-bold">
-                      Module {la.moduleCode}: {la.moduleTitle}
-                    </p>
                     <Link
                       href={`/course/${la.courseCode}/${la.moduleCode}/assignment/${la.assignmentCode}`}
                     >

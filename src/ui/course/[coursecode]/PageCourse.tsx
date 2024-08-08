@@ -3,13 +3,16 @@ import Loading from "~/components/loading";
 import VideoPlayer from "~/components/media/VideoPlayer";
 import { Button } from "~/components/ui/button";
 import Link from "~/components/link";
-import { type CourseVariant, type Module, type ModuleSLT } from "~/types/db";
+import {
+  type CourseVariant,
+  type CourseModuleOverview,
+  type ModuleSLT,
+} from "~/types/db";
 import CourseLayout from "../components/layout/CourseLayout";
 import { signIn, useSession } from "next-auth/react";
 import { useCourseStore } from "~/lib/zustand/course";
 import mergeObjects from "~/utils/mergeObjects";
 import useCourseVariants from "~/hooks/course/useCourseVariants";
-import useCourseModules from "~/hooks/course/useCourseModules";
 import useCourse from "~/hooks/course/useCourse";
 import {
   Accordion,
@@ -26,6 +29,7 @@ import {
 } from "@heroicons/react/24/outline";
 import Metatags from "~/components/site/metatags";
 import Markdown from "react-markdown";
+import useCourseModuleOverviews from "~/hooks/course/useCourseModuleOverviews";
 
 export default function PageCourse({
   courseCode,
@@ -157,19 +161,19 @@ function ListModules({
   _courseVariant: CourseVariant | undefined;
   learnerLessons: string[];
 }) {
-  const { courseModules, isLoadingCourseModules } =
-    useCourseModules(courseCode);
+  const { courseModuleOverviews, isLoadingCourseModules } =
+    useCourseModuleOverviews(courseCode);
 
-  function sortBy(a: Module, b: Module) {
+  function sortBy(a: CourseModuleOverview, b: CourseModuleOverview) {
     return a.moduleCode > b.moduleCode ? 1 : -1;
   }
 
-  if (courseModules == undefined) return <></>;
+  if (courseModuleOverviews == undefined) return <></>;
 
   return (
     <>
       {isLoadingCourseModules && <Loading />}
-      {courseModules.sort(sortBy).map((module, i) => (
+      {courseModuleOverviews.sort(sortBy).map((module, i) => (
         <ModuleContainer
           key={i}
           module={module}
@@ -188,7 +192,7 @@ function ModuleContainer({
   _courseVariant,
   learnerLessons,
 }: {
-  module: Module;
+  module: CourseModuleOverview;
   courseCode: string;
   _courseVariant: CourseVariant | undefined;
   learnerLessons: string[];

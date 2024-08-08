@@ -1,7 +1,7 @@
 import { type FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
-import { type Course, type Module } from "~/types/db";
+import { type Course, type CourseModuleOverview } from "~/types/db";
 import { Button } from "~/components/ui/button";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { z } from "zod";
@@ -11,7 +11,6 @@ import FormInput from "~/components/form/form-input";
 import { useCallback, useEffect, useState } from "react";
 import DialogForm from "~/components/form/dialog-form";
 import FormSelect from "~/components/form/form-select";
-import useCourseModules from "~/hooks/course/useCourseModules";
 
 import {
   Popover,
@@ -21,6 +20,7 @@ import {
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { Calendar } from "~/components/ui/calendar";
 import { format } from "date-fns";
+import useCourseModuleOverviews from "~/hooks/course/useCourseModuleOverviews";
 
 type ModuleOption = {
   value: string;
@@ -42,9 +42,11 @@ export default function DialogModule({
 
   // 2024-03-08
   // MUST FIX THIS TYPE
-  const { courseModules } = useCourseModules(course?.courseCode ?? "");
+  const { courseModuleOverviews } = useCourseModuleOverviews(
+    course?.courseCode ?? "",
+  );
   const [currentCourseModule, setCurrentCourseModule] = useState<
-    Module | undefined
+    CourseModuleOverview | undefined
   >(undefined);
   const [newModuleCodeOptions, setNewModuleCodeOptions] = useState<
     ModuleOption[]
@@ -77,7 +79,7 @@ export default function DialogModule({
       onSuccess: () => {
         setModuleDialogOpen(false);
         toast.success("Module created!");
-        void ctx.module.getCourseModules.invalidate({
+        void ctx.module.getCourseModuleOverviews.invalidate({
           courseCode: course?.courseCode,
         });
         void ctx.course.getCourse.invalidate({
@@ -99,7 +101,7 @@ export default function DialogModule({
       onSuccess: () => {
         setModuleDialogOpen(false);
         toast.success("Module updated!");
-        void ctx.module.getCourseModules.invalidate({
+        void ctx.module.getCourseModuleOverviews.invalidate({
           courseCode: course?.courseCode,
         });
       },
@@ -118,7 +120,7 @@ export default function DialogModule({
       onSuccess: () => {
         setModuleDialogOpen(false);
         toast.success("Module created!");
-        void ctx.module.getCourseModules.invalidate({
+        void ctx.module.getCourseModuleOverviews.invalidate({
           courseCode: course?.courseCode,
         });
       },
@@ -207,8 +209,8 @@ export default function DialogModule({
   // [{value: "103", label: "103"}, {value: "202", label: "202"}, {value: "301", label: "301"}]
 
   useEffect(() => {
-    if (courseModules) {
-      const currentModuleCodes = courseModules.map((m) => m.moduleCode);
+    if (courseModuleOverviews) {
+      const currentModuleCodes = courseModuleOverviews.map((m) => m.moduleCode);
       const _newModuleCodeOptions = makeModuleOptions(currentModuleCodes);
       if (_newModuleCodeOptions) {
         setNewModuleCodeOptions(_newModuleCodeOptions);
@@ -218,7 +220,7 @@ export default function DialogModule({
     if (!!currentCourseModule && currentCourseModule.releaseDate) {
       setModuleReleaseDate(currentCourseModule.releaseDate);
     }
-  }, [moduleDialogOpen, courseModules, currentCourseModule, course]);
+  }, [moduleDialogOpen, courseModuleOverviews, currentCourseModule, course]);
 
   const resetForm = useCallback(() => {
     form.reset({
@@ -234,13 +236,15 @@ export default function DialogModule({
   }, [moduleDialogOpen, resetForm]);
 
   useEffect(() => {
-    if (courseModules && moduleCode) {
-      const _module = courseModules.find((m) => m.moduleCode == moduleCode);
+    if (courseModuleOverviews && moduleCode) {
+      const _module = courseModuleOverviews.find(
+        (m) => m.moduleCode == moduleCode,
+      );
       if (_module) {
         setCurrentCourseModule(_module);
       }
     }
-  }, [course, moduleCode, courseModules]);
+  }, [course, moduleCode, courseModuleOverviews]);
 
   return (
     <Form {...form}>

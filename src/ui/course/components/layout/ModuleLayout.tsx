@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { type Module } from "~/types/db";
+import { type CourseModuleOverview } from "~/types/db";
 
 export default function ModuleLayout({
   children,
@@ -7,7 +7,7 @@ export default function ModuleLayout({
   courseCode,
 }: {
   children: React.ReactNode;
-  courseModule: Module;
+  courseModule: CourseModuleOverview;
   courseCode: string;
 }) {
   return (

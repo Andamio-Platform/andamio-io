@@ -2,7 +2,10 @@ import { type RouterOutputs } from "~/utils/api";
 
 export type Course = RouterOutputs["course"]["getCourse"];
 export type CoursePublic = RouterOutputs["course"]["getCourses"][number];
-export type Module = RouterOutputs["module"]["getCourseModules"][number];
+export type CourseModuleOverview =
+  RouterOutputs["module"]["getCourseModuleOverviews"][number];
+export type CourseModuleWithAssignmentSummary =
+  RouterOutputs["module"]["getCourseModuleWithAssignmentSummary"][number];
 export type User = RouterOutputs["user"]["getUserByName"][number];
 export type Creator = RouterOutputs["creator"]["getCreatorByUser"];
 export type Learner = RouterOutputs["learner"]["getLearnerByUser"];
@@ -23,4 +26,3 @@ export type AssignmentCommitment = {
   status: "SAVE_FOR_LATER" | "IN_PROGRESS" | "COMPLETE" | "COMMITMENT";
   archived: boolean;
 };
-

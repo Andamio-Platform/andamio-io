@@ -121,4 +121,26 @@ export const courseOnChainInstanceRouter = createTRPCRouter({
         title: courseOnChainInstance.course.title,
       };
     }),
+
+  getCourseNftPolicyIds: publicProcedure
+    .input(z.object({ courseCodes: z.array(z.string().min(3)) }))
+    .query(async ({ ctx, input }) => {
+      const coursePolicies = await Promise.all(
+        input.courseCodes.map(async (courseCode) => {
+          const courseOnChainInstance =
+            await ctx.db.courseOnChainInstance.findFirst({
+              where: {
+                courseCode: courseCode,
+              },
+            });
+          return {
+            courseCode: courseCode,
+            courseCreatorNFTPolicyId:
+              courseOnChainInstance?.CourseCreatorNFTPolicyID ?? undefined,
+          };
+        }),
+      );
+
+      return coursePolicies;
+    }),
 });

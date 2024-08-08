@@ -1,6 +1,6 @@
 // TODO:
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { type Course, type Module } from "~/types/db";
+import { type Course, type CourseModuleOverview } from "~/types/db";
 import {
   Menubar,
   MenubarContent,
@@ -26,7 +26,7 @@ export default function ContentEditorMenuBar({
 }: {
   form: FieldValues;
   course: Course;
-  courseModule: Module;
+  courseModule: CourseModuleOverview;
   contentPath: string;
   onSubmit: () => void;
   setGetLessonPlanDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;

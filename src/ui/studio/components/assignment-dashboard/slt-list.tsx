@@ -1,11 +1,15 @@
 import StatusDot from "~/components/ui/status-dot";
-import { type ModuleSLT, type Assignment, type Module } from "~/types/db";
+import {
+  type ModuleSLT,
+  type Assignment,
+  type CourseModuleOverview,
+} from "~/types/db";
 
 export default function SltList({
   courseModule,
   assignment,
 }: {
-  courseModule: Module;
+  courseModule: CourseModuleOverview;
   assignment: Assignment;
 }) {
   if (!assignment) return;

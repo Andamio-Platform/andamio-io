@@ -28,7 +28,6 @@ export const courseRouter = createTRPCRouter({
           courseCode: input.courseCode,
         },
         include: {
-          modules: true,
           contributors: {
             include: {
               user: true,

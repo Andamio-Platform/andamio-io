@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
-import { type Module, type ModuleSLT } from "~/types/db";
+import { type CourseModuleOverview, type ModuleSLT } from "~/types/db";
 import DialogForm from "~/components/form/dialog-form";
 
 export default function DialogSLTDelete({
@@ -14,7 +14,7 @@ export default function DialogSLTDelete({
   sltDeleteDialogOpen: boolean;
   setSltDeleteDialogOpen: (open: boolean) => void;
   slt: ModuleSLT;
-  module: Module;
+  module: CourseModuleOverview;
   courseCode: string;
 }) {
   const ctx = api.useUtils();
@@ -30,7 +30,7 @@ export default function DialogSLTDelete({
           courseCode: courseCode,
           moduleCode: module.moduleCode,
         });
-        void ctx.module.getCourseModules.invalidate({
+        void ctx.module.getCourseModuleOverviews.invalidate({
           courseCode: courseCode,
         });
       },

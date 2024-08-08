@@ -10,7 +10,7 @@ import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import useLesson from "~/hooks/course/useLesson";
 import useSLTs from "~/hooks/course/useSLTs";
 import useValidateCreator from "~/hooks/course/useValidateCreator";
-import { type Module } from "~/types/db";
+import { type CourseModuleOverview } from "~/types/db";
 import CourseLayout from "~/ui/course/components/layout/CourseLayout";
 import ModuleLayout from "~/ui/course/components/layout/ModuleLayout";
 import CourseNavigation from "~/ui/course/components/ui/CourseNavigation";
@@ -25,7 +25,7 @@ export default function PageCourseContent({
   moduleIndex,
 }: {
   courseCode: string;
-  courseModule: Module;
+  courseModule: CourseModuleOverview;
   moduleIndex: string;
 }) {
   const ctx = api.useUtils();

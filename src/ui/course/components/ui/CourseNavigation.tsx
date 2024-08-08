@@ -2,7 +2,7 @@ import { ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { Button } from "~/components/ui/button";
 import { Card } from "~/components/ui/card";
-import { type Module } from "~/types/db";
+import { type CourseModuleOverview } from "~/types/db";
 
 export default function CourseNavigation({
   courseCode,
@@ -10,7 +10,7 @@ export default function CourseNavigation({
   moduleIndex,
 }: {
   courseCode: string;
-  courseModule: Module;
+  courseModule: CourseModuleOverview;
   moduleIndex: string;
 }) {
   const _moduleIndex = parseInt(moduleIndex);

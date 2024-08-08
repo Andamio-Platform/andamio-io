@@ -11,7 +11,7 @@ export default function useCourseModulesAndVariants(
     data: modules,
     isLoading,
     refetch,
-  } = api.module.getCourseModules.useQuery({
+  } = api.module.getCourseModuleOverviews.useQuery({
     courseCode: courseCode,
   });
 

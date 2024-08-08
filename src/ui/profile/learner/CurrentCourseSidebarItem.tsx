@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Button } from "~/components/ui/button";
 import { Card } from "~/components/ui/card";
 import useCourseByPolicyId from "~/hooks/onchain/useCourseByPolicyId";
+import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
 export default function CurrentCourseSidebarItem({
   lsCs,
   selectedCourse,
@@ -13,7 +14,7 @@ export default function CurrentCourseSidebarItem({
   setSelectedCourse: React.Dispatch<React.SetStateAction<string | undefined>>;
   key: number;
 }) {
-  const { courseInfo } = useCourseByPolicyId(lsCs);
+  const { courseInfo, isLoadingCourseInfo } = useCourseByPolicyId(lsCs);
   const [color, setColor] = useState<string>("background");
   useEffect(() => {
     if (selectedCourse === lsCs) {
@@ -22,6 +23,7 @@ export default function CurrentCourseSidebarItem({
       setColor("background");
     }
   }, [selectedCourse, lsCs]);
+  if (isLoadingCourseInfo) return <LoadingCircle />;
   return (
     <Card key={key} intent="sideNav" className={`bg-${color}`}>
       <h2>{courseInfo?.title}</h2>

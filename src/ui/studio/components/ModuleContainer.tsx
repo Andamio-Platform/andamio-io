@@ -1,5 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
-import { type Course, type Module, type ModuleSLT } from "~/types/db";
+import {
+  type Course,
+  type CourseModuleOverview,
+  type ModuleSLT,
+} from "~/types/db";
 import DialogAssignment from "./dialogs/DialogAssignment";
 import DialogSLT from "./dialogs/DialogSLT";
 import { SortableSLT } from "./slt/RowSLT";
@@ -36,7 +40,7 @@ export default function ModuleContainer({
   course,
   // variants,
 }: {
-  currentModule: Module;
+  currentModule: CourseModuleOverview;
   course: Course;
   // variants?: ModuleVariant[];
 }) {
@@ -66,7 +70,7 @@ export default function ModuleContainer({
   const { mutate: updateSltIndexes, isLoading: isLoadingIndexUpdate } =
     api.slt.updateModuleIndexes.useMutation({
       onSuccess: () => {
-        void ctx.module.getCourseModules.invalidate({
+        void ctx.module.getCourseModuleOverviews.invalidate({
           courseCode: course?.courseCode,
         });
         void ctx.slt.getModuleSLTs.invalidate({

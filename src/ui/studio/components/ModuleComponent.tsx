@@ -1,11 +1,11 @@
 import { useState } from "react";
 import Loading from "~/components/loading";
-import { type Course, type Module } from "~/types/db";
+import { type Course, type CourseModuleOverview } from "~/types/db";
 import DialogModule from "~/ui/studio/components/dialogs/DialogModule";
 // import useCourseModulesAndVariants from "~/hooks/useCourseModulesAndVariants";
 import ModuleContainer from "./ModuleContainer";
 import { Accordion } from "~/components/ui/accordion";
-import useCourseModules from "~/hooks/course/useCourseModules";
+import useCourseModuleOverviews from "~/hooks/course/useCourseModuleOverviews";
 
 export default function ModuleComponent({ course }: { course: Course }) {
   const [moduleDialogOpen, setModuleDialogOpen] = useState<boolean>(false);
@@ -13,15 +13,16 @@ export default function ModuleComponent({ course }: { course: Course }) {
   // const { modules, moduleVariants, isLoading, refetch } =
   //   useCourseModulesAndVariants(course.courseCode, course.variants);
 
-  const { courseModules, isLoadingCourseModules } = useCourseModules(
-    course?.courseCode ?? "",
-  );
+  const { courseModuleOverviews, isLoadingCourseModules } =
+    useCourseModuleOverviews(course?.courseCode ?? "");
 
   return (
     <>
-      <ModuleList course={course} courseModules={courseModules} />
+      <ModuleList course={course} courseModules={courseModuleOverviews} />
 
-      {courseModules === undefined && isLoadingCourseModules && <Loading />}
+      {courseModuleOverviews === undefined && isLoadingCourseModules && (
+        <Loading />
+      )}
 
       <div className="flex w-full justify-center">
         <DialogModule
@@ -40,7 +41,7 @@ function ModuleList({
   courseModules,
 }: {
   course: Course;
-  courseModules?: Module[];
+  courseModules?: CourseModuleOverview[];
 }) {
   if (!!courseModules) {
     const sortedCourseModules = courseModules

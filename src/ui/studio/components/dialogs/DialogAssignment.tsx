@@ -1,13 +1,13 @@
 import { type FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { api } from "~/utils/api";
-import { type Assignment, type Module } from "~/types/db";
+import { type Assignment, type CourseModuleOverview } from "~/types/db";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "~/components/ui/form";
 import FormInput from "~/components/form/form-input";
 import { useCallback, useEffect } from "react";
-import useCourseModules from "~/hooks/course/useCourseModules";
+import useCourseModules from "~/hooks/course/useCourseModuleOverviews";
 import Loading from "~/components/loading";
 import { FormCheckboxes } from "~/components/form/form-checkboxes";
 import DialogForm from "~/components/form/dialog-form";
@@ -22,12 +22,12 @@ export default function DialogAssignment({
   assignmentDialogOpen: boolean;
   setAssignmentDialogOpen: (open: boolean) => void;
   courseCode: string;
-  courseModule: Module;
+  courseModule: CourseModuleOverview;
   assignment?: Assignment;
 }) {
   const ctx = api.useUtils();
 
-  const { courseModules, isLoadingCourseModules } =
+  const { courseModuleOverviews, isLoadingCourseModules } =
     useCourseModules(courseCode);
 
   const sortedSlts = courseModule.slts
@@ -38,12 +38,14 @@ export default function DialogAssignment({
     api.assignment.create.useMutation({
       onSuccess: (data) => {
         toast.success("Assignment created!");
-        const _module = courseModules?.find((c) => c.id === data.moduleId);
+        const _module = courseModuleOverviews?.find(
+          (c) => c.id === data.moduleId,
+        );
         void ctx.slt.getModuleSLTs.invalidate({
           courseCode: courseCode,
           moduleCode: _module?.moduleCode,
         });
-        void ctx.module.getCourseModules.invalidate({
+        void ctx.module.getCourseModuleOverviews.invalidate({
           courseCode: courseCode,
         });
         void ctx.assignment.getAssignmentByModuleId.invalidate({
@@ -65,12 +67,14 @@ export default function DialogAssignment({
     api.assignment.update.useMutation({
       onSuccess: (data) => {
         toast.success("Assignment updated!");
-        const _module = courseModules?.find((c) => c.id === data.moduleId);
+        const _module = courseModuleOverviews?.find(
+          (c) => c.id === data.moduleId,
+        );
         void ctx.slt.getModuleSLTs.invalidate({
           courseCode: courseCode,
           moduleCode: _module?.moduleCode,
         });
-        void ctx.module.getCourseModules.invalidate({
+        void ctx.module.getCourseModuleOverviews.invalidate({
           courseCode: courseCode,
         });
         void ctx.assignment.getAssignmentByModuleId.invalidate({

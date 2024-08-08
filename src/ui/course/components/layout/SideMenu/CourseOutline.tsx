@@ -1,4 +1,4 @@
-import { type Lesson, type Module, type Slt } from "@prisma/client";
+import { type Lesson, type Slt } from "@prisma/client";
 import {
   Accordion,
   AccordionContent,
@@ -6,11 +6,12 @@ import {
   AccordionTrigger,
 } from "~/components/ui/accordion";
 import Link from "next/link";
-import useCourseModules from "~/hooks/course/useCourseModules";
 import classNames from "~/utils/classnames";
 import { DocumentIcon } from "@heroicons/react/24/outline";
 import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
 import { useRouter } from "next/router";
+import useCourseModuleOverviews from "~/hooks/course/useCourseModuleOverviews";
+import { type CourseModuleOverview } from "~/types/db";
 
 function useCourseRoute() {
   const router = useRouter();
@@ -34,10 +35,10 @@ export default function CourseOutline({
   const { courseCode, moduleCode, moduleIndex, assignmentCode } =
     useCourseRoute();
 
-  const { courseModules, isLoadingCourseModules } =
-    useCourseModules(currentCourseCode);
+  const { courseModuleOverviews, isLoadingCourseModules } =
+    useCourseModuleOverviews(currentCourseCode);
 
-  function sortBy(a: Module, b: Module) {
+  function sortBy(a: CourseModuleOverview, b: CourseModuleOverview) {
     return a.moduleCode > b.moduleCode ? 1 : -1;
   }
 
@@ -53,7 +54,7 @@ export default function CourseOutline({
     return <LoadingCircle />;
   }
 
-  if (!courseModules || courseModules.length === 0) {
+  if (!courseModuleOverviews || courseModuleOverviews.length === 0) {
     return <p className="my-5">This course does not have any contents</p>;
   }
 
@@ -66,7 +67,7 @@ export default function CourseOutline({
         className="py-3"
         defaultValue={`module-${moduleCode}`}
       >
-        {courseModules?.sort(sortBy).map((courseModule) => {
+        {courseModuleOverviews?.sort(sortBy).map((courseModule) => {
           return (
             <AccordionItem
               value={`module-${courseModule.moduleCode}`}
@@ -190,7 +191,7 @@ function isLessonLive(
   slt: Slt,
   isCreator: boolean,
   courseCode: string,
-  module: Module,
+  module: CourseModuleOverview,
 ) {
   const lesson = lessons.find((lesson) => lesson.sltId === slt.id);
 

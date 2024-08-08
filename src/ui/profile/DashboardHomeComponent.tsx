@@ -38,6 +38,18 @@ export default function DashboardHomeComponent() {
           </p>
         </div>
       </div>
+      <div className="col-span-4 my-5 flex w-full items-center justify-center bg-secondary py-10">
+        <div className="mx-auto flex w-2/3 flex-col">
+          <h2 className="text-center font-beckman text-4xl">Your Roles</h2>
+          <p className="py-10 text-center">
+            Show a row of badges: Learner, Network Learner, Course Creator,
+            Contribution - there is room to get creative with names
+          </p>
+          <p>Course Roles: Learner and Creator</p>
+          <p>Network Roles: Learner and Creator and Contributor</p>
+          <p>make some nice status</p>
+        </div>
+      </div>
       <div className="col-span-4 bg-primary p-5 text-primary-foreground">
         <h1>How to get started...</h1>
         <p>

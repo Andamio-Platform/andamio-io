@@ -7,77 +7,36 @@ import CurrentCourseSidebarItem from "./learner/CurrentCourseSidebarItem";
 import DashboardDataComponent from "./dashboard-home/DashboardDataComponent";
 import CourseDetails from "./learner/CourseDetails";
 import { useLearnerAssignmentStatuses } from "~/hooks/course/useLearnerAssignmentStatuses";
-import OnchainAssignmentsSection from "./learner/OnchainAssignmentsSection";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "~/components/ui/accordion";
+import { useLearnerSavedCourses } from "~/hooks/course/useLearnerSavedCourses";
+import { Button } from "~/components/ui/button";
 
-const testData: { policyId: string; courseTitle: string }[] = [
-  {
-    policyId: "a98573567562a18360d6710bcd5d7a9998fb733b15205d71afdfece3",
-    courseTitle: "Andamio 201",
-  },
-  {
-    policyId: "9a4f71d892761a4ecee3fb5f559bc41931a339fcf6467131af594930",
-    courseTitle: "PPBL 2024 Private",
-  },
-  {
-    policyId: "5679763f47a4ca0877dd774ef15db7558f29e2b753273e5613db2d9b",
-    courseTitle: "Example Course",
-  },
-  {
-    policyId: "8675b941c6aa7d59728e86920dc74834940a694d258a80fa2d1d546f",
-    courseTitle: "PPBL 2024",
-  },
-  {
-    policyId: "6e8614bcba95b8309d50af49a9c9fc5cafde41f5922011e815b2d908",
-    courseTitle: "What is this",
-  },
-];
 export default function LearnerComponent() {
   const { connected } = useWallet();
   const { accessTokenCourses, accessTokenAlias } = useAccessToken();
   const { globalStateDatum } = useGlobalStateDatum(accessTokenAlias ?? "");
   const { learnerAssignments } = useLearnerAssignmentStatuses();
 
+  const { savedCoursePolicies } = useLearnerSavedCourses();
   const [selectedCourse, setSelectedCourse] = useState<string | undefined>(
     undefined,
   );
   return (
     <div>
-      <div className="grid grid-cols-3 gap-5">
-        <div className="col-span-1">
-          {!connected ? (
-            <CardanoWallet />
-          ) : (
-            <>
-              {connected && !accessTokenAlias ? (
-                <div>
-                  <MintAccessToken />
-                </div>
-              ) : (
-                <>
-                  <DashboardDataComponent
-                    title="Your Access Token"
-                    data={accessTokenAlias ?? ""}
-                    label={globalStateDatum?.UserInfo ?? ""}
-                  />
-                </>
-              )}
-            </>
-          )}
-        </div>
-        <DashboardDataComponent
-          title="Andamio Courses"
-          data={globalStateDatum?.TokenInfos.length.toString() ?? ""}
-          label="courses enrolled"
-        />
-        <DashboardDataComponent
-          title="Assignments"
-          data={learnerAssignments.length.toString() ?? ""}
-          label="assignments viewed in courses"
-        />
-      </div>
-      <div className="mt-24 grid grid-cols-4 gap-5">
-        <div className="col-span-1 row-span-9 ">
-          <h2 className="py-5 font-beckman">Current Courses</h2>
+      <div className="grid grid-cols-4 gap-5">
+        <div className="col-span-1 row-span-9 bg-gray-300">
+          <h2
+            className="cursor-pointer py-5 font-beckman text-base hover:text-secondary"
+            onClick={() => setSelectedCourse(undefined)}
+          >
+            Learner Dashboard Home
+          </h2>
+          <h2 className="py-5 font-beckman">Current Network Courses</h2>
           {globalStateDatum?.TokenInfos.map((ti, i) => (
             <CurrentCourseSidebarItem
               lsCs={ti.LsCs}
@@ -86,15 +45,25 @@ export default function LearnerComponent() {
               setSelectedCourse={setSelectedCourse}
             />
           ))}
-          <h2 className="py-5 font-beckman">Completed Courses</h2>
-          {testData.map((t, i) => (
-            <CurrentCourseSidebarItem
-              lsCs={t.policyId}
-              key={i}
-              selectedCourse={selectedCourse}
-              setSelectedCourse={setSelectedCourse}
-            />
-          ))}
+          <Accordion type="single" collapsible disabled={!savedCoursePolicies}>
+            <AccordionItem value="completed">
+              <AccordionTrigger>
+                <h2 className="py-5 font-beckman text-base">Saved Courses</h2>
+              </AccordionTrigger>
+              <AccordionContent>
+                {savedCoursePolicies?.map((t, i) => (
+                  <CurrentCourseSidebarItem
+                    lsCs={t.courseCreatorNFTPolicyId ?? ""}
+                    key={i}
+                    selectedCourse={selectedCourse}
+                    setSelectedCourse={setSelectedCourse}
+                  />
+                ))}
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+          <h2 className="py-5 font-beckman">View All Assignments</h2>
+          <h2 className="py-5 font-beckman">View Completed Courses</h2>
         </div>
         {/* Move these details to Course level view - this page should be a list of courses */}
         {/* <AssignmentsSection /> */}
@@ -106,6 +75,39 @@ export default function LearnerComponent() {
           />
         ) : (
           <>
+            <div className="col-span-3 grid grid-cols-3 gap-5">
+              <div className="col-span-1">
+                {!connected ? (
+                  <CardanoWallet />
+                ) : (
+                  <>
+                    {connected && !accessTokenAlias ? (
+                      <div>
+                        <MintAccessToken />
+                      </div>
+                    ) : (
+                      <>
+                        <DashboardDataComponent
+                          title="Your Access Token"
+                          data={accessTokenAlias ?? ""}
+                          label={globalStateDatum?.UserInfo ?? ""}
+                        />
+                      </>
+                    )}
+                  </>
+                )}
+              </div>
+              <DashboardDataComponent
+                title="Andamio Courses"
+                data={globalStateDatum?.TokenInfos.length.toString() ?? ""}
+                label="courses enrolled"
+              />
+              <DashboardDataComponent
+                title="Assignments"
+                data={learnerAssignments.length.toString() ?? ""}
+                label="assignments viewed in courses"
+              />
+            </div>
             <div className="col-span-3 border border-primary p-5">
               <p>My Goals - Needed Prereqs or otherwise saved Courses</p>
             </div>
@@ -115,15 +117,9 @@ export default function LearnerComponent() {
             </div>
           </>
         )}
-        <div className="col-span-4 border border-primary p-5">
-          <p>CTA: Want to explore more? Browse all courses!</p>
-          <p>
-            CTA: Or, choose a Goal Path and complete the pre-requisites - write
-            about this idea + bring to team.
-          </p>
-        </div>
-        <div className="col-span-4 border border-primary p-5">
-          <OnchainAssignmentsSection />
+        <div className="col-span-4 bg-secondary p-5 text-center text-secondary-foreground">
+          <p className="mb-5 font-beckman text-2xl">Ready to Explore?</p>
+          <Button>View all Courses</Button>
         </div>
       </div>
     </div>

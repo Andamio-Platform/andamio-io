@@ -1,7 +1,7 @@
 import {
   type Assignment,
   type Course,
-  type Module,
+  type CourseModuleOverview,
   type ModuleSLT,
 } from "~/types/db";
 import {
@@ -28,7 +28,7 @@ export default function RightSection({
 }: {
   form: FieldValues;
   course: Course;
-  courseModule: Module;
+  courseModule: CourseModuleOverview;
   slt?: ModuleSLT;
   assignment?: Assignment | undefined;
 }) {

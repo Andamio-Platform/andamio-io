@@ -1,4 +1,4 @@
-import type { Course, Module } from "~/types/db";
+import type { Course, CourseModuleOverview } from "~/types/db";
 import { LightDarkToggle } from "~/ui/site/LightDarkToggle";
 import { api } from "~/utils/api";
 import { useCallback, useEffect, useState } from "react";
@@ -30,7 +30,7 @@ export default function PageModuleIntroContent({
   courseModule,
 }: {
   course: Course;
-  courseModule: Module;
+  courseModule: CourseModuleOverview;
 }) {
   const courseCode = course?.courseCode;
   const { editor, introduction, isLoadingIntro, refetchIntro, ctx } =
@@ -48,7 +48,7 @@ export default function PageModuleIntroContent({
   const { mutate: introCreate, isLoading: isLoadingIntroCreate } =
     api.introduction.create.useMutation({
       onSuccess: async () => {
-        void ctx.module.getCourseModules.invalidate({
+        void ctx.module.getCourseModuleOverviews.invalidate({
           courseCode: courseCode,
         });
         await refetchIntro();
@@ -71,7 +71,7 @@ export default function PageModuleIntroContent({
         void ctx.introduction.getIntroduction.invalidate({
           moduleId: courseModule.id,
         });
-        void ctx.module.getCourseModules.invalidate({
+        void ctx.module.getCourseModuleOverviews.invalidate({
           courseCode: courseCode,
         });
         await refetchIntro();

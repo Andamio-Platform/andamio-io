@@ -1,6 +1,10 @@
-import { type Module } from "~/types/db";
+import { type CourseModuleOverview } from "~/types/db";
 
-export default function LessonList({ module }: { module: Module }) {
+export default function LessonList({
+  module,
+}: {
+  module: CourseModuleOverview;
+}) {
   return (
     <div className="col-span-4 rounded-md border border-secondary-foreground p-3">
       <p>LESSONS</p>

@@ -9,8 +9,7 @@ const buttonVariants = cva(
   {
     variants: {
       intent: {
-        default:
-          "bg-primary text-primary-foreground shadow hover:bg-primary/90",
+        default: "bg-primary text-primary-foreground shadow hover:bg-secondary",
         destructive:
           "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
         outline:
@@ -22,10 +21,13 @@ const buttonVariants = cva(
         lesson: "border border-blue-900 hover:bg-blue-200",
         delete: "bg-warning hover:bg-red-800 text-red-100",
         edit: "bg-slate-700 hover:bg-slate-800 text-slate-100",
-        module: "flex flex-col min-w-1/3 mx-auto px-3 py-1 gap-2 items-center justify-center hover:bg-primary hover:text-primary-foreground rounded-md transition-colors ease-in-out duration-300",
-        courseOutlineAction: "flex flex-col w-full mx-auto p-2 my-2 items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors ease-in-out duration-300 border border-primary",
-        dialog: "border border-input bg-primary text-primary-foreground shadow-sm hover:bg-accent-foreground hover:text-accent",
-        navigation: "flex flex-row w-full gap-5 items-center h-[40px]"
+        module:
+          "flex flex-col min-w-1/3 mx-auto px-3 py-1 gap-2 items-center justify-center hover:bg-primary hover:text-primary-foreground rounded-md transition-colors ease-in-out duration-300",
+        courseOutlineAction:
+          "flex flex-col w-full mx-auto p-2 my-2 items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors ease-in-out duration-300 border border-primary",
+        dialog:
+          "border border-input bg-primary text-primary-foreground shadow-sm hover:bg-accent-foreground hover:text-accent",
+        navigation: "flex flex-row w-full gap-5 items-center h-[40px]",
       },
       size: {
         default: "p-1 px-3 bg-primary text-primary-foreground",
@@ -36,7 +38,8 @@ const buttonVariants = cva(
         slt: "text-md text-foreground",
         icon: "flex flex-col xl:flex-row rounded-full gap-1",
         bigIcon: "flex h-[30px] w-[30px] items-center justify-center",
-        labeledIcon: "flex min-w-[90px] items-center justify-center justify-between px-3 py-1",
+        labeledIcon:
+          "flex min-w-[90px] items-center justify-center justify-between px-3 py-1",
         dialog: "h-[30px] rounded-sm w-[150px] text-xs",
       },
     },

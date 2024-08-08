@@ -27,12 +27,25 @@ import {
 import { CardanoWallet, useWallet } from "@meshsdk/react";
 import checkIfEnrolled from "../utils/checkIfEnrolled";
 import Markdown from "react-markdown";
+import { useSession } from "next-auth/react";
+import { api } from "~/utils/api";
+import toast from "react-hot-toast";
 
 export default function CourseCard({ course }: { course: CoursePublic }) {
+  const ctx = api.useUtils();
+  const { data: sessionData, update: updateSessionData } = useSession();
   const { connected, wallet } = useWallet();
   const [isOpen, setIsOpen] = useState(false);
   const [isEnrolled, setIsEnrolled] = useState(false);
 
+  const { mutate: saveCourseForLearner } =
+    api.learner.saveCourseForLearner.useMutation({
+      onSuccess: () => {
+        void ctx.learner.getSavedCoursesByLearner.invalidate();
+        void updateSessionData();
+        toast.success("Course saved");
+      },
+    });
   useEffect(() => {
     const check = async () => {
       if (connected && course.onchainInstance[0]) {
@@ -46,6 +59,15 @@ export default function CourseCard({ course }: { course: CoursePublic }) {
     };
     void check();
   }, [wallet, connected, course.onchainInstance]);
+
+  const handleSaveCourse = () => {
+    if (sessionData) {
+      saveCourseForLearner({
+        learnerId: sessionData.user.learnerId,
+        courseId: course.id,
+      });
+    }
+  };
 
   if (!course) return;
   return (
@@ -90,6 +112,7 @@ export default function CourseCard({ course }: { course: CoursePublic }) {
         <Link href={`/course/${course.courseCode}`}>
           <Button>View Course</Button>
         </Link>
+        <Button onClick={handleSaveCourse}>Save Course</Button>
 
         {course.onchainInstance.length !== 0 && (
           <>

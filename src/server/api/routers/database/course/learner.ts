@@ -80,4 +80,50 @@ export const learnerRouter = createTRPCRouter({
 
       return learnerWithLessons.lessons;
     }),
+
+  getSavedCoursesByLearner: publicProcedure
+    .input(
+      z.object({
+        learnerId: z.string().min(1),
+      }),
+    )
+    .query(({ ctx, input }) => {
+      const courses = ctx.db.learner.findUnique({
+        where: { id: input.learnerId },
+        select: { savedCourses: true },
+      });
+      return courses;
+    }),
+
+  saveCourseForLearner: publicProcedure
+    .input(
+      z.object({
+        learnerId: z.string(),
+        courseId: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.learner.update({
+        where: { id: input.learnerId },
+        data: {
+          savedCourses: { connect: { id: input.courseId } },
+        },
+      });
+    }),
+
+  removeSavedCourseForLearner: publicProcedure
+    .input(
+      z.object({
+        learnerId: z.string(),
+        courseId: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.learner.update({
+        where: { id: input.learnerId },
+        data: {
+          savedCourses: { disconnect: { id: input.courseId } },
+        },
+      });
+    }),
 });

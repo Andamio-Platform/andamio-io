@@ -192,8 +192,8 @@ model Course {
 
   modules Module[] @relation("CourseModules")
 
-  contributors  Creator[] @relation("CourseContributors")
-  enrolledUsers Learner[] @relation("LearnerCourses")
+  contributors       Creator[] @relation("CourseContributors")
+  interestedLearners Learner[] @relation("LearnerCourses")
 
   variants        CourseVariant[]         @relation("CourseVariants")
   onchainInstance CourseOnChainInstance[] @relation("CourseInstance")
@@ -387,9 +387,9 @@ model Learner {
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  enrolledCourses Course[]               @relation("LearnerCourses")
-  lessons         Lesson[]               @relation("LearnerLessons")
-  assignments     AssignmentCommitment[] @relation("LearnerAssignments")
+  savedCourses Course[]               @relation("LearnerCourses")
+  lessons      Lesson[]               @relation("LearnerLessons")
+  assignments  AssignmentCommitment[] @relation("LearnerAssignments")
   // For Learners, Module completion goes on-chain, so we skip adding it here
 
   @@unique([userId])

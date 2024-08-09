@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 import useLearnerSavedCourses from "~/hooks/course/useLearnerSavedCourses";
 import LearnerCourseModuleDetailsComponent from "./LearnerCourseModuleDetailsComponent";
 import useCourseModuleWithAssignmentSummary from "~/hooks/course/useCourseModuleWithAssignmentSummary";
+import { Skeleton } from "~/components/ui/skeleton";
 
 export default function CourseDetails({
   currentCourseCode,
@@ -86,8 +87,12 @@ export default function CourseDetails({
 
   if (isLoadingCourse)
     return (
-      <div className="col-span-3 flex min-h-[500px] w-full animate-pulse items-center justify-center">
+      <div className="col-span-3 flex min-h-[500px] w-full flex-col justify-center">
         <Image src="/andamio.png" width={200} height={200} alt="loading" />
+        <Skeleton className="my-2 h-[20px] w-3/4 rounded-full bg-primary opacity-50" />
+        <Skeleton className="my-2 h-[20px] w-3/4 rounded-full bg-primary opacity-50" />
+        <Skeleton className="my-2 h-[20px] w-3/4 rounded-full bg-primary opacity-50" />
+        <Skeleton className="my-2 h-[20px] w-3/4 rounded-full bg-primary opacity-50" />
       </div>
     );
 

@@ -4,21 +4,25 @@ import Link from "~/components/link";
 const pageCopy = [
   "With Andamio Course Studio, you can create courses, write modules, and deploy lesson content that grows your community and engages contributors.",
   "If you want to build a course on Andamio we would like to hear from you. To learn how to get in touch, please follow the steps below.",
-]
+];
 
 export default function SectionStudio() {
   const { data: sessionData } = useSession();
 
   return (
-    <div className="mx-auto mt-32 min-h-[50vh] max-w-7xl px-6 sm:mt-56 lg:px-8">
+    <div className="mx-auto  max-w-7xl px-6  lg:px-8">
       <div className="mx-auto max-w-2xl lg:text-center">
-       
-        <h2 className="my-5 text-3xl font-bold teacking-tight text-foreground sm:text-4xl">
+        <h2 className="teacking-tight my-5 text-3xl font-bold text-primary-foreground sm:text-4xl">
           Want to create a course?
         </h2>
-        
+
         {pageCopy.map((pc, i) => (
-          <p key={i} className="prose mx-auto w-5/6 mt-6 text-lg leading-8 text-left">{pc}</p>
+          <p
+            key={i}
+            className="prose mx-auto w-5/6 text-left text-lg leading-8 text-primary-foreground"
+          >
+            {pc}
+          </p>
         ))}
       </div>
       {sessionData?.user.creatorId && (

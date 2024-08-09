@@ -1,6 +1,11 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { Bars3Icon, HomeIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import {
+  Bars3Icon,
+  HomeIcon,
+  XMarkIcon,
+  PencilSquareIcon,
+} from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -10,7 +15,13 @@ import LoadingCircle from "../ContentEditor/ui/icons/loading-circle";
 import useCoursesByOwner from "~/hooks/course/useCoursesByOwner";
 
 const navigation = [
-  { name: "Studio", href: "/studio", icon: HomeIcon, current: false },
+  { name: "My Dashboard", href: "/dashboard", icon: HomeIcon, current: false },
+  {
+    name: "Course Studio",
+    href: "/studio",
+    icon: PencilSquareIcon,
+    current: false,
+  },
 ];
 
 function classNames(...classes: string[]) {
@@ -84,13 +95,15 @@ export default function SideMenu() {
 
                 <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-secondary px-6 pb-2">
                   <div className="flex h-16 shrink-0 items-center">
-                    <Image
-                      width={32}
-                      height={32}
-                      className="h-8 w-auto"
-                      src="/andamio-logo.svg"
-                      alt="Andamio"
-                    />
+                    <Link href="/">
+                      <Image
+                        width={32}
+                        height={32}
+                        className="h-8 w-auto"
+                        src="/andamio-logo.svg"
+                        alt="Andamio"
+                      />
+                    </Link>
                   </div>
                   <nav className="flex flex-1 flex-col">
                     <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -168,13 +181,15 @@ export default function SideMenu() {
         {/* Sidebar component, swap this element with another sidebar if you like */}
         <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-foreground bg-background px-6">
           <div className="flex h-16 shrink-0 items-center">
-            <Image
-              width={32}
-              height={32}
-              className="h-8 w-auto"
-              src="/andamio-logo.svg"
-              alt="Andamio"
-            />
+            <Link href="/">
+              <Image
+                width={32}
+                height={32}
+                className="h-8 w-auto"
+                src="/andamio-logo.svg"
+                alt="Andamio"
+              />
+            </Link>
           </div>
           <nav className="flex flex-1 flex-col">
             <ul role="list" className="flex flex-1 flex-col gap-y-7">

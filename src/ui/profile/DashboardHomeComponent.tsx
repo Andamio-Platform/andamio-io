@@ -1,5 +1,6 @@
 import { useAccessToken } from "~/hooks/onchain/useAccessToken";
 import DashboardDataComponent from "./dashboard-home/DashboardDataComponent";
+import AccessTokenComponent from "./dashboard-home/AccessTokenComponent";
 
 export default function DashboardHomeComponent() {
   const { accessTokenAlias } = useAccessToken();
@@ -27,6 +28,9 @@ export default function DashboardHomeComponent() {
         data="5"
         label="goals achieved"
       />
+      <div className="col-span-4">
+        <AccessTokenComponent />
+      </div>
       <div className="col-span-4 my-5 flex w-full items-center justify-center bg-secondary py-10">
         <div className="mx-auto flex w-2/3 flex-col">
           <h2 className="text-center font-beckman text-4xl">

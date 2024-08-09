@@ -32,10 +32,10 @@ export default function Hero() {
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <ViewCoursesButton />
               <Link
-                href="/auth/signin"
+                href="/get-started"
                 className="text-sm font-semibold leading-6 text-gray-900"
               >
-                Course Creators <span aria-hidden="true">→</span>
+                Get Started<span aria-hidden="true">→</span>
               </Link>
             </div>
           </div>

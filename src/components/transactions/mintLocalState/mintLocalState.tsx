@@ -149,7 +149,7 @@ export default function MintLocalState({ courseCode }: { courseCode: string }) {
           title: "Transaction submitted",
           description: `${txId}`,
         });
-        void router.push("/home"); // maybe change to Dashboard?
+        void router.push("/dashboard"); // maybe change to Course Page - or give user a choice?
       } catch (error) {
         setIsLoading(false);
         console.error("Error", error);

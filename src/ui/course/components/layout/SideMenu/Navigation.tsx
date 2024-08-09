@@ -9,7 +9,7 @@ import { PenTool } from "lucide-react";
 import CourseOutline from "./CourseOutline";
 
 export const navigationItems = [
-  { name: "Home", href: "/home", icon: HomeIcon, current: false },
+  { name: "Home", href: "/dashboard", icon: HomeIcon, current: false },
   { name: "Studio", href: "/studio", icon: PenTool, current: false },
 ];
 

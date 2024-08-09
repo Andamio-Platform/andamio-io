@@ -5,6 +5,7 @@ import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
 import { api } from "~/utils/api";
 import GetStartedButton from "../landing/ViewCoursesButton";
+import { BoxIcon, CheckCircledIcon } from "@radix-ui/react-icons";
 
 export default function AboutUser() {
   const { data: sessionData } = useSession();
@@ -37,17 +38,14 @@ export default function AboutUser() {
     }
   }
 
-  if (!sessionData)
-    return <>Log into Andamio with Discord to access account features</>;
-
   return (
-    <div className=" mx-auto max-w-7xl border-t border-accent-foreground/50 py-3">
-      <h2 className="my-12 text-center text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-        How to Get Started with Andamio
+    <div className="mx-auto w-3/4 pt-32">
+      <h2 className="text-center text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+        Getting Started with Andamio
       </h2>
-      <div className="mx-auto my-3 w-3/4 lg:w-2/5 ">
+      <div className="mx-auto my-3 w-full">
         <div className="my-12 grid grid-cols-1 gap-12">
-          <Card size="md" className="border-none bg-blue-200 shadow-xl">
+          <Card size="md" className="border-none bg-accent shadow-xl">
             <CardHeader>
               <h2 className="text-2xl font-bold">
                 Step 1: Log into Andamio with Discord
@@ -61,16 +59,23 @@ export default function AboutUser() {
               </p>
 
               {sessionData?.user.name ? (
-                <p className="prose mx-auto mt-6 text-left text-lg leading-8">
-                  You are currently logged in with Discord account:{" "}
-                  {sessionData.user.name}
-                </p>
+                <div className="mt-10 grid grid-cols-3 gap-3">
+                  <div className="flex w-full items-center justify-center">
+                    <CheckCircledIcon className="h-[50px] w-[50px] rounded-full bg-green-300" />
+                  </div>
+                  <div className="col-span-2">
+                    <p className="prose mx-auto text-left text-lg leading-8">
+                      You are currently logged in with Discord account:{" "}
+                      {sessionData.user.name}
+                    </p>
+                  </div>
+                </div>
               ) : (
                 <GetStartedButton />
               )}
             </CardContent>
           </Card>
-          <Card size="md" className="border-none bg-blue-200 shadow-xl">
+          <Card size="md" className="border-none bg-accent shadow-xl">
             <CardHeader>
               <h2 className="text-2xl font-bold">
                 Step 2: View Getting Started With Andamio Course
@@ -78,18 +83,25 @@ export default function AboutUser() {
             </CardHeader>
             <CardContent>
               <div>
-                {sessionData.user.learnerId ? (
+                {sessionData?.user.learnerId ? (
                   <>
                     <p className="prose mx-auto mt-6 text-left text-lg leading-8">
                       The Andamio &quot;Getting Started&quot; guide is published
                       in the format of an Andamio Course. Taking this course is
                       the best way to learn about Andamio.
                     </p>
-                    <p className="prose mx-auto mt-6 text-left text-lg font-bold leading-8 underline">
-                      <Link href="/course/andamio101">
-                        Course: Getting Started With Andamio
-                      </Link>
-                    </p>
+                    <div className="mt-10 grid grid-cols-3 gap-3">
+                      <div className="flex w-full items-center justify-center">
+                        <BoxIcon className="h-[50px] w-[50px] rounded-md bg-secondary" />
+                      </div>
+                      <div className="col-span-2">
+                        <p className="prose mx-auto text-left text-lg font-bold leading-8 underline">
+                          <Link href="/course/andamio101">
+                            Course: Getting Started With Andamio
+                          </Link>
+                        </p>
+                      </div>
+                    </div>
                   </>
                 ) : (
                   <Button onClick={onEnableLearner}>Enable Learner Role</Button>
@@ -98,21 +110,28 @@ export default function AboutUser() {
             </CardContent>
           </Card>
           {/* TODO: All new accounts must be learners */}
-          <Card size="md" className="border-none bg-blue-200 shadow-xl">
+          <Card size="md" className="border-none bg-accent shadow-xl">
             <CardHeader>
               <h2 className="text-2xl font-bold">
                 Step 3: Enable Course Creation
               </h2>
             </CardHeader>
             <CardContent>
-              {sessionData.user.creatorId ? (
+              {sessionData?.user.creatorId ? (
                 <>
                   <p className="prose mx-auto mt-6 text-left text-lg">
-                    You are a Course Creator on Andamio!
+                    <Link href="/dashboard">View your Dashboard</Link>
                   </p>
-                  <p className="prose mx-auto mt-6 text-left text-lg">
-                    <Link href="/studio">View your Dashboard</Link>
-                  </p>
+                  <div className="mt-10 grid grid-cols-3 gap-3">
+                    <div className="flex w-full items-center justify-center">
+                      <CheckCircledIcon className="h-[50px] w-[50px] rounded-full bg-green-300" />
+                    </div>
+                    <div className="col-span-2">
+                      <p className="prose mx-auto text-left text-lg leading-8">
+                        You are a Course Creator on Andamio!
+                      </p>
+                    </div>
+                  </div>
                 </>
               ) : (
                 // <CTA />

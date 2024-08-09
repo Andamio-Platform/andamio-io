@@ -4,7 +4,6 @@ import SectionStudio from "./SectionStudio";
 import { useEffect } from "react";
 import { useTheme } from "next-themes";
 import Footer from "../landing/Footer";
-import AllCourses from "../courses/components/AllCourses";
 import SectionWelcome from "./SectionWelcome";
 
 export default function PageHome() {
@@ -17,12 +16,13 @@ export default function PageHome() {
   return (
     <>
       <MenuBar />
-      <SectionWelcome />
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <AllCourses />
+      <div className="mt-[80px] grid grid-cols-1 md:grid-cols-2">
+        <div className="bg-primary pt-32 text-primary-foreground">
+          <SectionWelcome />
+          <SectionStudio />
+        </div>
+        <AboutUser />
       </div>
-      <SectionStudio />
-      <AboutUser />
 
       <Footer />
     </>

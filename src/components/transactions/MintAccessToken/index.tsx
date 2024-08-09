@@ -186,7 +186,7 @@ export default function MintAccessToken() {
         toast.error("Something went wrong. Please try again.");
       }
 
-      void router.push("/home");
+      void router.push("/dashboard");
     } catch (error) {
       setIsLoading(false);
       console.error("Error", error);

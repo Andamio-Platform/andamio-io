@@ -63,7 +63,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     if (context.query.callbackUrl) {
       return { redirect: { destination: context.query.callbackUrl } };
     }
-    return { redirect: { destination: "/auth/join-andamio-network" } };
+    return { redirect: { destination: "/dashboard" } };
   }
 
   const providers = await getProviders();

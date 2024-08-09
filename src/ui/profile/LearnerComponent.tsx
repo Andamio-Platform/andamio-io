@@ -19,7 +19,7 @@ import SavedCourseSidebarItem from "./learner/SavedCourseSidebarItem";
 
 export default function LearnerComponent() {
   const { connected } = useWallet();
-  const { accessTokenCourses, accessTokenAlias } = useAccessToken();
+  const { accessTokenAlias } = useAccessToken();
   const { globalStateDatum } = useGlobalStateDatum(accessTokenAlias ?? "");
   const { learnerAssignments } = useLearnerAssignmentStatuses();
 
@@ -30,7 +30,7 @@ export default function LearnerComponent() {
   return (
     <div>
       <div className="grid grid-cols-4 gap-5">
-        <div className="col-span-1 row-span-9 bg-gray-300">
+        <div className="col-span-1 row-span-9">
           <h2
             className="ml-2 cursor-pointer py-5 font-beckman text-base hover:text-secondary"
             onClick={() => setSelectedCourseCode(undefined)}
@@ -78,45 +78,42 @@ export default function LearnerComponent() {
           />
         ) : (
           <>
-            <div className="col-span-3 grid grid-cols-3 gap-5">
-              <div className="col-span-1">
-                {!connected ? (
-                  <CardanoWallet />
-                ) : (
-                  <>
-                    {connected && !accessTokenAlias ? (
-                      <div>
-                        <MintAccessToken />
-                      </div>
-                    ) : (
-                      <>
-                        <DashboardDataComponent
-                          title="Your Access Token"
-                          data={accessTokenAlias ?? ""}
-                          label={globalStateDatum?.UserInfo ?? ""}
-                        />
-                      </>
-                    )}
-                  </>
-                )}
-              </div>
+            <div className="col-span-3 grid grid-cols-6 gap-5">
+              {!connected ? (
+                <CardanoWallet />
+              ) : (
+                <>
+                  {connected && !accessTokenAlias ? (
+                    <div>
+                      <MintAccessToken />
+                    </div>
+                  ) : (
+                    <>
+                      <DashboardDataComponent
+                        title="Your Access Token"
+                        data={accessTokenAlias ?? ""}
+                      />
+                    </>
+                  )}
+                </>
+              )}
               <DashboardDataComponent
                 title="Andamio Courses"
                 data={globalStateDatum?.TokenInfos.length.toString() ?? ""}
-                label="courses enrolled"
               />
               <DashboardDataComponent
                 title="Assignments"
                 data={learnerAssignments.length.toString() ?? ""}
-                label="assignments viewed in courses"
               />
             </div>
             <div className="col-span-3 border border-primary p-5">
-              <p>My Goals - Needed Prereqs or otherwise saved Courses</p>
+              <p>Current courses</p>
             </div>
             <div className="col-span-3 border border-primary p-5">
-              <h2>ACCESS TOKEN COURSES: Todo - finish that nice hook</h2>
-              <pre>{JSON.stringify(accessTokenCourses, null, 2)}</pre>
+              <p>Current commitments</p>
+            </div>
+            <div className="col-span-3 border border-primary p-5">
+              <p>My Goals - Needed Prereqs or otherwise saved Courses</p>
             </div>
           </>
         )}

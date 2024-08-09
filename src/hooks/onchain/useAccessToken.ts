@@ -1,17 +1,11 @@
-import { type DecodedTokenInfo } from "@andamiojs/datum-utils";
 import { ACCESS_TOKEN_POLICY_ID } from "../../andamio.config";
 import { type UTxO, type Asset, hexToString } from "@meshsdk/core";
 import { useCallback, useEffect, useState } from "react";
 import { useWallet } from "@meshsdk/react";
 
-// TODO: For course list use:
-// import { DecodedTokenInfo } from "@andamiojs/datum-utils";
-// TODO: Triage this on Friday 2024-08-02 -- why is wallet.getUtxos not working?
-
 export const useAccessToken = () => {
   const { connected, wallet } = useWallet();
   // placeholder:
-  const accessTokenCourses: DecodedTokenInfo[] = [];
   const [accessTokenAsset, setAccessTokenAsset] = useState<Asset | undefined>(
     undefined,
   );
@@ -54,6 +48,5 @@ export const useAccessToken = () => {
     accessTokenAsset,
     accessTokenUtxo,
     accessTokenAlias,
-    accessTokenCourses,
   };
 };

@@ -202,10 +202,7 @@ export default function MintAccessToken() {
           ) : (
             <div className="flex flex-col gap-y-4">
               <div>
-                <CardanoWallet />
-              </div>
-              <div>
-                You&apos;re are connected to the Cardano{" "}
+                Connected to Cardano{" "}
                 {network === 0
                   ? "Preprod"
                   : network === 1

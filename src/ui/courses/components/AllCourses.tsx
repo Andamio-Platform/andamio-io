@@ -33,7 +33,7 @@ export default function AllCourses() {
 
             <div
               role="list"
-              className="mx-auto grid grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-3"
+              className="mx-auto grid grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-2"
             >
               {featuredCourses.map((course) => (
                 <>{course && <CourseCard course={course} />}</>

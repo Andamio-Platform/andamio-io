@@ -7,6 +7,7 @@ export const indexer = axios.create({
 });
 
 export async function indexerGet<T>(url: string): Promise<T> {
+  console.log("Check URL", url);
   const res = await indexer.get<T>(url);
   if (res.status === 200) {
     return res.data;

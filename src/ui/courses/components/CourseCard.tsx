@@ -30,6 +30,8 @@ import Markdown from "react-markdown";
 import { useSession } from "next-auth/react";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
+import MintLocalStateMeshNative from "~/components/transactions/mintLocalState/mintLocalStateMeshNative";
+import { useAccessToken } from "~/hooks/onchain/useAccessToken";
 
 export default function CourseCard({ course }: { course: CoursePublic }) {
   const ctx = api.useUtils();
@@ -37,6 +39,7 @@ export default function CourseCard({ course }: { course: CoursePublic }) {
   const { connected, wallet } = useWallet();
   const [isOpen, setIsOpen] = useState(false);
   const [isEnrolled, setIsEnrolled] = useState(false);
+  const { accessTokenAsset } = useAccessToken();
 
   const { mutate: saveCourseForLearner } =
     api.learner.saveCourseForLearner.useMutation({
@@ -149,9 +152,24 @@ export default function CourseCard({ course }: { course: CoursePublic }) {
                                 {isEnrolled ? (
                                   <div>Currently Enrolled</div>
                                 ) : (
-                                  <MintLocalState
-                                    courseCode={course.courseCode}
-                                  />
+                                  <>
+                                    <MintLocalState
+                                      courseCode={course.courseCode}
+                                    />
+                                    {!!accessTokenAsset &&
+                                      course.onchainInstance[0]
+                                        ?.CourseCreatorNFTPolicyID && (
+                                        <MintLocalStateMeshNative
+                                          accessTokenAssetId={
+                                            accessTokenAsset.unit
+                                          }
+                                          courseNftPolicyId={
+                                            course.onchainInstance[0]
+                                              .CourseCreatorNFTPolicyID
+                                          }
+                                        />
+                                      )}
+                                  </>
                                 )}
                               </>
                             )}

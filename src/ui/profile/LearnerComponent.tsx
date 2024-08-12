@@ -27,6 +27,11 @@ export default function LearnerComponent() {
   const [selectedCourseCode, setSelectedCourseCode] = useState<
     string | undefined
   >(undefined);
+
+  const [selectedCoursePolicyId, setSelectedCoursePolicyId] = useState<
+    string | undefined
+  >(undefined);
+
   return (
     <div>
       <div className="grid grid-cols-4 gap-5">
@@ -44,6 +49,7 @@ export default function LearnerComponent() {
               key={i}
               selectedCourse={selectedCourseCode}
               setSelectedCourse={setSelectedCourseCode}
+              setSelectedCoursePolicyId={setSelectedCoursePolicyId}
             />
           ))}
           <Accordion type="single" collapsible disabled={!savedCourses}>
@@ -75,6 +81,7 @@ export default function LearnerComponent() {
           <CourseDetails
             currentCourseCode={selectedCourseCode}
             learnerAssignments={learnerAssignments}
+            courseNftPolicyId={selectedCoursePolicyId ?? ""}
           />
         ) : (
           <>

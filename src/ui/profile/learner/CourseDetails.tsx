@@ -12,13 +12,17 @@ import useLearnerSavedCourses from "~/hooks/course/useLearnerSavedCourses";
 import LearnerCourseModuleDetailsComponent from "./LearnerCourseModuleDetailsComponent";
 import useCourseModuleWithAssignmentSummary from "~/hooks/course/useCourseModuleWithAssignmentSummary";
 import { Skeleton } from "~/components/ui/skeleton";
+import BurnLocalStateMeshDialog from "~/components/transactions/dialogs/BurnLocalStateMeshDialog";
+import { useAccessToken } from "~/hooks/onchain/useAccessToken";
 
 export default function CourseDetails({
   currentCourseCode,
   learnerAssignments,
+  courseNftPolicyId,
 }: {
   currentCourseCode: string;
   learnerAssignments: LearnerAssignment[];
+  courseNftPolicyId?: string;
 }) {
   const ctx = api.useUtils();
   const { data: sessionData, update: updateSessionData } = useSession();
@@ -30,6 +34,8 @@ export default function CourseDetails({
   const [courseAssignments, setCourseAssignments] = useState<
     LearnerAssignment[]
   >([]);
+
+  const { accessTokenAsset } = useAccessToken();
 
   const { mutate: saveCourseForLearner } =
     api.learner.saveCourseForLearner.useMutation({
@@ -125,7 +131,12 @@ export default function CourseDetails({
           </Button>
         )}
         <Button size="sm">Enroll (mint local state)</Button>
-        <Button size="sm">UnEnroll (burn local state)</Button>
+        {accessTokenAsset && courseNftPolicyId && (
+          <BurnLocalStateMeshDialog
+            accessTokenAssetId={accessTokenAsset.unit}
+            courseNftPolicyId={courseNftPolicyId}
+          />
+        )}
       </div>
       <div className="col-span-2">
         <h2 className="my-10">{course?.description}</h2>

@@ -7,11 +7,15 @@ export default function CurrentCourseSidebarItem({
   lsCs,
   selectedCourse,
   setSelectedCourse,
+  setSelectedCoursePolicyId,
   key,
 }: {
   lsCs: string;
   selectedCourse: string | undefined;
   setSelectedCourse: React.Dispatch<React.SetStateAction<string | undefined>>;
+  setSelectedCoursePolicyId: React.Dispatch<
+    React.SetStateAction<string | undefined>
+  >;
   key: number;
 }) {
   const { courseInfo, isLoadingCourseInfo } = useCourseByPolicyId(lsCs);
@@ -24,14 +28,18 @@ export default function CurrentCourseSidebarItem({
     }
   }, [selectedCourse, courseInfo]);
   if (isLoadingCourseInfo) return <LoadingCircle />;
+
+  function handleSelectCourse() {
+    setSelectedCourse(courseInfo?.courseCode);
+    setSelectedCoursePolicyId(lsCs);
+  }
+
   return (
     <Card key={key} intent="sideNav" className={`bg-${color}`}>
       <h2>{courseInfo?.title}</h2>
       <div className="flex flex-row gap-2">
         <p>3/10</p>
-        <Button onClick={() => setSelectedCourse(courseInfo?.courseCode)}>
-          VIEW
-        </Button>
+        <Button onClick={handleSelectCourse}>VIEW</Button>
       </div>
     </Card>
   );

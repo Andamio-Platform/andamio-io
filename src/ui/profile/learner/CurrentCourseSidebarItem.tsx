@@ -12,7 +12,7 @@ export default function CurrentCourseSidebarItem({
 }: {
   lsCs: string;
   selectedCourse: string | undefined;
-  setSelectedCourse: React.Dispatch<React.SetStateAction<string | undefined>>;
+  setSelectedCourse?: React.Dispatch<React.SetStateAction<string | undefined>>;
   setSelectedCoursePolicyId: React.Dispatch<
     React.SetStateAction<string | undefined>
   >;
@@ -23,14 +23,19 @@ export default function CurrentCourseSidebarItem({
   useEffect(() => {
     if (selectedCourse === courseInfo?.courseCode) {
       setColor("accent");
+    } else if (lsCs === selectedCourse) {
+      setColor("accent");
     } else {
       setColor("background");
     }
-  }, [selectedCourse, courseInfo]);
+  }, [selectedCourse, courseInfo, lsCs]);
   if (isLoadingCourseInfo) return <LoadingCircle />;
 
   function handleSelectCourse() {
-    setSelectedCourse(courseInfo?.courseCode);
+    if (!!setSelectedCourse) {
+      setSelectedCourse(courseInfo?.courseCode);
+    }
+
     setSelectedCoursePolicyId(lsCs);
   }
 

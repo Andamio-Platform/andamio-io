@@ -18,7 +18,7 @@ export default function NetworkModuleManagement({
   key,
 }: {
   courseNftPolicyId: string;
-  key: number;
+  key: number | string;
 }) {
   const { courseInfo } = useCourseByPolicyId(courseNftPolicyId);
   const { courseModuleOverviews } = useCourseModuleOverviews(

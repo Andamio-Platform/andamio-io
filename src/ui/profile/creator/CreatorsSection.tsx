@@ -2,12 +2,18 @@ import useCreatorsCoursesPolicies from "~/hooks/onchain/useCreatorsCoursesPolici
 import CommittedAssignments from "./CommittedAssignments";
 import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
 import NetworkModuleManagement from "./NetworkModuleManagement";
+import { useState } from "react";
+import CurrentCourseSidebarItem from "../learner/CurrentCourseSidebarItem";
 
 export default function CreatorsSection({
   accessTokenAlias,
 }: {
   accessTokenAlias: string;
 }) {
+  const [selectedCoursePolicyId, setSelectedCoursePolicyId] = useState<
+    string | undefined
+  >(undefined);
+
   const { creatorCoursePolicies, isLoadingCreatorCoursePolicies } =
     useCreatorsCoursesPolicies(accessTokenAlias);
 
@@ -20,18 +26,24 @@ export default function CreatorsSection({
       <div className="grid grid-cols-4 gap-5">
         <div className="col-span-1 row-span-2 bg-accent text-xs">
           <pre>{JSON.stringify(creatorCoursePolicies, null, 2)}</pre>
+          {creatorCoursePolicies?.map((p, i) => (
+            <CurrentCourseSidebarItem
+              lsCs={p}
+              key={i}
+              selectedCourse={selectedCoursePolicyId}
+              setSelectedCoursePolicyId={setSelectedCoursePolicyId}
+            />
+          ))}
         </div>
         <div className="col-span-3 mx-auto w-11/12">
-          {creatorCoursePolicies &&
-            creatorCoursePolicies.map((c, i) => (
-              <NetworkModuleManagement courseNftPolicyId={c} key={i} />
-            ))}
-        </div>
-        <div className="col-span-3 mx-auto max-w-5xl">
-          {creatorCoursePolicies &&
-            creatorCoursePolicies.map((c, i) => (
-              <CommittedAssignments key={i} courseNftPolicy={c} />
-            ))}
+          <NetworkModuleManagement
+            courseNftPolicyId={selectedCoursePolicyId ?? ""}
+            key={selectedCoursePolicyId ?? 0}
+          />
+          <CommittedAssignments
+            key={selectedCoursePolicyId + "assignments"}
+            courseNftPolicy={selectedCoursePolicyId ?? ""}
+          />
         </div>
       </div>
     </div>

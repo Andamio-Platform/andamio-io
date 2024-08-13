@@ -35,7 +35,6 @@ export const assignmentRouter = createTRPCRouter({
   // getAssignmentByCourseModuleCodes and getAssignmentByModuleId might be redundant for now - don't delete yet
   // Think about how Assigments might not need "Variants"?
 
-
   // WIP 2024-04-08 - courseId is redundant, remove it.
   getAssignmentByModuleId: publicProcedure
     .input(
@@ -146,17 +145,15 @@ export const assignmentRouter = createTRPCRouter({
         },
       });
     }),
-  
+
   getAssignments: publicProcedure
-    .input(
-      z.object({assignmentIds: z.array(z.string().min(1))})
-    )
-    .query(async ({ctx, input}) => {
+    .input(z.object({ assignmentIds: z.array(z.string().min(1)) }))
+    .query(async ({ ctx, input }) => {
       const assignments = await ctx.db.assignment.findMany({
         where: {
           id: {
             in: input.assignmentIds,
-          }
+          },
         },
         select: {
           id: true,
@@ -170,12 +167,12 @@ export const assignmentRouter = createTRPCRouter({
                 select: {
                   title: true,
                   courseCode: true,
-                }
-              }
-            }
-          }
-        }
-      })
-      return assignments
-    })
+                },
+              },
+            },
+          },
+        },
+      });
+      return assignments;
+    }),
 });

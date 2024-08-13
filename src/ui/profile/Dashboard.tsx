@@ -7,6 +7,7 @@ import CreatorComponent from "./CreatorComponent";
 import ContributionComponent from "./ContributionComponent";
 import GoalsComponent from "./GoalsComponent";
 import DashboardHomeComponent from "./DashboardHomeComponent";
+import Footer from "../landing/Footer";
 
 export default function DashboardPage() {
   const { setTheme } = useTheme();
@@ -16,7 +17,7 @@ export default function DashboardPage() {
   }, [setTheme]);
   return (
     <ProfileLayout>
-      <Tabs defaultValue="dashboard" className="w-full">
+      <Tabs defaultValue="dashboard" className="min-h-[75vh] w-full">
         <TabsList className="mb-3 w-full gap-24 rounded-none bg-primary font-beckman text-lg text-primary-foreground">
           <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
           <TabsTrigger value="learner">Learners</TabsTrigger>
@@ -40,6 +41,7 @@ export default function DashboardPage() {
           <GoalsComponent />
         </TabsContent>
       </Tabs>
+      <Footer />
     </ProfileLayout>
   );
 }

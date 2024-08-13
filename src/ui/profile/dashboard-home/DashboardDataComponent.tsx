@@ -6,11 +6,11 @@ export default function DashboardDataComponent({
   data: string;
 }) {
   return (
-    <div className=" text-center md:col-span-2">
+    <div className="flex w-full flex-col p-5 text-center">
       <p className="text-4xl">
         <b>{data}</b>
       </p>
-      <h2 className="py-5 text-xl font-bold">{title}</h2>
+      <h2 className="mt-5 text-xl">{title}</h2>
     </div>
   );
 }

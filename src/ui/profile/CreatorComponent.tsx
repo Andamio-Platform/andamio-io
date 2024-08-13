@@ -8,7 +8,6 @@ export default function CreatorComponent() {
   const { accessTokenAlias } = useAccessToken();
   return (
     <div>
-      CREATOR PAGE!
       {connected ? (
         <CreatorsSection accessTokenAlias={accessTokenAlias ?? ""} />
       ) : (

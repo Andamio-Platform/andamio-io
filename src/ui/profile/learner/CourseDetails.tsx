@@ -104,21 +104,23 @@ export default function CourseDetails({
 
   return (
     <div className="col-span-3 grid w-full grid-cols-2 px-5">
-      <div className="flex h-[150px] flex-row items-center gap-10">
-        <h1 className="font-beckman text-6xl">{course?.title}</h1>
+      <div className="col-span-2 flex h-[150px] w-full flex-row items-center justify-between">
+        <div className="flex flex-row items-center gap-5">
+          {course?.imageUrl && (
+            <div className="flex items-center justify-center">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={course.imageUrl}
+                className="max-h-[100px]"
+                alt="course image"
+              />
+            </div>
+          )}
+          <h1 className="text-6xl font-semibold">{course?.title}</h1>
+        </div>
         <Link href={`/course/${course?.courseCode}`}>
           <Button size="xl">View Course</Button>
         </Link>
-      </div>
-      <div className="flex w-full items-center justify-center">
-        {course?.imageUrl && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={course.imageUrl}
-            className="max-h-[100px]"
-            alt="course image"
-          />
-        )}
       </div>
       <div className="col-start-1 grid w-full grid-cols-3 gap-3">
         {isCourseSaved ? (

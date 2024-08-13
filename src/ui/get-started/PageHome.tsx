@@ -17,7 +17,7 @@ export default function PageHome() {
     <>
       <MenuBar />
       <div className="mt-[80px] grid grid-cols-1 md:grid-cols-2">
-        <div className="bg-primary pt-32 text-primary-foreground">
+        <div className="min-h-screen bg-primary pt-12 text-primary-foreground md:pt-32">
           <SectionWelcome />
           <SectionStudio />
         </div>

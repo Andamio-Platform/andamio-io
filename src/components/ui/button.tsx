@@ -28,6 +28,8 @@ const buttonVariants = cva(
         dialog:
           "border border-input bg-primary text-primary-foreground shadow-sm hover:bg-accent-foreground hover:text-accent",
         navigation: "flex flex-row w-full gap-5 items-center h-[40px]",
+        learnMore:
+          "bg-secondary text-secondary-foreground opacity-90 hover:opacity-100",
       },
       size: {
         default: "p-1 px-3 bg-primary text-primary-foreground",

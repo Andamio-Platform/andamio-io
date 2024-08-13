@@ -28,10 +28,7 @@ export default function CommittedAssignments({
   return (
     <div className="flex w-full flex-col">
       <div className="grid w-full grid-cols-1 gap-5">
-        <Card
-          className="flex w-full items-center justify-between bg-indigo-800 px-24 text-xl font-bold text-white"
-          size="md"
-        >
+        <Card className="" size="md">
           <DocumentCheckIcon width={"35px"} height={"35px"} />
           <h2>
             {courseInfo?.title} ({courseInfo?.courseCode}) - Approve Student

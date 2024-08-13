@@ -34,10 +34,13 @@ export default function LearnerComponent() {
 
   return (
     <div>
+      <div className="my-5 w-full text-center font-beckman text-4xl">
+        Andamio Dashboard: Learner
+      </div>
       <div className="grid grid-cols-4 gap-5">
         <div className="col-span-1 row-span-9">
           <h2
-            className="ml-2 cursor-pointer py-5 font-beckman text-base hover:text-secondary"
+            className="ml-2 cursor-pointer py-5 font-beckman text-base hover:text-accent"
             onClick={() => setSelectedCourseCode(undefined)}
           >
             Learner Dashboard Home

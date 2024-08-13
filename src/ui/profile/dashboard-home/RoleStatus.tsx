@@ -1,5 +1,6 @@
 import { BoxIcon, CheckCircledIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
+import { Button } from "~/components/ui/button";
 import { Card } from "~/components/ui/card";
 
 export default function RoleStatus({
@@ -18,15 +19,19 @@ export default function RoleStatus({
       <div className="flex items-center justify-center">
         {userHasRole ? <CheckCircledIcon /> : <BoxIcon />}
       </div>
-      <div className="col-span-3">
-        {roleName}
-        {!!roleDetail && `: ${roleDetail}`}
+      <div className="flex w-full flex-row justify-between">
+        <div className="text-sm font-semibold">
+          {roleName}
+          {!!roleDetail && `: ${roleDetail}`}
+        </div>
+        {roleInfoUrl && (
+          <Link href={roleInfoUrl} className="">
+            <Button size="sm" intent="learnMore">
+              Learn More
+            </Button>
+          </Link>
+        )}
       </div>
-      {roleInfoUrl && (
-        <Link href={roleInfoUrl} className="font-bold text-secondary">
-          Learn More
-        </Link>
-      )}
     </Card>
   );
 }

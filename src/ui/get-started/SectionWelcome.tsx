@@ -5,7 +5,7 @@ const pageCopy = [
 
 export default function SectionWelcome() {
   return (
-    <div className="mx-auto min-h-[50vh] max-w-7xl px-6 lg:px-8">
+    <div className="mx-auto mb-24 max-w-7xl px-6 lg:px-8">
       <div className="mx-auto max-w-2xl lg:text-center">
         <h2 className="text-base font-semibold leading-7 text-primary-foreground">
           from learning to contribution
@@ -16,7 +16,7 @@ export default function SectionWelcome() {
         {pageCopy.map((pc, i) => (
           <p
             key={i}
-            className="prose mx-auto mt-6 w-5/6 text-left text-lg leading-8 text-primary-foreground"
+            className="prose mx-auto my-6 w-5/6 text-left text-lg leading-8 text-primary-foreground"
           >
             {pc}
           </p>

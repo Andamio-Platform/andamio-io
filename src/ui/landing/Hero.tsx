@@ -1,5 +1,6 @@
 import Link from "next/link";
 import ViewCoursesButton from "./ViewCoursesButton";
+import { motion } from "framer-motion";
 
 export default function Hero() {
   return (

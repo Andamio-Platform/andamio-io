@@ -23,6 +23,7 @@ import { courseGovernanceValidatorRouter } from "./routers/contracts/course/cour
 import { clientDomainsRouter } from "./routers/premium/clients-domain";
 
 import { learnerCourseTxRouter } from "./routers/transactions/learner-course-tx-router";
+import { creatorCourseTxRouter } from "./routers/transactions/creator-course-tx-router";
 /**
  * This is the primary router for your server.
  *
@@ -58,6 +59,7 @@ export const appRouter = createTRPCRouter({
 
   // experimental - transactions
   learnerCourseTransactions: learnerCourseTxRouter,
+  creatorCourseTransactions: creatorCourseTxRouter,
 });
 
 // export type definition of API

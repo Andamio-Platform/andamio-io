@@ -1,5 +1,5 @@
 import axios from "axios";
-import type UTxOi from "../model";
+import type UTxOi from "~/components/transactions/model";
 import { CardanoWallet, useWallet } from "@meshsdk/react";
 import { Button } from "~/components/ui/button";
 import { type UTxO, type Asset as MeshAsset } from "@meshsdk/core";

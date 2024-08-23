@@ -9,9 +9,9 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/table";
-import AcceptDenyAssignment from "~/components/transactions/acceptDenyAssignment/acceptDenyAssignment";
 import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
 import useCourseByPolicyId from "~/hooks/onchain/useCourseByPolicyId";
+import AcceptDenyAssignment from "~/components/transactions/course/creator/acceptDenyAssignment/AcceptDenyAssignment";
 
 export default function CommittedAssignments({
   courseNftPolicy,

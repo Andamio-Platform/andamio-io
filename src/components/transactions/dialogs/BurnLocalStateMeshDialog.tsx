@@ -1,6 +1,6 @@
 import { Button } from "~/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "~/components/ui/dialog";
-import BurnLocalStateMeshNative from "../burnLocalState/burnLocalStateMeshNative";
+import BurnLocalStateMeshNative from "~/components/transactions/course/learner/burnLocalState/BurnLocalStateMeshNative";
 
 export default function BurnLocalStateMeshDialog({
   accessTokenAssetId,

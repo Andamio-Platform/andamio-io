@@ -7,6 +7,7 @@ import {
   CardHeader,
 } from "~/components/ui/card";
 import { Button } from "~/components/ui/button";
+import MintCourseModuleDialog from "~/components/transactions/dialogs/MintCourseModuleDialog";
 
 // Logic
 // 1. If Module has at least 1 SLT and an Assignment, it can be minted on-chain
@@ -46,7 +47,10 @@ export default function NetworkModuleManagement({
             )}
           </CardContent>
           <CardFooter className="flex flex-row gap-5">
-            <Button>Mint Course Module</Button>
+            <MintCourseModuleDialog
+              courseModuleOverview={cm}
+              courseNftPolicyId={courseNftPolicyId}
+            />
             <Button>View Assignment Commitments</Button>
           </CardFooter>
         </Card>

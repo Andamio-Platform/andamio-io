@@ -16,7 +16,6 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "~/components/ui/collapsible";
-import MintLocalState from "~/components/transactions/mintLocalState/mintLocalState";
 import { Button } from "~/components/ui/button";
 import {
   Card,
@@ -30,8 +29,9 @@ import Markdown from "react-markdown";
 import { useSession } from "next-auth/react";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
-import MintLocalStateMeshNative from "~/components/transactions/mintLocalState/mintLocalStateMeshNative";
 import { useAccessToken } from "~/hooks/onchain/useAccessToken";
+import MintLocalState from "~/components/transactions/course/learner/mintLocalState/MintLocalState";
+import MintLocalStateMeshNative from "~/components/transactions/course/learner/mintLocalState/MintLocalStateMeshNative";
 
 export default function CourseCard({ course }: { course: CoursePublic }) {
   const ctx = api.useUtils();

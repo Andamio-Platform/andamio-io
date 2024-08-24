@@ -8,10 +8,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "~/components/ui/dialog";
-import CommitToAssignment from "~/components/transactions/commitToAssignment/commitToAssignment";
 import { useWallet } from "@meshsdk/react";
 import Link from "next/link";
 import useAssignmentNetworkStatus from "~/hooks/onchain/useAssignmentNetworkStatus";
+import CommitToAssignment from "~/components/transactions/course/learner/commitToAssignment/CommitToAssignment";
 
 export default function DialogAssignmentCommitmentOnNetwork({
   courseCode,

@@ -1,5 +1,5 @@
 import { useToast } from "~/components/ui/use-toast";
-import type UTxOi from "../model";
+import type UTxOi from "~/components/transactions/model";
 import { CardanoWallet, useWallet } from "@meshsdk/react";
 import axios from "axios";
 import { type Asset, type UTxO } from "@meshsdk/core";

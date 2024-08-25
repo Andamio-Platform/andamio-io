@@ -34,52 +34,46 @@ export default function LearnerComponent() {
 
   return (
     <div>
-      <div className="my-5 w-full text-center font-beckman text-4xl">
-        Andamio Dashboard: Learner
-      </div>
-      <div className="grid grid-cols-4 gap-5">
+      <div className="grid grid-cols-5 gap-5">
         <div className="col-span-1 row-span-9">
-          <h2
-            className="ml-2 cursor-pointer py-5 font-beckman text-base hover:text-accent"
+          <div
+            className="my-5 cursor-pointer font-beckman text-xl"
             onClick={() => setSelectedCourseCode(undefined)}
           >
-            Learner Dashboard Home
-          </h2>
-          <h2 className="ml-2 py-5 font-beckman">Current Network Courses</h2>
-          {globalStateDatum?.TokenInfos.map((ti, i) => (
-            <CurrentCourseSidebarItem
-              lsCs={ti.LsCs}
-              key={i}
-              selectedCourse={selectedCourseCode}
-              setSelectedCourse={setSelectedCourseCode}
-              setSelectedCoursePolicyId={setSelectedCoursePolicyId}
-            />
-          ))}
-          <Accordion type="single" collapsible disabled={!savedCourses}>
-            <AccordionItem value="completed">
-              <AccordionTrigger className="pr-5">
-                <h2 className="ml-2 py-5 font-beckman text-base">
-                  Saved Courses
-                </h2>
-              </AccordionTrigger>
-              <AccordionContent>
-                {savedCourses?.map((t, i) => (
-                  <SavedCourseSidebarItem
-                    key={i}
-                    savedCourse={t}
-                    selectedCourseCode={selectedCourseCode ?? ""}
-                    setSelectedCourseCode={setSelectedCourseCode}
-                  />
-                ))}
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-          <h2 className="ml-2 py-5 font-beckman">View All Assignments</h2>
-          <h2 className="ml-2 py-5 font-beckman">View Completed Courses</h2>
+            Andamio Learner
+          </div>
+          <div className="bg-primary text-primary-foreground">
+            <h2 className="p-2 text-lg font-bold">Current Network Courses</h2>
+            {globalStateDatum?.TokenInfos.map((ti, i) => (
+              <CurrentCourseSidebarItem
+                lsCs={ti.LsCs}
+                key={i}
+                selectedCourse={selectedCourseCode}
+                setSelectedCourse={setSelectedCourseCode}
+                setSelectedCoursePolicyId={setSelectedCoursePolicyId}
+              />
+            ))}
+            <Accordion type="single" collapsible disabled={!savedCourses}>
+              <AccordionItem value="completed">
+                <AccordionTrigger className="pr-5">
+                  <h2 className="p-2 text-lg font-bold">Saved Courses</h2>
+                </AccordionTrigger>
+                <AccordionContent>
+                  {savedCourses?.map((t, i) => (
+                    <SavedCourseSidebarItem
+                      key={i}
+                      savedCourse={t}
+                      selectedCourseCode={selectedCourseCode ?? ""}
+                      setSelectedCourseCode={setSelectedCourseCode}
+                    />
+                  ))}
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+            <h2 className="p-2 text-lg font-bold">My Assignments</h2>
+            <h2 className="p-2 text-lg font-bold">My Completed Courses</h2>
+          </div>
         </div>
-        {/* Move these details to Course level view - this page should be a list of courses */}
-        {/* <AssignmentsSection /> */}
-        {/* <OnchainAssignmentsSection /> */}
         {selectedCourseCode ? (
           <CourseDetails
             currentCourseCode={selectedCourseCode}
@@ -88,7 +82,7 @@ export default function LearnerComponent() {
           />
         ) : (
           <>
-            <div className="col-span-3 grid grid-cols-6 gap-5">
+            <div className="col-span-1 col-start-5 row-span-9 flex flex-col gap-5">
               {!connected ? (
                 <CardanoWallet />
               ) : (
@@ -108,11 +102,11 @@ export default function LearnerComponent() {
                 </>
               )}
               <DashboardDataComponent
-                title="Andamio Courses"
+                title="Courses"
                 data={globalStateDatum?.TokenInfos.length.toString() ?? ""}
               />
               <DashboardDataComponent
-                title="Assignments"
+                title="Completed Assignments"
                 data={learnerAssignments.length.toString() ?? ""}
               />
             </div>
@@ -122,12 +116,13 @@ export default function LearnerComponent() {
             <div className="col-span-3 border border-primary p-5">
               <p>Current commitments</p>
             </div>
-            <div className="col-span-3 border border-primary p-5">
-              <p>My Goals - Needed Prereqs or otherwise saved Courses</p>
-            </div>
+            {/* Explore implementation of Goals - unique Epic */}
+            {/* <div className="col-span-3 border border-primary p-5"> */}
+            {/*   <p>My Goals - Needed Prereqs or otherwise saved Courses</p> */}
+            {/* </div> */}
           </>
         )}
-        <div className="col-span-4 bg-secondary p-5 text-center text-secondary-foreground">
+        <div className="col-span-5 bg-secondary p-5 text-center text-secondary-foreground">
           <p className="mb-5 font-beckman text-2xl">Ready to Explore?</p>
           <Button>View all Courses</Button>
         </div>

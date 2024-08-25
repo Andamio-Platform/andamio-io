@@ -32,6 +32,7 @@ import { format } from "date-fns";
 import LoadingCircle from "./ContentEditor/ui/icons/loading-circle";
 import useAssignment from "~/hooks/course/useAssignment";
 import { type Slt } from "@prisma/client";
+import useAssignmentNetworkStatus from "~/hooks/onchain/useAssignmentNetworkStatus";
 
 type sltI = { slt: ModuleSLT; sltIndex: number; id: string };
 
@@ -66,6 +67,12 @@ export default function ModuleContainer({
     course?.courseCode ?? "",
     currentModule.moduleCode,
   );
+
+  // TODO: It is inefficient to make this query for individual Course Modules. Consider how to add on-chain status to DB for better performance
+  const { isAssignmentOnchain } = useAssignmentNetworkStatus({
+    courseCode: course?.courseCode ?? "",
+    moduleCode: currentModule.moduleCode,
+  });
 
   const { mutate: updateSltIndexes, isLoading: isLoadingIndexUpdate } =
     api.slt.updateModuleIndexes.useMutation({
@@ -244,21 +251,25 @@ export default function ModuleContainer({
                   {format(currentModule.releaseDate, "PPPP")}
                 </p>
               )}
-              <div className="items center mx-auto my-5 flex w-2/3 flex-row justify-between">
-                <DialogSLT
-                  sltDialogOpen={sltDialogOpen}
-                  setSltDialogOpen={setSltDialogOpen}
-                  courseCode={course?.courseCode ?? ""}
-                  currentModule={currentModule}
-                />
-                <DialogAssignment
-                  assignmentDialogOpen={assignmentDialogOpen}
-                  setAssignmentDialogOpen={setAssignmentDialogOpen}
-                  courseCode={course?.courseCode ?? ""}
-                  courseModule={currentModule}
-                  assignment={assignment}
-                />
-              </div>
+              {isAssignmentOnchain ? (
+                "You cannot make changes"
+              ) : (
+                <div className="items center mx-auto my-5 flex w-2/3 flex-row justify-between">
+                  <DialogSLT
+                    sltDialogOpen={sltDialogOpen}
+                    setSltDialogOpen={setSltDialogOpen}
+                    courseCode={course?.courseCode ?? ""}
+                    currentModule={currentModule}
+                  />
+                  <DialogAssignment
+                    assignmentDialogOpen={assignmentDialogOpen}
+                    setAssignmentDialogOpen={setAssignmentDialogOpen}
+                    courseCode={course?.courseCode ?? ""}
+                    courseModule={currentModule}
+                    assignment={assignment}
+                  />
+                </div>
+              )}
             </div>
           </>
           {(activeSLT ?? isLoadingIndexUpdate) && (

@@ -18,11 +18,11 @@ export default function DashboardHomeComponent() {
   const { data: sessionData } = useSession();
   return (
     <div>
-      <div className="my-5 w-full text-center font-beckman text-4xl">
-        Andamio Dashboard: Home
-      </div>
       <div className="mx-auto grid w-full grid-cols-5">
-        <div className="col-span-1 row-span-3 my-5 flex w-full flex-col">
+        <div className="col-span-1 row-span-3 flex w-full flex-col">
+          <div className="my-5 font-beckman text-xl">
+            Andamio Dashboard Home
+          </div>
           <div className="grid w-full grid-cols-1 gap-1">
             <div className="bg-primary text-primary-foreground">
               <h2 className="p-2 text-lg font-bold">Andamio Platform Roles</h2>
@@ -94,24 +94,35 @@ export default function DashboardHomeComponent() {
           {!!globalStateDatum && globalStateDatum.TokenInfos.length > 0 && (
             <div>
               <p className="my-3 text-lg font-bold">Keep Learning</p>
-              <p>You are enrolled in course...</p>
-              <pre>{JSON.stringify(globalStateDatum, null, 2)}</pre>
-              <p>Click on Learners at the top of this page...</p>
+              <p>
+                You are enrolled in {globalStateDatum.TokenInfos.length}{" "}
+                courses. Select <span className="font-beckman">LEARNERS</span>{" "}
+                to view course status.
+              </p>
             </div>
           )}
           {!!creatorCoursePolicies && creatorCoursePolicies.length > 0 && (
             <div>
               <p className="my-3 text-lg font-bold">Build your course(s)</p>
-              <p>You are the course owner of:</p>
-              <pre>{JSON.stringify(creatorCoursePolicies, null, 2)}</pre>
+              <p>
+                You are the creator of {creatorCoursePolicies.length}. Select{" "}
+                <span className="font-beckman">CREATORS</span> manage courses.
+              </p>
             </div>
           )}
         </div>
         <div className="col-span-1">
           <div className="grid grid-cols-1 gap-y-10">
-            <DashboardDataComponent title="Courses Completed" data="3" />
-            <DashboardDataComponent title="Courses Owned" data="1" />
-            <DashboardDataComponent title="Contributions" data="17" />
+            <DashboardDataComponent
+              title="Learner Courses"
+              data={globalStateDatum?.TokenInfos.length.toString() ?? ""}
+            />
+            <DashboardDataComponent
+              title="Courses Owned"
+              data={creatorCoursePolicies?.length.toString() ?? ""}
+            />
+            {/* When Contributor Platform is ready, add a data point here */}
+            {/* <DashboardDataComponent title="Contributions" data="17" /> */}
           </div>
         </div>
         <div className="col-span-5 mt-10 grid grid-cols-2 gap-5 px-5">

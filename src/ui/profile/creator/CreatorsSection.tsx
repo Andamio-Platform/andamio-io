@@ -20,12 +20,9 @@ export default function CreatorsSection({
   if (isLoadingCreatorCoursePolicies) return <LoadingCircle />;
   return (
     <div className="">
-      <div className="my-5 w-full text-center font-beckman text-4xl">
-        Andamio Dashboard: Creator
-      </div>
-      <div className="grid grid-cols-4 gap-5">
+      <div className="grid grid-cols-5 gap-5">
         <div className="col-span-1 row-span-2 bg-accent text-xs">
-          <pre>{JSON.stringify(creatorCoursePolicies, null, 2)}</pre>
+          <div className="my-5 font-beckman text-xl">Andamio Creator</div>
           {creatorCoursePolicies?.map((p, i) => (
             <CurrentCourseSidebarItem
               lsCs={p}
@@ -35,16 +32,20 @@ export default function CreatorsSection({
             />
           ))}
         </div>
-        <div className="col-span-3 mx-auto w-11/12">
-          <NetworkModuleManagement
-            courseNftPolicyId={selectedCoursePolicyId ?? ""}
-            key={selectedCoursePolicyId ?? 0}
-          />
-          <CommittedAssignments
-            key={selectedCoursePolicyId + "assignments"}
-            courseNftPolicy={selectedCoursePolicyId ?? ""}
-          />
-        </div>
+        {selectedCoursePolicyId ? (
+          <div className="col-span-4 mx-auto w-11/12">
+            <NetworkModuleManagement
+              courseNftPolicyId={selectedCoursePolicyId ?? ""}
+              key={selectedCoursePolicyId ?? 0}
+            />
+            <CommittedAssignments
+              key={selectedCoursePolicyId + "assignments"}
+              courseNftPolicy={selectedCoursePolicyId ?? ""}
+            />
+          </div>
+        ) : (
+          <div>COURSE CREATOR OVERVIEW</div>
+        )}
       </div>
     </div>
   );

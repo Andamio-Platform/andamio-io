@@ -4,6 +4,7 @@ import { type CourseModuleOverview } from "~/types/db";
 import MintCourseModule from "../course/creator/mintCourseModule/MintCourseModule";
 import { useAccessToken } from "~/hooks/onchain/useAccessToken";
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 export default function MintCourseModuleDialog({
   courseModuleOverview,
@@ -24,24 +25,30 @@ export default function MintCourseModuleDialog({
     setConfirmedSlts(updatedSlts);
   };
 
+  // className={`${confirmedSlts[j] ? "bg-success" : "bg-warning"} w-full cursor-pointer rounded-md p-2 font-bold`}
+
   return (
     <Dialog>
       <DialogTrigger>
-        <Button>Mint Course Module</Button>
+        <Button>Mint Course Module Requirements</Button>
       </DialogTrigger>
       <DialogContent>
         {/* About this Module */}
         <h2>Module Details</h2>
         {courseModuleOverview.slts.map((slt, j) => (
-          <div
+          <motion.div
             key={j}
             onClick={() => toggleSlt(j)}
-            className={`${confirmedSlts[j] ? "bg-success" : "bg-warning"} w-full cursor-pointer rounded-md p-2 font-bold`}
+            animate={{
+              backgroundColor: confirmedSlts[j] ? "#ff6347" : "#4682b4",
+            }}
+            transition={{ duration: 0.5 }}
+            className="rounded-md p-2"
           >
             <p>
               {courseModuleOverview.moduleCode}.{slt.moduleIndex}: {slt.sltText}
             </p>
-          </div>
+          </motion.div>
         ))}
         {courseModuleOverview.assignments?.length > 0 && (
           <p>Assignment: {courseModuleOverview.assignments[0]?.title}</p>

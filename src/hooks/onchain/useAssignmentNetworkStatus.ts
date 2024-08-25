@@ -24,10 +24,10 @@ export default function useAssignmentNetworkStatus({
   const { courseOnchain } = useNetworkCourseConfig(courseCode, NETWORK);
 
   const { data: isAssignmentOnchain, isLoading: isLoadingAssignmentOnchain } =
-    api.assignmentValidator.isAssignmentOnchain.useQuery(
+    api.assignmentValidator.isCourseModuleOnchain.useQuery(
       {
         courseCreatorNFTPolicyID: courseOnchain?.CourseCreatorNFTPolicyID ?? "",
-        assignmentCode: assignment?.assignmentCode ?? "",
+        moduleCode: moduleCode,
       },
       {
         enabled:

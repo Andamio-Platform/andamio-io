@@ -12,11 +12,11 @@ import {
 } from "~/server/api/trpc";
 
 export const assignmentValidatorRouter = createTRPCRouter({
-  isAssignmentOnchain: publicProcedure
+  isCourseModuleOnchain: publicProcedure
     .input(
       z.object({
         courseCreatorNFTPolicyID: z.string().length(56),
-        assignmentCode: z.string().min(3),
+        moduleCode: z.string().min(3),
       }),
     )
     .query(async ({ input }) => {
@@ -29,9 +29,7 @@ export const assignmentValidatorRouter = createTRPCRouter({
         `module-ref/decodedModuleRefDatumsByCourseNftPolicy?policy=${input.courseCreatorNFTPolicyID}`,
       );
       if (
-        onchainCourseModules.some(
-          (m) => m.module_token === input.assignmentCode,
-        )
+        onchainCourseModules.some((m) => m.module_token === input.moduleCode)
       ) {
         return true;
       } else {

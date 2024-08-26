@@ -1,8 +1,12 @@
 import { type DecodedGlobalStateDatum } from "@andamiojs/datum-utils";
 import { z } from "zod";
 
-import { indexerGet } from "~/lib/axios/indexer";
+import { indexerGetWithParams } from "~/lib/axios/indexer";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+
+type GlobalStateQueryParams = {
+  alias: string;
+};
 
 export const globalStateValidatorRouter = createTRPCRouter({
   getGlobalStateDatumByAlias: protectedProcedure
@@ -12,9 +16,13 @@ export const globalStateValidatorRouter = createTRPCRouter({
       }),
     )
     .query(async ({ input }) => {
-      const globalState = indexerGet<DecodedGlobalStateDatum>(
-        `global-state/decodedGlobalStateDatumByAlias?alias=${input.alias}`,
-      );
+      const globalStateQueryParams: GlobalStateQueryParams = {
+        alias: input.alias,
+      };
+      const globalState = indexerGetWithParams<
+        DecodedGlobalStateDatum,
+        GlobalStateQueryParams
+      >(`global-state/decodedGlobalStateDatumByAlias`, globalStateQueryParams);
       return globalState;
     }),
 });

@@ -1,17 +1,13 @@
-import { useEffect, useState } from "react";
 import { Button } from "~/components/ui/button";
-import { Card } from "~/components/ui/card";
 import useCourseByPolicyId from "~/hooks/onchain/useCourseByPolicyId";
 import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
-export default function CurrentCourseSidebarItem({
+export default function CurrentCourseListItem({
   lsCs,
-  selectedCourse,
   setSelectedCourse,
   setSelectedCoursePolicyId,
   key,
 }: {
   lsCs: string;
-  selectedCourse: string | undefined;
   setSelectedCourse?: React.Dispatch<React.SetStateAction<string | undefined>>;
   setSelectedCoursePolicyId: React.Dispatch<
     React.SetStateAction<string | undefined>
@@ -19,16 +15,6 @@ export default function CurrentCourseSidebarItem({
   key: number;
 }) {
   const { courseInfo, isLoadingCourseInfo } = useCourseByPolicyId(lsCs);
-  const [color, setColor] = useState<string>("background");
-  useEffect(() => {
-    if (selectedCourse === courseInfo?.courseCode) {
-      setColor("accent");
-    } else if (lsCs === selectedCourse) {
-      setColor("accent");
-    } else {
-      setColor("background");
-    }
-  }, [selectedCourse, courseInfo, lsCs]);
   if (isLoadingCourseInfo) return <LoadingCircle />;
 
   function handleSelectCourse() {
@@ -40,11 +26,14 @@ export default function CurrentCourseSidebarItem({
   }
 
   return (
-    <Card key={key} intent="sideNav" className={`bg-${color}`}>
-      <h2 className="text-sm font-semibold">{courseInfo?.title}</h2>
-      <div className="flex flex-row gap-2">
-        <Button onClick={handleSelectCourse}>VIEW</Button>
-      </div>
-    </Card>
+    <div
+      key={key}
+      className="my-3 flex flex-col"
+      onClick={() => setSelectedCoursePolicyId(lsCs)}
+    >
+      <h2 className="text-xl font-semibold">{courseInfo?.title}</h2>
+      <p>3/10 Assignments Complete</p>
+      <Button onClick={handleSelectCourse}>Show Course Details</Button>
+    </div>
   );
 }

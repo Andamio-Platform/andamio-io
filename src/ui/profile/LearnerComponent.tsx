@@ -16,7 +16,7 @@ import {
 import useLearnerSavedCourses from "~/hooks/course/useLearnerSavedCourses";
 import { Button } from "~/components/ui/button";
 import SavedCourseSidebarItem from "./learner/SavedCourseSidebarItem";
-import MyCoursesSection from "./learner/MyCoursesSection";
+import LearnerCourses from "./learner/LearnerCourses";
 
 export default function LearnerComponent() {
   const { connected } = useWallet();
@@ -111,13 +111,28 @@ export default function LearnerComponent() {
                 data={learnerAssignments.length.toString() ?? ""}
               />
             </div>
-            <div className="col-span-3 border border-primary p-5">
-              <p>Current courses</p>
-              <pre>{JSON.stringify(globalStateDatum?.TokenInfos, null, 2)}</pre>
+            <div className="round-md col-span-3 rounded-md border border-primary p-5">
+              <h2 className="font-beckman text-xl">Current Assignments</h2>
+              <p>Jump back into your current commitments:</p>
+              {learnerAssignments.map((la, i) => {
+                if (la.status === "IN_PROGRESS" || la.status === "COMMITMENT") {
+                  return (
+                    <div key={i} className="my-3">
+                      <h2 className="mb-1 font-semibold">{la.title}</h2>
+                      <Button>View Assignment in {la.courseTitle}</Button>
+                    </div>
+                  );
+                }
+              })}
             </div>
-            <MyCoursesSection />
-            <div className="col-span-3 border border-primary p-5">
-              <p>Current commitments</p>
+            <div className="col-span-3">
+              {accessTokenAlias && (
+                <LearnerCourses
+                  alias={accessTokenAlias}
+                  setSelectedCourse={setSelectedCourseCode}
+                  setSelectedCoursePolicyId={setSelectedCoursePolicyId}
+                />
+              )}
             </div>
             {/* Explore implementation of Goals - unique Epic */}
             {/* <div className="col-span-3 border border-primary p-5"> */}

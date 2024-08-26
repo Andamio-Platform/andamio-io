@@ -26,7 +26,7 @@ export default function SavedCourseSidebarItem({
 
   return (
     <Card key={key} intent="sideNav" className={`bg-${color}`}>
-      <h2>{savedCourse?.title}</h2>
+      <h2 className="text-sm font-semibold">{savedCourse?.title}</h2>
       <div className="flex flex-row gap-2">
         <p>3/10</p>
         <Button onClick={() => setSelectedCourseCode(savedCourse.courseCode)}>

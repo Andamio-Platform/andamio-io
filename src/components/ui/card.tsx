@@ -17,7 +17,7 @@ const cardVariants = cva("", {
       roleStatus:
         "flex flex-row w-full gap-3 items-center bg-background text-foreground px-3",
       sideNav:
-        "rounded-none bg-background flex flex-row justify-between hover:bg-accent",
+        "rounded-none bg-background text-foreground flex flex-row justify-between hover:bg-secondary",
     },
     size: {
       default: "px-5 py-3",

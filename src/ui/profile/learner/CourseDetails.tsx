@@ -116,10 +116,10 @@ export default function CourseDetails({
               />
             </div>
           )}
-          <h1 className="text-6xl font-semibold">{course?.title}</h1>
+          <h1 className="text-4xl font-semibold">{course?.title}</h1>
         </div>
         <Link href={`/course/${course?.courseCode}`}>
-          <Button size="xl">View Course</Button>
+          <Button size="lg">View Course</Button>
         </Link>
       </div>
       <div className="col-start-1 grid w-full grid-cols-3 gap-3">

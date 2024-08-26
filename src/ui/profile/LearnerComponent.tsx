@@ -16,6 +16,7 @@ import {
 import useLearnerSavedCourses from "~/hooks/course/useLearnerSavedCourses";
 import { Button } from "~/components/ui/button";
 import SavedCourseSidebarItem from "./learner/SavedCourseSidebarItem";
+import MyCoursesSection from "./learner/MyCoursesSection";
 
 export default function LearnerComponent() {
   const { connected } = useWallet();
@@ -112,7 +113,9 @@ export default function LearnerComponent() {
             </div>
             <div className="col-span-3 border border-primary p-5">
               <p>Current courses</p>
+              <pre>{JSON.stringify(globalStateDatum?.TokenInfos, null, 2)}</pre>
             </div>
+            <MyCoursesSection />
             <div className="col-span-3 border border-primary p-5">
               <p>Current commitments</p>
             </div>

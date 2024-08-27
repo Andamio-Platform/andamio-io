@@ -10,6 +10,7 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
+import { type Course, type CourseModuleOverview } from "~/types/db";
 
 export const assignmentValidatorRouter = createTRPCRouter({
   isCourseModuleOnchain: publicProcedure
@@ -81,5 +82,43 @@ export const assignmentValidatorRouter = createTRPCRouter({
         `assignment-validator/decodedAssignmentValidatorUtxoByCourseNftPolicyAndAlias?policy=${input.courseCreatorNFTPolicyID}&alias=${input.alias}`,
       );
       return assignments;
+    }),
+
+  getCourseAssignmentStats: protectedProcedure
+    .input(
+      z.object({
+        courseCode: z.string().min(1),
+        courseCreatorNFTPolicyID: z.string().length(56),
+      }),
+    )
+    .query(async ({ input, ctx }) => {
+      const res = await ctx.db.course.findFirst({
+        where: {
+          courseCode: input.courseCode,
+        },
+        include: {
+          modules: {
+            include: {
+              assignments: true,
+            },
+          },
+        },
+      });
+
+      if (!res) {
+        throw new Error("Course not found");
+      }
+
+      // TODO: Pick up here 2024-08-28
+
+      const assignmentModules = res.modules.filter(
+        (cM) => cM.assignments.length > 0,
+      );
+
+      return assignmentModules.length;
+      //   (cm: CourseModuleOverview) => cm.assignments && cm.assignments.length > 0,
+      // );
+      //
+      // return modulesWithAssignments.length;
     }),
 });

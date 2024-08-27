@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Dispatch, SetStateAction, useState } from "react";
 import { Button } from "~/components/ui/button";
 import {
   NavigationMenu,
@@ -14,11 +15,11 @@ import {
 } from "~/components/ui/navigation-menu";
 
 export default function SB7PageLanding() {
+  const [role, setRole] = useState<"learner" | "organization">("learner");
   return (
     <div className="bg-white">
-      <NavBar />
-      <LearnerHero />
-      <OrganizationHero />
+      <NavBar setRole={setRole} />
+      {role === "learner" ? <LearnerHero /> : <OrganizationHero />}
       <WhyAndamio />
       <HowAndamioWorks />
       <FAQs />
@@ -26,7 +27,11 @@ export default function SB7PageLanding() {
   );
 }
 
-export function NavBar() {
+export function NavBar({
+  setRole,
+}: {
+  setRole: Dispatch<SetStateAction<"learner" | "organization">>;
+}) {
   return (
     <NavigationMenu className="p-5">
       <NavigationMenuList className="flex w-screen items-center justify-between">
@@ -41,31 +46,35 @@ export function NavBar() {
             />
           </NavigationMenuItem>
           <div className="mt-2 flex space-x-4">
-            <NavigationMenuItem>
-              <Link href="/docs" legacyBehavior passHref>
-                <NavigationMenuLink
-                  className={`${navigationMenuTriggerStyle()} border-2 border-solid border-black bg-white`}
-                >
-                  I&apos;m a&nbsp;
-                  <text className="font-extrabold">learner</text>
-                </NavigationMenuLink>
-              </Link>
+            <NavigationMenuItem
+              onClick={() => {
+                setRole("learner");
+              }}
+            >
+              <NavigationMenuLink
+                className={`${navigationMenuTriggerStyle()} border-2 border-solid border-black bg-white`}
+              >
+                I&apos;m a&nbsp;
+                <text className="font-extrabold">learner</text>
+              </NavigationMenuLink>
             </NavigationMenuItem>
-            <NavigationMenuItem>
-              <Link href="/docs" legacyBehavior passHref>
-                <NavigationMenuLink
-                  className={`${navigationMenuTriggerStyle()} border-2 border-solid border-black bg-white`}
-                >
-                  I&apos;m an&nbsp;
-                  <text className="font-extrabold">organization</text>
-                </NavigationMenuLink>
-              </Link>
+            <NavigationMenuItem
+              onClick={() => {
+                setRole("organization");
+              }}
+            >
+              <NavigationMenuLink
+                className={`${navigationMenuTriggerStyle()} border-2 border-solid border-black bg-white`}
+              >
+                I&apos;m an&nbsp;
+                <text className="font-extrabold">organization</text>
+              </NavigationMenuLink>
             </NavigationMenuItem>
           </div>
         </div>
         <div className="flex space-x-4 pr-20">
           <NavigationMenuItem>
-            <Link href="/docs" legacyBehavior passHref>
+            <Link href="#why-andamio" legacyBehavior passHref>
               <NavigationMenuLink
                 className={`${navigationMenuTriggerStyle()} border-2 border-solid border-black bg-white`}
               >
@@ -109,7 +118,7 @@ export function NavBar() {
 export function LearnerHero() {
   return (
     <div className="flex h-screen w-screen flex-col items-center justify-center">
-      <h1 className="scroll-m-20 text-9xl font-extrabold text-black">
+      <h1 className="scroll-m-20 text-center text-9xl font-extrabold text-black">
         Learn To Work
       </h1>
       <h3 className="m-20 scroll-m-20 text-center text-2xl text-black">
@@ -131,7 +140,7 @@ export function LearnerHero() {
 export function OrganizationHero() {
   return (
     <div className="flex h-screen w-screen flex-col items-center justify-center">
-      <h1 className="scroll-m-20 text-8xl font-extrabold text-black">
+      <h1 className="scroll-m-20 text-center text-8xl font-extrabold text-black">
         Build communities that work
       </h1>
       <h3 className="m-20 scroll-m-20 text-center text-2xl text-black">
@@ -153,17 +162,21 @@ export function OrganizationHero() {
 
 export function WhyAndamio() {
   return (
-    <div className="flex h-screen w-screen flex-col items-center justify-center">
+    <div id="why-andamio" className="flex h-screen w-screen flex-col items-center justify-center">
       <div className="flex flex-row">
-        <h1 className="scroll-m-20 text-8xl font-bold text-black">Why&nbsp;</h1>
+        <h1 className="mt-7 scroll-m-20 text-8xl font-semibold text-black">
+          Why&nbsp;
+        </h1>
         <Image
           width={600}
           height={600}
-          className="h-28 w-auto"
+          className="h-40 w-auto"
           src="/andamio-logo-w-typography.jpg"
           alt="Andamio"
         />
-        <h1 className="scroll-m-20 text-8xl font-bold text-black">?</h1>
+        <h1 className="mt-7 scroll-m-20 text-8xl font-semibold text-black">
+          ?
+        </h1>
       </div>
       <div className="flex h-4/6 w-screen flex-row text-xl text-black">
         <div className="flex h-full w-1/2 flex-col items-center justify-center p-60">
@@ -213,15 +226,19 @@ export function HowAndamioWorks() {
   return (
     <div className="flex h-screen w-screen flex-col items-center justify-center">
       <div className="flex flex-row">
-        <h1 className="scroll-m-20 text-8xl font-bold text-black">How&nbsp;</h1>
+        <h1 className="mt-7 scroll-m-20 text-8xl font-semibold text-black">
+          How&nbsp;
+        </h1>
         <Image
           width={600}
           height={600}
-          className="h-28 w-auto"
+          className="h-40 w-auto"
           src="/andamio-logo-w-typography.jpg"
           alt="Andamio"
         />
-        <h1 className="scroll-m-20 text-8xl font-bold text-black">works</h1>
+        <h1 className="mt-7 scroll-m-20 text-8xl font-semibold text-black">
+          works
+        </h1>
       </div>
       <div className="flex h-4/6 w-screen flex-row text-xl text-black">
         <div className="flex h-full w-1/3 flex-col items-center justify-center p-20">

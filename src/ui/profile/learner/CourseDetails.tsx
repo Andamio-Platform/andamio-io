@@ -14,15 +14,18 @@ import useCourseModuleWithAssignmentSummary from "~/hooks/course/useCourseModule
 import { Skeleton } from "~/components/ui/skeleton";
 import BurnLocalStateMeshDialog from "~/components/transactions/dialogs/BurnLocalStateMeshDialog";
 import { useAccessToken } from "~/hooks/onchain/useAccessToken";
+import { type DecodedGlobalStateDatum } from "@andamiojs/datum-utils";
 
 export default function CourseDetails({
   currentCourseCode,
   learnerAssignments,
   courseNftPolicyId,
+  globalStateDatum,
 }: {
   currentCourseCode: string;
   learnerAssignments: LearnerAssignment[];
   courseNftPolicyId?: string;
+  globalStateDatum: DecodedGlobalStateDatum | undefined;
 }) {
   const ctx = api.useUtils();
   const { data: sessionData, update: updateSessionData } = useSession();
@@ -34,6 +37,7 @@ export default function CourseDetails({
   const [courseAssignments, setCourseAssignments] = useState<
     LearnerAssignment[]
   >([]);
+  const [isLearnerEnrolled, setIsLearnerEnrolled] = useState<boolean>(false);
 
   const { accessTokenAsset } = useAccessToken();
 
@@ -73,6 +77,18 @@ export default function CourseDetails({
     }
   }, [savedCourses, currentCourseCode]);
 
+  useEffect(() => {
+    if (!!globalStateDatum && !!courseNftPolicyId) {
+      if (
+        globalStateDatum.TokenInfos.some((ti) => ti.LsCs === courseNftPolicyId)
+      ) {
+        setIsLearnerEnrolled(true);
+      }
+    } else {
+      setIsLearnerEnrolled(false);
+    }
+  }, [globalStateDatum, courseNftPolicyId]);
+
   const handleSaveCourse = () => {
     if (sessionData && course?.id) {
       saveCourseForLearner({
@@ -103,7 +119,7 @@ export default function CourseDetails({
     );
 
   return (
-    <div className="col-span-3 grid w-full grid-cols-2 px-5">
+    <div className="col-span-3 grid w-full grid-cols-2 px-5" key={course?.id}>
       <div className="col-span-2 flex h-[150px] w-full flex-row items-center justify-between">
         <div className="flex flex-row items-center gap-5">
           {course?.imageUrl && (
@@ -119,25 +135,32 @@ export default function CourseDetails({
           <h1 className="text-4xl font-semibold">{course?.title}</h1>
         </div>
         <Link href={`/course/${course?.courseCode}`}>
-          <Button size="lg">View Course</Button>
+          <Button size="xl">Open Course</Button>
         </Link>
       </div>
       <div className="col-start-1 grid w-full grid-cols-3 gap-3">
-        {isCourseSaved ? (
-          <Button size="sm" onClick={handleUnsaveCourse}>
-            Remove Save
-          </Button>
+        {isLearnerEnrolled ? (
+          <>
+            {accessTokenAsset && courseNftPolicyId && (
+              <BurnLocalStateMeshDialog
+                accessTokenAssetId={accessTokenAsset.unit}
+                courseNftPolicyId={courseNftPolicyId}
+              />
+            )}
+          </>
         ) : (
-          <Button size="sm" onClick={handleSaveCourse}>
-            Save Course
-          </Button>
-        )}
-        <Button size="sm">Enroll (mint local state)</Button>
-        {accessTokenAsset && courseNftPolicyId && (
-          <BurnLocalStateMeshDialog
-            accessTokenAssetId={accessTokenAsset.unit}
-            courseNftPolicyId={courseNftPolicyId}
-          />
+          <>
+            <Button size="sm">Enroll on Andamio Network</Button>
+            {isCourseSaved ? (
+              <Button size="sm" onClick={handleUnsaveCourse}>
+                Remove from Saved List
+              </Button>
+            ) : (
+              <Button size="sm" onClick={handleSaveCourse}>
+                Save for Later
+              </Button>
+            )}
+          </>
         )}
       </div>
       <div className="col-span-2">

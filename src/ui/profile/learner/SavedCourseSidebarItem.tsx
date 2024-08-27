@@ -6,11 +6,15 @@ export default function SavedCourseSidebarItem({
   savedCourse,
   selectedCourseCode,
   setSelectedCourseCode,
+  setSelectedCoursePolicyId,
   key,
 }: {
   savedCourse: LearnerSavedCourse;
   selectedCourseCode: string;
   setSelectedCourseCode: React.Dispatch<
+    React.SetStateAction<string | undefined>
+  >;
+  setSelectedCoursePolicyId: React.Dispatch<
     React.SetStateAction<string | undefined>
   >;
   key: number;
@@ -24,13 +28,16 @@ export default function SavedCourseSidebarItem({
     }
   }, [selectedCourseCode, savedCourse]);
 
+  const handleClick = () => {
+    setSelectedCourseCode(savedCourse.courseCode);
+    setSelectedCoursePolicyId(undefined);
+  };
   return (
     <Card key={key} intent="sideNav" className={`bg-${color}`}>
       <h2 className="text-sm font-semibold">{savedCourse?.title}</h2>
       <div className="flex flex-row gap-2">
-        <p>3/10</p>
-        <Button onClick={() => setSelectedCourseCode(savedCourse.courseCode)}>
-          VIEW
+        <Button size="sm" intent="learnMore" onClick={handleClick}>
+          details
         </Button>
       </div>
     </Card>

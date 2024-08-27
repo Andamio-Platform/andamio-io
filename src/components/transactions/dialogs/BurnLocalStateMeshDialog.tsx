@@ -11,8 +11,8 @@ export default function BurnLocalStateMeshDialog({
 }) {
   return (
     <Dialog>
-      <DialogTrigger>
-        <Button size="sm">Un-Enroll in this Course</Button>
+      <DialogTrigger className="m-0 p-0">
+        <Button size="sm">Un-Enroll</Button>
       </DialogTrigger>
       <DialogContent>
         <p>{accessTokenAssetId}</p>

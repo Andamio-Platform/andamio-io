@@ -43,7 +43,9 @@ export default function CurrentCourseSidebarItem({
     <Card key={key} intent="sideNav" className={`bg-${color}`}>
       <h2 className="text-sm font-semibold">{courseInfo?.title}</h2>
       <div className="flex flex-row gap-2">
-        <Button onClick={handleSelectCourse}>VIEW</Button>
+        <Button size="sm" intent="learnMore" onClick={handleSelectCourse}>
+          details
+        </Button>
       </div>
     </Card>
   );

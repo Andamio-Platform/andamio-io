@@ -20,7 +20,7 @@ export default function DashboardHomeComponent() {
     <div>
       <div className="mx-auto grid w-full grid-cols-5">
         <div className="col-span-1 row-span-3 flex w-full flex-col">
-          <div className="my-5 font-beckman text-xl">
+          <div className="my-5 pl-2 font-beckman text-xl">
             Andamio Dashboard Home
           </div>
           <div className="grid w-full grid-cols-1 gap-1">

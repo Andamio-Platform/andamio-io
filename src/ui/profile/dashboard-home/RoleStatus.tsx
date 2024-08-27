@@ -27,7 +27,7 @@ export default function RoleStatus({
         {roleInfoUrl && (
           <Link href={roleInfoUrl} className="">
             <Button size="sm" intent="learnMore">
-              Learn More
+              ?
             </Button>
           </Link>
         )}

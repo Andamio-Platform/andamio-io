@@ -1,22 +1,16 @@
 import { CardanoWallet, useWallet } from "@meshsdk/react";
+import Link from "next/link";
+import { useState } from "react";
+import MintAccessToken from "~/components/transactions/MintAccessToken";
+import { Button } from "~/components/ui/button";
+import { useLearnerAssignmentStatuses } from "~/hooks/course/useLearnerAssignmentStatuses";
 import { useAccessToken } from "~/hooks/onchain/useAccessToken";
 import useGlobalStateDatum from "~/hooks/onchain/useGlobalStateDatum";
-import MintAccessToken from "~/components/transactions/MintAccessToken";
-import { useState } from "react";
-import CurrentCourseSidebarItem from "./learner/CurrentCourseSidebarItem";
 import DashboardDataComponent from "./dashboard-home/DashboardDataComponent";
 import CourseDetails from "./learner/CourseDetails";
-import { useLearnerAssignmentStatuses } from "~/hooks/course/useLearnerAssignmentStatuses";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "~/components/ui/accordion";
-import useLearnerSavedCourses from "~/hooks/course/useLearnerSavedCourses";
-import { Button } from "~/components/ui/button";
-import SavedCourseSidebarItem from "./learner/SavedCourseSidebarItem";
+import CurrentCourseSidebarItem from "./learner/CurrentCourseSidebarItem";
 import LearnerCourses from "./learner/LearnerCourses";
+import SavedCourses from "./learner/SavedCourses";
 
 export default function LearnerComponent() {
   const { connected } = useWallet();
@@ -24,7 +18,6 @@ export default function LearnerComponent() {
   const { globalStateDatum } = useGlobalStateDatum(accessTokenAlias ?? "");
   const { learnerAssignments } = useLearnerAssignmentStatuses();
 
-  const { savedCourses } = useLearnerSavedCourses();
   const [selectedCourseCode, setSelectedCourseCode] = useState<
     string | undefined
   >(undefined);
@@ -36,9 +29,10 @@ export default function LearnerComponent() {
   return (
     <div>
       <div className="grid grid-cols-5 gap-5">
+        {/* SIDEBAR */}
         <div className="col-span-1 row-span-9">
           <div
-            className="my-5 cursor-pointer font-beckman text-xl"
+            className="my-5 cursor-pointer pl-2 font-beckman text-xl"
             onClick={() => setSelectedCourseCode(undefined)}
           >
             Andamio Learner
@@ -54,32 +48,22 @@ export default function LearnerComponent() {
                 setSelectedCoursePolicyId={setSelectedCoursePolicyId}
               />
             ))}
-            <Accordion type="single" collapsible disabled={!savedCourses}>
-              <AccordionItem value="completed">
-                <AccordionTrigger className="pr-5">
-                  <h2 className="p-2 text-lg font-bold">Saved Courses</h2>
-                </AccordionTrigger>
-                <AccordionContent>
-                  {savedCourses?.map((t, i) => (
-                    <SavedCourseSidebarItem
-                      key={i}
-                      savedCourse={t}
-                      selectedCourseCode={selectedCourseCode ?? ""}
-                      setSelectedCourseCode={setSelectedCourseCode}
-                    />
-                  ))}
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-            <h2 className="p-2 text-lg font-bold">My Assignments</h2>
-            <h2 className="p-2 text-lg font-bold">My Completed Courses</h2>
+            <SavedCourses
+              selectedCourseCode={selectedCourseCode ?? ""}
+              setSelectedCourseCode={setSelectedCourseCode}
+              setSelectedCoursePolicyId={setSelectedCoursePolicyId}
+            />
+            {/* TODO: */}
+            <h2 className="p-2 text-lg font-bold">Completed Courses</h2>
           </div>
         </div>
+        {/* If a course is selected, show COURSE DETAILS. Otherwise, show LEARNER OVERVIEW */}
         {selectedCourseCode ? (
           <CourseDetails
             currentCourseCode={selectedCourseCode}
             learnerAssignments={learnerAssignments}
             courseNftPolicyId={selectedCoursePolicyId ?? ""}
+            globalStateDatum={globalStateDatum}
           />
         ) : (
           <>
@@ -138,12 +122,14 @@ export default function LearnerComponent() {
             {/* <div className="col-span-3 border border-primary p-5"> */}
             {/*   <p>My Goals - Needed Prereqs or otherwise saved Courses</p> */}
             {/* </div> */}
+            <div className="col-span-3 bg-secondary p-5 text-center text-secondary-foreground">
+              <p className="mb-5 font-beckman text-2xl">Ready to Explore?</p>
+              <Link href="/courses">
+                <Button>View all Courses</Button>
+              </Link>
+            </div>
           </>
         )}
-        <div className="col-span-5 bg-secondary p-5 text-center text-secondary-foreground">
-          <p className="mb-5 font-beckman text-2xl">Ready to Explore?</p>
-          <Button>View all Courses</Button>
-        </div>
       </div>
     </div>
   );

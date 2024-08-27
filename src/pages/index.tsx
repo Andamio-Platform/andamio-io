@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Metatags from "~/components/site/metatags";
 import PageCourse from "~/ui/course/[coursecode]/PageCourse";
 import PageLanding from "~/ui/landing/PageLanding";
+import SB7PageLanding from "~/ui/landing/SB7PageLanding";
 import { api } from "~/utils/api";
 
 export default function Landing() {
@@ -26,10 +27,14 @@ export default function Landing() {
       <Metatags />
       {client !== undefined ? (
         <>
-          {client ? <PageCourse courseId={client.courseId} /> : <PageLanding />}
+          {client ? <PageCourse courseId={client.courseId} /> : 
+          // <PageLanding />
+          <SB7PageLanding />
+          }
         </>
       ) : (
-        <PageLanding />
+        // <PageLanding />
+        <SB7PageLanding />
       )}
     </>
   );

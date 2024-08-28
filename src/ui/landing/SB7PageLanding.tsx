@@ -269,17 +269,35 @@ export function HowAndamioWorks() {
           works
         </h1>
       </div>
-      {/* <div className="flex h-1/5 w-screen flex-row text-xl text-black">
+      <div className="flex h-1/5 w-screen flex-row text-xl text-black">
         <div className="flex h-full w-1/3 flex-col items-center justify-end">
-        <h1 className="scroll-m-20 text-8xl font-semibold tracking-tight">1</h1>
+        <Image
+            width={600}
+            height={600}
+            className="h-40 w-auto"
+            src="/images/site/1.png"
+            alt="ceo-joe"
+          />
         </div>
         <div className="flex h-full w-1/3 flex-col items-center justify-end">
-        <h1 className="scroll-m-20 text-8xl font-semibold tracking-tight">2</h1>
+        <Image
+            width={600}
+            height={600}
+            className="h-40 w-auto"
+            src="/images/site/2.png"
+            alt="ceo-joe"
+          />
         </div>
         <div className="flex h-full w-1/3 flex-col items-center justify-end">
-          <h1 className="scroll-m-20 text-8xl font-semibold tracking-tight">3</h1>
+          <Image
+            width={600}
+            height={600}
+            className="h-40 w-auto"
+            src="/images/site/3.png"
+            alt="ceo-joe"
+          />
         </div>
-      </div> */}
+      </div>
       <div className="flex h-1/4 w-screen flex-row text-xl text-black">
         <div className="flex h-full w-1/3 flex-col items-center justify-end">
           <Image
@@ -303,8 +321,8 @@ export function HowAndamioWorks() {
           <Image
             width={600}
             height={600}
-            className="h-10 w-auto"
-            src="/images/site/coin.png"
+            className="h-40 w-auto"
+            src="/images/site/coins.png"
             alt="coin"
           />
         </div>

@@ -58,7 +58,7 @@ export default function DialogSLTDelete({
       openButtonIntent="dialog"
       title="Confirm Delete Student Learning Target"
       icon="delete"
-      buttonLabel="Delete"
+      buttonLabel="Delete SLT"
       buttonLoading={isLoadingDelete}
       buttonDisabled={isLoadingDelete}
       handleSubmit={handleSubmit(() => onSubmit())}

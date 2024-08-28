@@ -39,7 +39,7 @@ const buttonVariants = cva(
         lg: "text-xl",
         xl: "text-2xl p-3",
         slt: "text-md text-foreground",
-        icon: "flex flex-col xl:flex-row rounded-full gap-1",
+        icon: "flex flex-col xl:flex-row rounded-full gap-1 p-1",
         bigIcon: "flex h-[30px] w-[30px] items-center justify-center",
         labeledIcon:
           "flex min-w-[90px] items-center justify-center justify-between px-3 py-1",

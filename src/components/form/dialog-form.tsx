@@ -64,7 +64,7 @@ export default function DialogForm({
                 onClick={() => setIsOpen(true)}
               >
                 <TrashIcon className="h-[14px] w-[14px] xl:h-[16px] xl:w-[16px]" />
-                <p className="mx-1 text-xs lg:text-sm">Delete</p>
+                <p className="mx-1 text-xs lg:text-sm">Delete SLT</p>
               </Button>
             )}
             {icon === "bigPlus" && (

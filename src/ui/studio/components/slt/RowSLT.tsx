@@ -44,10 +44,12 @@ export function SortableSLT({
   slt,
   module,
   courseCode,
+  published,
 }: {
   slt: ModuleSLT;
   module: CourseModuleOverview;
   courseCode: string;
+  published: boolean;
 }) {
   const {
     attributes,
@@ -79,13 +81,14 @@ export function SortableSLT({
     <SortableSltContext.Provider value={context}>
       <div style={style}>
         <div className="mx-auto my-1 flex w-11/12 flex-row gap-1">
-          <DragHandle />
+          {!published && <DragHandle />}
           <RowSLT
             courseCode={courseCode}
             module={module}
             slt={slt}
             {...attributes}
             {...listeners}
+            published={published}
           />
         </div>
       </div>
@@ -98,10 +101,12 @@ export function RowSLT({
   courseCode,
   module,
   slt,
+  published,
 }: {
   courseCode: string;
   module: CourseModuleOverview;
   slt: ModuleSLT;
+  published: boolean;
 }) {
   const ctx = api.useUtils();
   const { setNodeRef } = useContext(SortableSltContext);
@@ -187,35 +192,41 @@ export function RowSLT({
             </p>
           </div>
           <div className="col-span-8 flex w-full items-center">
-            <ToggleEditableField
-              name="sltText"
-              form={form}
-              intent="slt"
-              formTextSize="slt"
-              onSubmit={onSubmit}
-              editText={editSltText}
-              setEditText={setEditSltText}
-              text={slt.sltText}
-            />
+            {published ? (
+              <p>{slt.sltText}</p>
+            ) : (
+              <ToggleEditableField
+                name="sltText"
+                form={form}
+                intent="slt"
+                formTextSize="slt"
+                onSubmit={onSubmit}
+                editText={editSltText}
+                setEditText={setEditSltText}
+                text={slt.sltText}
+              />
+            )}
           </div>
 
-          <div className="col-span-3 col-start-10 flex items-center justify-between px-8">
+          <div className="col-span-3 col-start-10 flex items-center justify-end gap-5 px-8">
             <Link
               href={`/studio/${courseCode}/${module.moduleCode}/lesson/${slt.moduleIndex}`}
               className=""
             >
               <Button intent="ghost" size="icon">
                 <FileIcon className="h-[14px] w-[14px] xl:h-[16px] xl:w-[16px]" />
-                <p className="mx-1 text-xs lg:text-sm">Lesson</p>
+                <p className="mx-1 text-xs lg:text-sm">Edit Lesson</p>
               </Button>
             </Link>
-            <DialogSLTDelete
-              sltDeleteDialogOpen={sltDeleteDialogOpen}
-              setSltDeleteDialogOpen={setSltDeleteDialogOpen}
-              slt={slt}
-              courseCode={courseCode}
-              module={module}
-            />
+            {!published && (
+              <DialogSLTDelete
+                sltDeleteDialogOpen={sltDeleteDialogOpen}
+                setSltDeleteDialogOpen={setSltDeleteDialogOpen}
+                slt={slt}
+                courseCode={courseCode}
+                module={module}
+              />
+            )}
           </div>
         </div>
       )}

@@ -33,6 +33,7 @@ import LoadingCircle from "./ContentEditor/ui/icons/loading-circle";
 import useAssignment from "~/hooks/course/useAssignment";
 import { type Slt } from "@prisma/client";
 import useAssignmentNetworkStatus from "~/hooks/onchain/useAssignmentNetworkStatus";
+import { LockClosedIcon } from "@radix-ui/react-icons";
 
 type sltI = { slt: ModuleSLT; sltIndex: number; id: string };
 
@@ -179,24 +180,33 @@ export default function ModuleContainer({
         onClick={() => setIsAccordionOpen(!isAccordionOpen)}
       >
         <AccordionTrigger
-          className={`flex w-full flex-row justify-between ${isAccordionOpen ? "rounded-t-md" : "rounded-md"} bg-primary px-3 py-3 text-primary-foreground`}
+          className={`flex w-full flex-row justify-between ${isAccordionOpen ? "rounded-t-md" : "rounded-md"} min-h-[75px] items-center bg-primary px-3 py-3 text-primary-foreground`}
         >
           <div className="grid w-full grid-cols-12 py-1">
-            <div className="col-span-1">{currentModule.moduleCode}</div>
-            <div className="col-span-3">
-              <div className="flex gap-2 text-left">
+            <div className="col-span-1 flex h-full items-center">
+              {currentModule.moduleCode}
+            </div>
+            <div className="col-span-3 flex h-full items-center">
+              <div className="flex h-full  items-center gap-2 text-left">
                 <span>{currentModule.title}</span>
               </div>
             </div>
-            <div className="col-span-3">{`${currentModule.slts.length} SLTs + ${currentModule.lessons.length} Lessons`}</div>
-            <div className="col-start-12">
-              <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
-                <DialogModule
-                  moduleDialogOpen={moduleDialogOpen}
-                  setModuleDialogOpen={setModuleDialogOpen}
-                  course={course}
-                  moduleCode={currentModule.moduleCode}
-                />
+            <div className="col-span-3 flex h-full items-center">{`${currentModule.slts.length} SLTs + ${currentModule.lessons.length} Lessons`}</div>
+            <div className="col-start-12 flex h-full items-center justify-center">
+              <div
+                className="flex content-end items-center justify-end gap-2 px-2"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {isAssignmentOnchain ? (
+                  <LockClosedIcon />
+                ) : (
+                  <DialogModule
+                    moduleDialogOpen={moduleDialogOpen}
+                    setModuleDialogOpen={setModuleDialogOpen}
+                    course={course}
+                    moduleCode={currentModule.moduleCode}
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -227,6 +237,7 @@ export default function ModuleContainer({
                       module={currentModule}
                       courseCode={course?.courseCode ?? ""}
                       key={sI.slt.id}
+                      published={isAssignmentOnchain ?? true}
                     />
                   ))}
                 </SortableContext>
@@ -252,9 +263,22 @@ export default function ModuleContainer({
                 </p>
               )}
               {isAssignmentOnchain ? (
-                "You cannot make changes"
+                <div className="mx-auto my-5 flex w-11/12 flex-row items-center">
+                  <p>
+                    This Module is published on the Andamio Network. You cannot
+                    change the title of the Module or the Student Learning
+                    Targets. You can still update the introduction, lesson, and
+                    assignment content. To manage this module, navigate to your{" "}
+                    <Link href="/dashboard">
+                      <span className="font-semibold text-primary hover:text-success">
+                        Andamio Dashboard
+                      </span>
+                    </Link>
+                    .
+                  </p>
+                </div>
               ) : (
-                <div className="items center mx-auto my-5 flex w-2/3 flex-row justify-between">
+                <div className="mx-auto my-5 flex w-2/3 flex-row items-center justify-between">
                   <DialogSLT
                     sltDialogOpen={sltDialogOpen}
                     setSltDialogOpen={setSltDialogOpen}

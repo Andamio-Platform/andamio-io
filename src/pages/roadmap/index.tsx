@@ -10,7 +10,7 @@ const ProductRoadmap = () => {
         className="items-center justify-center"
         style={{ minHeight: "calc(100vh - 5rem)" }}
       >
-        <div className="mx-auto mt-[150px] max-w-6xl rounded-lg bg-secondary p-8 text-secondary-foreground shadow-lg">
+        <div className="mx-auto mt-[150px] max-w-6xl rounded-lg border border-primary p-8 shadow-lg">
           <h2 className="text-center font-beckman text-6xl font-bold">
             Andamio Roadmap
           </h2>

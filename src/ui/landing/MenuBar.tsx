@@ -1,26 +1,25 @@
-import { useState } from "react";
+import { type Dispatch, useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "~/components/link";
 import { useSession } from "next-auth/react";
 import MenuBarSessionProfile from "../auth/MenuBarSessionProfile";
 import Image from "next/image";
+import { navigationMenuTriggerStyle } from "~/components/ui/navigation-menu";
 
 const navigation = [
   { name: "Courses", href: "/courses" },
-  // { name: "Contributions", href: "#" },
-  // { name: "Network", href: "#" },
   { name: "About", href: "/about" },
   { name: "Calendar", href: "/calendar" },
   { name: "Blog", href: "https://blog.andamio.io" },
   { name: "Roadmap", href: "/roadmap" },
 ];
 
-export default function MenuBar() {
+export default function MenuBar({}: {}) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="absolute inset-x-0 top-0 z-50">
+    <header className="flex w-full">
       <Desktop setMobileMenuOpen={setMobileMenuOpen} />
       <Mobile
         mobileMenuOpen={mobileMenuOpen}
@@ -37,57 +36,72 @@ function Desktop({
 }) {
   const { data: sessionData } = useSession();
   return (
-    <nav
-      className="flex items-center justify-between p-6 lg:px-8"
-      aria-label="Global"
-    >
-      <div className="flex lg:flex-1">
-        <span className="-m-1.5 p-1.5">
+    <div className="flex w-full p-2">
+      <div className="flex w-full items-center justify-between">
+        <div>
           <Link href="/">
-            <span className="sr-only">Andamio</span>
             <Image
-              width={200}
-              height={200}
-              className="h-8 w-auto"
+              width={400}
+              height={400}
+              className="h-20 w-auto"
               src="/andamio-logo-w-typography.jpg"
               alt="Andamio"
             />
           </Link>
-        </span>
+        </div>
+
+        <div className="flex space-x-4 pr-20">
+          <div>
+            <Link href="#why-andamio" legacyBehavior passHref>
+              <div
+                className={`${navigationMenuTriggerStyle()} cursor-pointer border-2 border-solid border-black bg-white`}
+              >
+                Why&nbsp;<text className="font-extrabold">ANDAMIO</text>?
+              </div>
+            </Link>
+          </div>
+          <div>
+            <Link href="https://blog.andamio.io" legacyBehavior passHref>
+              <div
+                className={`${navigationMenuTriggerStyle()} cursor-pointer border-2 border-solid border-black bg-white`}
+              >
+                Blog
+              </div>
+            </Link>
+          </div>
+          <div>
+            <Link href="/roadmap" legacyBehavior passHref>
+              <div
+                className={`${navigationMenuTriggerStyle()} cursor-pointer border-2 border-solid border-black bg-white`}
+              >
+                Roadmap
+              </div>
+            </Link>
+          </div>
+          <div>
+            <Link href="/contact" legacyBehavior passHref>
+              <div
+                className={`${navigationMenuTriggerStyle()} cursor-pointer bg-black`}
+              >
+                <text className="font-extrabold text-white">GET IN TOUCH</text>
+              </div>
+            </Link>
+          </div>
+        </div>
+        <div>
+          <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+            {!sessionData && (
+              <Link href={`/auth/signin`}>
+                <span className="text-sm font-semibold leading-6 text-foreground">
+                  Log in <span aria-hidden="true">&rarr;</span>
+                </span>
+              </Link>
+            )}
+            <MenuBarSessionProfile />
+          </div>
+        </div>
       </div>
-      <div className="flex lg:hidden">
-        <button
-          type="button"
-          className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
-          onClick={() => setMobileMenuOpen(true)}
-        >
-          <span className="sr-only">Open main menu</span>
-          <Bars3Icon className="h-6 w-6" aria-hidden="true" />
-        </button>
-      </div>
-      <div className="hidden lg:flex lg:gap-x-12">
-        {navigation.map((item) => (
-          <Link key={item.name} href={item.href}>
-            <span className="text-sm font-semibold leading-6 text-foreground">
-              {item.name}
-            </span>
-          </Link>
-        ))}
-      </div>
-      <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-        {/* TO-DO: Implement transaction confirmation manager */}
-        {/* Paused due to Maestro's transaction manager for preprod is not working */}
-        {/* <UnconfirmedTx unconfirmedTxHash={sessionData?.user.unconfirmedTx} />  */}
-        {!sessionData && (
-          <Link href={`/auth/signin`}>
-            <span className="text-sm font-semibold leading-6 text-foreground">
-              Log in <span aria-hidden="true">&rarr;</span>
-            </span>
-          </Link>
-        )}
-        <MenuBarSessionProfile />
-      </div>
-    </nav>
+    </div>
   );
 }
 

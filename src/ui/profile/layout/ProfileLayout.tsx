@@ -19,7 +19,7 @@ export default function ProfileLayout({
   return (
     <>
       <MenuBar />
-      <main className="mt-[80px]">
+      <main className="">
         <div className="mx-auto w-full">{children}</div>
       </main>
       <LightDarkToggle />

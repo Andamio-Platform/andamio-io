@@ -17,7 +17,7 @@ export default function DashboardPage() {
   }, [setTheme]);
   return (
     <ProfileLayout>
-      <Tabs defaultValue="dashboard" className="min-h-[75vh] w-full">
+      <Tabs defaultValue="dashboard" className="min-h-[85vh] w-full">
         <TabsList className="mb-3 w-full gap-24 rounded-none bg-primary font-beckman text-lg text-primary-foreground">
           <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
           <TabsTrigger value="learner">Learners</TabsTrigger>

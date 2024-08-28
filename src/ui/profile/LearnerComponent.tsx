@@ -38,16 +38,20 @@ export default function LearnerComponent() {
             Andamio Learner
           </div>
           <div className="bg-primary text-primary-foreground">
-            <h2 className="p-2 text-lg font-bold">Current Network Courses</h2>
-            {globalStateDatum?.TokenInfos.map((ti, i) => (
-              <CurrentCourseSidebarItem
-                lsCs={ti.LsCs}
-                key={i}
-                selectedCourse={selectedCourseCode}
-                setSelectedCourse={setSelectedCourseCode}
-                setSelectedCoursePolicyId={setSelectedCoursePolicyId}
-              />
-            ))}
+            <h2 className="p-2 text-lg font-bold">Currently Enrolled</h2>
+            {globalStateDatum?.TokenInfos.map((ti, i) => {
+              if (ti.Minted) {
+                return (
+                  <CurrentCourseSidebarItem
+                    lsCs={ti.LsCs}
+                    key={i}
+                    selectedCourse={selectedCourseCode}
+                    setSelectedCourse={setSelectedCourseCode}
+                    setSelectedCoursePolicyId={setSelectedCoursePolicyId}
+                  />
+                );
+              }
+            })}
             <SavedCourses
               selectedCourseCode={selectedCourseCode ?? ""}
               setSelectedCourseCode={setSelectedCourseCode}
@@ -55,6 +59,19 @@ export default function LearnerComponent() {
             />
             {/* TODO: */}
             <h2 className="p-2 text-lg font-bold">Completed Courses</h2>
+            {globalStateDatum?.TokenInfos.map((ti, i) => {
+              if (!ti.Minted) {
+                return (
+                  <CurrentCourseSidebarItem
+                    lsCs={ti.LsCs}
+                    key={i}
+                    selectedCourse={selectedCourseCode}
+                    setSelectedCourse={setSelectedCourseCode}
+                    setSelectedCoursePolicyId={setSelectedCoursePolicyId}
+                  />
+                );
+              }
+            })}
           </div>
         </div>
         {/* If a course is selected, show COURSE DETAILS. Otherwise, show LEARNER OVERVIEW */}
@@ -103,7 +120,11 @@ export default function LearnerComponent() {
                   return (
                     <div key={i} className="my-3">
                       <h2 className="mb-1 font-semibold">{la.title}</h2>
-                      <Button>View Assignment in {la.courseTitle}</Button>
+                      <Link
+                        href={`/course/${la.courseCode}/${la.moduleCode}/assignment/${la.assignmentCode}`}
+                      >
+                        <Button>View Assignment in {la.courseTitle}</Button>
+                      </Link>
                     </div>
                   );
                 }

@@ -8,5 +8,14 @@ export default function useCourseByPolicyId(courseNftPolicy: string) {
       },
       { enabled: !!courseNftPolicy },
     );
-  return { courseInfo, isLoadingCourseInfo };
+
+  const { data: assignmentStats } =
+    api.assignmentValidator.getCourseAssignmentStats.useQuery(
+      {
+        courseCreatorNFTPolicyID: courseNftPolicy,
+        courseCode: courseInfo?.courseCode ?? "",
+      },
+      { enabled: !!courseInfo },
+    );
+  return { courseInfo, isLoadingCourseInfo, assignmentStats };
 }

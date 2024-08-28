@@ -15,7 +15,8 @@ export default function NetworkModuleManagement({
   courseNftPolicyId: string;
   key: number | string;
 }) {
-  const { courseInfo } = useCourseByPolicyId(courseNftPolicyId);
+  const { courseInfo, assignmentStats } =
+    useCourseByPolicyId(courseNftPolicyId);
   const { courseModuleOverviews } = useCourseModuleOverviews(
     courseInfo?.courseCode ?? "",
   );
@@ -24,6 +25,13 @@ export default function NetworkModuleManagement({
     <div key={key} className="">
       <div className="mb-5 flex flex-row items-center justify-between">
         <h2 className="text-2xl">{courseInfo?.title}</h2>
+        <p>{assignmentStats?.courseModules} modules</p>
+        <p>
+          {assignmentStats?.modulesWithAssignments} modules with assignments
+        </p>
+        <p>
+          {assignmentStats?.networkPublishedModules} modules published on-chain
+        </p>
         <Button>Edit in Course Studio</Button>
       </div>
       {courseInfo?.courseCode && (

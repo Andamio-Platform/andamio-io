@@ -47,6 +47,7 @@ export default function LearnerCourses({
                     setSelectedCourse={setSelectedCourse}
                     setSelectedCoursePolicyId={setSelectedCoursePolicyId}
                     key={i}
+                    alias={alias}
                   />
                 </div>
               );

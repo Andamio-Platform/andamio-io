@@ -10,7 +10,11 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import { type Course, type CourseModuleOverview } from "~/types/db";
+
+type OnchainCourseModule = {
+  module_token: string;
+  decoded_datum: DecodedModuleRefDatum;
+};
 
 export const assignmentValidatorRouter = createTRPCRouter({
   isCourseModuleOnchain: publicProcedure
@@ -21,11 +25,6 @@ export const assignmentValidatorRouter = createTRPCRouter({
       }),
     )
     .query(async ({ input }) => {
-      type OnchainCourseModule = {
-        module_token: string;
-        decoded_datum: DecodedModuleRefDatum;
-      };
-
       const onchainCourseModules = await indexerGet<OnchainCourseModule[]>(
         `module-ref/decodedModuleRefDatumsByCourseNftPolicy?policy=${input.courseCreatorNFTPolicyID}`,
       );
@@ -115,7 +114,15 @@ export const assignmentValidatorRouter = createTRPCRouter({
         (cM) => cM.assignments.length > 0,
       );
 
-      return assignmentModules.length;
+      const onchainCourseModules = await indexerGet<OnchainCourseModule[]>(
+        `module-ref/decodedModuleRefDatumsByCourseNftPolicy?policy=${input.courseCreatorNFTPolicyID}`,
+      );
+
+      return {
+        courseModules: res.modules.length,
+        modulesWithAssignments: assignmentModules.length,
+        networkPublishedModules: onchainCourseModules.length,
+      };
       //   (cm: CourseModuleOverview) => cm.assignments && cm.assignments.length > 0,
       // );
       //

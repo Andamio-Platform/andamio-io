@@ -30,9 +30,10 @@ export default function MintCourseModuleDialog({
   return (
     <Dialog>
       <DialogTrigger>
-        <Button>Mint Course Module Requirements</Button>
+        <Button>Publish Credential Criteria</Button>
       </DialogTrigger>
       <DialogContent>
+        <h1>Publish Credential Criteria</h1>
         {/* About this Module */}
         <h2>Module Details</h2>
         {courseModuleOverview.slts.map((slt, j) => (
@@ -54,7 +55,7 @@ export default function MintCourseModuleDialog({
           <p>Assignment: {courseModuleOverview.assignments[0]?.title}</p>
         )}
         {/* What it means to mint a Module */}
-        <h2>What it means to mint a Module</h2>
+        <h2>What it means to publish credential criteria</h2>
         <p>
           By minting this module you are making a promise and setting the rules
           for an on-chain credential that you will issue. Are you sure that

@@ -24,7 +24,7 @@ export function HowAndamioWorks() {
             width={600}
             height={600}
             className="h-40 w-auto"
-            src="/images/site/1.png"
+            src="/images/site/step_1.png"
             alt="ceo-joe"
           />
         </div>
@@ -33,7 +33,7 @@ export function HowAndamioWorks() {
             width={600}
             height={600}
             className="h-40 w-auto"
-            src="/images/site/2.png"
+            src="/images/site/step_2.png"
             alt="ceo-joe"
           />
         </div>
@@ -42,7 +42,7 @@ export function HowAndamioWorks() {
             width={600}
             height={600}
             className="h-40 w-auto"
-            src="/images/site/3.png"
+            src="/images/site/step_3.png"
             alt="ceo-joe"
           />
         </div>

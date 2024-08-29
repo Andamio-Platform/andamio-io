@@ -8,9 +8,8 @@ import {
   CollapsibleTrigger,
 } from "~/components/ui/collapsible";
 
-import MintAccessToken from "~/components/transactions/MintAccessToken";
-
 import { BookOpenText, GlobeLockIcon } from "lucide-react";
+import MintAccessTokenDialog from "~/components/transactions/dialogs/MintAccessTokenDialog";
 
 export default function AccessTokenComponent() {
   const [isOpen, setIsOpen] = useState(false);
@@ -43,7 +42,7 @@ export default function AccessTokenComponent() {
               </CollapsibleTrigger>
 
               <CollapsibleContent className="space-y-2">
-                <MintAccessToken />
+                <MintAccessTokenDialog />
               </CollapsibleContent>
             </Collapsible>
           </div>

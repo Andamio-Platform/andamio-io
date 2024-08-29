@@ -1,7 +1,6 @@
 import { CardanoWallet, useWallet } from "@meshsdk/react";
 import Link from "next/link";
 import { useState } from "react";
-import MintAccessToken from "~/components/transactions/MintAccessToken";
 import { Button } from "~/components/ui/button";
 import { useLearnerAssignmentStatuses } from "~/hooks/course/useLearnerAssignmentStatuses";
 import { useAccessToken } from "~/hooks/onchain/useAccessToken";
@@ -11,6 +10,7 @@ import CourseDetails from "./learner/CourseDetails";
 import CurrentCourseSidebarItem from "./learner/CurrentCourseSidebarItem";
 import LearnerCourses from "./learner/LearnerCourses";
 import SavedCourses from "./learner/SavedCourses";
+import MintAccessTokenDialog from "~/components/transactions/dialogs/MintAccessTokenDialog";
 
 export default function LearnerComponent() {
   const { connected } = useWallet();
@@ -91,7 +91,7 @@ export default function LearnerComponent() {
                 <>
                   {connected && !accessTokenAlias ? (
                     <div>
-                      <MintAccessToken />
+                      <MintAccessTokenDialog />
                     </div>
                   ) : (
                     <>

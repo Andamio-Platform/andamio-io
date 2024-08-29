@@ -41,7 +41,6 @@ export default function DashboardPage() {
           <GoalsComponent />
         </TabsContent>
       </Tabs>
-      <Footer />
     </ProfileLayout>
   );
 }

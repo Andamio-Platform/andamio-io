@@ -2,7 +2,7 @@ import { useSession } from "next-auth/react";
 import PageSignin from "~/ui/auth/PageSignin";
 import { useRouter } from "next/router";
 import { LightDarkToggle } from "~/ui/site/LightDarkToggle";
-import MenuBar from "~/ui/landing/MenuBar";
+import SideMenu from "~/ui/navigation/SideMenu";
 
 export default function ProfileLayout({
   children,
@@ -17,12 +17,12 @@ export default function ProfileLayout({
   }
 
   return (
-    <>
-      <MenuBar />
-      <main className="">
-        <div className="mx-auto w-full">{children}</div>
+    <div>
+      <SideMenu />
+      <main className="py-10 lg:pl-72">
+        <div className="mx-auto w-full lg:w-11/12">{children}</div>
       </main>
       <LightDarkToggle />
-    </>
+    </div>
   );
 }

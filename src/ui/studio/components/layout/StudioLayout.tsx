@@ -1,8 +1,8 @@
 import { useSession } from "next-auth/react";
-import SideMenu from "./SideMenu";
 import PageSignin from "~/ui/auth/PageSignin";
 import { useRouter } from "next/router";
 import { LightDarkToggle } from "~/ui/site/LightDarkToggle";
+import SideMenu from "~/ui/navigation/SideMenu";
 
 export default function StudioLayout({
   children,

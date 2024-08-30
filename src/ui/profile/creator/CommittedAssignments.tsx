@@ -45,6 +45,7 @@ export default function CommittedAssignments({
               <TableRow>
                 <TableHead>Alias</TableHead>
                 <TableHead>Assignment</TableHead>
+                <TableHead>Assignment Info</TableHead>
                 <TableHead>Accept</TableHead>
                 <TableHead>Deny</TableHead>
               </TableRow>
@@ -56,23 +57,32 @@ export default function CommittedAssignments({
                     {assignment.CourseState.CsdUserName}
                   </TableCell>
                   <TableCell>{assignment.CommittedAssignmentId}</TableCell>
+                  <TableCell>{assignment.StudentAssignmentInfo}</TableCell>
                   <TableCell>
-                    <AcceptDenyAssignment
-                      key={i}
-                      courseNftPolicy={courseNftPolicy}
-                      userAccessTokenUnit={accessTokenAsset!.unit}
-                      studentAlias={assignment.CourseState.CsdUserName}
-                      decision="accept"
-                    />
+                    {assignment.StudentAssignmentInfo ? (
+                      <AcceptDenyAssignment
+                        key={i}
+                        courseNftPolicy={courseNftPolicy}
+                        userAccessTokenUnit={accessTokenAsset!.unit}
+                        studentAlias={assignment.CourseState.CsdUserName}
+                        decision="accept"
+                      />
+                    ) : (
+                      "No Assignment Info"
+                    )}
                   </TableCell>
                   <TableCell>
-                    <AcceptDenyAssignment
-                      key={i}
-                      courseNftPolicy={courseNftPolicy}
-                      userAccessTokenUnit={accessTokenAsset!.unit}
-                      studentAlias={assignment.CourseState.CsdUserName}
-                      decision="deny"
-                    />
+                    {assignment.StudentAssignmentInfo ? (
+                      <AcceptDenyAssignment
+                        key={i}
+                        courseNftPolicy={courseNftPolicy}
+                        userAccessTokenUnit={accessTokenAsset!.unit}
+                        studentAlias={assignment.CourseState.CsdUserName}
+                        decision="deny"
+                      />
+                    ) : (
+                      "No Assignment Info"
+                    )}
                   </TableCell>
                 </TableRow>
               ))}

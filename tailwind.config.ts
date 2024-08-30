@@ -19,7 +19,7 @@ const config = {
     },
     fontFamily: {
       sans: ["LibreFranklin", "ui-sans-serif", "system-ui"],
-      mono: ["ui-monospace"],
+      mono: ["Inconsolata", "ui-monospace"],
       serif: ["ui-serif"],
       beckman: ["Beckman", "ui-sans-serif", "system-ui"],
       workSans: ["WorkSans"],

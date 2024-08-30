@@ -22,12 +22,17 @@ export default function AcceptDenyAssignment({
   const address = useAddress();
   const [isLoading, setIsLoading] = useState(false);
 
-  const { data: unsignedTxCBOR } =
+  const { data: unsignedTxCBOR } = decision === "accept" ?
     api.creatorCourseTransactions.acceptAssignment.useQuery({
       userAccessTokenUnit: userAccessTokenUnit,
       courseNftPolicyId: courseNftPolicy,
       studentAlias: studentAlias 
-    }) 
+    }) :
+    api.creatorCourseTransactions.denyAssignment.useQuery({
+      userAccessTokenUnit: userAccessTokenUnit,
+      courseNftPolicyId: courseNftPolicy,
+      studentAlias: studentAlias 
+    })
 
   async function onSubmit() {
     setIsLoading(true);

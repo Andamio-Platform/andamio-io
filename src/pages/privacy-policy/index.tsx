@@ -251,7 +251,6 @@ export default function PrivacyPolicyPage() {
           </li>
         </ul>
       </div>
-      <Footer />
     </main>
   );
 }

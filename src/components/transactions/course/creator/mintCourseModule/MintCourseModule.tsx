@@ -29,7 +29,7 @@ export default function MintCourseModule({
     {
       moduleId: courseModuleOverview.moduleCode,
       slts: slts,
-      assignmentContent: courseModuleOverview.assignments[0]?.assignmentCode,
+      assignmentContent: courseModuleOverview.assignments[0]?.title,
     },
   ];
 
@@ -69,7 +69,7 @@ export default function MintCourseModule({
   return (
     <div className="mx-4 flex items-center justify-center rounded-md border px-4 py-3 font-mono text-sm">
       {unsignedTxCBOR ? (
-        <Button onClick={onSubmit}>Mint Module On-Chain</Button>
+        <Button onClick={onSubmit}>Publish Credential Criteria</Button>
       ) : (
         <>
           {/* {isConfirming && <p>Confirming transaction...</p>} */}

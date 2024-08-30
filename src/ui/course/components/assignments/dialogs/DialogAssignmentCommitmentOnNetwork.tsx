@@ -29,10 +29,6 @@ export default function DialogAssignmentCommitmentOnNetwork({
       moduleCode: assignmentCode,
     });
 
-  // We can still keep this: <p>Assignment {assignmentCode} is not published on chain</p> right here
-  // But it will only be needed to catch edge cases - this button should be hidden in UI if Assignment is not published
-  // see src/ui/course/[coursecode]/[modulecode]/assignment/[assignmentcode]/PageCourseAssignmentContent.tsx
-
   return (
     <>
       {!isAssignmentOnchain ? (

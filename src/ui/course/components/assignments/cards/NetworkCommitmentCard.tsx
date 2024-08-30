@@ -6,16 +6,20 @@ import useAssignmentNetworkStatus from "~/hooks/onchain/useAssignmentNetworkStat
 
 export default function NetworkCommitmentCard({
   courseCode,
-  assignmentCode,
+  moduleCode,
 }: {
   courseCode: string;
-  assignmentCode: string;
+  moduleCode: string;
 }) {
-  const { isAssignmentOnchain, isLearnerCommitted, isLoadingLearnerCommitted } =
-    useAssignmentNetworkStatus({
-      courseCode: courseCode,
-      moduleCode: assignmentCode,
-    });
+  const {
+    isAssignmentOnchain,
+    isLearnerCommitted,
+    isLoadingLearnerCommitted,
+    isLoadingAssignment,
+  } = useAssignmentNetworkStatus({
+    courseCode: courseCode,
+    moduleCode: moduleCode,
+  });
   // here we assume that assignment code matches module code
 
   return (
@@ -30,7 +34,7 @@ export default function NetworkCommitmentCard({
       </CardHeader>
       <CardContent>
         <div className="flex flex-col justify-center gap-3">
-          {isLoadingLearnerCommitted ? (
+          {isLoadingAssignment ? (
             "Loading"
           ) : (
             <>
@@ -39,7 +43,7 @@ export default function NetworkCommitmentCard({
               ) : (
                 <DialogAssignmentCommitmentOnNetwork
                   courseCode={courseCode}
-                  assignmentCode={assignmentCode}
+                  assignmentCode={moduleCode}
                 />
               )}
             </>

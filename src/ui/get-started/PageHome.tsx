@@ -23,8 +23,6 @@ export default function PageHome() {
         </div>
         <AboutUser />
       </div>
-
-      <Footer />
     </>
   );
 }

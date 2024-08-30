@@ -5,6 +5,10 @@ import SideMenuSessionProfile from "~/ui/auth/SideMenuSessionProfile";
 import Image from "next/image";
 import { CourseStudioLinkItem, DashboardLinkItem } from "./link-items";
 import { type Course } from "~/types/db";
+import { AcademicCapIcon } from "@heroicons/react/24/outline";
+import CourseOutline from "../course/components/layout/SideMenu/CourseOutline";
+import useValidateCreator from "~/hooks/course/useValidateCreator";
+import useCourse from "~/hooks/course/useCourse";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -12,8 +16,10 @@ function classNames(...classes: string[]) {
 
 export default function DesktopSideMenu({
   ownerCourses,
+  currentCourseCode,
 }: {
   ownerCourses: Course[];
+  currentCourseCode: string | undefined;
 }) {
   const { data: sessionData } = useSession();
 
@@ -21,6 +27,14 @@ export default function DesktopSideMenu({
 
   const isDashboardRoute = router.asPath.includes("dashboard");
   const isStudioRoute = router.asPath.includes("studio");
+  const isCourseRoute = router.asPath.includes("course");
+
+  const { course } = useCourse(currentCourseCode);
+
+  const { isCreator } = useValidateCreator(
+    sessionData,
+    currentCourseCode ?? "",
+  );
 
   return (
     <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
@@ -84,6 +98,34 @@ export default function DesktopSideMenu({
                 <div className="text-xs font-semibold leading-6 text-foreground">
                   Your Dashboard
                 </div>
+              </li>
+            )}
+            {isCourseRoute && !!currentCourseCode && (
+              <li>
+                <ul role="list" className="-mx-2 space-y-1">
+                  <li>
+                    <Link
+                      href={`/course/${currentCourseCode}`}
+                      className={classNames(
+                        "hover:text-accent-foreground-foreground text-foreground hover:bg-accent",
+                        "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
+                      )}
+                    >
+                      <AcademicCapIcon
+                        className={classNames(
+                          "text-accent-foreground-foreground group-hover:text-accent-foreground-foreground",
+                          "h-6 w-6 shrink-0",
+                        )}
+                        aria-hidden="true"
+                      />
+                      {course?.title}
+                    </Link>
+                  </li>
+                </ul>
+                <CourseOutline
+                  currentCourseCode={currentCourseCode}
+                  isCreator={isCreator}
+                />
               </li>
             )}
             {sessionData && <SideMenuSessionProfile />}

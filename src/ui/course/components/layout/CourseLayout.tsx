@@ -1,5 +1,5 @@
+import SideMenu from "~/ui/navigation/SideMenu";
 import { LightDarkToggle } from "~/ui/site/LightDarkToggle";
-import SideMenu from "./SideMenu";
 
 export default function CourseLayout({
   children,

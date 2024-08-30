@@ -411,7 +411,6 @@ export default function TermAndConditionsPage() {
           USA.
         </p>
       </div>
-      <Footer />
     </main>
   );
 }

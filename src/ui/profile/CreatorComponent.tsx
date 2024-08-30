@@ -1,7 +1,7 @@
 import { useWallet } from "@meshsdk/react";
 import { useAccessToken } from "~/hooks/onchain/useAccessToken";
-import ConnectWalletCard from "~/ui/course/components/assignments/cards/ConnectWalletCard";
 import CreatorsSection from "~/ui/profile/creator/CreatorsSection";
+import CreatorConnectWalletCard from "./creator/CreatorConnectWalletCard";
 
 export default function CreatorComponent() {
   const { connected } = useWallet();
@@ -11,7 +11,7 @@ export default function CreatorComponent() {
       {connected ? (
         <CreatorsSection accessTokenAlias={accessTokenAlias ?? ""} />
       ) : (
-        <ConnectWalletCard />
+        <CreatorConnectWalletCard />
       )}
     </div>
   );

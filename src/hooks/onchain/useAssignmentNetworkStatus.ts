@@ -41,7 +41,7 @@ export default function useAssignmentNetworkStatus({
     api.assignmentValidator.isLearnerCommittedToAssignment.useQuery(
       {
         courseCreatorNFTPolicyID: courseOnchain?.CourseCreatorNFTPolicyID ?? "",
-        assignmentCode: assignment?.assignmentCode ?? "",
+        assignmentCode: moduleCode ?? "",
         alias: accessTokenAlias ?? "",
       },
       { enabled: !!accessTokenAlias },

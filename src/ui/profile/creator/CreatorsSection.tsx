@@ -21,7 +21,7 @@ export default function CreatorsSection({
   return (
     <div className="">
       <div className="grid grid-cols-5 gap-5">
-        <div className="col-span-1 row-span-2 bg-accent text-xs">
+        <div className="col-span-1 row-span-2 text-xs">
           <div className="my-5 font-beckman text-xl">Andamio Creator</div>
           {creatorCoursePolicies?.map((p, i) => (
             <CurrentCourseSidebarItem

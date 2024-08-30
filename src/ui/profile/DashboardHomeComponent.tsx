@@ -7,6 +7,7 @@ import useGlobalStateDatum from "~/hooks/onchain/useGlobalStateDatum";
 import useCreatorsCoursesPolicies from "~/hooks/onchain/useCreatorsCoursesPolicies";
 import { CardanoWallet, useWallet } from "@meshsdk/react";
 import { Button } from "~/components/ui/button";
+import Link from "next/link";
 
 export default function DashboardHomeComponent() {
   const { connected } = useWallet();
@@ -87,8 +88,12 @@ export default function DashboardHomeComponent() {
             globalStateDatum.TokenInfos.length == 0 && (
               <div>
                 <p className="my-3 text-lg font-bold">Start Learning!</p>
-                <p>Try enrolling in a course</p>
-                <Button>View Courses</Button>
+                <p className="mb-2">
+                  Explore Andamio course list and try enrolling in one.
+                </p>
+                <Link href="/courses">
+                  <Button>View Courses</Button>
+                </Link>
               </div>
             )}
           {!!globalStateDatum && globalStateDatum.TokenInfos.length > 0 && (

@@ -28,11 +28,9 @@ import ConnectWalletCard from "~/ui/course/components/assignments/cards/ConnectW
 export default function PageCourseAssignmentContent({
   courseCode,
   courseModule,
-  assignmentCode,
 }: {
   courseCode: string;
   courseModule: CourseModuleOverview;
-  assignmentCode: string;
 }) {
   const { data: sessionData } = useSession();
 
@@ -49,11 +47,7 @@ export default function PageCourseAssignmentContent({
         <Metatags title={assignment?.title ?? undefined} />
         {assignment && assignment.live ? (
           <div className="mx-auto flex w-11/12 max-w-5xl flex-col gap-4 text-base leading-7 text-foreground">
-            <Page
-              courseModule={courseModule}
-              courseCode={courseCode}
-              assignmentCode={assignmentCode}
-            />
+            <Page courseModule={courseModule} courseCode={courseCode} />
             <CourseNavigation
               courseCode={courseCode}
               courseModule={courseModule}
@@ -70,11 +64,7 @@ export default function PageCourseAssignmentContent({
               </AlertDescription>
             </Alert>
             {isCreator && (
-              <Page
-                courseModule={courseModule}
-                courseCode={courseCode}
-                assignmentCode={assignmentCode}
-              />
+              <Page courseModule={courseModule} courseCode={courseCode} />
             )}
           </div>
         ) : isLoadingAssignment ? (
@@ -88,11 +78,9 @@ export default function PageCourseAssignmentContent({
 function Page({
   courseModule,
   courseCode,
-  assignmentCode,
 }: {
   courseModule: CourseModuleOverview;
   courseCode: string;
-  assignmentCode: string;
 }) {
   const { data: sessionData } = useSession();
   const { connected } = useWallet();
@@ -148,7 +136,7 @@ function Page({
             <>
               {connected ? (
                 <NetworkCommitmentCard
-                  assignmentCode={assignmentCode}
+                  moduleCode={courseModule.moduleCode}
                   courseCode={courseCode}
                 />
               ) : (
@@ -158,33 +146,6 @@ function Page({
           ) : (
             <NoOnchainAssignmentCard />
           )}
-
-          {/* For testing: */}
-          {/* <div className="col-span-2">
-            <pre>
-              {isLoadingAssignment ? "Loading Assignment" : "Assignment Loaded"}
-            </pre>
-            <pre>
-              {isAssignmentOnchain
-                ? "Assignment is on-chain"
-                : "Assignment not on-chain"}
-            </pre>
-            <pre>
-              {isLoadingAssignmentOnchain
-                ? "Loading Assignment on-chain status"
-                : "Assignment on-chain status Loaded"}
-            </pre>
-            <pre>
-              {isLearnerCommitted
-                ? "You are committed to this assignment"
-                : "You are not committed"}
-            </pre>
-            <pre>
-              {isLoadingLearnerCommitted
-                ? "Loading commitment status"
-                : "Assignment Commitment status Loaded"}
-            </pre>
-          </div> */}
         </div>
       </>
     );

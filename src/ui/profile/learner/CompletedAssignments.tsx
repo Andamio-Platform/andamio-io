@@ -22,6 +22,9 @@ export default function CompletedAssignments({
   if (isErrorCourseStateDatum) {
     return (
       <div>
+        <p>ERROR</p>
+        <p>{courseNftPolicy}</p>
+        <p>{alias}</p>
         <pre>{JSON.stringify(errorCourseStateDatum, null, 2)}</pre>
       </div>
     );

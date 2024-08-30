@@ -37,6 +37,7 @@ export default function LearnerCourses({
         <h2 className="font-beckman text-xl">Current Courses</h2>
         <p>You are currently enrolled in these courses:</p>
         {/* TODO: Create a component for enrolled courses to get overview status */}
+        <pre>{JSON.stringify(globalStateDatum, null, 2)}</pre>
         {globalStateDatum &&
           globalStateDatum.TokenInfos.map((c, i) => {
             if (c.Minted) {
@@ -47,7 +48,7 @@ export default function LearnerCourses({
                     setSelectedCourse={setSelectedCourse}
                     setSelectedCoursePolicyId={setSelectedCoursePolicyId}
                     key={i}
-                    alias={alias}
+                    alias={globalStateDatum.UserName}
                   />
                 </div>
               );

@@ -33,29 +33,11 @@ export default function MintCourseModuleDialog({
         <Button>Publish Credential Criteria</Button>
       </DialogTrigger>
       <DialogContent>
-        <h1>Publish Credential Criteria</h1>
-        {/* About this Module */}
-        <h2>Module Details</h2>
-        {courseModuleOverview.slts.map((slt, j) => (
-          <motion.div
-            key={j}
-            onClick={() => toggleSlt(j)}
-            animate={{
-              backgroundColor: confirmedSlts[j] ? "#ff6347" : "#4682b4",
-            }}
-            transition={{ duration: 0.5 }}
-            className="rounded-md p-2"
-          >
-            <p>
-              {courseModuleOverview.moduleCode}.{slt.moduleIndex}: {slt.sltText}
-            </p>
-          </motion.div>
-        ))}
-        {courseModuleOverview.assignments?.length > 0 && (
-          <p>Assignment: {courseModuleOverview.assignments[0]?.title}</p>
-        )}
+        <h1 className="font-beckman text-lg">Publish Credential Criteria</h1>
         {/* What it means to mint a Module */}
-        <h2>What it means to publish credential criteria</h2>
+        <h2 className="my-3 font-semibold">
+          What it means to publish credential criteria
+        </h2>
         <p>
           By minting this module you are making a promise and setting the rules
           for an on-chain credential that you will issue. Are you sure that
@@ -64,6 +46,30 @@ export default function MintCourseModuleDialog({
           progress?
         </p>
         <p>If yes, then you can put this module on-chain!</p>
+        {/* About this Module */}
+        <h2 className="my-3 font-semibold">Student Learning Targets</h2>
+        <p className="mb-2">
+          Click on each SLT to confirm Credential Criteria:
+        </p>
+        {courseModuleOverview.slts.map((slt, j) => (
+          <motion.div
+            key={j}
+            onClick={() => toggleSlt(j)}
+            animate={{
+              backgroundColor: confirmedSlts[j] ? "#77Cf8f" : "#f2be5d",
+            }}
+            transition={{ duration: 0.5 }}
+            className="cursor-pointer rounded-md p-2"
+          >
+            <p>
+              {courseModuleOverview.moduleCode}.{slt.moduleIndex}: {slt.sltText}
+            </p>
+          </motion.div>
+        ))}
+        <h2 className="my-3 font-semibold">Assignment:</h2>
+        {courseModuleOverview.assignments?.length > 0 && (
+          <p>{courseModuleOverview.assignments[0]?.title}</p>
+        )}
         {/* Confirm Tx Button */}
         {accessTokenAsset && confirmedSlts.every((s) => s === true) && (
           <MintCourseModule

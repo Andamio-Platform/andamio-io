@@ -2,7 +2,12 @@ import { z } from "zod";
 import { type DecodedCourseStateDatum } from "@andamiojs/datum-utils";
 
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
-import { indexerGet } from "~/lib/axios/indexer";
+import { indexerGetWithParams } from "~/lib/axios/indexer";
+
+type CourseStateQueryParams = {
+  policy: string;
+  alias: string;
+};
 
 export const localStateValidatorRouter = createTRPCRouter({
   getCourseStateDatumByAlias: protectedProcedure
@@ -13,8 +18,16 @@ export const localStateValidatorRouter = createTRPCRouter({
       }),
     )
     .query(async ({ input }) => {
-      const localStateValidator = indexerGet<DecodedCourseStateDatum>(
-        `course-state/decodedCourseStateDatumByCourseNftPolicyAndAlias?policy=${input.courseNftPolicy}&alias=${input.alias}`,
+      const courseStateQueryParams: CourseStateQueryParams = {
+        policy: input.courseNftPolicy,
+        alias: input.alias,
+      };
+      const localStateValidator = indexerGetWithParams<
+        DecodedCourseStateDatum,
+        CourseStateQueryParams
+      >(
+        "course-state/decodedCourseStateDatumByCourseNftPolicyAndAlias",
+        courseStateQueryParams,
       );
       return localStateValidator;
     }),

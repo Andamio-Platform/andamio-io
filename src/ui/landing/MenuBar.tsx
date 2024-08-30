@@ -52,7 +52,7 @@ function Desktop({
 
         <div className="flex space-x-4 pr-20">
           <div>
-            <Link href="#why-andamio" legacyBehavior passHref>
+            <Link href="/#why-andamio" legacyBehavior passHref>
               <div
                 className={`${navigationMenuTriggerStyle()} cursor-pointer border-2 border-solid border-black bg-white`}
               >

@@ -26,6 +26,8 @@ export default function LearnerComponent() {
     string | undefined
   >(undefined);
 
+  const [showAssignments, setShowAssignments] = useState<boolean>(false);
+
   return (
     <div>
       <div className="grid grid-cols-5 gap-5">
@@ -37,7 +39,7 @@ export default function LearnerComponent() {
           >
             Andamio Learner
           </div>
-          <div className="bg-primary text-primary-foreground">
+          <div className="">
             <h2 className="p-2 text-lg font-bold">Currently Enrolled</h2>
             {globalStateDatum?.TokenInfos.map((ti, i) => {
               if (ti.Minted) {
@@ -72,6 +74,12 @@ export default function LearnerComponent() {
                 );
               }
             })}
+            <h2
+              className={`my-5 cursor-pointer p-2 font-bold ${showAssignments && "bg-accent"}`}
+              onClick={() => setShowAssignments(!showAssignments)}
+            >
+              {showAssignments ? "Hide" : "Show"} My Assignment Notes
+            </h2>
           </div>
         </div>
         {/* If a course is selected, show COURSE DETAILS. Otherwise, show LEARNER OVERVIEW */}
@@ -112,24 +120,29 @@ export default function LearnerComponent() {
                 data={learnerAssignments.length.toString() ?? ""}
               />
             </div>
-            <div className="round-md col-span-3 rounded-md border border-primary p-5">
-              <h2 className="font-beckman text-xl">Current Assignments</h2>
-              <p>Jump back into your current commitments:</p>
-              {learnerAssignments.map((la, i) => {
-                if (la.status === "IN_PROGRESS" || la.status === "COMMITMENT") {
-                  return (
-                    <div key={i} className="my-3">
-                      <h2 className="mb-1 font-semibold">{la.title}</h2>
-                      <Link
-                        href={`/course/${la.courseCode}/${la.moduleCode}/assignment/${la.assignmentCode}`}
-                      >
-                        <Button>View Assignment in {la.courseTitle}</Button>
-                      </Link>
-                    </div>
-                  );
-                }
-              })}
-            </div>
+            {showAssignments && (
+              <div className="round-md col-span-3 rounded-md border border-primary p-5">
+                <h2 className="font-beckman text-xl">Current Assignments</h2>
+                <p>These are your personal notes:</p>
+                {learnerAssignments.map((la, i) => {
+                  if (
+                    la.status === "IN_PROGRESS" ||
+                    la.status === "COMMITMENT"
+                  ) {
+                    return (
+                      <div key={i} className="my-3">
+                        <h2 className="mb-1 font-semibold">{la.title}</h2>
+                        <Link
+                          href={`/course/${la.courseCode}/${la.moduleCode}/assignment/${la.assignmentCode}`}
+                        >
+                          <Button>View Assignment in {la.courseTitle}</Button>
+                        </Link>
+                      </div>
+                    );
+                  }
+                })}
+              </div>
+            )}
             <div className="col-span-3">
               {accessTokenAlias && (
                 <LearnerCourses

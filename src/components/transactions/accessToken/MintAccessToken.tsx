@@ -45,7 +45,7 @@ export default function MintAccessToken({
 
   return (
     <div className="mx-4 flex items-center justify-center rounded-md border px-4 py-3 font-mono text-sm">
-      {unsignedTxCBOR ? (
+      {unsignedTxCBOR || isLoading? (
         <Button onClick={onSubmit}>Mint Andamio Access Token</Button>
       ) : (
         <>
@@ -53,7 +53,6 @@ export default function MintAccessToken({
           <Loading />
         </>
       )}
-      {isLoading && <Loading />}
     </div>
   );
 }

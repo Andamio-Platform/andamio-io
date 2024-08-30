@@ -12,6 +12,7 @@ import {
 import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
 import useCourseByPolicyId from "~/hooks/onchain/useCourseByPolicyId";
 import AcceptDenyAssignment from "~/components/transactions/course/creator/acceptDenyAssignment/AcceptDenyAssignment";
+import { useAccessToken } from "~/hooks/onchain/useAccessToken";
 
 export default function CommittedAssignments({
   courseNftPolicy,
@@ -19,6 +20,8 @@ export default function CommittedAssignments({
   courseNftPolicy: string;
 }) {
   const { listCourseAssignmentDatums } = useAssignmentDatums(courseNftPolicy);
+
+  const { accessTokenAsset } = useAccessToken();
 
   const { courseInfo, isLoadingCourseInfo } =
     useCourseByPolicyId(courseNftPolicy);
@@ -57,7 +60,8 @@ export default function CommittedAssignments({
                     <AcceptDenyAssignment
                       key={i}
                       courseNftPolicy={courseNftPolicy}
-                      assignment={assignment}
+                      userAccessTokenUnit={accessTokenAsset!.unit}
+                      studentAlias={assignment.CourseState.CsdUserName}
                       decision="accept"
                     />
                   </TableCell>
@@ -65,7 +69,8 @@ export default function CommittedAssignments({
                     <AcceptDenyAssignment
                       key={i}
                       courseNftPolicy={courseNftPolicy}
-                      assignment={assignment}
+                      userAccessTokenUnit={accessTokenAsset!.unit}
+                      studentAlias={assignment.CourseState.CsdUserName}
                       decision="deny"
                     />
                   </TableCell>

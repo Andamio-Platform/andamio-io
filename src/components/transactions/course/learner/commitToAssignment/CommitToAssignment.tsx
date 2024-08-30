@@ -104,7 +104,7 @@ export default function CommitToAssignment({
       ) : (
         <>
           {/* {isConfirming && <p>Confirming transaction...</p>} */}
-          <MintLocalState
+          <CommitToAssignmentButton
             userAccessTokenUnit={accessTokenAsset!.unit}
             courseNftPolicyId={courseOnchain!.CourseCreatorNFTPolicyID}
             assignmentCode={assignmentCode}
@@ -116,7 +116,7 @@ export default function CommitToAssignment({
   );
 }
 
-export function MintLocalState({
+export function CommitToAssignmentButton({
   userAccessTokenUnit,
   courseNftPolicyId,
   assignmentCode,

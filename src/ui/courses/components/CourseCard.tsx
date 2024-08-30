@@ -32,6 +32,7 @@ import toast from "react-hot-toast";
 import { useAccessToken } from "~/hooks/onchain/useAccessToken";
 import MintLocalState from "~/components/transactions/course/learner/mintLocalState/MintLocalState";
 import MintLocalStateMeshNative from "~/components/transactions/course/learner/mintLocalState/MintLocalStateMeshNative";
+import Loading from "~/components/loading";
 
 export default function CourseCard({ course }: { course: CoursePublic }) {
   const ctx = api.useUtils();
@@ -153,10 +154,14 @@ export default function CourseCard({ course }: { course: CoursePublic }) {
                                   <div>Currently Enrolled</div>
                                 ) : (
                                   <>
+                                    {accessTokenAsset && course.onchainInstance[0] ?
                                     <MintLocalState
-                                      courseCode={course.courseCode}
+                                      userAccessTokenUnit={accessTokenAsset.unit}
+                                      courseNftPolicyId={course.onchainInstance[0]
+                                        .CourseCreatorNFTPolicyID}
                                     />
-                                    {!!accessTokenAsset &&
+                                    : <Loading />}
+                                    {/* {!!accessTokenAsset &&
                                       course.onchainInstance[0]
                                         ?.CourseCreatorNFTPolicyID && (
                                         <MintLocalStateMeshNative
@@ -168,7 +173,7 @@ export default function CourseCard({ course }: { course: CoursePublic }) {
                                               .CourseCreatorNFTPolicyID
                                           }
                                         />
-                                      )}
+                                      )} */}
                                   </>
                                 )}
                               </>

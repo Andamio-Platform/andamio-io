@@ -43,7 +43,7 @@ export const learnerCourseTxRouter = createTRPCRouter({
       const unsignedTxCBOR = await indexerGetWithParams<
         { unsignedTxCBOR: string },
         MintBurnLocalStateParams
-      >(`txs/mintLocalState?userAccessToken`, mintLocalStateParams);
+      >(`txs/student-actions/mintLocalState`, mintLocalStateParams);
 
       if (unsignedTxCBOR) return unsignedTxCBOR;
       else throw new Error("Could not build minting transaction");

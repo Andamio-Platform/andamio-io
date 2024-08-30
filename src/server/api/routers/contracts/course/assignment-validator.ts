@@ -46,12 +46,18 @@ export const assignmentValidatorRouter = createTRPCRouter({
       }),
     )
     .query(async ({ input }) => {
-      const assignment = await indexerGet<DecodedAssignmentDecisionDatum>(
-        `assignment-validator/decodedAssignmentValidatorUtxoByCourseNftPolicyAndAlias?policy=${input.courseCreatorNFTPolicyID}&alias=${input.alias}`,
-      );
-      if (assignment.CommittedAssignmentId === input.assignmentCode) {
-        return true;
-      } else {
+      try {
+        console.log("hhh", input);
+        const assignment = await indexerGet<DecodedAssignmentDecisionDatum>(
+          `assignment-validator/decodedAssignmentValidatorUtxoByCourseNftPolicyAndAlias?policy=${input.courseCreatorNFTPolicyID}&alias=${input.alias}`,
+        );
+        console.log("hhhsac", assignment);
+        if (assignment.CommittedAssignmentId === input.assignmentCode) {
+          return true;
+        } else {
+          return false;
+        }
+      } catch {
         return false;
       }
     }),

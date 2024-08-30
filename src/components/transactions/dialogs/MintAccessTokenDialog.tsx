@@ -15,6 +15,9 @@ import MintAccessToken from "../accessToken/MintAccessToken";
 export default function MintAccessTokenDialog() {
   const address = useAddress();
   const [isAvailable, setIsAvailable] = useState<boolean>(false);
+  const [mintingAlias, setMintingAlias] = useState<string | undefined>(
+    undefined,
+  );
 
   const FormSchema = z.object({
     tokenAlias: z.string().min(2, {
@@ -61,6 +64,12 @@ export default function MintAccessTokenDialog() {
     }
   }, [tokenAlias, validateTokenAlias]);
 
+  function onSubmit() {
+    if (tokenAlias.length > 1) {
+      setMintingAlias(tokenAlias);
+    }
+  }
+
   return (
     <Dialog>
       <DialogTrigger>
@@ -71,7 +80,7 @@ export default function MintAccessTokenDialog() {
         {/* About this Module */}
         <h2>Token Alias</h2>
         <Form {...form}>
-          <form>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
             <FormInput
               {...register("tokenAlias")}
               name="tokenAlias"
@@ -83,11 +92,16 @@ export default function MintAccessTokenDialog() {
                 This alias is available.
               </div>
             )}
+            <Button>Submit</Button>
           </form>
         </Form>
         <h2>What it means to mint an Andamio Access Token</h2>
-        {address && tokenAlias && (
-          <MintAccessToken userAddress={address} alias={tokenAlias} />
+        {address && mintingAlias && (
+          <>
+            <pre>{address}</pre>
+            <pre>{mintingAlias}</pre>
+            <MintAccessToken userAddress={address} alias={mintingAlias} />
+          </>
         )}
       </DialogContent>
     </Dialog>

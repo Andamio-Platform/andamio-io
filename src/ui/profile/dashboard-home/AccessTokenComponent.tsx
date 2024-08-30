@@ -41,7 +41,7 @@ export default function AccessTokenComponent() {
                 </div>
               </CollapsibleTrigger>
 
-              <CollapsibleContent className="space-y-2">
+              <CollapsibleContent className="space-y-2 py-3">
                 <MintAccessTokenDialog />
               </CollapsibleContent>
             </Collapsible>

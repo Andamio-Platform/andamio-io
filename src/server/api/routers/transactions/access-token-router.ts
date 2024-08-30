@@ -13,8 +13,8 @@ export const accessTokenTxRouter = createTRPCRouter({
   mintAccessToken: publicProcedure
     .input(
       z.object({
-        userAddress: z.string().min(62),
-        alias: z.string().min(2),
+        userAddress: z.string().min(1),
+        alias: z.string().min(1),
       }),
     )
     .query(async ({ input }) => {

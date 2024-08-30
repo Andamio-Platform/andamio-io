@@ -1,4 +1,4 @@
-import { useAddress, useWallet } from "@meshsdk/react";
+import { useWallet } from "@meshsdk/react";
 import { useState } from "react";
 import { useToast } from "~/components/ui/use-toast";
 import Loading from "~/components/loading";
@@ -15,7 +15,6 @@ export default function MintAccessToken({
   const { toast } = useToast();
 
   const { wallet } = useWallet();
-  const address = useAddress();
   const [isLoading, setIsLoading] = useState(false);
 
   const { data: unsignedTxCBOR } =
@@ -26,13 +25,14 @@ export default function MintAccessToken({
 
   async function onSubmit() {
     setIsLoading(true);
-    if (address) {
+    if (userAddress && alias) {
       if (unsignedTxCBOR) {
         const signedTx = await wallet.signTx(
           unsignedTxCBOR.unsignedTxCBOR,
           true,
         );
         console.log(signedTx);
+        setIsLoading(false);
         const txId = await wallet.submitTx(signedTx);
         console.log(txId);
         toast({
@@ -45,13 +45,15 @@ export default function MintAccessToken({
 
   return (
     <div className="mx-4 flex items-center justify-center rounded-md border px-4 py-3 font-mono text-sm">
-      {unsignedTxCBOR || isLoading? (
+      {unsignedTxCBOR ? (
         <Button onClick={onSubmit}>Mint Andamio Access Token</Button>
       ) : (
-        <>
+        <div className="flex flex-col">
           {/* {isConfirming && <p>Confirming transaction...</p>} */}
-          <Loading />
-        </>
+          {/* <Loading /> */}
+          <p>Addr: {userAddress}</p>
+          <p>Alias: {alias}</p>
+        </div>
       )}
     </div>
   );

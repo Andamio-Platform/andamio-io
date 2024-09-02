@@ -320,6 +320,7 @@ enum AssignmentStatus {
   COMPLETE
   COMMITMENT
   NETWORK_READY
+  NOT_STARTED
 }
 
 model AssignmentCommitment {

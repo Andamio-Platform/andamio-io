@@ -83,6 +83,9 @@ export default function DashboardHomeComponent() {
             </div>
           )}
           {connected && !accessTokenAlias && <AccessTokenComponent />}
+          {connected && accessTokenAlias && (
+            <p>Access Token Info: {globalStateDatum?.UserInfo}</p>
+          )}
           {!!accessTokenAlias &&
             !!globalStateDatum &&
             globalStateDatum.TokenInfos.length == 0 && (

@@ -14,7 +14,7 @@ export default function LearnerAssignmentPage() {
   }, [setTheme]);
   return (
     <ProfileLayout>
-      <div className="round-md col-span-3 rounded-md border border-primary p-5">
+      <div className="round-md col-span-3 mx-auto w-11/12 rounded-md border border-primary p-5">
         <h2 className="font-beckman text-xl">Current Assignments</h2>
         <p>These are your personal notes:</p>
         {learnerAssignments.map((la, i) => {

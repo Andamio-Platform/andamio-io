@@ -113,7 +113,7 @@ export default function CourseDetails({
 
   if (isLoadingCourse)
     return (
-      <div className="col-span-5 mx-auto flex min-h-[500px] w-11/12 flex-col justify-center">
+      <div className="mx-auto flex min-h-[500px] w-11/12 flex-col justify-center">
         <Image src="/andamio.png" width={200} height={200} alt="loading" />
         <Skeleton className="my-2 h-[20px] w-3/4 rounded-full bg-primary opacity-50" />
         <Skeleton className="my-2 h-[20px] w-3/4 rounded-full bg-primary opacity-50" />
@@ -123,10 +123,7 @@ export default function CourseDetails({
     );
 
   return (
-    <div
-      className="col-span-5 mx-auto grid w-11/12 grid-cols-2 px-5"
-      key={course?.id}
-    >
+    <div className="mx-auto grid w-11/12 grid-cols-2 px-5" key={course?.id}>
       <div className="col-span-2 flex h-[150px] w-full flex-row items-center justify-between">
         <div className="flex flex-row items-center gap-5">
           {course?.imageUrl && (

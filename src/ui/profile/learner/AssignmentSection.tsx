@@ -58,13 +58,13 @@ export default function AssignmentsSection({
   }
 
   return (
-    <div className="flex w-full flex-col">
-      <div className="grid w-full grid-cols-1 gap-5">
+    <div className="mx-auto flex w-11/12 flex-col">
+      <div className="">
         {learnerAssignments.map((la, i) => {
           if (la.archived && !showArchived) return null;
 
           return (
-            <Card className="" key={i}>
+            <Card className="mx-auto flex w-11/12" key={i}>
               <CardHeader>
                 <div className="flex w-full flex-row justify-between">
                   <p className="text font-bold">{la.title}</p>

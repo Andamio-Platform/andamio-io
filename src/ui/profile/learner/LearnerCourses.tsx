@@ -26,8 +26,6 @@ export default function LearnerCourses({ alias }: { alias: string }) {
       <div className="mb-3 flex w-full flex-col rounded-md border border-primary p-3">
         <h2 className="font-beckman text-xl">Current Courses</h2>
         <p>You are currently enrolled in these courses:</p>
-        {/* TODO: Create a component for enrolled courses to get overview status */}
-        <pre>{JSON.stringify(globalStateDatum, null, 2)}</pre>
         {globalStateDatum &&
           globalStateDatum.TokenInfos.map((c, i) => {
             if (c.Minted) {

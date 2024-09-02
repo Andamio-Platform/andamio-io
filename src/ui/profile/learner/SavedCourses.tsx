@@ -5,7 +5,7 @@ export default function SavedCourses() {
   const { savedCourses } = useLearnerSavedCourses();
   return (
     <div>
-      <div className="text-xs font-semibold leading-6 text-foreground">
+      <div className="text-sm font-semibold leading-6 text-foreground">
         Saved for Later:
       </div>
       <ul role="list" className="my-2 space-y-1">

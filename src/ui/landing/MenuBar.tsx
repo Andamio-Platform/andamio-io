@@ -36,7 +36,7 @@ function Desktop({
 }) {
   const { data: sessionData } = useSession();
   return (
-    <div className="flex w-full p-2">
+    <div className="flex w-full items-center p-2">
       <div className="flex w-full items-center justify-between">
         <div>
           <Link href="/">
@@ -50,30 +50,24 @@ function Desktop({
           </Link>
         </div>
 
-        <div className="flex space-x-4 pr-20">
+        <div className="flex space-x-12 pr-20">
           <div>
             <Link href="/#why-andamio" legacyBehavior passHref>
-              <div
-                className={`${navigationMenuTriggerStyle()} cursor-pointer border-2 border-solid border-black bg-white`}
-              >
+              <div className={`${navigationMenuTriggerStyle()} cursor-pointer`}>
                 Why&nbsp;<text className="font-extrabold">ANDAMIO</text>?
               </div>
             </Link>
           </div>
           <div>
             <Link href="https://blog.andamio.io" legacyBehavior passHref>
-              <div
-                className={`${navigationMenuTriggerStyle()} cursor-pointer border-2 border-solid border-black bg-white`}
-              >
+              <div className={`${navigationMenuTriggerStyle()} cursor-pointer`}>
                 Blog
               </div>
             </Link>
           </div>
           <div>
             <Link href="/roadmap" legacyBehavior passHref>
-              <div
-                className={`${navigationMenuTriggerStyle()} cursor-pointer border-2 border-solid border-black bg-white`}
-              >
+              <div className={`${navigationMenuTriggerStyle()} cursor-pointer`}>
                 Roadmap
               </div>
             </Link>
@@ -89,7 +83,7 @@ function Desktop({
           </div>
         </div>
         <div>
-          <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+          <div className="hidden lg:mr-5 lg:flex lg:flex-1 lg:justify-end">
             {!sessionData && (
               <Link href={`/auth/signin`}>
                 <span className="text-sm font-semibold leading-6 text-foreground">

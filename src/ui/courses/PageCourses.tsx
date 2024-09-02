@@ -26,7 +26,7 @@ export default function PageCourses() {
     <>
       <MenuBar />
 
-      <div className="mx-auto min-h-[50vh] max-w-7xl px-6 sm:mt-48 lg:px-8">
+      <div className="mx-auto min-h-[50vh] max-w-7xl px-6 sm:my-48 lg:px-8">
         <div className="mx-auto lg:mx-0">
           <h1 className="my-[78px] text-[3rem] font-bold leading-[5rem]">
             Andamio Course List
@@ -47,25 +47,27 @@ export default function PageCourses() {
               </div>
             </div>
           )}
-          <p className="mt-6 text-lg leading-8 text-gray-600">
-            {sessionData
-              ? `Connected to Andamio Platform as ${sessionData.user.name}`
-              : "You are not logged in. Browse courses for free. When you are ready, connect to the Andamio Network."}
-          </p>
-          <div className="mt-6 text-lg leading-8 text-gray-600">
-            {!connected && wallets && !!wallets[0]?.name ? (
-              <div className="flex basis-1/3 flex-col gap-4">
-                <div className="grow">
-                  {walletOption && (
-                    <Button onClick={() => connect(walletOption)}>
-                      Connect {walletOption} Wallet to Andamio Network
-                    </Button>
-                  )}
+          <div className="mb-5 flex flex-col items-center justify-between md:flex-row">
+            <div className="mt-6 text-lg leading-8 text-gray-600">
+              {sessionData
+                ? `Connected to Andamio Platform as ${sessionData.user.name}`
+                : "You are not logged in. Browse courses for free. When you are ready, connect to the Andamio Network."}
+            </div>
+            <div className="mt-6 text-lg leading-8 text-gray-600">
+              {!connected && wallets && !!wallets[0]?.name ? (
+                <div className="flex basis-1/3 flex-col gap-4">
+                  <div className="grow">
+                    {walletOption && (
+                      <Button onClick={() => connect(walletOption)}>
+                        Connect {walletOption} Wallet to Andamio Network
+                      </Button>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ) : (
-              "Connected to Andamio Network"
-            )}
+              ) : (
+                "Connected to Andamio Network"
+              )}
+            </div>
           </div>
         </div>
         <AllCourses />

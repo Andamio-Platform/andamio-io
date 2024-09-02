@@ -20,13 +20,13 @@ export default function LearnerDashboardMenu() {
     <li>
       <Link href="/dashboard/learner">
         <div
-          className={`-mx-5 my-5 cursor-pointer p-2 font-semibold ${isDashboardRoute ? "bg-accent" : "bg-primary text-primary-foreground"}`}
+          className={`my-5 cursor-pointer p-2 font-semibold ${isDashboardRoute ? "bg-accent" : "bg-primary text-primary-foreground"}`}
         >
           My Learner Dashboard
         </div>
       </Link>
-      <div className="">
-        <div className="text-xs font-semibold leading-6 text-foreground">
+      <div className="px-3">
+        <div className="text-sm font-semibold leading-6 text-foreground">
           Currently Enrolled:
         </div>
         <ul role="list" className="my-2 space-y-1">
@@ -38,7 +38,7 @@ export default function LearnerDashboardMenu() {
         </ul>
         <SavedCourses />
         {/* TODO: */}
-        <div className="text-xs font-semibold leading-6 text-foreground">
+        <div className="text-sm font-semibold leading-6 text-foreground">
           Previous Courses:
         </div>
         <ul role="list" className="-mx-2 mt-2 space-y-1">
@@ -48,14 +48,14 @@ export default function LearnerDashboardMenu() {
             }
           })}
         </ul>
-        <Link href="/dashboard/learner/assignments">
-          <h2
-            className={`-mx-5 my-5 cursor-pointer p-2 font-semibold ${isAssignmentRoute ? "bg-accent" : "bg-primary text-primary-foreground"}`}
-          >
-            My Assignment Notes
-          </h2>
-        </Link>
       </div>
+      <Link href="/dashboard/learner/assignments">
+        <h2
+          className={`my-5 cursor-pointer p-2 font-semibold ${isAssignmentRoute ? "bg-accent" : "bg-primary text-primary-foreground"}`}
+        >
+          My Assignment Notes
+        </h2>
+      </Link>
     </li>
   );
 }

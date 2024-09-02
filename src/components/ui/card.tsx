@@ -22,6 +22,7 @@ const cardVariants = cva("", {
     size: {
       default: "px-5 py-3",
       md: "min-h-12",
+      sm: "min-h-8",
       wide: "w-11/12 mx-auto my-5 px-10 py-3",
       loading: "mx-auto my-5 px-10 py-3",
     },

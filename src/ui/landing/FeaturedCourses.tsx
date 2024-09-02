@@ -63,7 +63,7 @@ export default function FeaturedCourses() {
               {courses.map((course) => (
                 <>
                   {featuredCourseCodes.includes(course.courseCode) && (
-                    <CourseCard course={course} />
+                    <CourseCard course={course} savedCourse={false} />
                   )}
                 </>
               ))}

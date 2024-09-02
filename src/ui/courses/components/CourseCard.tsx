@@ -6,7 +6,6 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -31,10 +30,15 @@ import { api } from "~/utils/api";
 import toast from "react-hot-toast";
 import { useAccessToken } from "~/hooks/onchain/useAccessToken";
 import MintLocalState from "~/components/transactions/course/learner/mintLocalState/MintLocalState";
-import MintLocalStateMeshNative from "~/components/transactions/course/learner/mintLocalState/MintLocalStateMeshNative";
 import Loading from "~/components/loading";
 
-export default function CourseCard({ course }: { course: CoursePublic }) {
+export default function CourseCard({
+  course,
+  savedCourse,
+}: {
+  course: CoursePublic;
+  savedCourse: boolean;
+}) {
   const ctx = api.useUtils();
   const { data: sessionData, update: updateSessionData } = useSession();
   const { connected, wallet } = useWallet();
@@ -77,7 +81,7 @@ export default function CourseCard({ course }: { course: CoursePublic }) {
   return (
     <Card
       key={course.id}
-      className="border-none bg-blue-200 shadow-xl"
+      className="border-none bg-secondary shadow-xl"
       size="md"
     >
       <CardHeader className="relative m-0 p-0">
@@ -112,11 +116,15 @@ export default function CourseCard({ course }: { course: CoursePublic }) {
           {course.description && <Markdown>{course.description}</Markdown>}
         </p>
       </CardContent>
-      <CardFooter className="flex flex-row gap-5">
+      <CardFooter className="flex flex-row gap-2">
         <Link href={`/course/${course.courseCode}`}>
-          <Button>View Course</Button>
+          <Button>View</Button>
         </Link>
-        <Button onClick={handleSaveCourse}>Save Course</Button>
+        {savedCourse ? (
+          <Button className="bg-success text-green-900">Saved</Button>
+        ) : (
+          <Button onClick={handleSaveCourse}>Save</Button>
+        )}
 
         {course.onchainInstance.length !== 0 && (
           <>
@@ -131,15 +139,26 @@ export default function CourseCard({ course }: { course: CoursePublic }) {
                       Thinking of taking this course?
                     </DialogTitle>
                     <DialogDescription>
+                      {!isOpen && (
+                        <div className="py-4 text-xs text-black hover:font-semibold hover:text-primary sm:justify-start">
+                          <Link href={`/course/${course.courseCode}`}>
+                            I&apos;ll do it after taking a look inside first
+                          </Link>
+                        </div>
+                      )}
                       <Collapsible
                         open={isOpen}
                         onOpenChange={setIsOpen}
                         className="w-[350px] space-y-2 py-4"
                       >
-                        <div className="flex items-center justify-start">
+                        <div className="flex w-full items-center justify-center">
                           <CollapsibleTrigger asChild>
                             <Button>
-                              {isOpen ? <>Back</> : <>Enroll On-Chain</>}
+                              {isOpen ? (
+                                <>Back</>
+                              ) : (
+                                <>Enroll On Andamio Network</>
+                              )}
                             </Button>
                           </CollapsibleTrigger>
                         </div>
@@ -154,13 +173,20 @@ export default function CourseCard({ course }: { course: CoursePublic }) {
                                   <div>Currently Enrolled</div>
                                 ) : (
                                   <>
-                                    {accessTokenAsset && course.onchainInstance[0] ?
-                                    <MintLocalState
-                                      userAccessTokenUnit={accessTokenAsset.unit}
-                                      courseNftPolicyId={course.onchainInstance[0]
-                                        .CourseCreatorNFTPolicyID}
-                                    />
-                                    : <Loading />}
+                                    {accessTokenAsset &&
+                                    course.onchainInstance[0] ? (
+                                      <MintLocalState
+                                        userAccessTokenUnit={
+                                          accessTokenAsset.unit
+                                        }
+                                        courseNftPolicyId={
+                                          course.onchainInstance[0]
+                                            .CourseCreatorNFTPolicyID
+                                        }
+                                      />
+                                    ) : (
+                                      <Loading />
+                                    )}
                                     {/* {!!accessTokenAsset &&
                                       course.onchainInstance[0]
                                         ?.CourseCreatorNFTPolicyID && (
@@ -182,17 +208,12 @@ export default function CourseCard({ course }: { course: CoursePublic }) {
                         </CollapsibleContent>
                       </Collapsible>
                     </DialogDescription>
-                    <DialogFooter className="py-4 text-xs sm:justify-start">
-                      <Link href={`/course/${course.courseCode}`}>
-                        I&apos;ll do it after taking a look inside first
-                      </Link>
-                    </DialogFooter>
                   </DialogHeader>
                 </DialogContent>
               </Dialog>
             ) : (
               <Link href={`/course/${course.courseCode}`}>
-                <Button className="bg-success text-white">
+                <Button className="bg-success text-green-900 hover:bg-green-400">
                   Currently Enrolled
                 </Button>
               </Link>

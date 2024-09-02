@@ -10,6 +10,7 @@ import CourseOutline from "../course/components/layout/SideMenu/CourseOutline";
 import useValidateCreator from "~/hooks/course/useValidateCreator";
 import useCourse from "~/hooks/course/useCourse";
 import LearnerDashboardMenu from "./menu-sections/LearnerDashboardMenu";
+import AndamioRoleStatusMenu from "./menu-sections/AndamioRoleStatusMenu";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -41,60 +42,63 @@ export default function DesktopSideMenu({
   return (
     <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
       {/* Sidebar component, swap this element with another sidebar if you like */}
-      <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-foreground bg-background px-6">
-        <div className="flex h-16 shrink-0 items-center">
+      <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-foreground bg-background">
+        <div className="mb-5 mt-10 flex items-center justify-center">
           <Link href="/">
             <Image
-              width={32}
-              height={32}
-              className="h-8 w-auto"
-              src="/andamio-logo.svg"
+              width={125}
+              height={125}
+              className="justify-center"
+              src="/andamio-logo-no-white-overflow.png"
               alt="Andamio"
             />
           </Link>
         </div>
         <nav className="flex flex-1 flex-col">
-          <ul role="list" className="flex flex-1 flex-col gap-y-7">
-            <li>
-              <ul role="list" className="-mx-2 space-y-1">
+          <ul role="list" className="flex flex-1 flex-col">
+            <li className="mb-7">
+              <ul role="list" className="space-y-1 px-3">
                 <DashboardLinkItem current={isDashboardRoute} />
                 <CourseStudioLinkItem current={isStudioRoute} />
               </ul>
             </li>
             {isStudioRoute && (
-              <li>
-                <div className="text-xs font-semibold leading-6 text-foreground">
-                  Your courses
+              <>
+                <div className="bg-primary text-primary-foreground">
+                  <h2 className="p-2 font-semibold">Your courses</h2>
                 </div>
-                <ul role="list" className="-mx-2 mt-2 space-y-1">
-                  {ownerCourses?.map((course) => (
-                    <li key={course?.courseCode}>
-                      <Link
-                        href={`/studio/${course?.courseCode}`}
-                        className={classNames(
-                          router.query.coursecode == course?.courseCode
-                            ? "bg-accent text-accent-foreground"
-                            : "text-foreground hover:bg-accent hover:text-accent-foreground",
-                          "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
-                        )}
-                      >
-                        <span
+                <li className="px-3 py-2">
+                  <ul role="list" className="">
+                    {ownerCourses?.map((course) => (
+                      <li key={course?.courseCode}>
+                        <Link
+                          href={`/studio/${course?.courseCode}`}
                           className={classNames(
                             router.query.coursecode == course?.courseCode
-                              ? "border-primary bg-accent text-accent-foreground"
-                              : "border-accent-foreground text-accent-foreground group-hover:border-primary group-hover:text-accent-foreground",
-                            "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border bg-secondary text-[0.625rem] font-medium",
+                              ? "bg-accent text-accent-foreground"
+                              : "text-foreground hover:bg-accent hover:text-accent-foreground",
+                            "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
                           )}
                         >
-                          {course?.title.substring(0, 1)}
-                        </span>
-                        <span className="truncate">{course?.title}</span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </li>
+                          <span
+                            className={classNames(
+                              router.query.coursecode == course?.courseCode
+                                ? "border-primary bg-accent text-accent-foreground"
+                                : "border-accent-foreground text-accent-foreground group-hover:border-primary group-hover:text-accent-foreground",
+                              "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border bg-secondary text-[0.625rem] font-medium",
+                            )}
+                          >
+                            {course?.title.substring(0, 1)}
+                          </span>
+                          <span className="truncate">{course?.title}</span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              </>
             )}
+            {isDashboardRoute && <AndamioRoleStatusMenu />}
             {isDashboardLearnerRoute && <LearnerDashboardMenu />}
             {isCourseRoute && !!currentCourseCode && (
               <li>

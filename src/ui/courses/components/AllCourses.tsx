@@ -3,12 +3,14 @@ import useCourses from "~/hooks/course/useCourses";
 import CourseCard from "./CourseCard";
 import { useEffect, useState } from "react";
 import { type CoursePublic } from "~/types/db";
+import useLearnerSavedCourses from "~/hooks/course/useLearnerSavedCourses";
 
 export default function AllCourses() {
   const { courses, isLoadingCourses } = useCourses();
   const [featuredCourses, setFeaturedCourses] = useState<CoursePublic[]>([]);
   // const [premiumCourses, setPremiumCourses] = useState<CoursePublic[]>([]);
   // const [networkCourses, setNetworkCourses] = useState<CoursePublic[]>([]);
+  const { savedCourses } = useLearnerSavedCourses();
 
   useEffect(() => {
     if (courses) {
@@ -33,10 +35,21 @@ export default function AllCourses() {
 
             <div
               role="list"
-              className="mx-auto grid grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-2"
+              className="mx-auto grid grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-3"
             >
               {featuredCourses.map((course) => (
-                <>{course && <CourseCard course={course} />}</>
+                <>
+                  {course && (
+                    <CourseCard
+                      course={course}
+                      savedCourse={
+                        savedCourses?.some(
+                          (c) => c.courseCode === course.courseCode,
+                        ) ?? false
+                      }
+                    />
+                  )}
+                </>
               ))}
             </div>
           </div>

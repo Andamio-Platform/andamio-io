@@ -1,8 +1,6 @@
 import { useAccessToken } from "~/hooks/onchain/useAccessToken";
 import DashboardDataComponent from "./DashboardDataComponent";
 import AccessTokenComponent from "./AccessTokenComponent";
-import RoleStatus from "./RoleStatus";
-import { useSession } from "next-auth/react";
 import useGlobalStateDatum from "~/hooks/onchain/useGlobalStateDatum";
 import useCreatorsCoursesPolicies from "~/hooks/onchain/useCreatorsCoursesPolicies";
 import { CardanoWallet, useWallet } from "@meshsdk/react";
@@ -16,64 +14,11 @@ export default function DashboardHomeComponent() {
   const { creatorCoursePolicies } = useCreatorsCoursesPolicies(
     accessTokenAlias ?? "",
   );
-  const { data: sessionData } = useSession();
   return (
     <div>
-      <div className="mx-auto grid w-full grid-cols-5">
-        <div className="col-span-1 row-span-3 flex w-full flex-col">
-          <div className="my-5 pl-2 font-beckman text-xl">
-            Andamio Dashboard Home
-          </div>
-          <div className="grid w-full grid-cols-1 gap-1">
-            <div className="bg-primary text-primary-foreground">
-              <h2 className="p-2 text-lg font-bold">Andamio Platform Roles</h2>
-              <RoleStatus
-                roleName="Discord Account"
-                userHasRole={!!sessionData}
-                roleDetail={sessionData?.user.name ?? undefined}
-              />
-              <RoleStatus
-                roleName="Learner Role"
-                userHasRole={!!sessionData?.user.learnerId}
-                roleInfoUrl="/about"
-              />
-              <RoleStatus
-                roleName="Creator Role"
-                userHasRole={!!sessionData?.user.creatorId}
-                roleInfoUrl="/about"
-              />
-            </div>
-            <div className="bg-primary text-primary-foreground">
-              <h2 className="p-2 text-lg font-bold">Andamio Network Status</h2>
-              <RoleStatus
-                roleName="Access Token"
-                userHasRole={!!accessTokenAlias}
-                roleDetail={accessTokenAlias}
-                roleInfoUrl="/about"
-              />
-              <RoleStatus
-                roleName="Enrolled in Courses"
-                userHasRole={
-                  !!globalStateDatum && globalStateDatum.TokenInfos.length > 0
-                }
-                roleInfoUrl="/courses"
-              />
-              <RoleStatus
-                roleName="Course Creator"
-                userHasRole={
-                  !!creatorCoursePolicies && creatorCoursePolicies.length > 0
-                }
-                roleInfoUrl="/about"
-              />
-              <RoleStatus
-                roleName="Contributor: Coming Soon"
-                userHasRole={false}
-              />
-            </div>
-          </div>
-        </div>
+      <div className="mx-auto grid w-11/12 grid-cols-4">
         <div className="col-span-3 mx-auto my-5 flex min-h-[40vh] w-11/12 flex-col">
-          <h2 className="pb-5 font-beckman text-2xl">Your Next Steps</h2>
+          <h2 className="my-5 font-beckman text-4xl">Your Next Steps:</h2>
           {!connected && (
             <div>
               <p className="my-3 text-lg font-bold">
@@ -83,9 +28,6 @@ export default function DashboardHomeComponent() {
             </div>
           )}
           {connected && !accessTokenAlias && <AccessTokenComponent />}
-          {connected && accessTokenAlias && (
-            <p>Access Token Info: {globalStateDatum?.UserInfo}</p>
-          )}
           {!!accessTokenAlias &&
             !!globalStateDatum &&
             globalStateDatum.TokenInfos.length == 0 && (
@@ -104,7 +46,10 @@ export default function DashboardHomeComponent() {
               <p className="my-3 text-lg font-bold">Keep Learning</p>
               <p>
                 You are enrolled in {globalStateDatum.TokenInfos.length}{" "}
-                courses. Select <span className="font-beckman">LEARNERS</span>{" "}
+                courses. Select{" "}
+                <Link href="/dashboard/learner">
+                  <span className="font-beckman">LEARNER</span>
+                </Link>{" "}
                 to view course status.
               </p>
             </div>
@@ -119,21 +64,27 @@ export default function DashboardHomeComponent() {
             </div>
           )}
         </div>
-        <div className="col-span-1">
-          <div className="grid grid-cols-1 gap-y-10">
-            <DashboardDataComponent
-              title="Learner Courses"
-              data={globalStateDatum?.TokenInfos.length.toString() ?? ""}
-            />
-            <DashboardDataComponent
-              title="Courses Owned"
-              data={creatorCoursePolicies?.length.toString() ?? ""}
-            />
-            {/* When Contributor Platform is ready, add a data point here */}
-            {/* <DashboardDataComponent title="Contributions" data="17" /> */}
+        {globalStateDatum && (
+          <div className="col-span-1">
+            <div className="grid grid-cols-1 gap-y-10">
+              <DashboardDataComponent
+                title="Courses Enrolled"
+                data={globalStateDatum?.TokenInfos.length.toString() ?? ""}
+              />
+              <DashboardDataComponent
+                title="Courses Owned"
+                data={creatorCoursePolicies?.length.toString() ?? ""}
+              />
+              <DashboardDataComponent
+                title="Access Token Info"
+                data={globalStateDatum?.UserInfo ?? ""}
+              />
+              {/* When Contributor Platform is ready, add a data point here */}
+              {/* <DashboardDataComponent title="Contributions" data="17" /> */}
+            </div>
           </div>
-        </div>
-        <div className="col-span-5 mt-10 grid grid-cols-2 gap-5 px-5">
+        )}
+        <div className="col-span-4 mt-10 grid grid-cols-2 gap-5 px-5">
           <div className="bg-primary py-10 text-primary-foreground">
             <h2 className="text-center font-beckman text-4xl">
               Learn More & Get Started

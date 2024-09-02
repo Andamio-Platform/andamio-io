@@ -15,7 +15,7 @@ export default function RoleStatus({
   roleInfoUrl?: string;
 }) {
   return (
-    <Card intent="roleStatus" size="md">
+    <Card intent="roleStatus" size="sm">
       <div className="flex items-center justify-center">
         {userHasRole ? <CheckCircledIcon /> : <BoxIcon />}
       </div>

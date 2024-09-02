@@ -1,7 +1,7 @@
 import { useAccessToken } from "~/hooks/onchain/useAccessToken";
-import DashboardDataComponent from "./dashboard-home/DashboardDataComponent";
-import AccessTokenComponent from "./dashboard-home/AccessTokenComponent";
-import RoleStatus from "./dashboard-home/RoleStatus";
+import DashboardDataComponent from "./DashboardDataComponent";
+import AccessTokenComponent from "./AccessTokenComponent";
+import RoleStatus from "./RoleStatus";
 import { useSession } from "next-auth/react";
 import useGlobalStateDatum from "~/hooks/onchain/useGlobalStateDatum";
 import useCreatorsCoursesPolicies from "~/hooks/onchain/useCreatorsCoursesPolicies";

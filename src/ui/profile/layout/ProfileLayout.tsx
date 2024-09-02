@@ -3,6 +3,7 @@ import PageSignin from "~/ui/auth/PageSignin";
 import { useRouter } from "next/router";
 import { LightDarkToggle } from "~/ui/site/LightDarkToggle";
 import SideMenu from "~/ui/navigation/SideMenu";
+import DashboardNavigationMenu from "../DashboardNavigationMenu";
 
 export default function ProfileLayout({
   children,
@@ -20,6 +21,7 @@ export default function ProfileLayout({
     <div>
       <SideMenu />
       <main className="py-10 lg:pl-72">
+        <DashboardNavigationMenu />
         <div className="mx-auto w-full lg:w-11/12">{children}</div>
       </main>
       <LightDarkToggle />

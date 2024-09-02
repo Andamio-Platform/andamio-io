@@ -1,4 +1,4 @@
-import DashboardPage from "~/ui/profile/Dashboard";
+import DashboardPage from "~/ui/profile/DashboardPage";
 
 export default function Dashboard() {
   return (

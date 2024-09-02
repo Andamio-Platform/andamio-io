@@ -19,12 +19,10 @@ import { type DecodedGlobalStateDatum } from "@andamiojs/datum-utils";
 export default function CourseDetails({
   currentCourseCode,
   learnerAssignments,
-  courseNftPolicyId,
   globalStateDatum,
 }: {
   currentCourseCode: string;
   learnerAssignments: LearnerAssignment[];
-  courseNftPolicyId?: string;
   globalStateDatum: DecodedGlobalStateDatum | undefined;
 }) {
   const ctx = api.useUtils();
@@ -78,16 +76,22 @@ export default function CourseDetails({
   }, [savedCourses, currentCourseCode]);
 
   useEffect(() => {
-    if (!!globalStateDatum && !!courseNftPolicyId) {
+    if (
+      !!globalStateDatum &&
+      !!course?.onchainInstance[0]?.CourseCreatorNFTPolicyID
+    ) {
       if (
-        globalStateDatum.TokenInfos.some((ti) => ti.LsCs === courseNftPolicyId)
+        globalStateDatum.TokenInfos.some(
+          (ti) =>
+            ti.LsCs === course?.onchainInstance[0]?.CourseCreatorNFTPolicyID,
+        )
       ) {
         setIsLearnerEnrolled(true);
       }
     } else {
       setIsLearnerEnrolled(false);
     }
-  }, [globalStateDatum, courseNftPolicyId]);
+  }, [globalStateDatum, course]);
 
   const handleSaveCourse = () => {
     if (sessionData && course?.id) {
@@ -141,12 +145,15 @@ export default function CourseDetails({
       <div className="col-start-1 grid w-full grid-cols-3 gap-3">
         {isLearnerEnrolled ? (
           <>
-            {accessTokenAsset && courseNftPolicyId && (
-              <BurnLocalStateMeshDialog
-                accessTokenAssetId={accessTokenAsset.unit}
-                courseNftPolicyId={courseNftPolicyId}
-              />
-            )}
+            {accessTokenAsset &&
+              course?.onchainInstance[0]?.CourseCreatorNFTPolicyID && (
+                <BurnLocalStateMeshDialog
+                  accessTokenAssetId={accessTokenAsset.unit}
+                  courseNftPolicyId={
+                    course?.onchainInstance[0]?.CourseCreatorNFTPolicyID
+                  }
+                />
+              )}
           </>
         ) : (
           <>

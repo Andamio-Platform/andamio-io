@@ -7,19 +7,7 @@ import {
 import SavedCourseSidebarItem from "./SavedCourseSidebarItem";
 import useLearnerSavedCourses from "~/hooks/course/useLearnerSavedCourses";
 
-export default function SavedCourses({
-  selectedCourseCode,
-  setSelectedCourseCode,
-  setSelectedCoursePolicyId,
-}: {
-  selectedCourseCode: string;
-  setSelectedCourseCode: React.Dispatch<
-    React.SetStateAction<string | undefined>
-  >;
-  setSelectedCoursePolicyId: React.Dispatch<
-    React.SetStateAction<string | undefined>
-  >;
-}) {
+export default function SavedCourses() {
   const { savedCourses } = useLearnerSavedCourses();
   return (
     <Accordion
@@ -34,13 +22,7 @@ export default function SavedCourses({
         </AccordionTrigger>
         <AccordionContent>
           {savedCourses?.map((t, i) => (
-            <SavedCourseSidebarItem
-              key={i}
-              savedCourse={t}
-              selectedCourseCode={selectedCourseCode ?? ""}
-              setSelectedCourseCode={setSelectedCourseCode}
-              setSelectedCoursePolicyId={setSelectedCoursePolicyId}
-            />
+            <SavedCourseSidebarItem key={i} savedCourse={t} />
           ))}
         </AccordionContent>
       </AccordionItem>

@@ -4,17 +4,7 @@ import CurrentCourseListItem from "./CurrentCourseListItem";
 
 // TODO: Rename
 
-export default function LearnerCourses({
-  alias,
-  setSelectedCourse,
-  setSelectedCoursePolicyId,
-}: {
-  alias: string;
-  setSelectedCourse?: React.Dispatch<React.SetStateAction<string | undefined>>;
-  setSelectedCoursePolicyId: React.Dispatch<
-    React.SetStateAction<string | undefined>
-  >;
-}) {
+export default function LearnerCourses({ alias }: { alias: string }) {
   const {
     globalStateDatum,
     isLoadingGlobalStateDatum,
@@ -45,8 +35,6 @@ export default function LearnerCourses({
                 <div key={i}>
                   <CurrentCourseListItem
                     lsCs={c.LsCs}
-                    setSelectedCourse={setSelectedCourse}
-                    setSelectedCoursePolicyId={setSelectedCoursePolicyId}
                     key={i}
                     alias={globalStateDatum.UserName}
                   />
@@ -56,7 +44,7 @@ export default function LearnerCourses({
           })}
       </div>
       <div className="mb-3 flex w-full flex-col rounded-md border border-primary p-3">
-        <h2 className="font-beckman text-xl">Completed Courses</h2>
+        <h2 className="font-beckman text-xl">Previous Courses</h2>
         <p>You have completed the following courses:</p>
         {globalStateDatum &&
           globalStateDatum.TokenInfos.map((c, i) => {
@@ -74,6 +62,9 @@ export default function LearnerCourses({
               );
             }
           })}
+        <p>
+          Todo: Show completion status as Modules complete out of total Modules
+        </p>
       </div>
     </>
   );

@@ -9,6 +9,7 @@ import { AcademicCapIcon } from "@heroicons/react/24/outline";
 import CourseOutline from "../course/components/layout/SideMenu/CourseOutline";
 import useValidateCreator from "~/hooks/course/useValidateCreator";
 import useCourse from "~/hooks/course/useCourse";
+import LearnerDashboardMenu from "./menu-sections/LearnerDashboardMenu";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -26,6 +27,7 @@ export default function DesktopSideMenu({
   const router = useRouter();
 
   const isDashboardRoute = router.asPath.includes("dashboard");
+  const isDashboardLearnerRoute = router.asPath.includes("dashboard/learner");
   const isStudioRoute = router.asPath.includes("studio");
   const isCourseRoute = router.asPath.includes("course");
 
@@ -93,13 +95,7 @@ export default function DesktopSideMenu({
                 </ul>
               </li>
             )}
-            {isDashboardRoute && (
-              <li>
-                <div className="text-xs font-semibold leading-6 text-foreground">
-                  Your Dashboard
-                </div>
-              </li>
-            )}
+            {isDashboardLearnerRoute && <LearnerDashboardMenu />}
             {isCourseRoute && !!currentCourseCode && (
               <li>
                 <ul role="list" className="-mx-2 space-y-1">

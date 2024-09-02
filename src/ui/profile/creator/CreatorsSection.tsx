@@ -24,12 +24,7 @@ export default function CreatorsSection({
         <div className="col-span-1 row-span-2 text-xs">
           <div className="my-5 font-beckman text-xl">Andamio Creator</div>
           {creatorCoursePolicies?.map((p, i) => (
-            <CurrentCourseSidebarItem
-              lsCs={p}
-              key={i}
-              selectedCourse={selectedCoursePolicyId}
-              setSelectedCoursePolicyId={setSelectedCoursePolicyId}
-            />
+            <CurrentCourseSidebarItem lsCs={p} key={i} />
           ))}
         </div>
         {selectedCoursePolicyId ? (

@@ -34,6 +34,7 @@ export const courseRouter = createTRPCRouter({
             },
           },
           variants: true,
+          onchainInstance: true,
         },
       });
     }),
@@ -131,6 +132,7 @@ export const courseRouter = createTRPCRouter({
           },
         },
         variants: true,
+        onchainInstance: true,
       },
     });
   }),

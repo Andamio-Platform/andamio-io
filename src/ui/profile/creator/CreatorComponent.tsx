@@ -1,7 +1,7 @@
 import { useWallet } from "@meshsdk/react";
 import { useAccessToken } from "~/hooks/onchain/useAccessToken";
-import CreatorsSection from "~/ui/profile/creator/CreatorsSection";
-import CreatorConnectWalletCard from "./creator/CreatorConnectWalletCard";
+import CreatorsSection from "./CreatorsSection";
+import CreatorConnectWalletCard from "./CreatorConnectWalletCard";
 
 export default function CreatorComponent() {
   const { connected } = useWallet();

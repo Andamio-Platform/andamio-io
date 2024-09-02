@@ -1,3 +1,7 @@
+import {
+  type DecodedTokenInfo,
+  type DecodedCourseStateDatum,
+} from "@andamiojs/datum-utils";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
@@ -8,7 +12,14 @@ import {
   AccordionItem,
 } from "~/components/ui/accordion";
 import AssignmentBadges from "~/components/ui/assignment-badges";
+import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+  TooltipProvider,
+} from "~/components/ui/tooltip";
 import {
   type CourseModuleWithAssignmentSummary,
   type AssignmentCommitment,
@@ -16,15 +27,29 @@ import {
 
 export default function LearnerCourseModuleDetailsComponent({
   courseModule,
+  courseStateDatum,
+  courseTokenInfo,
+  learnerCourseStatus,
 }: {
   courseModule: CourseModuleWithAssignmentSummary;
+  courseStateDatum: DecodedCourseStateDatum | undefined;
+  courseTokenInfo: DecodedTokenInfo | undefined;
+  learnerCourseStatus: "NEVER_ENROLLED" | "ENROLLED" | "WAS_ENROLLED";
 }) {
   const { data: sessionData } = useSession();
   const [isAccordionOpen, setIsAccordionOpen] = useState<boolean>(false);
+  const [learnerModuleStatus, setLearnerModuleStatus] = useState<
+    "NEVER_COMMITTED" | "CURRENTLY_COMMITTED" | "COMPLETED_COMMITMENT"
+  >("NEVER_COMMITTED");
 
   const [assignmentCommitment, setAssignmentCommitment] = useState<
     AssignmentCommitment | undefined
   >(undefined);
+
+  const [credentialColor, setCredentialColor] = useState<string>(
+    "bg-gray-800 text-white",
+  );
+
   useEffect(() => {
     if (sessionData && courseModule) {
       const _assignment = sessionData.user.assignmentCommitments.find(
@@ -35,16 +60,41 @@ export default function LearnerCourseModuleDetailsComponent({
       }
     }
   }, [sessionData, courseModule]);
+
+  useEffect(() => {
+    if (learnerCourseStatus === "ENROLLED" && !!courseStateDatum) {
+      setCredentialColor("bg-accent");
+      const _module = courseStateDatum.CompletedAssignments.includes(
+        courseModule.moduleCode,
+      );
+      if (_module) {
+        setLearnerModuleStatus("COMPLETED_COMMITMENT");
+        setCredentialColor("bg-success");
+      }
+    } else if (learnerCourseStatus === "ENROLLED" && !courseStateDatum) {
+      // TODO: Check behavior when enrolled
+      console.log("Check Assignment Validator for Datum???");
+      setLearnerModuleStatus("CURRENTLY_COMMITTED");
+    } else if (learnerCourseStatus === "WAS_ENROLLED") {
+      const _module = courseTokenInfo?.AssignmentList.find(
+        (a) => a === courseModule.moduleCode,
+      );
+      if (_module) {
+        setLearnerModuleStatus("COMPLETED_COMMITMENT");
+      }
+    }
+  }, [courseModule, learnerCourseStatus, courseStateDatum, courseTokenInfo]);
+
   return (
     <Accordion type="single" collapsible>
       <AccordionItem
         value={`courseModule-${courseModule.moduleCode}`}
         onClick={() => setIsAccordionOpen(!isAccordionOpen)}
-        className={`${isAccordionOpen ? "my-5 border-y border-primary pt-2" : "border-none"}`}
+        className={`${isAccordionOpen ? "my-5 border-t border-primary pt-2" : "border-none"}`}
       >
         <AccordionTrigger>
-          <div className="mr-5 grid w-11/12 grid-cols-3 py-2">
-            <p className="pb-2 text-left font-bold">
+          <div className="mr-5 grid w-11/12 grid-cols-3 items-center py-1">
+            <p className="text-left font-bold">
               Module {courseModule.moduleCode}: {courseModule.title}
             </p>
             <p className="text text-left font-bold">
@@ -52,39 +102,89 @@ export default function LearnerCourseModuleDetailsComponent({
                 courseModule.assignments[0]?.title}
             </p>
             <div className="flex flex-row justify-between">
-              {!!assignmentCommitment && (
+              {!!assignmentCommitment ? (
                 <AssignmentBadges status={assignmentCommitment.status} />
+              ) : (
+                <AssignmentBadges status="NOT_STARTED" />
               )}
-              <Button size="sm">Onchain Status Msg</Button>
+              {learnerModuleStatus === "NEVER_COMMITTED" && (
+                <Badge>Not Committed</Badge>
+              )}
+              {learnerModuleStatus === "CURRENTLY_COMMITTED" && (
+                <Badge>Current Commitment</Badge>
+              )}
+              {learnerModuleStatus === "COMPLETED_COMMITMENT" && (
+                <Badge>Commitment Complete</Badge>
+              )}
             </div>
           </div>
         </AccordionTrigger>
-        <AccordionContent className="mb-5 bg-secondary p-5">
-          <div className="mb-3 grid grid-cols-2 gap-3">
-            <div className="bg-background p-2">
-              <h2 className="my-2 font-semibold">Personal Assignment Notes</h2>
-              <p>{assignmentCommitment?.learnerNotes}</p>
+        <AccordionContent className="py-5">
+          <div className="mb-3 grid grid-cols-3 gap-3">
+            <div
+              className={`flex flex-col justify-between rounded-sm p-5 ${credentialColor}`}
+            >
+              <div>
+                <h2 className="mb-2 font-semibold">
+                  Network Assignment Credential
+                </h2>
+                {learnerModuleStatus === "COMPLETED_COMMITMENT" && (
+                  <p>
+                    You completed this assignment and earned an Andamio Network
+                    credential. Nice work!
+                  </p>
+                )}
+                {learnerModuleStatus === "NEVER_COMMITTED" && (
+                  <p>
+                    You can commit to this assignment on the Andamio Network.
+                    Click &quot;Go to Assignment&quot; to review the Assignment
+                    and make your commitment.
+                  </p>
+                )}
+                {learnerCourseStatus === "NEVER_ENROLLED" && (
+                  <p>Enroll in this course to start earning credentials.</p>
+                )}
+              </div>
+            </div>
+            <div className="col-span-2 rounded-sm bg-gray-200 p-5">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger className="text-left">
+                    <h2 className="mb-2 font-semibold">
+                      Personal Assignment Notes
+                    </h2>
+                    <p>{assignmentCommitment?.learnerNotes}</p>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="mb-5">
+                      These are your personal notes, and they are only visible
+                      to you.
+                    </p>
+                    <p>
+                      To update these notes or to change the status of the
+                      Assignment, click the &quot;Go to Assignment&quot; button
+                      below.
+                    </p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
+            <div className="col-span-3 flex w-2/3 flex-row items-center justify-between py-5 lg:w-1/3">
               <Link
                 href={`/course/${courseModule.originalCourse.courseCode}/${courseModule.moduleCode}/assignment/${courseModule.assignments[0]?.assignmentCode}`}
               >
-                <Button size="sm" intent="courseOutlineAction">
-                  View Assignment to Update Status
-                </Button>
+                <Button>Go to Assignment</Button>
               </Link>
-            </div>
-
-            <div className="bg-background p-2">
-              <h2 className="my-2 font-semibold">
-                Network Assignment Credential
-              </h2>
-              <p>Coming soon. What should we call this?</p>
+              <Link
+                href={`/course/${courseModule.originalCourse.courseCode}/${courseModule.moduleCode}`}
+              >
+                <Button>Go to Course Module</Button>
+              </Link>
+              {/* TODO: */}
+              {/* <Button>Update Commitment</Button> */}
+              {/* <Button>Remove Commitment</Button> */}
             </div>
           </div>
-          <Link
-            href={`/course/${courseModule.originalCourse.courseCode}/${courseModule.moduleCode}`}
-          >
-            <Button>View Module</Button>
-          </Link>
         </AccordionContent>
       </AccordionItem>
     </Accordion>

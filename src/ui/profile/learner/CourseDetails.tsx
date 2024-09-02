@@ -15,6 +15,8 @@ import { Skeleton } from "~/components/ui/skeleton";
 import BurnLocalStateMeshDialog from "~/components/transactions/dialogs/BurnLocalStateMeshDialog";
 import { useAccessToken } from "~/hooks/onchain/useAccessToken";
 import { type DecodedGlobalStateDatum } from "@andamiojs/datum-utils";
+import { CardanoWallet, useWallet } from "@meshsdk/react";
+import useCourseStateDatum from "~/hooks/onchain/useCourseStateDatum";
 
 export default function CourseDetails({
   currentCourseCode,
@@ -27,6 +29,7 @@ export default function CourseDetails({
 }) {
   const ctx = api.useUtils();
   const { data: sessionData, update: updateSessionData } = useSession();
+  const { connected } = useWallet();
   const { course, isLoadingCourse } = useCourse(currentCourseCode);
   const { courseModuleOverviews } =
     useCourseModuleWithAssignmentSummary(currentCourseCode);
@@ -35,9 +38,20 @@ export default function CourseDetails({
   const [courseAssignments, setCourseAssignments] = useState<
     LearnerAssignment[]
   >([]);
-  const [isLearnerEnrolled, setIsLearnerEnrolled] = useState<boolean>(false);
+  const [learnerCourseStatus, setLearnerCourseStatus] = useState<
+    "NEVER_ENROLLED" | "ENROLLED" | "WAS_ENROLLED"
+  >("NEVER_ENROLLED");
 
-  const { accessTokenAsset } = useAccessToken();
+  const { accessTokenAsset, accessTokenAlias } = useAccessToken();
+  const {
+    courseStateDatum,
+    isLoadingCourseStateDatum,
+    isErrorCourseStateDatum,
+    errorCourseStateDatum,
+  } = useCourseStateDatum(
+    course?.onchainInstance[0]?.CourseCreatorNFTPolicyID ?? "",
+    accessTokenAlias ?? "",
+  );
 
   const { mutate: saveCourseForLearner } =
     api.learner.saveCourseForLearner.useMutation({
@@ -76,22 +90,15 @@ export default function CourseDetails({
   }, [savedCourses, currentCourseCode]);
 
   useEffect(() => {
-    if (
-      !!globalStateDatum &&
-      !!course?.onchainInstance[0]?.CourseCreatorNFTPolicyID
-    ) {
-      if (
-        globalStateDatum.TokenInfos.some(
-          (ti) =>
-            ti.LsCs === course?.onchainInstance[0]?.CourseCreatorNFTPolicyID,
-        )
-      ) {
-        setIsLearnerEnrolled(true);
-      }
-    } else {
-      setIsLearnerEnrolled(false);
+    const _course = globalStateDatum?.TokenInfos.find(
+      (ti) => ti.LsCs == course?.onchainInstance[0]?.CourseCreatorNFTPolicyID,
+    );
+    if (_course?.Minted) {
+      setLearnerCourseStatus("ENROLLED");
+    } else if (!!_course && !_course.Minted) {
+      setLearnerCourseStatus("WAS_ENROLLED");
     }
-  }, [globalStateDatum, course]);
+  }, [courseStateDatum, globalStateDatum, course]);
 
   const handleSaveCourse = () => {
     if (sessionData && course?.id) {
@@ -123,9 +130,9 @@ export default function CourseDetails({
     );
 
   return (
-    <div className="mx-auto grid w-11/12 grid-cols-2 px-5" key={course?.id}>
-      <div className="col-span-2 flex h-[150px] w-full flex-row items-center justify-between">
-        <div className="flex flex-row items-center gap-5">
+    <div className="mx-auto w-11/12 px-5" key={course?.id}>
+      <div className="flex min-h-[150px] w-full flex-col items-center justify-between md:flex-row">
+        <div className="flex w-full flex-row items-center gap-5">
           {course?.imageUrl && (
             <div className="flex items-center justify-center">
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -138,46 +145,79 @@ export default function CourseDetails({
           )}
           <h1 className="text-4xl font-semibold">{course?.title}</h1>
         </div>
-        <Link href={`/course/${course?.courseCode}`}>
-          <Button size="xl">Open Course</Button>
-        </Link>
-      </div>
-      <div className="col-start-1 grid w-full grid-cols-3 gap-3">
-        {isLearnerEnrolled ? (
-          <>
-            {accessTokenAsset &&
-              course?.onchainInstance[0]?.CourseCreatorNFTPolicyID && (
-                <BurnLocalStateMeshDialog
-                  accessTokenAssetId={accessTokenAsset.unit}
-                  courseNftPolicyId={
-                    course?.onchainInstance[0]?.CourseCreatorNFTPolicyID
-                  }
-                />
+        <div className="flex w-full flex-row items-center gap-3">
+          {learnerCourseStatus === "ENROLLED" && (
+            <>
+              {accessTokenAsset &&
+                course?.onchainInstance[0]?.CourseCreatorNFTPolicyID && (
+                  <BurnLocalStateMeshDialog
+                    accessTokenAssetId={accessTokenAsset.unit}
+                    courseNftPolicyId={
+                      course?.onchainInstance[0]?.CourseCreatorNFTPolicyID
+                    }
+                  />
+                )}
+            </>
+          )}
+
+          {learnerCourseStatus === "NEVER_ENROLLED" && (
+            <>
+              <Button size="sm">Enroll on Andamio Network</Button>
+              {isCourseSaved ? (
+                <Button size="sm" onClick={handleUnsaveCourse}>
+                  Remove from Saved List
+                </Button>
+              ) : (
+                <Button size="sm" onClick={handleSaveCourse}>
+                  Save for Later
+                </Button>
               )}
-          </>
-        ) : (
-          <>
-            <Button size="sm">Enroll on Andamio Network</Button>
-            {isCourseSaved ? (
-              <Button size="sm" onClick={handleUnsaveCourse}>
-                Remove from Saved List
-              </Button>
-            ) : (
-              <Button size="sm" onClick={handleSaveCourse}>
-                Save for Later
-              </Button>
-            )}
-          </>
-        )}
+            </>
+          )}
+
+          {learnerCourseStatus === "WAS_ENROLLED" && (
+            <>
+              <Button size="sm">Enroll Again!</Button>
+              {isCourseSaved ? (
+                <Button size="sm" onClick={handleUnsaveCourse}>
+                  Remove from Saved List
+                </Button>
+              ) : (
+                <Button size="sm" onClick={handleSaveCourse}>
+                  Save for Later
+                </Button>
+              )}
+            </>
+          )}
+        </div>
+        <div className="flex flex-row items-center gap-4">
+          {!connected && <CardanoWallet />}
+          <Link href={`/course/${course?.courseCode}`}>
+            <Button size="xl">Open Course</Button>
+          </Link>
+        </div>
       </div>
-      <div className="col-span-2">
+
+      <div className="">
         <h2 className="my-10">{course?.description}</h2>
         <h2 className="my-5 text-2xl font-bold">{course?.title} Outline</h2>
         {courseModuleOverviews?.map((cm, i) => (
-          <LearnerCourseModuleDetailsComponent courseModule={cm} key={i} />
+          <LearnerCourseModuleDetailsComponent
+            courseModule={cm}
+            courseStateDatum={courseStateDatum}
+            courseTokenInfo={globalStateDatum?.TokenInfos.find(
+              (ti) =>
+                ti.LsCs ===
+                course?.onchainInstance[0]?.CourseCreatorNFTPolicyID,
+            )}
+            learnerCourseStatus={learnerCourseStatus}
+            key={i}
+          />
         ))}
         {!!courseAssignments && (
-          <AssignmentsSection learnerAssignments={courseAssignments} />
+          <div className="mt-12 border-t border-primary">
+            <AssignmentsSection learnerAssignments={courseAssignments} />
+          </div>
         )}
       </div>
     </div>

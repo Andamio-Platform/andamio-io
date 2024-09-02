@@ -58,79 +58,84 @@ export default function AssignmentsSection({
   }
 
   return (
-    <div className="mx-auto flex w-11/12 flex-col">
-      <div className="">
-        {learnerAssignments.map((la, i) => {
-          if (la.archived && !showArchived) return null;
-
-          return (
-            <Card className="mx-auto flex w-11/12" key={i}>
-              <CardHeader>
-                <div className="flex w-full flex-row justify-between">
-                  <p className="text font-bold">{la.title}</p>
-                  <p className="pb-2 text-xs font-bold">
-                    Module {la.moduleCode}: {la.moduleTitle}
-                  </p>
-                  <AssignmentBadges status={la.status} />
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-3 gap-10">
-                  <div>
-                    <Link
-                      href={`/course/${la.courseCode}/${la.moduleCode}/assignment/${la.assignmentCode}`}
-                    >
-                      <Button size="sm" className="mt-5">
-                        View Assignment
-                      </Button>
-                    </Link>
-                  </div>
-                  <div className="col-span-2 rounded-md bg-white p-5">
-                    <h2 className="pb-2 text-lg font-bold">
-                      What I want to remember about this Assignment:
-                    </h2>
-                    <p>{la.learnerNote}</p>
-                  </div>
-                </div>
-              </CardContent>
-              <CardFooter>
-                {!la.archived && (
-                  <div role="button" onClick={() => handleArchive(la.id, true)}>
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger>
-                          <ArchiveIcon
-                            width={30}
-                            height={30}
-                            className="hover:text-amber-800"
-                          />
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          Archive this Assignment. (You will still be able to
-                          view it later.)
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  </div>
-                )}
-                {!!la.archived && (
-                  <div
-                    role="button"
-                    onClick={() => handleArchive(la.id, false)}
-                  >
-                    Un-Archive this Assignment
-                  </div>
-                )}
-              </CardFooter>
-            </Card>
-          );
-        })}
+    <div className="mx-auto flex w-full flex-col gap-3">
+      <div className="flex flex-row items-center justify-between">
+        <h2 className="my-10 font-beckman text-4xl">My Assignment Notes</h2>
+        <Button className="my-5" onClick={() => setShowArchived(!showArchived)}>
+          {showArchived
+            ? "Hide Archived Assignments"
+            : "Show Archived Assignments"}
+        </Button>
       </div>
-      <Button className="my-5" onClick={() => setShowArchived(!showArchived)}>
-        {showArchived
-          ? "Hide Archived Assignments"
-          : "Show Archived Assignments"}
-      </Button>
+      {learnerAssignments.map((la, i) => {
+        if (la.archived && !showArchived) return null;
+
+        return (
+          <Card
+            className="mx-auto flex w-full flex-col border border-primary"
+            key={i}
+          >
+            <CardHeader>
+              <div className="grid w-full grid-cols-8 items-center justify-between">
+                <p className="text col-span-4 font-bold">{la.title}</p>
+                <p className="text-sm font-semibold">{la.courseTitle}</p>
+                <p className="col-span-2 text-sm font-semibold">
+                  Module {la.moduleCode}: {la.moduleTitle}
+                </p>
+                <AssignmentBadges status={la.status} />
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-3 gap-10">
+                <div>
+                  <Link
+                    href={`/course/${la.courseCode}/${la.moduleCode}/assignment/${la.assignmentCode}`}
+                  >
+                    <Button size="sm" className="mt-5">
+                      View Assignment
+                    </Button>
+                  </Link>
+                </div>
+                <div className="col-span-2 rounded-md bg-white p-5">
+                  <h2 className="pb-2 text-lg font-bold">
+                    What I want to remember about this Assignment:
+                  </h2>
+                  <p>{la.learnerNote}</p>
+                </div>
+              </div>
+            </CardContent>
+            <CardFooter>
+              {!la.archived && (
+                <div role="button" onClick={() => handleArchive(la.id, true)}>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <ArchiveIcon
+                          width={30}
+                          height={30}
+                          className="hover:text-amber-800"
+                        />
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        Archive this Assignment. You will still be able to view
+                        it later.
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
+              )}
+              {!!la.archived && (
+                <Button
+                  role="button"
+                  onClick={() => handleArchive(la.id, false)}
+                >
+                  Un-Archive this Assignment
+                </Button>
+              )}
+            </CardFooter>
+          </Card>
+        );
+      })}
     </div>
   );
 }

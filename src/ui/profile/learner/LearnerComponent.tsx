@@ -46,7 +46,10 @@ export default function LearnerComponent() {
             <>
               <div className="col-span-3 mt-5 flex min-h-[60vh] flex-col items-center">
                 {accessTokenAlias && (
-                  <LearnerCourses alias={accessTokenAlias} />
+                  <LearnerCourses
+                    alias={accessTokenAlias}
+                    learnerAssignments={learnerAssignments}
+                  />
                 )}
               </div>
               <div className="col-span-1 col-start-4 row-span-9 flex flex-col gap-5">

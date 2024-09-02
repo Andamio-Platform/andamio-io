@@ -1,10 +1,17 @@
 import useGlobalStateDatum from "~/hooks/onchain/useGlobalStateDatum";
 import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
 import CurrentCourseListItem from "./CurrentCourseListItem";
+import { type LearnerAssignment } from "~/hooks/course/useLearnerAssignmentStatuses";
 
 // TODO: Rename
 
-export default function LearnerCourses({ alias }: { alias: string }) {
+export default function LearnerCourses({
+  alias,
+  learnerAssignments,
+}: {
+  alias: string;
+  learnerAssignments: LearnerAssignment[];
+}) {
   const {
     globalStateDatum,
     isLoadingGlobalStateDatum,
@@ -33,6 +40,7 @@ export default function LearnerCourses({ alias }: { alias: string }) {
                 <div key={i}>
                   <CurrentCourseListItem
                     lsCs={c.LsCs}
+                    learnerAssignments={learnerAssignments}
                     key={i}
                     alias={globalStateDatum.UserName}
                   />

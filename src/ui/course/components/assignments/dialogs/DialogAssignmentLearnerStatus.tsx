@@ -135,10 +135,12 @@ export default function DialogAssignmentLearnerStatus({
             label="Set Assignment Status"
             form={form}
             options={Object.keys(AssignmentStatus).map((type) => {
-              let _label = "Complete";
+              let _label = "Not Started";
               if (type === "SAVE_FOR_LATER") _label = "Save for Later";
               if (type === "IN_PROGRESS") _label = "In Progress";
               if (type === "COMMITMENT") _label = "Commitment";
+              if (type === "COMPLETE") _label = "Complete!";
+              if (type === "NETWORK_READY") _label = "Ready for Credential";
               return {
                 value: type,
                 label: _label,

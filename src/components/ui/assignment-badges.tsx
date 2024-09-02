@@ -23,6 +23,9 @@ export default function AssignmentBadges({
       {status === "NETWORK_READY" && (
         <Badge className="bg-orange-200 text-orange-800">Ready to Commit</Badge>
       )}
+      {status === "NOT_STARTED" && (
+        <Badge className="bg-orange-200 text-orange-800">Not Started</Badge>
+      )}
     </>
   );
 }

@@ -1,21 +1,22 @@
 import { useWallet } from "@meshsdk/react";
-import { useState } from "react";
+import { type Dispatch, type SetStateAction } from "react";
 import { useToast } from "~/components/ui/use-toast";
-import Loading from "~/components/loading";
 import { Button } from "~/components/ui/button";
 import { api } from "~/utils/api";
+import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
 
 export default function MintAccessToken({
   userAddress,
   alias,
+  setSuccessTxHash,
 }: {
   userAddress: string;
   alias: string;
+  setSuccessTxHash: Dispatch<SetStateAction<string | undefined>>;
 }) {
   const { toast } = useToast();
 
   const { wallet } = useWallet();
-  const [isLoading, setIsLoading] = useState(false);
 
   const { data: unsignedTxCBOR } =
     api.accessTokenTransactions.mintAccessToken.useQuery({
@@ -24,7 +25,6 @@ export default function MintAccessToken({
     });
 
   async function onSubmit() {
-    setIsLoading(true);
     if (userAddress && alias) {
       if (unsignedTxCBOR) {
         const signedTx = await wallet.signTx(
@@ -32,13 +32,13 @@ export default function MintAccessToken({
           true,
         );
         console.log(signedTx);
-        setIsLoading(false);
         const txId = await wallet.submitTx(signedTx);
         console.log(txId);
         toast({
           title: "Transaction submitted",
           description: `${txId}`,
         });
+        setSuccessTxHash(txId);
       }
     }
   }
@@ -49,10 +49,7 @@ export default function MintAccessToken({
         <Button onClick={onSubmit}>Mint Andamio Access Token</Button>
       ) : (
         <div className="flex flex-col">
-          {/* {isConfirming && <p>Confirming transaction...</p>} */}
-          {/* <Loading /> */}
-          <p>Addr: {userAddress}</p>
-          <p>Alias: {alias}</p>
+          <LoadingCircle />
         </div>
       )}
     </div>

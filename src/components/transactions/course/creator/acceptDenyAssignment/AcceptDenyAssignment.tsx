@@ -1,5 +1,5 @@
 import { useAddress, useWallet } from "@meshsdk/react";
-import { useState } from "react";
+import { type Dispatch, type SetStateAction, useState } from "react";
 import { useToast } from "~/components/ui/use-toast";
 import Loading from "~/components/loading";
 import { Button } from "~/components/ui/button";
@@ -10,18 +10,19 @@ export default function AcceptDenyAssignment({
   userAccessTokenUnit,
   studentAlias,
   decision,
+  setSuccessTxHash,
 }: {
   courseNftPolicy: string;
   userAccessTokenUnit: string;
   studentAlias: string;
   decision: "accept" | "deny";
+  setSuccessTxHash: Dispatch<SetStateAction<string | undefined>>;
 }) {
   const { toast } = useToast();
 
   const { wallet } = useWallet();
   const address = useAddress();
   const [isLoading, setIsLoading] = useState(false);
-  const [txHash, setTxHash] = useState<string | undefined>(undefined);
 
   const {
     data: unsignedTxCBOR,
@@ -54,7 +55,7 @@ export default function AcceptDenyAssignment({
           title: "Transaction submitted",
           description: `${txId}`,
         });
-        setTxHash(txId);
+        setSuccessTxHash(txId);
       }
     }
   }

@@ -4,7 +4,7 @@ export function OrganizationHero() {
   return (
     <div className="flex h-[80vh] w-screen flex-col items-center justify-center">
       <h1 className="mx-auto w-2/3 scroll-m-20 text-center text-9xl font-extrabold text-black">
-        Build communities that work
+        Build Organizations that Work
       </h1>
       <h3 className="m-20 scroll-m-20 text-center text-2xl text-black">
         It takes too much time, effort and money to build communities of

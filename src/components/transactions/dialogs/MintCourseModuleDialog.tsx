@@ -32,8 +32,8 @@ export default function MintCourseModuleDialog({
 
   const nextSteps = [
     { text: "Share on Social", url: "https://twitter.com" },
-    { text: "Learn about Learner Status", url: "https://twitter.com" },
-    { text: "Review Documentation", url: "https://twitter.com" },
+    { text: "Learn about Learner Status", url: "/course/andamio101" },
+    { text: "Review Documentation", url: "/course/andamio101" },
   ];
 
   // className={`${confirmedSlts[j] ? "bg-success" : "bg-warning"} w-full cursor-pointer rounded-md p-2 font-bold`}
@@ -48,6 +48,7 @@ export default function MintCourseModuleDialog({
           <SuccessTxModalContent
             txName="Publish Credential"
             nextStepLinks={nextSteps}
+            txHash={successTxHash}
           />
         ) : (
           <>

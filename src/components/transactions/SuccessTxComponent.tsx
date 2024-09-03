@@ -4,9 +4,11 @@ import Link from "next/link";
 export default function SuccessTxModalContent({
   txName,
   nextStepLinks,
+  txHash,
 }: {
   txName: string;
   nextStepLinks: { text: string; url: string }[];
+  txHash: string;
 }) {
   return (
     <div className="flex flex-col content-center items-center gap-3 py-5">
@@ -23,7 +25,9 @@ export default function SuccessTxModalContent({
         ))}
       </ul>
       <p className="mb-5">
-        <Link href={``}>View Tx On Cardano</Link>
+        <Link href={`https://preprod.cardanoscan.io/transaction/${txHash}`}>
+          View Tx On Cardano
+        </Link>
       </p>
       <Image
         src="/andamio-logo-no-white-overflow.png"

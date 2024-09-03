@@ -1,20 +1,6 @@
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { Badge } from "~/components/ui/badge";
 import { type CoursePublic } from "~/types/db";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "~/components/ui/dialog";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "~/components/ui/collapsible";
 import { Button } from "~/components/ui/button";
 import {
   Card,
@@ -22,15 +8,11 @@ import {
   CardFooter,
   CardHeader,
 } from "~/components/ui/card";
-import { CardanoWallet, useWallet } from "@meshsdk/react";
-import checkIfEnrolled from "../utils/checkIfEnrolled";
 import Markdown from "react-markdown";
 import { useSession } from "next-auth/react";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
-import { useAccessToken } from "~/hooks/onchain/useAccessToken";
-import MintLocalState from "~/components/transactions/course/learner/mintLocalState/MintLocalState";
-import Loading from "~/components/loading";
+import MintCourseEnrollmentDialog from "~/components/transactions/dialogs/MintCourseEnrollmentDialog";
 
 export default function CourseCard({
   course,
@@ -41,10 +23,6 @@ export default function CourseCard({
 }) {
   const ctx = api.useUtils();
   const { data: sessionData, update: updateSessionData } = useSession();
-  const { connected, wallet } = useWallet();
-  const [isOpen, setIsOpen] = useState(false);
-  const [isEnrolled, setIsEnrolled] = useState(false);
-  const { accessTokenAsset } = useAccessToken();
 
   const { mutate: saveCourseForLearner } =
     api.learner.saveCourseForLearner.useMutation({
@@ -54,19 +32,6 @@ export default function CourseCard({
         toast.success("Course saved");
       },
     });
-  useEffect(() => {
-    const check = async () => {
-      if (connected && course.onchainInstance[0]) {
-        console.log("check");
-        const isEnrolled = await checkIfEnrolled(
-          course.onchainInstance[0].CourseCreatorNFTPolicyID,
-          wallet,
-        );
-        setIsEnrolled(isEnrolled);
-      }
-    };
-    void check();
-  }, [wallet, connected, course.onchainInstance]);
 
   const handleSaveCourse = () => {
     if (sessionData) {
@@ -125,100 +90,8 @@ export default function CourseCard({
         ) : (
           <Button onClick={handleSaveCourse}>Save</Button>
         )}
-
-        {course.onchainInstance.length !== 0 && (
-          <>
-            {!isEnrolled ? (
-              <Dialog>
-                <DialogTrigger>
-                  <Button>Enroll</Button>
-                </DialogTrigger>
-                <DialogContent className="flex items-center justify-center justify-items-center">
-                  <DialogHeader>
-                    <DialogTitle className="py-4">
-                      Thinking of taking this course?
-                    </DialogTitle>
-                    <DialogDescription>
-                      {!isOpen && (
-                        <div className="py-4 text-xs text-black hover:font-semibold hover:text-primary sm:justify-start">
-                          <Link href={`/course/${course.courseCode}`}>
-                            I&apos;ll do it after taking a look inside first
-                          </Link>
-                        </div>
-                      )}
-                      <Collapsible
-                        open={isOpen}
-                        onOpenChange={setIsOpen}
-                        className="w-[350px] space-y-2 py-4"
-                      >
-                        <div className="flex w-full items-center justify-center">
-                          <CollapsibleTrigger asChild>
-                            <Button>
-                              {isOpen ? (
-                                <>Back</>
-                              ) : (
-                                <>Enroll On Andamio Network</>
-                              )}
-                            </Button>
-                          </CollapsibleTrigger>
-                        </div>
-
-                        <CollapsibleContent className="space-y-2">
-                          <>
-                            {!connected ? (
-                              <CardanoWallet />
-                            ) : (
-                              <>
-                                {isEnrolled ? (
-                                  <div>Currently Enrolled</div>
-                                ) : (
-                                  <>
-                                    {accessTokenAsset &&
-                                    course.onchainInstance[0] ? (
-                                      <MintLocalState
-                                        userAccessTokenUnit={
-                                          accessTokenAsset.unit
-                                        }
-                                        courseNftPolicyId={
-                                          course.onchainInstance[0]
-                                            .CourseCreatorNFTPolicyID
-                                        }
-                                      />
-                                    ) : (
-                                      <Loading />
-                                    )}
-                                    {/* {!!accessTokenAsset &&
-                                      course.onchainInstance[0]
-                                        ?.CourseCreatorNFTPolicyID && (
-                                        <MintLocalStateMeshNative
-                                          accessTokenAssetId={
-                                            accessTokenAsset.unit
-                                          }
-                                          courseNftPolicyId={
-                                            course.onchainInstance[0]
-                                              .CourseCreatorNFTPolicyID
-                                          }
-                                        />
-                                      )} */}
-                                  </>
-                                )}
-                              </>
-                            )}
-                          </>
-                        </CollapsibleContent>
-                      </Collapsible>
-                    </DialogDescription>
-                  </DialogHeader>
-                </DialogContent>
-              </Dialog>
-            ) : (
-              <Link href={`/course/${course.courseCode}`}>
-                <Button className="bg-success text-green-900 hover:bg-green-400">
-                  Currently Enrolled
-                </Button>
-              </Link>
-            )}
-          </>
+        {!!course.onchainInstance[0] && (
+          <MintCourseEnrollmentDialog course={course} />
         )}
       </CardFooter>
     </Card>

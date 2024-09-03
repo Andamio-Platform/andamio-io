@@ -6,28 +6,27 @@ export function FAQ() {
         <li className="font-bold">
           Can I enroll in more than one course at a time?
         </li>
-        <li>
-          Yes, fell free to browse and enroll in any of the available courses
+        <li className="pb-10">
+          Yes, you can browse and enroll in any public course on Andamio.
         </li>
         <li className="font-bold">What network does Andamio use?</li>
-        <li>
+        <li className="pb-10">
           Preprod for now, but check out our roadmap for information on our
-          mainnet launch
+          mainnet launch.
         </li>
         <li className="font-bold">How do I learn to use Andamio?</li>
-        <li>
+        <li className="pb-10">
           Be sure to check out our Andamio 101 course to master the use of our
-          platform
+          platform.
         </li>
         <li className="font-bold">How do I become a course creator?</li>
-        <li>
+        <li className="pb-10">
           Right now, the best way to become a course creator is to click on the
-          &apos;Get in touch&apos; button or write to us at hello@andamio.is
+          &apos;Get in touch&apos; button or write to us at hello@andamio.io
         </li>
         <li className="font-bold">How do I get in touch?</li>
-        <li>
-          Fell free to follow us on X (@AndamioPlatform) or write to
-          hello@andamio.io
+        <li className="pb-10">
+          Follow us on X (@AndamioPlatform) or write to hello@andamio.io
         </li>
       </ul>
     </div>

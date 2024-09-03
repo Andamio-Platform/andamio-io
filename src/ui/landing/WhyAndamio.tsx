@@ -33,10 +33,10 @@ export function WhyAndamio() {
                 width={600}
                 height={600}
                 className="h-40 w-auto"
-                src="/images/site/view-3d-man-holding-coffee-cup-showing-thumbs-up.png"
-                alt="ceo-joe"
+                src="/images/site/view-cool-3d-woman-posing.png"
+                alt="ceo-sarah"
               />
-              <text className="mt-2 justify-center font-bold">CEO Joe</text>
+              <text className="mt-2 justify-center font-bold">CEO Sarah</text>
             </div>
             <ul className="list-inside list-disc">
               <li>Find great talent</li>

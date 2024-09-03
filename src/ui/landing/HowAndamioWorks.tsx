@@ -53,8 +53,8 @@ export function HowAndamioWorks() {
             width={600}
             height={600}
             className="h-40 w-auto"
-            src="/images/site/view-3d-man-holding-coffee-cup-showing-thumbs-up.png"
-            alt="ceo-joe"
+            src="/images/site/view-cool-3d-woman-posing.png"
+            alt="ceo-sarah"
           />
         </div>
         <div className="flex h-full w-1/3 flex-col items-center justify-end">
@@ -78,16 +78,16 @@ export function HowAndamioWorks() {
       </div>
       <div className="flex h-1/3 w-screen flex-row text-xl text-black">
         <div className="flex h-full w-1/3 flex-col items-center justify-start px-20">
-          <text className="my-5 justify-center font-bold">Meet CEO Joe</text>
-          Joe needs to get some work done and is looking for a skilled
-          contributor. So he creates a course on Andamio to teach the skills
+          <text className="my-5 justify-center font-bold">Meet CEO Sarah</text>
+          Sarah needs to get some work done and is looking for a skilled
+          contributor. So she creates a course on Andamio to teach the skills
           needed to get the job done.
         </div>
         <div className="flex h-full w-1/3 flex-col items-center justify-start px-20">
           <text className="my-5 justify-center font-bold">
             Meet Skilled Pete
           </text>
-          Pete is excited about the opportunity and takes Joe&apos;s course on
+          Pete is excited about the opportunity and takes Sarah&apos;s course on
           Andamio and earns a skill
         </div>
         <div className="flex h-full w-1/3 flex-col items-center justify-start px-20">

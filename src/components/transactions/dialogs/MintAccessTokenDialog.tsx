@@ -11,6 +11,7 @@ import FormInput from "~/components/form/form-input";
 import { Form } from "~/components/ui/form";
 import { INDEXER_URL } from "~/config/indexer";
 import MintAccessToken from "../accessToken/MintAccessToken";
+import SuccessTxModalContent from "../SuccessTxComponent";
 
 export default function MintAccessTokenDialog() {
   const address = useAddress();
@@ -18,6 +19,16 @@ export default function MintAccessTokenDialog() {
   const [mintingAlias, setMintingAlias] = useState<string | undefined>(
     undefined,
   );
+
+  const [successTxHash, setSuccessTxHash] = useState<string | undefined>(
+    undefined,
+  );
+
+  const nextSteps = [
+    { text: "Learn how to use your Access Token", url: "/course/andamio101" },
+    { text: "Commit to Your First Assignment", url: "/course/andamio101" },
+    { text: "Go to Dashboard", url: "/dashboard" },
+  ];
 
   const FormSchema = z.object({
     tokenAlias: z.string().min(2, {
@@ -76,31 +87,45 @@ export default function MintAccessTokenDialog() {
         <Button>Mint Access Token</Button>
       </DialogTrigger>
       <DialogContent>
-        <h1>Confirm Mint Access Token</h1>
-        {/* About this Module */}
-        <h2>Token Alias</h2>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <FormInput
-              {...register("tokenAlias")}
-              name="tokenAlias"
-              placeholder="Token Alias"
-              form={form}
-            />
-            {isAvailable && (
-              <div className="mb-2 text-sm text-green-500">
-                This alias is available.
-              </div>
-            )}
-            <Button>Submit</Button>
-          </form>
-        </Form>
-        <h2>What it means to mint an Andamio Access Token</h2>
-        {address && mintingAlias && (
+        {successTxHash ? (
+          <SuccessTxModalContent
+            txName="Mint Access Token"
+            nextStepLinks={nextSteps}
+            txHash={successTxHash}
+          />
+        ) : (
           <>
-            <pre>{address}</pre>
-            <pre>{mintingAlias}</pre>
-            <MintAccessToken userAddress={address} alias={mintingAlias} />
+            <h1>Confirm Mint Access Token</h1>
+            {/* About this Module */}
+            <h2>Token Alias</h2>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)}>
+                <FormInput
+                  {...register("tokenAlias")}
+                  name="tokenAlias"
+                  placeholder="Token Alias"
+                  form={form}
+                />
+                {isAvailable && (
+                  <div className="mb-2 text-sm text-green-500">
+                    This alias is available.
+                  </div>
+                )}
+                <Button>Submit</Button>
+              </form>
+            </Form>
+            <h2>What it means to mint an Andamio Access Token</h2>
+            {address && mintingAlias && (
+              <>
+                <pre>{address}</pre>
+                <pre>{mintingAlias}</pre>
+                <MintAccessToken
+                  userAddress={address}
+                  alias={mintingAlias}
+                  setSuccessTxHash={setSuccessTxHash}
+                />
+              </>
+            )}
           </>
         )}
       </DialogContent>

@@ -1,6 +1,5 @@
 import { useWallet } from "@meshsdk/react";
-import { useState } from "react";
-import { useRouter } from "next/router";
+import { type Dispatch, type SetStateAction } from "react";
 import Loading from "~/components/loading";
 import { Button } from "~/components/ui/button";
 import { useToast } from "~/components/ui/use-toast";
@@ -10,17 +9,16 @@ import { api } from "~/utils/api";
 export default function MintLocalState({
   userAccessTokenUnit,
   courseNftPolicyId,
+  setSuccessTxHash,
 }: {
   userAccessTokenUnit: string;
   courseNftPolicyId: string;
+  setSuccessTxHash: Dispatch<SetStateAction<string | undefined>>;
 }) {
   const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(false);
   const { courseInfo } = useCourseByPolicyId(courseNftPolicyId);
 
   const { wallet } = useWallet();
-
-  const router = useRouter();
 
   const { data: unsignedTxCBOR } =
     api.learnerCourseTransactions.mintLocalState.useQuery({
@@ -29,8 +27,6 @@ export default function MintLocalState({
     });
 
   async function onSubmit() {
-    setIsLoading(true);
-
     if (unsignedTxCBOR) {
       const signedTx = await wallet.signTx(unsignedTxCBOR.unsignedTxCBOR, true);
       console.log(signedTx);
@@ -40,13 +36,13 @@ export default function MintLocalState({
         title: "Transaction submitted",
         description: `${txId}`,
       });
-      await router.push(`/course/${courseInfo?.courseCode}`);
+      setSuccessTxHash(txId);
     }
   }
 
   return (
     <div className="mx-4 flex items-center justify-center rounded-md border px-4 py-3 text-sm">
-      {(unsignedTxCBOR ?? isLoading) ? (
+      {unsignedTxCBOR ? (
         <Button
           onClick={onSubmit}
           className="mt-10 bg-secondary p-5 text-black transition-all hover:bg-success hover:font-semibold"

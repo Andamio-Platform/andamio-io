@@ -18,13 +18,15 @@ export default function SB7PageLanding() {
           onClick={() => setRole("learner")}
           className={`cursor-pointer border-2 border-solid border-black text-foreground ${role === "learner" ? "bg-secondary" : "bg-white"}`}
         >
-          I want to learn
+          I am a&nbsp;
+          <span className="font-beckman font-semibold">LEARNER</span>
         </Button>
         <Button
           onClick={() => setRole("organization")}
           className={`cursor-pointer border-2 border-solid border-black text-foreground ${role === "organization" ? "bg-secondary" : "bg-white"}`}
         >
-          I am building a team
+          I am an&nbsp;
+          <span className="font-beckman font-semibold">ORGANIZATION</span>
         </Button>
       </div>
       <WhyAndamio />

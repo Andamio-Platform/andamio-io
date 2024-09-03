@@ -1,16 +1,15 @@
+import Image from "next/image";
+
 const pageCopy = [
-  "The Andamio Platform is preparing to launch on Cardano's Preproduction Testnet. In collaboration with partners from across the Cardano ecosystem, we are preparing a set of high-impact courses. Andamio will launch on Mainnet Q3 2024.",
+  "The Andamio Platform is preparing to launch on Cardano's Preproduction Testnet. In collaboration with partners from across the Cardano ecosystem, we are preparing a set of high-impact courses. Andamio will launch on Mainnet Q4 2024.",
   'You can start exploring the Andamio Course Platform by viewing the courses listed below. In "Getting Started With Andamio", you can jump right into the Andamio Platform. Gimbalabs and Mesh are currently releasing "Plutus PBL" and "Mesh PBL" courses.',
 ];
 
 export default function SectionWelcome() {
   return (
-    <div className="mx-auto mb-24 max-w-7xl px-6 lg:px-8">
+    <div className="mx-auto flex flex-col items-center gap-24 md:flex-row">
       <div className="mx-auto max-w-2xl lg:text-center">
-        <h2 className="text-base font-semibold leading-7 text-primary-foreground">
-          from learning to contribution
-        </h2>
-        <h2 className="my-5 text-3xl font-bold tracking-tight  sm:text-4xl">
+        <h2 className="mb-12 text-3xl font-bold tracking-tight  sm:text-8xl">
           Welcome to Andamio
         </h2>
         {pageCopy.map((pc, i) => (
@@ -21,6 +20,14 @@ export default function SectionWelcome() {
             {pc}
           </p>
         ))}
+      </div>
+      <div>
+        <Image
+          src="/andamio-logo-no-white-overflow.png"
+          width={400}
+          height={400}
+          alt="andamio"
+        />
       </div>
     </div>
   );

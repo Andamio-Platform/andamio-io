@@ -4,6 +4,7 @@ import AllCourses from "./components/AllCourses";
 import MenuBar from "../landing/MenuBar";
 import { useWallet, useWalletList } from "@meshsdk/react";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 // import FeaturedCourses from "./components/FeaturedCourses";
 
 export default function PageCourses() {
@@ -65,7 +66,30 @@ export default function PageCourses() {
                   </div>
                 </div>
               ) : (
-                "Connected to Andamio Network"
+                <>
+                  {!!wallets && !!wallets[0]?.name ? (
+                    "Connected to Andamio Network"
+                  ) : (
+                    <p>
+                      To connect to the Andamio Network, please install a
+                      Cardano Wallet like{" "}
+                      <Link
+                        href="https://www.namiwallet.io/"
+                        className="font-semibold text-primary"
+                      >
+                        Nami
+                      </Link>{" "}
+                      or{" "}
+                      <Link
+                        href="https://eternl.io/"
+                        className="font-semibold text-primary"
+                      >
+                        Eternl
+                      </Link>
+                      .
+                    </p>
+                  )}
+                </>
               )}
             </div>
           </div>

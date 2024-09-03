@@ -1,9 +1,8 @@
 import MenuBar from "../landing/MenuBar";
-import AboutUser from "./AboutUser";
+import GetStartedSteps from "./GetStartedSteps";
 import SectionStudio from "./SectionStudio";
 import { useEffect } from "react";
 import { useTheme } from "next-themes";
-import Footer from "../landing/Footer";
 import SectionWelcome from "./SectionWelcome";
 
 export default function PageHome() {
@@ -16,12 +15,16 @@ export default function PageHome() {
   return (
     <>
       <MenuBar />
-      <div className=" grid grid-cols-1 md:grid-cols-2">
-        <div className="min-h-screen bg-primary pt-12 text-primary-foreground md:pt-32">
+      <div className="flex w-full flex-col">
+        <div className="flex min-h-[80vh] items-center justify-center bg-primary text-primary-foreground">
           <SectionWelcome />
+        </div>
+        <div className="mx-auto flex w-full sm:w-11/12 md:w-2/3 lg:w-1/2">
+          <GetStartedSteps />
+        </div>
+        <div className="mt-24 flex min-h-screen items-center bg-primary text-primary-foreground">
           <SectionStudio />
         </div>
-        <AboutUser />
       </div>
     </>
   );

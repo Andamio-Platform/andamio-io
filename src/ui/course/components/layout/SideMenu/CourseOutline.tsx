@@ -59,7 +59,7 @@ export default function CourseOutline({
   }
 
   return (
-    <div className="-mx-3 mt-3">
+    <div className="mt-3">
       <Accordion
         key={courseCode}
         type="single"

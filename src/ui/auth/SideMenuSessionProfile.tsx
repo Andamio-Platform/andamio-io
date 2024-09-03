@@ -11,17 +11,23 @@ export default function SideMenuSessionProfile() {
   }
 
   return (
-    <li className="-mx-6 mt-auto">
+    <li className="mb-3 mt-auto">
       {isProfileMenuOpen && (
         <>
+          <button className="block w-full px-6 py-3 text-left text-sm font-semibold leading-6 text-foreground hover:bg-accent focus:outline-none">
+            <Link href="/dashboard">Dashboard</Link>
+          </button>
+          <button className="block w-full px-6 py-3 text-left text-sm font-semibold leading-6 text-foreground hover:bg-accent focus:outline-none">
+            <Link href="/studio">Course Studio</Link>
+          </button>
+          <button className="block w-full px-6 py-3 text-left text-sm font-semibold leading-6 text-foreground hover:bg-accent focus:outline-none">
+            <Link href="/courses">All Courses</Link>
+          </button>
           <button
             onClick={() => void signOut({ callbackUrl: "/" })}
             className="block w-full px-6 py-3 text-left text-sm font-semibold leading-6 text-foreground hover:bg-accent focus:outline-none"
           >
             Sign Out
-          </button>
-          <button className="block w-full px-6 py-3 text-left text-sm font-semibold leading-6 text-foreground hover:bg-accent focus:outline-none">
-            <Link href="/dashboard">Dashboard</Link>
           </button>
         </>
       )}

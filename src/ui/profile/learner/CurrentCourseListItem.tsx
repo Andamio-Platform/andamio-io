@@ -5,6 +5,7 @@ import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading
 import Link from "next/link";
 import { type LearnerAssignment } from "~/hooks/course/useLearnerAssignmentStatuses";
 import { QuestionMarkCircledIcon } from "@radix-ui/react-icons";
+import useAssignmentDatums from "~/hooks/onchain/useAssignmentDatums";
 
 export default function CurrentCourseListItem({
   lsCs,
@@ -26,6 +27,9 @@ export default function CurrentCourseListItem({
     errorCourseStateDatum,
   } = useCourseStateDatum(lsCs, alias);
 
+  const { assignmentDatum, isLoadingAssignmentDatum, isErrorAssignmentDatum } =
+    useAssignmentDatums(lsCs, alias);
+
   const [courseAssignments, setCourseAssignments] = useState<
     LearnerAssignment[]
   >([]);
@@ -38,13 +42,11 @@ export default function CurrentCourseListItem({
     number | undefined
   >(undefined);
 
-  const [completionPercentage, setCompletionPercentage] = useState<
-    string | undefined
-  >(undefined);
+  const [completionPercentage, setCompletionPercentage] =
+    useState<string>("Not Available");
 
-  const [credentialPercentage, setCredentialPercentage] = useState<
-    string | undefined
-  >(undefined);
+  const [credentialPercentage, setCredentialPercentage] =
+    useState<string>("Not Available");
 
   useEffect(() => {
     if (learnerAssignments && !!courseInfo) {
@@ -56,11 +58,15 @@ export default function CurrentCourseListItem({
   }, [courseInfo, learnerAssignments]);
 
   useEffect(() => {
-    if (courseStateDatum) {
+    if (!!courseStateDatum) {
       const _assignments = courseStateDatum.CompletedAssignments.length;
       setCompletedCredentials(_assignments);
+    } else if (!!assignmentDatum) {
+      const _assignments =
+        assignmentDatum.CourseState.CompletedAssignments.length;
+      setCompletedCredentials(_assignments);
     }
-  }, [courseStateDatum]);
+  }, [courseStateDatum, assignmentDatum]);
 
   useEffect(() => {
     if (
@@ -71,7 +77,8 @@ export default function CurrentCourseListItem({
       const _ratio: number =
         completedCredentials / assignmentStats.networkPublishedModules;
       const _percentage: number = _ratio * 100;
-      setCredentialPercentage(_percentage.toString() + "%");
+      const _rounded_percentage: number = Math.round(_percentage * 10) / 10;
+      setCredentialPercentage(_rounded_percentage.toString() + "%");
     }
   }, [completedCredentials, assignmentStats]);
 
@@ -93,16 +100,22 @@ export default function CurrentCourseListItem({
       const _ratio: number =
         completedAssignments / assignmentStats.modulesWithAssignments;
       const _percentage: number = _ratio * 100;
-      setCompletionPercentage(_percentage.toString() + "%");
+      const _rounded_percentage: number = Math.round(_percentage * 10) / 10;
+      setCompletionPercentage(_rounded_percentage.toString() + "%");
     }
   }, [completedAssignments, assignmentStats]);
 
   if (isLoadingCourseInfo) return <LoadingCircle />;
-  if (isLoadingCourseStateDatum) {
+
+  if (isLoadingCourseStateDatum && !assignmentDatum) {
     return <LoadingCircle />;
   }
 
-  if (isErrorCourseStateDatum) {
+  if (isLoadingAssignmentDatum && !courseStateDatum) {
+    return <LoadingCircle />;
+  }
+
+  if (isErrorCourseStateDatum && isErrorAssignmentDatum) {
     return (
       <div>
         <p>ERROR</p>

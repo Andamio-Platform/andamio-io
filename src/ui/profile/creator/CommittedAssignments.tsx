@@ -1,6 +1,4 @@
-import { Card } from "~/components/ui/card";
 import useAssignmentDatums from "~/hooks/onchain/useAssignmentDatums";
-import { DocumentCheckIcon } from "@heroicons/react/24/outline";
 import {
   Table,
   TableBody,
@@ -16,8 +14,10 @@ import { useAccessToken } from "~/hooks/onchain/useAccessToken";
 
 export default function CommittedAssignments({
   courseNftPolicy,
+  showCourseDetails,
 }: {
   courseNftPolicy: string;
+  showCourseDetails?: boolean;
 }) {
   const { listCourseAssignmentDatums } = useAssignmentDatums(courseNftPolicy);
 
@@ -29,67 +29,64 @@ export default function CommittedAssignments({
   if (isLoadingCourseInfo) return <LoadingCircle />;
 
   return (
-    <div className="flex w-full flex-col">
-      <div className="grid w-full grid-cols-1 gap-5">
-        <Card className="" size="md">
-          <DocumentCheckIcon width={"35px"} height={"35px"} />
-          <h2>
-            {courseInfo?.title} ({courseInfo?.courseCode}) - Approve Student
-            Assignments
-          </h2>
-        </Card>
+    <div className="my-5 flex w-full flex-col border-t border-accent pt-5">
+      {showCourseDetails && !!courseInfo && (
+        <h2 className="my-5 text-4xl">{courseInfo.title}</h2>
+      )}
+      <h3 className="my-5 text-2xl font-semibold">
+        Review Student Assignments
+      </h3>
 
-        {listCourseAssignmentDatums && (
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Alias</TableHead>
-                <TableHead>Assignment</TableHead>
-                <TableHead>Assignment Info</TableHead>
-                <TableHead>Accept</TableHead>
-                <TableHead>Deny</TableHead>
+      {listCourseAssignmentDatums && (
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Alias</TableHead>
+              <TableHead>Assignment</TableHead>
+              <TableHead>Assignment Info</TableHead>
+              <TableHead>Accept</TableHead>
+              <TableHead>Deny</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody className="text-left">
+            {listCourseAssignmentDatums.map((assignment, i) => (
+              <TableRow key={i}>
+                <TableCell className="font-medium">
+                  {assignment.CourseState.CsdUserName}
+                </TableCell>
+                <TableCell>{assignment.CommittedAssignmentId}</TableCell>
+                <TableCell>{assignment.StudentAssignmentInfo}</TableCell>
+                <TableCell>
+                  {assignment.StudentAssignmentInfo ? (
+                    <AcceptDenyAssignment
+                      key={i}
+                      courseNftPolicy={courseNftPolicy}
+                      userAccessTokenUnit={accessTokenAsset!.unit}
+                      studentAlias={assignment.CourseState.CsdUserName}
+                      decision="accept"
+                    />
+                  ) : (
+                    "No Assignment Info"
+                  )}
+                </TableCell>
+                <TableCell>
+                  {assignment.StudentAssignmentInfo ? (
+                    <AcceptDenyAssignment
+                      key={i}
+                      courseNftPolicy={courseNftPolicy}
+                      userAccessTokenUnit={accessTokenAsset!.unit}
+                      studentAlias={assignment.CourseState.CsdUserName}
+                      decision="deny"
+                    />
+                  ) : (
+                    "No Assignment Info"
+                  )}
+                </TableCell>
               </TableRow>
-            </TableHeader>
-            <TableBody className="text-left">
-              {listCourseAssignmentDatums.map((assignment, i) => (
-                <TableRow key={i}>
-                  <TableCell className="font-medium">
-                    {assignment.CourseState.CsdUserName}
-                  </TableCell>
-                  <TableCell>{assignment.CommittedAssignmentId}</TableCell>
-                  <TableCell>{assignment.StudentAssignmentInfo}</TableCell>
-                  <TableCell>
-                    {assignment.StudentAssignmentInfo ? (
-                      <AcceptDenyAssignment
-                        key={i}
-                        courseNftPolicy={courseNftPolicy}
-                        userAccessTokenUnit={accessTokenAsset!.unit}
-                        studentAlias={assignment.CourseState.CsdUserName}
-                        decision="accept"
-                      />
-                    ) : (
-                      "No Assignment Info"
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    {assignment.StudentAssignmentInfo ? (
-                      <AcceptDenyAssignment
-                        key={i}
-                        courseNftPolicy={courseNftPolicy}
-                        userAccessTokenUnit={accessTokenAsset!.unit}
-                        studentAlias={assignment.CourseState.CsdUserName}
-                        decision="deny"
-                      />
-                    ) : (
-                      "No Assignment Info"
-                    )}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        )}
-      </div>
+            ))}
+          </TableBody>
+        </Table>
+      )}
     </div>
   );
 }

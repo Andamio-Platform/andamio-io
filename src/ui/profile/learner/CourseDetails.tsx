@@ -203,6 +203,7 @@ export default function CourseDetails({
         <h2 className="my-5 text-2xl font-bold">{course?.title} Outline</h2>
         {courseModuleOverviews?.map((cm, i) => (
           <LearnerCourseModuleDetailsComponent
+            alias={accessTokenAlias ?? ""}
             courseModule={cm}
             courseStateDatum={courseStateDatum}
             courseTokenInfo={globalStateDatum?.TokenInfos.find(

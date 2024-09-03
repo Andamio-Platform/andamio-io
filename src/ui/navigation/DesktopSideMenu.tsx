@@ -11,6 +11,7 @@ import useValidateCreator from "~/hooks/course/useValidateCreator";
 import useCourse from "~/hooks/course/useCourse";
 import LearnerDashboardMenu from "./menu-sections/LearnerDashboardMenu";
 import AndamioRoleStatusMenu from "./menu-sections/AndamioRoleStatusMenu";
+import TeacherDashboardMenu from "./menu-sections/TeacherDashboardMenu";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -29,6 +30,7 @@ export default function DesktopSideMenu({
 
   const isDashboardRoute = router.asPath.includes("dashboard");
   const isDashboardLearnerRoute = router.asPath.includes("dashboard/learner");
+  const isDashboardTeacherRoute = router.asPath.includes("dashboard/teacher");
   const isStudioRoute = router.asPath.includes("studio");
   const isCourseRoute = router.asPath.includes("course");
 
@@ -40,7 +42,7 @@ export default function DesktopSideMenu({
   );
 
   return (
-    <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
+    <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-80 lg:flex-col">
       {/* Sidebar component, swap this element with another sidebar if you like */}
       <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-foreground bg-background">
         <div className="mb-5 mt-10 flex items-center justify-center">
@@ -100,9 +102,10 @@ export default function DesktopSideMenu({
             )}
             {isDashboardRoute && <AndamioRoleStatusMenu />}
             {isDashboardLearnerRoute && <LearnerDashboardMenu />}
+            {isDashboardTeacherRoute && <TeacherDashboardMenu />}
             {isCourseRoute && !!currentCourseCode && (
               <li>
-                <ul role="list" className="-mx-2 space-y-1">
+                <ul role="list" className="space-y-1 px-2">
                   <li>
                     <Link
                       href={`/course/${currentCourseCode}`}

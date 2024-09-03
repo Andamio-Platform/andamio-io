@@ -23,8 +23,8 @@ export default function NetworkModuleManagement({
 
   return (
     <div key={key} className="">
-      <div className="mb-5 flex flex-row items-center justify-between">
-        <h2 className="text-2xl">{courseInfo?.title}</h2>
+      <h2 className="my-5 text-6xl">{courseInfo?.title}</h2>
+      <div className="mb-5 flex flex-row items-center justify-between border-b border-accent pb-5">
         <p>{assignmentStats?.courseModules} modules</p>
         <p>
           {assignmentStats?.modulesWithAssignments} modules with assignments
@@ -34,6 +34,7 @@ export default function NetworkModuleManagement({
         </p>
         <Button>Edit in Course Studio</Button>
       </div>
+      <h3 className="my-5 text-2xl font-semibold">Manage Course Modules</h3>
       {courseInfo?.courseCode && (
         <Accordion type="multiple">
           {courseModuleOverviews?.map((cm, i) => (

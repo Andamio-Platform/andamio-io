@@ -20,17 +20,21 @@ import {
   TooltipTrigger,
   TooltipProvider,
 } from "~/components/ui/tooltip";
+import useAssignmentDatums from "~/hooks/onchain/useAssignmentDatums";
+import useAssignmentNetworkStatus from "~/hooks/onchain/useAssignmentNetworkStatus";
 import {
   type CourseModuleWithAssignmentSummary,
   type AssignmentCommitment,
 } from "~/types/db";
 
 export default function LearnerCourseModuleDetailsComponent({
+  alias,
   courseModule,
   courseStateDatum,
   courseTokenInfo,
   learnerCourseStatus,
 }: {
+  alias: string;
   courseModule: CourseModuleWithAssignmentSummary;
   courseStateDatum: DecodedCourseStateDatum | undefined;
   courseTokenInfo: DecodedTokenInfo | undefined;
@@ -39,8 +43,22 @@ export default function LearnerCourseModuleDetailsComponent({
   const { data: sessionData } = useSession();
   const [isAccordionOpen, setIsAccordionOpen] = useState<boolean>(false);
   const [learnerModuleStatus, setLearnerModuleStatus] = useState<
-    "NEVER_COMMITTED" | "CURRENTLY_COMMITTED" | "COMPLETED_COMMITMENT"
+    | "NEVER_COMMITTED"
+    | "CURRENTLY_COMMITTED"
+    | "COMPLETED_COMMITMENT"
+    | "NO_ASSIGNMENT"
+    | "NO_NETWORK_CREDENTIAL"
   >("NEVER_COMMITTED");
+
+  const { isAssignmentOnchain } = useAssignmentNetworkStatus({
+    courseCode: courseModule.originalCourse.courseCode,
+    moduleCode: courseModule.moduleCode,
+  });
+
+  const { assignmentDatum } = useAssignmentDatums(
+    courseTokenInfo?.LsCs ?? "",
+    alias,
+  );
 
   const [assignmentCommitment, setAssignmentCommitment] = useState<
     AssignmentCommitment | undefined
@@ -71,22 +89,48 @@ export default function LearnerCourseModuleDetailsComponent({
         setLearnerModuleStatus("COMPLETED_COMMITMENT");
         setCredentialColor("bg-success");
       }
-    } else if (learnerCourseStatus === "ENROLLED" && !courseStateDatum) {
-      // TODO: Check behavior when enrolled
-      console.log("Check Assignment Validator for Datum???");
-      setLearnerModuleStatus("CURRENTLY_COMMITTED");
+      if (courseModule.assignments.length === 0 || !courseModule.assignments) {
+        setLearnerModuleStatus("NO_ASSIGNMENT");
+        setCredentialColor("bg-gray-300");
+      }
+      if (courseModule.assignments.length > 0 && !isAssignmentOnchain) {
+        setLearnerModuleStatus("NO_NETWORK_CREDENTIAL");
+        setCredentialColor("bg-gray-300");
+      }
+    } else if (!!assignmentDatum) {
+      if (
+        learnerCourseStatus === "ENROLLED" &&
+        assignmentDatum?.CommittedAssignmentId === courseModule.moduleCode
+      ) {
+        setLearnerModuleStatus("CURRENTLY_COMMITTED");
+      } else if (
+        assignmentDatum.CourseState.CompletedAssignments.includes(
+          courseModule.moduleCode,
+        )
+      ) {
+        setLearnerModuleStatus("COMPLETED_COMMITMENT");
+        setCredentialColor("bg-success");
+      }
     } else if (learnerCourseStatus === "WAS_ENROLLED") {
       const _module = courseTokenInfo?.AssignmentList.find(
         (a) => a === courseModule.moduleCode,
       );
       if (_module) {
         setLearnerModuleStatus("COMPLETED_COMMITMENT");
+        setCredentialColor("bg-success");
       }
     }
-  }, [courseModule, learnerCourseStatus, courseStateDatum, courseTokenInfo]);
+  }, [
+    courseModule,
+    learnerCourseStatus,
+    courseStateDatum,
+    courseTokenInfo,
+    isAssignmentOnchain,
+    assignmentDatum,
+  ]);
 
   return (
-    <Accordion type="single" collapsible>
+    <Accordion type="single" collapsible key={courseModule.moduleCode}>
       <AccordionItem
         value={`courseModule-${courseModule.moduleCode}`}
         onClick={() => setIsAccordionOpen(!isAccordionOpen)}
@@ -116,6 +160,12 @@ export default function LearnerCourseModuleDetailsComponent({
               {learnerModuleStatus === "COMPLETED_COMMITMENT" && (
                 <Badge>Commitment Complete</Badge>
               )}
+              {learnerModuleStatus === "NO_NETWORK_CREDENTIAL" && (
+                <Badge>No Network Credential</Badge>
+              )}
+              {learnerModuleStatus === "NO_ASSIGNMENT" && (
+                <Badge>No Assignment</Badge>
+              )}
             </div>
           </div>
         </AccordionTrigger>
@@ -134,6 +184,12 @@ export default function LearnerCourseModuleDetailsComponent({
                     credential. Nice work!
                   </p>
                 )}
+                {learnerModuleStatus === "CURRENTLY_COMMITTED" && (
+                  <p>
+                    You are currently committed to this Assignment. A Course
+                    Facilitator will approve or deny your Assignment submission.
+                  </p>
+                )}
                 {learnerModuleStatus === "NEVER_COMMITTED" && (
                   <p>
                     You can commit to this assignment on the Andamio Network.
@@ -143,6 +199,19 @@ export default function LearnerCourseModuleDetailsComponent({
                 )}
                 {learnerCourseStatus === "NEVER_ENROLLED" && (
                   <p>Enroll in this course to start earning credentials.</p>
+                )}
+                {learnerModuleStatus === "NO_ASSIGNMENT" && (
+                  <p>
+                    This Module does not have an assignment. It is provided for
+                    informational purposes.
+                  </p>
+                )}
+                {learnerModuleStatus === "NO_NETWORK_CREDENTIAL" && (
+                  <p>
+                    This Module does not include an on-chain credential. To
+                    build your background knowledge, you can still complete the
+                    Assignment.
+                  </p>
                 )}
               </div>
             </div>

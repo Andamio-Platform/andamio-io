@@ -5,9 +5,16 @@ import useCourseByPolicyId from "~/hooks/onchain/useCourseByPolicyId";
 import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
 import classNames from "~/utils/classnames";
 
-export default function CurrentCourseSidebarItem({ lsCs }: { lsCs: string }) {
+export default function CurrentCourseSidebarItem({
+  lsCs,
+  teacher,
+}: {
+  lsCs: string;
+  teacher?: boolean;
+}) {
   const { courseInfo, isLoadingCourseInfo } = useCourseByPolicyId(lsCs);
   const [color, setColor] = useState<string>("background");
+  const [linkUrl, setLinkUrl] = useState<string | undefined>(undefined);
 
   const router = useRouter();
   const { coursecode } = router.query;
@@ -18,18 +25,26 @@ export default function CurrentCourseSidebarItem({ lsCs }: { lsCs: string }) {
     } else {
       setColor("background");
     }
-  }, [coursecode, courseInfo, lsCs]);
+
+    if (!!courseInfo?.courseCode) {
+      if (teacher) {
+        setLinkUrl(`/dashboard/teacher/${courseInfo?.courseCode}`);
+      } else {
+        setLinkUrl(`/dashboard/learner/${courseInfo?.courseCode}`);
+      }
+    }
+  }, [coursecode, courseInfo, lsCs, teacher]);
+
   if (isLoadingCourseInfo) return <LoadingCircle />;
+
+  if (!linkUrl) return null;
 
   return (
     <li
       key={courseInfo?.courseCode}
       className={`flex cursor-pointer bg-${color} rounded-sm p-2`}
     >
-      <Link
-        href={`/dashboard/learner/${courseInfo?.courseCode}`}
-        className="flex flex-row gap-2"
-      >
+      <Link href={linkUrl} className="flex flex-row gap-2">
         <span
           className={classNames(
             router.query.coursecode == courseInfo?.courseCode

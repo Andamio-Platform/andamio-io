@@ -2,46 +2,56 @@ import useCreatorsCoursesPolicies from "~/hooks/onchain/useCreatorsCoursesPolici
 import CommittedAssignments from "./CommittedAssignments";
 import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
 import NetworkModuleManagement from "./NetworkModuleManagement";
-import { useState } from "react";
-import CurrentCourseSidebarItem from "../learner/CurrentCourseSidebarItem";
+import { useState, useEffect } from "react";
+import useCourse from "~/hooks/course/useCourse";
 
 export default function CreatorsSection({
   accessTokenAlias,
+  courseCode,
 }: {
   accessTokenAlias: string;
+  courseCode: string;
 }) {
+  const { course } = useCourse(courseCode);
+  const { creatorCoursePolicies, isLoadingCreatorCoursePolicies } =
+    useCreatorsCoursesPolicies(accessTokenAlias);
+
+  const [isTeacher, setIsTeacher] = useState<boolean>(false);
   const [selectedCoursePolicyId, setSelectedCoursePolicyId] = useState<
     string | undefined
   >(undefined);
 
-  const { creatorCoursePolicies, isLoadingCreatorCoursePolicies } =
-    useCreatorsCoursesPolicies(accessTokenAlias);
+  useEffect(() => {
+    if (!!course) {
+      setSelectedCoursePolicyId(
+        course.onchainInstance[0]?.CourseCreatorNFTPolicyID,
+      );
+    }
+  }, [course]);
+
+  useEffect(() => {
+    if (!!creatorCoursePolicies && !!selectedCoursePolicyId) {
+      if (creatorCoursePolicies.includes(selectedCoursePolicyId)) {
+        setIsTeacher(true);
+      }
+    }
+  }, [creatorCoursePolicies, selectedCoursePolicyId]);
 
   if (isLoadingCreatorCoursePolicies) return <LoadingCircle />;
+
+  if (!isTeacher) return null;
+
   return (
-    <div className="">
-      <div className="grid grid-cols-5 gap-5">
-        <div className="col-span-1 row-span-2 text-xs">
-          <div className="my-5 font-beckman text-xl">Andamio Creator</div>
-          {creatorCoursePolicies?.map((p, i) => (
-            <CurrentCourseSidebarItem lsCs={p} key={i} />
-          ))}
-        </div>
-        {selectedCoursePolicyId ? (
-          <div className="col-span-4 mx-auto w-11/12">
-            <NetworkModuleManagement
-              courseNftPolicyId={selectedCoursePolicyId ?? ""}
-              key={selectedCoursePolicyId ?? 0}
-            />
-            <CommittedAssignments
-              key={selectedCoursePolicyId + "assignments"}
-              courseNftPolicy={selectedCoursePolicyId ?? ""}
-            />
-          </div>
-        ) : (
-          <div>COURSE CREATOR OVERVIEW</div>
-        )}
-      </div>
+    <div className="mx-auto w-11/12">
+      <NetworkModuleManagement
+        courseNftPolicyId={selectedCoursePolicyId ?? ""}
+        key={selectedCoursePolicyId ?? 0}
+      />
+
+      <CommittedAssignments
+        key={selectedCoursePolicyId + "assignments"}
+        courseNftPolicy={selectedCoursePolicyId ?? ""}
+      />
     </div>
   );
 }

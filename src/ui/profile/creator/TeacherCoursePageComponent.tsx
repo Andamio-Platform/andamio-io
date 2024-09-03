@@ -3,13 +3,20 @@ import { useAccessToken } from "~/hooks/onchain/useAccessToken";
 import CreatorsSection from "./CreatorsSection";
 import CreatorConnectWalletCard from "./CreatorConnectWalletCard";
 
-export default function CreatorComponent() {
+export default function TeacherCoursePageComponent({
+  courseCode,
+}: {
+  courseCode: string;
+}) {
   const { connected } = useWallet();
   const { accessTokenAlias } = useAccessToken();
   return (
     <div>
       {connected ? (
-        <CreatorsSection accessTokenAlias={accessTokenAlias ?? ""} />
+        <CreatorsSection
+          accessTokenAlias={accessTokenAlias ?? ""}
+          courseCode={courseCode}
+        />
       ) : (
         <CreatorConnectWalletCard />
       )}

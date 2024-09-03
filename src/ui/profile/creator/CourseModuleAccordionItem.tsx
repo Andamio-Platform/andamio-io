@@ -88,7 +88,7 @@ export default function CourseModuleAccordionItem({
         </div>
         <div className="flex flex-col px-8">
           <Badge
-            className={`my-5 ${isAssignmentOnchain ? "bg-success" : "bg-accent text-black"}`}
+            className={`my-5 ${isAssignmentOnchain ? "bg-success text-green-900" : "bg-accent text-black"}`}
           >
             {isAssignmentOnchain
               ? "Module Credential Criteria is Published on Andamio Network"

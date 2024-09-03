@@ -1,7 +1,6 @@
 import { Button } from "~/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "~/components/ui/dialog";
 import AcceptDenyAssignment from "../course/creator/acceptDenyAssignment/AcceptDenyAssignment";
-import { useState } from "react";
 
 export default function AcceptDenyAssignmentDialog({
   courseNftPolicy,
@@ -14,11 +13,9 @@ export default function AcceptDenyAssignmentDialog({
   studentAlias: string;
   decision: "accept" | "deny";
 }) {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-
   return (
-    <Dialog key={courseNftPolicy + studentAlias} open={isOpen}>
-      <DialogTrigger onClick={() => setIsOpen(true)}>
+    <Dialog key={courseNftPolicy + studentAlias}>
+      <DialogTrigger>
         {decision === "accept" && <Button>Accept Assignment Commitment</Button>}
         {decision === "deny" && <Button>Deny Assignment Commitment</Button>}
       </DialogTrigger>
@@ -59,7 +56,6 @@ export default function AcceptDenyAssignmentDialog({
           userAccessTokenUnit={userAccessTokenUnit}
           studentAlias={studentAlias}
           decision={decision}
-          setIsOpen={setIsOpen}
         />
       </DialogContent>
     </Dialog>

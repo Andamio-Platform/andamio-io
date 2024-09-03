@@ -10,6 +10,7 @@ import useAssignmentNetworkStatus from "~/hooks/onchain/useAssignmentNetworkStat
 import { type CourseModuleOverview } from "~/types/db";
 import { Badge } from "~/components/ui/badge";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function CourseModuleAccordionItem({
   courseCode,
@@ -53,19 +54,21 @@ export default function CourseModuleAccordionItem({
             </p>
           </div>
           {cm.assignments.length > 0 ? (
-            <div className="flex h-full flex-row items-center gap-1">
-              <CheckCircledIcon className="text-success " />
+            <div className="flex h-full flex-row items-center justify-start gap-1 text-left">
               <p>Assignment</p>
+              <CheckCircledIcon
+                className={`${isAccordionOpen ? "text-success" : "text-green-800"}`}
+              />
             </div>
           ) : (
-            <div className="flex h-full flex-row items-center gap-1">
+            <div className="flex h-full flex-row items-center justify-start gap-1 text-left">
               <p>No Assignment</p>
             </div>
           )}
         </div>
       </AccordionTrigger>
-      <AccordionContent className="mb-5 grid grid-cols-1 border-x border-b border-primary px-2 pb-10 pt-2 md:grid-cols-2">
-        <div>
+      <AccordionContent className="mb-5 grid grid-cols-1 border-x border-b border-primary px-2 py-2 md:grid-cols-2">
+        <div className="flex h-full flex-col">
           <h3 className="mb-2 text-lg font-semibold">
             Student Learning Targets (SLTs)
           </h3>
@@ -85,6 +88,16 @@ export default function CourseModuleAccordionItem({
               <p>{cm.assignments[0]?.title}</p>
             </>
           )}
+          <div className="mt-5 flex flex-col items-center gap-5 md:flex-row">
+            <Link href={`/studio/${cm.originalCourse.courseCode}`}>
+              <Button>Edit in Course Studio</Button>
+            </Link>
+            <Link
+              href={`/course/${cm.originalCourse.courseCode}/${cm.moduleCode}`}
+            >
+              <Button>View Published Module</Button>
+            </Link>
+          </div>
         </div>
         <div className="flex flex-col px-8">
           <Badge

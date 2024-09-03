@@ -1,5 +1,5 @@
 import { useWallet } from "@meshsdk/react";
-import { useState } from "react";
+import { type Dispatch, type SetStateAction, useState } from "react";
 import Loading from "~/components/loading";
 import { Button } from "~/components/ui/button";
 import { useToast } from "~/components/ui/use-toast";
@@ -10,10 +10,12 @@ export default function MintCourseModule({
   accessTokenAssetId,
   courseNftPolicyId,
   courseModuleOverview,
+  setSuccessTxHash,
 }: {
   accessTokenAssetId: string;
   courseNftPolicyId: string;
   courseModuleOverview: CourseModuleOverview;
+  setSuccessTxHash: Dispatch<SetStateAction<string | undefined>>;
 }) {
   const { toast } = useToast();
 
@@ -57,6 +59,7 @@ export default function MintCourseModule({
           title: "Transaction submitted",
           description: `${txId}`,
         });
+        setSuccessTxHash(txId);
       }
 
       setIsLoading(false);

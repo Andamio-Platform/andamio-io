@@ -1,23 +1,20 @@
 import { useAddress, useWallet } from "@meshsdk/react";
-import { useState, type Dispatch, type SetStateAction } from "react";
+import { useState } from "react";
 import { useToast } from "~/components/ui/use-toast";
 import Loading from "~/components/loading";
 import { Button } from "~/components/ui/button";
 import { api } from "~/utils/api";
-import SuccessfulTxDialog from "~/components/transactions/dialogs/SuccessfulTxDialog";
 
 export default function AcceptDenyAssignment({
   courseNftPolicy,
   userAccessTokenUnit,
   studentAlias,
   decision,
-  setIsOpen,
 }: {
   courseNftPolicy: string;
   userAccessTokenUnit: string;
   studentAlias: string;
   decision: "accept" | "deny";
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) {
   const { toast } = useToast();
 
@@ -58,7 +55,6 @@ export default function AcceptDenyAssignment({
           description: `${txId}`,
         });
         setTxHash(txId);
-        setIsOpen(false);
       }
     }
   }
@@ -73,7 +69,6 @@ export default function AcceptDenyAssignment({
           {txError && "Tx Error"}
         </>
       )}
-      {!!txHash && <SuccessfulTxDialog successTxHash={txHash ?? ""} />}
     </div>
   );
 }

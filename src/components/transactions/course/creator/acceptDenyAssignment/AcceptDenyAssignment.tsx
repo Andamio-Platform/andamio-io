@@ -1,38 +1,46 @@
 import { useAddress, useWallet } from "@meshsdk/react";
-import { useState } from "react";
+import { useState, type Dispatch, type SetStateAction } from "react";
 import { useToast } from "~/components/ui/use-toast";
 import Loading from "~/components/loading";
 import { Button } from "~/components/ui/button";
 import { api } from "~/utils/api";
+import SuccessfulTxDialog from "~/components/transactions/dialogs/SuccessfulTxDialog";
 
 export default function AcceptDenyAssignment({
   courseNftPolicy,
   userAccessTokenUnit,
   studentAlias,
-  decision
+  decision,
+  setIsOpen,
 }: {
-  courseNftPolicy: string
+  courseNftPolicy: string;
   userAccessTokenUnit: string;
   studentAlias: string;
   decision: "accept" | "deny";
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) {
   const { toast } = useToast();
 
   const { wallet } = useWallet();
   const address = useAddress();
   const [isLoading, setIsLoading] = useState(false);
+  const [txHash, setTxHash] = useState<string | undefined>(undefined);
 
-  const { data: unsignedTxCBOR } = decision === "accept" ?
-    api.creatorCourseTransactions.acceptAssignment.useQuery({
-      userAccessTokenUnit: userAccessTokenUnit,
-      courseNftPolicyId: courseNftPolicy,
-      studentAlias: studentAlias 
-    }) :
-    api.creatorCourseTransactions.denyAssignment.useQuery({
-      userAccessTokenUnit: userAccessTokenUnit,
-      courseNftPolicyId: courseNftPolicy,
-      studentAlias: studentAlias 
-    })
+  const {
+    data: unsignedTxCBOR,
+    isError: txError,
+    isLoading: txLoading,
+  } = decision === "accept"
+    ? api.creatorCourseTransactions.acceptAssignment.useQuery({
+        userAccessTokenUnit: userAccessTokenUnit,
+        courseNftPolicyId: courseNftPolicy,
+        studentAlias: studentAlias,
+      })
+    : api.creatorCourseTransactions.denyAssignment.useQuery({
+        userAccessTokenUnit: userAccessTokenUnit,
+        courseNftPolicyId: courseNftPolicy,
+        studentAlias: studentAlias,
+      });
 
   async function onSubmit() {
     setIsLoading(true);
@@ -49,20 +57,23 @@ export default function AcceptDenyAssignment({
           title: "Transaction submitted",
           description: `${txId}`,
         });
+        setTxHash(txId);
+        setIsOpen(false);
       }
     }
   }
 
   return (
     <div className="mx-4 flex items-center justify-center rounded-md border px-4 py-3 font-mono text-sm">
-      {unsignedTxCBOR || isLoading ? (
+      {unsignedTxCBOR ? (
         <Button onClick={onSubmit}>{decision} assignment</Button>
       ) : (
         <>
-          {/* {isConfirming && <p>Confirming transaction...</p>} */}
-          <Loading />
+          {txLoading || (isLoading && <Loading />)}
+          {txError && "Tx Error"}
         </>
       )}
+      {!!txHash && <SuccessfulTxDialog successTxHash={txHash ?? ""} />}
     </div>
   );
 }

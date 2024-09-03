@@ -9,8 +9,8 @@ import {
 } from "~/components/ui/table";
 import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
 import useCourseByPolicyId from "~/hooks/onchain/useCourseByPolicyId";
-import AcceptDenyAssignment from "~/components/transactions/course/creator/acceptDenyAssignment/AcceptDenyAssignment";
 import { useAccessToken } from "~/hooks/onchain/useAccessToken";
+import AcceptDenyAssignmentDialog from "~/components/transactions/dialogs/AcceptDenyAssignmentDialog";
 
 export default function CommittedAssignments({
   courseNftPolicy,
@@ -58,7 +58,7 @@ export default function CommittedAssignments({
                 <TableCell>{assignment.StudentAssignmentInfo}</TableCell>
                 <TableCell>
                   {assignment.StudentAssignmentInfo ? (
-                    <AcceptDenyAssignment
+                    <AcceptDenyAssignmentDialog
                       key={i}
                       courseNftPolicy={courseNftPolicy}
                       userAccessTokenUnit={accessTokenAsset!.unit}
@@ -71,7 +71,7 @@ export default function CommittedAssignments({
                 </TableCell>
                 <TableCell>
                   {assignment.StudentAssignmentInfo ? (
-                    <AcceptDenyAssignment
+                    <AcceptDenyAssignmentDialog
                       key={i}
                       courseNftPolicy={courseNftPolicy}
                       userAccessTokenUnit={accessTokenAsset!.unit}

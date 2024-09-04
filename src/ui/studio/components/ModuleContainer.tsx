@@ -237,7 +237,7 @@ export default function ModuleContainer({
                       module={currentModule}
                       courseCode={course?.courseCode ?? ""}
                       key={sI.slt.id}
-                      published={isAssignmentOnchain ?? true}
+                      published={isAssignmentOnchain ?? false}
                     />
                   ))}
                 </SortableContext>

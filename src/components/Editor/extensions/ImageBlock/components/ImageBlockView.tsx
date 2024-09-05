@@ -37,7 +37,7 @@ export const ImageBlockView = (props: ImageBlockViewProps) => {
           <Image
             width={600}
             height={600}
-            className="block"
+            className="block rounded-sm shadow-lg"
             src={src}
             alt=""
             onClick={onClick}

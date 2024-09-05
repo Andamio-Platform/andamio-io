@@ -3,6 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 
+import { type Editor } from "@tiptap/react";
 import { v4 as uuid } from "uuid";
 import {
   type DragEvent,
@@ -140,4 +141,97 @@ export const useDropZone = ({
   };
 
   return { isDragging, draggedInside, onDragEnter, onDragLeave, onDrop };
+};
+
+export const usePaste = ({ editor }: { editor: Editor }) => {
+  const onUpload = useCallback(
+    (url: string) => {
+      if (url) {
+        editor
+          .chain()
+          .setImageBlock({ src: url })
+          // .deleteRange({ from: getPos(), to: getPos() })
+          .focus()
+          .run();
+      }
+    },
+    [editor],
+  );
+
+  const { uploadFile, loading: isLoadingPastedImage } = useUploader({
+    onUpload,
+  });
+
+  const onPaste = useCallback(
+    async (event: ClipboardEvent) => {
+      const items = event.clipboardData?.items;
+      if (!items) return;
+
+      for (const item of items) {
+        if (item.type.startsWith("application/octet-stream")) {
+          const blob = item.getAsFile();
+          if (blob) {
+            const buffer = await blob.arrayBuffer();
+            const imageType = await getImageType(buffer);
+            if (imageType) {
+              const imageFile = new File(
+                [buffer],
+                `pasted-image.${imageType}`,
+                {
+                  type: `image/${imageType}`,
+                },
+              );
+              void uploadFile(imageFile);
+            }
+          }
+        } else if (item.type.startsWith("image")) {
+          const file = item.getAsFile();
+          if (file) {
+            void uploadFile(file);
+          }
+        }
+      }
+    },
+    [uploadFile],
+  );
+
+  return { onPaste, isLoadingPastedImage };
+};
+
+// Helper function to determine the image type
+const getImageType = async (buffer: ArrayBuffer) => {
+  const byteArray = new Uint8Array(buffer);
+
+  if (
+    byteArray[0] === 0xff &&
+    byteArray[1] === 0xd8 &&
+    byteArray[byteArray.length - 2] === 0xff &&
+    byteArray[byteArray.length - 1] === 0xd9
+  ) {
+    return "jpeg";
+  } else if (
+    byteArray[0] === 0x89 &&
+    byteArray[1] === 0x50 &&
+    byteArray[2] === 0x4e &&
+    byteArray[3] === 0x47
+  ) {
+    return "png";
+  } else if (
+    byteArray[0] === 0x47 &&
+    byteArray[1] === 0x49 &&
+    byteArray[2] === 0x46
+  ) {
+    return "gif";
+  } else if (byteArray[0] === 0x42 && byteArray[1] === 0x4d) {
+    return "bmp";
+  } else if (
+    byteArray[0] === 0x52 &&
+    byteArray[1] === 0x49 &&
+    byteArray[2] === 0x46 &&
+    byteArray[3] === 0x46
+  ) {
+    return "webp";
+  }
+
+  return null; // Unknown image type
 };

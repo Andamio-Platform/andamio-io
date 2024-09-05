@@ -36,7 +36,7 @@ function Desktop({
 }) {
   const { data: sessionData } = useSession();
   return (
-    <div className="flex w-full items-center p-2">
+    <div className="z-20 flex w-full items-center p-2">
       <div className="flex w-full items-center justify-between">
         <div>
           <Link href="/">

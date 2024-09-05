@@ -3,7 +3,7 @@ import { Button } from "~/components/ui/button";
 
 export function LearnerHero() {
   return (
-    <div className="flex h-[80vh] w-screen flex-col items-center justify-center">
+    <div className="relative z-20 flex h-[80vh] w-screen flex-col items-center justify-center">
       <h1 className="scroll-m-20 text-center text-9xl font-extrabold text-black">
         Learn to Work
       </h1>

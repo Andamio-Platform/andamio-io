@@ -5,7 +5,7 @@ export function WhyAndamio() {
   return (
     <div
       id="why-andamio"
-      className="flex h-screen w-screen flex-col items-center justify-center"
+      className="z-20 flex h-screen w-screen flex-col items-center justify-center"
     >
       <div className="flex flex-row">
         <h1 className="mt-7 scroll-m-20 text-8xl font-semibold text-black">

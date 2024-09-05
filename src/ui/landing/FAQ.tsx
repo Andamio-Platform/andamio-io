@@ -1,6 +1,6 @@
 export function FAQ() {
   return (
-    <div className="flex h-screen w-screen flex-col items-start justify-center px-40">
+    <div className="z-20 flex h-screen w-screen flex-col items-start justify-center px-40">
       <h1 className="scroll-m-20 text-7xl font-bold text-black">FAQ</h1>
       <ul className="mt-20 space-y-2 text-2xl text-black">
         <li className="font-bold">

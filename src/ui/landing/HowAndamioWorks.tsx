@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export function HowAndamioWorks() {
   return (
-    <div className="flex h-screen w-screen flex-col items-center justify-center">
+    <div className="z-20 flex h-screen w-screen flex-col items-center justify-center">
       <div className="flex flex-row">
         <h1 className="mt-7 scroll-m-20 text-8xl font-semibold text-black">
           How&nbsp;

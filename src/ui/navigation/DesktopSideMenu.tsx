@@ -12,6 +12,7 @@ import useCourse from "~/hooks/course/useCourse";
 import LearnerDashboardMenu from "./menu-sections/LearnerDashboardMenu";
 import AndamioRoleStatusMenu from "./menu-sections/AndamioRoleStatusMenu";
 import TeacherDashboardMenu from "./menu-sections/TeacherDashboardMenu";
+import { BrowseCoursesSideMenu } from "./link-items/BrowseCoursesSideMenu";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -21,7 +22,7 @@ export default function DesktopSideMenu({
   ownerCourses,
   currentCourseCode,
 }: {
-  ownerCourses: Course[];
+  ownerCourses?: Course[];
   currentCourseCode: string | undefined;
 }) {
   const { data: sessionData } = useSession();
@@ -61,7 +62,8 @@ export default function DesktopSideMenu({
             <li className="mb-7">
               <ul role="list" className="space-y-1 px-3">
                 <DashboardLinkItem current={isDashboardRoute} />
-                <CourseStudioLinkItem current={isStudioRoute} />
+                {isCreator && <CourseStudioLinkItem current={isStudioRoute} />}
+                <BrowseCoursesSideMenu current={false} />
               </ul>
             </li>
             {isStudioRoute && (
@@ -103,6 +105,7 @@ export default function DesktopSideMenu({
             {isDashboardRoute && <AndamioRoleStatusMenu />}
             {isDashboardLearnerRoute && <LearnerDashboardMenu />}
             {isDashboardTeacherRoute && <TeacherDashboardMenu />}
+
             {isCourseRoute && !!currentCourseCode && (
               <li>
                 <ul role="list" className="space-y-1 px-2">
@@ -131,7 +134,7 @@ export default function DesktopSideMenu({
                 />
               </li>
             )}
-            {sessionData && <SideMenuSessionProfile />}
+            <SideMenuSessionProfile />
           </ul>
         </nav>
       </div>

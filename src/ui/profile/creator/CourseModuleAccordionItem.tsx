@@ -67,8 +67,8 @@ export default function CourseModuleAccordionItem({
           )}
         </div>
       </AccordionTrigger>
-      <AccordionContent className="mb-5 grid grid-cols-1 border-x border-b border-primary px-2 py-2 md:grid-cols-2">
-        <div className="flex h-full flex-col">
+      <AccordionContent className="mb-5 grid grid-cols-1 border-x border-b border-primary px-2 py-2 md:grid-cols-3">
+        <div className="col-span-2 flex h-full flex-col">
           <h3 className="mb-2 text-lg font-semibold">
             Student Learning Targets (SLTs)
           </h3>
@@ -101,7 +101,7 @@ export default function CourseModuleAccordionItem({
         </div>
         <div className="flex flex-col px-8">
           <Badge
-            className={`my-5 ${isAssignmentOnchain ? "bg-success text-green-900" : "bg-accent text-black"}`}
+            className={`my-3 ${isAssignmentOnchain ? "bg-success-foreground text-success" : "bg-accent text-black"}`}
           >
             {isAssignmentOnchain
               ? "Module Credential Criteria is Published on Andamio Network"

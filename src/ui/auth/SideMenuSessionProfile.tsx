@@ -7,7 +7,15 @@ export default function SideMenuSessionProfile() {
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
 
   if (!sessionData) {
-    return null;
+    return (
+      <li className="m-5 mt-auto">
+        <Link href={`/auth/signin`}>
+          <span className="text-sm font-semibold leading-6 text-foreground">
+            Log in <span aria-hidden="true">&rarr;</span>
+          </span>
+        </Link>
+      </li>
+    );
   }
 
   return (

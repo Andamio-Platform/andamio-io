@@ -61,7 +61,7 @@ export default function MintCourseEnrollmentDialog({
     <>
       {isEnrolled ? (
         <Link href={`/course/${course.courseCode}`}>
-          <Button className="bg-success text-green-900 hover:bg-green-400">
+          <Button className="bg-success text-success-foreground hover:bg-green-400">
             Currently Enrolled
           </Button>
         </Link>

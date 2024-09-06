@@ -8,14 +8,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import LoadingContentEditor from "~/ui/studio/components/ContentEditor/ui/LoadingContentEditor";
 import { Form } from "~/components/ui/form";
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from "~/components/ui/resizable";
 
 import HeaderSection from "../../components/HeaderSection";
-import RightSection from "../../components/RightSection";
 import { DialogGetLessonPlan } from "../../components/coach/DialogGetLessonPlan";
 import { useCourseStore } from "~/lib/zustand/course";
 import useLessonEditor from "~/ui/studio/hooks/useLessonEditor";
@@ -278,7 +272,7 @@ export default function PageCourseLessonContent({
     return (
       <>
         <Metatags title={lesson.title ?? undefined} />
-        <div className="flex w-full flex-col">
+        <div className="ml-80 flex flex-col">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <HeaderSection
@@ -297,20 +291,7 @@ export default function PageCourseLessonContent({
               />
 
               <div className="flex w-full bg-card">
-                <ResizablePanelGroup direction="horizontal" className="gap-2">
-                  <ResizablePanel defaultSize={80}>
-                    {!!editor && <ContentEditor editor={editor} />}
-                  </ResizablePanel>
-                  <ResizableHandle />
-                  <ResizablePanel defaultSize={20}>
-                    <RightSection
-                      form={form}
-                      course={course}
-                      courseModule={courseModule}
-                      slt={slt}
-                    />
-                  </ResizablePanel>
-                </ResizablePanelGroup>
+                {!!editor && <ContentEditor editor={editor} />}
               </div>
             </form>
           </Form>

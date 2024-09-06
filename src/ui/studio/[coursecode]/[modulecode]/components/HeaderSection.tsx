@@ -62,7 +62,7 @@ export default function HeaderSection({
   return (
     <div className="flex flex-col">
       <div className="flex min-h-[40px] flex-row items-center justify-between bg-card p-5">
-        <div className="flex items-center">
+        <div className="flex items-center gap-5">
           <ToggleEditableField
             name="title"
             form={form}
@@ -81,6 +81,16 @@ export default function HeaderSection({
             moduleIndex={slt.moduleIndex}
             sltText={slt.sltText}
           />
+        )}
+        {intent === "assignment" && (
+          <h2 className="text-xl font-semibold">
+            Assignment for Module {courseModule.moduleCode}
+          </h2>
+        )}
+        {intent === "introduction" && (
+          <h2 className="text-xl font-semibold">
+            Introduction for Module {courseModule.moduleCode}
+          </h2>
         )}
       </div>
       <div className="flex flex-row items-center justify-between bg-primary text-primary-foreground">

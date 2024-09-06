@@ -1,6 +1,7 @@
 import { type NextPageContext } from "next";
 import useCoursesByOwner from "~/hooks/course/useCoursesByOwner";
 import useModuleByCourse from "~/hooks/course/useModuleByCourse";
+import SideMenu from "~/ui/navigation/SideMenu";
 import PageModuleIntroContent from "~/ui/studio/[coursecode]/[modulecode]/intro/PageModuleIntroContent";
 import LoadingContentEditor from "~/ui/studio/components/ContentEditor/ui/LoadingContentEditor";
 
@@ -34,7 +35,10 @@ const IntroductionStudioPage = ({
       ) : !courseModule ? (
         <ModuleNotFoundMessage />
       ) : (
-        <PageModuleIntroContent course={course} courseModule={courseModule} />
+        <>
+          <SideMenu />
+          <PageModuleIntroContent course={course} courseModule={courseModule} />
+        </>
       )}
     </>
   );

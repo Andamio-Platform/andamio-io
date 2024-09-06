@@ -12,7 +12,9 @@ import useCourse from "~/hooks/course/useCourse";
 import LearnerDashboardMenu from "./menu-sections/LearnerDashboardMenu";
 import AndamioRoleStatusMenu from "./menu-sections/AndamioRoleStatusMenu";
 import TeacherDashboardMenu from "./menu-sections/TeacherDashboardMenu";
+import CreatorCourseListMenu from "./menu-sections/CreatorCourseListMenu";
 import { BrowseCoursesSideMenu } from "./link-items/BrowseCoursesSideMenu";
+import StudioOutline from "../studio/components/layout/SideMenu/StudioOutline";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -35,6 +37,12 @@ export default function DesktopSideMenu({
   const isStudioRoute = router.asPath.includes("studio");
   const isCourseRoute = router.asPath.includes("course");
 
+  const { coursecode, modulecode } = router.query;
+  const isCourseCode = typeof coursecode === "string";
+  const isModuleCode = typeof modulecode === "string";
+
+  const isStudioContentRoute = isStudioRoute && isCourseCode && isModuleCode;
+
   const { course } = useCourse(currentCourseCode);
 
   const { isCreator } = useValidateCreator(
@@ -43,7 +51,7 @@ export default function DesktopSideMenu({
   );
 
   return (
-    <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-80 lg:flex-col">
+    <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-80 lg:flex-col">
       {/* Sidebar component, swap this element with another sidebar if you like */}
       <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-foreground bg-background">
         <div className="mb-5 mt-10 flex items-center justify-center">
@@ -66,40 +74,20 @@ export default function DesktopSideMenu({
                 <BrowseCoursesSideMenu current={false} />
               </ul>
             </li>
-            {isStudioRoute && (
+            {isStudioRoute && ownerCourses && !isStudioContentRoute && (
+              <CreatorCourseListMenu ownerCourses={ownerCourses} />
+            )}
+            {isStudioContentRoute && course && (
               <>
-                <div className="bg-primary text-primary-foreground">
-                  <h2 className="p-2 font-semibold">Your courses</h2>
+                <div className=" p-2">
+                  <p className="font-beckman text-sm">you are editing:</p>
+                  <h2 className="text-xl font-semibold">{course.title}</h2>
                 </div>
-                <li className="px-3 py-2">
-                  <ul role="list" className="">
-                    {ownerCourses?.map((course) => (
-                      <li key={course?.courseCode}>
-                        <Link
-                          href={`/studio/${course?.courseCode}`}
-                          className={classNames(
-                            router.query.coursecode == course?.courseCode
-                              ? "bg-accent text-accent-foreground"
-                              : "text-foreground hover:bg-accent hover:text-accent-foreground",
-                            "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
-                          )}
-                        >
-                          <span
-                            className={classNames(
-                              router.query.coursecode == course?.courseCode
-                                ? "border-primary bg-accent text-accent-foreground"
-                                : "border-accent-foreground text-accent-foreground group-hover:border-primary group-hover:text-accent-foreground",
-                              "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border bg-secondary text-[0.625rem] font-medium",
-                            )}
-                          >
-                            {course?.title.substring(0, 1)}
-                          </span>
-                          <span className="truncate">{course?.title}</span>
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </li>
+                <p className="mt-3 px-2">Course Outline:</p>
+                <StudioOutline
+                  currentCourseCode={coursecode}
+                  isCreator={true}
+                />
               </>
             )}
             {isDashboardRoute && <AndamioRoleStatusMenu />}

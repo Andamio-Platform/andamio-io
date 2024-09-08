@@ -44,6 +44,10 @@ const buttonVariants = cva(
         labeledIcon:
           "flex min-w-[90px] items-center justify-center justify-between px-3 py-1",
         dialog: "h-[30px] rounded-sm w-[150px] text-xs",
+        heroWhite:
+          "w-[200px] md:w-[350px] border-2 border-solid border-black bg-white py-2 lg:py-6 text-lg lg:text-2xl font-extrabold text-black",
+        heroBlack:
+          "w-[200px] md:w-[350px] bg-black py-2 lg:py-6 text-lg lg:text-2xl font-extrabold text-white",
       },
     },
     defaultVariants: {

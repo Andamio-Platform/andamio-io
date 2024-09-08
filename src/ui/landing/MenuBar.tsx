@@ -19,7 +19,7 @@ export default function MenuBar({}: {}) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="flex w-full">
+    <header className="flex w-full flex-col md:flex-row">
       <Desktop setMobileMenuOpen={setMobileMenuOpen} />
       <Mobile
         mobileMenuOpen={mobileMenuOpen}
@@ -36,7 +36,7 @@ function Desktop({
 }) {
   const { data: sessionData } = useSession();
   return (
-    <div className="z-20 flex w-full items-center p-2">
+    <div className="z-20 hidden w-full items-center p-2 lg:flex">
       <div className="flex w-full items-center justify-between">
         <div>
           <Link href="/">
@@ -114,10 +114,10 @@ function Mobile({
       onClose={setMobileMenuOpen}
     >
       <div className="fixed inset-0 z-50" />
-      <Dialog.Panel className="sm:ring-forground fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-background px-6 py-6 sm:max-w-sm sm:ring-1">
+      <Dialog.Panel className="sm:ring-forground fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-background sm:max-w-sm sm:ring-1">
         <div className="flex items-center justify-between">
           <span className="-m-1.5 p-1.5">
-            <span className="sr-only">Your Company</span>
+            <span className="sr-only">Andamio</span>
             <Image
               width={40}
               height={40}

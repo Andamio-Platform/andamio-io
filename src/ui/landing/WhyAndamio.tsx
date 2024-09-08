@@ -5,25 +5,25 @@ export function WhyAndamio() {
   return (
     <div
       id="why-andamio"
-      className="z-20 flex h-screen w-screen flex-col items-center justify-center"
+      className="z-20 flex min-h-screen w-screen flex-col items-center justify-center"
     >
-      <div className="flex flex-row">
-        <h1 className="mt-7 scroll-m-20 text-8xl font-semibold text-black">
+      <div className="mx-auto flex w-full flex-row items-center justify-center">
+        <h1 className="my-12 scroll-m-20 text-4xl font-semibold text-black md:mb-0 md:mt-7 md:text-8xl">
           Why&nbsp;
         </h1>
         <Image
           width={600}
           height={600}
-          className="h-40 w-auto"
+          className="h-10 w-auto md:h-40"
           src="/andamio-logo-w-typography.jpg"
           alt="Andamio"
         />
-        <h1 className="mt-7 scroll-m-20 text-8xl font-semibold text-black">
+        <h1 className="scroll-m-20 text-4xl font-semibold text-black md:mt-7 md:text-8xl">
           ?
         </h1>
       </div>
-      <div className="flex h-4/6 w-screen flex-row text-xl text-black">
-        <div className="flex h-full w-1/2 flex-col items-center justify-center p-52">
+      <div className="min-h-4/6 flex w-screen flex-col gap-10 text-black md:flex-row md:gap-0 md:text-xl">
+        <div className="flex h-full w-full flex-col items-center justify-center p-2 md:w-1/2 md:p-12 lg:p-52">
           Are you tired of spending time and money on inefficient hiring and
           recruitment tools and never finding the right talent for your
           organization?
@@ -48,16 +48,8 @@ export function WhyAndamio() {
           When you use Andamio you create opportunities for talented
           contributors to earn the skills they need to help you solve your
           problems.
-          <div className="mt-10 flex space-x-4">
-            <Button className="bg-black px-10 py-4 text-xl font-bold text-white">
-              GET IN TOUCH
-            </Button>
-            <Button className=" border-2 border-solid border-black bg-white px-10 py-4 text-xl font-bold text-black">
-              HOW IT WORKS
-            </Button>
-          </div>
         </div>
-        <div className="flex h-full w-1/2 flex-col items-center justify-center p-52">
+        <div className="flex w-full flex-col items-center justify-center p-2 md:h-full md:w-1/2 md:p-12 lg:p-52">
           Are you tired of spending time and money on courses and certificates
           that never lead to real work opportunities?
           <div className="my-4 flex flex-row items-center justify-end">
@@ -81,12 +73,12 @@ export function WhyAndamio() {
           </div>
           With Andamio, you earn sills and create credentials that open the door
           to actual work opportunities.
-          <div className="mt-10 flex space-x-4">
-            <Button className="border-2 border-solid border-black bg-white  px-10 py-4 text-xl font-bold text-black">
-              GET STARTED
-            </Button>
-          </div>
         </div>
+      </div>
+      <div className="mt-10 flex flex-col gap-4 md:mt-0 md:flex-row">
+        <Button size="heroBlack">GET IN TOUCH</Button>
+        <Button size="heroWhite">HOW IT WORKS</Button>
+        <Button size="heroWhite">GET STARTED</Button>
       </div>
     </div>
   );

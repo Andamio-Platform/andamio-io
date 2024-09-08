@@ -7,6 +7,8 @@ import { HowAndamioWorks } from "./HowAndamioWorks";
 import { WhyAndamio } from "./WhyAndamio";
 import { useState } from "react";
 import BackgroundVideo from "~/components/media/BackgroundVideo";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function SB7PageLanding() {
   const [role, setRole] = useState<"learner" | "organization">("learner");
@@ -15,8 +17,15 @@ export default function SB7PageLanding() {
       <MenuBar />
       <div className="flex w-full flex-col">
         <BackgroundVideo />
-        {role === "learner" ? <LearnerHero /> : <OrganizationHero />}
-        <div className="z-20 mx-auto flex w-full flex-row items-center gap-5 md:mt-24 md:w-[200px]">
+        <div className="mx-auto my-10 flex w-full items-center justify-center md:hidden">
+          <Image
+            src="/andamio-logo-w-typography.jpg"
+            width={200}
+            height={200}
+            alt="andamio"
+          />
+        </div>
+        <div className="z-20 mx-auto mt-12 flex w-full flex-row items-center justify-center gap-5 md:w-[200px]">
           <Button
             onClick={() => setRole("learner")}
             className={`cursor-pointer border-2 border-solid border-black text-foreground ${role === "learner" ? "bg-secondary" : "bg-white"}`}
@@ -32,10 +41,16 @@ export default function SB7PageLanding() {
             <span className="font-beckman font-semibold">ORGANIZATION</span>
           </Button>
         </div>
+        {role === "learner" ? <LearnerHero /> : <OrganizationHero />}
       </div>
       <WhyAndamio />
       <HowAndamioWorks />
       <FAQ />
+      <div className="mb-10 flex items-center justify-center md:hidden">
+        <Link href="/roadmap">
+          <Button size="heroBlack">Roadmap</Button>
+        </Link>
+      </div>
     </div>
   );
 }

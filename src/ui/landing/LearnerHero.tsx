@@ -3,24 +3,20 @@ import { Button } from "~/components/ui/button";
 
 export function LearnerHero() {
   return (
-    <div className="relative z-20 flex h-[80vh] w-screen flex-col items-center justify-center">
-      <h1 className="scroll-m-20 text-center text-9xl font-extrabold text-black">
+    <div className="relative z-20 flex h-[70vh] w-screen flex-col items-center justify-center md:h-[80vh]">
+      <h1 className="scroll-m-20 text-center text-6xl font-extrabold text-black md:text-4xl lg:text-9xl">
         Learn to Work
       </h1>
-      <h3 className="m-20 scroll-m-20 text-center text-2xl text-black">
+      <h3 className="mx-5 my-10 scroll-m-20 text-center text-lg text-black md:m-20 lg:text-2xl">
         Like you, we are frustrated with outdated systems that prevent us from
         solving important problems and doing meaningful work.
       </h3>
-      <div className="flex space-x-4">
+      <div className="flex flex-col gap-4 md:flex-row">
         <Link href="/get-started">
-          <Button className="w-[350px] bg-black py-6 text-2xl font-extrabold text-white">
-            GET STARTED
-          </Button>
+          <Button size="heroBlack">GET STARTED</Button>
         </Link>
         <Link href="/courses">
-          <Button className="w-[350px] border-2 border-solid border-black bg-white py-6 text-2xl font-extrabold text-black">
-            EXPLORE COURSES
-          </Button>
+          <Button size="heroWhite">EXPLORE COURSES</Button>
         </Link>
       </div>
     </div>

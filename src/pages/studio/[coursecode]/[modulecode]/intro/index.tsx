@@ -1,4 +1,5 @@
 import { type NextPageContext } from "next";
+import DesktopOnlyLayout from "~/components/DesktopOnlyLayout";
 import useCoursesByOwner from "~/hooks/course/useCoursesByOwner";
 import useModuleByCourse from "~/hooks/course/useModuleByCourse";
 import SideMenu from "~/ui/navigation/SideMenu";
@@ -29,7 +30,7 @@ const IntroductionStudioPage = ({
   }
 
   return (
-    <>
+    <DesktopOnlyLayout>
       {!course ? (
         <CourseNotFoundMessage />
       ) : !courseModule ? (
@@ -40,7 +41,7 @@ const IntroductionStudioPage = ({
           <PageModuleIntroContent course={course} courseModule={courseModule} />
         </>
       )}
-    </>
+    </DesktopOnlyLayout>
   );
 };
 

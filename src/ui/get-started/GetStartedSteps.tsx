@@ -64,7 +64,7 @@ export default function GetStartedSteps() {
                 <>
                   <h2 className="my-5 text-2xl font-semibold">Success!</h2>
                   <div className="mt-5 flex w-full flex-row items-center gap-10 px-5">
-                    <CheckCircledIcon className="h-[50px] w-[50px] rounded-full bg-success" />
+                    <CheckCircledIcon className="h-[50px] w-[50px] rounded-full bg-success-foreground" />
                     <p className="prose text-left text-lg leading-8">
                       You are currently logged in with Discord account:{" "}
                       {sessionData.user.name}
@@ -93,7 +93,7 @@ export default function GetStartedSteps() {
                   <>
                     <h2 className="my-5 text-2xl font-semibold">Success!</h2>
                     <div className="mt-5 flex w-full flex-row items-center gap-10 px-5">
-                      <CheckCircledIcon className="h-[50px] w-[50px] rounded-full bg-success" />
+                      <CheckCircledIcon className="h-[50px] w-[50px] rounded-full bg-success-foreground" />
                       <p className="prose text-left text-lg leading-8">
                         Welcome! You now have Learner access to Andamio.
                       </p>
@@ -159,7 +159,10 @@ export default function GetStartedSteps() {
             </CardContent>
           </Card>
 
-          <Card size="md" className="border-none bg-success shadow-xl">
+          <Card
+            size="md"
+            className="border-none bg-success-foreground shadow-xl"
+          >
             <CardHeader>
               <h2 className="text-center text-2xl font-bold">Next Steps</h2>
             </CardHeader>

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Button } from "~/components/ui/button";
 
 export function WhyAndamio() {
@@ -7,8 +8,8 @@ export function WhyAndamio() {
       id="why-andamio"
       className="z-20 flex min-h-screen w-screen flex-col items-center justify-center"
     >
-      <div className="mx-auto flex w-full flex-row items-center justify-center">
-        <h1 className="my-12 scroll-m-20 text-4xl font-semibold text-black md:mb-0 md:mt-7 md:text-8xl">
+      <div className="mx-auto mb-10 flex w-full flex-row items-center justify-center">
+        <h1 className="scroll-m-20 text-4xl font-semibold text-black md:text-8xl">
           Why&nbsp;
         </h1>
         <Image
@@ -18,11 +19,11 @@ export function WhyAndamio() {
           src="/andamio-logo-w-typography.jpg"
           alt="Andamio"
         />
-        <h1 className="scroll-m-20 text-4xl font-semibold text-black md:mt-7 md:text-8xl">
+        <h1 className="scroll-m-20 text-4xl font-semibold text-black md:text-8xl">
           ?
         </h1>
       </div>
-      <div className="min-h-4/6 flex w-screen flex-col gap-10 text-black md:flex-row md:gap-0 md:text-xl">
+      <div className="mx-auto flex w-11/12 flex-col gap-10 text-black md:flex-row md:gap-0 md:text-xl">
         <div className="flex h-full w-full flex-col items-center justify-center p-2 md:w-1/2 md:p-12 lg:p-52">
           Are you tired of spending time and money on inefficient hiring and
           recruitment tools and never finding the right talent for your
@@ -76,9 +77,15 @@ export function WhyAndamio() {
         </div>
       </div>
       <div className="mt-10 flex flex-col gap-4 md:mt-0 md:flex-row">
-        <Button size="heroBlack">GET IN TOUCH</Button>
-        <Button size="heroWhite">HOW IT WORKS</Button>
-        <Button size="heroWhite">GET STARTED</Button>
+        <Link href="/contact">
+          <Button size="heroBlack">GET IN TOUCH</Button>
+        </Link>
+        <Link href="/#how-andamio-works">
+          <Button size="heroWhite">HOW IT WORKS</Button>
+        </Link>
+        <Link href="/get-started">
+          <Button size="heroWhite">GET STARTED</Button>
+        </Link>
       </div>
     </div>
   );

@@ -1,3 +1,9 @@
+import DesktopOnlyLayout from "~/components/DesktopOnlyLayout";
+
 export default function DashboardTeacherAssignmentsPage() {
-  return <div>TEACHER ASSIGNMENT PAGE</div>;
+  return (
+    <DesktopOnlyLayout>
+      <div>TEACHER ASSIGNMENT PAGE</div>
+    </DesktopOnlyLayout>
+  );
 }

@@ -1,9 +1,10 @@
 import LearnerAssignmentPage from "~/ui/profile/LearnerAssignmentPage";
+import DesktopOnlyLayout from "~/components/DesktopOnlyLayout";
 
 export default function DashboardLearnerAssignmentsPage() {
   return (
-    <div>
+    <DesktopOnlyLayout>
       <LearnerAssignmentPage />
-    </div>
+    </DesktopOnlyLayout>
   );
 }

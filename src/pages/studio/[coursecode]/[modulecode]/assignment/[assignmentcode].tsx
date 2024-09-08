@@ -1,4 +1,5 @@
 import { type NextPageContext } from "next";
+import DesktopOnlyLayout from "~/components/DesktopOnlyLayout";
 import useAssignment from "~/hooks/course/useAssignment";
 import useCoursesByOwner from "~/hooks/course/useCoursesByOwner";
 import useModuleByCourse from "~/hooks/course/useModuleByCourse";
@@ -60,14 +61,14 @@ export default function AssignmentStudioPage({
 
   if (course && courseModule && assignment) {
     return (
-      <>
+      <DesktopOnlyLayout>
         <SideMenu />
         <PageCourseAssignmentContent
           course={course}
           courseModule={courseModule}
           assignment={assignment}
         />
-      </>
+      </DesktopOnlyLayout>
     );
   }
 }

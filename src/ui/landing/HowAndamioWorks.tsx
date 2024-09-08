@@ -2,9 +2,12 @@ import Image from "next/image";
 
 export function HowAndamioWorks() {
   return (
-    <div className="z-20 flex min-h-screen w-screen flex-col items-center justify-center">
-      <div className="mx-auto flex min-h-40 w-full flex-row items-center justify-center">
-        <h1 className="my-12 scroll-m-20 text-3xl font-semibold text-black md:mb-0 md:mt-7 md:text-8xl">
+    <div
+      className="z-20 flex min-h-screen w-screen flex-col items-center justify-center"
+      id="how-andamio-works"
+    >
+      <div className="mx-auto mb-5 flex min-h-40 w-full flex-row items-center justify-center md:mb-24">
+        <h1 className="scroll-m-20 text-3xl font-semibold text-black md:text-8xl">
           How&nbsp;
         </h1>
         <Image
@@ -14,7 +17,7 @@ export function HowAndamioWorks() {
           src="/andamio-logo-w-typography.jpg"
           alt="Andamio"
         />
-        <h1 className="scroll-m-20 text-3xl font-semibold text-black md:mt-7 md:text-8xl">
+        <h1 className="scroll-m-20 text-3xl font-semibold text-black md:text-8xl">
           works
         </h1>
       </div>

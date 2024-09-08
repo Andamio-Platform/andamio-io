@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import TeacherCoursePage from "~/ui/profile/TeacherCoursePage";
+import DesktopOnlyLayout from "~/components/DesktopOnlyLayout";
 
 export default function DashboardCreatorCoursePage() {
   const [courseCode, setCourseCode] = useState<string | undefined>(undefined);
@@ -15,5 +16,9 @@ export default function DashboardCreatorCoursePage() {
 
   if (!courseCode) return <div>Invalid URL</div>;
 
-  return <TeacherCoursePage courseCode={courseCode} />;
+  return (
+    <DesktopOnlyLayout>
+      <TeacherCoursePage courseCode={courseCode} />
+    </DesktopOnlyLayout>
+  );
 }

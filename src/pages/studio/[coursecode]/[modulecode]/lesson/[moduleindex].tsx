@@ -1,4 +1,5 @@
 import { type NextPageContext } from "next";
+import DesktopOnlyLayout from "~/components/DesktopOnlyLayout";
 import useCoursesByOwner from "~/hooks/course/useCoursesByOwner";
 import useModuleByCourse from "~/hooks/course/useModuleByCourse";
 import useSLTs from "~/hooks/course/useSLTs";
@@ -59,7 +60,7 @@ export default function LessonStudioPage({
   }
 
   return (
-    <>
+    <DesktopOnlyLayout>
       <SideMenu />
       <PageCourseLessonContent
         course={course}
@@ -67,7 +68,7 @@ export default function LessonStudioPage({
         moduleIndex={sltIndex}
         slt={slt}
       />
-    </>
+    </DesktopOnlyLayout>
   );
 }
 

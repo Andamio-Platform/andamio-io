@@ -1,6 +1,6 @@
 export function FAQ() {
   return (
-    <div className="z-20 flex min-h-screen w-screen flex-col items-start justify-center px-2 md:px-40">
+    <div className="z-20 mx-auto flex min-h-screen w-11/12 flex-col items-start justify-center px-2 md:px-40">
       <h1 className="scroll-m-20 text-2xl font-bold text-black md:text-7xl">
         FAQ
       </h1>

@@ -25,7 +25,7 @@ export default function SB7PageLanding() {
             alt="andamio"
           />
         </div>
-        <div className="z-20 mx-auto mt-12 flex w-full flex-row items-center justify-center gap-5 md:w-[200px]">
+        <div className="z-20 mx-auto mt-3 flex w-full flex-row items-center justify-center gap-5 md:mt-12 md:w-[200px]">
           <Button
             onClick={() => setRole("learner")}
             className={`cursor-pointer border-2 border-solid border-black text-foreground ${role === "learner" ? "bg-secondary" : "bg-white"}`}

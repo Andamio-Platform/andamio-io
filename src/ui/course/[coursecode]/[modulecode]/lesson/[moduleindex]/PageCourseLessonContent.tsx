@@ -143,6 +143,8 @@ function Page({
       index: lesson?.sltId,
     });
 
+    console.log(lesson?.contentJson);
+
     return (
       <>
         <div>

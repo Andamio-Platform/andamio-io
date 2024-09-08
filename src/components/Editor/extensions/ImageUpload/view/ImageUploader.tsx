@@ -2,7 +2,7 @@ import { Spinner } from "../../../components/ui/Spinner";
 import { useDropZone, useFileUpload, useUploader } from "./hooks";
 import { Icon } from "../../../components/ui/Icon";
 import { cn } from "../../../lib/utils";
-import { type ChangeEvent, useCallback } from "react";
+import { type ChangeEvent, useCallback, useEffect } from "react";
 
 export const ImageUploader = ({
   onUpload,
@@ -20,6 +20,31 @@ export const ImageUploader = ({
       e.target.files ? uploadFile(e.target.files[0]) : null,
     [uploadFile],
   );
+
+  const onPaste = useCallback(
+    (event: ClipboardEvent) => {
+      const items = event.clipboardData?.items;
+      if (!items) return;
+
+      for (const item of items) {
+        if (item.type.startsWith("image")) {
+          const file = item.getAsFile();
+          if (file) {
+            void uploadFile(file); // Use your existing upload function
+          }
+        }
+      }
+    },
+    [uploadFile],
+  );
+
+  useEffect(() => {
+    document.addEventListener("paste", onPaste);
+
+    return () => {
+      document.removeEventListener("paste", onPaste);
+    };
+  }, [onPaste]);
 
   if (loading) {
     return (
@@ -48,7 +73,9 @@ export const ImageUploader = ({
       />
       <div className="flex flex-col items-center justify-center gap-2">
         <div className="text-center text-sm font-medium text-neutral-400 dark:text-neutral-500">
-          {draggedInside ? "Drop image here" : "Drag and drop or"}
+          {draggedInside
+            ? "Drop image file here."
+            : "Drag and drop or press CTRL-V / CMD-V to paste an image from your clipboard."}
         </div>
         {/* <div>
           <Button

@@ -2,6 +2,7 @@ import { type NextPageContext } from "next";
 import useAssignment from "~/hooks/course/useAssignment";
 import useCoursesByOwner from "~/hooks/course/useCoursesByOwner";
 import useModuleByCourse from "~/hooks/course/useModuleByCourse";
+import SideMenu from "~/ui/navigation/SideMenu";
 import PageCourseAssignmentContent from "~/ui/studio/[coursecode]/[modulecode]/assignment/[assignmentcode]/PageCourseAssignmentContent";
 import LoadingContentEditor from "~/ui/studio/components/ContentEditor/ui/LoadingContentEditor";
 import StudioLayout from "~/ui/studio/components/layout/StudioLayout";
@@ -59,11 +60,14 @@ export default function AssignmentStudioPage({
 
   if (course && courseModule && assignment) {
     return (
-      <PageCourseAssignmentContent
-        course={course}
-        courseModule={courseModule}
-        assignment={assignment}
-      />
+      <>
+        <SideMenu />
+        <PageCourseAssignmentContent
+          course={course}
+          courseModule={courseModule}
+          assignment={assignment}
+        />
+      </>
     );
   }
 }

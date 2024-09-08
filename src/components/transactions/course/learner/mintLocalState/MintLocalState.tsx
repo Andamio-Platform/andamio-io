@@ -45,7 +45,7 @@ export default function MintLocalState({
       {unsignedTxCBOR ? (
         <Button
           onClick={onSubmit}
-          className="mt-10 bg-secondary p-5 text-black transition-all hover:bg-success hover:font-semibold"
+          className="mt-10 bg-primary p-5 text-primary-foreground transition-all hover:bg-success-foreground hover:font-semibold hover:text-success"
         >
           Enroll In {courseInfo?.title}
         </Button>

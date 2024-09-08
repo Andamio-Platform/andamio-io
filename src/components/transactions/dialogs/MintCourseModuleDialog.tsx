@@ -36,8 +36,6 @@ export default function MintCourseModuleDialog({
     { text: "Review Documentation", url: "/course/andamio101" },
   ];
 
-  // className={`${confirmedSlts[j] ? "bg-success" : "bg-warning"} w-full cursor-pointer rounded-md p-2 font-bold`}
-
   return (
     <Dialog>
       <DialogTrigger>

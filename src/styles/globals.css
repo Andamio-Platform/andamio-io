@@ -6,7 +6,7 @@
   :root {
     --background: 222.2 8% 95%;
     --foreground: 220 15% 16%;
-    --card: 36 11% 91%;
+    --card: 244 12% 89%;
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
@@ -26,8 +26,8 @@
     --radius: 0.75rem;
     --warning: 38 61% 35%;
     --warning-foreground: 48 96% 89%;
-    --success: 136 61% 85%;
-    --success-foreground: 222.2 47.4% 11.2%;
+    --success: 136 61% 25%;
+    --success-foreground: 136 61% 85%;
     --editor-blue: 217 90% 30%;
     --editor-green: 92 90% 25%;
     --editor-orange: 21 90% 30%;

@@ -87,7 +87,7 @@ export default function LearnerCourseModuleDetailsComponent({
       );
       if (_module) {
         setLearnerModuleStatus("COMPLETED_COMMITMENT");
-        setCredentialColor("bg-success");
+        setCredentialColor("bg-success-foreground");
       }
       if (courseModule.assignments.length === 0 || !courseModule.assignments) {
         setLearnerModuleStatus("NO_ASSIGNMENT");
@@ -109,7 +109,7 @@ export default function LearnerCourseModuleDetailsComponent({
         )
       ) {
         setLearnerModuleStatus("COMPLETED_COMMITMENT");
-        setCredentialColor("bg-success");
+        setCredentialColor("bg-success-foreground");
       }
     } else if (learnerCourseStatus === "WAS_ENROLLED") {
       const _module = courseTokenInfo?.AssignmentList.find(
@@ -117,7 +117,7 @@ export default function LearnerCourseModuleDetailsComponent({
       );
       if (_module) {
         setLearnerModuleStatus("COMPLETED_COMMITMENT");
-        setCredentialColor("bg-success");
+        setCredentialColor("bg-success-foreground");
       }
     }
   }, [
@@ -134,10 +134,11 @@ export default function LearnerCourseModuleDetailsComponent({
       <AccordionItem
         value={`courseModule-${courseModule.moduleCode}`}
         onClick={() => setIsAccordionOpen(!isAccordionOpen)}
-        className={`${isAccordionOpen ? "my-5 border-t border-primary pt-2" : "border-none"}`}
       >
-        <AccordionTrigger>
-          <div className="mr-5 grid w-11/12 grid-cols-3 items-center py-1">
+        <AccordionTrigger
+          className={`px-5 py-3 ${isAccordionOpen ? "bg-card" : "border-none hover:bg-card"}`}
+        >
+          <div className="grid w-11/12 grid-cols-3 items-center">
             <p className="text-left font-bold">
               Module {courseModule.moduleCode}: {courseModule.title}
             </p>
@@ -215,7 +216,7 @@ export default function LearnerCourseModuleDetailsComponent({
                 )}
               </div>
             </div>
-            <div className="col-span-2 rounded-sm bg-gray-200 p-5">
+            <div className="col-span-2 rounded-sm bg-card p-5">
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger className="text-left">

@@ -35,9 +35,9 @@ export const ImageBlockView = (props: ImageBlockViewProps) => {
       <div className={wrapperClassName} style={{ width: node.attrs.width }}>
         <div contentEditable={false} ref={imageWrapperRef}>
           <Image
-            width={32}
-            height={32}
-            className="block"
+            width={600}
+            height={600}
+            className="block rounded-sm shadow-lg"
             src={src}
             alt=""
             onClick={onClick}

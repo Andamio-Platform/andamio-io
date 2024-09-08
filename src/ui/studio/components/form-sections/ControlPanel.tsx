@@ -77,7 +77,7 @@ export default function ControlPanel({
               <GlobeIcon
                 width="22"
                 height="22"
-                className={`${live ? "text-success" : "text-primary-foreground"}`}
+                className={`rounded-full ${live ? "bg-success-foreground text-success" : "bg-background text-primary"}`}
               />
             </Button>
           </TooltipTrigger>
@@ -94,16 +94,20 @@ export default function ControlPanel({
         <Sheet>
           <SheetTrigger asChild>
             <div className="flex h-[30px] w-[30px] items-center justify-center">
-              <QuestionMarkCircledIcon width="22" height="22" />
+              <QuestionMarkCircledIcon
+                className="rounded-full bg-background text-primary"
+                width="22"
+                height="22"
+              />
             </div>
           </SheetTrigger>
           <SheetContent className="p-5">
-            <h3 className="text-xl pb-3">Help</h3>
+            <h3 className="pb-3 text-xl">Help</h3>
             <p className="prose">
               Can create custom components for this that are easy to edit -
               would be passed as props
             </p>
-            <h3 className="text-xl py-3">Learn More</h3>
+            <h3 className="py-3 text-xl">Learn More</h3>
             <p className="prose">Andamio 101 Course</p>
           </SheetContent>
         </Sheet>
@@ -128,7 +132,7 @@ export default function ControlPanel({
               <Tooltip>
                 <TooltipTrigger>
                   <CheckCircledIcon
-                    className="rounded-full bg-success text-primary-foreground"
+                    className="rounded-full bg-success-foreground text-success"
                     width="22"
                     height="22"
                   />

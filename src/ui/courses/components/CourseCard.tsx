@@ -44,11 +44,7 @@ export default function CourseCard({
 
   if (!course) return;
   return (
-    <Card
-      key={course.id}
-      className="border-none bg-secondary shadow-xl"
-      size="md"
-    >
+    <Card key={course.id} className="border-none shadow-xl" size="md">
       <CardHeader className="relative m-0 p-0">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -86,7 +82,9 @@ export default function CourseCard({
           <Button>View</Button>
         </Link>
         {savedCourse ? (
-          <Button className="bg-success text-green-900">Saved</Button>
+          <Button className="bg-success-foreground text-success hover:bg-success-foreground hover:text-success">
+            Saved
+          </Button>
         ) : (
           <Button onClick={handleSaveCourse}>Save</Button>
         )}

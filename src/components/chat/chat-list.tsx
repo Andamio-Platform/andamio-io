@@ -125,7 +125,7 @@ function ChatMessage({ message }: { message: string }) {
   const isEmoji = /\p{Extended_Pictographic}/u.test(message);
   return (
     <span
-      className={`max-w-xs rounded-md bg-accent p-3 ${isEmoji && message.length == 2 ? `text-3xl` : `text-lg`}`}
+      className={`max-w-xs rounded-md bg-card px-5 py-3 ${isEmoji && message.length == 2 ? `text-3xl` : `text-lg`}`}
     >
       {message}
     </span>

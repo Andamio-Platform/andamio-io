@@ -2,6 +2,7 @@ import { type NextPageContext } from "next";
 import useCoursesByOwner from "~/hooks/course/useCoursesByOwner";
 import useModuleByCourse from "~/hooks/course/useModuleByCourse";
 import useSLTs from "~/hooks/course/useSLTs";
+import SideMenu from "~/ui/navigation/SideMenu";
 import PageCourseLessonContent from "~/ui/studio/[coursecode]/[modulecode]/lesson/[moduleindex]/PageCourseLessonContent";
 import LoadingContentEditor from "~/ui/studio/components/ContentEditor/ui/LoadingContentEditor";
 import StudioLayout from "~/ui/studio/components/layout/StudioLayout";
@@ -58,12 +59,15 @@ export default function LessonStudioPage({
   }
 
   return (
-    <PageCourseLessonContent
-      course={course}
-      courseModule={courseModule}
-      moduleIndex={sltIndex}
-      slt={slt}
-    />
+    <>
+      <SideMenu />
+      <PageCourseLessonContent
+        course={course}
+        courseModule={courseModule}
+        moduleIndex={sltIndex}
+        slt={slt}
+      />
+    </>
   );
 }
 

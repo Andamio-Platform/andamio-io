@@ -14,7 +14,7 @@ export default function FormEditButtons({ hideButtons }: FormEditButtonsProps) {
         <div className="flex flex-row gap-3 px-3">
           <Button size="labeledIcon" intent="outline" type="submit">
             <CheckCircledIcon
-              className="rounded-full bg-success text-primary-foreground"
+              className="rounded-full bg-success text-success-foreground"
               width="22"
               height="22"
             />{" "}

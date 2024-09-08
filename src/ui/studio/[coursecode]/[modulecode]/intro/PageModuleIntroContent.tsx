@@ -8,21 +8,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import LoadingContentEditor from "~/ui/studio/components/ContentEditor/ui/LoadingContentEditor";
 import { Form } from "~/components/ui/form";
-import {
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-} from "~/components/ui/resizable";
 
 import HeaderSection from "../components/HeaderSection";
-import RightSection from "../components/RightSection";
 
 import { useCourseStore } from "~/lib/zustand/course";
 import useIntroEditor from "~/ui/studio/hooks/useIntroEditor";
 import ContentEditor from "~/ui/studio/components/ContentEditor";
 import { useRouter } from "next/router";
 import Metatags from "~/components/site/metatags";
-import useAssignment from "~/hooks/course/useAssignment";
 import { type JSONContent } from "novel";
 
 export default function PageModuleIntroContent({
@@ -38,10 +31,6 @@ export default function PageModuleIntroContent({
 
   const router = useRouter();
 
-  const { assignment } = useAssignment(
-    course?.courseCode ?? "",
-    courseModule.moduleCode,
-  );
   const [editIntroduction, setEditIntroduction] = useState<boolean>(false);
   const [isCreatingIntroduction, setIsCreatingIntroduction] = useState(false);
 
@@ -269,40 +258,29 @@ export default function PageModuleIntroContent({
     return (
       <>
         <Metatags title={introduction.title} />
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <HeaderSection
-              form={form}
-              course={course}
-              courseModule={courseModule}
-              editContent={editIntroduction}
-              setEditContent={setEditIntroduction}
-              isLoadingUpdate={isLoadingUpdate}
-              onCancel={onCancel}
-              onSubmit={form.handleSubmit(onSubmit)}
-              courseContent={introduction}
-              intent="introduction"
-              setGetLessonPlanDialogOpen={setGetLessonPlanDialogOpen}
-            />
+        <div className="ml-80 flex flex-col">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              <HeaderSection
+                form={form}
+                course={course}
+                courseModule={courseModule}
+                editContent={editIntroduction}
+                setEditContent={setEditIntroduction}
+                isLoadingUpdate={isLoadingUpdate}
+                onCancel={onCancel}
+                onSubmit={form.handleSubmit(onSubmit)}
+                courseContent={introduction}
+                intent="introduction"
+                setGetLessonPlanDialogOpen={setGetLessonPlanDialogOpen}
+              />
 
-            <div className="flex w-full bg-card">
-              <ResizablePanelGroup direction="horizontal" className="gap-2">
-                <ResizablePanel defaultSize={80}>
-                  {!!editor && <ContentEditor editor={editor} />}
-                </ResizablePanel>
-                <ResizableHandle />
-                <ResizablePanel defaultSize={20}>
-                  <RightSection
-                    form={form}
-                    course={course}
-                    courseModule={courseModule}
-                    assignment={assignment}
-                  />
-                </ResizablePanel>
-              </ResizablePanelGroup>
-            </div>
-          </form>
-        </Form>
+              <div className="flex w-full bg-card">
+                {!!editor && <ContentEditor editor={editor} />}
+              </div>
+            </form>
+          </Form>
+        </div>
         {getLessonPlanDialogOpen && "Andamio AI"}
         <LightDarkToggle />
       </>

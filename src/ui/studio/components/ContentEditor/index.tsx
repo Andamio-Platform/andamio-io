@@ -1,6 +1,8 @@
 import { type Editor, EditorContent } from "@tiptap/react";
 import { RedoIcon, UndoIcon } from "lucide-react";
+import { useEffect } from "react";
 import { AndamioBubbleMenu } from "~/components/Editor/components/menus/AndamioBubbleMenus";
+import { usePaste } from "~/components/Editor/extensions/ImageUpload/view/hooks";
 import { Button } from "~/components/ui/button";
 
 export default function ContentEditor({ editor }: { editor: Editor }) {
@@ -9,6 +11,16 @@ export default function ContentEditor({ editor }: { editor: Editor }) {
       editor.chain().focus().run();
     }
   };
+
+  const { onPaste } = usePaste({ editor: editor });
+
+  useEffect(() => {
+    document.addEventListener("paste", onPaste);
+
+    return () => {
+      document.removeEventListener("paste", onPaste);
+    };
+  }, [onPaste]);
 
   return (
     <div

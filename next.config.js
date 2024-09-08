@@ -17,13 +17,21 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "storage.googleapis.com",
+      },
+    ],
+  },
   webpack: function (config, options) {
     config.experiments = {
       asyncWebAssembly: true,
       layers: true,
     };
     return config;
-  }
+  },
 };
 
 export default config;

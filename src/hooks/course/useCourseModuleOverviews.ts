@@ -19,8 +19,8 @@ export default function useCourseModuleOverviews(courseCode: string) {
     if (!!unsortedCourseModuleOverviews) {
       const _courseModuleOverviews = unsortedCourseModuleOverviews.sort(
         (cm1: CourseModuleOverview, cm2: CourseModuleOverview) => {
-          if (cm1.moduleCode < cm2.moduleCode) return 1;
-          if (cm1.moduleCode > cm2.moduleCode) return -1;
+          if (cm1.moduleCode < cm2.moduleCode) return -1;
+          if (cm1.moduleCode > cm2.moduleCode) return 1;
           return 0;
         },
       );

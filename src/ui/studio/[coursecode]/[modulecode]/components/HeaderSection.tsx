@@ -62,7 +62,7 @@ export default function HeaderSection({
   return (
     <div className="flex flex-col">
       <div className="flex min-h-[40px] flex-row items-center justify-between bg-card p-5">
-        <div className="flex items-center gap-5">
+        <div className="items-center gap-0">
           <ToggleEditableField
             name="title"
             form={form}
@@ -74,6 +74,11 @@ export default function HeaderSection({
             hasForm={true}
             placeholder="Lesson Title"
           />
+          {!editContent && (
+            <p className="text-xs tracking-tight text-muted-foreground">
+              click title to edit it
+            </p>
+          )}
         </div>
         {slt && (
           <CardSLT
@@ -83,14 +88,24 @@ export default function HeaderSection({
           />
         )}
         {intent === "assignment" && (
-          <h2 className="text-xl font-semibold">
-            Assignment for Module {courseModule.moduleCode}
-          </h2>
+          <div className="gap-1 px-5 py-3">
+            <p className="text-right text-2xl font-bold leading-7 text-muted-foreground">
+              Assignment for Module {courseModule.moduleCode}
+            </p>
+            <p className="text-right text-xl font-semibold leading-7">
+              {courseModule.assignments[0]?.title}
+            </p>
+          </div>
         )}
         {intent === "introduction" && (
-          <h2 className="text-xl font-semibold">
-            Introduction for Module {courseModule.moduleCode}
-          </h2>
+          <div className="gap-1 px-5 py-3">
+            <p className="text-right text-2xl font-bold leading-7 text-muted-foreground">
+              Introduction
+            </p>
+            <p className="text-right text-xl font-semibold leading-7">
+              Module {courseModule.moduleCode}:{courseModule.title}
+            </p>
+          </div>
         )}
       </div>
       <div className="flex flex-row items-center justify-between bg-primary text-primary-foreground">

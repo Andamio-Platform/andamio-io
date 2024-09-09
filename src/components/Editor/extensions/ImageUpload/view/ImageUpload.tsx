@@ -18,6 +18,7 @@ export const ImageUpload = ({
           .setImageBlock({ src: url })
           .deleteRange({ from: getPos(), to: getPos() })
           .focus()
+          .setNode("imageBlock", { width: "300", height: "300" })
           .run();
       }
     },

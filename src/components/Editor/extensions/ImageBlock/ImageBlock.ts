@@ -37,10 +37,17 @@ export const ImageBlock = Image.extend({
         }),
       },
       width: {
-        default: "100%",
+        default: "600",
         parseHTML: (element) => element.getAttribute("data-width"),
         renderHTML: (attributes) => ({
           "data-width": attributes.width,
+        }),
+      },
+      height: {
+        default: "600",
+        parseHTML: (element) => element.getAttribute("data-height"),
+        renderHTML: (attributes) => ({
+          "data-height": attributes.height,
         }),
       },
       align: {
@@ -104,7 +111,8 @@ export const ImageBlock = Image.extend({
         (width) =>
         ({ commands }) =>
           commands.updateAttributes("imageBlock", {
-            width: `${Math.max(0, Math.min(100, width))}%`,
+            width: `${Math.max(0, width)}`,
+            height: `${Math.max(0, width)}`,
           }),
     };
   },

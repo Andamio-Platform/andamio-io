@@ -47,134 +47,174 @@ export function AndamioBubbleMenu({ editor }: { editor: Editor }) {
           }}
         >
           <ToggleGroup type="multiple">
-            <ToggleGroupItem
-              value="bold"
-              aria-label="Toggle bold"
-              onClick={() => editor.chain().focus().toggleBold().run()}
-              data-state={editor.isActive("bold") ? "on" : "off"}
-            >
-              <FontBoldIcon className="h-4 w-4" />
-            </ToggleGroupItem>
-            <ToggleGroupItem
-              value="italic"
-              aria-label="Toggle italic"
-              onClick={() => editor.chain().focus().toggleItalic().run()}
-              data-state={editor.isActive("italic") ? "on" : "off"}
-            >
-              <FontItalicIcon className="h-4 w-4" />
-            </ToggleGroupItem>
-            <ToggleGroupItem
-              value="underline"
-              aria-label="Toggle underline"
-              onClick={() => editor.chain().focus().toggleUnderline().run()}
-              data-state={editor.isActive("underline") ? "on" : "off"}
-            >
-              <UnderlineIcon className="h-4 w-4" />
-            </ToggleGroupItem>
-            <ToggleGroupItem
-              value="strikethrough"
-              aria-label="Toggle strikethrough"
-              onClick={() => editor.chain().focus().toggleStrike().run()}
-              data-state={editor.isActive("strike") ? "on" : "off"}
-            >
-              <div>
-                <StrikethroughIcon className="h-4 w-4" />
-              </div>
-            </ToggleGroupItem>
+            {editor.isActive("imageBlock") && (
+              <>
+                <ToggleGroupItem
+                  value="imageSmall"
+                  aria-label="imageSmall"
+                  onClick={() =>
+                    editor.chain().focus().setImageBlockWidth(300).run()
+                  }
+                >
+                  Small
+                </ToggleGroupItem>
+                <ToggleGroupItem
+                  value="imageSmall"
+                  aria-label="imageSmall"
+                  onClick={() =>
+                    editor.chain().focus().setImageBlockWidth(600).run()
+                  }
+                >
+                  Medium
+                </ToggleGroupItem>
+                <ToggleGroupItem
+                  value="imageSmall"
+                  aria-label="imageSmall"
+                  onClick={() =>
+                    editor.chain().focus().setImageBlockWidth(900).run()
+                  }
+                >
+                  Large
+                </ToggleGroupItem>
+              </>
+            )}
+            {!editor.isActive("imageBlock") && (
+              <>
+                <ToggleGroupItem
+                  value="bold"
+                  aria-label="Toggle bold"
+                  onClick={() => editor.chain().focus().toggleBold().run()}
+                  data-state={editor.isActive("bold") ? "on" : "off"}
+                >
+                  <FontBoldIcon className="h-4 w-4" />
+                </ToggleGroupItem>
+                <ToggleGroupItem
+                  value="italic"
+                  aria-label="Toggle italic"
+                  onClick={() => editor.chain().focus().toggleItalic().run()}
+                  data-state={editor.isActive("italic") ? "on" : "off"}
+                >
+                  <FontItalicIcon className="h-4 w-4" />
+                </ToggleGroupItem>
+                <ToggleGroupItem
+                  value="underline"
+                  aria-label="Toggle underline"
+                  onClick={() => editor.chain().focus().toggleUnderline().run()}
+                  data-state={editor.isActive("underline") ? "on" : "off"}
+                >
+                  <UnderlineIcon className="h-4 w-4" />
+                </ToggleGroupItem>
+                <ToggleGroupItem
+                  value="strikethrough"
+                  aria-label="Toggle strikethrough"
+                  onClick={() => editor.chain().focus().toggleStrike().run()}
+                  data-state={editor.isActive("strike") ? "on" : "off"}
+                >
+                  <div>
+                    <StrikethroughIcon className="h-4 w-4" />
+                  </div>
+                </ToggleGroupItem>
 
-            <DividerVerticalIcon className="h-8 text-gray-300" />
+                <DividerVerticalIcon className="h-8 text-gray-300" />
 
-            <ToggleGroupItem
-              value="heading1"
-              aria-label="header 1"
-              onClick={() =>
-                editor.chain().focus().toggleHeading({ level: 1 }).run()
-              }
-              data-state={
-                editor.isActive("heading", { level: 1 }) ? "is-active" : ""
-              }
-            >
-              H1
-            </ToggleGroupItem>
+                <ToggleGroupItem
+                  value="heading1"
+                  aria-label="header 1"
+                  onClick={() =>
+                    editor.chain().focus().toggleHeading({ level: 1 }).run()
+                  }
+                  data-state={
+                    editor.isActive("heading", { level: 1 }) ? "is-active" : ""
+                  }
+                >
+                  H1
+                </ToggleGroupItem>
 
-            <ToggleGroupItem
-              value="heading2"
-              aria-label="header 2"
-              onClick={() =>
-                editor.chain().focus().toggleHeading({ level: 2 }).run()
-              }
-              data-state={
-                editor.isActive("heading", { level: 2 }) ? "is-active" : ""
-              }
-            >
-              H2
-            </ToggleGroupItem>
+                <ToggleGroupItem
+                  value="heading2"
+                  aria-label="header 2"
+                  onClick={() =>
+                    editor.chain().focus().toggleHeading({ level: 2 }).run()
+                  }
+                  data-state={
+                    editor.isActive("heading", { level: 2 }) ? "is-active" : ""
+                  }
+                >
+                  H2
+                </ToggleGroupItem>
 
-            <ToggleGroupItem
-              value="heading3"
-              aria-label="header 3"
-              onClick={() =>
-                editor.chain().focus().toggleHeading({ level: 3 }).run()
-              }
-              data-state={
-                editor.isActive("heading", { level: 3 }) ? "is-active" : ""
-              }
-            >
-              H3
-            </ToggleGroupItem>
+                <ToggleGroupItem
+                  value="heading3"
+                  aria-label="header 3"
+                  onClick={() =>
+                    editor.chain().focus().toggleHeading({ level: 3 }).run()
+                  }
+                  data-state={
+                    editor.isActive("heading", { level: 3 }) ? "is-active" : ""
+                  }
+                >
+                  H3
+                </ToggleGroupItem>
 
-            <DividerVerticalIcon className="h-8 text-gray-300" />
+                <DividerVerticalIcon className="h-8 text-gray-300" />
+                <ToggleGroupItem
+                  value="linkset"
+                  aria-label="linkset"
+                  onClick={setLink}
+                >
+                  <Link1Icon className="h-4 w-4" />
+                </ToggleGroupItem>
 
-            <ToggleGroupItem
-              value="linkset"
-              aria-label="linkset"
-              onClick={setLink}
-            >
-              <Link1Icon className="h-4 w-4" />
-            </ToggleGroupItem>
+                <ToggleGroupItem
+                  value="linkset"
+                  aria-label="linkset"
+                  onClick={() => editor.chain().focus().unsetLink().run()}
+                  disabled={!editor.isActive("link")}
+                >
+                  <LinkBreak1Icon className="h-4 w-4" />
+                </ToggleGroupItem>
 
-            <ToggleGroupItem
-              value="linkset"
-              aria-label="linkset"
-              onClick={() => editor.chain().focus().unsetLink().run()}
-              disabled={!editor.isActive("link")}
-            >
-              <LinkBreak1Icon className="h-4 w-4" />
-            </ToggleGroupItem>
+                <DividerVerticalIcon className="h-8 text-gray-300" />
 
-            <DividerVerticalIcon className="h-8 text-gray-300" />
+                <ToggleGroupItem
+                  value="codeblock"
+                  aria-label="codeblock"
+                  onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+                >
+                  <CodeIcon className="h-4 w-4" />
+                </ToggleGroupItem>
 
-            <ToggleGroupItem
-              value="codeblock"
-              aria-label="codeblock"
-              onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-            >
-              <CodeIcon className="h-4 w-4" />
-            </ToggleGroupItem>
+                <ToggleGroupItem
+                  value="quoteblock"
+                  aria-label="quoteblock"
+                  onClick={() =>
+                    editor.chain().focus().toggleBlockquote().run()
+                  }
+                >
+                  <QuoteIcon className="h-4 w-4" />
+                </ToggleGroupItem>
 
-            <ToggleGroupItem
-              value="quoteblock"
-              aria-label="quoteblock"
-              onClick={() => editor.chain().focus().toggleBlockquote().run()}
-            >
-              <QuoteIcon className="h-4 w-4" />
-            </ToggleGroupItem>
+                <ToggleGroupItem
+                  value="bullet"
+                  aria-label="bullet"
+                  onClick={() =>
+                    editor.chain().focus().toggleBulletList().run()
+                  }
+                >
+                  <ListBulletIcon className="h-4 w-4" />
+                </ToggleGroupItem>
 
-            <ToggleGroupItem
-              value="bullet"
-              aria-label="bullet"
-              onClick={() => editor.chain().focus().toggleBulletList().run()}
-            >
-              <ListBulletIcon className="h-4 w-4" />
-            </ToggleGroupItem>
-
-            <ToggleGroupItem
-              value="number"
-              aria-label="number"
-              onClick={() => editor.chain().focus().toggleOrderedList().run()}
-            >
-              <ListOrderedIcon className="h-4 w-4" />
-            </ToggleGroupItem>
+                <ToggleGroupItem
+                  value="number"
+                  aria-label="number"
+                  onClick={() =>
+                    editor.chain().focus().toggleOrderedList().run()
+                  }
+                >
+                  <ListOrderedIcon className="h-4 w-4" />
+                </ToggleGroupItem>
+              </>
+            )}
 
             {/* 
             <ToggleGroupItem
@@ -195,48 +235,56 @@ export function AndamioBubbleMenu({ editor }: { editor: Editor }) {
               <TextAlignRightIcon className="h-4 w-4" />
             </ToggleGroupItem> */}
 
-            <DividerVerticalIcon className="h-8 text-gray-300" />
+            {!editor.isActive("imageBlock") && (
+              <>
+                <DividerVerticalIcon className="h-8 text-gray-300" />
 
-            <ToggleGroupItem
-              value="text-default"
-              aria-label="Toggle text-default"
-              onClick={() =>
-                editor.chain().focus().setColor("hsl(var(--foreground))").run()
-              }
-              data-state={
-                editor.isActive("textStyle", {
-                  color: "hsl(var(--foreground))",
-                })
-                  ? "on"
-                  : "off"
-              }
-            >
-              <div
-                className="h-4 w-4"
-                style={{ backgroundColor: "hsl(var(--foreground))" }}
-              />
-            </ToggleGroupItem>
+                <ToggleGroupItem
+                  value="text-default"
+                  aria-label="Toggle text-default"
+                  onClick={() =>
+                    editor
+                      .chain()
+                      .focus()
+                      .setColor("hsl(var(--foreground))")
+                      .run()
+                  }
+                  data-state={
+                    editor.isActive("textStyle", {
+                      color: "hsl(var(--foreground))",
+                    })
+                      ? "on"
+                      : "off"
+                  }
+                >
+                  <div
+                    className="h-4 w-4"
+                    style={{ backgroundColor: "hsl(var(--foreground))" }}
+                  />
+                </ToggleGroupItem>
 
-            {editorColors.map((c, index) => (
-              <ToggleGroupItem
-                value={`text-${c.name}`}
-                aria-label={`Toggle text-${c.name}`}
-                onClick={() =>
-                  editor.chain().focus().setColor(c.colorVar).run()
-                }
-                data-state={
-                  editor.isActive("textStyle", { color: c.colorVar })
-                    ? "on"
-                    : "off"
-                }
-                key={index}
-              >
-                <div
-                  className="h-4 w-4"
-                  style={{ backgroundColor: c.colorVar }}
-                />
-              </ToggleGroupItem>
-            ))}
+                {editorColors.map((c, index) => (
+                  <ToggleGroupItem
+                    value={`text-${c.name}`}
+                    aria-label={`Toggle text-${c.name}`}
+                    onClick={() =>
+                      editor.chain().focus().setColor(c.colorVar).run()
+                    }
+                    data-state={
+                      editor.isActive("textStyle", { color: c.colorVar })
+                        ? "on"
+                        : "off"
+                    }
+                    key={index}
+                  >
+                    <div
+                      className="h-4 w-4"
+                      style={{ backgroundColor: c.colorVar }}
+                    />
+                  </ToggleGroupItem>
+                ))}
+              </>
+            )}
 
             {/* <div className="Flex flex-row">
               <TooltipProvider>

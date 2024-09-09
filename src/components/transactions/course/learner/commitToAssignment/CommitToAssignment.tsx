@@ -1,13 +1,9 @@
-import { type UTxO } from "@meshsdk/core";
 import { CardanoWallet, useWallet } from "@meshsdk/react";
-import axios from "axios";
 import { useState } from "react";
 import Loading from "~/components/loading";
-import type UTxOi from "~/components/transactions/model";
 import { Button } from "~/components/ui/button";
 import useNetworkCourseConfig from "~/hooks/onchain/useNetworkCourseConfig";
 import { NETWORK } from "~/andamio.config";
-import { INDEXER_URL } from "~/config/indexer";
 import { useToast } from "~/components/ui/use-toast";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -21,8 +17,6 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-import { type UtxoWithSlot } from "@maestro-org/typescript-sdk";
-import { type DecodedCourseInstanceDatum } from "@andamiojs/datum-utils";
 import { useAccessToken } from "~/hooks/onchain/useAccessToken";
 import { api } from "~/utils/api";
 

@@ -24,6 +24,7 @@ import { clientDomainsRouter } from "./routers/premium/clients-domain";
 import { learnerCourseTxRouter } from "./routers/transactions/learner-course-tx-router";
 import { creatorCourseTxRouter } from "./routers/transactions/creator-course-tx-router";
 import { accessTokenTxRouter } from "./routers/transactions/access-token-router";
+import { andamioAdminTxRouter } from "./routers/transactions/andamio-admin-tx-router";
 /**
  * This is the primary router for your server.
  *
@@ -52,6 +53,9 @@ export const appRouter = createTRPCRouter({
   localStateValidator: localStateValidatorRouter,
   globalStateValidator: globalStateValidatorRouter,
   courseGovernanceValidator: courseGovernanceValidatorRouter,
+
+  // admin
+  andamioAdminTransactions: andamioAdminTxRouter,
 
   // premium features
   clientDomains: clientDomainsRouter,

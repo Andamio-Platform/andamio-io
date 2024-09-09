@@ -17,7 +17,7 @@ export default function CourseNavigation({
 
   return (
     <Card
-      className="col-span-4 flex w-full flex-row items-center justify-between border border-secondary-foreground p-3"
+      className="col-span-4 mt-auto flex w-full flex-row items-center justify-between border border-secondary-foreground p-3"
       size="md"
     >
       <div>

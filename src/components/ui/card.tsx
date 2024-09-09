@@ -18,6 +18,8 @@ const cardVariants = cva("", {
         "flex flex-row w-full gap-3 items-center bg-background text-foreground px-3",
       sideNav:
         "rounded-none bg-background text-foreground flex flex-row justify-between hover:bg-secondary",
+      dashboard:
+        "flex flex-col items-center justify-center gap-5 bg-card shadow rounded-md",
     },
     size: {
       default: "px-5 py-3",
@@ -25,6 +27,7 @@ const cardVariants = cva("", {
       sm: "min-h-8",
       wide: "w-11/12 mx-auto my-5 px-10 py-3",
       loading: "mx-auto my-5 px-10 py-3",
+      dashboard: "w-2/3 mx-auto mt-10 min-h-[40vh]",
     },
   },
   defaultVariants: {

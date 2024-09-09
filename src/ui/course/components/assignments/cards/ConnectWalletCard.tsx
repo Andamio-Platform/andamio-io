@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader } from "~/components/ui/card";
 
 export default function ConnectWalletCard() {
   return (
-    <Card className="">
+    <Card className="border border-primary shadow-md">
       <CardHeader className="flex w-full flex-row items-center justify-between">
         <h2 className="text-xl font-bold">
           Connect a wallet to commit to this assignment

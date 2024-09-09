@@ -22,7 +22,6 @@ import NetworkCommitmentCard from "~/ui/course/components/assignments/cards/Netw
 import PersonalNotesCard from "~/ui/course/components/assignments/cards/PersonalNotesCard";
 import { useWallet } from "@meshsdk/react";
 import useAssignmentNetworkStatus from "~/hooks/onchain/useAssignmentNetworkStatus";
-import NoOnchainAssignmentCard from "~/ui/course/components/assignments/cards/NoOnchainAssignmentCard";
 import ConnectWalletCard from "~/ui/course/components/assignments/cards/ConnectWalletCard";
 
 export default function PageCourseAssignmentContent({
@@ -46,7 +45,7 @@ export default function PageCourseAssignmentContent({
       <ModuleLayout courseCode={courseCode} courseModule={courseModule}>
         <Metatags title={assignment?.title ?? undefined} />
         {assignment && assignment.live ? (
-          <div className="mx-auto flex w-11/12 max-w-5xl flex-col gap-4 text-base leading-7 text-foreground">
+          <div className="mx-auto flex min-h-[85vh] w-11/12 max-w-5xl flex-col gap-4 text-base leading-7 text-foreground">
             <Page courseModule={courseModule} courseCode={courseCode} />
             <CourseNavigation
               courseCode={courseCode}
@@ -126,13 +125,13 @@ function Page({
         </div>
         {editor}
 
-        <div className="mt-10 grid grid-cols-1 gap-3 md:grid-cols-2">
+        <div className="mt-10 grid grid-cols-1 gap-5">
           <PersonalNotesCard
             currentCommitment={currentCommitment}
             assignment={assignment}
           />
 
-          {isAssignmentOnchain ? (
+          {isAssignmentOnchain && (
             <>
               {connected ? (
                 <NetworkCommitmentCard
@@ -143,8 +142,6 @@ function Page({
                 <ConnectWalletCard />
               )}
             </>
-          ) : (
-            <NoOnchainAssignmentCard />
           )}
         </div>
       </>

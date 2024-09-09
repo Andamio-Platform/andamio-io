@@ -20,7 +20,7 @@ export default function LearnerComponent() {
   const { coursecode } = router.query;
 
   return (
-    <div>
+    <div className="flex w-11/12">
       {/* If a course is selected, show COURSE DETAILS. Otherwise, show LEARNER OVERVIEW */}
       {!!coursecode && typeof coursecode === "string" ? (
         <CourseDetails
@@ -29,14 +29,14 @@ export default function LearnerComponent() {
           globalStateDatum={globalStateDatum}
         />
       ) : (
-        <div className="mx-auto grid w-11/12 grid-cols-4 gap-5">
+        <div className="mx-auto grid w-full grid-cols-5 gap-5">
           {!connected && (
-            <div className="col-span-4 flex min-h-[60vh] items-center justify-center">
+            <div className="col-span-5 flex min-h-[60vh] items-center justify-center">
               <CardanoWallet />
             </div>
           )}
           {connected && !accessTokenAlias && (
-            <div className="col-span-4 flex min-h-[60vh] items-center justify-center">
+            <div className="col-span-5 flex min-h-[60vh] items-center justify-center">
               <div>
                 <MintAccessTokenDialog />
               </div>
@@ -44,7 +44,7 @@ export default function LearnerComponent() {
           )}
           {connected && accessTokenAlias && (
             <>
-              <div className="col-span-3 mt-5 flex min-h-[60vh] flex-col items-center">
+              <div className="col-span-4 mt-5 flex min-h-[60vh] w-full flex-col items-center">
                 {accessTokenAlias && (
                   <LearnerCourses
                     alias={accessTokenAlias}
@@ -52,7 +52,7 @@ export default function LearnerComponent() {
                   />
                 )}
               </div>
-              <div className="col-span-1 col-start-4 row-span-9 flex flex-col gap-5">
+              <div className="col-span-1 col-start-5 row-span-9 flex flex-col gap-5">
                 {connected && accessTokenAlias && (
                   <DashboardDataComponent
                     title="Your Access Token"
@@ -74,7 +74,7 @@ export default function LearnerComponent() {
           {/* <div className="col-span-3 border border-primary p-5"> */}
           {/*   <p>My Goals - Needed Prereqs or otherwise saved Courses</p> */}
           {/* </div> */}
-          <div className="col-span-4 bg-secondary p-5 text-center text-secondary-foreground">
+          <div className="col-span-5 bg-secondary p-5 text-center text-secondary-foreground">
             <p className="mb-5 font-beckman text-2xl">Ready to Explore?</p>
             <Link href="/courses">
               <Button>View all Courses</Button>

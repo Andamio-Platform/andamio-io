@@ -73,7 +73,7 @@ export default function PageCourseContent({
       <ModuleLayout courseCode={courseCode} courseModule={courseModule}>
         <Metatags title={lesson?.title ?? undefined} />
         {lesson && lesson.live ? (
-          <div className="mx-auto flex w-11/12 max-w-5xl flex-col gap-4 text-base leading-7 text-foreground">
+          <div className="mx-auto flex min-h-[85vh] w-11/12 max-w-5xl flex-col gap-4 text-base leading-7 text-foreground">
             <Page
               slt={slt}
               lesson={lesson}

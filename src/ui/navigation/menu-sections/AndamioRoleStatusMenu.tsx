@@ -27,11 +27,13 @@ export default function AndamioRoleStatusMenu() {
           userHasRole={!!sessionData?.user.learnerId}
           roleInfoUrl="/about"
         />
-        <RoleStatus
-          roleName="Creator Role"
-          userHasRole={!!sessionData?.user.creatorId}
-          roleInfoUrl="/about"
-        />
+        {!!sessionData?.user.creatorId && (
+          <RoleStatus
+            roleName="Creator Role"
+            userHasRole={!!sessionData?.user.creatorId}
+            roleInfoUrl="/about"
+          />
+        )}
         <div className="mb-2 mt-3 bg-primary text-primary-foreground">
           <h2 className="p-2 font-semibold">Andamio Network Status</h2>
         </div>
@@ -48,13 +50,15 @@ export default function AndamioRoleStatusMenu() {
           }
           roleInfoUrl="/courses"
         />
-        <RoleStatus
-          roleName="Course Creator"
-          userHasRole={
-            !!creatorCoursePolicies && creatorCoursePolicies.length > 0
-          }
-          roleInfoUrl="/about"
-        />
+        {!!sessionData?.user.creatorId && (
+          <RoleStatus
+            roleName="Course Creator"
+            userHasRole={
+              !!creatorCoursePolicies && creatorCoursePolicies.length > 0
+            }
+            roleInfoUrl="/about"
+          />
+        )}
         <RoleStatus roleName="Contributor: Coming Soon" userHasRole={false} />
       </div>
     </li>

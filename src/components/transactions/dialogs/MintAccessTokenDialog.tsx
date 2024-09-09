@@ -12,6 +12,7 @@ import { Form } from "~/components/ui/form";
 import { INDEXER_URL } from "~/config/indexer";
 import MintAccessToken from "../accessToken/MintAccessToken";
 import SuccessTxModalContent from "../SuccessTxComponent";
+import FormLabel from "~/components/form/form-label";
 
 export default function MintAccessTokenDialog() {
   const address = useAddress();
@@ -32,7 +33,7 @@ export default function MintAccessTokenDialog() {
 
   const FormSchema = z.object({
     tokenAlias: z.string().min(2, {
-      message: "Username must be at least 2 characters.",
+      message: "Token name must be at least 2 characters.",
     }),
   });
 
@@ -54,7 +55,7 @@ export default function MintAccessTokenDialog() {
           setIsAvailable(false);
           setError("tokenAlias", {
             type: "availability",
-            message: "This alias is already taken.",
+            message: "This token name is already taken.",
           });
         } else {
           clearErrors("tokenAlias");
@@ -84,7 +85,9 @@ export default function MintAccessTokenDialog() {
   return (
     <Dialog>
       <DialogTrigger>
-        <Button>Mint Access Token</Button>
+        <Button className="flex w-full cursor-pointer flex-row items-center gap-8 rounded-md border border-foreground bg-primary px-8 py-2 text-primary-foreground">
+          Mint Andamio Network Token
+        </Button>
       </DialogTrigger>
       <DialogContent>
         {successTxHash ? (
@@ -95,26 +98,37 @@ export default function MintAccessTokenDialog() {
           />
         ) : (
           <>
-            <h1>Confirm Mint Access Token</h1>
+            <h2 className="text-2xl font-semibold">
+              Mint Andamio Network Token
+            </h2>
             {/* About this Module */}
-            <h2>Token Alias</h2>
+            <h2 className="mt-5 text-xl font-semibold">About</h2>
+            <p className="mb-5">
+              When you mint an Andamio Network Token, you gain access to
+              credentials on the Andamio Network.
+            </p>
+            <p className="mb-5">
+              When you mint an Andamio Network Token, you gain access to this
+              token after you mint it, and no one else can mint one with the
+              same name.
+            </p>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)}>
+                <FormLabel>Your Andamio Network Token Name:</FormLabel>
                 <FormInput
                   {...register("tokenAlias")}
                   name="tokenAlias"
-                  placeholder="Token Alias"
+                  placeholder="Choose your token name"
                   form={form}
                 />
                 {isAvailable && (
                   <div className="mb-2 text-sm text-green-500">
-                    This alias is available.
+                    This network token name is available.
                   </div>
                 )}
                 <Button>Submit</Button>
               </form>
             </Form>
-            <h2>What it means to mint an Andamio Access Token</h2>
             {address && mintingAlias && (
               <>
                 <pre>{address}</pre>

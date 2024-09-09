@@ -13,7 +13,7 @@ export default function PersonalNotesCard({
 }) {
   if (!!assignment) {
     return (
-      <Card className="">
+      <Card className="border border-primary shadow-md">
         <CardHeader className="flex w-full flex-row items-center justify-between">
           <h2 className="text-xl font-bold"> Personal Assignment Notes</h2>
           {currentCommitment?.status && (

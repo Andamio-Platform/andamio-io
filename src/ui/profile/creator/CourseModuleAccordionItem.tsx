@@ -30,6 +30,12 @@ export default function CourseModuleAccordionItem({
 
   const [isAccordionOpen, setIsAccordionOpen] = useState<boolean>(false);
 
+  const slts = cm.slts.sort((slt1, slt2) => {
+    if (slt1.moduleIndex < slt2.moduleIndex) return -1;
+    if (slt1.moduleIndex > slt2.moduleIndex) return 1;
+    return 0;
+  });
+
   return (
     <AccordionItem key={key} value={cm.moduleCode}>
       <AccordionTrigger
@@ -45,11 +51,10 @@ export default function CourseModuleAccordionItem({
           </h2>
           <div className="flex h-full flex-row items-center gap-5">
             <p>
-              {cm.slts.length}{" "}
-              <span className="font-beckman text-sm">SLTs</span>
+              {slts.length} <span className="font-beckman text-sm">SLTs</span>
             </p>
             <p>
-              {cm.slts.length}{" "}
+              {slts.length}{" "}
               <span className="font-beckman text-sm">Lessons</span>
             </p>
           </div>
@@ -72,7 +77,7 @@ export default function CourseModuleAccordionItem({
           <h3 className="mb-2 text-lg font-semibold">
             Student Learning Targets (SLTs)
           </h3>
-          {cm.slts.map((slt, j) => (
+          {slts.map((slt, j) => (
             <>
               <p key={j}>
                 <span className="font-mono font-semibold text-primary">

@@ -16,7 +16,7 @@ export default function DashboardHomeComponent() {
     accessTokenAlias ?? "",
   );
   return (
-    <div className="grid w-full grid-cols-4 md:w-5/6">
+    <div className="grid w-full grid-cols-4 md:w-3/4">
       {!connected && (
         <div className="col-span-4">
           <Card intent="dashboard" size="dashboard">

@@ -4,6 +4,8 @@ import AdminCreateCourseInstanceStepOne from "~/components/transactions/dialogs/
 import AdminCreateCourseInstanceStepTwo from "~/components/transactions/dialogs/AdminCreateCourseInstanceStepTwo";
 import { CardanoWallet } from "@meshsdk/react";
 import AdminCreateCourseInstanceStepThree from "~/components/transactions/dialogs/AdminCreateCourseInstanceStepThree";
+import AdminAddTeacherDialog from "~/components/transactions/dialogs/AdminAddTeacherDialog";
+import AdminRemoveTeacherDialog from "~/components/transactions/dialogs/AdminRemoveTeacherDialog";
 
 export default function AdminPage() {
   return (
@@ -26,6 +28,18 @@ export default function AdminPage() {
           <CardHeader>Deploy Course</CardHeader>
           <CardContent>
             <AdminCreateCourseInstanceStepThree />
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>Add Teacher to Course</CardHeader>
+          <CardContent>
+            <AdminAddTeacherDialog />
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>Remove Teacher from Course</CardHeader>
+          <CardContent>
+            <AdminRemoveTeacherDialog />
           </CardContent>
         </Card>
       </div>

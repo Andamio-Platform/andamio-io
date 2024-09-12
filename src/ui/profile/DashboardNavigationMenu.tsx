@@ -57,7 +57,7 @@ export default function DashboardNavigationMenu() {
           <Link href="/dashboard/teacher" linkText="Teacher" />
         )}
         <Link href="/dashboard/contributor" linkText="My Contributions" />
-        <Link href="/dashboard/goals" linkText="My Goals" />
+        {/* <Link href="/dashboard/goals" linkText="My Goals" /> */}
       </NavigationMenuList>
     </NavigationMenu>
   );

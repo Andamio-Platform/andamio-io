@@ -5,10 +5,12 @@ import { Button } from "~/components/ui/button";
 import { api } from "~/utils/api";
 import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
 
-export default function StepTwoDeployReferenceScripts({
+export default function AddCourseTeacherTx({
+  alias,
   policy,
   setSuccessTxHash,
 }: {
+  alias: string;
   policy: string;
   setSuccessTxHash: Dispatch<SetStateAction<string | undefined>>;
 }) {
@@ -17,12 +19,13 @@ export default function StepTwoDeployReferenceScripts({
   const { wallet } = useWallet();
 
   const { data: builtTxResponse } =
-    api.andamioAdminTransactions.initCourseStepTwo.useQuery({
+    api.andamioAdminTransactions.addCourseTeacher.useQuery({
+      aliases: [alias],
       policy: policy,
     });
 
   async function onSubmit() {
-    if (policy) {
+    if (alias) {
       if (builtTxResponse) {
         const signedTx = await wallet.signTx(
           builtTxResponse.unsignedTxCBOR,
@@ -41,11 +44,15 @@ export default function StepTwoDeployReferenceScripts({
   }
 
   return (
-    <div className="mx-4 flex items-center justify-center rounded-md border px-4 py-3 font-mono text-sm">
+    <div className="mx-4 flex flex-col items-center justify-center gap-2 rounded-md border px-4 py-3 text-sm">
       {builtTxResponse ? (
-        <Button onClick={onSubmit}>
-          Course Instance Step 2: Deploy Reference Scripts
-        </Button>
+        <>
+          <Button onClick={onSubmit}>Add a Teacher to Course</Button>
+          <p>You will add:</p>
+          <pre>{alias}</pre>
+          <p>To:</p>
+          <pre>{policy}</pre>
+        </>
       ) : (
         <div className="flex flex-col">
           <LoadingCircle />

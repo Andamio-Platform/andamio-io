@@ -1,4 +1,3 @@
-// start here!
 import { z } from "zod";
 import { indexerGetWithParams } from "~/lib/axios/indexer";
 
@@ -75,7 +74,7 @@ export const andamioAdminTxRouter = createTRPCRouter({
       else throw new Error("Could not complete step 3");
     }),
 
-  addCourseCreators: publicProcedure
+  addCourseTeacher: publicProcedure
     .input(
       z.object({
         aliases: z.array(z.string().min(1)),
@@ -87,16 +86,16 @@ export const andamioAdminTxRouter = createTRPCRouter({
         aliases: JSON.stringify(input.aliases),
         policy: input.policy,
       };
-      const unsignedTxCBOR = await indexerGetWithParams<
+      const builtTxResponse = await indexerGetWithParams<
         { unsignedTxCBOR: string },
         AddRemoveCourseCreatorParams
       >(`txs/instance-admin-actions/add-course-creators`, creatorParams);
 
-      https: if (unsignedTxCBOR) return unsignedTxCBOR;
+      https: if (builtTxResponse) return builtTxResponse;
       else throw new Error("Could not add course creators");
     }),
 
-  removeCourseCreators: publicProcedure
+  removeCourseTeacher: publicProcedure
     .input(
       z.object({
         aliases: z.array(z.string().min(1)),
@@ -108,12 +107,12 @@ export const andamioAdminTxRouter = createTRPCRouter({
         aliases: JSON.stringify(input.aliases),
         policy: input.policy,
       };
-      const unsignedTxCBOR = await indexerGetWithParams<
+      const builtTxResponse = await indexerGetWithParams<
         { unsignedTxCBOR: string },
         AddRemoveCourseCreatorParams
       >(`txs/instance-admin-actions/remove-course-creators`, creatorParams);
 
-      https: if (unsignedTxCBOR) return unsignedTxCBOR;
+      https: if (builtTxResponse) return builtTxResponse;
       else throw new Error("Could not remove course creators");
     }),
 });

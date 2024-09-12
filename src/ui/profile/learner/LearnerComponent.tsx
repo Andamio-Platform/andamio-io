@@ -20,7 +20,7 @@ export default function LearnerComponent() {
   const { coursecode } = router.query;
 
   return (
-    <div className="flex w-11/12">
+    <div className="flex w-11/12 lg:w-3/4">
       {/* If a course is selected, show COURSE DETAILS. Otherwise, show LEARNER OVERVIEW */}
       {!!coursecode && typeof coursecode === "string" ? (
         <CourseDetails

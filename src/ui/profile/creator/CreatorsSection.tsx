@@ -42,7 +42,7 @@ export default function CreatorsSection({
   if (!isTeacher) return null;
 
   return (
-    <div className="mx-auto w-11/12">
+    <div className="mx-auto flex w-11/12 flex-col">
       <NetworkModuleManagement
         courseNftPolicyId={selectedCoursePolicyId ?? ""}
         key={selectedCoursePolicyId ?? 0}

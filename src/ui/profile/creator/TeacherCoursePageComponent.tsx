@@ -11,7 +11,7 @@ export default function TeacherCoursePageComponent({
   const { connected } = useWallet();
   const { accessTokenAlias } = useAccessToken();
   return (
-    <div>
+    <div className="mx-auto flex w-5/6 items-center justify-center">
       {connected ? (
         <CreatorsSection
           accessTokenAlias={accessTokenAlias ?? ""}

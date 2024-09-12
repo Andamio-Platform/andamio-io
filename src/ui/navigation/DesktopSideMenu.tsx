@@ -80,10 +80,9 @@ export default function DesktopSideMenu({
             {isStudioContentRoute && course && (
               <>
                 <div className=" p-2">
-                  <p className="font-beckman text-sm">you are editing:</p>
+                  <p className="text-sm">editing:</p>
                   <h2 className="text-xl font-semibold">{course.title}</h2>
                 </div>
-                <p className="mt-3 px-2">Course Outline:</p>
                 <StudioOutline
                   currentCourseCode={coursecode}
                   isCreator={true}

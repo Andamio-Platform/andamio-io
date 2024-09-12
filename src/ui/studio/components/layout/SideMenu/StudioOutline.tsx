@@ -11,6 +11,8 @@ import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading
 import { useRouter } from "next/router";
 import useCourseModuleOverviews from "~/hooks/course/useCourseModuleOverviews";
 import { type CourseModuleOverview } from "~/types/db";
+import { removeAssignment } from "~/utils/removeAssignment";
+import { ArrowRightIcon } from "@radix-ui/react-icons";
 
 function useStudioRoute() {
   const router = useRouter();
@@ -43,7 +45,7 @@ export default function StudioOutline({
 
   function accordionContentClassNames(active: boolean) {
     return classNames(
-      "hover:text-accent-foreground-foreground text-foreground hover:bg-accent",
+      "hover:text-accent-foreground-foreground text-foreground transition-colors hover:bg-accent",
       "p-2 my-1",
       active ? "bg-indigo-200 hover:bg-indigo-200" : "",
     );
@@ -92,7 +94,18 @@ export default function StudioOutline({
                       : "#"
                   }
                 >
-                  <span className="font-semibold">Introduction</span>
+                  <div
+                    className={classNames(
+                      "grid grid-cols-6 gap-1 rounded-sm text-sm leading-6",
+                    )}
+                  >
+                    <div className="flex items-center justify-center text-primary">
+                      <ArrowRightIcon width={"15px"} height={"15px"} />
+                    </div>
+                    <div className="col-span-5 flex flex-col justify-start">
+                      <p className="">Module Introduction</p>
+                    </div>
+                  </div>
                 </Link>
               </AccordionContent>
 
@@ -115,10 +128,10 @@ export default function StudioOutline({
                             "group flex gap-x-3 text-sm leading-6",
                           )}
                         >
-                          <span className="text-secondary-foreground">
+                          <span className="font-semibold text-primary">
                             {courseModule.moduleCode}.{slt.moduleIndex}
                           </span>
-                          <span className="font-semibold">{slt.sltText}</span>
+                          <span className="">{slt.sltText}</span>
                         </p>
                       </Link>
                     </AccordionContent>
@@ -142,24 +155,25 @@ export default function StudioOutline({
                   >
                     <div
                       className={classNames(
-                        "grid grid-cols-5 gap-3 rounded-sm border border-primary py-1 text-sm leading-6 hover:bg-indigo-200",
+                        "grid grid-cols-6 gap-1 rounded-sm text-sm leading-6",
                         courseModule.assignments[0].assignmentCode ===
                           assignmentCode
                           ? "border-none"
                           : "",
                       )}
                     >
-                      <div className="flex items-center justify-center">
+                      <div className="flex items-center justify-center text-primary">
                         <DocumentIcon width={"15px"} height={"15px"} />
                       </div>
-                      <div className="col-span-4 flex flex-col justify-start">
-                        <p className="font-semibold">
+                      <div className="col-span-5 flex flex-col justify-start">
+                        <p className="font-semibold text-primary">
                           Assignment{" "}
-                          {courseModule.assignments[0].assignmentCode}:
+                          {removeAssignment(
+                            courseModule.assignments[0].assignmentCode,
+                          )}
+                          :
                         </p>
-                        <p className="font-semibold">
-                          {courseModule.assignments[0].title}
-                        </p>
+                        <p className="">{courseModule.assignments[0].title}</p>
                       </div>
                     </div>
                   </Link>

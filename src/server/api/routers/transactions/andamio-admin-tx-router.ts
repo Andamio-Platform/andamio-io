@@ -47,12 +47,12 @@ export const andamioAdminTxRouter = createTRPCRouter({
       const stepTwoParams: InitCourseStepTwoAndThreeParams = {
         policy: input.policy,
       };
-      const unsignedTxCBOR = await indexerGetWithParams<
-        { unsignedTxCBOR: string },
+      const builtTransaction = await indexerGetWithParams<
+        { courseNftPolicyId: string; unsignedTxCBOR: string },
         InitCourseStepTwoAndThreeParams
-      >(`txs/txs/instance-admin-actions/init-course-step-2`, stepTwoParams);
+      >(`txs/instance-admin-actions/init-course-step-2`, stepTwoParams);
 
-      if (unsignedTxCBOR) return unsignedTxCBOR;
+      if (builtTransaction) return builtTransaction;
       else throw new Error("Could not complete step 2");
     }),
 
@@ -69,7 +69,7 @@ export const andamioAdminTxRouter = createTRPCRouter({
       const unsignedTxCBOR = await indexerGetWithParams<
         { unsignedTxCBOR: string },
         InitCourseStepTwoAndThreeParams
-      >(`txs/txs/instance-admin-actions/init-course-step-3`, stepThreeParams);
+      >(`txs/instance-admin-actions/init-course-step-3`, stepThreeParams);
 
       if (unsignedTxCBOR) return unsignedTxCBOR;
       else throw new Error("Could not complete step 3");

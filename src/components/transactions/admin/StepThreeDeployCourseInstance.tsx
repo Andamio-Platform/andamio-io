@@ -5,11 +5,11 @@ import { Button } from "~/components/ui/button";
 import { api } from "~/utils/api";
 import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
 
-export default function StepOneMintCourseNft({
-  alias,
+export default function StepThreeDeployCourseInstance({
+  policy,
   setSuccessTxHash,
 }: {
-  alias: string;
+  policy: string;
   setSuccessTxHash: Dispatch<SetStateAction<string | undefined>>;
 }) {
   const { toast } = useToast();
@@ -17,12 +17,12 @@ export default function StepOneMintCourseNft({
   const { wallet } = useWallet();
 
   const { data: builtTxResponse } =
-    api.andamioAdminTransactions.initCourseStepOne.useQuery({
-      aliases: [alias],
+    api.andamioAdminTransactions.initCourseStepThree.useQuery({
+      policy: policy,
     });
 
   async function onSubmit() {
-    if (alias) {
+    if (policy) {
       if (builtTxResponse) {
         const signedTx = await wallet.signTx(
           builtTxResponse.unsignedTxCBOR,
@@ -41,16 +41,11 @@ export default function StepOneMintCourseNft({
   }
 
   return (
-    <div className="mx-4 flex flex-col items-center justify-center gap-2 rounded-md border px-4 py-3 text-sm">
+    <div className="mx-4 flex items-center justify-center rounded-md border px-4 py-3 font-mono text-sm">
       {builtTxResponse ? (
-        <>
-          <Button onClick={onSubmit}>
-            Course Instance Step 1: Mint Course NFT
-          </Button>
-          <p>This will mint a Course NFT with policy id:</p>
-          <pre>{builtTxResponse.courseNftPolicyId}</pre>
-          <p>Copy this Policy Id. You will use it in steps 2 and 3.</p>
-        </>
+        <Button onClick={onSubmit}>
+          Course Instance Step 3: Deploy Course
+        </Button>
       ) : (
         <div className="flex flex-col">
           <LoadingCircle />

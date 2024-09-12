@@ -3,6 +3,7 @@ import ProfileLayout from "./layout/ProfileLayout";
 import AdminCreateCourseInstanceStepOne from "~/components/transactions/dialogs/AdminCreateCourseInstanceStepOne";
 import AdminCreateCourseInstanceStepTwo from "~/components/transactions/dialogs/AdminCreateCourseInstanceStepTwo";
 import { CardanoWallet } from "@meshsdk/react";
+import AdminCreateCourseInstanceStepThree from "~/components/transactions/dialogs/AdminCreateCourseInstanceStepThree";
 
 export default function AdminPage() {
   return (
@@ -21,8 +22,12 @@ export default function AdminPage() {
             <AdminCreateCourseInstanceStepTwo />
           </CardContent>
         </Card>
-        <Card>Deploy reference scripts</Card>
-        <Card>Add ref scripts to ref input + mint course instance</Card>
+        <Card>
+          <CardHeader>Deploy Course</CardHeader>
+          <CardContent>
+            <AdminCreateCourseInstanceStepThree />
+          </CardContent>
+        </Card>
       </div>
     </ProfileLayout>
   );

@@ -9,9 +9,9 @@ import FormInput from "~/components/form/form-input";
 import { Form } from "~/components/ui/form";
 import SuccessTxModalContent from "../SuccessTxComponent";
 import FormLabel from "~/components/form/form-label";
-import StepTwoDeployReferenceScripts from "../admin/StepTwoDeployReferenceScripts";
+import StepThreeDeployCourseInstance from "../admin/StepThreeDeployCourseInstance";
 
-export default function AdminCreateCourseInstanceStepTwo() {
+export default function AdminCreateCourseInstanceStepThree() {
   const address = useAddress();
   const [courseNftPolicyId, setCourseNftPolicyId] = useState<
     string | undefined
@@ -46,19 +46,17 @@ export default function AdminCreateCourseInstanceStepTwo() {
 
   return (
     <Dialog>
-      <DialogTrigger>Step 2: Deploy Reference Scripts</DialogTrigger>
+      <DialogTrigger>Step 3: Build Course</DialogTrigger>
       <DialogContent>
         {successTxHash ? (
           <SuccessTxModalContent
-            txName="Deploy Scripts (Step 2)"
+            txName="Deploy Scripts (Step 3)"
             nextStepLinks={[]}
             txHash={successTxHash}
           />
         ) : (
           <>
-            <h2 className="text-2xl font-semibold">
-              Step 2: Deploy reference scripts
-            </h2>
+            <h2 className="text-2xl font-semibold">Step 3: Deploy Course</h2>
             {/* About this Module */}
             <h2 className="mt-5 text-xl font-semibold">About</h2>
             <p className="mb-5">Feature: Tell what is happening at this step</p>
@@ -76,7 +74,7 @@ export default function AdminCreateCourseInstanceStepTwo() {
             </Form>
             {address && courseNftPolicyId && (
               <>
-                <StepTwoDeployReferenceScripts
+                <StepThreeDeployCourseInstance
                   policy={courseNftPolicyId}
                   setSuccessTxHash={setSuccessTxHash}
                 />

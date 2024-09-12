@@ -131,8 +131,6 @@ export default function MintAccessTokenDialog() {
             </Form>
             {address && mintingAlias && (
               <>
-                <pre>{address}</pre>
-                <pre>{mintingAlias}</pre>
                 <MintAccessToken
                   userAddress={address}
                   alias={mintingAlias}

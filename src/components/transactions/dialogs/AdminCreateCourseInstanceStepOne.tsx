@@ -46,11 +46,7 @@ export default function AdminCreateCourseInstanceStepOne() {
 
   return (
     <Dialog>
-      <DialogTrigger>
-        <Button className="flex w-full cursor-pointer flex-row items-center gap-8 rounded-md border border-foreground bg-primary px-8 py-2 text-primary-foreground">
-          Step 1: Create a New Course NFT
-        </Button>
-      </DialogTrigger>
+      <DialogTrigger>Step 1: Create a New Course NFT</DialogTrigger>
       <DialogContent>
         {successTxHash ? (
           <SuccessTxModalContent
@@ -80,8 +76,6 @@ export default function AdminCreateCourseInstanceStepOne() {
             </Form>
             {address && creatorAliasToAdd && (
               <>
-                <pre>{address}</pre>
-                <pre>{creatorAliasToAdd}</pre>
                 <StepOneMintCourseNft
                   alias={creatorAliasToAdd}
                   setSuccessTxHash={setSuccessTxHash}

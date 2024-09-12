@@ -73,8 +73,9 @@ export default function DashboardHomeComponent() {
           <div>
             <p className="my-3 text-lg font-bold">Build your course(s)</p>
             <p>
-              You are the creator of {creatorCoursePolicies.length}. Select{" "}
-              <span className="font-beckman">CREATORS</span> manage courses.
+              You are a Teacher in {creatorCoursePolicies.length} courses.
+              Select <span className="font-semibold">Teacher</span> manage
+              courses.
             </p>
           </div>
         )}

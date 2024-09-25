@@ -19,11 +19,11 @@ p {
 }
 
 ul {
-  @apply list-disc ml-8 py-2;
+  @apply list-disc text-base lg:text-lg ml-8 py-3 leading-7;
 }
 
 ol {
-  @apply list-decimal ml-8 py-2;
+  @apply list-decimal text-base lg:text-lg ml-8 py-3 leading-7;
 }
 
 li {

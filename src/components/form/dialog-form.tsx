@@ -54,7 +54,7 @@ export default function DialogForm({
                 onClick={() => setIsOpen(true)}
               >
                 <GearIcon className="h-[14px] w-[14px] xl:h-[16px] xl:w-[16px]" />
-                <p className="mx-1 text-xs lg:text-sm">Settings</p>
+                <p className="mx-1 text-xs">Settings</p>
               </Button>
             )}
             {icon === "delete" && (
@@ -64,7 +64,7 @@ export default function DialogForm({
                 onClick={() => setIsOpen(true)}
               >
                 <TrashIcon className="h-[14px] w-[14px] xl:h-[16px] xl:w-[16px]" />
-                <p className="mx-1 text-xs lg:text-sm">Delete SLT</p>
+                <p className="mx-1 text-xs">Delete SLT</p>
               </Button>
             )}
             {icon === "bigPlus" && (
@@ -74,7 +74,7 @@ export default function DialogForm({
                 onClick={() => setIsOpen(true)}
               >
                 <PlusCircledIcon className="h-[14px] w-[14px] xl:h-[25px] xl:w-[25px]" />
-                <p className="mx-5 text-xs lg:text-sm">{openButton}</p>
+                <p className="mx-5 text-xs">{openButton}</p>
               </Button>
             )}
             {icon === "plus" && (

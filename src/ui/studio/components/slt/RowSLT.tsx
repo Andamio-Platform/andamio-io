@@ -80,7 +80,7 @@ export function SortableSLT({
   return (
     <SortableSltContext.Provider value={context}>
       <div style={style}>
-        <div className="mx-auto my-1 flex w-11/12 flex-row gap-1">
+        <div className="mx-auto my-1 flex w-11/12 flex-row items-center gap-1">
           {!published && <DragHandle />}
           <RowSLT
             courseCode={courseCode}
@@ -183,7 +183,7 @@ export function RowSLT({
     <div ref={setNodeRef} onKeyDown={handleKeyDown}>
       {module && (
         <div
-          className={`mx-auto my-1 grid h-[55px] w-full grid-cols-12 py-2 sm:w-[535px] md:w-[630px] lg:w-[700px] xl:w-[850px] 2xl:w-[975px] ${isLoadingUpdate && "opacity-50"}`}
+          className={`mx-auto my-1 grid w-full grid-cols-12 items-center py-2 ${isLoadingUpdate && "opacity-50"}`}
           key={`${module.moduleCode}-${slt.moduleIndex}`}
         >
           <div className="col-span-1 flex items-center">
@@ -191,10 +191,14 @@ export function RowSLT({
               {module.moduleCode}.{slt.moduleIndex}
             </p>
           </div>
-          <div className="col-span-8 flex w-full items-center">
-            {published ? (
+          {published ? (
+            <div className="col-span-8 flex w-full items-center">
               <p>{slt.sltText}</p>
-            ) : (
+            </div>
+          ) : (
+            <div
+              className={`${editSltText ? "col-span-11 w-full" : "col-span-6"} flex items-center`}
+            >
               <ToggleEditableField
                 name="sltText"
                 form={form}
@@ -205,29 +209,31 @@ export function RowSLT({
                 setEditText={setEditSltText}
                 text={slt.sltText}
               />
-            )}
-          </div>
+            </div>
+          )}
 
-          <div className="col-span-3 col-start-10 flex items-center justify-end gap-5 px-8">
-            <Link
-              href={`/studio/${courseCode}/${module.moduleCode}/lesson/${slt.moduleIndex}`}
-              className=""
-            >
-              <Button intent="ghost" size="icon">
-                <FileIcon className="h-[14px] w-[14px] xl:h-[16px] xl:w-[16px]" />
-                <p className="mx-1 text-xs lg:text-sm">Edit Lesson</p>
-              </Button>
-            </Link>
-            {!published && (
-              <DialogSLTDelete
-                sltDeleteDialogOpen={sltDeleteDialogOpen}
-                setSltDeleteDialogOpen={setSltDeleteDialogOpen}
-                slt={slt}
-                courseCode={courseCode}
-                module={module}
-              />
-            )}
-          </div>
+          {!editSltText && (
+            <div className="col-span-2 col-start-11 flex items-center justify-end gap-1 px-8 lg:gap-3 xl:col-span-3 xl:col-start-10">
+              <Link
+                href={`/studio/${courseCode}/${module.moduleCode}/lesson/${slt.moduleIndex}`}
+                className=""
+              >
+                <Button intent="ghost" size="icon">
+                  <FileIcon className="h-[14px] w-[14px] xl:h-[16px] xl:w-[16px]" />
+                  <p className="mx-1 text-xs">Edit Lesson</p>
+                </Button>
+              </Link>
+              {!published && (
+                <DialogSLTDelete
+                  sltDeleteDialogOpen={sltDeleteDialogOpen}
+                  setSltDeleteDialogOpen={setSltDeleteDialogOpen}
+                  slt={slt}
+                  courseCode={courseCode}
+                  module={module}
+                />
+              )}
+            </div>
+          )}
         </div>
       )}
     </div>

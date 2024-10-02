@@ -34,7 +34,6 @@ const MyApp: AppType<{ session: Session | null }> = ({
             <TncDialog />
           </div>
           <DialogReportSupport />
-          <Footer />
         </MeshProvider>
       </SessionProvider>
     </ThemeProvider>

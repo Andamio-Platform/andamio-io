@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Metatags from "~/components/site/metatags";
 import PageCourse from "~/ui/course/[coursecode]/PageCourse";
+import Footer from "~/ui/landing/Footer";
 import SB7PageLanding from "~/ui/landing/SB7PageLanding";
 import { api } from "~/utils/api";
 
@@ -37,6 +38,7 @@ export default function Landing() {
         // <PageLanding />
         <SB7PageLanding />
       )}
+      <Footer />
     </>
   );
 }

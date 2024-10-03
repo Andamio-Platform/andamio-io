@@ -21,6 +21,7 @@ import { CalendarIcon } from "@radix-ui/react-icons";
 import { Calendar } from "~/components/ui/calendar";
 import { format } from "date-fns";
 import useCourseModuleOverviews from "~/hooks/course/useCourseModuleOverviews";
+import CurrentCourseListItem from "~/ui/profile/learner/CurrentCourseListItem";
 
 type ModuleOption = {
   value: string;
@@ -322,7 +323,7 @@ export default function DialogModule({
 
           {currentCourseModule && (
             <div className="flex items-center gap-2">
-              <div className="grow"></div>
+              <div className="grow">{currentCourseModule.id}</div>
               <Button
                 type="button"
                 disabled={isLoadingDelete}

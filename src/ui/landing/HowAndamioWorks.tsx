@@ -1,72 +1,101 @@
 import Image from "next/image";
 
-const steps = [
-  {
-    id: 1,
-    backgroundImage: "/images/site/girlboss3.jpg",
-    stepImage: "/images/site/step_1.png",
-    altText: "CEO Sarah",
-    heading: "Meet CEO Sarah",
-    description:
-      "Sarah needs to get some work done and is looking for a skilled contributor. She creates a course on Andamio.",
-  },
-  {
-    id: 2,
-    backgroundImage: "/images/site/skilledpete.jpg",
-    stepImage: "/images/site/step_2.png",
-    altText: "Skilled Pete",
-    heading: "Meet Skilled Pete",
-    description:
-      "Pete is excited about the opportunity. He takes Sarah's course on Andamio and earns a skill.",
-  },
-  {
-    id: 3,
-    backgroundImage: "/images/site/pay.jpg",
-    stepImage: "/images/site/step_3.png",
-    altText: "Pete gets paid",
-    heading: "Pete Gets Paid",
-    description:
-      "Pete does the job and gets paid. Pete learns a new skill and the process repeats.",
-    comingSoon: true,
-  },
-];
-
-function Step({
-  backgroundImage,
-  stepImage,
-  altText,
-  heading,
-  description,
-  comingSoon,
-}) {
-  return (
-    <div
-      className="relative flex items-center justify-center bg-cover bg-center p-8"
-      style={{ backgroundImage: `url(${backgroundImage})` }}
-    >
-      <div className="absolute inset-0 bg-black opacity-50"></div>
-      <div className="relative z-10 grid max-w-md grid-cols-1 gap-4 p-6 text-white">
-        <div className="flex flex-col items-center">
-          <Image src={stepImage} alt={altText} width={200} height={200} />
-          <h3 className="mt-4 text-3xl font-bold">{heading}</h3>
-        </div>
-        {comingSoon && (
-          <h4 className="text-center text-2xl font-extrabold text-orange-500">
-            COMING SOON
-          </h4>
-        )}
-        <p className="mt-2 text-lg">{description}</p>
-      </div>
-    </div>
-  );
-}
-
 export function HowAndamioWorks() {
   return (
-    <section className="min-h-screen">
-      {steps.map((step) => (
-        <Step key={step.id} {...step} />
-      ))}
-    </section>
+    <div
+      className="z-20 flex min-h-screen w-screen flex-col items-center justify-center"
+      id="how-andamio-works"
+    >
+      <div className="mx-auto mb-5 flex min-h-40 w-full flex-row items-center justify-center md:mb-24">
+        <h1 className="scroll-m-20 text-3xl font-semibold text-black md:text-8xl">
+          How&nbsp;
+        </h1>
+        <Image
+          width={600}
+          height={600}
+          className="h-10 w-auto md:h-40"
+          src="/andamio-logo-w-typography.jpg"
+          alt="Andamio"
+        />
+        <h1 className="scroll-m-20 text-3xl font-semibold text-black md:text-8xl">
+          works
+        </h1>
+      </div>
+      <div className="flex h-1/5 w-screen flex-col text-black md:flex-row md:text-xl">
+        <div className="flex h-full w-full flex-col items-center justify-end md:w-1/3">
+          <Image
+            width={600}
+            height={600}
+            className="h-40 w-auto"
+            src="/images/site/step_1.png"
+            alt="step-1"
+          />
+          <Image
+            width={600}
+            height={600}
+            className="h-40 w-auto"
+            src="/images/site/view-cool-3d-woman-posing.png"
+            alt="ceo-sarah"
+          />
+          <div className="flex h-full w-full flex-col items-center justify-start px-20">
+            <text className="my-5 justify-center font-bold">
+              Meet CEO Sarah
+            </text>
+            Sarah needs to get some work done and is looking for a skilled
+            contributor. So she creates a course on Andamio to teach the skills
+            needed to get the job done.
+          </div>
+        </div>
+        <div className="flex h-full w-full flex-col items-center justify-end md:w-1/3">
+          <Image
+            width={600}
+            height={600}
+            className="h-40 w-auto"
+            src="/images/site/step_2.png"
+            alt="step-2"
+          />
+          <Image
+            width={600}
+            height={600}
+            className="h-40 w-auto"
+            src="/images/site/view-3d-businessman.png"
+            alt="skilled-pete"
+          />
+          <div className="flex h-full w-full flex-col items-center justify-start px-20">
+            <text className="my-5 justify-center font-bold">
+              Meet Skilled Pete
+            </text>
+            Pete is excited about the opportunity and takes Sarah&apos;s course
+            on Andamio and earns a skill
+          </div>
+        </div>
+        <div className="flex h-full w-full flex-col items-center justify-end md:w-1/3">
+          <Image
+            width={600}
+            height={600}
+            className="h-40 w-auto"
+            src="/images/site/step_3.png"
+            alt="step-3"
+          />
+          <Image
+            width={600}
+            height={600}
+            className="h-40 w-auto"
+            src="/images/site/coins.png"
+            alt="coin"
+          />
+          <div className="flex h-full w-full flex-col items-center justify-start px-20">
+            <text className="my-5 justify-center font-bold">
+              Pete gets paid
+            </text>
+            Pete does the job and gets paid. Pete learns a new skill and the
+            process repeats
+            <h1 className="mt-10 hidden font-bold text-red-400 md:block">
+              COMING SOON
+            </h1>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

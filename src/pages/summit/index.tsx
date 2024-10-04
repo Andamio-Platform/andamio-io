@@ -47,7 +47,7 @@ const AndamioComponent = () => {
       {/* Header Section */}
       <header className="w-full">
         <Image
-          src="/andamio-summit-coverv5.png"
+          src="/Andamio-summit-coverv5.png"
           alt="andamio banner"
           className="h-auto w-full"
           width={6176}

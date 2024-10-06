@@ -7,6 +7,7 @@ import { Form } from "~/components/ui/form";
 import FormInput from "~/components/form/form-input";
 import { useCallback, useEffect, useState } from "react";
 import DialogForm from "~/components/form/dialog-form";
+import useCourseModuleOverviews from "~/hooks/course/useCourseModuleOverviews";
 
 export default function DialogImportModule({
   courseCode,
@@ -17,14 +18,16 @@ export default function DialogImportModule({
 }) {
   const ctx = api.useUtils();
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const { refetchCourseModules } = useCourseModuleOverviews(courseCode);
 
   const { mutate: importCourseModule, isLoading: isLoadingCreate } =
     api.module.copyModuleToCourse.useMutation({
-      onSuccess: (data) => {
+      onSuccess: () => {
         toast.success("Module imported successfully");
         void ctx.module.getCourseModuleOverviews.invalidate({
           courseCode: courseCode,
         });
+        void refetchCourseModules();
       },
       onError: (e) => {
         const errorMessage = e.data?.zodError?.fieldErrors;
@@ -67,7 +70,7 @@ export default function DialogImportModule({
     <Form {...form}>
       <DialogForm
         openButton="Import Course Module"
-        openButtonIntent="dialog"
+        openButtonIntent="default"
         title="Import Existing Module"
         description="Import Course Module"
         icon="plus"

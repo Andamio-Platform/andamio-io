@@ -199,19 +199,25 @@ export const moduleRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const userId = ctx.session.user.creatorId;
+      const creatorId = ctx.session.user.creatorId;
 
       const sourceModule = await ctx.db.module.findFirst({
         where: {
           id: input.originalCourseModuleId,
           originalCourse: {
-            createdById: userId, // after this is working, extend to any contributor
+            OR: [
+              { createdById: creatorId }, // after this is working, extend to any contributor
+              { contributors: { some: { id: creatorId } } },
+            ],
           },
         },
         include: {
-          slts: true,
+          slts: {
+            include: {
+              lesson: true,
+            },
+          },
           introduction: true,
-          lessons: true,
           assignments: true,
         },
       });
@@ -226,7 +232,7 @@ export const moduleRouter = createTRPCRouter({
       const targetCourse = await ctx.db.course.findFirst({
         where: {
           id: input.targetCourseId,
-          createdById: userId, // after this is working, extend to any contributor
+          createdById: creatorId, // after this is working, extend to any contributor
         },
       });
 
@@ -240,7 +246,7 @@ export const moduleRouter = createTRPCRouter({
 
       const newCourseModule = await ctx.db.module.create({
         data: {
-          moduleCode: sourceModule.moduleCode + "_copy",
+          moduleCode: sourceModule.moduleCode + "-c",
           title: sourceModule.title + " (copy)",
           description: sourceModule.description,
           courseId: targetCourse.id,
@@ -249,7 +255,7 @@ export const moduleRouter = createTRPCRouter({
 
       // Copy SLTs
       for (const slt of sourceModule.slts) {
-        await ctx.db.slt.create({
+        const newSlt = await ctx.db.slt.create({
           data: {
             moduleId: newCourseModule.id,
             moduleIndex: slt.moduleIndex,
@@ -257,23 +263,22 @@ export const moduleRouter = createTRPCRouter({
             createdById: slt.createdById,
           },
         });
-      }
 
-      // Copy Lessons
-      for (const lesson of sourceModule.lessons) {
-        await ctx.db.lesson.create({
-          data: {
-            module: { connect: { id: newCourseModule.id } },
-            title: lesson.title + " (Copy)",
-            description: lesson.description,
-            contentJson: lesson.contentJson ?? {},
-            imageUrl: lesson.imageUrl,
-            videoUrl: lesson.videoUrl,
-            live: lesson.live,
-            createdBy: { connect: { id: lesson.createdById } },
-            slt: { connect: { id: lesson.sltId } }, // this is the old SLT ID - we want it to be the new one - may require additional refactoring
-          },
-        });
+        if (slt.lesson) {
+          await ctx.db.lesson.create({
+            data: {
+              module: { connect: { id: newCourseModule.id } },
+              slt: { connect: { id: newSlt.id } },
+              title: slt.lesson.title + " (Copy)",
+              description: slt.lesson.description,
+              contentJson: slt.lesson.contentJson ?? {},
+              imageUrl: slt.lesson.imageUrl,
+              videoUrl: slt.lesson.videoUrl,
+              live: false,
+              createdBy: { connect: { id: slt.lesson.createdById } },
+            },
+          });
+        }
       }
 
       // Copy Assignments (those directly related to the module)

@@ -7,7 +7,6 @@ This patch release includes minor updates, bug fixes to improve UI/UX
 ### Bug Fixes
 
 - Fixed an issue where Footer was duplicated [#183](https://github.com/Andamio-Platform/andamio-platform/issues/183)
-- Fixed an issue where content editor assigns external links to non-url [#163](https://github.com/Andamio-Platform/andamio-platform/issues/163)
 - Fixed an issue where name of month was same color as background in date-picker [#187](https://github.com/Andamio-Platform/andamio-platform/issues/187)
 
 ### Improvements
@@ -24,3 +23,4 @@ This patch release includes minor updates, bug fixes to improve UI/UX
 
 - Dark mode colors lack consistency and contrast
 - Transactions should handle all error states
+- There may still be an issue where content editor assigns external links to non-url [#163](https://github.com/Andamio-Platform/andamio-platform/issues/163). Ignoring this possible issue for initial user-testing. Will re-open when it is a priority.

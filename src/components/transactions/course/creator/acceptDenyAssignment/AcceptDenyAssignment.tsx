@@ -1,9 +1,7 @@
-import { useAddress, useWallet } from "@meshsdk/react";
-import { type Dispatch, type SetStateAction, useState } from "react";
-import { useToast } from "~/components/ui/use-toast";
-import Loading from "~/components/loading";
-import { Button } from "~/components/ui/button";
+import { useWallet } from "@meshsdk/react";
+import { type Dispatch, type SetStateAction } from "react";
 import { api } from "~/utils/api";
+import TransactionContainer from "~/components/transactions/TransactionContainer";
 
 export default function AcceptDenyAssignment({
   courseNftPolicy,
@@ -18,58 +16,36 @@ export default function AcceptDenyAssignment({
   decision: "accept" | "deny";
   setSuccessTxHash: Dispatch<SetStateAction<string | undefined>>;
 }) {
-  const { toast } = useToast();
-
   const { wallet } = useWallet();
-  const address = useAddress();
-  const [isLoading, setIsLoading] = useState(false);
 
-  const {
-    data: unsignedTxCBOR,
-    isError: txError,
-    isLoading: txLoading,
-  } = decision === "accept"
-    ? api.creatorCourseTransactions.acceptAssignment.useQuery({
-        userAccessTokenUnit: userAccessTokenUnit,
-        courseNftPolicyId: courseNftPolicy,
-        studentAlias: studentAlias,
-      })
-    : api.creatorCourseTransactions.denyAssignment.useQuery({
-        userAccessTokenUnit: userAccessTokenUnit,
-        courseNftPolicyId: courseNftPolicy,
-        studentAlias: studentAlias,
-      });
-
-  async function onSubmit() {
-    setIsLoading(true);
-    if (address) {
-      if (unsignedTxCBOR) {
-        const signedTx = await wallet.signTx(
-          unsignedTxCBOR.unsignedTxCBOR,
-          true,
-        );
-        console.log(signedTx);
-        const txId = await wallet.submitTx(signedTx);
-        console.log(txId);
-        toast({
-          title: "Transaction submitted",
-          description: `${txId}`,
+  const { data: unsignedTxCBOR, error: txError } =
+    decision === "accept"
+      ? api.creatorCourseTransactions.acceptAssignment.useQuery({
+          userAccessTokenUnit: userAccessTokenUnit,
+          courseNftPolicyId: courseNftPolicy,
+          studentAlias: studentAlias,
+        })
+      : api.creatorCourseTransactions.denyAssignment.useQuery({
+          userAccessTokenUnit: userAccessTokenUnit,
+          courseNftPolicyId: courseNftPolicy,
+          studentAlias: studentAlias,
         });
-        setSuccessTxHash(txId);
-      }
-    }
+
+  if (txError) {
+    return (
+      <div className="mx-4 flex items-center justify-center rounded-md border px-4 py-3 font-mono text-sm">
+        <h2>Transaction Error</h2>
+        <p>{txError.message}</p>
+      </div>
+    );
   }
 
   return (
-    <div className="mx-4 flex items-center justify-center rounded-md border px-4 py-3 font-mono text-sm">
-      {unsignedTxCBOR ? (
-        <Button onClick={onSubmit}>{decision} assignment</Button>
-      ) : (
-        <>
-          {txLoading || (isLoading && <Loading />)}
-          {txError && "Tx Error"}
-        </>
-      )}
-    </div>
+    <TransactionContainer
+      buttonText={`${decision} assignment`}
+      unsignedTxCBOR={unsignedTxCBOR}
+      wallet={wallet}
+      setSuccessTxHash={setSuccessTxHash}
+    />
   );
 }

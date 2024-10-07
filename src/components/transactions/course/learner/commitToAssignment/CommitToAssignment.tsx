@@ -1,6 +1,5 @@
 import { CardanoWallet, useWallet } from "@meshsdk/react";
 import { useState } from "react";
-import Loading from "~/components/loading";
 import { Button } from "~/components/ui/button";
 import useNetworkCourseConfig from "~/hooks/onchain/useNetworkCourseConfig";
 import { NETWORK } from "~/andamio.config";
@@ -19,6 +18,8 @@ import {
 import { Input } from "~/components/ui/input";
 import { useAccessToken } from "~/hooks/onchain/useAccessToken";
 import { api } from "~/utils/api";
+import TransactionContainer from "~/components/transactions/TransactionContainer";
+import SuccessTxModalContent from "~/components/transactions/SuccessTxComponent";
 
 const FormSchema = z.object({
   assignmentInfo: z.string().min(2, {
@@ -121,10 +122,11 @@ export function CommitToAssignmentButton({
   assignmentCode: string;
   assignmentInfo: string;
 }) {
-  const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(false);
-
   const { wallet } = useWallet();
+
+  const [successTxHash, setSuccessTxHash] = useState<string | undefined>(
+    undefined,
+  );
 
   const { data: unsignedTxCBOR } =
     api.learnerCourseTransactions.commitToAssignment.useQuery({
@@ -134,31 +136,22 @@ export function CommitToAssignmentButton({
       assignmentInfo: assignmentInfo,
     });
 
-  async function onSubmit() {
-    setIsLoading(true);
-
-    if (unsignedTxCBOR) {
-      const signedTx = await wallet.signTx(unsignedTxCBOR.unsignedTxCBOR, true);
-      console.log(signedTx);
-      const txId = await wallet.submitTx(signedTx);
-      console.log(txId);
-      toast({
-        title: "Transaction submitted",
-        description: `${txId}`,
-      });
-    }
+  if (!!successTxHash) {
+    return (
+      <SuccessTxModalContent
+        txName="Committed to Assignment"
+        txHash={successTxHash}
+        nextStepLinks={[]}
+      />
+    );
   }
 
   return (
-    <div className="mx-4 flex items-center justify-center rounded-md border px-4 py-3 font-mono text-sm">
-      {unsignedTxCBOR || isLoading ? (
-        <Button onClick={onSubmit}>Commit To Assignment</Button>
-      ) : (
-        <>
-          {/* {isConfirming && <p>Confirming transaction...</p>} */}
-          <Loading />
-        </>
-      )}
-    </div>
+    <TransactionContainer
+      buttonText={`Commit to Assignment`}
+      unsignedTxCBOR={unsignedTxCBOR}
+      wallet={wallet}
+      setSuccessTxHash={setSuccessTxHash}
+    />
   );
 }

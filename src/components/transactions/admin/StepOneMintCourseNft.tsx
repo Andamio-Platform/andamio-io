@@ -3,7 +3,7 @@ import { type Dispatch, type SetStateAction } from "react";
 import { useToast } from "~/components/ui/use-toast";
 import { Button } from "~/components/ui/button";
 import { api } from "~/utils/api";
-import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
+import TransactionLoading from "../TransactionLoading";
 
 export default function StepOneMintCourseNft({
   alias,
@@ -53,7 +53,7 @@ export default function StepOneMintCourseNft({
         </>
       ) : (
         <div className="flex flex-col">
-          <LoadingCircle />
+          <TransactionLoading wallet={wallet} />
         </div>
       )}
     </div>

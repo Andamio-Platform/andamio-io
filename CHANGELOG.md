@@ -21,3 +21,6 @@ This patch release includes minor updates, bug fixes to improve UI/UX
 - Course contributor can copy a module from one course to another in basic UI [#193](https://github.com/Andamio-Platform/andamio-platform/pull/193)
 
 ### Known Issues
+
+- Dark mode colors lack consistency and contrast
+- Transactions should handle all error states

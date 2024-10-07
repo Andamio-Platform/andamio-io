@@ -2,6 +2,7 @@ import React from "react";
 import RoadmapEraComponent from "~/ui/roadmap/RoadmapEraComponent";
 import { roadmap } from "../../roadmap";
 import MenuBar from "../../ui/landing/MenuBar";
+import Footer from "~/ui/landing/Footer";
 const ProductRoadmap = () => {
   return (
     <>
@@ -21,6 +22,7 @@ const ProductRoadmap = () => {
           </div>
         </div>
       </main>
+      <Footer />
     </>
   );
 };

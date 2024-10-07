@@ -18,6 +18,7 @@ import { FormControl, FormField, FormItem } from "~/components/ui/form";
 import DialogStudioHelp from "~/ui/studio/components/dialogs/DialogStudioHelp";
 import DialogAddVideoLink from "~/ui/studio/components/dialogs/DialogAddVideoLink";
 import DialogCreatorNotes from "~/ui/studio/components/dialogs/DialogCreatorNotes";
+import { type Editor } from "@tiptap/react";
 
 export default function ContentEditorMenuBar({
   form,
@@ -26,6 +27,7 @@ export default function ContentEditorMenuBar({
   contentPath,
   onSubmit,
   setGetLessonPlanDialogOpen,
+  editor,
 }: {
   form: FieldValues;
   course: Course;
@@ -33,6 +35,7 @@ export default function ContentEditorMenuBar({
   contentPath: string;
   onSubmit: () => void;
   setGetLessonPlanDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  editor: Editor;
 }) {
   if (!course) return;
 
@@ -55,6 +58,17 @@ export default function ContentEditorMenuBar({
             <MenubarSeparator />
             <MenubarItem>Import</MenubarItem>
             <MenubarItem>Export</MenubarItem>
+          </MenubarContent>
+        </MenubarMenu>
+        <MenubarMenu>
+          <MenubarTrigger>Edit</MenubarTrigger>
+          <MenubarContent>
+            <MenubarItem onClick={() => editor.commands.undo()}>
+              Undo <MenubarShortcut>CTRL-Z</MenubarShortcut>
+            </MenubarItem>
+            <MenubarItem onClick={() => editor.commands.redo()}>
+              Redo <MenubarShortcut>CTRL-Y</MenubarShortcut>
+            </MenubarItem>
           </MenubarContent>
         </MenubarMenu>
         <MenubarMenu>

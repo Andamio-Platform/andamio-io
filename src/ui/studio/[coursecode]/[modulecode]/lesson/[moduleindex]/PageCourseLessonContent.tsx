@@ -275,23 +275,27 @@ export default function PageCourseLessonContent({
         <div className="ml-80 flex flex-col">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
-              <HeaderSection
-                form={form}
-                course={course}
-                courseModule={courseModule}
-                editContent={editLesson}
-                setEditContent={setEditLesson}
-                isLoadingUpdate={isLoadingUpdate}
-                onCancel={onCancel}
-                onSubmit={form.handleSubmit(onSubmit)}
-                slt={slt}
-                courseContent={lesson}
-                intent="lesson"
-                setGetLessonPlanDialogOpen={setGetLessonPlanDialogOpen}
-              />
-
-              <div className="flex w-full bg-card">
-                {!!editor && <ContentEditor editor={editor} />}
+              <div className="flex w-full flex-col bg-card">
+                {!!editor && (
+                  <>
+                    <HeaderSection
+                      form={form}
+                      course={course}
+                      courseModule={courseModule}
+                      editContent={editLesson}
+                      setEditContent={setEditLesson}
+                      isLoadingUpdate={isLoadingUpdate}
+                      onCancel={onCancel}
+                      onSubmit={form.handleSubmit(onSubmit)}
+                      slt={slt}
+                      courseContent={lesson}
+                      intent="lesson"
+                      setGetLessonPlanDialogOpen={setGetLessonPlanDialogOpen}
+                      editor={editor}
+                    />
+                    <ContentEditor editor={editor} />
+                  </>
+                )}
               </div>
             </form>
           </Form>

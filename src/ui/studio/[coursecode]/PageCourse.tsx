@@ -14,6 +14,7 @@ import SelectNetwork from "~/components/select-network";
 import ModuleComponent from "../components/ModuleComponent";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import Metatags from "~/components/site/metatags";
+import ModuleImportComponent from "../components/ModuleImportComponent";
 
 export default function PageCourse({ courseCode }: { courseCode: string }) {
   const { course, isLoadingCourses } = useCoursesByOwner(courseCode);
@@ -51,6 +52,9 @@ export default function PageCourse({ courseCode }: { courseCode: string }) {
                   <TabsTrigger value="onchain" className="px-10">
                     Andamio Network Configuration
                   </TabsTrigger>
+                  <TabsTrigger value="import" className="px-10">
+                    Import
+                  </TabsTrigger>
                 </TabsList>
                 <TabsContent value="modules">
                   <ModuleComponent course={course} />
@@ -67,6 +71,9 @@ export default function PageCourse({ courseCode }: { courseCode: string }) {
                     course={course}
                     network={selectedNetwork}
                   />
+                </TabsContent>
+                <TabsContent value="import">
+                  <ModuleImportComponent course={course} />
                 </TabsContent>
               </Tabs>
               <div className="mt-10 flex w-full flex-row justify-between">

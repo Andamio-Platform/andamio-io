@@ -311,13 +311,15 @@ export default function DialogModule({
                 )}
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-auto p-0 text-primary-foreground">
-              <Calendar
-                mode="single"
-                selected={moduleReleaseDate}
-                onSelect={setModuleReleaseDate}
-                initialFocus
-              />
+            <PopoverContent className="">
+              <div className="mx-auto flex w-full justify-center">
+                <Calendar
+                  mode="single"
+                  selected={moduleReleaseDate}
+                  onSelect={setModuleReleaseDate}
+                  initialFocus
+                />
+              </div>
             </PopoverContent>
           </Popover>
 

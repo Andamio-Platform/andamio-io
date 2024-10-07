@@ -11,7 +11,6 @@ import { MeshProvider } from "@meshsdk/react";
 import { DialogReportSupport } from "~/ui/site/DialogReportSupport";
 import TncDialog from "~/ui/site/TncDialog";
 import Metatags from "~/components/site/metatags";
-import Footer from "~/ui/landing/Footer";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,

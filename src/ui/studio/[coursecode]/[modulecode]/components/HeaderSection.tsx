@@ -12,6 +12,7 @@ import ControlPanel from "~/ui/studio/components/form-sections/ControlPanel";
 import CardSLT from "~/ui/studio/components/slt/CardSLT";
 import { ToggleEditableField } from "~/components/ui/toggle-editable-field";
 import ContentEditorMenuBar from "./ContentEditorMenuBar";
+import { type Editor } from "@tiptap/react";
 
 type CourseContent = Lesson | Assignment | Introduction;
 
@@ -28,6 +29,7 @@ export default function HeaderSection({
   courseContent,
   intent,
   setGetLessonPlanDialogOpen,
+  editor,
 }: {
   form: FieldValues;
   course: Course;
@@ -41,6 +43,7 @@ export default function HeaderSection({
   courseContent: CourseContent;
   intent: "lesson" | "assignment" | "introduction";
   setGetLessonPlanDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  editor: Editor;
 }) {
   if (!course || !courseContent) return;
 
@@ -116,6 +119,7 @@ export default function HeaderSection({
           contentPath={liveContentPath}
           onSubmit={onSubmit}
           setGetLessonPlanDialogOpen={setGetLessonPlanDialogOpen}
+          editor={editor}
         />
         <ControlPanel
           editContent={editContent}

@@ -21,6 +21,7 @@ import { CalendarIcon } from "@radix-ui/react-icons";
 import { Calendar } from "~/components/ui/calendar";
 import { format } from "date-fns";
 import useCourseModuleOverviews from "~/hooks/course/useCourseModuleOverviews";
+import CurrentCourseListItem from "~/ui/profile/learner/CurrentCourseListItem";
 
 type ModuleOption = {
   value: string;
@@ -310,19 +311,21 @@ export default function DialogModule({
                 )}
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-auto p-0 text-primary-foreground">
-              <Calendar
-                mode="single"
-                selected={moduleReleaseDate}
-                onSelect={setModuleReleaseDate}
-                initialFocus
-              />
+            <PopoverContent className="">
+              <div className="mx-auto flex w-full justify-center">
+                <Calendar
+                  mode="single"
+                  selected={moduleReleaseDate}
+                  onSelect={setModuleReleaseDate}
+                  initialFocus
+                />
+              </div>
             </PopoverContent>
           </Popover>
 
           {currentCourseModule && (
             <div className="flex items-center gap-2">
-              <div className="grow"></div>
+              <div className="grow">{currentCourseModule.id}</div>
               <Button
                 type="button"
                 disabled={isLoadingDelete}

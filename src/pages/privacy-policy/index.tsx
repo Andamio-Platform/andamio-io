@@ -1,3 +1,4 @@
+import Footer from "~/ui/landing/Footer";
 import MenuBar from "~/ui/landing/MenuBar";
 
 export default function PrivacyPolicyPage() {
@@ -250,6 +251,7 @@ export default function PrivacyPolicyPage() {
           </li>
         </ul>
       </div>
+      <Footer />
     </main>
   );
 }

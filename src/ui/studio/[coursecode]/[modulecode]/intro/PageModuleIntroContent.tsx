@@ -261,22 +261,26 @@ export default function PageModuleIntroContent({
         <div className="ml-80 flex flex-col">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
-              <HeaderSection
-                form={form}
-                course={course}
-                courseModule={courseModule}
-                editContent={editIntroduction}
-                setEditContent={setEditIntroduction}
-                isLoadingUpdate={isLoadingUpdate}
-                onCancel={onCancel}
-                onSubmit={form.handleSubmit(onSubmit)}
-                courseContent={introduction}
-                intent="introduction"
-                setGetLessonPlanDialogOpen={setGetLessonPlanDialogOpen}
-              />
-
-              <div className="flex w-full bg-card">
-                {!!editor && <ContentEditor editor={editor} />}
+              <div className="flex w-full flex-col bg-card">
+                {!!editor && (
+                  <>
+                    <HeaderSection
+                      form={form}
+                      course={course}
+                      courseModule={courseModule}
+                      editContent={editIntroduction}
+                      setEditContent={setEditIntroduction}
+                      isLoadingUpdate={isLoadingUpdate}
+                      onCancel={onCancel}
+                      onSubmit={form.handleSubmit(onSubmit)}
+                      courseContent={introduction}
+                      intent="introduction"
+                      setGetLessonPlanDialogOpen={setGetLessonPlanDialogOpen}
+                      editor={editor}
+                    />
+                    <ContentEditor editor={editor} />
+                  </>
+                )}
               </div>
             </form>
           </Form>

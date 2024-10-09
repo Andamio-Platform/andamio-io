@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Footer from "~/ui/landing/Footer";
 import MenuBar from "~/ui/landing/MenuBar";
 
 export default function TermAndConditionsPage() {
@@ -410,6 +411,7 @@ export default function TermAndConditionsPage() {
           USA.
         </p>
       </div>
+      <Footer />
     </main>
   );
 }

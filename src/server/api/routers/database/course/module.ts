@@ -1,3 +1,4 @@
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import {
@@ -188,5 +189,129 @@ export const moduleRouter = createTRPCRouter({
           id: input.moduleId,
         },
       });
+    }),
+
+  copyModuleToCourse: protectedProcedure
+    .input(
+      z.object({
+        originalCourseModuleId: z.string().min(1),
+        targetCourseId: z.string().min(1),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const creatorId = ctx.session.user.creatorId;
+
+      const sourceModule = await ctx.db.module.findFirst({
+        where: {
+          id: input.originalCourseModuleId,
+          originalCourse: {
+            OR: [
+              { createdById: creatorId }, // after this is working, extend to any contributor
+              { contributors: { some: { id: creatorId } } },
+            ],
+          },
+        },
+        include: {
+          slts: {
+            include: {
+              lesson: true,
+            },
+          },
+          introduction: true,
+          assignments: true,
+        },
+      });
+
+      if (!sourceModule) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Cannot find this module in the courses you own.",
+        });
+      }
+
+      const targetCourse = await ctx.db.course.findFirst({
+        where: {
+          id: input.targetCourseId,
+          createdById: creatorId, // after this is working, extend to any contributor
+        },
+      });
+
+      if (!targetCourse) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message:
+            "You do not have permission to copy a module to this course.",
+        });
+      }
+
+      const newCourseModule = await ctx.db.module.create({
+        data: {
+          moduleCode: sourceModule.moduleCode + "-c",
+          title: sourceModule.title + " (copy)",
+          description: sourceModule.description,
+          courseId: targetCourse.id,
+        },
+      });
+
+      // Copy SLTs
+      for (const slt of sourceModule.slts) {
+        const newSlt = await ctx.db.slt.create({
+          data: {
+            moduleId: newCourseModule.id,
+            moduleIndex: slt.moduleIndex,
+            sltText: slt.sltText,
+            createdById: slt.createdById,
+          },
+        });
+
+        if (slt.lesson) {
+          await ctx.db.lesson.create({
+            data: {
+              module: { connect: { id: newCourseModule.id } },
+              slt: { connect: { id: newSlt.id } },
+              title: slt.lesson.title + " (Copy)",
+              description: slt.lesson.description,
+              contentJson: slt.lesson.contentJson ?? {},
+              imageUrl: slt.lesson.imageUrl,
+              videoUrl: slt.lesson.videoUrl,
+              live: false,
+              createdBy: { connect: { id: slt.lesson.createdById } },
+            },
+          });
+        }
+      }
+
+      // Copy Assignments (those directly related to the module)
+      for (const assignment of sourceModule.assignments) {
+        await ctx.db.assignment.create({
+          data: {
+            moduleId: newCourseModule.id,
+            assignmentCode: assignment.assignmentCode + "_copy",
+            title: assignment.title + " (Copy)",
+            description: assignment.description,
+            contentJson: assignment.contentJson ?? {},
+            imageUrl: assignment.imageUrl,
+            videoUrl: assignment.videoUrl,
+            live: assignment.live,
+            createdById: assignment.createdById,
+          },
+        });
+      }
+
+      if (!!sourceModule.introduction) {
+        await ctx.db.introduction.create({
+          data: {
+            moduleId: newCourseModule.id,
+            title: sourceModule.introduction.title + " (Copy)",
+            description: sourceModule.introduction.description,
+            contentJson: sourceModule.introduction.contentJson ?? {},
+            imageUrl: sourceModule.introduction.imageUrl,
+            videoUrl: sourceModule.introduction.videoUrl,
+            live: sourceModule.introduction.live,
+          },
+        });
+      }
+
+      return newCourseModule;
     }),
 });

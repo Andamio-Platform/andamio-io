@@ -46,7 +46,7 @@ export default function Footer() {
             ))}
           </div>
           <div className="mt-8 text-center text-sm text-gray-400">
-            Andamio v0.3.0 | © {new Date().getFullYear()} Andamio. All rights
+            Andamio v0.3.2 | © {new Date().getFullYear()} Andamio. All rights
             reserved.
           </div>
         </div>

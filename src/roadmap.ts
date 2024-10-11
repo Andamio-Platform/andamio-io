@@ -95,9 +95,9 @@ export const roadmap: Roadmap[] = [
         quarter: 3,
       },
       {
-        name: "Andamio Contribution and Treasury Features",
+        name: "Andamio Contribution and Credential Features",
         description:
-          "Designs and Preprod deployment of Andamio course application.",
+          "Designs and Preprod deployment of contribution and credential features",
         features: [],
         status: "inProgress",
         quarter: 4,
@@ -132,7 +132,7 @@ export const roadmap: Roadmap[] = [
       {
         name: "Andamio Mainnet Release",
         description:
-          "Fully featured Andamio Platform with Access Token, learning, contribution, and credential features.",
+          "Fully featured Andamio Platform with Access Token, learning, contribution, and credential features",
         features: [],
         status: "planned",
         quarter: 1,
@@ -140,7 +140,7 @@ export const roadmap: Roadmap[] = [
       {
         name: "Andamio Governance Features",
         description:
-          "Integraion of governance features with on-chain smart contracts and Andamio Platform.",
+          "Integraion of governance features with on-chain smart contracts and Andamio Platform",
         features: [],
         status: "planned",
         quarter: 1,

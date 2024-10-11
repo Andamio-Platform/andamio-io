@@ -76,14 +76,14 @@ export const roadmap: Roadmap[] = [
         name: "Catalyst F11: Andamio CLI and Cardano Go",
         description: "Access token and enrollment coming in November 2024",
         features: [],
-        status: "inProgress",
+        status: "complete",
         quarter: 2,
       },
       {
         name: "Andamio Contributor Platform Prototype",
         description: "Testing at Gimbalabs",
         features: ["Contributors can make treasury commitments"],
-        status: "inProgress",
+        status: "complete",
         quarter: 3,
       },
       {
@@ -91,35 +91,36 @@ export const roadmap: Roadmap[] = [
         description:
           "For students of Plutus PBL and Mesh PBL, public testing on Cardano Preprod",
         features: [],
-        status: "inProgress",
+        status: "complete",
         quarter: 3,
       },
       {
-        name: "Andamio Course Platform: Public Mainnet Release",
-        description: "Access token and enrollment coming in November 2024",
+        name: "Andamio Contribution and Treasury Features",
+        description:
+          "Designs and Preprod deployment of Andamio course application.",
         features: [],
-        status: "planned",
+        status: "inProgress",
+        quarter: 4,
+      },
+      {
+        name: "Catalyst F12: Delivering for Partners",
+        description: "Onboarding Cardano teams to Andamio",
+        features: [],
+        status: "inProgress",
         quarter: 4,
       },
       {
         name: "Developing a Self Sovereign On-chain Identity (SSOI)",
         description: "Catalyst Fund 12 Proposal",
         features: [],
-        status: "planned",
+        status: "inProgress",
         quarter: 4,
       },
       {
         name: "Andamio Purpose Sidechain / Layer 2 Concept",
         description: "Catalyst Fund 12 Proposal",
         features: [],
-        status: "planned",
-        quarter: 4,
-      },
-      {
-        name: "Catalyst F12: Delivering for Partners",
-        description: "Providing solution for funded projects",
-        features: [],
-        status: "planned",
+        status: "inProgress",
         quarter: 4,
       },
     ],
@@ -129,9 +130,17 @@ export const roadmap: Roadmap[] = [
     year: "2025",
     epics: [
       {
-        name: "Andamio Contributor Platform Mainnet Release",
+        name: "Andamio Mainnet Release",
         description:
-          "Initial designs and deployment of Andamio course application.",
+          "Fully featured Andamio Platform with Access Token, learning, contribution, and credential features.",
+        features: [],
+        status: "planned",
+        quarter: 1,
+      },
+      {
+        name: "Andamio Governance Features",
+        description:
+          "Integraion of governance features with on-chain smart contracts and Andamio Platform.",
         features: [],
         status: "planned",
         quarter: 1,

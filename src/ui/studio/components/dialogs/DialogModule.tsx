@@ -156,7 +156,7 @@ export default function DialogModule({
   //   });
 
   const FormSchema = z.object({
-    moduleCode: z.string().min(3).max(3),
+    moduleCode: z.string().min(3).max(12),
     title: z.string().min(8),
     description: z.string().optional(),
     releaseDate: z.coerce.date().optional(),
@@ -294,7 +294,7 @@ export default function DialogModule({
                 ? "Edit Module Code"
                 : "Or write your own custom code"
             }
-            info="The Module Code is a 3-character string that appears in the course URL"
+            info="The Module Code is a string that appears in the course URL"
             form={form}
             disabled={false}
           />

@@ -21,7 +21,7 @@ export default function RoadmapEpicComponent({
       borderColor = "border-blue-800";
       break;
     case "inProgress":
-      statusMessage = "In Progress";
+      statusMessage = "Current";
       dotColor = "bg-orange-400";
       borderColor = "border-orange-800";
       break;
@@ -60,7 +60,7 @@ export default function RoadmapEpicComponent({
           className={`flex w-full flex-col border-l-2 ${borderColor} pl-8 text-sm`}
         >
           <h1 className="font-beckman text-lg">{epic.name}</h1>
-          <p className="">{epic.description}</p>
+          <p className="w-11/12">{epic.description}</p>
         </div>
         <Badge variant={epic.status} className="hidden md:block">
           {statusMessage}

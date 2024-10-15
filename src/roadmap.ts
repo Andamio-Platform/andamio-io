@@ -104,21 +104,23 @@ export const roadmap: Roadmap[] = [
       },
       {
         name: "Catalyst F12: Delivering for Partners",
-        description: "Onboarding Cardano teams to Andamio",
+        description: "Initial rollout of Andamio and feature testing",
         features: [],
         status: "inProgress",
         quarter: 4,
       },
       {
         name: "Developing a Self Sovereign On-chain Identity (SSOI)",
-        description: "Catalyst Fund 12 Proposal",
+        description:
+          "Research and development into emergent identity built on skills and credentials",
         features: [],
         status: "inProgress",
         quarter: 4,
       },
       {
         name: "Andamio Purpose Sidechain / Layer 2 Concept",
-        description: "Catalyst Fund 12 Proposal",
+        description:
+          "Research and development into how a Cardano sidechain can be used to reduce costs and barriers to entry while increasing the scalability of the Andamio Network",
         features: [],
         status: "inProgress",
         quarter: 4,
@@ -138,12 +140,20 @@ export const roadmap: Roadmap[] = [
         quarter: 1,
       },
       {
-        name: "Andamio Governance Features",
+        name: "Governance Features, Phase 1: Course Governance",
         description:
-          "Integraion of governance features with on-chain smart contracts and Andamio Platform",
+          "Initial integration of governance features with on-chain smart contracts and Andamio Platform",
         features: [],
         status: "planned",
-        quarter: 1,
+        quarter: 2,
+      },
+      {
+        name: "Governance Features, Phase 2: Project Governance",
+        description:
+          "Integration of governance features with project, contribution and treasury management",
+        features: [],
+        status: "planned",
+        quarter: 3,
       },
     ],
   },

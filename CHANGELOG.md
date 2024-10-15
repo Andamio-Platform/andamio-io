@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.3.3 - 2024-10-25
+
+This patch release includes minor updates, bug fixes to improve UI/UX
+
+### Bug Fixes
+
+### Improvements
+
+### Experimental Features
+
+- Module Code can now be a string of length 3-12 [#204](https://github.com/Andamio-Platform/andamio-platform/issues/204)
+
+### Known Issues
+
 ## [v0.3.2] - 2024-10-07
 
 This patch release includes minor updates, bug fixes to improve UI/UX

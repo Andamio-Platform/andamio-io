@@ -149,12 +149,11 @@
 
 /* CSS for Radix UI Toggle Group Items based on their state */
 [data-state="on"] {
-  background-color: #e0e0e0; /* Light grey background for active state */
-  border: 1px solid #ccddee; /* Border to indicate active state */
+  @apply border border-accent bg-accent text-accent-foreground;
 }
 
 [data-state="off"] {
-  @apply border border-accent/80 bg-accent text-accent-foreground;
+  @apply border border-gray-300 bg-muted text-muted-foreground;
 }
 
 /* override the tiptap default */

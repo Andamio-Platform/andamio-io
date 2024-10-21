@@ -41,7 +41,7 @@ export function AndamioBubbleMenu({ editor }: { editor: Editor }) {
       <div>
         <BubbleMenu
           editor={editor}
-          className="edit-menu flex flex-row gap-1 rounded-md border border-gray-300 bg-accent p-1"
+          className="edit-menu flex flex-row gap-1 rounded-md border border-gray-600 bg-background p-1"
           tippyOptions={{
             placement: "top-end",
           }}
@@ -115,7 +115,16 @@ export function AndamioBubbleMenu({ editor }: { editor: Editor }) {
                   </div>
                 </ToggleGroupItem>
 
-                <DividerVerticalIcon className="h-8 text-gray-300" />
+                <DividerVerticalIcon className="h-8 text-gray-600" />
+
+                <ToggleGroupItem
+                  value="paragraph"
+                  aria-label="paragraph"
+                  onClick={() => editor.chain().focus().setParagraph().run()}
+                  data-state={editor.isActive("paragraph") ? "on" : "off"}
+                >
+                  p
+                </ToggleGroupItem>
 
                 <ToggleGroupItem
                   value="heading1"
@@ -124,7 +133,7 @@ export function AndamioBubbleMenu({ editor }: { editor: Editor }) {
                     editor.chain().focus().toggleHeading({ level: 1 }).run()
                   }
                   data-state={
-                    editor.isActive("heading", { level: 1 }) ? "is-active" : ""
+                    editor.isActive("heading", { level: 1 }) ? "on" : "off"
                   }
                 >
                   H1
@@ -137,7 +146,7 @@ export function AndamioBubbleMenu({ editor }: { editor: Editor }) {
                     editor.chain().focus().toggleHeading({ level: 2 }).run()
                   }
                   data-state={
-                    editor.isActive("heading", { level: 2 }) ? "is-active" : ""
+                    editor.isActive("heading", { level: 2 }) ? "on" : "off"
                   }
                 >
                   H2
@@ -150,7 +159,7 @@ export function AndamioBubbleMenu({ editor }: { editor: Editor }) {
                     editor.chain().focus().toggleHeading({ level: 3 }).run()
                   }
                   data-state={
-                    editor.isActive("heading", { level: 3 }) ? "is-active" : ""
+                    editor.isActive("heading", { level: 3 }) ? "on" : "off"
                   }
                 >
                   H3
@@ -174,7 +183,7 @@ export function AndamioBubbleMenu({ editor }: { editor: Editor }) {
                   <LinkBreak1Icon className="h-4 w-4" />
                 </ToggleGroupItem>
 
-                <DividerVerticalIcon className="h-8 text-gray-300" />
+                <DividerVerticalIcon className="h-8 text-gray-600" />
 
                 <ToggleGroupItem
                   value="codeblock"
@@ -237,7 +246,7 @@ export function AndamioBubbleMenu({ editor }: { editor: Editor }) {
 
             {!editor.isActive("imageBlock") && (
               <>
-                <DividerVerticalIcon className="h-8 text-gray-300" />
+                <DividerVerticalIcon className="h-8 text-gray-600" />
 
                 <ToggleGroupItem
                   value="text-default"

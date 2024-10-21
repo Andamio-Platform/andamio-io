@@ -89,7 +89,7 @@ export default function PageCourse({
   return (
     <CourseLayout>
       <Metatags title={_currentCourseVariant.title} />
-      <div className="mx-auto flex w-11/12 max-w-5xl flex-col">
+      <div className="mx-auto flex w-3/4 max-w-5xl flex-col">
         <h1 className="text-[3rem] font-bold leading-[5rem]">
           {_currentCourseVariant.title}
         </h1>

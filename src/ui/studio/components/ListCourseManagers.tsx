@@ -28,7 +28,7 @@ export default function ListCourseManagers({ course }: { course: Course }) {
     });
 
   const { data: sessionData } = useSession();
-  const isOwner = course?.createdById === sessionData?.user?.id;
+  const isOwner = course?.createdById === sessionData?.user?.creatorId;
 
   return (
     <>

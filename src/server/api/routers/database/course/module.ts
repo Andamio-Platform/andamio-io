@@ -184,11 +184,15 @@ export const moduleRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.module.delete({
-        where: {
-          id: input.moduleId,
-        },
-      });
+      return ctx.db.$transaction([
+        ctx.db.introduction.deleteMany({ where: { moduleId: input.moduleId } }),
+        ctx.db.assignment.deleteMany({ where: { moduleId: input.moduleId } }),
+        ctx.db.module.delete({
+          where: {
+            id: input.moduleId,
+          },
+        }),
+      ]);
     }),
 
   copyModuleToCourse: protectedProcedure

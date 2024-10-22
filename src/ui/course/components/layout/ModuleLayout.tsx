@@ -37,7 +37,7 @@ export default function ModuleLayout({
           </Link>
         )}
       </div>
-      <div className="my-10">{children}</div>
+      <div className="m-10">{children}</div>
     </div>
   );
 }

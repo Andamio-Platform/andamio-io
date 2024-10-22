@@ -7,7 +7,7 @@ export default function useAssignmentEditor() {
 
   const editor = useEditor({
     extensions: [...ExtensionKit()],
-    content: "Write assignment content here...",
+    content: "",
     editorProps: {
       attributes: {
         class:

@@ -184,11 +184,38 @@ export const moduleRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.module.delete({
-        where: {
-          id: input.moduleId,
-        },
-      });
+      return ctx.db.$transaction([
+        ctx.db.introduction.deleteMany({ where: { moduleId: input.moduleId } }),
+        ctx.db.assignment.deleteMany({ where: { moduleId: input.moduleId } }),
+        ctx.db.module.delete({
+          where: {
+            id: input.moduleId,
+          },
+        }),
+      ]);
+    }),
+
+  publishModuleContent: protectedProcedure
+    .input(
+      z.object({
+        moduleId: z.string().min(1, "Module ID is required"),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.$transaction([
+        ctx.db.lesson.updateMany({
+          where: { moduleId: input.moduleId },
+          data: { live: true },
+        }),
+        ctx.db.introduction.updateMany({
+          where: { moduleId: input.moduleId },
+          data: { live: true },
+        }),
+        ctx.db.assignment.updateMany({
+          where: { moduleId: input.moduleId },
+          data: { live: true },
+        }),
+      ]);
     }),
 
   copyModuleToCourse: protectedProcedure

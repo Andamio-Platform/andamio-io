@@ -27,7 +27,7 @@ export default function ContentEditor({ editor }: { editor: Editor }) {
     >
       <div className="mx-auto my-4">
         <div className="m-5 mx-auto flex min-h-[90vh] w-11/12 flex-col bg-background pb-5 shadow-xl">
-          <div className="flex w-full px-5">
+          <div className="flex w-full p-5 lg:p-8">
             <AndamioBubbleMenu editor={editor} />
             <EditorContent editor={editor} />
           </div>

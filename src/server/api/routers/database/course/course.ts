@@ -165,6 +165,44 @@ export const courseRouter = createTRPCRouter({
       });
     }),
 
+  delete: protectedProcedure
+    .input(
+      z.object({
+        id: z.string().min(1, "Missing Course ID"),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      // const assignmentCount = await ctx.db.assignment.count({
+      //   where: {
+      //     slts: {
+      //       some: {
+      //         id: input.id,
+      //       },
+      //     },
+      //   },
+      // });
+      //
+      // if (assignmentCount > 0) {
+      //   throw new Error(
+      //     "Cannot delete this SLT because it is already used in an Assignment",
+      //   );
+      // }
+
+      return ctx.db.$transaction([
+        // ctx.db.lesson.deleteMany({
+        //   where: {
+        //     sltId: input.id,
+        //   },
+        // }),
+        // ctx.db.slt.deleteMany({
+        //   where: {
+        //     id: input.id,
+        //   },
+        // }),
+        ctx.db.course.delete({ where: { id: input.id } }),
+      ]);
+    }),
+
   addCourseContributor: protectedProcedure
     .input(
       z.object({

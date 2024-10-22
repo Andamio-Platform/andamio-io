@@ -17,6 +17,7 @@ import ContentEditor from "~/ui/studio/components/ContentEditor";
 import { useRouter } from "next/router";
 import Metatags from "~/components/site/metatags";
 import { type JSONContent } from "novel";
+import VideoPlayer from "~/components/media/VideoPlayer";
 
 export default function PageCourseLessonContent({
   course,
@@ -293,6 +294,12 @@ export default function PageCourseLessonContent({
                       setGetLessonPlanDialogOpen={setGetLessonPlanDialogOpen}
                       editor={editor}
                     />
+                    {lesson.videoUrl && (
+                      <div className="my-5 flex w-11/12 flex-row items-center justify-end gap-5">
+                        <p>This Lesson has a Video:</p>
+                        <VideoPlayer videoId={lesson.videoUrl} />
+                      </div>
+                    )}
                     <ContentEditor editor={editor} />
                   </>
                 )}

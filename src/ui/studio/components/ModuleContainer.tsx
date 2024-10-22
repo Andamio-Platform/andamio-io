@@ -34,6 +34,8 @@ import useAssignment from "~/hooks/course/useAssignment";
 import { type Slt } from "@prisma/client";
 import useAssignmentNetworkStatus from "~/hooks/onchain/useAssignmentNetworkStatus";
 import { LockClosedIcon } from "@radix-ui/react-icons";
+import { Button } from "~/components/ui/button";
+import { Card } from "~/components/ui/card";
 
 type sltI = { slt: ModuleSLT; sltIndex: number; id: string };
 
@@ -74,6 +76,16 @@ export default function ModuleContainer({
     courseCode: course?.courseCode ?? "",
     moduleCode: currentModule.moduleCode,
   });
+
+  const { mutate: publishModuleContent, isLoading: isLoadingPublish } =
+    api.module.publishModuleContent.useMutation({
+      onSuccess: () => {
+        toast.success("Content is published");
+      },
+      onError: (e) => {
+        toast.error("Could not publish content");
+      },
+    });
 
   const { mutate: updateSltIndexes, isLoading: isLoadingIndexUpdate } =
     api.slt.updateModuleIndexes.useMutation({
@@ -262,40 +274,55 @@ export default function ModuleContainer({
                   {format(currentModule.releaseDate, "PPPP")}
                 </p>
               )}
-              {isAssignmentOnchain ? (
-                <div className="mx-auto my-5 flex w-11/12 flex-row items-center">
-                  <p>
-                    This Module is published on the Andamio Network. You cannot
-                    change the title of the Module or the Student Learning
-                    Targets. You can still update the introduction, lesson, and
-                    assignment content. To manage this module, navigate to your{" "}
-                    <Link href="/dashboard">
-                      <span className="font-semibold text-primary hover:text-success">
-                        Andamio Dashboard
-                      </span>
-                    </Link>
-                    .
-                  </p>
-                </div>
-              ) : (
-                <div className="mx-auto my-5 flex w-2/3 flex-row items-center justify-between">
-                  <DialogSLT
-                    sltDialogOpen={sltDialogOpen}
-                    setSltDialogOpen={setSltDialogOpen}
-                    courseCode={course?.courseCode ?? ""}
-                    currentModule={currentModule}
-                  />
-                  <DialogAssignment
-                    assignmentDialogOpen={assignmentDialogOpen}
-                    setAssignmentDialogOpen={setAssignmentDialogOpen}
-                    courseCode={course?.courseCode ?? ""}
-                    courseModule={currentModule}
-                    assignment={assignment}
-                  />
-                </div>
-              )}
             </div>
           </>
+          {isAssignmentOnchain ? (
+            <div className="mx-auto my-5 flex w-11/12 flex-row items-center">
+              <p>
+                This Module is published on the Andamio Network. You cannot
+                change the title of the Module or the Student Learning Targets.
+                You can still update the introduction, lesson, and assignment
+                content. To manage this module, navigate to your{" "}
+                <Link href="/dashboard">
+                  <span className="font-semibold text-primary hover:text-success">
+                    Andamio Dashboard
+                  </span>
+                </Link>
+                .
+              </p>
+            </div>
+          ) : (
+            <Card className="mx-auto flex flex-row justify-between sm:w-5/6 lg:w-2/3">
+              <DialogSLT
+                sltDialogOpen={sltDialogOpen}
+                setSltDialogOpen={setSltDialogOpen}
+                courseCode={course?.courseCode ?? ""}
+                currentModule={currentModule}
+              />
+              <DialogAssignment
+                assignmentDialogOpen={assignmentDialogOpen}
+                setAssignmentDialogOpen={setAssignmentDialogOpen}
+                courseCode={course?.courseCode ?? ""}
+                courseModule={currentModule}
+                assignment={assignment}
+              />
+            </Card>
+          )}
+          <div className="mx-auto my-5 flex flex-row items-center justify-center">
+            {isLoadingPublish ? (
+              <p>publishing all module content...</p>
+            ) : (
+              <Button
+                intent="dialog"
+                size="dialog"
+                onClick={() =>
+                  publishModuleContent({ moduleId: currentModule.id })
+                }
+              >
+                Publish Module Content
+              </Button>
+            )}
+          </div>
           {(activeSLT ?? isLoadingIndexUpdate) && (
             <div className="flex h-8 w-full rounded-b-md bg-amber-500" />
           )}

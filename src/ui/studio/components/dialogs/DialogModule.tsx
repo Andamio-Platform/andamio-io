@@ -21,7 +21,6 @@ import { CalendarIcon } from "@radix-ui/react-icons";
 import { Calendar } from "~/components/ui/calendar";
 import { format } from "date-fns";
 import useCourseModuleOverviews from "~/hooks/course/useCourseModuleOverviews";
-import CurrentCourseListItem from "~/ui/profile/learner/CurrentCourseListItem";
 
 type ModuleOption = {
   value: string;
@@ -79,7 +78,7 @@ export default function DialogModule({
     api.module.create.useMutation({
       onSuccess: () => {
         setModuleDialogOpen(false);
-        toast.success("Module created!");
+        toast.success("Module created");
         void ctx.module.getCourseModuleOverviews.invalidate({
           courseCode: course?.courseCode,
         });
@@ -101,7 +100,7 @@ export default function DialogModule({
     api.module.update.useMutation({
       onSuccess: () => {
         setModuleDialogOpen(false);
-        toast.success("Module updated!");
+        toast.success("Module updated");
         void ctx.module.getCourseModuleOverviews.invalidate({
           courseCode: course?.courseCode,
         });
@@ -120,7 +119,7 @@ export default function DialogModule({
     api.module.delete.useMutation({
       onSuccess: () => {
         setModuleDialogOpen(false);
-        toast.success("Module created!");
+        toast.success("Module deleted");
         void ctx.module.getCourseModuleOverviews.invalidate({
           courseCode: course?.courseCode,
         });
@@ -130,7 +129,7 @@ export default function DialogModule({
         if (errorMessage) {
           toast.error("Some inputs are missing or invalid");
         } else {
-          toast.error("Module Code taken. Please try again.");
+          toast.error("Cannot delete this Module.");
         }
       },
     });

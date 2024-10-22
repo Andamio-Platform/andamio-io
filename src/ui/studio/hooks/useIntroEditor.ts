@@ -10,7 +10,7 @@ export default function useIntroEditor(courseModuleId: string) {
     useIntroduction(courseModuleId);
   const editor = useEditor({
     extensions: [...ExtensionKit()],
-    content: "Write an introduction to the module here...",
+    content: "",
     editorProps: {
       attributes: {
         class:

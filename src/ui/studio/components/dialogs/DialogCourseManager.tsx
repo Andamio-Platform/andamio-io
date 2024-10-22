@@ -83,7 +83,7 @@ export default function DialogCourseManager({
       <Combobox as="div" value={selectedPerson} onChange={setSelectedPerson}>
         <div className="relative mt-2">
           <Combobox.Input
-            className="w-full rounded-md border-0 bg-secondary py-1.5 pl-3 pr-12 text-foreground shadow-sm ring-1 ring-inset ring-accent-foreground focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
+            className="w-full rounded-md border-0 bg-background py-1.5 pl-3 pr-12 text-foreground shadow-sm ring-1 ring-inset ring-accent-foreground focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
             onChange={(event) => setQuery(event.target.value)}
             //@ts-expect-error todo how to fix this
             displayValue={(person: User) => person?.name}
@@ -96,7 +96,7 @@ export default function DialogCourseManager({
           </Combobox.Button>
 
           {filteredPeople.length > 0 && (
-            <Combobox.Options className="z-60 ringforeground absolute mt-1 max-h-56 w-full overflow-auto rounded-md bg-secondary py-1 text-base shadow-lg ring-1 ring-opacity-5 focus:outline-none sm:text-sm">
+            <Combobox.Options className="z-100 ringforeground absolute mt-1 max-h-56 w-full overflow-auto rounded-md bg-secondary py-1 text-base shadow-lg ring-1 ring-opacity-5 focus:outline-none sm:text-sm">
               {searchUsers &&
                 searchUsers.map((person) => {
                   return (

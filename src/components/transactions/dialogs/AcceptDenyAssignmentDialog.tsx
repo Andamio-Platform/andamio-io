@@ -44,9 +44,7 @@ export default function AcceptDenyAssignmentDialog({
           <>
             {decision === "accept" && (
               <>
-                <h1 className="font-beckman text-lg">
-                  Publish Credential Criteria
-                </h1>
+                <h1 className="text-lg">Publish Credential Criteria</h1>
                 <h2 className="my-3 font-semibold">
                   What it means to publish credential criteria
                 </h2>
@@ -61,9 +59,7 @@ export default function AcceptDenyAssignmentDialog({
             )}
             {decision === "deny" && (
               <>
-                <h1 className="font-beckman text-lg">
-                  Deny Assignment Submission
-                </h1>
+                <h1 className="text-lg">Deny Assignment Submission</h1>
                 <h2 className="my-3 font-semibold">
                   What it means to deny an Assignment
                 </h2>

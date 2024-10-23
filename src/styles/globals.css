@@ -160,3 +160,24 @@
 .tippy-box {
   max-width: fit-content !important;
 }
+
+.code-block-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.copy-button {
+  position: absolute;
+  top: 40px;
+  right: 8px;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 3px;
+  @apply bg-accent text-xs font-semibold text-accent-foreground;
+}
+
+.copy-button:hover {
+  @apply bg-success text-success-foreground;
+}

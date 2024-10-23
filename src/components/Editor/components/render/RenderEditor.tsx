@@ -1,6 +1,7 @@
 import { useEditor, EditorContent, type Content } from "@tiptap/react";
 import { useEffect } from "react";
 import { ExtensionKit } from "../../extension-kit";
+import { PublishedCodeBlock } from "../../extensions/CodeBlock";
 
 interface EditorProps {
   editable?: boolean;
@@ -14,7 +15,7 @@ export default function RenderEditor({
   index,
 }: EditorProps) {
   const editor = useEditor({
-    extensions: [...ExtensionKit()],
+    extensions: [...ExtensionKit(), PublishedCodeBlock],
     content: initialContent,
     editorProps: {
       attributes: {

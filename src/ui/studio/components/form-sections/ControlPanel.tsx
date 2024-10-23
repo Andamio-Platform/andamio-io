@@ -84,8 +84,8 @@ export default function ControlPanel({
           <TooltipContent>
             <p>
               {live
-                ? "This assignment is published!"
-                : "This assignment is not published. To publish the assignment, tap the Publish button below."}
+                ? "This assignment is published. Click here to view the public lesson."
+                : "This assignment is not published. Click here to view a preview of this lesson."}
             </p>
           </TooltipContent>
         </Tooltip>

@@ -49,6 +49,16 @@ export default function ModuleContainer({
   // variants?: ModuleVariant[];
 }) {
   const ctx = api.useUtils();
+
+  const checkContentPublished =
+    !currentModule.lessons.some((l) => !l.live) &&
+    currentModule.introduction?.live &&
+    !currentModule.assignments.some((a) => !a.live);
+
+  const [isContentPublished, setIsContentPublished] = useState<boolean>(
+    !!checkContentPublished ?? false,
+  );
+
   const [isAccordionOpen, setIsAccordionOpen] = useState<boolean>(false);
   const [moduleDialogOpen, setModuleDialogOpen] = useState<boolean>(false);
 
@@ -80,7 +90,11 @@ export default function ModuleContainer({
   const { mutate: publishModuleContent, isLoading: isLoadingPublish } =
     api.module.publishModuleContent.useMutation({
       onSuccess: () => {
+        void ctx.module.getCourseModuleOverviews.invalidate({
+          courseCode: course?.courseCode,
+        });
         toast.success("Content is published");
+        setIsContentPublished(true);
       },
       onError: (e) => {
         toast.error("Could not publish content");
@@ -268,12 +282,6 @@ export default function ModuleContainer({
                   )}
                 </>
               )}
-              {currentModule.releaseDate && (
-                <p className="mx-auto w-11/12 py-5">
-                  This Module is scheduled for release on{" "}
-                  {format(currentModule.releaseDate, "PPPP")}
-                </p>
-              )}
             </div>
           </>
           {isAssignmentOnchain ? (
@@ -308,21 +316,44 @@ export default function ModuleContainer({
               />
             </Card>
           )}
-          <div className="mx-auto my-5 flex flex-row items-center justify-center">
-            {isLoadingPublish ? (
-              <p>publishing all module content...</p>
-            ) : (
-              <Button
-                intent="dialog"
-                size="dialog"
-                onClick={() =>
-                  publishModuleContent({ moduleId: currentModule.id })
-                }
-              >
-                Publish Module Content
-              </Button>
-            )}
-          </div>
+          {isContentPublished ? (
+            <div className="mx-auto my-5 flex flex-row items-center justify-center">
+              <p>
+                All Content is Live at{" "}
+                <Link
+                  href={`/course/${course?.courseCode}/${currentModule.moduleCode}`}
+                  className="cursor-pointer font-semibold text-primary"
+                >
+                  andamio.io/course/{course?.courseCode}/
+                  {currentModule.moduleCode}
+                </Link>
+              </p>
+            </div>
+          ) : (
+            <div className="mx-auto my-5 flex flex-col items-center justify-center">
+              {isLoadingPublish ? (
+                <p>publishing all module content...</p>
+              ) : (
+                <>
+                  <Button
+                    intent="dialog"
+                    size="dialog"
+                    onClick={() =>
+                      publishModuleContent({ moduleId: currentModule.id })
+                    }
+                  >
+                    Publish Module Content
+                  </Button>
+                  {currentModule.releaseDate && (
+                    <p className="mt-3">
+                      This Module is scheduled for release on{" "}
+                      {format(currentModule.releaseDate, "PPPP")}
+                    </p>
+                  )}
+                </>
+              )}
+            </div>
+          )}
           {(activeSLT ?? isLoadingIndexUpdate) && (
             <div className="flex h-8 w-full rounded-b-md bg-amber-500" />
           )}

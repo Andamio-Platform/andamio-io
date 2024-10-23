@@ -49,7 +49,7 @@ export default function DashboardNavigationMenu() {
   );
   return (
     <NavigationMenu className="transition-colors">
-      <NavigationMenuList className="mb-3 flex w-full gap-10 rounded-none bg-primary font-beckman text-lg text-primary-foreground md:gap-24 lg:gap-32 lg:px-3">
+      <NavigationMenuList className="mb-3 flex w-full gap-10 rounded-none bg-primary text-lg text-primary-foreground md:gap-24 lg:gap-32 lg:px-3">
         <Link href="/dashboard" linkText="MY NEXT STEPS" />
         <Link href="/dashboard/learner" linkText="My Courses" />
 

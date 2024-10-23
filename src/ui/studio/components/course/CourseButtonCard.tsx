@@ -13,7 +13,7 @@ export default function CourseButtonCard({
   return (
     <Link href={link}>
       <Card className="" intent="course">
-        <p className="font-beckman text-lg font-medium">{course?.title}</p>
+        <p className="text-lg font-medium">{course?.title}</p>
         <p className="mt-1 text-sm">
           <Markdown>{course?.description}</Markdown>
         </p>

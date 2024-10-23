@@ -10,8 +10,8 @@ import {
 export const moduleRouter = createTRPCRouter({
   getModule: publicProcedure
     .input(z.object({ moduleId: z.string() }))
-    .query(({ ctx, input }) => {
-      return ctx.db.module.findFirst({
+    .query(async ({ ctx, input }) => {
+      const courseModule = ctx.db.module.findFirst({
         where: {
           id: input.moduleId,
         },
@@ -43,6 +43,30 @@ export const moduleRouter = createTRPCRouter({
           introduction: true,
         },
       });
+
+      if (!courseModule) {
+        throw new Error("Course Module not found");
+      }
+
+      // Check if all content in the module is published
+      const isPublished = await ctx.db.$transaction([
+        ctx.db.lesson.count({
+          where: { moduleId: input.moduleId, live: false },
+        }),
+        ctx.db.introduction.count({
+          where: { moduleId: input.moduleId, live: false },
+        }),
+        ctx.db.assignment.count({
+          where: { moduleId: input.moduleId, live: false },
+        }),
+      ]);
+
+      const isAllContentPublished = isPublished.every((count) => count === 0);
+
+      return {
+        ...module,
+        isAllContentPublished,
+      };
     }),
 
   getCourseModuleOverviews: publicProcedure
@@ -216,6 +240,37 @@ export const moduleRouter = createTRPCRouter({
           data: { live: true },
         }),
       ]);
+    }),
+
+  checkIfModuleIsPublished: protectedProcedure
+    .input(
+      z.object({
+        moduleId: z.string().min(1, "Module ID is required"),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const [
+        unpublishedLessons,
+        unpublishedIntroductions,
+        unpublishedAssignments,
+      ] = await ctx.db.$transaction([
+        ctx.db.lesson.count({
+          where: { moduleId: input.moduleId, live: false },
+        }),
+        ctx.db.introduction.count({
+          where: { moduleId: input.moduleId, live: false },
+        }),
+        ctx.db.assignment.count({
+          where: { moduleId: input.moduleId, live: false },
+        }),
+      ]);
+
+      // If no unpublished content is found, the module is fully published
+      return (
+        unpublishedLessons === 0 &&
+        unpublishedIntroductions === 0 &&
+        unpublishedAssignments === 0
+      );
     }),
 
   copyModuleToCourse: protectedProcedure

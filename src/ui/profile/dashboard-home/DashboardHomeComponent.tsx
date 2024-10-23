@@ -61,9 +61,7 @@ export default function DashboardHomeComponent() {
               You are enrolled in {globalStateDatum.TokenInfos.length} courses.
               Select{" "}
               <Link href="/dashboard/learner">
-                <span className="font-beckman hover:text-success">
-                  My Courses
-                </span>
+                <span className="hover:text-success">My Courses</span>
               </Link>{" "}
               to view course status.
             </p>
@@ -104,16 +102,14 @@ export default function DashboardHomeComponent() {
       )}
       <div className="col-span-4 mx-auto mt-auto w-full gap-5">
         <div className="flex flex-col items-center gap-10 bg-primary py-10 text-primary-foreground">
-          <h2 className="text-center font-beckman text-4xl">
-            Learn About Andamio
-          </h2>
+          <h2 className="text-center text-4xl">Learn About Andamio</h2>
           <Link href="/course/andamio101">
             <Button>View Getting Started with Andamio Course</Button>
           </Link>
         </div>
         {/* <div className="flex w-full items-center justify-center bg-secondary py-10"> */}
         {/*   <div className="mx-auto flex w-2/3 flex-col"> */}
-        {/*     <h2 className="text-center font-beckman text-4xl"> */}
+        {/*     <h2 className="text-center text-4xl"> */}
         {/*       current goals */}
         {/*     </h2> */}
         {/*     <p className="py-10 text-center"> */}

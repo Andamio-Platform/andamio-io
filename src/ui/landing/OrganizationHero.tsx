@@ -51,7 +51,7 @@ export function OrganizationHero() {
         </div>
         <div className="flex w-auto flex-row gap-4 border-primary px-4">
           <Link href="/organizations">
-            <Button className="text-md rounded bg-primary px-6 py-2 font-semibold uppercase text-white shadow-primary transition-all duration-300 hover:bg-primary">
+            <Button className="text-md font-montserrat rounded border-2 border-primary bg-primary px-6 py-2  font-semibold uppercase text-white transition-all duration-300 hover:border-primary hover:bg-white hover:text-primary">
               Learn More
             </Button>
           </Link>

@@ -44,18 +44,17 @@ export default function CourseModuleAccordionItem({
       >
         <div className="grid w-full grid-cols-5 gap-5">
           <h2 className="col-span-1 text-xl">
-            <span className="font-beckman text-sm">Module</span> {cm.moduleCode}
+            <span className="text-sm">Module</span> {cm.moduleCode}
           </h2>
           <h2 className="col-span-2 text-left text-xl font-semibold">
             {cm.title}
           </h2>
           <div className="flex h-full flex-row items-center gap-5">
             <p>
-              {slts.length} <span className="font-beckman text-sm">SLTs</span>
+              {slts.length} <span className="text-sm">SLTs</span>
             </p>
             <p>
-              {slts.length}{" "}
-              <span className="font-beckman text-sm">Lessons</span>
+              {slts.length} <span className="text-sm">Lessons</span>
             </p>
           </div>
           {cm.assignments.length > 0 ? (

@@ -19,7 +19,7 @@ export const lessonRouter = createTRPCRouter({
       return ctx.db.lesson.findFirst({
         where: {
           slt: {
-            moduleIndex: input.moduleIndex
+            moduleIndex: input.moduleIndex,
           },
           module: {
             moduleCode: input.moduleCode,
@@ -55,8 +55,21 @@ export const lessonRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       if (!ctx.session.user.creatorId) {
-        throw new Error('User does not have Creator role.');
+        throw new Error("User does not have Creator role.");
       }
+
+      const slt = await ctx.db.slt.findFirst({ where: { id: input.sltId } });
+
+      if (!slt) throw new Error("SLT not found");
+
+      const lessonString = slt.sltText
+        .replace(/\./g, "")
+        .split(" ")
+        .slice(2)
+        .join(" ");
+
+      const lessonTitle =
+        lessonString.charAt(0).toUpperCase() + lessonString.slice(1);
 
       return ctx.db.lesson.create({
         data: {
@@ -67,6 +80,7 @@ export const lessonRouter = createTRPCRouter({
               id: input.moduleId,
             },
           },
+          title: lessonTitle,
         },
       });
     }),
@@ -112,16 +126,16 @@ export const lessonRouter = createTRPCRouter({
         videoUrl: z.string().optional(),
         contentJson: z.any().optional(),
         live: z.boolean().optional(),
-      })
+      }),
     )
-    .mutation(async ({ctx, input}) => {
+    .mutation(async ({ ctx, input }) => {
       if (!ctx.session.user.creatorId) {
-        throw new Error('User does not have Creator role.');
+        throw new Error("User does not have Creator role.");
       }
 
       return ctx.db.lesson.upsert({
         where: {
-          id: input.id
+          id: input.id,
         },
         create: {
           title: input.title,
@@ -141,8 +155,8 @@ export const lessonRouter = createTRPCRouter({
           videoUrl: input.videoUrl,
           contentJson: input.contentJson,
           live: input.live,
-        }
-      })
+        },
+      });
     }),
 
   delete: protectedProcedure

@@ -5,6 +5,7 @@ import { ExtensionKit } from "~/components/Editor/extension-kit";
 import { useEffect } from "react";
 // import hljs from "highlight.js";
 import "highlight.js/styles/atom-one-dark.css";
+import { EditableCodeBlock } from "~/components/Editor/extensions/CodeBlock";
 
 export default function useLessonEditor(
   courseCode: string,
@@ -18,7 +19,7 @@ export default function useLessonEditor(
     moduleIndex,
   );
   const editor = useEditor({
-    extensions: [...ExtensionKit()],
+    extensions: [...ExtensionKit(), EditableCodeBlock],
     content: "",
     editorProps: {
       attributes: {

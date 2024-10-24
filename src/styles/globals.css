@@ -70,9 +70,19 @@
     @apply border-border;
   }
   body {
-    @apply bg-background font-workSans text-foreground;
+    @apply bg-background font-sans leading-relaxed text-foreground;
+  }
+  /* add montserrat font for headings */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-montserrat;
   }
 }
+
 @font-face {
   font-family: "Beckman";
   font-style: normal;
@@ -159,4 +169,14 @@
 /* override the tiptap default */
 .tippy-box {
   max-width: fit-content !important;
+}
+
+/* Adds typing effect */
+.word {
+  opacity: 0; /* Initially hidden */
+  transition: opacity 0.5s ease-in-out;
+}
+
+.visible {
+  opacity: 1 !important; /* Set visible when the observer detects entry */
 }

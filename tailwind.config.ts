@@ -24,6 +24,8 @@ const config = {
       beckman: ["Beckman", "ui-sans-serif", "system-ui"],
       workSans: ["WorkSans"],
       libreFranklin: ["LibreFranklin"],
+      // add montserrat font
+      montserrat: ["Montserrat", "sans-serif"],
     },
     extend: {
       colors: {

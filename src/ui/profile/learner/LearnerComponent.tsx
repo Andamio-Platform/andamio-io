@@ -75,7 +75,7 @@ export default function LearnerComponent() {
           {/*   <p>My Goals - Needed Prereqs or otherwise saved Courses</p> */}
           {/* </div> */}
           <div className="col-span-5 bg-secondary p-5 text-center text-secondary-foreground">
-            <p className="mb-5 font-beckman text-2xl">Ready to Explore?</p>
+            <p className="mb-5 text-2xl">Ready to Explore?</p>
             <Link href="/courses">
               <Button>View all Courses</Button>
             </Link>

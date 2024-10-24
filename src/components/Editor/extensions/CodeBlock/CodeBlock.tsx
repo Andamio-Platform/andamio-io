@@ -8,7 +8,7 @@ import { common, createLowlight } from "lowlight";
 import javascript from "highlight.js/lib/languages/javascript";
 import typescript from "highlight.js/lib/languages/typescript";
 import go from "highlight.js/lib/languages/go";
-import bash from "highlight.js/lib/languages/bash";
+// import bash from "highlight.js/lib/languages/bash";
 import python from "highlight.js/lib/languages/python";
 import haskell from "highlight.js/lib/languages/haskell";
 import json from "highlight.js/lib/languages/json";
@@ -17,7 +17,7 @@ const lowlight = createLowlight(common);
 lowlight.register({ javascript });
 lowlight.register({ typescript });
 lowlight.register({ go });
-lowlight.register({ bash });
+// lowlight.register({ bash });
 lowlight.register({ python });
 lowlight.register({ haskell });
 lowlight.register({ json });
@@ -40,11 +40,15 @@ const CodeBlockWithCopyButton = CodeBlockLowlight.extend({
       copyButton.classList.add("copy-button");
       copyButton.textContent = "copy";
 
+      console.log("Inspect:", props.node);
+      console.log(lowlight.listLanguages());
       // Handle node content safely
-      const highlightedCode = lowlight.highlightAuto(
-        props.node.textContent || "",
-      );
-      codeElement.innerHTML = toHtml(highlightedCode);
+      try {
+        const highlightedCode = lowlight.highlightAuto(props.node.textContent);
+        // codeElement.innerHTML = toHtml(highlightedCode);
+      } catch (err) {
+        console.error("Highlighting error:", err, props.node.textContent);
+      }
 
       // Add event listener for copy button
       copyButton.addEventListener("click", () => {

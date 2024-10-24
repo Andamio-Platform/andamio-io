@@ -18,7 +18,7 @@ export default function RenderEditor({
   index,
 }: EditorProps) {
   const editor = useEditor({
-    extensions: [...ExtensionKit(), EditableCodeBlock],
+    extensions: [...ExtensionKit(), PublishedCodeBlock],
     content: initialContent,
     editorProps: {
       attributes: {
@@ -27,6 +27,7 @@ export default function RenderEditor({
       },
     },
     editable: editable,
+    immediatelyRender: false,
   });
 
   useEffect(() => {

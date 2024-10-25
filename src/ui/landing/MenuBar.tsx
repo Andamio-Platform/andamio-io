@@ -27,7 +27,7 @@ export default function MenuBar({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white">
+    <header className="sticky top-0 z-50 w-full overflow-hidden bg-white">
       {/* Desktop Menu */}
       <Desktop
         setMobileMenuOpen={setMobileMenuOpen}
@@ -60,10 +60,16 @@ function Desktop({
   const isSummitPage = router.pathname.includes("/summit"); // Check if you're on the summit page
 
   return (
-    <div className="hidden w-full items-center justify-between px-12 py-6 lg:flex">
+    <div className="hidden w-full items-center justify-between py-6 md:px-6 lg:flex">
       {/* Logo */}
       <Link href="/">
-        <Image width={200} height={200} src="/andamio-logo.svg" alt="Andamio" />
+        <Image
+          width={200}
+          height={200}
+          src="/andamio-logo.svg"
+          alt="Andamio"
+          className="h-auto w-32 sm:w-40 md:w-48 lg:w-56"
+        />
       </Link>
 
       {/* Navigation Links */}
@@ -147,7 +153,7 @@ function Mobile({
   return (
     <>
       {/* Mobile Hamburger Icon */}
-      <div className="flex w-full items-center justify-between px-4 py-4 lg:hidden">
+      <div className="flex w-full items-start justify-between px-4 py-4 lg:hidden">
         <Link href="/">
           <Image
             src="/andamio-logo.svg"
@@ -171,7 +177,7 @@ function Mobile({
         open={mobileMenuOpen}
         onClose={() => setMobileMenuOpen(false)}
       >
-        <div className="fixed inset-0 z-50 bg-black opacity-30" />
+        <div className="fixed inset-0 z-50 overflow-hidden bg-black opacity-30" />
         <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full bg-white p-6 sm:max-w-xs">
           <div className="mb-6 flex items-center justify-between">
             <Link href="/">
@@ -195,7 +201,7 @@ function Mobile({
           <div className="space-y-4">
             {navigation.map((item) => (
               <Link key={item.name} href={item.href}>
-                <span className="block rounded-lg px-3 py-2 text-base font-semibold text-foreground hover:bg-accent-foreground hover:text-white">
+                <span className="block items-start rounded-lg px-3 py-2 font-semibold text-foreground hover:bg-accent-foreground hover:text-white">
                   {item.name}
                 </span>
               </Link>
@@ -209,7 +215,7 @@ function Mobile({
                 setMobileMenuOpen(false);
                 setRole("learner");
               }}
-              className={`w-1/2 cursor-pointer rounded border-2 p-2 ${
+              className={`w-1/2 cursor-pointer rounded border-2 px-4 py-2 ${
                 role === "learner"
                   ? "bg-white text-primary hover:bg-primary hover:text-white"
                   : "bg-primary text-white hover:bg-white hover:text-primary"
@@ -223,7 +229,7 @@ function Mobile({
                 setMobileMenuOpen(false);
                 setRole("organization");
               }}
-              className={`w-1/2 cursor-pointer rounded border-2 p-2 ${
+              className={`w-1/2 cursor-pointer rounded border-2 px-4 py-2 ${
                 role === "organization"
                   ? "bg-white text-primary hover:bg-primary hover:text-white"
                   : "bg-primary text-white hover:bg-white hover:text-primary"

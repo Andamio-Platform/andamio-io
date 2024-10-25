@@ -50,9 +50,7 @@ export default function MintCourseModuleDialog({
           />
         ) : (
           <>
-            <h1 className="font-beckman text-lg">
-              Publish Credential Criteria
-            </h1>
+            <h1 className="text-lg">Publish Credential Criteria</h1>
             {/* What it means to mint a Module */}
             <h2 className="my-3 font-semibold">
               What it means to publish credential criteria

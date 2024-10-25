@@ -60,7 +60,7 @@ export default function AssignmentsSection({
   return (
     <div className="mx-auto flex w-full flex-col gap-3">
       <div className="flex flex-row items-center justify-between">
-        <h2 className="my-10 font-beckman text-4xl">My Assignment Notes</h2>
+        <h2 className="my-10 text-4xl">My Assignment Notes</h2>
         <Button className="my-5" onClick={() => setShowArchived(!showArchived)}>
           {showArchived
             ? "Hide Archived Assignments"

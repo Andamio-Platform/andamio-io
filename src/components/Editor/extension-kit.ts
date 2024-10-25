@@ -1,6 +1,5 @@
 import { Underline } from "@tiptap/extension-underline";
 import Bold from "@tiptap/extension-bold";
-import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import {
   StarterKit,
   Link,
@@ -15,30 +14,6 @@ import { Color } from "@tiptap/extension-color";
 import TextStyle from "@tiptap/extension-text-style";
 import { ReactNodeViewRenderer } from "@tiptap/react";
 import { TipTapLink } from "./components/link";
-
-// -- Start Codeblock Config
-// Languages
-import { common, createLowlight } from "lowlight";
-import javascript from "highlight.js/lib/languages/javascript";
-import typescript from "highlight.js/lib/languages/typescript";
-import go from "highlight.js/lib/languages/go";
-import bash from "highlight.js/lib/languages/bash";
-import python from "highlight.js/lib/languages/python";
-import haskell from "highlight.js/lib/languages/haskell";
-import json from "highlight.js/lib/languages/json";
-
-const lowlight = createLowlight(common);
-lowlight.register({ javascript });
-lowlight.register({ typescript });
-lowlight.register({ go });
-lowlight.register({ bash });
-lowlight.register({ python });
-lowlight.register({ haskell });
-lowlight.register({ json });
-// enable rust for aiken highlighting
-// or is aiken addedes
-
-// -- END Codeblock Config
 
 const CustomBold = Bold.extend({
   renderHTML({ HTMLAttributes }) {
@@ -59,10 +34,6 @@ export function ExtensionKit() {
       // codeBlock: false,
       // implement custom code next
       // code: false,
-    }),
-    CodeBlockLowlight.configure({
-      lowlight,
-      defaultLanguage: "bash",
     }),
     Underline,
     CustomBold,

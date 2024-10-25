@@ -50,7 +50,8 @@ export function FAQ() {
             </h3>
             <p className="text-md mt-2 font-light text-foreground md:text-lg">
               Right now, the best way to become a course creator is to click on
-              the "Get in touch" button or write to us at hello@andamio.io.
+              the &quot;Get in touch&quot; button or write to us at
+              hello@andamio.io.
             </p>
           </li>
 

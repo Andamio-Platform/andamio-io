@@ -17,8 +17,8 @@ export function JoinAndamio({ role }: JoinAndamioProps) {
 
         {/* Subheadline */}
         <p className="mx-auto mb-12 max-w-3xl text-lg font-light text-foreground">
-          Andamio connects talent and work like never before, whether you're a
-          contributor or an organization.
+          Andamio connects talent and work like never before, whether
+          you&apos;re a contributor or an organization.
         </p>
 
         {/* Conditional CTAs */}
@@ -36,7 +36,7 @@ export function JoinAndamio({ role }: JoinAndamioProps) {
           ) : (
             <div>
               <Link href="/get-started-contributor">
-                <Button className="text-md hover:borderborder-primary font-montserrat rounded bg-primary px-6 py-3 font-semibold  uppercase text-white transition-all duration-300 hover:border-2 hover:border-primary hover:bg-white hover:text-primary  ">
+                <Button className="text-md hover:borderborder-primary rounded bg-primary px-6 py-3 font-montserrat font-semibold  uppercase text-white transition-all duration-300 hover:border-2 hover:border-primary hover:bg-white hover:text-primary  ">
                   Start Learning and Earning Now
                 </Button>
               </Link>

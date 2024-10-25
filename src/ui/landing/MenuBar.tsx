@@ -21,8 +21,8 @@ export default function MenuBar({
   setRole,
   role,
 }: {
-  setRole: (role: "learner" | "organization") => void;
-  role: "learner" | "organization";
+  setRole?: (role: "learner" | "organization") => void;
+  role?: "learner" | "organization";
 }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -47,17 +47,16 @@ export default function MenuBar({
 }
 
 function Desktop({
-  setMobileMenuOpen,
   setRole,
   role,
 }: {
   setMobileMenuOpen: (open: boolean) => void;
-  setRole: (role: "learner" | "organization") => void;
-  role: "learner" | "organization";
+  setRole?: (role: "learner" | "organization") => void;
+  role?: "learner" | "organization";
 }) {
   const { data: sessionData } = useSession();
   const router = useRouter(); // Get the current route
-  const isSummitPage = router.pathname.includes("/summit"); // Check if you're on the summit page
+  const isLandingPage = router.pathname.includes("/"); // Check if you're on the summit page
 
   return (
     <div className="hidden w-full items-center justify-between py-6 md:px-6 lg:flex">
@@ -92,14 +91,14 @@ function Desktop({
       </div>
 
       {/* Conditionally Render Learner and Organization Buttons */}
-      {!isSummitPage && (
+      {isLandingPage && !!setRole && !!role && (
         <div className="flex gap-5">
           <Button
             onClick={() => setRole("learner")}
             className={`cursor-pointer rounded px-4 py-2 ${
               role === "learner"
-                ? "bg-white text-primary shadow-none hover:bg-primary hover:text-white"
-                : "bg-primary text-white shadow-none hover:bg-white hover:text-primary"
+                ? "cursor-auto bg-primary text-white hover:bg-primary hover:text-white"
+                : "bg-white text-primary shadow-none hover:bg-primary hover:text-white"
             }`}
           >
             I am a&nbsp;
@@ -111,8 +110,8 @@ function Desktop({
             onClick={() => setRole("organization")}
             className={`cursor-pointer rounded px-4 py-2 ${
               role === "organization"
-                ? "bg-white text-primary shadow-none hover:bg-primary hover:text-white"
-                : "bg-primary text-white shadow-none hover:bg-white hover:text-primary"
+                ? "cursor-auto bg-primary text-white hover:bg-primary hover:text-white"
+                : "bg-white text-primary shadow-none hover:bg-primary hover:text-white"
             }`}
           >
             I am an&nbsp;
@@ -147,9 +146,11 @@ function Mobile({
 }: {
   mobileMenuOpen: boolean;
   setMobileMenuOpen: (open: boolean) => void;
-  setRole: (role: "learner" | "organization") => void;
-  role: "learner" | "organization";
+  setRole?: (role: "learner" | "organization") => void;
+  role?: "learner" | "organization";
 }) {
+  const router = useRouter(); // Get the current route
+  const isLandingPage = router.pathname.includes("/"); // Check if you're on the summit page
   return (
     <>
       {/* Mobile Hamburger Icon */}
@@ -209,47 +210,49 @@ function Mobile({
           </div>
 
           {/* Learner and Organization Buttons */}
-          <div className="mt-6 flex flex-col space-y-4">
-            <Button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                setRole("learner");
-              }}
-              className={`w-1/2 cursor-pointer rounded border-2 px-4 py-2 ${
-                role === "learner"
-                  ? "bg-white text-primary hover:bg-primary hover:text-white"
-                  : "bg-primary text-white hover:bg-white hover:text-primary"
-              }`}
-            >
-              I am a&nbsp;
-              <span className="font-montserrat font-semibold">LEARNER</span>
-            </Button>
-            <Button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                setRole("organization");
-              }}
-              className={`w-1/2 cursor-pointer rounded border-2 px-4 py-2 ${
-                role === "organization"
-                  ? "bg-white text-primary hover:bg-primary hover:text-white"
-                  : "bg-primary text-white hover:bg-white hover:text-primary"
-              }`}
-            >
-              I am an&nbsp;
-              <span className="font-montserrat font-semibold">
-                ORGANIZATION
-              </span>
-            </Button>
-          </div>
+          {isLandingPage && !!setRole && !!role && (
+            <div className="mt-6 flex flex-col space-y-4">
+              <Button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  setRole("learner");
+                }}
+                className={`w-1/2 cursor-pointer rounded border-2 p-2 ${
+                  role === "learner"
+                    ? "bg-white text-primary hover:bg-primary hover:text-white"
+                    : "bg-primary text-white hover:bg-white hover:text-primary"
+                }`}
+              >
+                I am a&nbsp;
+                <span className="font-montserrat font-semibold">LEARNER</span>
+              </Button>
+              <Button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  setRole("organization");
+                }}
+                className={`w-1/2 cursor-pointer rounded border-2 p-2 ${
+                  role === "organization"
+                    ? "bg-white text-primary hover:bg-primary hover:text-white"
+                    : "bg-primary text-white hover:bg-white hover:text-primary"
+                }`}
+              >
+                I am an&nbsp;
+                <span className="font-montserrat font-semibold">
+                  ORGANIZATION
+                </span>
+              </Button>
+            </div>
+          )}
 
           {/* Login Button */}
-          <div className="mt-6">
-            <Link href="/auth/signin">
-              <span className="block rounded-md px-3 py-2 text-base font-semibold leading-7 text-foreground hover:bg-accent-foreground hover:text-white">
-                Log in
-              </span>
-            </Link>
-          </div>
+          {/* <div className="mt-6"> */}
+          {/*   <Link href="/auth/signin"> */}
+          {/*     <span className="block rounded-md px-3 py-2 text-base font-semibold leading-7 text-foreground hover:bg-accent-foreground hover:text-white"> */}
+          {/*       Log in */}
+          {/*     </span> */}
+          {/*   </Link> */}
+          {/* </div> */}
         </Dialog.Panel>
       </Dialog>
     </>

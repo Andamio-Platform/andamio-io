@@ -53,12 +53,12 @@ export function LearnerHero() {
 
         <div className="lg-border-2 mt-4 flex  flex-row items-center gap-2 pl-2 md:mt-0 md:w-auto md:gap-4 lg:border-l-2 lg:border-primary">
           <Link href="/get-started">
-            <Button className="text-md font-montserrat rounded border-2 border-primary bg-primary px-6 py-2 font-semibold uppercase text-white transition-all duration-300 hover:border-primary hover:bg-white hover:text-primary">
+            <Button className="text-md font-montserrat rounded border-2 border-primary bg-primary px-6 py-2  font-semibold uppercase text-white transition-all duration-300 hover:border-primary hover:bg-white hover:text-primary">
               Get Started
             </Button>
           </Link>
           <Link href="/courses">
-            <Button className="text-md rounded border-2 border-primary bg-transparent px-6 py-2 font-semibold uppercase text-primary transition-all duration-300 hover:bg-primary hover:text-white">
+            <Button className="text-md font-montserrat rounded border-2 border-primary bg-transparent px-6 py-2 font-semibold uppercase text-primary transition-all duration-300 hover:border-2 hover:border-primary hover:bg-primary hover:text-white">
               Explore Courses
             </Button>
           </Link>

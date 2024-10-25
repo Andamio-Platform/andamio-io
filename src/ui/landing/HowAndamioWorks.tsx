@@ -1,101 +1,81 @@
-import Image from "next/image";
+import React, { useEffect, useRef } from "react";
+import { motion } from "framer-motion";
+
+// Define word-color mapping
+const wordColors: { [key: string]: string } = {
+  short: "text-secondary",
+  targeted: "text-secondary",
+  courses: "text-secondary",
+  complete: "text-secondary",
+  real: "text-secondary",
+  tasks: "text-secondary",
+  payments: "text-secondary",
+  instant: "text-secondary",
+  secure: "text-secondary",
+  professional: "text-secondary",
+  reputation: "text-secondary",
+};
 
 export function HowAndamioWorks() {
+  const sectionsRef = useRef<HTMLDivElement[]>([]);
+
+  const sentences = [
+    "Quickly develop new skills with targeted courses.",
+    "Apply new skills to real tasks.",
+    "Receive instant, secure payments via smart contracts.",
+    "Build your reputation with every on-chain contribution.",
+  ];
+
   return (
-    <div
-      className="z-20 flex min-h-screen w-screen flex-col items-center justify-center"
-      id="how-andamio-works"
-    >
-      <div className="mx-auto mb-5 flex min-h-40 w-full flex-row items-center justify-center md:mb-24">
-        <h1 className="scroll-m-20 text-3xl font-semibold text-black md:text-8xl">
-          How&nbsp;
-        </h1>
-        <Image
-          width={600}
-          height={600}
-          className="h-10 w-auto md:h-40"
-          src="/andamio-logo-w-typography.jpg"
-          alt="Andamio"
-        />
-        <h1 className="scroll-m-20 text-3xl font-semibold text-black md:text-8xl">
-          works
-        </h1>
-      </div>
-      <div className="flex h-1/5 w-screen flex-col text-black md:flex-row md:text-xl">
-        <div className="flex h-full w-full flex-col items-center justify-end md:w-1/3">
-          <Image
-            width={600}
-            height={600}
-            className="h-40 w-auto"
-            src="/images/site/step_1.png"
-            alt="step-1"
-          />
-          <Image
-            width={600}
-            height={600}
-            className="h-40 w-auto"
-            src="/images/site/view-cool-3d-woman-posing.png"
-            alt="ceo-sarah"
-          />
-          <div className="flex h-full w-full flex-col items-center justify-start px-20">
-            <text className="my-5 justify-center font-bold">
-              Meet CEO Sarah
-            </text>
-            Sarah needs to get some work done and is looking for a skilled
-            contributor. So she creates a course on Andamio to teach the skills
-            needed to get the job done.
-          </div>
+    <section className="relative mx-auto w-full px-4">
+      {sentences.map((sentence, index) => (
+        <div
+          key={index}
+          ref={(el) => {
+            if (el) sectionsRef.current[index] = el;
+          }}
+          className="sentence-container flex min-h-screen items-center justify-start px-8"
+        >
+          <motion.h2
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.8 }}
+            variants={{
+              hidden: {},
+              visible: {
+                transition: {
+                  staggerChildren: 0.1,
+                },
+              },
+            }}
+            className="text-3xl font-black text-primary md:text-5xl lg:text-6xl"
+          >
+            {sentence.split(" ").map((word, idx) => {
+              const normalizedWord = normalizeWord(word);
+              const colorClass = wordColors[normalizedWord] || "text-primary";
+              return (
+                <motion.span
+                  key={idx}
+                  variants={{
+                    hidden: { opacity: 0, y: 20 },
+                    visible: { opacity: 1, y: 0 },
+                  }}
+                  className={`inline-block ${colorClass}`}
+                >
+                  {word}&nbsp;
+                </motion.span>
+              );
+            })}
+          </motion.h2>
         </div>
-        <div className="flex h-full w-full flex-col items-center justify-end md:w-1/3">
-          <Image
-            width={600}
-            height={600}
-            className="h-40 w-auto"
-            src="/images/site/step_2.png"
-            alt="step-2"
-          />
-          <Image
-            width={600}
-            height={600}
-            className="h-40 w-auto"
-            src="/images/site/view-3d-businessman.png"
-            alt="skilled-pete"
-          />
-          <div className="flex h-full w-full flex-col items-center justify-start px-20">
-            <text className="my-5 justify-center font-bold">
-              Meet Skilled Pete
-            </text>
-            Pete is excited about the opportunity and takes Sarah&apos;s course
-            on Andamio and earns a skill
-          </div>
-        </div>
-        <div className="flex h-full w-full flex-col items-center justify-end md:w-1/3">
-          <Image
-            width={600}
-            height={600}
-            className="h-40 w-auto"
-            src="/images/site/step_3.png"
-            alt="step-3"
-          />
-          <Image
-            width={600}
-            height={600}
-            className="h-40 w-auto"
-            src="/images/site/coins.png"
-            alt="coin"
-          />
-          <div className="flex h-full w-full flex-col items-center justify-start px-20">
-            <text className="my-5 justify-center font-bold">
-              Pete gets paid
-            </text>
-            Pete does the job and gets paid. Pete learns a new skill and the
-            process repeats
-            <h1 className="mt-10 hidden font-bold text-red-400 md:block">
-              COMING SOON
-            </h1>
-          </div>
-        </div>
-      </div>
-    </div>
+      ))}
+    </section>
   );
 }
+
+// Helper function
+const normalizeWord = (word: string) =>
+  word
+    .toLowerCase()
+    .replace(/[.,!?]/g, "")
+    .trim();

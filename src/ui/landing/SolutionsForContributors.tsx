@@ -1,5 +1,4 @@
-import React, { FC } from "react";
-import Image from "next/image";
+import React, { type FC } from "react";
 import Link from "next/link";
 import { Button } from "~/components/ui/button";
 import { motion } from "framer-motion";
@@ -69,7 +68,7 @@ export const SolutionsForContributors: FC = () => {
       {/* Call to Action */}
       <div className="mt-8">
         <Link href="/get-started">
-          <Button className="text-md hover:borderborder-primary font-montserrat rounded bg-primary px-6 py-3 font-semibold  uppercase text-white transition-all duration-300 hover:border-2 hover:border-primary hover:bg-white hover:text-primary">
+          <Button className="text-md hover:borderborder-primary rounded bg-primary px-6 py-3 font-montserrat font-semibold  uppercase text-white transition-all duration-300 hover:border-2 hover:border-primary hover:bg-white hover:text-primary">
             Build Your Reputation Today
           </Button>
         </Link>

@@ -29,19 +29,23 @@ export default function MenuBar({
   return (
     <header className="sticky top-0 z-50 w-full overflow-hidden bg-white">
       {/* Desktop Menu */}
-      <Desktop
-        setMobileMenuOpen={setMobileMenuOpen}
-        role={role}
-        setRole={setRole}
-      />
+      <div className="hidden lg:flex">
+        <Desktop
+          setMobileMenuOpen={setMobileMenuOpen}
+          role={role}
+          setRole={setRole}
+        />
+      </div>
 
       {/* Mobile Menu */}
-      <Mobile
-        mobileMenuOpen={mobileMenuOpen}
-        setMobileMenuOpen={setMobileMenuOpen}
-        setRole={setRole}
-        role={role}
-      />
+      <div className="lg:hidden">
+        <Mobile
+          mobileMenuOpen={mobileMenuOpen}
+          setMobileMenuOpen={setMobileMenuOpen}
+          setRole={setRole}
+          role={role}
+        />
+      </div>
     </header>
   );
 }
@@ -59,7 +63,7 @@ function Desktop({
   const isLandingPage = router.pathname.includes("/"); // Check if you're on the summit page
 
   return (
-    <div className="hidden w-full items-center justify-between py-6 md:px-6 lg:flex">
+    <div className="flex w-full items-center justify-between px-6 py-6">
       {/* Logo */}
       <Link href="/">
         <Image
@@ -67,7 +71,7 @@ function Desktop({
           height={200}
           src="/andamio-logo.svg"
           alt="Andamio"
-          className="h-auto w-32 sm:w-40 md:w-48 lg:w-56"
+          className="h-auto"
         />
       </Link>
 
@@ -92,7 +96,7 @@ function Desktop({
 
       {/* Conditionally Render Learner and Organization Buttons */}
       {isLandingPage && !!setRole && !!role && (
-        <div className="flex gap-5">
+        <div className="flex gap-3 sm:gap-4 lg:gap-6 xl:gap-8">
           <Button
             onClick={() => setRole("learner")}
             className={`cursor-pointer rounded px-4 py-2 ${

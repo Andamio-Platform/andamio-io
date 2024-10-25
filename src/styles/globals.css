@@ -10,10 +10,10 @@
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    --primary: 203, 51%, 25%;
+    --primary: 197 100% 16%;
     --primary-foreground: 222.2 8% 95%;
-    --secondary: 10 54% 82%;
-    --secondary-foreground: 10 64% 11%;
+    --secondary: 11 77% 66%;
+    --secondary-foreground: 0 0% 20%;
     --muted: 210 40% 96.1%;
     --muted-foreground: 203 51% 25%;
     --accent: 39 86% 71%;
@@ -70,9 +70,19 @@
     @apply border-border;
   }
   body {
-    @apply bg-background font-workSans text-foreground;
+    @apply bg-background font-sans leading-relaxed text-foreground;
+  }
+  /* add montserrat font for headings */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-montserrat;
   }
 }
+
 @font-face {
   font-family: "Beckman";
   font-style: normal;
@@ -161,23 +171,12 @@
   max-width: fit-content !important;
 }
 
-.code-block-wrapper {
-  position: relative;
-  display: inline-block;
-  width: 100%;
+/* Adds typing effect */
+.word {
+  opacity: 0; /* Initially hidden */
+  transition: opacity 0.5s ease-in-out;
 }
 
-.copy-button {
-  position: absolute;
-  top: 40px;
-  right: 8px;
-  border: none;
-  padding: 5px;
-  cursor: pointer;
-  border-radius: 3px;
-  @apply bg-accent text-xs font-semibold text-accent-foreground;
-}
-
-.copy-button:hover {
-  @apply bg-success text-success-foreground;
+.visible {
+  opacity: 1 !important; /* Set visible when the observer detects entry */
 }

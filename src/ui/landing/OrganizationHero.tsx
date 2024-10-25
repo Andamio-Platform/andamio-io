@@ -3,22 +3,64 @@ import { Button } from "~/components/ui/button";
 
 export function OrganizationHero() {
   return (
-    <div className="relative z-20 flex h-[80vh] w-screen flex-col items-center justify-center md:h-[80vh]">
-      <h1 className="max-w-5xl scroll-m-20 text-center text-5xl font-extrabold text-black md:text-4xl lg:text-9xl">
-        Build Organizations That Work
-      </h1>
-      <h3 className="mx-5 my-10 max-w-7xl scroll-m-20 text-center text-lg text-black md:m-20 lg:text-2xl">
-        It takes too much time, effort and money to build communities of
-        collaborators that know and understand the problems you are trying to
-        solve and have the right skills to help you solve them.
-      </h3>
-      <div className="flex flex-col gap-4 md:flex-row">
-        <Link href="/contact">
-          <Button size="heroBlack">GET IN TOUCH</Button>
-        </Link>
-        <Link href="/#how-andamio-works">
-          <Button size="heroWhite">HOW IT WORKS</Button>
-        </Link>
+    <div className="relative mx-auto flex h-[80vh] w-full flex-col items-start justify-end px-4 text-start md:w-11/12">
+      <div className="w-full border-b-2 border-primary pb-4">
+        <h1 className="text-4xl font-black uppercase text-primary sm:text-5xl md:text-6xl lg:text-7xl">
+          Build Organizations That Work
+        </h1>
+        <h3 className="mt-4 max-w-full text-lg font-bold uppercase text-secondary sm:text-xl md:text-2xl lg:max-w-6xl">
+          Fast onboarding with verified skills and secure payments.
+        </h3>
+      </div>
+
+      <div className="flex w-full items-center justify-start border-b-2 border-primary py-6 md:justify-end">
+        {/* Value Propositions */}
+        <div className="grid w-full max-w-5xl grid-cols-1 gap-8 border-primary md:grid-cols-3 md:border-r-2 md:pr-4">
+          {/* Onboarding Efficiency*/}
+          <div className="flex flex-col items-start text-start">
+            <h4 className="text-lg font-bold text-primary sm:text-xl">
+              Onboarding Efficiency
+            </h4>
+            <p className="sm:text-md text-sm font-light">
+              Onboard talent in record time, with training tailored to your
+              specific needs.
+            </p>
+          </div>
+
+          {/* Verified Skills */}
+          <div className="flex flex-col items-start text-start">
+            <h4 className="text-lg font-bold text-primary sm:text-xl">
+              Verified Skills
+            </h4>
+            <p className="sm:text-md text-sm font-light">
+              Ensure every contributor’s skills are verified on-chain before
+              they begin work.
+            </p>
+          </div>
+
+          {/* Transparent Payments */}
+          <div className="flex flex-col items-start text-start">
+            <h4 className="text-lg font-bold text-primary sm:text-xl">
+              Transparent Payments
+            </h4>
+            <p className="sm:text-md text-sm font-light">
+              Ensure fair, transparent payments with blockchain and smart
+              contracts.
+            </p>
+          </div>
+        </div>
+        <div className="flex w-auto flex-row gap-4 border-primary px-4">
+          <Link href="/organizations">
+            <Button className="text-md font-montserrat rounded border-2 border-primary bg-primary px-6 py-2  font-semibold uppercase text-white transition-all duration-300 hover:border-primary hover:bg-white hover:text-primary">
+              Learn More
+            </Button>
+          </Link>
+          <Link href="/get-started">
+            <Button className="text-md rounded border-2 border-primary bg-transparent px-6 py-2 font-semibold uppercase text-primary transition-all duration-300 hover:bg-primary hover:text-white">
+              Get Started
+            </Button>
+          </Link>
+        </div>
       </div>
     </div>
   );

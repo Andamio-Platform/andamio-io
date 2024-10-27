@@ -27,21 +27,25 @@ export default function MenuBar({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white">
+    <header className="sticky top-0 z-50 w-full overflow-hidden bg-white">
       {/* Desktop Menu */}
-      <Desktop
-        setMobileMenuOpen={setMobileMenuOpen}
-        role={role}
-        setRole={setRole}
-      />
+      <div className="hidden lg:flex">
+        <Desktop
+          setMobileMenuOpen={setMobileMenuOpen}
+          role={role}
+          setRole={setRole}
+        />
+      </div>
 
       {/* Mobile Menu */}
-      <Mobile
-        mobileMenuOpen={mobileMenuOpen}
-        setMobileMenuOpen={setMobileMenuOpen}
-        setRole={setRole}
-        role={role}
-      />
+      <div className="lg:hidden">
+        <Mobile
+          mobileMenuOpen={mobileMenuOpen}
+          setMobileMenuOpen={setMobileMenuOpen}
+          setRole={setRole}
+          role={role}
+        />
+      </div>
     </header>
   );
 }
@@ -59,10 +63,16 @@ function Desktop({
   const isLandingPage = router.pathname.includes("/"); // Check if you're on the summit page
 
   return (
-    <div className="hidden w-full items-center justify-between px-12 py-6 lg:flex">
+    <div className="flex w-full items-center justify-between px-6 py-6">
       {/* Logo */}
       <Link href="/">
-        <Image width={200} height={200} src="/andamio-logo.svg" alt="Andamio" />
+        <Image
+          width={200}
+          height={200}
+          src="/andamio-logo.svg"
+          alt="Andamio"
+          className="h-auto"
+        />
       </Link>
 
       {/* Navigation Links */}
@@ -70,7 +80,7 @@ function Desktop({
         {navigation.map((item) => (
           <Link href={item.href} key={item.name} legacyBehavior passHref>
             <Button
-              className={`${navigationMenuTriggerStyle()} cursor-pointer rounded bg-white font-montserrat text-primary shadow-none hover:text-white`}
+              className={`${navigationMenuTriggerStyle()} font-montserrat cursor-pointer rounded bg-white text-primary shadow-none hover:text-white`}
             >
               {item.name}
             </Button>
@@ -78,7 +88,7 @@ function Desktop({
         ))}
 
         <Link href="/contact" legacyBehavior passHref>
-          <Button className="cursor-pointer rounded font-montserrat text-white shadow-none hover:bg-white">
+          <Button className="font-montserrat cursor-pointer rounded text-white shadow-none hover:bg-white">
             <span className="uppercase">Get in touch</span>
           </Button>
         </Link>
@@ -86,7 +96,7 @@ function Desktop({
 
       {/* Conditionally Render Learner and Organization Buttons */}
       {isLandingPage && !!setRole && !!role && (
-        <div className="flex gap-5">
+        <div className="flex gap-3 sm:gap-4 lg:gap-6 xl:gap-8">
           <Button
             onClick={() => setRole("learner")}
             className={`cursor-pointer rounded px-4 py-2 ${
@@ -148,7 +158,7 @@ function Mobile({
   return (
     <>
       {/* Mobile Hamburger Icon */}
-      <div className="flex w-full items-center justify-between px-4 py-4 lg:hidden">
+      <div className="flex w-full items-start justify-between px-4 py-4 lg:hidden">
         <Link href="/">
           <Image
             src="/andamio-logo.svg"
@@ -172,7 +182,7 @@ function Mobile({
         open={mobileMenuOpen}
         onClose={() => setMobileMenuOpen(false)}
       >
-        <div className="fixed inset-0 z-50 bg-black opacity-30" />
+        <div className="fixed inset-0 z-50 overflow-hidden bg-black opacity-30" />
         <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full bg-white p-6 sm:max-w-xs">
           <div className="mb-6 flex items-center justify-between">
             <Link href="/">
@@ -196,7 +206,7 @@ function Mobile({
           <div className="space-y-4">
             {navigation.map((item) => (
               <Link key={item.name} href={item.href}>
-                <span className="block rounded-lg px-3 py-2 text-base font-semibold text-foreground hover:bg-accent-foreground hover:text-white">
+                <span className="block items-start rounded-lg px-3 py-2 font-semibold text-foreground hover:bg-accent-foreground hover:text-white">
                   {item.name}
                 </span>
               </Link>

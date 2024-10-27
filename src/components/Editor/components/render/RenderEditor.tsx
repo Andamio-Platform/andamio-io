@@ -1,10 +1,7 @@
 import { useEditor, EditorContent, type Content } from "@tiptap/react";
 import { useEffect } from "react";
 import { ExtensionKit } from "../../extension-kit";
-import {
-  EditableCodeBlock,
-  PublishedCodeBlock,
-} from "../../extensions/CodeBlock";
+import { EditableCodeBlock } from "../../extensions/CodeBlock";
 
 interface EditorProps {
   editable?: boolean;

@@ -1,5 +1,5 @@
 import PlaceholderComponent from "~/ui/prototype/PlaceholderComponent";
-import ContributorDashboardMenu from "../dashboard-menus/ContributorDashboardMenu";
+import ContributorDashboardMenu from "~/ui/profile/components/dashboard-menus/ContributorDashboardMenu";
 
 export default function ContributorComponent() {
   return (

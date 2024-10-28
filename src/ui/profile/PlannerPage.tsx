@@ -1,5 +1,5 @@
 import ProfileLayout from "./layout/ProfileLayout";
-import PlannerComponent from "./planner/PlannerComponent";
+import PlannerComponent from "./roles/planner/PlannerComponent";
 
 export default function PlannerPage() {
   return (

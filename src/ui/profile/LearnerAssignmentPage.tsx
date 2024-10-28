@@ -1,7 +1,7 @@
 import ProfileLayout from "./layout/ProfileLayout";
 import { useLearnerAssignmentStatuses } from "~/hooks/course/useLearnerAssignmentStatuses";
-import AssignmentsSection from "./learner/AssignmentSection";
-import LearnerDashboardMenu from "./dashboard-menus/LearnerDashboardMenu";
+import AssignmentsSection from "./roles/learner/AssignmentSection";
+import LearnerDashboardMenu from "./components/dashboard-menus/LearnerDashboardMenu";
 
 export default function LearnerAssignmentPage() {
   const { learnerAssignments } = useLearnerAssignmentStatuses();

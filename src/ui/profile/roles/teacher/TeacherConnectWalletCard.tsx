@@ -1,7 +1,7 @@
 import { CardanoWallet } from "@meshsdk/react";
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
 
-export default function CreatorConnectWalletCard() {
+export default function TeacherConnectWalletCard() {
   return (
     <Card className="">
       <CardHeader className="flex w-full flex-row items-center justify-between">

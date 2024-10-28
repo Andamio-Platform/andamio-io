@@ -1,6 +1,6 @@
 import useLearnerSavedCourses from "~/hooks/course/useLearnerSavedCourses";
 import { useRouter } from "next/router";
-import DashboardSelectMenu from "../components/DashboardSelectMenu";
+import DashboardSelectMenu from "~/ui/profile/components/DashboardSelectMenu";
 
 export default function SavedCourses() {
   const { courseInfos } = useLearnerSavedCourses();

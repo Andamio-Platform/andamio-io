@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import DashboardSelectMenu from "../components/DashboardSelectMenu";
+import DashboardSelectMenu from "~/ui/profile/components/DashboardSelectMenu";
 import useEnrolledCourseList from "~/hooks/onchain/useEnrolledCourseList";
 
 export default function AndamioNetworkTeacherCourses({

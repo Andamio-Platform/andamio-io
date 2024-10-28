@@ -7,9 +7,9 @@ import useGlobalStateDatum from "~/hooks/onchain/useGlobalStateDatum";
 import CourseDetails from "./CourseDetails";
 import LearnerCourses from "./LearnerCourses";
 import MintAccessTokenDialog from "~/components/transactions/dialogs/MintAccessTokenDialog";
-import DashboardDataComponent from "../dashboard-home/DashboardDataComponent";
+import DashboardDataComponent from "~/ui/profile/components/DashboardDataComponent";
 import { useRouter } from "next/router";
-import LearnerDashboardMenu from "../dashboard-menus/LearnerDashboardMenu";
+import LearnerDashboardMenu from "~/ui/profile/components/dashboard-menus/LearnerDashboardMenu";
 
 export default function LearnerComponent() {
   const { connected } = useWallet();

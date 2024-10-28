@@ -1,5 +1,5 @@
 import ProfileLayout from "./layout/ProfileLayout";
-import ContributorComponent from "./contributor/ContributorComponent";
+import ContributorComponent from "./roles/contributor/ContributorComponent";
 
 export default function ContributorPage() {
   return (

@@ -18,6 +18,7 @@ export default function RoleStatus({
   roleInfoUrl?: string;
   current?: boolean;
 }) {
+  if (!userHasRole) return;
   return (
     <li
       className={classNames(

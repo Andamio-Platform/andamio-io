@@ -2,8 +2,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useAccessToken } from "~/hooks/onchain/useAccessToken";
 import useGlobalStateDatum from "~/hooks/onchain/useGlobalStateDatum";
-import SavedCourses from "~/ui/profile/learner/SavedCourses";
-import AndamioNetworkCourses from "~/ui/profile/learner/AndamioNetworkCourses";
+import SavedCourses from "~/ui/profile/roles/learner/SavedCourses";
+import AndamioNetworkCourses from "~/ui/profile/roles/learner/AndamioNetworkCourses";
 import { CardanoWallet } from "@meshsdk/react";
 
 export default function LearnerDashboardMenu() {

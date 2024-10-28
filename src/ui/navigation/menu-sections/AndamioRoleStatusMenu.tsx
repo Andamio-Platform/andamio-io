@@ -1,5 +1,5 @@
 import { useSession } from "next-auth/react";
-import RoleStatus from "~/ui/profile/dashboard-home/RoleStatus";
+import RoleStatus from "~/ui/profile/components/RoleStatus";
 import { useAccessToken } from "~/hooks/onchain/useAccessToken";
 
 export default function AndamioRoleStatusMenu({

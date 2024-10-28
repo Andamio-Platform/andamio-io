@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useAccessToken } from "~/hooks/onchain/useAccessToken";
 import useCreatorsCoursesPolicies from "~/hooks/onchain/useCreatorsCoursesPolicies";
 import { CardanoWallet } from "@meshsdk/react";
-import AndamioNetworkTeacherCourses from "~/ui/profile/teacher/AndamioNetworkTeacherCourses";
+import AndamioNetworkTeacherCourses from "~/ui/profile/roles/teacher/AndamioNetworkTeacherCourses";
 
 export default function TeacherDashboardMenu() {
   const { accessTokenAlias } = useAccessToken();

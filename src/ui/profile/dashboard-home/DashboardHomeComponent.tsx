@@ -16,19 +16,13 @@ export default function DashboardHomeComponent() {
     accessTokenAlias ?? "",
   );
   return (
-    <div className="grid w-full grid-cols-4 md:w-3/4">
+    <div className="mx-auto grid h-screen w-11/12 grid-cols-4 items-center justify-center md:w-3/4">
       {!connected && (
         <div className="col-span-4">
-          <Card intent="dashboard" size="dashboard">
+          <Card>
             <p className="my-3 text-lg font-semibold">Welcome to Andamio!</p>
             <p className="my-3 text-lg font-semibold">
-              This page offers suggestions for what you can do next.
-            </p>
-            <p className="my-3 text-lg font-semibold">
-              Try This: Connect to the Andamio Network.
-            </p>
-            <p className="my-3 text-lg font-semibold">
-              Start by connecting a Preprod Wallet:
+              To get started, connect a wallet (requires Cardano Preprod)
             </p>
             <CardanoWallet />
           </Card>
@@ -40,43 +34,45 @@ export default function DashboardHomeComponent() {
         </div>
       )}
 
-      <div className="col-span-3 mx-auto my-5 flex min-h-[40vh] w-full flex-col">
-        {!!accessTokenAlias &&
-          !!globalStateDatum &&
-          globalStateDatum.TokenInfos.length == 0 && (
+      <div className="col-span-3">
+        <Card>
+          {!!accessTokenAlias &&
+            !!globalStateDatum &&
+            globalStateDatum.TokenInfos.length == 0 && (
+              <div>
+                <p className="my-3 text-lg font-bold">Start Learning!</p>
+                <p className="mb-2">
+                  Explore Andamio course list and try enrolling in one.
+                </p>
+                <Link href="/courses">
+                  <Button>View Courses</Button>
+                </Link>
+              </div>
+            )}
+          {!!globalStateDatum && globalStateDatum.TokenInfos.length > 0 && (
             <div>
-              <p className="my-3 text-lg font-bold">Start Learning!</p>
-              <p className="mb-2">
-                Explore Andamio course list and try enrolling in one.
+              <p className="my-3 text-lg font-bold">Keep Learning</p>
+              <p>
+                You are enrolled in {globalStateDatum.TokenInfos.length}{" "}
+                courses. Select{" "}
+                <Link href="/dashboard/learner">
+                  <span className="hover:text-success">My Courses</span>
+                </Link>{" "}
+                to view course status.
               </p>
-              <Link href="/courses">
-                <Button>View Courses</Button>
-              </Link>
             </div>
           )}
-        {!!globalStateDatum && globalStateDatum.TokenInfos.length > 0 && (
-          <div>
-            <p className="my-3 text-lg font-bold">Keep Learning</p>
-            <p>
-              You are enrolled in {globalStateDatum.TokenInfos.length} courses.
-              Select{" "}
-              <Link href="/dashboard/learner">
-                <span className="hover:text-success">My Courses</span>
-              </Link>{" "}
-              to view course status.
-            </p>
-          </div>
-        )}
-        {!!creatorCoursePolicies && creatorCoursePolicies.length > 0 && (
-          <div>
-            <p className="my-3 text-lg font-bold">Build your course(s)</p>
-            <p>
-              You are a Teacher in {creatorCoursePolicies.length} courses.
-              Select <span className="font-semibold">Teacher</span> manage
-              courses.
-            </p>
-          </div>
-        )}
+          {!!creatorCoursePolicies && creatorCoursePolicies.length > 0 && (
+            <div>
+              <p className="my-3 text-lg font-bold">Build your course(s)</p>
+              <p>
+                You are a Teacher in {creatorCoursePolicies.length} courses.
+                Select <span className="font-semibold">Teacher Dashboard</span>{" "}
+                manage courses.
+              </p>
+            </div>
+          )}
+        </Card>
       </div>
       {globalStateDatum && (
         <div className="col-span-1">
@@ -107,17 +103,6 @@ export default function DashboardHomeComponent() {
             <Button>View Getting Started with Andamio Course</Button>
           </Link>
         </div>
-        {/* <div className="flex w-full items-center justify-center bg-secondary py-10"> */}
-        {/*   <div className="mx-auto flex w-2/3 flex-col"> */}
-        {/*     <h2 className="text-center text-4xl"> */}
-        {/*       current goals */}
-        {/*     </h2> */}
-        {/*     <p className="py-10 text-center"> */}
-        {/*       If the holder of the connected Access token already has work in */}
-        {/*       progress, this component will appear. */}
-        {/*     </p> */}
-        {/*   </div> */}
-        {/* </div> */}
       </div>
     </div>
   );

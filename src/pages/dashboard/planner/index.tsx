@@ -1,10 +1,10 @@
-import MyGoalsPage from "~/ui/profile/MyGoalsPage";
 import DesktopOnlyLayout from "~/components/DesktopOnlyLayout";
+import PlannerPage from "~/ui/profile/PlannerPage";
 
-export default function DashboardGoalsPage() {
+export default function DashboardPlannerPage() {
   return (
     <DesktopOnlyLayout>
-      <MyGoalsPage />
+      <PlannerPage />
     </DesktopOnlyLayout>
   );
 }

@@ -1,7 +1,7 @@
 import PlaceholderComponent from "../prototype/PlaceholderComponent";
+import TeacherDashboardMenu from "./dashboard-menus/TeacherDashboardMenu";
 import ProfileLayout from "./layout/ProfileLayout";
 import CreatorComponent from "./teacher/TeacherCoursePageComponent";
-import TeacherDashboardMenu from "~/ui/navigation/menu-sections/TeacherDashboardMenu";
 
 export default function TeacherCoursePage({
   courseCode,

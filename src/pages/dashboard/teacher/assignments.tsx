@@ -1,5 +1,5 @@
 import DesktopOnlyLayout from "~/components/DesktopOnlyLayout";
-import TeacherDashboardMenu from "~/ui/navigation/menu-sections/TeacherDashboardMenu";
+import TeacherDashboardMenu from "~/ui/profile/dashboard-menus/TeacherDashboardMenu";
 import ProfileLayout from "~/ui/profile/layout/ProfileLayout";
 import PlaceholderComponent from "~/ui/prototype/PlaceholderComponent";
 

@@ -126,8 +126,8 @@ export default function CourseDetails({
 
   return (
     <div className="mx-auto w-11/12 px-5" key={course?.id}>
-      <div className="mt-24 flex min-h-[150px] w-full flex-col">
-        <div className="mb-24 flex w-full flex-row items-center justify-between">
+      <div className=" flex min-h-[150px] w-full flex-col">
+        <div className="mb-12 flex w-full flex-row items-center justify-between">
           <h1 className="text-6xl font-semibold">{course?.title}</h1>
           {course?.imageUrl && (
             <div className="flex items-center justify-center">

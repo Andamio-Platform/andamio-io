@@ -1,20 +1,33 @@
 import Link from "next/link";
 import { HomeIcon } from "@heroicons/react/24/outline";
+import AndamioRoleStatusMenu from "../menu-sections/AndamioRoleStatusMenu";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-export function DashboardLinkItem({ current }: { current: boolean }) {
+export function DashboardLinkItem({
+  current,
+  dashboardChildRoute,
+}: {
+  current: boolean;
+  dashboardChildRoute: string;
+}) {
   return (
-    <li key="dashboard">
+    <li
+      key="dashboard"
+      className={classNames(
+        current
+          ? "bg-accent text-accent-foreground"
+          : "text-foreground hover:bg-accent hover:text-accent-foreground",
+        "group flex flex-col rounded-md p-2 text-sm font-semibold leading-6",
+      )}
+    >
       <Link
         href="/dashboard"
         className={classNames(
-          current
-            ? "bg-accent text-accent-foreground"
-            : "text-foreground hover:bg-accent hover:text-accent-foreground",
-          "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
+          current ? "mb-2" : "",
+          "flex flex-row items-center gap-x-3",
         )}
       >
         <HomeIcon
@@ -28,6 +41,9 @@ export function DashboardLinkItem({ current }: { current: boolean }) {
         />
         My Dashboard
       </Link>
+      {current && (
+        <AndamioRoleStatusMenu dashboardChildRoute={dashboardChildRoute} />
+      )}
     </li>
   );
 }

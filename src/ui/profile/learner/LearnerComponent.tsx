@@ -9,6 +9,7 @@ import LearnerCourses from "./LearnerCourses";
 import MintAccessTokenDialog from "~/components/transactions/dialogs/MintAccessTokenDialog";
 import DashboardDataComponent from "../dashboard-home/DashboardDataComponent";
 import { useRouter } from "next/router";
+import LearnerDashboardMenu from "~/ui/navigation/menu-sections/LearnerDashboardMenu";
 
 export default function LearnerComponent() {
   const { connected } = useWallet();
@@ -21,6 +22,7 @@ export default function LearnerComponent() {
 
   return (
     <div className="flex w-11/12 lg:w-3/4">
+      <LearnerDashboardMenu />
       {/* If a course is selected, show COURSE DETAILS. Otherwise, show LEARNER OVERVIEW */}
       {!!coursecode && typeof coursecode === "string" ? (
         <CourseDetails

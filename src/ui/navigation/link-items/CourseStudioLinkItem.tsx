@@ -1,20 +1,34 @@
 import Link from "next/link";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
+import { type Course } from "~/types/db";
+import CreatorCourseListMenu from "../menu-sections/CreatorCourseListMenu";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-export function CourseStudioLinkItem({ current }: { current: boolean }) {
+export function CourseStudioLinkItem({
+  current,
+  ownerCourses,
+}: {
+  current: boolean;
+  ownerCourses: Course[];
+}) {
   return (
-    <li key="studio">
+    <li
+      key="studio"
+      className={classNames(
+        current
+          ? "bg-accent text-accent-foreground"
+          : "text-foreground hover:bg-accent hover:text-accent-foreground",
+        "group flex flex-col gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
+      )}
+    >
       <Link
         href="/studio"
         className={classNames(
-          current
-            ? "bg-accent text-accent-foreground"
-            : "text-foreground hover:bg-accent hover:text-accent-foreground",
-          "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
+          current ? "mb-2" : "",
+          "flex flex-row items-center gap-x-3",
         )}
       >
         <PencilSquareIcon
@@ -28,6 +42,7 @@ export function CourseStudioLinkItem({ current }: { current: boolean }) {
         />
         Course Studio
       </Link>
+      {current && <CreatorCourseListMenu ownerCourses={ownerCourses} />}
     </li>
   );
 }

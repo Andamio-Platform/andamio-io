@@ -1,5 +1,6 @@
 import ProfileLayout from "./layout/ProfileLayout";
 import CreatorComponent from "./creator/TeacherCoursePageComponent";
+import TeacherDashboardMenu from "~/ui/navigation/menu-sections/TeacherDashboardMenu";
 
 export default function TeacherCoursePage({
   courseCode,
@@ -8,6 +9,7 @@ export default function TeacherCoursePage({
 }) {
   return (
     <ProfileLayout>
+      <TeacherDashboardMenu />
       {courseCode ? (
         <CreatorComponent courseCode={courseCode} />
       ) : (

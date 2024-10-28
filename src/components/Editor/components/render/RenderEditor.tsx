@@ -15,7 +15,7 @@ export default function RenderEditor({
   index,
 }: EditorProps) {
   const editor = useEditor({
-    extensions: [...ExtensionKit(), PublishedCodeBlock],
+    extensions: [...ExtensionKit(), EditableCodeBlock],
     content: initialContent,
     editorProps: {
       attributes: {

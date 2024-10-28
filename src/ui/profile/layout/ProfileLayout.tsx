@@ -19,7 +19,7 @@ export default function ProfileLayout({
   return (
     <div>
       <SideMenu />
-      <main className="py-10 lg:pl-80">
+      <main className="lg:pl-80">
         <div className="mx-auto flex w-full justify-center">{children}</div>
       </main>
       <LightDarkToggle />

@@ -5,6 +5,10 @@ import useCourseByPolicyId from "~/hooks/onchain/useCourseByPolicyId";
 import LoadingCircle from "~/ui/studio/components/ContentEditor/ui/icons/loading-circle";
 import classNames from "~/utils/classnames";
 
+// All of this component can be removed - we only need the business logic to pass to EnrolledCourses -- so extract it!
+//
+// But don't delete yet - this is also used (and must be replaced) in Teacher views
+
 export default function CurrentCourseSidebarItem({
   lsCs,
   teacher,

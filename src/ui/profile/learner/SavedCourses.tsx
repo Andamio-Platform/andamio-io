@@ -1,18 +1,21 @@
-import SavedCourseSidebarItem from "./SavedCourseSidebarItem";
 import useLearnerSavedCourses from "~/hooks/course/useLearnerSavedCourses";
+import { useRouter } from "next/router";
+import DashboardSelectMenu from "../components/DashboardSelectMenu";
 
 export default function SavedCourses() {
-  const { savedCourses } = useLearnerSavedCourses();
+  const { courseInfos } = useLearnerSavedCourses();
+
+  const router = useRouter();
+  const currentCourseCode = router.query.coursecode as string;
+
+  if (!courseInfos) return;
   return (
-    <div>
-      <div className="text-sm font-semibold leading-6 text-foreground">
-        Saved for Later:
-      </div>
-      <ul role="list" className="my-2 space-y-1">
-        {savedCourses?.map((t, i) => (
-          <SavedCourseSidebarItem key={i} savedCourse={t} />
-        ))}
-      </ul>
-    </div>
+    <DashboardSelectMenu
+      title="Saved Courses"
+      dashboardRoute="dashboard/learner"
+      currentCourseCode={currentCourseCode}
+      courseInfos={courseInfos}
+      placeholder="Select a course"
+    />
   );
 }

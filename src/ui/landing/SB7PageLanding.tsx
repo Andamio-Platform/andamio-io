@@ -9,6 +9,7 @@ import { JoinAndamio } from "./JoinAndamio";
 import { SolutionsForContributors } from "./SolutionsForContributors";
 import { FAQ } from "./FAQ";
 import Footer from "./Footer";
+import { Pricing } from "./Pricing";
 
 export default function SB7PageLanding() {
   const [role, setRole] = useState<"learner" | "organization">("learner");
@@ -35,7 +36,13 @@ export default function SB7PageLanding() {
         )}
         <BuiltOnCardano />
         <JoinAndamio role={role} />
-        <FAQ />
+        {role === "organization" ? (
+          <>
+            <Pricing />
+          </>
+        ) : (
+          <FAQ />
+        )}
       </VideoBackground>
     </>
   );

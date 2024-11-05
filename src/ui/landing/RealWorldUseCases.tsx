@@ -15,14 +15,14 @@ import {
 
 export function RealWorldUseCases() {
   return (
-    <section className="bg-background py-16">
+    <section className="flex min-h-screen items-center justify-center py-16">
       <div className="container mx-auto px-4">
         {/* Headline */}
         <h2 className="mb-8 text-center text-4xl font-black uppercase text-primary sm:text-5xl md:text-6xl">
           Explore Andamio Use Cases
         </h2>
         {/* Subheading or Description */}
-        <p className="font-montserrat mb-8 text-center text-lg text-muted-foreground">
+        <p className="mb-8 text-center font-montserrat text-lg text-muted-foreground">
           Discover use cases for Andamio and how it can support your
           organization.
         </p>
@@ -37,7 +37,7 @@ export function RealWorldUseCases() {
               />
             </CardIcon>
             <CardHeader className="mt-4 text-xl font-bold text-primary">
-              Catalyst Reviewers
+              Decentralized Innovation
             </CardHeader>
             <CardContent>
               <p className="text-md mt-2 font-light text-foreground">
@@ -46,8 +46,8 @@ export function RealWorldUseCases() {
               </p>
             </CardContent>
             <CardFooter>
-              <Link href="/use-cases/catalyst-reviewers">
-                <Button className="text-md font-montserrat mt-4 rounded bg-primary px-6 py-2 font-semibold uppercase text-white transition-all duration-300 hover:border-2 hover:border-primary hover:bg-white hover:text-primary">
+              <Link href="/use-cases/CatalystReviewers" target="_blank">
+                <Button className="text-md mt-4 rounded bg-primary px-6 py-2 font-montserrat font-semibold uppercase text-white transition-all duration-300 hover:border-2 hover:border-primary hover:bg-white hover:text-primary">
                   Learn More
                 </Button>
               </Link>
@@ -72,8 +72,8 @@ export function RealWorldUseCases() {
               </p>
             </CardContent>
             <CardFooter>
-              <Link href="/use-cases/leadgen-dao">
-                <Button className="text-md font-montserrat mt-4 rounded bg-primary px-6 py-2 font-semibold uppercase text-white transition-all duration-300 hover:border-2 hover:border-primary hover:bg-white hover:text-primary">
+              <Link href="/use-cases/LeadGenerator" target="_blank">
+                <Button className="text-md mt-4 rounded bg-primary px-6 py-2 font-montserrat font-semibold uppercase text-white transition-all duration-300 hover:border-2 hover:border-primary hover:bg-white hover:text-primary">
                   Learn More
                 </Button>
               </Link>
@@ -98,8 +98,8 @@ export function RealWorldUseCases() {
               </p>
             </CardContent>
             <CardFooter>
-              <Link href="/use-cases/fan-engagement">
-                <Button className="text-md font-montserrat mt-4 rounded bg-primary px-6 py-2 font-semibold uppercase text-white transition-all duration-300 hover:border-2 hover:border-primary hover:bg-white hover:text-primary">
+              <Link href="/use-cases/FanEngagement" target="_blank">
+                <Button className="text-md mt-4 rounded bg-primary px-6 py-2 font-montserrat font-semibold uppercase text-white transition-all duration-300 hover:border-2 hover:border-primary hover:bg-white hover:text-primary">
                   Learn More
                 </Button>
               </Link>
@@ -109,8 +109,8 @@ export function RealWorldUseCases() {
 
         {/* Call to Action */}
         <div className="mt-12 text-center">
-          <Link href="/get-started">
-            <Button className="text-md hover:borderborder-primary font-montserrat rounded bg-primary px-6 py-3 font-semibold uppercase text-white transition-all duration-300 hover:border-2 hover:border-primary hover:bg-white hover:text-primary">
+          <Link href="/get-started" target="_blank">
+            <Button className="text-md hover:borderborder-primary rounded bg-primary px-6 py-3 font-montserrat font-semibold uppercase text-white transition-all duration-300 hover:border-2 hover:border-primary hover:bg-white hover:text-primary">
               See How Andamio Can Work for You
             </Button>
           </Link>

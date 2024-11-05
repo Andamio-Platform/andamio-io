@@ -46,7 +46,7 @@ export function RealWorldUseCases() {
               </p>
             </CardContent>
             <CardFooter>
-              <Link href="/use-cases/CatalystReviewers" target="_blank">
+              <Link href="/use-cases/DecentralizedInnovation" target="_blank">
                 <Button className="text-md mt-4 rounded bg-primary px-6 py-2 font-montserrat font-semibold uppercase text-white transition-all duration-300 hover:border-2 hover:border-primary hover:bg-white hover:text-primary">
                   Learn More
                 </Button>

@@ -11,7 +11,7 @@ import Image from "next/image";
 
 export function BuiltOnCardano() {
   return (
-    <section className="bg-background py-16">
+    <section className="flex min-h-screen items-center justify-center py-12">
       <div className="container mx-auto px-4">
         {/* Headline */}
         <h2 className="mb-6 text-center text-4xl font-black uppercase text-primary sm:text-5xl md:text-6xl">
@@ -19,89 +19,83 @@ export function BuiltOnCardano() {
         </h2>
 
         {/* Subheadline */}
-        <p className="mx-auto mb-12 max-w-3xl text-center text-lg font-light text-foreground">
-          Andamio uses blockchain to ensure trust in every skill and
-          contribution.
-        </p>
+        <div className="mb-12 max-w-7xl text-center">
+          <p className="text-lg font-light text-foreground">
+            Andamio uses {/* Inline Logo for Medium Screens and Above */}
+            <span className="hidden md:inline-block">
+              <Image
+                src="/cardano-horizontal-blue.svg" // Replace with your actual image
+                alt="Cardano Logo"
+                className="mx-2 inline-block h-6 w-auto md:h-8" // Responsive sizing
+                width={80}
+                height={24}
+              />
+            </span>
+            blockchain technology to ensure trust in every skill and
+            contribution.
+          </p>
+        </div>
 
-        {/* Features */}
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
-          {/* Left Column: Key Features */}
-          <div className="flex flex-col justify-center space-y-6">
-            <Card className="flex items-start space-x-4 p-4">
-              <CardIcon>
-                <CheckBadgeIcon
-                  className="h-8 w-8 text-secondary"
-                  aria-hidden="true"
-                />
-              </CardIcon>
-              <div>
-                <CardHeader className="text-xl font-bold text-primary">
-                  Blockchain Credentials
-                </CardHeader>
-                <CardContent>
-                  <p className="text-md font-light text-foreground">
-                    Verifiable, on-chain skills and work history.
-                  </p>
-                </CardContent>
-              </div>
-            </Card>
+        {/* Features - Flex Row on Small Screens */}
+        <div className="flex flex-col items-center justify-center gap-8 md:flex-row md:space-x-6">
+          <Card className="flex w-full max-w-xs flex-col items-center space-y-4 p-6 text-center shadow-lg md:flex-grow">
+            <CardIcon>
+              <CheckBadgeIcon className="h-10 w-10 text-secondary" />
+            </CardIcon>
+            <CardHeader className="text-xl font-bold text-primary">
+              Blockchain Credentials
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm font-light text-foreground">
+                Verifiable, on-chain skills and work history.
+              </p>
+            </CardContent>
+          </Card>
 
-            <Card className="flex items-start space-x-4 p-4">
-              <CardIcon>
-                <WalletIcon
-                  className="h-8 w-8 text-secondary"
-                  aria-hidden="true"
-                />
-              </CardIcon>
-              <div>
-                <CardHeader className="text-xl font-bold text-primary">
-                  Smart Contracts
-                </CardHeader>
-                <CardContent>
-                  <p className="text-md font-light text-foreground">
-                    Secure payments without intermediaries.
-                  </p>
-                </CardContent>
-              </div>
-            </Card>
+          <Card className="flex w-full max-w-xs flex-col items-center space-y-4 p-6 text-center shadow-lg md:flex-grow">
+            <CardIcon>
+              <WalletIcon className="h-10 w-10 text-secondary" />
+            </CardIcon>
+            <CardHeader className="text-xl font-bold text-primary">
+              Smart Contracts
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm font-light text-foreground">
+                Secure payments without intermediaries.
+              </p>
+            </CardContent>
+          </Card>
 
-            <Card className="flex items-start space-x-4 p-4">
-              <CardIcon>
-                <ShieldCheckIcon
-                  className="h-8 w-8 text-secondary"
-                  aria-hidden="true"
-                />
-              </CardIcon>
-              <div>
-                <CardHeader className="text-xl font-bold text-primary">
-                  Trust and Reputation
-                </CardHeader>
-                <CardContent>
-                  <p className="text-md font-light text-foreground">
-                    Build a trusted reputation in the global marketplace.
-                  </p>
-                </CardContent>
-              </div>
-            </Card>
-          </div>
+          <Card className="flex w-full max-w-xs flex-col items-center space-y-4 p-6 text-center shadow-lg md:flex-grow">
+            <CardIcon>
+              <ShieldCheckIcon className="h-10 w-10 text-secondary" />
+            </CardIcon>
+            <CardHeader className="text-xl font-bold text-primary">
+              Trust and Reputation
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm font-light text-foreground">
+                Build a trusted reputation in the global marketplace.
+              </p>
+            </CardContent>
+          </Card>
+        </div>
 
-          {/* Right Column: Illustration or Image */}
-          <div className="flex items-center justify-center">
-            <Image
-              src="/cardano-horizontal-blue.svg" // Replace with your actual image
-              alt="Cardano Blockchain Illustration"
-              className="h-60 max-w-full px-4"
-              width={400}
-              height={200}
-            />
-          </div>
+        {/* Cardano Logo Below for Small Screens Only */}
+        <div className="mt-10 flex justify-center md:hidden">
+          <Image
+            src="/cardano-horizontal-blue.svg" // Replace with your actual image
+            alt="Cardano Blockchain Illustration"
+            className="h-16 w-auto" // Set logo size for smaller screens
+            width={400}
+            height={100}
+          />
         </div>
 
         {/* Call to Action */}
         <div className="mt-12 text-center">
           <Link href="/learn-more-about-blockchain">
-            <Button className="text-md hover:borderborder-primary font-montserrat rounded bg-primary px-6 py-3 font-semibold uppercase text-white transition-all duration-300 hover:border-2 hover:border-primary hover:bg-white hover:text-primary">
+            <Button className="text-md hover:borderborder-primary rounded bg-primary px-6 py-3 font-montserrat font-semibold uppercase text-white transition-all duration-300 hover:border-2 hover:border-primary hover:bg-white hover:text-primary">
               Learn More About Our Technology
             </Button>
           </Link>

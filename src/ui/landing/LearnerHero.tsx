@@ -6,7 +6,7 @@ export function LearnerHero() {
     <div className="relative mx-auto flex h-[80vh] w-full flex-col items-start justify-center px-8 text-start md:px-12 lg:justify-end">
       {/* Main heading */}
       <div className="w-full border-b-2 border-primary pb-4">
-        <h1 className="text-4xl font-black uppercase text-primary sm:text-5xl md:text-6xl lg:text-7xl">
+        <h1 className="text-5xl font-black uppercase text-primary sm:text-5xl md:text-6xl lg:text-7xl">
           Learn to Work
         </h1>
 
@@ -53,12 +53,12 @@ export function LearnerHero() {
 
         <div className="lg-border-2 mt-4 flex  flex-row items-center gap-2 pl-2 md:mt-0 md:w-auto md:gap-4 lg:border-l-2 lg:border-primary">
           <Link href="/get-started">
-            <Button className="text-md font-montserrat rounded border-2 border-primary bg-primary px-6 py-2  font-semibold uppercase text-white transition-all duration-300 hover:border-primary hover:bg-white hover:text-primary">
+            <Button className="text-md rounded border-2 border-primary bg-primary px-6 py-2 font-montserrat  font-semibold uppercase text-white transition-all duration-300 hover:border-primary hover:bg-white hover:text-primary">
               Get Started
             </Button>
           </Link>
           <Link href="/courses">
-            <Button className="text-md font-montserrat rounded border-2 border-primary bg-transparent px-6 py-2 font-semibold uppercase text-primary transition-all duration-300 hover:border-2 hover:border-primary hover:bg-primary hover:text-white">
+            <Button className="text-md rounded border-2 border-primary bg-transparent px-6 py-2 font-montserrat font-semibold uppercase text-primary transition-all duration-300 hover:border-2 hover:border-primary hover:bg-primary hover:text-white">
               Explore Courses
             </Button>
           </Link>

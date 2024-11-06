@@ -251,12 +251,13 @@ model CourseOnChainInstance {
 model Lesson {
   id String @id @default(cuid())
 
-  title       String?
-  description String?
-  contentJson Json?
-  imageUrl    String?
-  videoUrl    String?
-  live        Boolean?
+  title          String?
+  description    String?
+  contentJson    Json?
+  imageUrl       String?
+  videoUrl       String?
+  videoStartTime String?
+  live           Boolean?
 
   sltId String
   slt   Slt    @relation(fields: [sltId], references: [id])

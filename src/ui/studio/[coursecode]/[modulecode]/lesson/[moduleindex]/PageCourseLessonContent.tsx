@@ -113,7 +113,6 @@ export default function PageCourseLessonContent({
       .max(60, { message: "Title must be less than 60 characters" }),
     description: z.string().optional(),
     videoUrl: z.string().optional(),
-    videoStartTime: z.string().optional(),
     live: z.boolean().optional(),
   });
 
@@ -123,7 +122,6 @@ export default function PageCourseLessonContent({
       title: "",
       description: "",
       videoUrl: "",
-      videoStartTime: "0",
       live: false,
     },
   });
@@ -137,7 +135,6 @@ export default function PageCourseLessonContent({
       title: data.title ?? "",
       description: data.description ?? "",
       videoUrl: data.videoUrl ?? "",
-      videoStartTime: data.videoStartTime ?? "0",
       contentJson: editor?.getJSON(),
       live: data.live,
     };
@@ -179,7 +176,6 @@ export default function PageCourseLessonContent({
         title: lesson?.title ?? "",
         description: lesson?.description ?? "",
         videoUrl: lesson?.videoUrl ?? "",
-        videoStartTime: lesson?.videoStartTime ?? "0",
         live: lesson?.live ? lesson?.live : false,
       });
     }

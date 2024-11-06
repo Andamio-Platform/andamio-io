@@ -256,7 +256,6 @@ model Lesson {
   contentJson    Json?
   imageUrl       String?
   videoUrl       String?
-  videoStartTime String?
   live           Boolean?
 
   sltId String

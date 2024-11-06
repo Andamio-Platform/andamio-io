@@ -17,7 +17,7 @@ interface BenefitProps {
 const Benefit: FC<BenefitProps> = ({ icon: Icon, title, description }) => {
   return (
     <motion.div
-      className="flex items-start gap-4"
+      className="flex flex-col items-center gap-4 p-4 text-center md:flex-row md:items-start md:text-left"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
@@ -34,9 +34,9 @@ const Benefit: FC<BenefitProps> = ({ icon: Icon, title, description }) => {
 
 export const SolutionsForContributors: FC = () => {
   return (
-    <section className="relative mx-auto flex w-full max-w-6xl flex-col items-center justify-center px-4 py-16">
+    <section className="flex min-h-screen flex-col items-center justify-center py-16">
       {/* Main Heading */}
-      <div className="w-full pb-4 text-center">
+      <div className="w-full px-4 pb-4 text-center">
         <h2 className="text-4xl font-black uppercase text-primary sm:text-5xl md:text-6xl">
           Unlock Work Opportunities
         </h2>
@@ -47,7 +47,7 @@ export const SolutionsForContributors: FC = () => {
       </div>
 
       {/* Benefits */}
-      <div className="mt-8 w-full space-y-8">
+      <div className="mt-8 flex w-full max-w-7xl flex-col items-center gap-8 px-4 md:flex-row md:justify-center">
         <Benefit
           icon={AcademicCapIcon}
           title="Verified Credentials"
@@ -66,9 +66,9 @@ export const SolutionsForContributors: FC = () => {
       </div>
 
       {/* Call to Action */}
-      <div className="mt-8">
+      <div className="mt-12">
         <Link href="/get-started">
-          <Button className="text-md hover:borderborder-primary rounded bg-primary px-6 py-3 font-montserrat font-semibold  uppercase text-white transition-all duration-300 hover:border-2 hover:border-primary hover:bg-white hover:text-primary">
+          <Button className="text-md hover:borderborder-primary rounded bg-primary px-6 py-3 font-montserrat font-semibold uppercase text-white transition-all duration-300 hover:border-2 hover:border-primary hover:bg-white hover:text-primary">
             Build Your Reputation Today
           </Button>
         </Link>

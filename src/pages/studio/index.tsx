@@ -8,16 +8,16 @@ import DesktopOnlyLayout from "~/components/DesktopOnlyLayout";
 export default function Page() {
   const { data: sessionData, status } = useSession();
 
-  return (
-    <DesktopOnlyLayout>
-      <Metatags title="Studio" />
-      {status === "loading" && (
-        <div className="mx-auto mt-32 min-h-[50vh] max-w-7xl px-6 sm:mt-56 lg:px-8">
-          <Loading />
-        </div>
-      )}
-      {sessionData && sessionData.user.creatorId && <PageStudio />}
-      {sessionData && !sessionData.user.creatorId && <ContactSales />}
-    </DesktopOnlyLayout>
-  );
+  if (!sessionData || !sessionData.user.creatorId) return "No access";
+
+  console.log("Accessing Courses", sessionData.user.creatorId);
+
+  if (sessionData.user.creatorId)
+    return (
+      <DesktopOnlyLayout>
+        <Metatags title="Studio" />
+        {sessionData && sessionData.user.creatorId && <PageStudio />}
+        {sessionData && !sessionData.user.creatorId && <ContactSales />}
+      </DesktopOnlyLayout>
+    );
 }

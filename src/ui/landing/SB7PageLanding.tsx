@@ -18,8 +18,9 @@ export default function SB7PageLanding() {
         <CatalystHero />
         <div className="flex w-full flex-col">
           <div
-            className="flex flex-grow"
-            style={{ minHeight: `calc(100vh - 80px)` }} // Adjust 80px based on your MenuBar height
+            className="mt-20 flex flex-grow"
+            // style={{ minHeight: `calc(100vh - 80px)` }}
+            // Adjust 80px based on your MenuBar height
           >
             {role === "learner" ? <LearnerHero /> : <OrganizationHero />}
           </div>

@@ -5,7 +5,7 @@ import { CheckCircleIcon } from "@heroicons/react/24/outline";
 
 const CatalystHero = () => {
   return (
-    <section className="relative flex h-lvh w-full items-center justify-center bg-gradient-to-br from-primary to-secondary px-8 py-16 text-center md:px-12">
+    <section className="relative flex min-h-lvh w-full items-center justify-center bg-gradient-to-br from-primary to-secondary px-8 py-16 text-center md:px-12">
       <div className="max-w-4xl space-y-8">
         {/* Title */}
         <h1 className="text-5xl font-black uppercase text-white sm:text-6xl md:text-7xl">

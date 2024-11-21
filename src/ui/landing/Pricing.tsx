@@ -135,12 +135,6 @@ export default function Pricing() {
                     {tier.description}
                   </p>
                 )}
-                {/* Only render transaction fee if it exists */}
-                {tier.transactionFee && (
-                  <p className="mt-2 text-sm text-gray-500">
-                    Transaction Fee: {tier.transactionFee}
-                  </p>
-                )}
                 {/* Only render features list if it exists */}
                 {tier.features && (
                   <ul

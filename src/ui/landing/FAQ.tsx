@@ -2,15 +2,15 @@ import React from "react";
 
 export function FAQ() {
   return (
-    <section className="bg-background py-16">
-      <div className="container mx-auto px-4">
+    <section className="flex min-h-screen items-center justify-center">
+      <div className="container mx-auto px-8">
         {/* Heading */}
         <h1 className="mb-8 text-center text-4xl font-black uppercase text-primary sm:text-5xl md:text-6xl">
           Frequently Asked Questions
         </h1>
 
         {/* FAQ List */}
-        <ul className="space-y-8 text-left">
+        <ul className="space-y-8 px-8 text-left md:px-24">
           {/* Question 1 */}
           <li>
             <h3 className="text-xl font-bold text-primary md:text-2xl">

@@ -18,6 +18,7 @@ import {
   ShieldCheckIcon,
 } from "@heroicons/react/24/outline";
 
+type ProposalCategory = "technology" | "adoption";
 type Proposal = {
   title: string;
   summary: string;
@@ -25,7 +26,7 @@ type Proposal = {
   status: "voting" | "in progress" | "completed";
   link: string;
   fund: number;
-  category: "technology" | "adoption";
+  category: ProposalCategory;
 };
 
 const FundProposals: React.FC = () => {
@@ -85,12 +86,6 @@ const FundProposals: React.FC = () => {
     };
   }, []);
 
-  type Category = "technology" | "adoption";
-
-  const isCategory = (category: string): category is Category => {
-    return category === "technology" || category === "adoption";
-  };
-
   const groupedProposals: Record<
     number,
     { technology: Proposal[]; adoption: Proposal[] }
@@ -102,11 +97,16 @@ const FundProposals: React.FC = () => {
           adoption: [],
         };
       }
-      acc[proposal.fund][proposal.category].push(proposal);
+
+      // We don't need the type guard anymore since proposal.category is already typed correctly
+      acc[proposal.fund]![proposal.category].push(proposal);
+
       return acc;
     },
     {} as Record<number, { technology: Proposal[]; adoption: Proposal[] }>,
   );
+
+
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -149,9 +149,9 @@ const FundProposals: React.FC = () => {
           {Object.keys(groupedProposals)
             .sort((a, b) => parseInt(b) - parseInt(a))
             .map((fund) => {
-              const techProposals = groupedProposals[parseInt(fund)].technology;
+              const techProposals = groupedProposals[parseInt(fund)]?.technology;
               const adoptionProposals =
-                groupedProposals[parseInt(fund)].adoption;
+                groupedProposals[parseInt(fund)]?.adoption;
 
               return (
                 <section key={fund} className="my-12">
@@ -162,13 +162,13 @@ const FundProposals: React.FC = () => {
                   <div className="grid gap-12 lg:grid-cols-2">
                     {/* Technology column on the left */}
                     <div>
-                      {techProposals.length > 0 && (
+                      {!!techProposals && techProposals.length > 0 && (
                         <>
                           <h3 className="mb-4 text-2xl font-semibold text-primary">
                             Technology Oriented
                           </h3>
                           <div className="grid gap-8 md:grid-cols-2">
-                            {techProposals.map((proposal, index) => (
+                            {techProposals?.map((proposal, index) => (
                               <ProposalCard proposal={proposal} key={index} />
                             ))}
                           </div>
@@ -178,7 +178,7 @@ const FundProposals: React.FC = () => {
 
                     {/* Adoption column on the right */}
                     <div>
-                      {adoptionProposals.length > 0 && (
+                      {!!adoptionProposals && adoptionProposals.length > 0 && (
                         <>
                           <h3 className="mb-4 text-2xl font-semibold text-primary">
                             Adoption Oriented
@@ -279,13 +279,12 @@ const ProposalCard: React.FC<ProposalCardProps> = ({ proposal }) => (
         {proposal.title}
       </CardTitle>
       <Badge
-        className={`${
-          proposal.status === "completed"
-            ? "bg-green-200 text-green-800"
-            : proposal.status === "in progress"
-              ? "bg-yellow-200 text-yellow-800"
-              : "bg-blue-200 text-blue-800"
-        } rounded px-3 py-1 text-xs font-semibold`}
+        className={`${proposal.status === "completed"
+          ? "bg-green-200 text-green-800"
+          : proposal.status === "in progress"
+            ? "bg-yellow-200 text-yellow-800"
+            : "bg-blue-200 text-blue-800"
+          } rounded px-3 py-1 text-xs font-semibold`}
       >
         {proposal.status}
       </Badge>
@@ -343,7 +342,7 @@ const VideoBackground = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-const proposals = [
+const proposals: Proposal[] = [
   {
     title: "Decentralized Governance Smart Contracts",
     summary:

@@ -14,7 +14,7 @@ const CatalystHero = () => {
 
         {/* Subtitle */}
         <p className="text-lg font-light text-white sm:text-xl">
-          Support Andamio's mission to revolutionize education, contributor
+          Support Andamio&apos;s mission to revolutionize education, contributor
           management, and blockchain innovation by voting in Fund 13 of Project
           Catalyst.
         </p>

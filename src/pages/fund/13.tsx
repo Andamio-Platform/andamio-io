@@ -200,7 +200,7 @@ const FundProposals: React.FC = () => {
               Vote for Andamio
             </h3>
             <p className="mx-auto mt-6 w-full px-6 text-justify text-xl font-medium text-gray-700">
-              Andamio's groundbreaking technology and a vision for mainstream
+              Andamio&apos;s groundbreaking technology and a vision for mainstream
               Cardano adoption bring secure, scalable, and innovative smart
               contract solutions to the world. By voting for Andamio, you’re
               helping to drive real-world impact, bring blockchain into the

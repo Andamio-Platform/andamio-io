@@ -5,11 +5,8 @@ import { OrganizationHero } from "./OrganizationHero";
 import { HowAndamioWorks } from "./HowAndamioWorks";
 import { RealWorldUseCases } from "./RealWorldUseCases";
 import { BuiltOnCardano } from "./BuiltOnCardano";
-import { JoinAndamio } from "./JoinAndamio";
 import { SolutionsForContributors } from "./SolutionsForContributors";
 import { FAQ } from "./FAQ";
-import Footer from "./Footer";
-import { Pricing } from "./Pricing";
 import CatalystHero from "./Fund13";
 
 export default function SB7PageLanding() {

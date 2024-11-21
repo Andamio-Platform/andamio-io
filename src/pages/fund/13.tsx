@@ -115,73 +115,6 @@ const FundProposals: React.FC = () => {
         <main className="px-6 py-16 lg:px-24">
           <section className="mb-16 text-center">
             <div className="relative z-10 flex flex-col justify-center space-y-8">
-              <h3 className="text-5xl font-black uppercase text-secondary sm:text-5xl md:text-6xl lg:text-7xl">
-                Vote for Andamio
-              </h3>
-              <p className="mx-auto mt-6 w-full px-6 text-justify text-xl font-medium text-gray-700">
-                Andamio's groundbreaking technology and a vision for mainstream
-                Cardano adoption brings secure, scalable, and innovative smart
-                contract solutions to the world. By voting for Andamio, you’re
-                helping to drive real-world impact, bring blockchain into the
-                hands of more communities, and support the decentralized future
-                of Cardano.
-              </p>
-
-              {/* Benefits Section with Impact Statements */}
-              <div className="mt-10 flex w-full flex-col gap-4 md:flex-col lg:flex-row">
-                <div className="grid w-full grid-cols-1 gap-8 py-6 md:grid-cols-3 lg:grid-cols-3">
-                  <Card className="flex flex-col items-center space-y-4 rounded-lg bg-white p-6 shadow-md">
-                    <CardIcon>
-                      <BriefcaseIcon className="h-12 w-12 text-secondary" />
-                    </CardIcon>
-                    <CardHeader>
-                      <h4 className="text-lg font-bold text-primary sm:text-xl">
-                        Enterprise-ready Solution
-                      </h4>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-md text-justify font-light text-gray-600 sm:mt-6">
-                        Andamio enables companies to harness Cardano’s
-                        blockchain for secure, efficient, and scalable growth.
-                      </p>
-                    </CardContent>
-                  </Card>
-                  <Card className="flex flex-col items-center space-y-4 rounded-lg bg-white p-6 shadow-md">
-                    <CardIcon>
-                      <DocumentTextIcon className="h-12 w-12 text-secondary" />
-                    </CardIcon>
-                    <CardHeader>
-                      <h4 className="text-lg font-bold text-primary sm:text-xl">
-                        Next-Generation Smart Contracts
-                      </h4>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-md text-justify font-light text-gray-600">
-                        Andamio’s advanced smart contracts deliver automation,
-                        transparency, and trust, setting new standards for
-                        Cardano.
-                      </p>
-                    </CardContent>
-                  </Card>
-                  <Card className="flex flex-col items-center space-y-4 rounded-lg bg-white p-6 shadow-md">
-                    <CardIcon>
-                      <ShieldCheckIcon className="h-12 w-12 text-secondary" />
-                    </CardIcon>
-                    <CardHeader>
-                      <h4 className="text-lg font-bold text-primary sm:text-xl">
-                        Transparent On-Chain Operations
-                      </h4>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-md text-justify font-light text-gray-600">
-                        With verifiable on-chain transactions, Andamio ensures
-                        transparency, efficiency, and security.
-                      </p>
-                    </CardContent>
-                  </Card>
-                </div>
-              </div>
-
               {/* Countdown and Call to Action */}
               <div className="flex flex-col items-center justify-center gap-8 md:flex-row">
                 <div className="flex flex-col text-center md:flex-row">
@@ -262,9 +195,75 @@ const FundProposals: React.FC = () => {
                 </section>
               );
             })}
+          <div className="flex h-[80vh] flex-col items-center justify-center px-8 text-center">
+            <h3 className="text-5xl font-black uppercase text-secondary sm:text-5xl md:text-6xl lg:text-7xl">
+              Vote for Andamio
+            </h3>
+            <p className="mx-auto mt-6 w-full px-6 text-justify text-xl font-medium text-gray-700">
+              Andamio's groundbreaking technology and a vision for mainstream
+              Cardano adoption bring secure, scalable, and innovative smart
+              contract solutions to the world. By voting for Andamio, you’re
+              helping to drive real-world impact, bring blockchain into the
+              hands of more communities, and support the decentralized future of
+              Cardano.
+            </p>
+
+            {/* Benefits Section */}
+            <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+              <Card className="flex flex-col items-center space-y-4 rounded-lg bg-white p-6 shadow-md">
+                <CardIcon>
+                  <BriefcaseIcon className="h-12 w-12 text-secondary" />
+                </CardIcon>
+                <CardHeader>
+                  <h4 className="text-lg font-bold text-primary sm:text-xl">
+                    Enterprise-ready Solution
+                  </h4>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-md text-justify font-light text-gray-600 sm:mt-6">
+                    Andamio enables companies to harness Cardano’s blockchain
+                    for secure, efficient, and scalable growth.
+                  </p>
+                </CardContent>
+              </Card>
+              <Card className="flex flex-col items-center space-y-4 rounded-lg bg-white p-6 shadow-md">
+                <CardIcon>
+                  <DocumentTextIcon className="h-12 w-12 text-secondary" />
+                </CardIcon>
+                <CardHeader>
+                  <h4 className="text-lg font-bold text-primary sm:text-xl">
+                    Next-Generation Smart Contracts
+                  </h4>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-md text-justify font-light text-gray-600">
+                    Andamio’s advanced smart contracts deliver automation,
+                    transparency, and trust, setting new standards for Cardano.
+                  </p>
+                </CardContent>
+              </Card>
+              <Card className="flex flex-col items-center space-y-4 rounded-lg bg-white p-6 shadow-md">
+                <CardIcon>
+                  <ShieldCheckIcon className="h-12 w-12 text-secondary" />
+                </CardIcon>
+                <CardHeader>
+                  <h4 className="text-lg font-bold text-primary sm:text-xl">
+                    Transparent On-Chain Operations
+                  </h4>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-md text-justify font-light text-gray-600">
+                    With verifiable on-chain transactions, Andamio ensures
+                    transparency, efficiency, and security.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
         </main>
+
+        <Footer />
       </VideoBackground>
-      <Footer />
     </div>
   );
 };

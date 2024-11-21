@@ -109,7 +109,7 @@ export function RealWorldUseCases() {
 
         {/* Call to Action */}
         <div className="mt-12 text-center">
-          <Link href="/get-started" target="_blank">
+          <Link href="/studio" target="_blank">
             <Button className="text-md hover:borderborder-primary rounded bg-primary px-6 py-3 font-montserrat font-semibold uppercase text-white transition-all duration-300 hover:border-2 hover:border-primary hover:bg-white hover:text-primary">
               See How Andamio Can Work for You
             </Button>

@@ -5,7 +5,7 @@ import NetworkModuleManagement from "./NetworkModuleManagement";
 import { useState, useEffect } from "react";
 import useCourse from "~/hooks/course/useCourse";
 
-export default function CreatorsSection({
+export default function TeacherSection({
   accessTokenAlias,
   courseCode,
 }: {

@@ -1,25 +1,41 @@
 import { BoxIcon, CheckCircledIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { Button } from "~/components/ui/button";
-import { Card } from "~/components/ui/card";
 
+function classNames(...classes: string[]) {
+  return classes.filter(Boolean).join(" ");
+}
 export default function RoleStatus({
   roleName,
   userHasRole,
   roleDetail,
   roleInfoUrl,
+  current,
 }: {
   roleName: string;
   userHasRole: boolean;
   roleDetail?: string;
   roleInfoUrl?: string;
+  current?: boolean;
 }) {
+  if (!userHasRole) return;
   return (
-    <Card intent="roleStatus" size="sm">
+    <li
+      className={classNames(
+        current
+          ? "bg-primary text-primary-foreground"
+          : "text-foreground hover:bg-primary hover:text-primary-foreground",
+        "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
+      )}
+    >
       <div className="flex items-center justify-center">
-        {userHasRole ? <CheckCircledIcon /> : <BoxIcon />}
+        {userHasRole ? (
+          <CheckCircledIcon className="h-6 w-6" />
+        ) : (
+          <BoxIcon className="h-6 w-6" />
+        )}
       </div>
-      <div className="flex w-full flex-row justify-between">
+      <div className="flex w-full flex-row items-center justify-between">
         <div className="text-sm font-semibold">
           {roleName}
           {!!roleDetail && `: ${roleDetail}`}
@@ -27,11 +43,11 @@ export default function RoleStatus({
         {roleInfoUrl && (
           <Link href={roleInfoUrl} className="">
             <Button size="sm" intent="learnMore">
-              ?
+              view
             </Button>
           </Link>
         )}
       </div>
-    </Card>
+    </li>
   );
 }

@@ -122,6 +122,39 @@ export const courseOnChainInstanceRouter = createTRPCRouter({
       };
     }),
 
+  getCoursesByNftPolicyList: publicProcedure
+    .input(z.object({ CourseCreatorNFTPolicyIDs: z.array(z.string().min(1)) }))
+    .query(async ({ ctx, input }) => {
+      const courseOnChainInstances =
+        await ctx.db.courseOnChainInstance.findMany({
+          where: {
+            CourseCreatorNFTPolicyID: { in: input.CourseCreatorNFTPolicyIDs },
+          },
+          include: {
+            course: true,
+          },
+        });
+
+      if (courseOnChainInstances.length === 0) {
+        throw new Error(
+          "No courses found in the provided list of Course Policy IDs",
+        );
+      }
+      // Filter out any instances where course is null and map to desired format
+      return courseOnChainInstances
+        .filter(
+          (
+            instance,
+          ): instance is typeof instance & {
+            course: NonNullable<typeof instance.course>;
+          } => instance.course !== null,
+        )
+        .map((instance) => ({
+          courseCode: instance.course.courseCode,
+          title: instance.course.title,
+        }));
+    }),
+
   getCourseNftPolicyIds: publicProcedure
     .input(z.object({ courseCodes: z.array(z.string().min(3)) }))
     .query(async ({ ctx, input }) => {

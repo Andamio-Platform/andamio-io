@@ -1,10 +1,17 @@
 import YouTube from "react-youtube";
 
+// TODO: Get a timestamp from URL, if provided.
+
 export default function VideoPlayer({ videoId }: { videoId: string }) {
-  let _videoId = videoId
+  let _videoId = videoId;
   if (videoId.startsWith("https://www.youtube.com/watch?v=")) {
-    _videoId = videoId.substring(32)
+    _videoId = videoId.substring(32);
   }
+
+  //   playerVars: {
+  //     start: start ?? 0,
+  //   },
+  // };
 
   return (
     // <div className="h-auto w-full max-w-full rounded-lg border border-gray-200 dark:border-gray-700">
@@ -18,7 +25,7 @@ export default function VideoPlayer({ videoId }: { videoId: string }) {
       // style={object}                    // defaults -> {}
       // title={string}                    // defaults -> ''
       // loading={string}                  // defaults -> undefined
-      // opts={obj}                        // defaults -> {}
+      // opts={opts} // defaults -> {}
       // onReady={func}                    // defaults -> noop
       // onPlay={func}                     // defaults -> noop
       // onPause={func}                    // defaults -> noop

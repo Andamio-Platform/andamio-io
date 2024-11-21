@@ -1,54 +1,47 @@
 import { CheckIcon } from "@heroicons/react/20/solid";
 import classNames from "~/utils/classnames";
-
 const tiers = [
   {
-    name: "Free Tier",
-    id: "tier-free",
+    name: "Seed",
+    id: "tier-seed",
     href: "#",
-    email: "hello@andamio.io",
     priceMonthly: "$0",
-    description: "The essentials to get you started with Andamio.",
+    description: "The essentials to get you started.",
     features: [
-      "Access to one onboarding course",
-      "One integrated onboarding and contribution manager",
-      "Basic project management tools",
-      "Decentralized treasury management for small projects",
+      "1 project based learning course",
+      "Up to 100 contributors",
+      "72-hour support response time",
     ],
-    transactionFee: "10% on top of network fees",
     mostPopular: false,
   },
   {
-    name: "Pro Tier",
-    id: "tier-pro",
+    name: "Startup",
+    id: "tier-startup",
     href: "#",
-    email: "hello@andamio.io",
-    priceMonthly: "$95",
-    description: "A comprehensive plan for growing organizations.",
+    priceMonthly: "$99",
+    description: "A plan that scales with your rapidly growing business.",
     features: [
-      "All Free Tier functionalities",
-      "Access to more courses and contribution managers",
-      "Enhanced onboarding tools",
-      "Detailed project tracking",
-      "Support for larger projects",
+      "5 project based learning courses",
+      "Up to 10,000 contributors",
+      "Advanced analytics",
+      "24-hour support response time",
+      "Marketing automations",
     ],
-    transactionFee: "5% on top of network fees",
     mostPopular: true,
   },
   {
-    name: "Enterprise Tier",
+    name: "Enterprise",
     id: "tier-enterprise",
     href: "#",
-    email: "hello@andamio.io",
-    priceMonthly: "$995",
-    description: "Designed for organizations with high transaction volumes.",
+    priceMonthly: "$2,999",
+    description: "Everything you need to operate at scale.",
     features: [
-      "Unlimited access to all features",
-      "Advanced analytics",
-      "Priority support",
-      "Custom solutions for large organizations",
+      "25 project based learning courses",
+      "Up to 1,000,000 contributors",
+      "1-hour, dedicated support response time",
+      "Marketing automations",
+      "AI content coach",
     ],
-    transactionFee: "2.5% on top of network fees",
     mostPopular: false,
   },
   {
@@ -82,7 +75,7 @@ const tiers = [
   },
 ];
 
-export function Pricing() {
+export default function Pricing() {
   return (
     <div className="py-24 sm:pt-48">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -90,13 +83,13 @@ export function Pricing() {
           <h2 className="text-base font-semibold leading-7 text-primary">
             Pricing
           </h2>
-          <p className="mt-2 text-4xl font-bold tracking-tight text-primary sm:text-5xl">
-            Pricing plans for organizations of all sizes
+          <p className="mt-2 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+            Pricing plans for teams of&nbsp;all&nbsp;sizes
           </p>
         </div>
-        <p className="mx-auto mt-6 max-w-2xl text-center text-lg leading-8 text-gray-700">
-          Find the right plan that fits your organization’s needs, from getting
-          started to scaling up and beyond.
+        <p className="mx-auto mt-6 max-w-2xl text-center text-lg leading-8 text-gray-600">
+          Distinctio et nulla eum soluta et neque labore quibusdam. Saepe et
+          quasi iusto modi velit ut non voluptas in. Explicabo id ut laborum.
         </p>
         <div className="isolate mx-auto mt-16 grid max-w-md grid-cols-1 gap-y-8 sm:mt-20 lg:mx-0 lg:max-w-none lg:grid-cols-4">
           {tiers.map((tier, tierIdx) => (
@@ -120,7 +113,7 @@ export function Pricing() {
                   <h3
                     id={tier.id}
                     className={classNames(
-                      tier.mostPopular ? "text-primary" : "text-gray-900",
+                      tier.mostPopular ? "text-primary" : "text-foreground",
                       "text-lg font-semibold leading-8",
                     )}
                   >
@@ -168,7 +161,7 @@ export function Pricing() {
               </div>
               {/* Contact button with customized styling for Partner Tier */}
               <a
-                href={`mailto:${tier.email}?subject=Inquiry about ${tier.name}`}
+                href={tier.href}
                 aria-describedby={tier.id}
                 className={classNames(
                   tier.mostPopular
@@ -179,7 +172,7 @@ export function Pricing() {
                   "mt-8 block rounded-md px-3 py-2 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
                 )}
               >
-                Get in touch
+                Buy plan
               </a>
             </div>
           ))}

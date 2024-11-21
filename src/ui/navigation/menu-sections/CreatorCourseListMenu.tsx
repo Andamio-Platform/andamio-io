@@ -14,10 +14,7 @@ export default function CreatorCourseListMenu({
   const router = useRouter();
   return (
     <>
-      <div className="bg-primary text-primary-foreground">
-        <h2 className="p-2 font-semibold">Your Courses</h2>
-      </div>
-      <li className="px-3 py-2">
+      <li className="">
         <ul role="list" className="">
           {ownerCourses?.map((course) => (
             <li key={course?.courseCode}>
@@ -25,8 +22,8 @@ export default function CreatorCourseListMenu({
                 href={`/studio/${course?.courseCode}`}
                 className={classNames(
                   router.query.coursecode == course?.courseCode
-                    ? "bg-accent text-accent-foreground"
-                    : "text-foreground hover:bg-accent hover:text-accent-foreground",
+                    ? "bg-primary text-primary-foreground"
+                    : "text-foreground hover:bg-primary hover:text-primary-foreground",
                   "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
                 )}
               >

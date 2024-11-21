@@ -1,5 +1,5 @@
 import ProfileLayout from "./layout/ProfileLayout";
-import LearnerComponent from "./learner/LearnerComponent";
+import LearnerComponent from "./roles/learner/LearnerComponent";
 
 export default function LearnerPage() {
   return (

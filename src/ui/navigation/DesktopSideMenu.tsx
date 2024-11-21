@@ -1,20 +1,17 @@
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import SideMenuSessionProfile from "~/ui/auth/SideMenuSessionProfile";
-import Image from "next/image";
-import { CourseStudioLinkItem, DashboardLinkItem } from "./link-items";
-import { type Course } from "~/types/db";
 import { AcademicCapIcon } from "@heroicons/react/24/outline";
-import CourseOutline from "../course/components/layout/SideMenu/CourseOutline";
-import useValidateCreator from "~/hooks/course/useValidateCreator";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import useCourse from "~/hooks/course/useCourse";
-import LearnerDashboardMenu from "./menu-sections/LearnerDashboardMenu";
-import AndamioRoleStatusMenu from "./menu-sections/AndamioRoleStatusMenu";
-import TeacherDashboardMenu from "./menu-sections/TeacherDashboardMenu";
-import CreatorCourseListMenu from "./menu-sections/CreatorCourseListMenu";
-import { BrowseCoursesSideMenu } from "./link-items/BrowseCoursesSideMenu";
+import useValidateCreator from "~/hooks/course/useValidateCreator";
+import { type Course } from "~/types/db";
+import SideMenuSessionProfile from "~/ui/auth/SideMenuSessionProfile";
+import CourseOutline from "../course/components/layout/SideMenu/CourseOutline";
 import StudioOutline from "../studio/components/layout/SideMenu/StudioOutline";
+import { CourseStudioLinkItem, DashboardLinkItem } from "./link-items";
+import { BrowseCoursesSideMenu } from "./link-items/BrowseCoursesSideMenu";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -31,17 +28,21 @@ export default function DesktopSideMenu({
 
   const router = useRouter();
 
+  const [dashboardChildRoute, setDashboardChildRoute] = useState<
+    string | undefined
+  >(undefined);
+
+  // const [dashboardState, setDashboardState] = useState<DashboardRoleItem[]>(dashboards)
+
   const isDashboardRoute = router.asPath.includes("dashboard");
-  const isDashboardLearnerRoute = router.asPath.includes("dashboard/learner");
-  const isDashboardTeacherRoute = router.asPath.includes("dashboard/teacher");
   const isStudioRoute = router.asPath.includes("studio");
   const isCourseRoute = router.asPath.includes("course");
 
   const { coursecode, modulecode } = router.query;
-  const isCourseCode = typeof coursecode === "string";
-  const isModuleCode = typeof modulecode === "string";
+  const hasCourseCode = typeof coursecode === "string";
+  const hasModuleCode = typeof modulecode === "string";
 
-  const isStudioContentRoute = isStudioRoute && isCourseCode && isModuleCode;
+  const isStudioContentRoute = isStudioRoute && hasCourseCode && hasModuleCode;
 
   const { course } = useCourse(currentCourseCode);
 
@@ -50,10 +51,24 @@ export default function DesktopSideMenu({
     currentCourseCode ?? "",
   );
 
+  useEffect(() => {
+    const isDashboardLearnerRoute = router.asPath.includes("dashboard/learner");
+    const isDashboardTeacherRoute = router.asPath.includes("dashboard/teacher");
+    const isDashboardPlannerRoute = router.asPath.includes("dashboard/planner");
+    const isDashboardContributorRoute = router.asPath.includes(
+      "dashboard/contributor",
+    );
+    if (isDashboardLearnerRoute) setDashboardChildRoute("learner");
+    if (isDashboardContributorRoute) setDashboardChildRoute("contributor");
+    if (isDashboardTeacherRoute) setDashboardChildRoute("teacher");
+    if (isDashboardPlannerRoute) setDashboardChildRoute("planner");
+  }, [router]);
+
   return (
     <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-80 lg:flex-col">
       {/* Sidebar component, swap this element with another sidebar if you like */}
       <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-foreground bg-background">
+        {/* Andamio Logo */}
         <div className="mb-5 mt-10 flex items-center justify-center">
           <Link href="/">
             <Image
@@ -65,18 +80,32 @@ export default function DesktopSideMenu({
             />
           </Link>
         </div>
+        {/* Navigation */}
         <nav className="flex flex-1 flex-col">
           <ul role="list" className="flex flex-1 flex-col">
-            <li className="mb-7">
-              <ul role="list" className="space-y-1 px-3">
-                <DashboardLinkItem current={isDashboardRoute} />
-                {isCreator && <CourseStudioLinkItem current={isStudioRoute} />}
-                <BrowseCoursesSideMenu current={false} />
-              </ul>
-            </li>
-            {isStudioRoute && ownerCourses && !isStudioContentRoute && (
-              <CreatorCourseListMenu ownerCourses={ownerCourses} />
+            {/* Top level routes: Studio, Dashboard and Courses */}
+            {!isStudioContentRoute && (
+              <li className="mb-7">
+                <ul role="list" className="space-y-1 px-3">
+                  {/* Dashboard */}
+                  <DashboardLinkItem
+                    current={isDashboardRoute}
+                    dashboardChildRoute={dashboardChildRoute ?? ""}
+                  />
+                  {/* Studio */}
+                  {isCreator && (
+                    <CourseStudioLinkItem
+                      current={isStudioRoute}
+                      ownerCourses={ownerCourses ?? []}
+                    />
+                  )}
+                  {/* Link to Public Courses */}
+                  <BrowseCoursesSideMenu current={false} />
+                </ul>
+              </li>
             )}
+
+            {/* Course Outline in Edit Mode */}
             {isStudioContentRoute && course && (
               <>
                 <div className=" p-2">
@@ -89,10 +118,8 @@ export default function DesktopSideMenu({
                 />
               </>
             )}
-            {isDashboardRoute && <AndamioRoleStatusMenu />}
-            {isDashboardLearnerRoute && <LearnerDashboardMenu />}
-            {isDashboardTeacherRoute && <TeacherDashboardMenu />}
 
+            {/* Course Outline in Published Mode */}
             {isCourseRoute && !!currentCourseCode && (
               <li>
                 <ul role="list" className="space-y-1 px-2">
@@ -121,6 +148,8 @@ export default function DesktopSideMenu({
                 />
               </li>
             )}
+
+            {/* Profile in menu footer */}
             <SideMenuSessionProfile />
           </ul>
         </nav>

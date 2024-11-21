@@ -4,8 +4,13 @@ import { Card } from "~/components/ui/card";
 import Link from "next/link";
 import { Button } from "~/components/ui/button";
 import useCoursesByOwner from "~/hooks/course/useCoursesByOwner";
+import { useSession } from "next-auth/react";
 
 export default function ListCourses() {
+  const { data: sessionData, status } = useSession();
+
+  if (!sessionData || !sessionData.user.creatorId) return "no access";
+
   const { ownerCourses, isLoadingCourses } = useCoursesByOwner();
   return (
     <>

@@ -1,7 +1,7 @@
 import { useWallet } from "@meshsdk/react";
 import { useAccessToken } from "~/hooks/onchain/useAccessToken";
-import CreatorsSection from "./CreatorsSection";
-import CreatorConnectWalletCard from "./CreatorConnectWalletCard";
+import TeacherSection from "./TeacherSection";
+import TeacherConnectWalletCard from "./TeacherConnectWalletCard";
 
 export default function TeacherCoursePageComponent({
   courseCode,
@@ -11,14 +11,14 @@ export default function TeacherCoursePageComponent({
   const { connected } = useWallet();
   const { accessTokenAlias } = useAccessToken();
   return (
-    <div className="mx-auto flex w-5/6 items-center justify-center">
+    <div className="mx-auto mt-12 flex w-5/6 items-center justify-center">
       {connected ? (
-        <CreatorsSection
+        <TeacherSection
           accessTokenAlias={accessTokenAlias ?? ""}
           courseCode={courseCode}
         />
       ) : (
-        <CreatorConnectWalletCard />
+        <TeacherConnectWalletCard />
       )}
     </div>
   );

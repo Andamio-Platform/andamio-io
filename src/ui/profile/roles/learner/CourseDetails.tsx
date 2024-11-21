@@ -126,8 +126,9 @@ export default function CourseDetails({
 
   return (
     <div className="mx-auto w-11/12 px-5" key={course?.id}>
-      <div className="flex min-h-[150px] w-full flex-col items-center justify-between md:flex-row">
-        <div className="flex w-full flex-row items-center gap-5">
+      <div className=" flex min-h-[150px] w-full flex-col">
+        <div className="mb-12 flex w-full flex-row items-center justify-between">
+          <h1 className="text-6xl font-semibold">{course?.title}</h1>
           {course?.imageUrl && (
             <div className="flex items-center justify-center">
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -138,58 +139,59 @@ export default function CourseDetails({
               />
             </div>
           )}
-          <h1 className="text-4xl font-semibold">{course?.title}</h1>
         </div>
-        <div className="flex w-full flex-row items-center gap-3">
-          {learnerCourseStatus === "ENROLLED" && (
-            <>
-              {accessTokenAsset &&
-                course?.onchainInstance[0]?.CourseCreatorNFTPolicyID && (
-                  <BurnLocalStateMeshDialog
-                    accessTokenAssetId={accessTokenAsset.unit}
-                    courseNftPolicyId={
-                      course?.onchainInstance[0]?.CourseCreatorNFTPolicyID
-                    }
-                  />
+        <div className="flex w-full flex-row items-center justify-between">
+          <div className="flex flex-row gap-3">
+            {learnerCourseStatus === "ENROLLED" && (
+              <>
+                {accessTokenAsset &&
+                  course?.onchainInstance[0]?.CourseCreatorNFTPolicyID && (
+                    <BurnLocalStateMeshDialog
+                      accessTokenAssetId={accessTokenAsset.unit}
+                      courseNftPolicyId={
+                        course?.onchainInstance[0]?.CourseCreatorNFTPolicyID
+                      }
+                    />
+                  )}
+              </>
+            )}
+
+            {learnerCourseStatus === "NEVER_ENROLLED" && (
+              <>
+                <Button size="sm">Enroll on Andamio Network</Button>
+                {isCourseSaved ? (
+                  <Button size="sm" onClick={handleUnsaveCourse}>
+                    Remove from Saved List
+                  </Button>
+                ) : (
+                  <Button size="sm" onClick={handleSaveCourse}>
+                    Save for Later
+                  </Button>
                 )}
-            </>
-          )}
+              </>
+            )}
 
-          {learnerCourseStatus === "NEVER_ENROLLED" && (
-            <>
-              <Button size="sm">Enroll on Andamio Network</Button>
-              {isCourseSaved ? (
-                <Button size="sm" onClick={handleUnsaveCourse}>
-                  Remove from Saved List
-                </Button>
-              ) : (
-                <Button size="sm" onClick={handleSaveCourse}>
-                  Save for Later
-                </Button>
-              )}
-            </>
-          )}
-
-          {learnerCourseStatus === "WAS_ENROLLED" && (
-            <>
-              <Button size="sm">Enroll Again!</Button>
-              {isCourseSaved ? (
-                <Button size="sm" onClick={handleUnsaveCourse}>
-                  Remove from Saved List
-                </Button>
-              ) : (
-                <Button size="sm" onClick={handleSaveCourse}>
-                  Save for Later
-                </Button>
-              )}
-            </>
-          )}
-        </div>
-        <div className="flex flex-row items-center gap-4">
-          {!connected && <CardanoWallet />}
-          <Link href={`/course/${course?.courseCode}`}>
-            <Button size="xl">Open Course</Button>
-          </Link>
+            {learnerCourseStatus === "WAS_ENROLLED" && (
+              <>
+                <Button size="sm">Enroll Again!</Button>
+                {isCourseSaved ? (
+                  <Button size="sm" onClick={handleUnsaveCourse}>
+                    Remove from Saved List
+                  </Button>
+                ) : (
+                  <Button size="sm" onClick={handleSaveCourse}>
+                    Save for Later
+                  </Button>
+                )}
+              </>
+            )}
+          </div>
+          <div className="flex flex-row items-center gap-4">
+            {!connected && <CardanoWallet />}
+            <Link href={`/course/${course?.courseCode}`}>
+              <Button size="xl">Open Course</Button>
+            </Link>
+          </div>
         </div>
       </div>
 

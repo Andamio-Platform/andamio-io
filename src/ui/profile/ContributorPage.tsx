@@ -1,10 +1,10 @@
 import ProfileLayout from "./layout/ProfileLayout";
-import ContributionComponent from "./contribution/ContributionComponent";
+import ContributorComponent from "./roles/contributor/ContributorComponent";
 
 export default function ContributorPage() {
   return (
     <ProfileLayout>
-      <ContributionComponent />
+      <ContributorComponent />
     </ProfileLayout>
   );
 }

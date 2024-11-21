@@ -106,8 +106,6 @@ const FundProposals: React.FC = () => {
     {} as Record<number, { technology: Proposal[]; adoption: Proposal[] }>,
   );
 
-
-
   return (
     <div className="flex min-h-screen flex-col">
       <MenuBar />
@@ -149,7 +147,8 @@ const FundProposals: React.FC = () => {
           {Object.keys(groupedProposals)
             .sort((a, b) => parseInt(b) - parseInt(a))
             .map((fund) => {
-              const techProposals = groupedProposals[parseInt(fund)]?.technology;
+              const techProposals =
+                groupedProposals[parseInt(fund)]?.technology;
               const adoptionProposals =
                 groupedProposals[parseInt(fund)]?.adoption;
 
@@ -195,21 +194,23 @@ const FundProposals: React.FC = () => {
                 </section>
               );
             })}
-          <div className="flex h-[80vh] flex-col items-center justify-center px-8 text-center">
-            <h3 className="text-5xl font-black uppercase text-secondary sm:text-5xl md:text-6xl lg:text-7xl">
+          <div
+            className="flex flex-col items-center justify-center px-6 py-16 text-center md:px-12"
+            style={{
+              minHeight: "calc(100vh - 5rem - 5rem)", // Adjust for navbar and footer heights
+            }}
+          >
+            <h3 className="text-4xl font-black uppercase text-secondary sm:text-5xl md:text-6xl lg:text-7xl">
               Vote for Andamio
             </h3>
-            <p className="mx-auto mt-6 w-full px-6 text-justify text-xl font-medium text-gray-700">
-              Andamio&apos;s groundbreaking technology and a vision for mainstream
-              Cardano adoption bring secure, scalable, and innovative smart
-              contract solutions to the world. By voting for Andamio, you’re
-              helping to drive real-world impact, bring blockchain into the
-              hands of more communities, and support the decentralized future of
-              Cardano.
+            <p className="mt-6 w-full max-w-3xl px-4 text-start text-lg font-medium text-gray-700 md:text-xl">
+              Andamio's cutting-edge technology drives secure, scalable Cardano
+              adoption. Vote to empower communities and shape a decentralized
+              future.
             </p>
 
             {/* Benefits Section */}
-            <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
               <Card className="flex flex-col items-center space-y-4 rounded-lg bg-white p-6 shadow-md">
                 <CardIcon>
                   <BriefcaseIcon className="h-12 w-12 text-secondary" />
@@ -279,12 +280,13 @@ const ProposalCard: React.FC<ProposalCardProps> = ({ proposal }) => (
         {proposal.title}
       </CardTitle>
       <Badge
-        className={`${proposal.status === "completed"
-          ? "bg-green-200 text-green-800"
-          : proposal.status === "in progress"
-            ? "bg-yellow-200 text-yellow-800"
-            : "bg-blue-200 text-blue-800"
-          } rounded px-3 py-1 text-xs font-semibold`}
+        className={`${
+          proposal.status === "completed"
+            ? "bg-green-200 text-green-800"
+            : proposal.status === "in progress"
+              ? "bg-yellow-200 text-yellow-800"
+              : "bg-blue-200 text-blue-800"
+        } rounded px-3 py-1 text-xs font-semibold`}
       >
         {proposal.status}
       </Badge>

@@ -80,7 +80,7 @@ function Desktop({
         {navigation.map((item) => (
           <Link href={item.href} key={item.name} legacyBehavior passHref>
             <Button
-              className={`${navigationMenuTriggerStyle()} font-montserrat cursor-pointer rounded bg-white text-primary shadow-none hover:text-white`}
+              className={`${navigationMenuTriggerStyle()} cursor-pointer rounded bg-white font-montserrat text-primary shadow-none hover:text-white`}
             >
               {item.name}
             </Button>
@@ -88,7 +88,7 @@ function Desktop({
         ))}
 
         <Link href="/contact" legacyBehavior passHref>
-          <Button className="font-montserrat cursor-pointer rounded text-white shadow-none hover:bg-white">
+          <Button className="cursor-pointer rounded font-montserrat text-white shadow-none hover:bg-white">
             <span className="uppercase">Get in touch</span>
           </Button>
         </Link>
@@ -221,29 +221,29 @@ function Mobile({
                   setMobileMenuOpen(false);
                   setRole("learner");
                 }}
-                className={`w-1/2 cursor-pointer rounded border-2 p-2 ${
+                className={`w-1/2 cursor-pointer rounded border-2 p-3 ${
                   role === "learner"
                     ? "bg-white text-primary hover:bg-primary hover:text-white"
                     : "bg-primary text-white hover:bg-white hover:text-primary"
                 }`}
               >
-                I am a&nbsp;
-                <span className="font-montserrat font-semibold">LEARNER</span>
+                <span className="font-montserrat font-semibold uppercase">
+                  Learners
+                </span>
               </Button>
               <Button
                 onClick={() => {
                   setMobileMenuOpen(false);
                   setRole("organization");
                 }}
-                className={`w-1/2 cursor-pointer rounded border-2 p-2 ${
+                className={`w-1/2 cursor-pointer rounded border-2 p-3 ${
                   role === "organization"
                     ? "bg-white text-primary hover:bg-primary hover:text-white"
                     : "bg-primary text-white hover:bg-white hover:text-primary"
                 }`}
               >
-                I am an&nbsp;
-                <span className="font-montserrat font-semibold">
-                  ORGANIZATION
+                <span className="font-montserrat font-semibold uppercase">
+                  Organizations
                 </span>
               </Button>
             </div>

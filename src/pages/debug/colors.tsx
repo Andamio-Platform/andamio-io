@@ -3,6 +3,7 @@ import { LightDarkToggle } from "~/ui/site/LightDarkToggle";
 export default function ColorsPage() {
   return (
     <div className="mx-auto my-10 grid w-11/12 grid-cols-6 gap-10">
+      <h1>Colors</h1>
       <div>
         <div className="flex h-[100px] w-full bg-background" />
         <div>background</div>

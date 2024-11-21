@@ -8,10 +8,10 @@ interface JoinAndamioProps {
 
 export function JoinAndamio({ role }: JoinAndamioProps) {
   return (
-    <section className="bg-gray-100 py-16">
+    <section className="flex min-h-screen items-center justify-center">
       <div className="container mx-auto px-4 text-center">
         {/* Headline */}
-        <h2 className="mb-6 text-4xl font-extrabold text-primary">
+        <h2 className="mb-6 text-5xl font-extrabold text-primary md:text-6xl">
           Join the Future of Work
         </h2>
 

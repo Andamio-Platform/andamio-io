@@ -9,6 +9,8 @@ import { JoinAndamio } from "./JoinAndamio";
 import { SolutionsForContributors } from "./SolutionsForContributors";
 import { FAQ } from "./FAQ";
 import Footer from "./Footer";
+import { Pricing } from "./Pricing";
+import CatalystHero from "./Fund13";
 
 export default function SB7PageLanding() {
   const [role, setRole] = useState<"learner" | "organization">("learner");
@@ -16,6 +18,7 @@ export default function SB7PageLanding() {
     <>
       <VideoBackground>
         <MenuBar role={role} setRole={setRole} />
+        <CatalystHero />
         <div className="flex w-full flex-col">
           <div
             className="flex flex-grow"
@@ -34,7 +37,14 @@ export default function SB7PageLanding() {
           <RealWorldUseCases />
         )}
         <BuiltOnCardano />
-        <JoinAndamio role={role} />
+        {/* <JoinAndamio role={role} />
+        {role === "organization" ? (
+          <>
+            <Pricing />
+          </>
+        ) : (
+          <FAQ />
+        )} */}
         <FAQ />
       </VideoBackground>
     </>
@@ -44,7 +54,7 @@ export default function SB7PageLanding() {
 const VideoBackground = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
-      <div className="relative min-h-screen">
+      <div className="relative z-0 min-h-screen">
         {/* Video container */}
         <div className="fixed left-0 top-0 h-full w-full overflow-hidden opacity-70">
           <video

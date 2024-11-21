@@ -1,50 +1,91 @@
 import { Card } from "~/components/ui/card";
 import MenuBar from "~/ui/landing/MenuBar";
+import Link from "next/link";
 
 export default function AboutPage() {
   return (
-    <main
-      className="items-center justify-center"
-      style={{ minHeight: "calc(100vh - 5rem)" }}
-    >
-      <MenuBar />
+    <>
+      <VideoBackground>
+        <MenuBar />
+        <main className="px-6 py-16 lg:px-24">
+          <section className="relative mx-auto w-full max-w-7xl">
+            <h1 className="text-center text-5xl font-black uppercase text-primary sm:text-6xl md:text-7xl">
+              About Andamio
+            </h1>
+            <p className="mx-auto mt-4 max-w-4xl text-center text-lg font-light text-muted-foreground">
+              Learn about Andamio’s vision, team, and technology, and explore
+              how we’re transforming the future of collaboration and learning.
+            </p>
 
-      <div className="card z-10 mx-auto mt-24 max-w-5xl p-5 font-mono shadow-xl">
-        <h1 className="py-5 text-2xl">Welcome to Andamio!</h1>
-        <p className="py-3 font-medium">
-          Andamio is a new kind of platform for learning and contribution
-          management. It is built to enable people to onboard and contribute to
-          collaborative projects so that they can make a meaningful impact. We
-          envision a future where work is defined and delivered in ways that
-          achieve the highest levels of human collaboration.
-        </p>
-        <p className="py-3 font-medium">
-          Andamio consists of a learning-management platform and a
-          contribution-management platform that work together to create unique
-          pathways for organizations and contributors to align on meaningful
-          work. It uses the Cardano blockchain to provide non-custodial ways for
-          people to build a record of learning and contribution, and it allows
-          organizations to collaborate in solving important problems.
-        </p>
-        <p className="py-3 font-medium">
-          After prototyping and testing Andamio in 2023, we are now building
-          Andamio for production deployment. Stay tuned for updates as Andamio
-          continues to roll out.
-        </p>
+            {/* Navigation Section */}
+            <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+              {/* Whitepaper Card */}
+              <Link href="/about/whitepaper" legacyBehavior>
+                <Card className="flex flex-col items-start p-6 shadow-lg transition-transform hover:scale-105 hover:shadow-xl">
+                  <h3 className="text-xl font-bold text-primary">
+                    Andamio Whitepaper
+                  </h3>
+                  <p className="mt-2 text-sm font-light text-foreground">
+                    Dive into our whitepaper to explore the foundations of
+                    Andamio’s learning and contribution platform.
+                  </p>
+                  <span className="mt-4 cursor-pointer text-sm font-medium text-primary hover:underline">
+                    Read More →
+                  </span>
+                </Card>
+              </Link>
 
-        <Card className="my-8">
-          <h3 className="py-5 text-2xl">Andamio Whitepaper</h3>
-          <div className="">
-            <section className="realtive">
-              <iframe
-                src="https://v2-embednotion.com/c39ff303c99841079a02e43dddc6815f"
-                width="100%"
-                height="800px"
-              ></iframe>
-            </section>
-          </div>
-        </Card>
-      </div>
-    </main>
+              {/* Our Team Card */}
+              <Link href="/about/our-team" legacyBehavior>
+                <Card className="flex flex-col items-start p-6 shadow-lg transition-transform hover:scale-105 hover:shadow-xl">
+                  <h3 className="text-xl font-bold text-primary">Our Team</h3>
+                  <p className="mt-2 text-sm font-light text-foreground">
+                    Meet the people driving Andamio’s vision, from product
+                    developers to blockchain experts.
+                  </p>
+                  <span className="mt-4 cursor-pointer text-sm font-medium text-primary hover:underline">
+                    Meet the Team →
+                  </span>
+                </Card>
+              </Link>
+
+              {/* Our Technology Card */}
+              <Link href="/about/our-technology" legacyBehavior>
+                <Card className="flex flex-col items-start p-6 shadow-lg transition-transform hover:scale-105 hover:shadow-xl">
+                  <h3 className="text-xl font-bold text-primary">
+                    Our Technology
+                  </h3>
+                  <p className="mt-2 text-sm font-light text-foreground">
+                    Discover how Andamio leverages blockchain and innovative
+                    tools to revolutionize contribution management.
+                  </p>
+                  <span className="mt-4 cursor-pointer text-sm font-medium text-primary hover:underline">
+                    Learn More →
+                  </span>
+                </Card>
+              </Link>
+            </div>
+          </section>
+        </main>
+      </VideoBackground>
+    </>
   );
 }
+
+const VideoBackground = ({ children }: { children: React.ReactNode }) => (
+  <div className="relative min-h-screen">
+    <div className="fixed left-0 top-0 h-full w-full overflow-hidden opacity-70">
+      <video
+        className="min-h-screen min-w-full object-cover"
+        autoPlay
+        muted
+        loop
+        playsInline
+      >
+        <source src="/video/bg-video-002.webm" type="video/webm" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
+    <div className="relative z-10">{children}</div>
+  </div>
+);

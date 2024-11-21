@@ -45,17 +45,33 @@ const tiers = [
     mostPopular: false,
   },
   {
-    name: "Ultimate",
-    id: "tier-ultimate",
+    name: "Partner Tier",
+    id: "tier-partner",
     href: "#",
-    priceMonthly: "quote",
-    description: "Dedicated support and infrastructure for your company.",
-    features: [
-      "Unlimited project based learning courses",
-      "Up to unlimited contributors",
-      "Custom solutions",
-    ],
+    email: "hello@andamio.io",
+    priceMonthly: "",
+    description: (
+      <div className="space-y-3">
+        <p>
+          Do you have a partnership idea that can benefit from onboarding and
+          contribution support?
+        </p>
+        <p>
+          Are you a Catalyst Proposer looking to use Andamio as part of your
+          proposal?
+        </p>
+        <p>
+          Do you have special needs that might not fit a monthly subscription
+          model?
+        </p>
+        <p>We are open to partnerships and exploring how we can collaborate.</p>
+        <p>
+          <strong>Contact us now!</strong>
+        </p>
+      </div>
+    ),
     mostPopular: false,
+    isPartner: true, // New property to conditionally style this tier
   },
 ];
 
@@ -86,7 +102,10 @@ export default function Pricing() {
                 tierIdx < tiers.length - 1 && tierIdx > 0
                   ? "lg:rounded-none"
                   : "",
-                "flex flex-col justify-between rounded-3xl bg-primary p-8 ring-1 ring-gray-200 xl:p-10",
+                "flex flex-col justify-between rounded-3xl p-8 shadow-lg ring-1",
+                tier.isPartner
+                  ? "bg-blue-50 text-gray-900 ring-blue-300"
+                  : "bg-white text-gray-900 ring-gray-300", // Custom styling for Partner Tier
               )}
             >
               <div>
@@ -106,39 +125,50 @@ export default function Pricing() {
                     </p>
                   ) : null}
                 </div>
-                <p className="mt-4 text-sm leading-6 text-gray-600">
-                  {tier.description}
-                </p>
-                <p className="mt-6 flex items-baseline gap-x-1">
-                  <span className="text-4xl font-bold tracking-tight text-foreground">
-                    {tier.priceMonthly}
-                  </span>
-                  <span className="text-sm font-semibold leading-6 text-gray-600">
-                    /month
-                  </span>
-                </p>
-                <ul
-                  role="list"
-                  className="mt-8 space-y-3 text-sm leading-6 text-gray-600"
-                >
-                  {tier.features.map((feature) => (
-                    <li key={feature} className="flex gap-x-3">
-                      <CheckIcon
-                        className="h-6 w-5 flex-none text-primary"
-                        aria-hidden="true"
-                      />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
+                {/* Conditional rendering for Partner Tier description */}
+                {tier.isPartner ? (
+                  <div className="mt-4 text-sm leading-6 text-gray-700">
+                    {tier.description}
+                  </div>
+                ) : (
+                  <p className="mt-4 text-sm leading-6 text-gray-600">
+                    {tier.description}
+                  </p>
+                )}
+                {/* Only render transaction fee if it exists */}
+                {tier.transactionFee && (
+                  <p className="mt-2 text-sm text-gray-500">
+                    Transaction Fee: {tier.transactionFee}
+                  </p>
+                )}
+                {/* Only render features list if it exists */}
+                {tier.features && (
+                  <ul
+                    role="list"
+                    className="mt-8 space-y-3 text-sm leading-6 text-gray-700"
+                  >
+                    {tier.features.map((feature) => (
+                      <li key={feature} className="flex gap-x-3">
+                        <CheckIcon
+                          className="h-6 w-5 flex-none text-primary"
+                          aria-hidden="true"
+                        />
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
+              {/* Contact button with customized styling for Partner Tier */}
               <a
                 href={tier.href}
                 aria-describedby={tier.id}
                 className={classNames(
                   tier.mostPopular
-                    ? "bg-primary text-foreground shadow-sm hover:bg-primary"
-                    : "text-primary ring-1 ring-inset ring-primary hover:ring-primary",
+                    ? "hover:bg-primary-dark bg-primary text-white shadow-sm"
+                    : tier.isPartner
+                      ? "text-gray-900 ring-1 ring-inset ring-blue-900 hover:bg-blue-100"
+                      : "text-primary ring-1 ring-inset ring-primary hover:ring-primary",
                   "mt-8 block rounded-md px-3 py-2 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
                 )}
               >

@@ -21,9 +21,9 @@ const teamMembers = [
   },
   {
     name: "Nelson Kshetrimayum",
-    title: "Software Engineer",
+    title: "Full-Stack Developer",
     summary:
-      "A Physics graduate with a focus on Python and Typescript, Nelson is passionate about open-source software and innovative educational structures.",
+      "A Physics graduate turned Cardano developer, Nelson is passionate about open-source software and innovative educational structures.",
     image: "/images/team/nelson.webp",
   },
   {

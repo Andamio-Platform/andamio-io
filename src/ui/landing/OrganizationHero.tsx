@@ -3,7 +3,7 @@ import { Button } from "~/components/ui/button";
 
 export function OrganizationHero() {
   return (
-    <div className="relative mx-auto flex h-[80vh] w-full flex-col items-start justify-center px-8 text-start md:px-12 lg:justify-end">
+    <div className="relative mx-auto flex min-h-[80vh] w-full flex-col items-start justify-center px-8 text-start md:px-12 lg:justify-end">
       <div className="w-full border-b-2 border-primary pb-4">
         <h1 className="text-4xl font-black uppercase text-primary sm:text-5xl md:text-6xl lg:text-7xl">
           Build Organizations That Work

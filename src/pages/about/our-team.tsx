@@ -14,9 +14,9 @@ const teamMembers = [
   },
   {
     name: "Sebastian Pabon",
-    title: "Educator, and Facilitator",
+    title: "Educator and Facilitator",
     summary:
-      "Contributor to Catalyst, SWARM, LATAM Cardano; team member at Gimbalabs, MeshJS; Andamio co-founder; promotes global access to Cardano-based systems.",
+      "Gimbalabs educator and facilitator, Andamio founding member, MeshJS contributor. Open Source advocate",
     image: "/images/team/sebastian.webp",
   },
   {

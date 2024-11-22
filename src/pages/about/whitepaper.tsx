@@ -9,6 +9,13 @@ import {
   BriefcaseIcon,
   EyeIcon,
 } from "@heroicons/react/24/outline";
+import {
+  Card,
+  CardIcon,
+  CardHeader,
+  CardContent,
+  CardFooter,
+} from "~/components/ui/card";
 
 export default function WhitepaperPage() {
   return (
@@ -25,54 +32,60 @@ export default function WhitepaperPage() {
               Explore Andamio’s vision for decentralized education and
               contribution management through blockchain-powered innovation.
             </p>
-            <div className="mt-8">
-              <Button className="rounded bg-primary px-8 py-4 text-lg font-semibold uppercase text-white shadow-md hover:bg-primary/90">
-                Download Whitepaper
-              </Button>
-            </div>
           </section>
 
           {/* Whitepaper Highlights Section */}
-          <section className="mx-auto mb-16 max-w-7xl space-y-12 rounded-lg bg-white p-8 shadow-lg">
-            <h2 className="text-3xl font-bold uppercase text-primary">
+          <section className="mx-auto mb-16 max-w-7xl space-y-12 rounded-lg p-8">
+            <h2 className="text-center text-3xl font-bold uppercase text-primary">
               Key Highlights
             </h2>
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
               {/* Highlight 1 */}
-              <div className="flex flex-col items-center text-center">
-                <AcademicCapIcon className="mb-4 h-12 w-12 text-secondary" />
-                <h3 className="text-xl font-bold text-primary">
+              <Card className="flex flex-col items-center rounded-lg bg-white p-6 text-center shadow-lg transition-transform duration-300 hover:scale-105">
+                <CardIcon>
+                  <AcademicCapIcon className="mb-4 h-12 w-12 text-secondary" />
+                </CardIcon>
+                <CardHeader className="mt-4 text-xl font-bold text-primary">
                   The Education Problem
-                </h3>
-                <p className="text-sm font-light text-muted-foreground">
-                  Addressing gaps in skill-based education and practical
-                  learning through PBL frameworks.
-                </p>
-              </div>
-
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm font-light text-muted-foreground">
+                    Addressing gaps in skill-based education and practical
+                    learning through PBL frameworks.
+                  </p>
+                </CardContent>
+              </Card>
               {/* Highlight 2 */}
-              <div className="flex flex-col items-center text-center">
-                <BriefcaseIcon className="mb-4 h-12 w-12 text-secondary" />
-                <h3 className="text-xl font-bold text-primary">
+              <Card className="flex flex-col items-center rounded-lg bg-white p-6 text-center shadow-lg transition-transform duration-300 hover:scale-105">
+                <CardIcon>
+                  <BriefcaseIcon className="mb-4 h-12 w-12 text-secondary" />
+                </CardIcon>
+                <CardHeader className="mt-4 text-xl font-bold text-primary">
                   The Organization Problem
-                </h3>
-                <p className="text-sm font-light text-muted-foreground">
-                  Overcoming inefficiencies in onboarding, talent management,
-                  and secure collaboration.
-                </p>
-              </div>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm font-light text-muted-foreground">
+                    Overcoming inefficiencies in onboarding, talent management,
+                    and secure collaboration.
+                  </p>
+                </CardContent>
+              </Card>
 
               {/* Highlight 3 */}
-              <div className="flex flex-col items-center text-center">
-                <EyeIcon className="mb-4 h-12 w-12 text-secondary" />
-                <h3 className="text-xl font-bold text-primary">
+              <Card className="flex flex-col items-center rounded-lg bg-white p-6 text-center shadow-lg transition-transform duration-300 hover:scale-105">
+                <CardIcon>
+                  <EyeIcon className="mb-4 h-12 w-12 text-secondary" />
+                </CardIcon>
+                <CardHeader className="mt-4 text-xl font-bold text-primary">
                   The Oracle Problem
-                </h3>
-                <p className="text-sm font-light text-muted-foreground">
-                  Leveraging blockchain to ensure trust and transparency in data
-                  and credentials.
-                </p>
-              </div>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm font-light text-muted-foreground">
+                    Leveraging blockchain to ensure trust and transparency in
+                    data and credentials.
+                  </p>
+                </CardContent>
+              </Card>
             </div>
           </section>
 

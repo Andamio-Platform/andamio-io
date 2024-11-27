@@ -280,13 +280,12 @@ const ProposalCard: React.FC<ProposalCardProps> = ({ proposal }) => (
         {proposal.title}
       </CardTitle>
       <Badge
-        className={`${
-          proposal.status === "completed"
+        className={`${proposal.status === "completed"
             ? "bg-green-200 text-green-800"
             : proposal.status === "in progress"
               ? "bg-yellow-200 text-yellow-800"
               : "bg-blue-200 text-blue-800"
-        } rounded px-3 py-1 text-xs font-semibold`}
+          } rounded px-3 py-1 text-xs font-semibold`}
       >
         {proposal.status}
       </Badge>
@@ -448,6 +447,43 @@ const proposals: Proposal[] = [
     link: "https://cardano.ideascale.com/c/cardano/idea/134587",
     fund: 13,
     category: "adoption",
+  },
+  {
+    title: "Andamio+Identus+Mātou: Identity for Education & Economic Impact",
+    summary: "A decentralised system where learners earn tokenised credentials through DIDs & VCs, allowing skills accumulation, credential sharing & recognition enabling seamless transition from education to work.",
+    deliverables: [
+      {
+        description: "Provide a decentralized identity system for learners and communities",
+        completed: false,
+      },
+      {
+        description: "Create a practical, decentralized system for education and employment",
+        completed: false,
+      },
+    ],
+    status: "voting",
+    link: "https://cardano.ideascale.com/c/cardano/idea/132155",
+    fund: 13,
+    category: "adoption",
+  },
+  {
+    title: "Andamio Governance Smart Contracts + Gimbalabs PBL Governance",
+    summary:
+      "Build a set of smart contracts that grant governance and decision-making power to people with a record of maintaining public resources. Publish a playbook so that anyone can use this governance model.",
+    deliverables: [
+      {
+        description: "Create spaces for students to start contributing",
+        completed: false,
+      },
+      {
+        description: "Create systems that support contributors to become decision-makers",
+        completed: false,
+      },
+    ],
+    status: "voting",
+    link: "https://cardano.ideascale.com/c/cardano/idea/131346",
+    fund: 13,
+    category: "technology",
   },
   {
     title: "Andamio Purpose Sidechain / Layer 2 Concept",

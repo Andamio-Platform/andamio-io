@@ -281,10 +281,10 @@ const ProposalCard: React.FC<ProposalCardProps> = ({ proposal }) => (
       </CardTitle>
       <Badge
         className={`${proposal.status === "completed"
-            ? "bg-green-200 text-green-800"
-            : proposal.status === "in progress"
-              ? "bg-yellow-200 text-yellow-800"
-              : "bg-blue-200 text-blue-800"
+          ? "bg-green-200 text-green-800"
+          : proposal.status === "in progress"
+            ? "bg-yellow-200 text-yellow-800"
+            : "bg-blue-200 text-blue-800"
           } rounded px-3 py-1 text-xs font-semibold`}
       >
         {proposal.status}
@@ -453,11 +453,11 @@ const proposals: Proposal[] = [
     summary: "A decentralised system where learners earn tokenised credentials through DIDs & VCs, allowing skills accumulation, credential sharing & recognition enabling seamless transition from education to work.",
     deliverables: [
       {
-        description: "Provide a decentralized identity system for learners and communities",
+        description: "Provide a decentralised identity system for learners and communities",
         completed: false,
       },
       {
-        description: "Create a practical, decentralized system for education and employment",
+        description: "Create a practical system for education and employment",
         completed: false,
       },
     ],

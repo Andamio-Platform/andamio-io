@@ -399,7 +399,7 @@ const proposals: Proposal[] = [
       },
     ],
     status: "voting",
-    link: "https://cardano.ideascale.com/c/cardano/idea/132774",
+    link: "https://cardano.ideascale.com/c/cardano/idea/131718",
     fund: 13,
     category: "technology",
   },

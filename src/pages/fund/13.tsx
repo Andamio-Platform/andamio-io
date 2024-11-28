@@ -536,7 +536,7 @@ const proposals: Proposal[] = [
       },
     ],
     status: "in progress",
-    link: "https://cardano.ideascale.com/c/cardano/idea/122585",
+    link: "https://cardano.ideascale.com/c/cardano/idea/122055",
     fund: 12,
     category: "technology",
   },

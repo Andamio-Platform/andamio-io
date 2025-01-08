@@ -7,7 +7,6 @@ import { RealWorldUseCases } from "./RealWorldUseCases";
 import { BuiltOnCardano } from "./BuiltOnCardano";
 import { SolutionsForContributors } from "./SolutionsForContributors";
 import { FAQ } from "./FAQ";
-import CatalystHero from "./Fund13";
 
 export default function SB7PageLanding() {
   const [role, setRole] = useState<"learner" | "organization">("learner");
@@ -15,12 +14,11 @@ export default function SB7PageLanding() {
     <>
       <VideoBackground>
         <MenuBar role={role} setRole={setRole} />
-        <CatalystHero />
         <div className="flex w-full flex-col">
           <div
             className="mt-20 flex flex-grow"
-            // style={{ minHeight: `calc(100vh - 80px)` }}
-            // Adjust 80px based on your MenuBar height
+          // style={{ minHeight: `calc(100vh - 80px)` }}
+          // Adjust 80px based on your MenuBar height
           >
             {role === "learner" ? <LearnerHero /> : <OrganizationHero />}
           </div>

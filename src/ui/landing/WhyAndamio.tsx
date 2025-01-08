@@ -83,8 +83,8 @@ export function WhyAndamio() {
         <Link href="/#how-andamio-works">
           <Button size="heroWhite">HOW IT WORKS</Button>
         </Link>
-        <Link href="/get-started">
-          <Button size="heroWhite">GET STARTED</Button>
+        <Link href="https://app.andamio.io">
+          <Button size="heroWhite">Open App</Button>
         </Link>
       </div>
     </div>

@@ -2,7 +2,6 @@ import React from "react";
 import MenuBar from "~/ui/landing/MenuBar";
 import Footer from "~/ui/landing/Footer";
 import { Button } from "~/components/ui/button";
-import Image from "next/image";
 import Link from "next/link";
 import {
   AcademicCapIcon,
@@ -14,7 +13,6 @@ import {
   CardIcon,
   CardHeader,
   CardContent,
-  CardFooter,
 } from "~/components/ui/card";
 
 export default function WhitepaperPage() {
@@ -116,9 +114,9 @@ export default function WhitepaperPage() {
               Andamio.
             </p>
             <div className="mt-8">
-              <Link href="/get-started">
+              <Link href="https://app.andamio.io">
                 <Button className="rounded bg-primary px-8 py-4 text-lg font-semibold uppercase text-white shadow-md hover:bg-primary/90">
-                  Get Started
+                  Open Andamio App
                 </Button>
               </Link>
             </div>

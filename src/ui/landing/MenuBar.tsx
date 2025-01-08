@@ -2,8 +2,6 @@ import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "~/components/link";
-import { useSession } from "next-auth/react";
-import MenuBarSessionProfile from "../auth/MenuBarSessionProfile";
 import Image from "next/image";
 import { navigationMenuTriggerStyle } from "~/components/ui/navigation-menu";
 import { Button } from "~/components/ui/button";
@@ -11,10 +9,10 @@ import React from "react";
 import { useRouter } from "next/router";
 
 const navigation = [
-  { name: "Courses", href: "/courses" },
   { name: "About", href: "/about" },
-  { name: "Blog", href: "https://blog.andamio.io" },
+  { name: "Blog", href: "/blog" },
   { name: "Roadmap", href: "/roadmap" },
+  { name: "Opportunities", href: "/opportunities" },
 ];
 
 export default function MenuBar({
@@ -58,12 +56,11 @@ function Desktop({
   setRole?: (role: "learner" | "organization") => void;
   role?: "learner" | "organization";
 }) {
-  const { data: sessionData } = useSession();
   const router = useRouter(); // Get the current route
   const isLandingPage = router.pathname.includes("/"); // Check if you're on the summit page
 
   return (
-    <div className="flex w-full items-center justify-between px-6 py-6">
+    <div className="flex w-full items-center justify-between px-6 py-6 max-h-20">
       {/* Logo */}
       <Link href="/">
         <Image
@@ -99,11 +96,10 @@ function Desktop({
         <div className="flex gap-3 sm:gap-4 lg:gap-6 xl:gap-8">
           <Button
             onClick={() => setRole("learner")}
-            className={`cursor-pointer rounded px-4 py-2 ${
-              role === "learner"
-                ? "cursor-auto bg-primary text-white hover:bg-primary hover:text-white"
-                : "bg-white text-primary shadow-none hover:bg-primary hover:text-white"
-            }`}
+            className={`cursor-pointer rounded px-4 py-2 ${role === "learner"
+              ? "cursor-auto bg-primary text-white hover:bg-primary hover:text-white"
+              : "bg-white text-primary shadow-none hover:bg-primary hover:text-white"
+              }`}
           >
             I am a&nbsp;
             <span className="font-montserrat font-semibold uppercase">
@@ -112,11 +108,10 @@ function Desktop({
           </Button>
           <Button
             onClick={() => setRole("organization")}
-            className={`cursor-pointer rounded px-4 py-2 ${
-              role === "organization"
-                ? "cursor-auto bg-primary text-white hover:bg-primary hover:text-white"
-                : "bg-white text-primary shadow-none hover:bg-primary hover:text-white"
-            }`}
+            className={`cursor-pointer rounded px-4 py-2 ${role === "organization"
+              ? "cursor-auto bg-primary text-white hover:bg-primary hover:text-white"
+              : "bg-white text-primary shadow-none hover:bg-primary hover:text-white"
+              }`}
           >
             I am an&nbsp;
             <span className="font-montserrat font-semibold uppercase">
@@ -127,16 +122,12 @@ function Desktop({
       )}
 
       {/* User Login/Profile */}
-      <div className="flex items-center lg:ml-auto lg:mr-5 lg:flex lg:flex-1 lg:justify-end lg:space-x-6">
-        {!sessionData ? (
-          <Link href={`/auth/signin`}>
-            <span className="text-sm font-semibold leading-6 text-foreground">
-              Log in <span aria-hidden="true">&rarr;</span>
-            </span>
-          </Link>
-        ) : (
-          <MenuBarSessionProfile />
-        )}
+      <div>
+        <Link href={`https://app.andamio.io`}>
+          <Button className="text-md rounded border-2 border-primary bg-primary py-2 font-montserrat font-semibold  uppercase text-white transition-all duration-300 hover:border-primary hover:bg-white hover:text-primary md:px-6">
+            Enter App
+          </Button>
+        </Link>
       </div>
     </div>
   );
@@ -221,11 +212,10 @@ function Mobile({
                   setMobileMenuOpen(false);
                   setRole("learner");
                 }}
-                className={`w-1/2 cursor-pointer rounded border-2 p-3 ${
-                  role === "learner"
-                    ? "bg-white text-primary hover:bg-primary hover:text-white"
-                    : "bg-primary text-white hover:bg-white hover:text-primary"
-                }`}
+                className={`w-1/2 cursor-pointer rounded border-2 p-3 ${role === "learner"
+                  ? "bg-white text-primary hover:bg-primary hover:text-white"
+                  : "bg-primary text-white hover:bg-white hover:text-primary"
+                  }`}
               >
                 <span className="font-montserrat font-semibold uppercase">
                   Learners
@@ -236,11 +226,10 @@ function Mobile({
                   setMobileMenuOpen(false);
                   setRole("organization");
                 }}
-                className={`w-1/2 cursor-pointer rounded border-2 p-3 ${
-                  role === "organization"
-                    ? "bg-white text-primary hover:bg-primary hover:text-white"
-                    : "bg-primary text-white hover:bg-white hover:text-primary"
-                }`}
+                className={`w-1/2 cursor-pointer rounded border-2 p-3 ${role === "organization"
+                  ? "bg-white text-primary hover:bg-primary hover:text-white"
+                  : "bg-primary text-white hover:bg-white hover:text-primary"
+                  }`}
               >
                 <span className="font-montserrat font-semibold uppercase">
                   Organizations
@@ -249,14 +238,6 @@ function Mobile({
             </div>
           )}
 
-          {/* Login Button */}
-          {/* <div className="mt-6"> */}
-          {/*   <Link href="/auth/signin"> */}
-          {/*     <span className="block rounded-md px-3 py-2 text-base font-semibold leading-7 text-foreground hover:bg-accent-foreground hover:text-white"> */}
-          {/*       Log in */}
-          {/*     </span> */}
-          {/*   </Link> */}
-          {/* </div> */}
         </Dialog.Panel>
       </Dialog>
     </>

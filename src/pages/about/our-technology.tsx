@@ -41,9 +41,9 @@ export default function LearnMoreTechnology() {
               Discover how Andamio’s innovative tools are shaping the future of
               decentralized work.
             </p>
-            <Link href="/get-started">
+            <Link href="https://app.andamio.io">
               <Button className="text-md mt-6 rounded bg-primary px-8 py-3 font-semibold uppercase text-white hover:bg-opacity-90">
-                Get Started Now
+                Open Andamio App
               </Button>
             </Link>
           </section>
@@ -159,9 +159,9 @@ export default function LearnMoreTechnology() {
             <h2 className="mb-4 text-3xl font-bold uppercase text-primary">
               Start Your Andamio Journey Today
             </h2>
-            <Link href="/get-started">
+            <Link href="https://app.andamio.io">
               <Button className="text-md rounded bg-primary px-8 py-3 font-semibold uppercase text-white hover:bg-opacity-90">
-                Get Started
+                Open Andamio App
               </Button>
             </Link>
           </section>

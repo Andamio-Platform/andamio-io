@@ -1,0 +1,43 @@
+import { Suspense } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { type BlogPost, getBlogPostData } from "~/lib/blogposts";
+import { Card } from "~/components/ui/card";
+
+export default async function BlogPage() {
+  const blogPosts = await getBlogPostData();
+
+  const sortedBlogPosts = blogPosts.sort((a: BlogPost, b: BlogPost) => b.title.localeCompare(a.title));
+
+  return (
+    <>
+      <h1 className="w-2/3 lg:w-1/2  mx-auto py-10 md:py-12 text-4xl font-bold">Andamio Blog</h1>
+      <div className="w-2/3 lg:w-1/2 mx-auto grid grid-cols-1 gap-5">
+        <Suspense fallback={<div>Loading...</div>}>
+          {sortedBlogPosts &&
+            sortedBlogPosts.map((blogPost: BlogPost) => (
+              <Card key={blogPost.title} className="flex flex-col rounded-none mb-8 px-10">
+                <Link href={`/blog/${blogPost.title}`}>
+                  <h2 className="text-2xl font-bold py-3 mb-3 border-b">
+                    {blogPost.title}: {blogPost.frontmatter.title}
+                  </h2>
+                  {blogPost.frontmatter.image && (
+                    <Image
+                      src={blogPost.frontmatter.image}
+                      height={1675}
+                      width={1029}
+                      alt={blogPost.frontmatter.image}
+                    />
+                  )}
+                  <div className="flex flex-row justify-between font-mono ">
+                    <p>{blogPost.frontmatter.date}</p>
+                    <p>{blogPost.frontmatter.author}</p>
+                  </div>
+                </Link>
+              </Card>
+            ))}
+        </Suspense>
+      </div>
+    </>
+  );
+}

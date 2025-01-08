@@ -1,3 +1,5 @@
+"use client"
+
 import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
@@ -6,7 +8,6 @@ import Image from "next/image";
 import { navigationMenuTriggerStyle } from "~/components/ui/navigation-menu";
 import { Button } from "~/components/ui/button";
 import React from "react";
-import { useRouter } from "next/router";
 
 const navigation = [
   { name: "About", href: "/about" },
@@ -56,8 +57,6 @@ function Desktop({
   setRole?: (role: "learner" | "organization") => void;
   role?: "learner" | "organization";
 }) {
-  const router = useRouter(); // Get the current route
-  const isLandingPage = router.pathname.includes("/"); // Check if you're on the summit page
 
   return (
     <div className="flex w-full items-center justify-between px-6 py-6 max-h-20">
@@ -92,7 +91,7 @@ function Desktop({
       </div>
 
       {/* Conditionally Render Learner and Organization Buttons */}
-      {isLandingPage && !!setRole && !!role && (
+      {!!setRole && !!role && (
         <div className="flex gap-3 sm:gap-4 lg:gap-6 xl:gap-8">
           <Button
             onClick={() => setRole("learner")}
@@ -144,8 +143,6 @@ function Mobile({
   setRole?: (role: "learner" | "organization") => void;
   role?: "learner" | "organization";
 }) {
-  const router = useRouter(); // Get the current route
-  const isLandingPage = router.pathname.includes("/"); // Check if you're on the summit page
   return (
     <>
       {/* Mobile Hamburger Icon */}
@@ -205,7 +202,7 @@ function Mobile({
           </div>
 
           {/* Learner and Organization Buttons */}
-          {isLandingPage && !!setRole && !!role && (
+          {!!setRole && !!role && (
             <div className="mt-6 flex flex-col space-y-4">
               <Button
                 onClick={() => {

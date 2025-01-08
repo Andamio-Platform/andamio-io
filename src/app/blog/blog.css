@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+h1 {
+  @apply text-2xl md:text-4xl py-8 font-semibold;
+}
+
+h2 {
+  @apply text-3xl py-5 font-semibold;
+}
+
+h3 {
+  @apply text-2xl pt-8 pb-2 font-semibold;
+}
+
+p {
+  @apply py-2 text-base lg:text-lg tracking-wide leading-7 lg:leading-loose;
+}
+
+ul {
+  @apply list-disc text-base lg:text-lg ml-8 py-3 leading-7;
+}
+
+ol {
+  @apply list-decimal text-base lg:text-lg ml-8 py-3 leading-7;
+}
+
+li {
+  @apply pb-1 tracking-wide leading-7;
+}
+
+a {
+  @apply text-indigo-900 hover:text-indigo-700 font-bold;
+}
+
+hr {
+  @apply border border-black mt-12;
+}
+
+img {
+  @apply my-2 lg:my-10;
+}

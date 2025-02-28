@@ -53,7 +53,7 @@ export const roadmap: Roadmap[] = [
     ],
   },
   {
-    era: "Andamio 1.0: Building Partnerships & Designing the System",
+    era: "Partnerships & System Design",
     year: "2024",
     epics: [
       {
@@ -99,14 +99,7 @@ export const roadmap: Roadmap[] = [
         description:
           "Designs and Preprod deployment of contribution and credential features",
         features: [],
-        status: "inProgress",
-        quarter: 4,
-      },
-      {
-        name: "Catalyst F12: Delivering for Partners",
-        description: "Initial rollout of Andamio and feature testing",
-        features: [],
-        status: "inProgress",
+        status: "complete",
         quarter: 4,
       },
       {
@@ -114,7 +107,7 @@ export const roadmap: Roadmap[] = [
         description:
           "Research and development into emergent identity built on skills and credentials",
         features: [],
-        status: "inProgress",
+        status: "complete",
         quarter: 4,
       },
       {
@@ -122,22 +115,38 @@ export const roadmap: Roadmap[] = [
         description:
           "Research and development into how a Cardano sidechain can be used to reduce costs and barriers to entry while increasing the scalability of the Andamio Network",
         features: [],
-        status: "inProgress",
+        status: "complete",
         quarter: 4,
       },
     ],
   },
   {
-    era: "Andamio 2.0: Andamio Network Initialization",
+    era: "Andamio v1: Andamio Network Launch",
     year: "2025",
     epics: [
       {
-        name: "Andamio Mainnet Release",
+        name: "1.0 Andamio Mainnet Release",
         description:
           "Fully featured Andamio Platform with Access Token, learning, contribution, and credential features",
         features: [],
-        status: "planned",
+        status: "complete",
         quarter: 1,
+      },
+      {
+        name: "1.1 Refining User Experience",
+        description:
+          "Gather feedback from Andamio Foundation Era members and continuosly improve UX",
+        features: [],
+        status: "inProgress",
+        quarter: 1,
+      },
+      {
+        name: "1.2 Public Onboarding",
+        description:
+          "Self service onboarding portal and public release",
+        features: [],
+        status: "inProgress",
+        quarter: 2,
       },
       {
         name: "Governance Features, Phase 1: Course Governance",

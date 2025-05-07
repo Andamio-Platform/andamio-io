@@ -1,25 +1,55 @@
 import type { Epic, Roadmap } from "~/roadmap";
 import RoadmapEpicComponent from "./RoadmapEpicComponent";
 
-// replace green dot with some kind of icon
-export default function RoadmapEraComponent(roadmap: Roadmap) {
-  return (
-    <div className="mb-8 flex items-start">
-      <div className="mt-8 grid w-full grid-cols-1 border-t border-black pt-8 md:grid-cols-6">
-        <div>
-          <h3 className="mb-1 text-center font-beckman text-4xl font-semibold ">
-            {roadmap.year}
-          </h3>
-        </div>
+interface RoadmapEraProps extends Roadmap {
+  position: "left" | "right";
+}
 
-        <div className="mx-auto flex w-full flex-col md:col-span-5">
-          <h3 className="mb-1 font-beckman text-4xl font-semibold ">
-            {roadmap.era}
-          </h3>
+export default function RoadmapEraComponent({
+  era,
+  year,
+  epics,
+  position,
+}: RoadmapEraProps) {
+  return (
+    <div className="mb-16">
+      {/* Era header */}
+      <div className="relative mb-8 flex items-center justify-center">
+        <div className="absolute left-1/2 top-1/2 h-px w-full -translate-x-1/2 -translate-y-1/2 bg-primary/20"></div>
+        <div className="relative z-10 flex items-center justify-center space-x-4 bg-background px-6">
+          <div className="rounded-lg bg-primary/5 px-4 py-2 text-center">
+            <h3 className="font-beckman text-2xl font-semibold tracking-tight">
+              {era}
+            </h3>
+            <p className="text-sm text-muted-foreground">{year}</p>
+          </div>
         </div>
-        {roadmap.epics.map((epic: Epic, i) => (
-          <RoadmapEpicComponent epic={epic} key={i} />
-        ))}
+      </div>
+
+      {/* Epics with alternating sides - quarters in reverse order */}
+      <div className="relative">
+        {/* Sort epics by quarter in descending order (Q4 to Q1) */}
+        {[...epics]
+          .sort((a, b) => b.quarter - a.quarter)
+          .map((epic: Epic, i) => (
+            <div
+              key={i}
+              className={`mb-12 flex ${position === "left" ? "justify-start" : "justify-end"}`}
+            >
+              <div
+                className={`relative w-5/12 ${position === "right" ? "order-1" : "order-none"}`}
+              >
+                <div
+                  className={`absolute top-3 z-10 h-px w-8 bg-primary/30 ${position === "left" ? "right-0 -mr-8" : "left-0 -ml-8"}`}
+                ></div>
+                <div
+                  className={`relative ${position === "left" ? "pr-8" : "pl-8"}`}
+                >
+                  <RoadmapEpicComponent epic={epic} key={i} />
+                </div>
+              </div>
+            </div>
+          ))}
       </div>
     </div>
   );

@@ -1,74 +1,75 @@
 import { Badge } from "~/components/ui/badge";
 import { type Epic } from "~/roadmap";
 
-// TODO: Set color based on status
-// Represent the quarter or date in a helpful way
-
 export default function RoadmapEpicComponent({
   epic,
-  key,
 }: {
   epic: Epic;
-  key: number;
 }) {
   let statusMessage = "";
-  let dotColor = "bg-black";
-  let borderColor = "border-l-black";
+  let accentColor = "";
+  let bgColor = "";
+  
   switch (epic.status) {
     case "planned":
       statusMessage = "Planning";
-      dotColor = "bg-blue-400";
-      borderColor = "border-blue-800";
+      accentColor = "text-blue-600";
+      bgColor = "bg-blue-50/30";
       break;
     case "inProgress":
       statusMessage = "Current";
-      dotColor = "bg-orange-400";
-      borderColor = "border-orange-800";
+      accentColor = "text-orange-600";
+      bgColor = "bg-orange-50/30";
       break;
     case "proposed":
       statusMessage = "Proposal";
-      dotColor = "bg-purple-400";
-      borderColor = "border-purple-400";
+      accentColor = "text-purple-600";
+      bgColor = "bg-purple-50/30";
       break;
     case "complete":
       statusMessage = "Complete";
-      dotColor = "bg-green-400";
-      borderColor = "border-green-400";
+      accentColor = "text-green-600";
+      bgColor = "bg-green-50/30";
       break;
-      borderColor = "bg-blue-400";
     default:
+      accentColor = "text-gray-600";
+      bgColor = "bg-gray-50/30";
       break;
   }
+  
   return (
-    <>
-      <div
-        key={key}
-        className="col-span-1 mx-auto my-5 flex flex-row items-center"
-      >
-        <h2 className="hidden text-center font-beckman text-2xl md:block">
+    <div className="group w-full">
+      {/* Quarter indicator */}
+      <div className="mb-2 flex">
+        <Badge variant="outline" className="text-xs font-medium">
           Q{epic.quarter}
-        </h2>
-      </div>
-      <div
-        key={key}
-        className="mx-auto my-5 flex w-full flex-row items-center justify-between md:col-span-5"
-      >
-        <div
-          className={`mr-4 mt-1 h-4 w-4 flex-shrink-0 rounded-full ${dotColor}`}
-        ></div>
-        <div
-          className={`flex w-full flex-col border-l-2 ${borderColor} pl-8 text-sm`}
-        >
-          <h1 className="font-beckman text-lg">{epic.name}</h1>
-          <p className="w-11/12">{epic.description}</p>
-        </div>
-        <Badge variant={epic.status} className="hidden md:block">
-          {statusMessage}
         </Badge>
       </div>
-      <Badge variant={epic.status} className="block md:hidden">
-        {statusMessage}
-      </Badge>
-    </>
+      
+      {/* Epic content */}
+      <div className={`rounded-lg ${bgColor} p-4 shadow-sm transition-all duration-200 hover:shadow-md`}>
+        <div className="mb-2 flex items-start justify-between gap-2">
+          <h3 className="font-beckman text-lg font-medium tracking-tight">{epic.name}</h3>
+          <Badge variant="outline" className={`shrink-0 ${accentColor || ''} text-xs font-medium`}>
+            {statusMessage}
+          </Badge>
+        </div>
+        
+        <p className="text-muted-foreground">{epic.description}</p>
+        
+        {epic.features && epic.features.length > 0 && (
+          <div className="mt-3">
+            <ul className="space-y-1 text-sm text-muted-foreground">
+              {epic.features.map((feature, index) => (
+                <li key={index} className="flex items-start">
+                  <span className="mr-2 text-xs">→</span>
+                  {feature}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    </div>
   );
 }

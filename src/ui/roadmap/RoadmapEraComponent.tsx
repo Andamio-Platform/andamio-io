@@ -6,22 +6,23 @@ interface RoadmapEraProps extends Roadmap {
 }
 
 export default function RoadmapEraComponent({
-  era,
-  year,
+  category,
   epics,
   position,
 }: RoadmapEraProps) {
+  // Get the year from the first epic for display purposes
+  const year = epics.length > 0 ? epics[0]?.year ?? "" : "";
   return (
-    <div className="mb-16">
+    <div className="mb-20">
       {/* Era header */}
-      <div className="relative mb-8 flex items-center justify-center">
+      <div className="relative mb-12 flex items-center justify-center">
         <div className="absolute left-1/2 top-1/2 h-px w-full -translate-x-1/2 -translate-y-1/2 bg-primary/20"></div>
         <div className="relative z-10 flex items-center justify-center space-x-4 bg-background px-6">
-          <div className="rounded-lg bg-primary/5 px-4 py-2 text-center">
-            <h3 className="font-beckman text-2xl font-semibold tracking-tight">
-              {era}
+          <div className="bg-white px-8 py-4 text-center shadow-md border-b-2 border-primary">
+            <h3 className="font-beckman text-3xl font-bold tracking-tight">
+              {category}
             </h3>
-            <p className="text-sm text-muted-foreground">{year}</p>
+            <p className="text-md text-muted-foreground">{year}</p>
           </div>
         </div>
       </div>

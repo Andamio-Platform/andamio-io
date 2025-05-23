@@ -1,77 +1,109 @@
-import { Badge } from "~/components/ui/badge";
 import { type Epic } from "~/roadmap";
 
-export default function RoadmapEpicComponent({ epic }: { epic: Epic }) {
+export default function RoadmapEpicComponent({
+  epic,
+  category,
+}: {
+  epic: Epic;
+  category?: string;
+}) {
   let statusMessage = "";
-  let accentColor = "";
   let borderColor = "";
+  let bgColor = "";
+  let textColor = "";
 
   switch (epic.status) {
     case "planned":
       statusMessage = "Planning";
-      accentColor = "text-blue-600";
-      borderColor = "border-blue-500";
+      borderColor = "border-purple-300";
+      bgColor = "bg-purple-100";
+      textColor = "text-purple-800";
       break;
     case "inProgress":
       statusMessage = "Current";
-      accentColor = "text-orange-600";
-      borderColor = "border-orange-500";
+      borderColor = "border-blue-300";
+      bgColor = "bg-blue-100";
+      textColor = "text-blue-800";
       break;
     case "proposed":
       statusMessage = "Proposal";
-      accentColor = "text-purple-600";
-      borderColor = "border-purple-500";
+      borderColor = "border-orange-300";
+      bgColor = "bg-orange-100";
+      textColor = "text-orange-800";
       break;
     case "complete":
       statusMessage = "Complete";
-      accentColor = "text-green-600";
-      borderColor = "border-green-500";
+      borderColor = "border-green-300";
+      bgColor = "bg-green-100";
+      textColor = "text-green-800";
       break;
     default:
-      accentColor = "text-gray-600";
-      borderColor = "border-gray-500";
+      statusMessage = "Unknown";
+      borderColor = "border-gray-300";
+      bgColor = "bg-gray-100";
+      textColor = "text-gray-800";
       break;
   }
 
   return (
-    <div className="group w-full">
-      {/* Quarter indicator */}
-      <div className="mb-2 flex">
-        <Badge variant="outline" className="text-xs font-medium">
-          Q{epic.quarter}
-        </Badge>
-      </div>
-
+    <div className="group w-full border border-primary/20 transition-all hover:border-primary hover:shadow-md">
       {/* Epic content */}
-      <div
-        className={`border-l-4 bg-white p-5 shadow-md transition-all duration-200 hover:shadow-xl ${borderColor}`}
-      >
-        <div className="mb-3 flex items-start justify-between gap-2">
-          <h3 className="font-beckman text-xl font-bold tracking-tight">
-            {epic.name}
-          </h3>
-          <Badge
-            variant="outline"
-            className={`shrink-0 ${accentColor || ""} text-xs font-medium`}
-          >
-            {statusMessage}
-          </Badge>
+      <div className="flex w-full">
+        <div className={`flex-grow border-l-4 bg-white ${borderColor}`}>
+          <div className="p-5">
+            {/* Category label if provided */}
+            {category && (
+              <div className="mb-2 text-sm font-medium text-primary">
+                {category}
+              </div>
+            )}
+
+            <div className="mb-3">
+              <h3 className="text-xl font-bold tracking-tight">{epic.name}</h3>
+            </div>
+
+            <p className="max-w-2xl text-sm text-muted-foreground">
+              {epic.description}
+            </p>
+
+            {epic.features && epic.features.length > 0 && (
+              <div className="mt-4">
+                <h4 className="mb-2 text-sm font-medium">Features:</h4>
+                <ul className="list-inside list-disc space-y-1 text-sm text-muted-foreground">
+                  {epic.features.map((feature, index) => (
+                    <li key={index}>{feature}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {epic.link && (
+              <div className="mt-4 text-xs">
+                <a
+                  href={epic.link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary hover:underline"
+                >
+                  {epic.link.label}
+                </a>
+              </div>
+            )}
+          </div>
         </div>
 
-        <p className="text-base text-muted-foreground">{epic.description}</p>
-
-        {epic.features && epic.features.length > 0 && (
-          <div className="mt-4 border-t border-gray-100 pt-3">
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              {epic.features.map((feature, index) => (
-                <li key={index} className="flex items-start">
-                  <span className="mr-2 text-xs font-bold text-primary">→</span>
-                  {feature}
-                </li>
-              ))}
-            </ul>
+        {/* Status and date sidebar */}
+        <div className={`flex w-32 flex-col justify-center ${bgColor} p-4`}>
+          <div className="flex flex-col items-end">
+            <div className={`text-xl font-bold ${textColor}`}>{epic.year}</div>
+            <div className={`text-xl font-bold ${textColor}`}>
+              Q{epic.quarter}
+            </div>
+            <div className={`mt-6 text-xs font-medium ${textColor}`}>
+              {statusMessage}
+            </div>
           </div>
-        )}
+        </div>
       </div>
     </div>
   );

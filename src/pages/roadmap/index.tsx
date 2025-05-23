@@ -4,6 +4,10 @@ import MenuBar from "../../ui/landing/MenuBar";
 import Footer from "~/ui/landing/Footer";
 import { Clock, Layers } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
+import RoadmapEpicComponent from "~/ui/roadmap/RoadmapEpicComponent";
+import { Button } from "~/components/ui/button";
+import Link from "next/link";
+import Image from "next/image";
 
 const ProductRoadmap = () => {
   // Default to oldest first for chronological view
@@ -136,44 +140,41 @@ const ProductRoadmap = () => {
       <main className="container mx-auto px-4 py-12">
         <div className="mx-auto max-w-7xl">
           {/* Simple, centered header */}
-          <div className="mb-16 text-center">
-            <h1 className="font-beckman text-6xl font-bold tracking-tight md:text-7xl">
-              Andamio Roadmap
+          <div className="mb-8 flex flex-col items-center justify-center border-b border-primary/20 pb-12 text-center">
+            <h1 className="text-4xl font-bold tracking-tight md:text-6xl">
+              Roadmap
             </h1>
 
             <p className="mx-auto mt-4 max-w-2xl text-xl text-muted-foreground">
               Our journey of building the Andamio platform and ecosystem, from
               founding to the present day and beyond.
             </p>
-
-            {/* View mode and sort controls */}
-            <div className="mt-8 flex flex-col items-center space-y-4">
-              <Tabs
-                defaultValue="time"
-                value={viewMode}
-                onValueChange={(value) =>
-                  setViewMode(value as "time" | "category")
-                }
-                className="w-full max-w-md"
-              >
-                <TabsList className="grid w-full grid-cols-2">
-                  <TabsTrigger
-                    value="time"
-                    className="flex items-center justify-center space-x-2"
-                  >
-                    <Clock className="h-4 w-4" />
-                    <span>Chronological</span>
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="category"
-                    className="flex items-center justify-center space-x-2"
-                  >
-                    <Layers className="h-4 w-4" />
-                    <span>Categories</span>
-                  </TabsTrigger>
-                </TabsList>
-              </Tabs>
-            </div>
+          </div>
+          {/* View mode and sort controls */}
+          <div className="w-full md:w-80 md:shrink-0 md:pr-8">
+            <Tabs
+              defaultValue="time"
+              value={viewMode}
+              onValueChange={(value) =>
+                setViewMode(value as "time" | "category")
+              }
+              className="rounded-none"
+            >
+              <TabsList className="grid w-full grid-cols-2 rounded-none bg-white shadow-lg">
+                <TabsTrigger
+                  value="time"
+                  className="flex items-center justify-center space-x-2 rounded-none"
+                >
+                  <Clock className="h-4 w-4" />
+                </TabsTrigger>
+                <TabsTrigger
+                  value="category"
+                  className="flex items-center justify-center space-x-2 rounded-none"
+                >
+                  <Layers className="h-4 w-4" />
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
           </div>
 
           {/* Main timeline container */}
@@ -182,7 +183,7 @@ const ProductRoadmap = () => {
             {viewMode === "time" && (
               <div className="relative z-10">
                 {/* Year tabs with vertical layout */}
-                <div className="mb-8">
+                <div className="mb-8 mt-2">
                   <Tabs
                     value={activeYear}
                     onValueChange={setActiveYear}
@@ -191,30 +192,32 @@ const ProductRoadmap = () => {
                   >
                     {/* Vertical sidebar with year tabs */}
                     <div className="w-full md:w-80 md:shrink-0 md:pr-8">
-                      <h2 className="mb-4 text-2xl font-bold tracking-tight">
-                        Years
-                      </h2>
-                      <TabsList className="flex w-full flex-row gap-2 overflow-x-auto bg-transparent p-0 md:flex-col md:overflow-visible">
+                      <TabsList className="mb-2 flex w-full flex-row gap-2 overflow-x-auto bg-transparent p-0 md:flex-col md:overflow-visible">
                         {uniqueYears.map((year) => (
                           <TabsTrigger
                             key={year}
                             value={year}
-                            className="w-full justify-start border border-primary/20 bg-card px-4 py-3 text-left text-lg font-semibold data-[state=active]:border-primary data-[state=active]:bg-primary/10"
+                            className="w-full justify-start rounded-none border border-primary/20 bg-white px-4 py-3 text-left text-sm font-light shadow-lg"
                           >
                             {year}
                           </TabsTrigger>
                         ))}
                       </TabsList>
+                      <Link href="https://andamio.notion.site/1fb44d820e1d804ebec4f0142d3f267a?pvs=105">
+                        <Button className="w-full rounded-none">
+                          Give Feedback
+                        </Button>
+                      </Link>
                     </div>
 
                     {/* Content area */}
-                    <div className="mt-6 flex-1 md:mt-0">
+                    <div className="mt-6 flex-1 md:-mt-12">
                       {/* Content for each year tab */}
                       {uniqueYears.map((year) => (
                         <TabsContent key={year} value={year} className="mt-0">
                           {/* Year heading */}
-                          <div className="mb-8 text-center">
-                            <h2 className="text-4xl font-bold tracking-tight">
+                          <div className="mb-8 text-right">
+                            <h2 className="text-6xl font-bold tracking-tight">
                               {year}
                             </h2>
                           </div>
@@ -233,71 +236,10 @@ const ProductRoadmap = () => {
                               })
                               .map((item, index) => (
                                 <div key={index} className="w-full">
-                                  {/* Epic card */}
-                                  <div className=" border border-primary/20 bg-white p-6 shadow-lg transition-all hover:border-primary hover:shadow-md">
-                                    <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
-                                      {/* Category label */}
-                                      <div className="text-sm font-medium text-primary">
-                                        {item.category}
-                                      </div>
-
-                                      {/* Year and quarter */}
-                                      <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                                        <span>
-                                          {item.epic.year} Q{item.epic.quarter}
-                                        </span>
-                                        <span className="inline-flex items-center  px-2 py-1 text-xs font-medium">
-                                          {item.epic.status === "complete" && (
-                                            <span className="text-green-600">
-                                              Completed
-                                            </span>
-                                          )}
-                                          {item.epic.status ===
-                                            "inProgress" && (
-                                            <span className="text-blue-600">
-                                              In Progress
-                                            </span>
-                                          )}
-                                          {item.epic.status === "planned" && (
-                                            <span className="text-amber-600">
-                                              Planned
-                                            </span>
-                                          )}
-                                          {item.epic.status === "proposed" && (
-                                            <span className="text-purple-600">
-                                              Proposed
-                                            </span>
-                                          )}
-                                        </span>
-                                      </div>
-                                    </div>
-
-                                    {/* Epic title */}
-                                    <h3 className="mb-2 text-xl font-bold tracking-tight">
-                                      {item.epic.name}
-                                    </h3>
-
-                                    {/* Description */}
-                                    <p className="text-sm text-muted-foreground">
-                                      {item.epic.description}
-                                    </p>
-
-                                    {/* Features list */}
-                                    {item.epic.features.length > 0 && (
-                                      <div className="mt-4">
-                                        <h4 className="mb-2 text-sm font-medium">
-                                          Features:
-                                        </h4>
-                                        <ul className="list-inside list-disc space-y-1 text-sm text-muted-foreground">
-                                          {item.epic.features.map(
-                                            (feature, i) => (
-                                              <li key={i}>{feature}</li>
-                                            ),
-                                          )}
-                                        </ul>
-                                      </div>
-                                    )}
-                                  </div>
+                                  <RoadmapEpicComponent
+                                    epic={item.epic}
+                                    category={item.category}
+                                  />
                                 </div>
                               ))}
                           </div>
@@ -320,7 +262,7 @@ const ProductRoadmap = () => {
             {viewMode === "category" && (
               <div className="relative z-10">
                 {/* Category tabs with vertical layout */}
-                <div className="mb-8">
+                <div className="mb-8 mt-2">
                   <Tabs
                     value={activeCategory}
                     onValueChange={setActiveCategory}
@@ -329,24 +271,26 @@ const ProductRoadmap = () => {
                   >
                     {/* Vertical sidebar with tabs */}
                     <div className="w-full md:w-80 md:shrink-0 md:pr-8">
-                      <h2 className="mb-4 text-2xl font-bold tracking-tight">
-                        Categories
-                      </h2>
-                      <TabsList className="flex w-full flex-row gap-2 overflow-x-auto bg-transparent p-0 md:flex-col md:overflow-visible">
+                      <TabsList className="mb-2 flex w-full flex-row gap-2 overflow-x-auto bg-transparent p-0 md:flex-col md:overflow-visible">
                         {categorySortedItems.map((category, index) => (
                           <TabsTrigger
                             key={index}
                             value={category.category}
-                            className="w-full justify-start border border-primary/20 bg-white px-4 py-3 text-left text-lg font-semibold shadow-lg data-[state=active]:border-primary data-[state=active]:bg-primary/10"
+                            className="w-full justify-start rounded-none border border-primary/20 bg-white px-4 py-3 text-left text-sm font-light shadow-lg"
                           >
                             {category.category}
                           </TabsTrigger>
                         ))}
                       </TabsList>
+                      <Link href="https://andamio.notion.site/1fb44d820e1d804ebec4f0142d3f267a?pvs=105">
+                        <Button className="w-full rounded-none">
+                          Give Feedback
+                        </Button>
+                      </Link>
                     </div>
 
                     {/* Content area */}
-                    <div className="mt-6 flex-1 md:mt-0">
+                    <div className="mt-6 flex-1 md:-mt-12">
                       {/* Content for each category tab */}
                       {categorySortedItems.map((category, index) => (
                         <TabsContent
@@ -355,8 +299,8 @@ const ProductRoadmap = () => {
                           className="mt-0"
                         >
                           {/* Category heading */}
-                          <div className="mb-8 text-center">
-                            <h2 className="text-4xl font-bold tracking-tight">
+                          <div className="mb-8 text-right">
+                            <h2 className="text-6xl font-bold tracking-tight">
                               {category.category}
                             </h2>
                           </div>
@@ -365,63 +309,7 @@ const ProductRoadmap = () => {
                           <div className="mb-16 grid grid-cols-1 gap-6">
                             {category.epics.map((epic, epicIndex) => (
                               <div key={epicIndex} className="w-full">
-                                {/* Epic card */}
-                                <div className=" border border-primary/20 bg-white p-6 shadow-lg transition-all hover:border-primary hover:shadow-md">
-                                  <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
-                                    {/* Epic title */}
-                                    <h3 className="text-xl font-bold tracking-tight">
-                                      {epic.name}
-                                    </h3>
-
-                                    {/* Year and quarter */}
-                                    <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                                      <span>
-                                        {epic.year} Q{epic.quarter}
-                                      </span>
-                                      <span className="inline-flex items-center  px-2 py-1 text-xs font-medium">
-                                        {epic.status === "complete" && (
-                                          <span className="text-green-600">
-                                            Completed
-                                          </span>
-                                        )}
-                                        {epic.status === "inProgress" && (
-                                          <span className="text-blue-600">
-                                            In Progress
-                                          </span>
-                                        )}
-                                        {epic.status === "planned" && (
-                                          <span className="text-amber-600">
-                                            Planned
-                                          </span>
-                                        )}
-                                        {epic.status === "proposed" && (
-                                          <span className="text-purple-600">
-                                            Proposed
-                                          </span>
-                                        )}
-                                      </span>
-                                    </div>
-                                  </div>
-
-                                  {/* Description */}
-                                  <p className="mb-4 text-sm text-muted-foreground">
-                                    {epic.description}
-                                  </p>
-
-                                  {/* Features list */}
-                                  {epic.features.length > 0 && (
-                                    <div>
-                                      <h4 className="mb-2 text-sm font-medium">
-                                        Features:
-                                      </h4>
-                                      <ul className="list-inside list-disc space-y-1 text-sm text-muted-foreground">
-                                        {epic.features.map((feature, i) => (
-                                          <li key={i}>{feature}</li>
-                                        ))}
-                                      </ul>
-                                    </div>
-                                  )}
-                                </div>
+                                <RoadmapEpicComponent epic={epic} />
                               </div>
                             ))}
                           </div>

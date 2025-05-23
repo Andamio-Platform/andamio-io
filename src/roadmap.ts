@@ -80,6 +80,23 @@ export const roadmap: Roadmap[] = [
         quarter: 2,
       },
       {
+        name: "Andamio V2 Audit (Ongoing)",
+        description: "Audit Andamio V2 validators as they are ready",
+        features: ["Audit Andamio V2 validators as they are ready"],
+        status: "planned",
+        year: "2025",
+        quarter: 2,
+      },
+      {
+        name: "Open Source V2 Validators",
+        description:
+          "Open source Andamio V2 validators for the community to build on",
+        features: ["Andamio V2 validators open source", "Documentation"],
+        status: "planned",
+        year: "2025",
+        quarter: 4,
+      },
+      {
         name: "Protocol Documentation and CIP",
         description:
           "Comprehensive documentation and potential Cardano Improvement Proposal",
@@ -197,7 +214,7 @@ export const roadmap: Roadmap[] = [
         quarter: 3,
       },
       {
-        name: "Open Sourcing Andamio Platform",
+        name: "Andamio Platform Component libraries",
         description:
           "Open source Andamio Platform for the community to build on",
         features: [
@@ -205,9 +222,9 @@ export const roadmap: Roadmap[] = [
           "Documentation",
           "Developer tokenomics",
         ],
-        status: "planned",
-        year: "2025",
-        quarter: 4,
+        status: "proposed",
+        year: "2026",
+        quarter: 1,
       },
       {
         name: "Andamio APIs",

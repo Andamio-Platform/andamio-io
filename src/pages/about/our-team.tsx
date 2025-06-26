@@ -3,13 +3,6 @@ import { UserIcon } from "@heroicons/react/24/outline";
 
 const teamMembers = [
   {
-    name: "Adrian Hüetter",
-    title: "Smart Contract Developer",
-    summary:
-      "A former civil engineer and Plutus pioneer, Adrian specializes in smart contracts and promotes open-source community growth.",
-    image: "/images/team/adrian.webp",
-  },
-  {
     name: "Yoram Ben Zvi",
     title: "Business Models Lead",
     summary:
@@ -22,6 +15,13 @@ const teamMembers = [
     summary:
       "With experience in project-based learning and mastery-based grading, James contributes resilient, reusable components and deep learning design expertise.",
     image: "/images/team/james.webp",
+  },
+  {
+    name: "Adrian Hüetter",
+    title: "Smart Contract Developer",
+    summary:
+      "A former civil engineer and Plutus pioneer, Adrian specializes in smart contracts and promotes open-source community growth.",
+    image: "/images/team/adrian.webp",
   },
   {
     name: "HongJing (Jingles) K",

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useState } from "react";
 import { Dialog } from "@headlessui/react";
@@ -57,9 +57,8 @@ function Desktop({
   setRole?: (role: "learner" | "organization") => void;
   role?: "learner" | "organization";
 }) {
-
   return (
-    <div className="flex w-full items-center justify-between px-6 py-6 max-h-20">
+    <div className="flex max-h-20 w-full items-center justify-between px-6 py-6">
       {/* Logo */}
       <Link href="/">
         <Image
@@ -76,7 +75,7 @@ function Desktop({
         {navigation.map((item) => (
           <Link href={item.href} key={item.name} legacyBehavior passHref>
             <Button
-              className={`${navigationMenuTriggerStyle()} cursor-pointer rounded bg-white font-montserrat text-primary shadow-none hover:text-white`}
+              className={`${navigationMenuTriggerStyle()} cursor-pointer rounded-sm bg-white font-montserrat text-primary shadow-none hover:text-white`}
             >
               {item.name}
             </Button>
@@ -84,7 +83,7 @@ function Desktop({
         ))}
 
         <Link href="/contact" legacyBehavior passHref>
-          <Button className="cursor-pointer rounded font-montserrat text-white shadow-none hover:bg-white">
+          <Button className="cursor-pointer rounded-sm font-montserrat text-white shadow-none hover:bg-white">
             <span className="uppercase">Get in touch</span>
           </Button>
         </Link>
@@ -95,10 +94,11 @@ function Desktop({
         <div className="flex gap-3 sm:gap-4 lg:gap-6 xl:gap-8">
           <Button
             onClick={() => setRole("learner")}
-            className={`cursor-pointer rounded px-4 py-2 ${role === "learner"
-              ? "cursor-auto bg-primary text-white hover:bg-primary hover:text-white"
-              : "bg-white text-primary shadow-none hover:bg-primary hover:text-white"
-              }`}
+            className={`cursor-pointer rounded-sm px-4 py-2 ${
+              role === "learner"
+                ? "cursor-auto bg-primary text-white hover:bg-primary hover:text-white"
+                : "bg-white text-primary shadow-none hover:bg-primary hover:text-white"
+            }`}
           >
             I am a&nbsp;
             <span className="font-montserrat font-semibold uppercase">
@@ -107,10 +107,11 @@ function Desktop({
           </Button>
           <Button
             onClick={() => setRole("organization")}
-            className={`cursor-pointer rounded px-4 py-2 ${role === "organization"
-              ? "cursor-auto bg-primary text-white hover:bg-primary hover:text-white"
-              : "bg-white text-primary shadow-none hover:bg-primary hover:text-white"
-              }`}
+            className={`cursor-pointer rounded-sm px-4 py-2 ${
+              role === "organization"
+                ? "cursor-auto bg-primary text-white hover:bg-primary hover:text-white"
+                : "bg-white text-primary shadow-none hover:bg-primary hover:text-white"
+            }`}
           >
             I am an&nbsp;
             <span className="font-montserrat font-semibold uppercase">
@@ -123,7 +124,7 @@ function Desktop({
       {/* User Login/Profile */}
       <div>
         <Link href={`https://app.andamio.io`}>
-          <Button className="text-md rounded border-2 border-primary bg-primary py-2 font-montserrat font-semibold  uppercase text-white transition-all duration-300 hover:border-primary hover:bg-white hover:text-primary md:px-6">
+          <Button className="text-md rounded-sm border-2 border-primary bg-primary py-2 font-montserrat font-semibold  uppercase text-white transition-all duration-300 hover:border-primary hover:bg-white hover:text-primary md:px-6">
             Enter App
           </Button>
         </Link>
@@ -194,7 +195,7 @@ function Mobile({
           <div className="space-y-4">
             {navigation.map((item) => (
               <Link key={item.name} href={item.href}>
-                <span className="block items-start rounded-lg px-3 py-2 font-semibold text-foreground hover:bg-accent-foreground hover:text-white">
+                <span className="block items-start rounded-sm px-3 py-2 font-semibold text-foreground hover:bg-accent-foreground hover:text-white">
                   {item.name}
                 </span>
               </Link>
@@ -209,10 +210,11 @@ function Mobile({
                   setMobileMenuOpen(false);
                   setRole("learner");
                 }}
-                className={`w-1/2 cursor-pointer rounded border-2 p-3 ${role === "learner"
-                  ? "bg-white text-primary hover:bg-primary hover:text-white"
-                  : "bg-primary text-white hover:bg-white hover:text-primary"
-                  }`}
+                className={`w-1/2 cursor-pointer rounded-sm border-2 p-3 ${
+                  role === "learner"
+                    ? "bg-white text-primary hover:bg-primary hover:text-white"
+                    : "bg-primary text-white hover:bg-white hover:text-primary"
+                }`}
               >
                 <span className="font-montserrat font-semibold uppercase">
                   Learners
@@ -223,10 +225,11 @@ function Mobile({
                   setMobileMenuOpen(false);
                   setRole("organization");
                 }}
-                className={`w-1/2 cursor-pointer rounded border-2 p-3 ${role === "organization"
-                  ? "bg-white text-primary hover:bg-primary hover:text-white"
-                  : "bg-primary text-white hover:bg-white hover:text-primary"
-                  }`}
+                className={`w-1/2 cursor-pointer rounded-sm border-2 p-3 ${
+                  role === "organization"
+                    ? "bg-white text-primary hover:bg-primary hover:text-white"
+                    : "bg-primary text-white hover:bg-white hover:text-primary"
+                }`}
               >
                 <span className="font-montserrat font-semibold uppercase">
                   Organizations
@@ -234,7 +237,6 @@ function Mobile({
               </Button>
             </div>
           )}
-
         </Dialog.Panel>
       </Dialog>
     </>

@@ -23,7 +23,7 @@ const buttonVariants = cva(
         delete: "bg-warning hover:bg-red-800 text-red-100",
         edit: "bg-slate-700 hover:bg-slate-800 text-slate-100",
         module:
-          "flex flex-col min-w-1/3 mx-auto px-3 py-1 gap-2 items-center justify-center hover:bg-primary hover:text-primary-foreground rounded-md transition-colors ease-in-out duration-300",
+          "flex flex-col min-w-1/3 mx-auto px-3 py-1 gap-2 items-center justify-center hover:bg-primary hover:text-primary-foreground rounded-sm transition-colors ease-in-out duration-300",
         courseOutlineAction:
           "flex flex-col w-full mx-auto p-2 my-2 items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors ease-in-out duration-300 border border-primary",
         dialog:

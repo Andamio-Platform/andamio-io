@@ -13,6 +13,10 @@ const footerData = {
     },
     { name: "Twitter", href: "https://twitter.com/AndamioPlatform" },
   ],
+  Company: [
+    { name: "About", href: "/about" },
+    { name: "Roadmap", href: "/roadmap" },
+  ],
   Legal: [
     { name: "Privacy Policy", href: "/privacy-policy" },
     { name: "Terms of Use", href: "/terms" },
@@ -21,22 +25,45 @@ const footerData = {
 
 export default function Footer() {
   return (
-    <div className="relative z-30 mt-24 bg-primary text-primary-foreground">
-      <footer className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
-        <div className="flex flex-col items-center text-start">
-          <div className="grid w-full grid-cols-1 justify-items-start gap-8 sm:grid-cols-2 md:grid-cols-3 md:justify-items-center">
-            {Object.entries(footerData).map(([key, links]) => (
-              <div key={key}>
-                <h3 className="text-sm font-semibold uppercase tracking-wider">
+    <div className="relative z-30 border-t border-white/10 bg-gray-950 text-white">
+      <div className="pointer-events-none absolute inset-0 opacity-5">
+        <div className="grid h-full grid-cols-16">
+          {Array.from({ length: 16 }).map((_, i) => (
+            <div key={i} className="border-r border-white/20"></div>
+          ))}
+        </div>
+        <div className="absolute inset-0">
+          <div className="flex h-full flex-col">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <div key={i} className="flex-1 border-b border-white/10"></div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <footer className="relative mx-auto max-w-7xl px-6 py-16 lg:px-8">
+        {/* Top accent line */}
+        <div className="absolute left-6 right-6 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+
+        <div className="flex flex-col">
+          {/* Main footer content */}
+          <div className="grid w-full grid-cols-1 gap-12 sm:grid-cols-2 md:grid-cols-3">
+            {Object.entries(footerData).map(([key, links], index) => (
+              <div key={key} className="relative">
+                {/* Angular accent for each section */}
+                <div className="absolute -top-2 left-0 h-1 w-8 bg-gradient-to-r from-blue-500 to-transparent opacity-60"></div>
+
+                <h3 className="mb-6 text-lg font-bold uppercase tracking-wider text-white">
                   {key}
                 </h3>
-                <ul className="mt-4 space-y-4">
+                <ul className="space-y-4">
                   {links.map((link) => (
                     <li key={link.name}>
                       <Link
                         href={link.href}
-                        className="text-base text-gray-400 hover:text-gray-300"
+                        className="group flex items-center text-gray-300 transition-colors duration-200 hover:text-white"
                       >
+                        <span className="mr-3 h-px w-2 bg-gray-600 transition-colors duration-200 group-hover:bg-white"></span>
                         {link.name}
                       </Link>
                     </li>
@@ -45,9 +72,31 @@ export default function Footer() {
               </div>
             ))}
           </div>
-          <div className="mt-8 text-center text-sm text-gray-400">
-            Andamio v0.3.3 | © {new Date().getFullYear()} Andamio. All rights
-            reserved.
+
+          {/* Bottom section */}
+          <div className="mt-16 border-t border-white/10 pt-8">
+            <div className="flex flex-col items-center justify-between md:flex-row">
+              <div className="mb-4 flex items-center gap-4 md:mb-0">
+                <img
+                  className="h-8 w-auto opacity-80"
+                  src="/andamio-logo.svg"
+                  alt="Andamio"
+                />
+                <div className="text-sm text-gray-400">
+                  Trust Protocol for Distributed Work
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 text-sm text-gray-400">
+                <span className="rounded-sm border border-white/10 bg-gray-800/50 px-2 py-1 font-mono text-xs">
+                  v0.3.3
+                </span>
+                <span>|</span>
+                <span>
+                  © {new Date().getFullYear()} Andamio. All rights reserved.
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </footer>

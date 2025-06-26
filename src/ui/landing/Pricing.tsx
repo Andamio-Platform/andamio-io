@@ -163,7 +163,7 @@ export default function Pricing() {
                     : tier.isPartner
                       ? "text-gray-900 ring-1 ring-inset ring-blue-900 hover:bg-blue-100"
                       : "text-primary ring-1 ring-inset ring-primary hover:ring-primary",
-                  "mt-8 block rounded-md px-3 py-2 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
+                  "mt-8 block rounded-sm px-3 py-2 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
                 )}
               >
                 Buy plan

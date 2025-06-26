@@ -42,7 +42,7 @@ export default function LeadgenDAOPage() {
           {leadgenCycles.map((cycle, index) => (
             <div
               key={index}
-              className="rounded-lg bg-white p-6 shadow-md transition-shadow duration-300 hover:shadow-lg"
+              className="rounded-sm bg-white p-6 shadow-md transition-shadow duration-300 hover:shadow-lg"
             >
               <h2 className="mb-4 flex items-center gap-2 text-3xl font-semibold text-primary">
                 <cycle.icon className="h-8 w-8 text-secondary" /> {cycle.title}

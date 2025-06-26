@@ -7,19 +7,19 @@ const cardVariants = cva("", {
   variants: {
     intent: {
       default:
-        "rounded-md border-foreground bg-card text-card-foreground shadow",
+        "rounded-sm border-foreground bg-card text-card-foreground shadow",
       course:
-        "border border-foreground bg-background text-foreground hover:bg-secondary hover:text-secondary-foreground rounded-xl font-libreFranklin",
+        "border border-foreground bg-background text-foreground hover:bg-secondary hover:text-secondary-foreground rounded-sm font-libreFranklin",
       module:
-        "flex flex-row justify-between rounded-md bg-primary text-primary-foreground hover:secondary-foreground",
-      slt: "px-3 py-1 flex flex-row items-center gap-10 bg-background my-3 rounded-md",
+        "flex flex-row justify-between rounded-sm bg-primary text-primary-foreground hover:secondary-foreground",
+      slt: "px-3 py-1 flex flex-row items-center gap-10 bg-background my-3 rounded-sm",
       none: "flex w-full items-center justify-between",
       roleStatus:
         "flex flex-row w-full gap-3 items-center bg-background text-foreground px-3",
       sideNav:
         "rounded-none bg-background text-foreground flex flex-row justify-between hover:bg-secondary",
       dashboard:
-        "flex flex-col items-center justify-center gap-5 bg-card shadow rounded-md",
+        "flex flex-col items-center justify-center gap-5 bg-card shadow rounded-sm",
     },
     size: {
       default: "px-5 py-3",

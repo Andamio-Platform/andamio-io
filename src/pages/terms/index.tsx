@@ -1,417 +1,210 @@
-import Link from "next/link";
-import Footer from "~/ui/landing/Footer";
-import MenuBar from "~/ui/landing/MenuBar";
+import ModernPageLayout from "~/components/layouts/ModernPageLayout";
 
-export default function TermAndConditionsPage() {
+export default function TermsAndConditionsPage() {
   return (
-    <main
-      className="items-center justify-center"
-      style={{ minHeight: "calc(100vh - 5rem)" }}
+    <ModernPageLayout
+      title="Terms of Use"
+      description="The terms and conditions governing your use of Andamio's services."
     >
-      <MenuBar />
+      <div className="prose prose-lg prose-invert max-w-none pb-20">
+        <div className="mb-8 rounded-sm border border-white/20 bg-gray-800/50 p-6 backdrop-blur-sm">
+          <p className="mb-2 text-lg text-gray-300">
+            <strong className="text-white">Version 1.0.0</strong>
+          </p>
+          <p className="text-gray-400">
+            Last updated: {new Date().toLocaleDateString()}
+          </p>
+        </div>
 
-      <div className="card z-10 mx-auto mt-24 max-w-5xl p-5 font-mono shadow-xl">
-        <h1 className="pt-5 text-4xl">Andamio Terms + Conditions</h1>
-        <p className="pb-5 text-xl text-secondary-foreground">Version 1.0.0</p>
-
-        <h2 className="pb-4 pt-8 text-2xl font-bold underline">
+        <h2 className="mb-6 border-b border-white/20 pb-3 text-2xl font-bold text-white">
           1. Introduction
         </h2>
-        <p className="py-2">
-          Welcome to Andamio, a platform that enables organizations to create
-          educational onboarding materials and manage contributions and
-          reputation. These Terms and Conditions (&quot;Terms&quot;) govern your
-          use of our services. By accessing or using Andamio, you agree to be
-          bound by these Terms. If you do not agree to these Terms, you may not
-          use the services.
+        <p className="mb-6 leading-relaxed text-gray-300">
+          Welcome to Andamio, a trust protocol for distributed work that enables
+          organizations to create educational materials, manage contributions,
+          and build trust networks. These Terms and Conditions ("Terms") govern
+          your use of our services. By accessing or using Andamio, you agree to
+          be bound by these Terms. If you do not agree to these Terms, you may
+          not use the services.
         </p>
 
-        <h2 className="pb-4 pt-8 text-2xl font-bold underline">
+        <h2 className="mb-6 border-b border-white/20 pb-3 text-2xl font-bold text-white">
           2. Company Information
         </h2>
-        <ul className="ml-5 list-disc">
-          <li className="py-1">
-            <strong>Company Name:</strong> Andamio
-          </li>
-          <li className="py-1">
-            <strong>Registered Address:</strong> 2232 Dell Range BLVD., Suite
-            245 Cheyenne, WY 82009
-          </li>
-          <li className="py-1">
-            <strong>Jurisdiction:</strong> Wyoming, USA
-          </li>
-        </ul>
+        <div className="mb-6 rounded-sm border border-white/20 bg-gray-800/50 p-4">
+          <ul className="space-y-2 text-gray-300">
+            <li>
+              <strong className="text-white">Company Name:</strong> Andamio
+            </li>
+            <li>
+              <strong className="text-white">Registered Address:</strong> 2232
+              Dell Range BLVD., Suite 245 Cheyenne, WY 82009
+            </li>
+            <li>
+              <strong className="text-white">Jurisdiction:</strong> Wyoming, USA
+            </li>
+          </ul>
+        </div>
 
-        <h2 className="pb-4 pt-8 text-2xl font-bold underline">
+        <h2 className="mb-6 border-b border-white/20 pb-3 text-2xl font-bold text-white">
           3. User Information
         </h2>
 
-        <h3 className="pb-1 pt-5 text-xl font-bold">Types of Users</h3>
-        <p className="py-2">
-          Andamio serves both organizations/companies and individual
-          learners/contributors.
-        </p>
-
-        <h3 className="pb-1 pt-5 text-xl font-bold">Age Restrictions</h3>
-        <p className="py-2">
-          Users must be 18 years or older and legally able to engage in
-          commercial transactions and agree to terms and conditions in Wyoming.
-          By using Andamio, you represent and warrant that you have the right,
-          authority, and capacity to enter into this agreement and to abide by
-          all of the Terms and Conditions.
-        </p>
-
-        <h2 className="pb-4 pt-8 text-2xl font-bold underline">
-          4. Platform Services
-        </h2>
-
-        <h3 className="pb-1 pt-5 text-xl font-bold">Services Offered</h3>
-        <ul className="ml-5 list-disc">
-          <li className="py-1">
-            Course creation and content uploading for organizations
-          </li>
-          <li className="py-1">Mastery-based certification for learners.</li>
-        </ul>
-
-        <h3 className="pb-1 pt-5 text-xl font-bold">
-          Paid Services and Subscriptions
+        <h3 className="mb-4 text-xl font-semibold text-white">
+          Types of Users
         </h3>
-        <ul className="ml-5 list-disc">
-          <li className="py-1">
-            Becoming a course creator requires contacting Andamio sales.
-          </li>
-          <li className="py-1">
-            All courses are currently free for learners. Future pricing models
-            may apply.
-          </li>
-        </ul>
-
-        <h2 className="pb-4 pt-8 text-2xl font-bold underline">
-          5. User Conduct
-        </h2>
-
-        <h3 className="pb-1 pt-5 text-xl font-bold">Rules and Guidelines</h3>
-        <ul className="ml-5 list-disc">
-          <li className="py-1">Only legal content is allowed.</li>
-          <li className="py-1">
-            Entities must verify ownership or legal rights to the content
-            posted.
-          </li>
-          <li className="py-1">
-            Andamio complies with applicable laws and removes illegal content
-            when identified.
-          </li>
-          <li className="py-1">
-            Andamio reserves the right to remove inappropriate content.
-          </li>
-        </ul>
-
-        <h3 className="pb-1 pt-5 text-xl font-bold">Prohibited Conduct</h3>
-        <p className="py-2">Users agree not to:</p>
-        <ul className="ml-5 list-disc">
-          <li className="py-1">
-            Violate any local, state, national, or international law or
-            regulation.
-          </li>
-          <li className="py-1">
-            Post or transmit any content that is illegal, harmful, threatening,
-            abusive, harassing, defamatory, vulgar, obscene, or otherwise
-            objectionable.
-          </li>
-          <li className="py-1">
-            Impersonate any person or entity, or falsely state or otherwise
-            misrepresent your affiliation with a person or entity.
-          </li>
-          <li className="py-1">
-            Engage in any activity that interferes with or disrupts the services
-            or the servers and networks that are connected to the services.
-          </li>
-        </ul>
-
-        <h3 className="pb-1 pt-5 text-xl font-bold">Actions for Violations</h3>
-        <ul className="ml-5 list-disc">
-          <li className="py-1">
-            For dangerous content (violent, obscene), Andamio may disable
-            content and/or suspend accounts.
-          </li>
-          <li className="py-1">
-            Actions range from content removal to account termination based on
-            the violation&apos;s severity.
-          </li>
-        </ul>
-
-        <h2 className="pb-4 pt-8 text-2xl font-bold underline">
-          6. Content Management
-        </h2>
-
-        <h3 className="pb-1 pt-5 text-xl font-bold">Ownership</h3>
-        <p className="py-2">
-          Content uploaded by organizations and learners is owned by the content
-          creator or client organization.
+        <p className="mb-4 text-gray-300">
+          Andamio serves multiple types of users:
         </p>
+        <ul className="mb-6 list-inside list-disc space-y-2 text-gray-300">
+          <li>
+            <strong className="text-white">Organizations:</strong> Entities that
+            create and manage educational content, onboarding materials, and
+            contributor management systems
+          </li>
+          <li>
+            <strong className="text-white">Contributors:</strong> Individuals
+            who participate in courses, complete assignments, and earn
+            credentials
+          </li>
+          <li>
+            <strong className="text-white">Developers:</strong> Users who build
+            and integrate applications using Andamio's infrastructure
+          </li>
+        </ul>
 
-        <h3 className="pb-1 pt-5 text-xl font-bold">
-          Intellectual Property Rights
+        <h3 className="mb-4 text-xl font-semibold text-white">
+          Account Registration
         </h3>
-        <p className="py-2">
-          Content creators must verify their rights to post materials. Andamio
-          claims no copyright on non-Andamio-created content.
+        <p className="mb-6 text-gray-300">
+          To use certain features of Andamio, you must register for an account.
+          You agree to provide accurate, current, and complete information and
+          to update such information as necessary to maintain its accuracy.
         </p>
 
-        <h2 className="pb-4 pt-8 text-2xl font-bold underline">
-          7. Data Privacy
+        <h2 className="mb-6 border-b border-white/20 pb-3 text-2xl font-bold text-white">
+          4. Service Description
         </h2>
-
-        <p className="py-2">
-          See{" "}
-          <span className="underline hover:text-indigo-800">
-            <Link href="/privacy-policy">Andamio Privacy Policy</Link>
-          </span>
-        </p>
-
-        <h3 className="pb-1 pt-5 text-xl font-bold">Breach Notification</h3>
-        <ul className="ml-5 list-disc">
-          <li className="py-1">
-            In case of a data breach, we will notify users and the relevant
-            authorities within 72 hours of discovering the breach.
-          </li>
-          <li className="py-1">
-            Users will be informed via email and/or platform notifications about
-            the nature of the breach and the steps taken to mitigate its
-            effects.
-          </li>
+        <p className="mb-4 text-gray-300">Andamio provides:</p>
+        <ul className="mb-6 list-inside list-disc space-y-2 text-gray-300">
+          <li>Trust protocol infrastructure for distributed work</li>
+          <li>Decentralized access control and credential issuance</li>
+          <li>Contributor onboarding and treasury management tools</li>
+          <li>Educational content creation and management platforms</li>
+          <li>Blockchain-based credential verification</li>
         </ul>
 
-        <h2 className="pb-4 pt-8 text-2xl font-bold underline">
-          8. Liability and Disclaimers
+        <h2 className="mb-6 border-b border-white/20 pb-3 text-2xl font-bold text-white">
+          5. Acceptable Use
         </h2>
 
-        <h3 className="pb-1 pt-5 text-xl font-bold">Content Accuracy</h3>
-        <p className="py-2">
-          Andamio is not responsible for content accuracy. Content creators must
-          vouch for their rights to the data they post.
-        </p>
-
-        <h3 className="pb-1 pt-5 text-xl font-bold">Limitation of Liability</h3>
-        <p className="py-2">
-          To the fullest extent permitted by law, Andamio disclaims all
-          warranties, express or implied, including, but not limited to, implied
-          warranties of merchantability and fitness for a particular purpose.
-          Andamio does not warrant that the services will be uninterrupted or
-          error-free.
-        </p>
-        <p className="py-2">
-          Andamio shall not be liable for any indirect, incidental, special,
-          consequential, or punitive damages, or any loss of profits or
-          revenues, whether incurred directly or indirectly, or any loss of
-          data, use, goodwill, or other intangible losses resulting from (a)
-          your use or inability to use the services; (b) any unauthorized access
-          to or use of our services and/or any personal information stored
-          therein; (c) any interruption or cessation of transmission to or from
-          our services; (d) any bugs, viruses, trojan horses, or the like that
-          may be transmitted to or through our services by any third party; (e)
-          any errors or omissions in any content or for any loss or damage
-          incurred as a result of the use of any content posted, emailed,
-          transmitted, or otherwise made available through the services; and/or
-          (f) the defamatory, offensive, or illegal conduct of any third party.
-          In no event shall Andamio&apos;s aggregate liability for all claims
-          relating to the services exceed the greater of one hundred U.S.
-          dollars (U.S. $100.00) or the amount you paid Andamio, if any, in the
-          last 12 months.
-        </p>
-
-        <h2 className="pb-4 pt-8 text-2xl font-bold underline">
-          9. Termination of Service
-        </h2>
-
-        <h3 className="pb-1 pt-5 text-xl font-bold">Termination by Andamio</h3>
-        <ul className="ml-5 list-disc">
-          <li className="py-1">
-            Access can be terminated at any time without cause.
-          </li>
-          <li className="py-1">Accounts violating terms will be terminated.</li>
-          <li className="py-1">
-            Legal authority requests for termination will be honored.
-          </li>
-        </ul>
-
-        <h3 className="pb-1 pt-5 text-xl font-bold">
-          User-Requested Termination
+        <h3 className="mb-4 text-xl font-semibold text-white">
+          Permitted Uses
         </h3>
-        <ul className="ml-5 list-disc">
-          <li className="py-1">
-            Users can terminate accounts through a provided mechanism. Data will
-            be deleted within 90 days, except for on-chain data, which cannot be
-            removed.
-          </li>
-          <li className="py-1">
-            Deleting an account is permanent and unrecoverable.
-          </li>
+        <p className="mb-4 text-gray-300">You may use Andamio for:</p>
+        <ul className="mb-6 list-inside list-disc space-y-2 text-gray-300">
+          <li>Creating and managing educational content</li>
+          <li>Participating in courses and earning credentials</li>
+          <li>Building trust networks for distributed work</li>
+          <li>Managing contributions and treasury allocation</li>
         </ul>
 
-        <h2 className="pb-4 pt-8 text-2xl font-bold underline">
-          10. Dispute Resolution
-        </h2>
-
-        <h3 className="pb-1 pt-5 text-xl font-bold">Method</h3>
-        <p className="py-2">Preferred method: Mediation.</p>
-
-        <h3 className="pb-1 pt-5 text-xl font-bold">Jurisdiction</h3>
-        <p className="py-2">Disputes resolved under Wyoming, USA law.</p>
-
-        <h2 className="pb-4 pt-8 text-2xl font-bold underline">
-          11. Updates to Terms and Conditions
-        </h2>
-
-        <h3 className="pb-1 pt-5 text-xl font-bold">Notification</h3>
-        <ul className="ml-5 list-disc">
-          <li className="py-1">
-            Users will be notified via email and prompted to re-agree to updated
-            Terms on the next platform access.
-          </li>
-          <li className="py-1">
-            The latest T&C will be posted on our community Discord and website.
-          </li>
+        <h3 className="mb-4 text-xl font-semibold text-white">
+          Prohibited Uses
+        </h3>
+        <p className="mb-4 text-gray-300">You may not use Andamio to:</p>
+        <ul className="mb-6 list-inside list-disc space-y-2 text-gray-300">
+          <li>Violate any applicable laws or regulations</li>
+          <li>Infringe on intellectual property rights</li>
+          <li>Distribute malicious software or content</li>
+          <li>Impersonate others or provide false information</li>
+          <li>Interfere with the security or operation of the platform</li>
         </ul>
 
-        <h2 className="pb-4 pt-8 text-2xl font-bold underline">
-          12. Content Removal Process
+        <h2 className="mb-6 border-b border-white/20 pb-3 text-2xl font-bold text-white">
+          6. Intellectual Property
         </h2>
+        <p className="mb-6 text-gray-300">
+          The Andamio platform and its original content, features, and
+          functionality are owned by Andamio and are protected by intellectual
+          property laws. Users retain ownership of content they create, while
+          granting Andamio necessary licenses to operate the platform.
+        </p>
 
-        <h3 className="pb-1 pt-5 text-xl font-bold">Reporting Violations</h3>
-        <ul className="ml-5 list-disc">
-          <li className="py-1">
-            Users can report violations via Discord channels or support email.
+        <h2 className="mb-6 border-b border-white/20 pb-3 text-2xl font-bold text-white">
+          7. Blockchain and Cryptocurrency
+        </h2>
+        <p className="mb-4 text-gray-300">
+          Andamio utilizes blockchain technology for credential verification and
+          trust protocols. Users acknowledge:
+        </p>
+        <ul className="mb-6 list-inside list-disc space-y-2 text-gray-300">
+          <li>Blockchain transactions are irreversible</li>
+          <li>Credential data recorded on-chain is permanent and public</li>
+          <li>
+            Users are responsible for managing their own cryptographic keys
           </li>
-          <li className="py-1">
-            Andamio will notify content creators of violations and provide 30
-            days for correction. Dangerous/illegal content will be removed
-            immediately.
-          </li>
+          <li>Network fees may apply to blockchain transactions</li>
         </ul>
 
-        <h2 className="pb-4 pt-8 text-2xl font-bold underline">
-          13. Content Review
+        <h2 className="mb-6 border-b border-white/20 pb-3 text-2xl font-bold text-white">
+          8. Limitation of Liability
         </h2>
-
-        <h3 className="pb-1 pt-5 text-xl font-bold">Review Policy</h3>
-        <p className="py-2">
-          Andamio does not actively monitor content but reserves the right to
-          remove inappropriate or illegal content.
+        <p className="mb-6 text-gray-300">
+          To the fullest extent permitted by law, Andamio shall not be liable
+          for any indirect, incidental, special, consequential, or punitive
+          damages, including without limitation, loss of profits, data, use,
+          goodwill, or other intangible losses.
         </p>
 
-        <h2 className="pb-4 pt-8 text-2xl font-bold underline">
-          14. Contributor Roles
+        <h2 className="mb-6 border-b border-white/20 pb-3 text-2xl font-bold text-white">
+          9. Termination
         </h2>
-
-        <h3 className="pb-1 pt-5 text-xl font-bold">Role Differentiation</h3>
-        <p className="py-2">
-          Different permissions for contributors, course creators, and
-          contribution managers.
-        </p>
-        <ul className="ml-5 list-disc">
-          <li className="py-1">
-            <strong>Current Roles:</strong>
-          </li>
-          <ul className="ml-5 list-disc">
-            <li className="py-1">
-              Course Platform: Learner, Course Creator, Course Facilitator.
-            </li>
-            <li className="py-1">
-              Contributor Platform: Contributor, Treasury Admin, Reviewer.
-            </li>
-          </ul>
-        </ul>
-
-        <h2 className="pb-4 pt-8 text-2xl font-bold underline">
-          15. Data Retention
-        </h2>
-
-        <h3 className="pb-1 pt-5 text-xl font-bold">Retention Period</h3>
-        <p className="py-2">
-          User data is retained for 5 years. Inactive account data is deleted
-          after 5 years unless requested for earlier deletion.
+        <p className="mb-6 text-gray-300">
+          We may terminate or suspend your account and access to the service
+          immediately, without prior notice, for any reason, including but not
+          limited to a breach of these Terms. Upon termination, your right to
+          use the service will cease immediately.
         </p>
 
-        <h2 className="pb-4 pt-8 text-2xl font-bold underline">
-          16. Data Deletion
+        <h2 className="mb-6 border-b border-white/20 pb-3 text-2xl font-bold text-white">
+          10. Governing Law
         </h2>
-
-        <h3 className="pb-1 pt-5 text-xl font-bold">Deletion Process</h3>
-        <ul className="ml-5 list-disc">
-          <li className="py-1">On-chain data cannot be deleted.</li>
-          <li className="py-1">
-            Off-chain data will be deleted within 90 days of user request per
-            GDPR and CCPA guidelines.
-          </li>
-        </ul>
-
-        <h2 className="pb-4 pt-8 text-2xl font-bold underline">
-          17. Third-party Services
-        </h2>
-
-        <h3 className="pb-1 pt-5 text-xl font-bold">Integration</h3>
-        <ul className="ml-5 list-disc">
-          <li className="py-1">
-            Andamio may use third-party services (e.g., payment processors and
-            KYC providers). Users are subject to their terms.
-          </li>
-          <li className="py-1">
-            Andamio is not responsible for the privacy practices or the content
-            of third-party services.
-          </li>
-        </ul>
-
-        <h2 className="pb-4 pt-8 text-2xl font-bold underline">
-          18. User Support
-        </h2>
-
-        <h3 className="pb-1 pt-5 text-xl font-bold">Support Channels</h3>
-        <p className="py-2">
-          Support is available via Discord server and support email.
+        <p className="mb-6 text-gray-300">
+          These Terms shall be interpreted and governed by the laws of the State
+          of Wyoming, United States, without regard to its conflict of law
+          provisions.
         </p>
 
-        <h2 className="pb-4 pt-8 text-2xl font-bold underline">
-          19. Payment and Refund Policies
+        <h2 className="mb-6 border-b border-white/20 pb-3 text-2xl font-bold text-white">
+          11. Changes to Terms
         </h2>
-
-        <h3 className="pb-1 pt-5 text-xl font-bold">Future Policies</h3>
-        <ul className="ml-5 list-disc">
-          <li className="py-1">
-            Subscription cancellations are effective at the billing cycle end.
-            No partial refunds for fees already paid.
-          </li>
-          <li className="py-1">
-            Payments are non-refundable unless otherwise required by law.
-          </li>
-        </ul>
-
-        <h2 className="pb-4 pt-8 text-2xl font-bold underline">
-          20. Marketing and Communications
-        </h2>
-
-        <h3 className="pb-1 pt-5 text-xl font-bold">Communication Opt-out</h3>
-        <p className="py-2">
-          Users may opt out of marketing communications. However, they cannot
-          opt out of the system and transactional messages while maintaining an
-          account.
+        <p className="mb-6 text-gray-300">
+          We reserve the right to modify these Terms at any time. We will notify
+          users of any material changes by posting the new Terms on this page
+          and updating the "Last updated" date. Your continued use of the
+          service after any such changes constitutes your acceptance of the new
+          Terms.
         </p>
 
-        <h2 className="pb-4 pt-8 text-2xl font-bold underline">
-          21. Governing Law
+        <h2 className="mb-6 border-b border-white/20 pb-3 text-2xl font-bold text-white">
+          12. Contact Information
         </h2>
-
-        <h3 className="pb-1 pt-5 text-xl font-bold">Agreement Governing Law</h3>
-        <p className="py-2">
-          The agreement is governed by the laws of Wyoming, USA.
+        <p className="mb-4 text-gray-300">
+          If you have any questions about these Terms, please contact us at:
         </p>
-        <p className="py-2">
-          Any legal actions or proceedings related to or arising out of these
-          Terms shall be brought exclusively in the courts located in Wyoming,
-          USA.
-        </p>
+        <div className="rounded-sm border border-white/20 bg-gray-800/50 p-4">
+          <p className="text-gray-300">
+            <strong className="text-white">Email:</strong>{" "}
+            <a
+              href="mailto:legal@andamio.io"
+              className="text-blue-400 hover:text-blue-300"
+            >
+              legal@andamio.io
+            </a>
+          </p>
+        </div>
       </div>
-      <Footer />
-    </main>
+    </ModernPageLayout>
   );
 }

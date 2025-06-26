@@ -18,16 +18,19 @@ const config = {
       },
     },
     fontFamily: {
-      sans: ["LibreFranklin", "ui-sans-serif", "system-ui"],
+      sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
       mono: ["Inconsolata", "ui-monospace"],
       serif: ["ui-serif"],
       beckman: ["Beckman", "ui-sans-serif", "system-ui"],
       workSans: ["WorkSans"],
       libreFranklin: ["LibreFranklin"],
-      // add montserrat font
       montserrat: ["Montserrat", "sans-serif"],
+      inter: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
     },
     extend: {
+      gridTemplateColumns: {
+        '16': 'repeat(16, minmax(0, 1fr))',
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

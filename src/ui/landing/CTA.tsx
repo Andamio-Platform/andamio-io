@@ -29,7 +29,7 @@ export default function CTA() {
         </p>
         <div className="mt-10 flex items-center justify-center gap-x-6">
           <Link href={`/auth/signin`}>
-            <span className="rounded-md bg-primary px-3.5 py-2.5 text-sm font-semibold text-foreground shadow-sm hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+            <span className="rounded-sm bg-primary px-3.5 py-2.5 text-sm font-semibold text-foreground shadow-sm hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
               Get in touch
             </span>
           </Link>

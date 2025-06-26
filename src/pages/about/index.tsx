@@ -1,91 +1,192 @@
 import { Card } from "~/components/ui/card";
-import MenuBar from "~/ui/landing/MenuBar";
+import ModernPageLayout from "~/components/layouts/ModernPageLayout";
 import Link from "next/link";
 
 export default function AboutPage() {
   return (
-    <>
-      <VideoBackground>
-        <MenuBar />
-        <main className="px-6 py-16 lg:px-24">
-          <section className="relative mx-auto w-full max-w-7xl">
-            <h1 className="text-center text-5xl font-black uppercase text-primary sm:text-6xl md:text-7xl">
-              About Andamio
-            </h1>
-            <p className="mx-auto mt-4 max-w-4xl text-center text-lg font-light text-muted-foreground">
-              Learn about Andamio’s vision, team, and technology, and explore
-              how we’re transforming the future of collaboration and learning.
-            </p>
+    <ModernPageLayout
+      title="About Andamio"
+      description="Learn about Andamio's vision, team, and technology, and explore how we're transforming the future of collaboration and learning."
+      currentPage="about"
+    >
+      <div className="pb-20">
+        {/* Main Content */}
+        <div className="relative mb-16">
+          <p className="mb-12 text-lg leading-relaxed text-gray-300">
+            Andamio is a{" "}
+            <strong className="text-white">
+              Trust Protocol for Distributed Work
+            </strong>{" "}
+            that provides infrastructure for decentralized access control,
+            credential issuance, contributor onboarding, and treasury
+            management. We believe in enabling local participation that opens
+            global opportunity.
+          </p>
 
-            {/* Navigation Section */}
-            <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {/* Whitepaper Card */}
-              <Link href="/about/whitepaper" legacyBehavior>
-                <Card className="flex flex-col items-start p-6 shadow-lg transition-transform hover:scale-105 hover:shadow-xl">
-                  <h3 className="text-xl font-bold text-primary">
+          {/* Mission Statement */}
+          <div className="mb-16 rounded-sm border border-white/20 bg-gray-800/50 p-8 backdrop-blur-sm">
+            <h2 className="mb-4 text-2xl font-bold text-white">Our Mission</h2>
+            <p className="text-lg text-gray-300">
+              To create trust networks that enable purpose-driven, collaborative
+              work by providing the tools and infrastructure needed for
+              distributed organizations to thrive.
+            </p>
+          </div>
+        </div>
+
+        {/* Navigation Cards */}
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {/* Whitepaper Card */}
+          <Link href="/about/whitepaper">
+            <Card className="group relative overflow-hidden border border-white/20 bg-gray-800/50 shadow-xl backdrop-blur-sm transition-all duration-300 hover:border-white/40 hover:shadow-2xl">
+              <div className="p-6">
+                <div className="mb-4">
+                  <div className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-sm border border-blue-500/30 bg-blue-600/20">
+                    <svg
+                      className="h-6 w-6 text-blue-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                      />
+                    </svg>
+                  </div>
+                  <h3 className="text-xl font-bold text-white transition-colors duration-200 group-hover:text-blue-300">
                     Andamio Whitepaper
                   </h3>
-                  <p className="mt-2 text-sm font-light text-foreground">
-                    Dive into our whitepaper to explore the foundations of
-                    Andamio’s learning and contribution platform.
-                  </p>
-                  <span className="mt-4 cursor-pointer text-sm font-medium text-primary hover:underline">
-                    Read More →
-                  </span>
-                </Card>
-              </Link>
+                </div>
+                <p className="mb-4 text-gray-300">
+                  Dive into our whitepaper to explore the foundations of
+                  Andamio's trust protocol and distributed work platform.
+                </p>
+                <div className="flex items-center gap-2 text-blue-400 transition-colors duration-200 group-hover:text-blue-300">
+                  <span className="text-sm font-medium">Read More</span>
+                  <svg
+                    className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </Card>
+          </Link>
 
-              {/* Our Team Card */}
-              <Link href="/about/our-team" legacyBehavior>
-                <Card className="flex flex-col items-start p-6 shadow-lg transition-transform hover:scale-105 hover:shadow-xl">
-                  <h3 className="text-xl font-bold text-primary">Our Team</h3>
-                  <p className="mt-2 text-sm font-light text-foreground">
-                    Meet the people driving Andamio’s vision, from product
-                    developers to blockchain experts.
-                  </p>
-                  <span className="mt-4 cursor-pointer text-sm font-medium text-primary hover:underline">
-                    Meet the Team →
-                  </span>
-                </Card>
-              </Link>
+          {/* Our Team Card */}
+          <Link href="/about/our-team">
+            <Card className="group relative overflow-hidden border border-white/20 bg-gray-800/50 shadow-xl backdrop-blur-sm transition-all duration-300 hover:border-white/40 hover:shadow-2xl">
+              <div className="p-6">
+                <div className="mb-4">
+                  <div className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-sm border border-green-500/30 bg-green-600/20">
+                    <svg
+                      className="h-6 w-6 text-green-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"
+                      />
+                    </svg>
+                  </div>
+                  <h3 className="text-xl font-bold text-white transition-colors duration-200 group-hover:text-green-300">
+                    Our Team
+                  </h3>
+                </div>
+                <p className="mb-4 text-gray-300">
+                  Meet the people driving Andamio's vision, from product
+                  developers to blockchain experts and community builders.
+                </p>
+                <div className="flex items-center gap-2 text-green-400 transition-colors duration-200 group-hover:text-green-300">
+                  <span className="text-sm font-medium">Meet the Team</span>
+                  <svg
+                    className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </Card>
+          </Link>
 
-              {/* Our Technology Card */}
-              <Link href="/about/our-technology" legacyBehavior>
-                <Card className="flex flex-col items-start p-6 shadow-lg transition-transform hover:scale-105 hover:shadow-xl">
-                  <h3 className="text-xl font-bold text-primary">
+          {/* Our Technology Card */}
+          <Link href="/about/our-technology">
+            <Card className="group relative overflow-hidden border border-white/20 bg-gray-800/50 shadow-xl backdrop-blur-sm transition-all duration-300 hover:border-white/40 hover:shadow-2xl">
+              <div className="p-6">
+                <div className="mb-4">
+                  <div className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-sm border border-purple-500/30 bg-purple-600/20">
+                    <svg
+                      className="h-6 w-6 text-purple-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
+                    </svg>
+                  </div>
+                  <h3 className="text-xl font-bold text-white transition-colors duration-200 group-hover:text-purple-300">
                     Our Technology
                   </h3>
-                  <p className="mt-2 text-sm font-light text-foreground">
-                    Discover how Andamio leverages blockchain and innovative
-                    tools to revolutionize contribution management.
-                  </p>
-                  <span className="mt-4 cursor-pointer text-sm font-medium text-primary hover:underline">
-                    Learn More →
-                  </span>
-                </Card>
-              </Link>
-            </div>
-          </section>
-        </main>
-      </VideoBackground>
-    </>
+                </div>
+                <p className="mb-4 text-gray-300">
+                  Discover how Andamio leverages blockchain and innovative tools
+                  to revolutionize trust and contribution management.
+                </p>
+                <div className="flex items-center gap-2 text-purple-400 transition-colors duration-200 group-hover:text-purple-300">
+                  <span className="text-sm font-medium">Learn More</span>
+                  <svg
+                    className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </Card>
+          </Link>
+        </div>
+      </div>
+    </ModernPageLayout>
   );
 }
-
-const VideoBackground = ({ children }: { children: React.ReactNode }) => (
-  <div className="relative min-h-screen">
-    <div className="fixed left-0 top-0 h-full w-full overflow-hidden opacity-70">
-      <video
-        className="min-h-screen min-w-full object-cover"
-        autoPlay
-        muted
-        loop
-        playsInline
-      >
-        <source src="/video/bg-video-002.webm" type="video/webm" />
-        Your browser does not support the video tag.
-      </video>
-    </div>
-    <div className="relative z-10">{children}</div>
-  </div>
-);

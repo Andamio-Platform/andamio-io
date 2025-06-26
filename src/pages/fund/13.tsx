@@ -211,7 +211,7 @@ const FundProposals: React.FC = () => {
 
             {/* Benefits Section */}
             <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              <Card className="flex flex-col items-center space-y-4 rounded-lg bg-white p-6 shadow-md">
+              <Card className="flex flex-col items-center space-y-4 rounded-sm bg-white p-6 shadow-md">
                 <CardIcon>
                   <BriefcaseIcon className="h-12 w-12 text-secondary" />
                 </CardIcon>
@@ -227,7 +227,7 @@ const FundProposals: React.FC = () => {
                   </p>
                 </CardContent>
               </Card>
-              <Card className="flex flex-col items-center space-y-4 rounded-lg bg-white p-6 shadow-md">
+              <Card className="flex flex-col items-center space-y-4 rounded-sm bg-white p-6 shadow-md">
                 <CardIcon>
                   <DocumentTextIcon className="h-12 w-12 text-secondary" />
                 </CardIcon>
@@ -243,7 +243,7 @@ const FundProposals: React.FC = () => {
                   </p>
                 </CardContent>
               </Card>
-              <Card className="flex flex-col items-center space-y-4 rounded-lg bg-white p-6 shadow-md">
+              <Card className="flex flex-col items-center space-y-4 rounded-sm bg-white p-6 shadow-md">
                 <CardIcon>
                   <ShieldCheckIcon className="h-12 w-12 text-secondary" />
                 </CardIcon>
@@ -274,18 +274,19 @@ type ProposalCardProps = {
 };
 
 const ProposalCard: React.FC<ProposalCardProps> = ({ proposal }) => (
-  <Card className="flex flex-col justify-start rounded-lg bg-white p-6 shadow-md transition-shadow duration-300 hover:shadow-lg">
+  <Card className="flex flex-col justify-start rounded-sm bg-white p-6 shadow-md transition-shadow duration-300 hover:shadow-lg">
     <CardHeader>
       <CardTitle className="text-xl font-semibold text-primary">
         {proposal.title}
       </CardTitle>
       <Badge
-        className={`${proposal.status === "completed"
-          ? "bg-green-200 text-green-800"
-          : proposal.status === "in progress"
-            ? "bg-yellow-200 text-yellow-800"
-            : "bg-blue-200 text-blue-800"
-          } rounded px-3 py-1 text-xs font-semibold`}
+        className={`${
+          proposal.status === "completed"
+            ? "bg-green-200 text-green-800"
+            : proposal.status === "in progress"
+              ? "bg-yellow-200 text-yellow-800"
+              : "bg-blue-200 text-blue-800"
+        } rounded-sm px-3 py-1 text-xs font-semibold`}
       >
         {proposal.status}
       </Badge>
@@ -450,10 +451,12 @@ const proposals: Proposal[] = [
   },
   {
     title: "Andamio+Identus+Mātou: Identity for Education & Economic Impact",
-    summary: "A decentralised system where learners earn tokenised credentials through DIDs & VCs, allowing skills accumulation, credential sharing & recognition enabling seamless transition from education to work.",
+    summary:
+      "A decentralised system where learners earn tokenised credentials through DIDs & VCs, allowing skills accumulation, credential sharing & recognition enabling seamless transition from education to work.",
     deliverables: [
       {
-        description: "Provide a decentralised identity system for learners and communities",
+        description:
+          "Provide a decentralised identity system for learners and communities",
         completed: false,
       },
       {
@@ -476,7 +479,8 @@ const proposals: Proposal[] = [
         completed: false,
       },
       {
-        description: "Create systems that support contributors to become decision-makers",
+        description:
+          "Create systems that support contributors to become decision-makers",
         completed: false,
       },
     ],

@@ -11,7 +11,7 @@ export function ToggleTextBox({ ...props }) {
         backgroundColor: isToggled ? "#ff6347" : "#4682b4",
       }}
       transition={{ duration: 0.5 }}
-      className="rounded-md p-2"
+      className="rounded-sm p-2"
     >
       {props.children}
     </motion.div>

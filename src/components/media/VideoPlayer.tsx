@@ -14,13 +14,13 @@ export default function VideoPlayer({ videoId }: { videoId: string }) {
   // };
 
   return (
-    // <div className="h-auto w-full max-w-full rounded-lg border border-gray-200 dark:border-gray-700">
+    // <div className="h-auto w-full max-w-full rounded-sm border border-gray-200 dark:border-gray-700">
     <YouTube
       videoId={_videoId} // defaults -> ''
       // id={string}                       // defaults -> ''
       // className={'w-full'}                // defaults -> ''
       iframeClassName={
-        "aspect-video h-auto w-full max-w-full rounded-lg border border-gray-200 dark:border-gray-700 shadow-md"
+        "aspect-video h-auto w-full max-w-full rounded-sm border border-gray-200 dark:border-gray-700 shadow-md"
       } // defaults -> ''
       // style={object}                    // defaults -> {}
       // title={string}                    // defaults -> ''

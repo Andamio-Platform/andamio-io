@@ -81,7 +81,7 @@ const AndamioComponent = () => {
         <div className="flex w-full flex-col items-center justify-between gap-4   py-6 md:flex-row">
           {/* Vote Button */}
           <Link href="https://projectcatalyst.io/search?q=andamio">
-            <Button className="rounded bg-primary px-12 py-4 text-lg font-bold uppercase text-white shadow-primary transition-all duration-300 hover:bg-opacity-90">
+            <Button className="rounded-sm bg-primary px-12 py-4 text-lg font-bold uppercase text-white shadow-primary transition-all duration-300 hover:bg-opacity-90">
               Vote for Andamio in Fund 13
             </Button>
           </Link>

@@ -26,80 +26,81 @@ export const CourseCardHoverEffect = ({
   };
 
   return (
-
-        <Link
-          href={course.link}
-          key={course.link}
-          className="group relative  block h-full w-full p-2"
-          onMouseEnter={() => setHoveredIndex(idx)}
-          onMouseLeave={() => setHoveredIndex(null)}
-        >
-          <AnimatePresence>
-            {hoveredIndex === idx && (
-              // <motion.span
-              //   className="absolute inset-0 h-full w-full bg-secondary-foreground dark:bg-slate-800/[0.8] block  rounded-3xl"
-              //   layoutId="hoverBackground"
-              //   initial={{ opacity: 0 }}
-              //   animate={{
-              //     opacity: 1,
-              //     transition: { duration: 0.15 },
-              //   }}
-              //   exit={{
-              //     opacity: 0,
-              //     transition: { duration: 0.15, delay: 0.2 },
-              //   }}
-              // />
-              <>
-                <motion.div
-                  variants={animate ? variants : undefined}
-                  initial={animate ? "initial" : undefined}
-                  animate={animate ? "animate" : undefined}
-                  transition={
-                    animate
-                      ? {
-                          duration: 5,
-                          repeat: Infinity,
-                          repeatType: "reverse",
-                        }
-                      : undefined
-                  }
-                  style={{
-                    backgroundSize: animate ? "400% 400%" : undefined,
-                  }}
-                  className={cn(
-                    "absolute inset-0 z-[1] rounded-3xl opacity-60 blur-xl transition  duration-500 group-hover:opacity-100",
-                    " bg-[radial-gradient(circle_farthest-side_at_0_100%,#00ccb1,transparent),radial-gradient(circle_farthest-side_at_100%_0,#7b61ff,transparent),radial-gradient(circle_farthest-side_at_100%_100%,#ffc414,transparent),radial-gradient(circle_farthest-side_at_0_0,#1ca0fb,#141316)]",
-                  )}
-                />
-                <motion.div
-                  variants={animate ? variants : undefined}
-                  initial={animate ? "initial" : undefined}
-                  animate={animate ? "animate" : undefined}
-                  transition={
-                    animate
-                      ? {
-                          duration: 5,
-                          repeat: Infinity,
-                          repeatType: "reverse",
-                        }
-                      : undefined
-                  }
-                  style={{
-                    backgroundSize: animate ? "400% 400%" : undefined,
-                  }}
-                  className={cn(
-                    "absolute inset-0 z-[1] rounded-3xl",
-                    "bg-[radial-gradient(circle_farthest-side_at_0_100%,#00ccb1,transparent),radial-gradient(circle_farthest-side_at_100%_0,#7b61ff,transparent),radial-gradient(circle_farthest-side_at_100%_100%,#ffc414,transparent),radial-gradient(circle_farthest-side_at_0_0,#1ca0fb,#141316)]",
-                  )}
-                />
-              </>
-            )}
-          </AnimatePresence>
-          <Card>
-            <CardTitle>{course.title}</CardTitle>
-            <CardDescription><span className="truncate">{course.description}</span></CardDescription>
-          </Card>
-        </Link>
+    <Link
+      href={course.link}
+      key={course.link}
+      className="group relative  block h-full w-full p-2"
+      onMouseEnter={() => setHoveredIndex(idx)}
+      onMouseLeave={() => setHoveredIndex(null)}
+    >
+      <AnimatePresence>
+        {hoveredIndex === idx && (
+          // <motion.span
+          //   className="absolute inset-0 h-full w-full bg-secondary-foreground dark:bg-slate-800/[0.8] block  rounded-3xl"
+          //   layoutId="hoverBackground"
+          //   initial={{ opacity: 0 }}
+          //   animate={{
+          //     opacity: 1,
+          //     transition: { duration: 0.15 },
+          //   }}
+          //   exit={{
+          //     opacity: 0,
+          //     transition: { duration: 0.15, delay: 0.2 },
+          //   }}
+          // />
+          <>
+            <motion.div
+              variants={animate ? variants : undefined}
+              initial={animate ? "initial" : undefined}
+              animate={animate ? "animate" : undefined}
+              transition={
+                animate
+                  ? {
+                      duration: 5,
+                      repeat: Infinity,
+                      repeatType: "reverse",
+                    }
+                  : undefined
+              }
+              style={{
+                backgroundSize: animate ? "400% 400%" : undefined,
+              }}
+              className={cn(
+                "absolute inset-0 z-[1] rounded-3xl opacity-60 blur-xl transition  duration-500 group-hover:opacity-100",
+                " bg-[radial-gradient(circle_farthest-side_at_0_100%,#00ccb1,transparent),radial-gradient(circle_farthest-side_at_100%_0,#7b61ff,transparent),radial-gradient(circle_farthest-side_at_100%_100%,#ffc414,transparent),radial-gradient(circle_farthest-side_at_0_0,#1ca0fb,#141316)]",
+              )}
+            />
+            <motion.div
+              variants={animate ? variants : undefined}
+              initial={animate ? "initial" : undefined}
+              animate={animate ? "animate" : undefined}
+              transition={
+                animate
+                  ? {
+                      duration: 5,
+                      repeat: Infinity,
+                      repeatType: "reverse",
+                    }
+                  : undefined
+              }
+              style={{
+                backgroundSize: animate ? "400% 400%" : undefined,
+              }}
+              className={cn(
+                "absolute inset-0 z-[1] rounded-3xl",
+                "bg-[radial-gradient(circle_farthest-side_at_0_100%,#00ccb1,transparent),radial-gradient(circle_farthest-side_at_100%_0,#7b61ff,transparent),radial-gradient(circle_farthest-side_at_100%_100%,#ffc414,transparent),radial-gradient(circle_farthest-side_at_0_0,#1ca0fb,#141316)]",
+              )}
+            />
+          </>
+        )}
+      </AnimatePresence>
+      <Card>
+        <CardTitle>{course.title}</CardTitle>
+        <CardDescription>
+          <span className="truncate">{course.description}</span>
+        </CardDescription>
+      </Card>
+    </Link>
   );
 };
 
@@ -113,7 +114,7 @@ export const Card = ({
   return (
     <div
       className={cn(
-        "relative z-20 h-full w-full overflow-hidden rounded-2xl border border-transparent bg-primary p-4 group-hover:border-slate-700 dark:borderbackground",
+        "dark:borderbackground relative z-20 h-full w-full overflow-hidden rounded-2xl border border-transparent bg-primary p-4 group-hover:border-slate-700",
         className,
       )}
     >
@@ -171,17 +172,17 @@ export const BentoGridItem = ({
   return (
     <div
       className={cn(
-        "row-span-1 rounded-xl group/bento hover:shadow-xl transition duration-200 shadow-input dark:shadow-none p-4 dark:bg-primary dark:borderbackground bg-primary border border-transparent justify-between flex flex-col space-y-4",
-        className
+        "group/bento dark:borderbackground row-span-1 flex flex-col justify-between space-y-4 rounded-sm border border-transparent bg-primary p-4 shadow-input transition duration-200 hover:shadow-xl dark:bg-primary dark:shadow-none",
+        className,
       )}
     >
       {header}
-      <div className="group-hover/bento:translate-x-2 transition duration-200">
+      <div className="transition duration-200 group-hover/bento:translate-x-2">
         {icon}
-        <div className="font-sans font-bold text-neutral-600 dark:text-neutral-200 mb-2 mt-2">
+        <div className="mb-2 mt-2 font-sans font-bold text-neutral-600 dark:text-neutral-200">
           {title}
         </div>
-        <div className="font-sans font-normal text-neutral-600 text-xs dark:text-neutral-300">
+        <div className="font-sans text-xs font-normal text-neutral-600 dark:text-neutral-300">
           {description}
         </div>
       </div>

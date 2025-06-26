@@ -29,7 +29,7 @@ export function RealWorldUseCases() {
         {/* Use Cases Grid */}
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {/* Use Case 1: Catalyst Reviewers */}
-          <Card className="flex flex-col items-center rounded-lg bg-white p-6 text-center shadow-lg transition-transform duration-300 hover:scale-105">
+          <Card className="flex flex-col items-center rounded-sm bg-white p-6 text-center shadow-lg transition-transform duration-300 hover:scale-105">
             <CardIcon>
               <ClipboardDocumentCheckIcon
                 className="h-16 w-16 text-secondary"
@@ -47,7 +47,7 @@ export function RealWorldUseCases() {
             </CardContent>
             <CardFooter>
               <Link href="/use-cases/DecentralizedInnovation" target="_blank">
-                <Button className="text-md mt-4 rounded bg-primary px-6 py-2 font-montserrat font-semibold uppercase text-white transition-all duration-300 hover:border-2 hover:border-primary hover:bg-white hover:text-primary">
+                <Button className="text-md mt-4 rounded-sm bg-primary px-6 py-2 font-montserrat font-semibold uppercase text-white transition-all duration-300 hover:border-2 hover:border-primary hover:bg-white hover:text-primary">
                   Learn More
                 </Button>
               </Link>
@@ -55,7 +55,7 @@ export function RealWorldUseCases() {
           </Card>
 
           {/* Use Case 2: LeadgenDAO */}
-          <Card className="flex flex-col items-center rounded-lg bg-white p-6 text-center shadow-lg transition-transform duration-300 hover:scale-105">
+          <Card className="flex flex-col items-center rounded-sm bg-white p-6 text-center shadow-lg transition-transform duration-300 hover:scale-105">
             <CardIcon>
               <BriefcaseIcon
                 className="h-16 w-16 text-secondary"
@@ -73,7 +73,7 @@ export function RealWorldUseCases() {
             </CardContent>
             <CardFooter>
               <Link href="/use-cases/LeadGenerator" target="_blank">
-                <Button className="text-md mt-4 rounded bg-primary px-6 py-2 font-montserrat font-semibold uppercase text-white transition-all duration-300 hover:border-2 hover:border-primary hover:bg-white hover:text-primary">
+                <Button className="text-md mt-4 rounded-sm bg-primary px-6 py-2 font-montserrat font-semibold uppercase text-white transition-all duration-300 hover:border-2 hover:border-primary hover:bg-white hover:text-primary">
                   Learn More
                 </Button>
               </Link>
@@ -81,7 +81,7 @@ export function RealWorldUseCases() {
           </Card>
 
           {/* Use Case 3: Fan Engagement */}
-          <Card className="flex flex-col items-center rounded-lg bg-white p-6 text-center shadow-lg transition-transform duration-300 hover:scale-105">
+          <Card className="flex flex-col items-center rounded-sm bg-white p-6 text-center shadow-lg transition-transform duration-300 hover:scale-105">
             <CardIcon>
               <SpeakerWaveIcon
                 className="h-16 w-16 text-secondary"
@@ -99,7 +99,7 @@ export function RealWorldUseCases() {
             </CardContent>
             <CardFooter>
               <Link href="/use-cases/FanEngagement" target="_blank">
-                <Button className="text-md mt-4 rounded bg-primary px-6 py-2 font-montserrat font-semibold uppercase text-white transition-all duration-300 hover:border-2 hover:border-primary hover:bg-white hover:text-primary">
+                <Button className="text-md mt-4 rounded-sm bg-primary px-6 py-2 font-montserrat font-semibold uppercase text-white transition-all duration-300 hover:border-2 hover:border-primary hover:bg-white hover:text-primary">
                   Learn More
                 </Button>
               </Link>
@@ -110,7 +110,7 @@ export function RealWorldUseCases() {
         {/* Call to Action */}
         <div className="mt-12 text-center">
           <Link href="mailto:hello@andamio.io" target="_blank">
-            <Button className="text-md hover:borderborder-primary rounded bg-primary px-6 py-3 font-montserrat font-semibold uppercase text-white transition-all duration-300 hover:border-2 hover:border-primary hover:bg-white hover:text-primary">
+            <Button className="text-md hover:borderborder-primary rounded-sm bg-primary px-6 py-3 font-montserrat font-semibold uppercase text-white transition-all duration-300 hover:border-2 hover:border-primary hover:bg-white hover:text-primary">
               Get in touch
             </Button>
           </Link>

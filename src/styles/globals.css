@@ -4,30 +4,30 @@
 
 @layer base {
   :root {
-    --background: 222.2 8% 97%;
-    --foreground: 220 15% 16%;
-    --card: 10 12% 91%;
-    --card-foreground: 222.2 84% 4.9%;
+    --background: 0 0% 100%;
+    --foreground: 224 71.4% 4.1%;
+    --card: 0 0% 100%;
+    --card-foreground: 224 71.4% 4.1%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 197 100% 16%;
-    --primary-foreground: 222.2 8% 95%;
-    --secondary: 11 77% 66%;
-    --secondary-foreground: 0 0% 20%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 203 51% 25%;
-    --accent: 39 86% 71%;
-    --accent-foreground: 220 15% 16%;
+    --popover-foreground: 224 71.4% 4.1%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 220 14.3% 95.9%;
+    --secondary-foreground: 220.9 39.3% 11%;
+    --muted: 220 14.3% 95.9%;
+    --muted-foreground: 220 8.9% 46.1%;
+    --accent: 220 14.3% 95.9%;
+    --accent-foreground: 220.9 39.3% 11%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 222.2 7.6% 52.9%;
-    --ring: 221.2 13.2% 53.3%;
-    --radius: 0.75rem;
-    --warning: 10 64% 55%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 217.2 91.2% 59.8%;
+    --radius: 0.5rem;
+    --warning: 38 92% 50%;
     --warning-foreground: 48 96% 89%;
-    --success: 136 61% 25%;
-    --success-foreground: 136 61% 85%;
+    --success: 142 76% 36%;
+    --success-foreground: 355 100% 97%;
     --editor-blue: 217 90% 30%;
     --editor-green: 92 90% 25%;
     --editor-orange: 21 90% 30%;
@@ -35,33 +35,67 @@
   }
 
   .dark {
-    --background: 222.2 7.6% 12.9%;
+    --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
-    --card: 222.2 7.6% 12.9%;
+    --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
-    --popover: 222.2 44% 3.9%;
+    --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 44% 3.9%;
-    --secondary: 222.2 7.6% 12.9%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 84% 4.9%;
+    --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 7.6% 17.5%;
+    --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 48%;
+    --ring: 217.2 91.2% 59.8%;
     --warning: 38 61% 65%;
     --warning-foreground: 38 92% 50%;
-    --success: 136 61% 65%;
-    --success-foreground: 210 40% 98%;
+    --success: 142 76% 36%;
+    --success-foreground: 355 100% 97%;
     --editor-blue: 217 90% 85%;
     --editor-green: 92 90% 85%;
     --editor-orange: 21 90% 85%;
     --editor-yellow: 39 90% 85%;
+  }
+}
+
+/* Custom animations for trust pillars */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes throb {
+  0%, 100% { 
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 1;
+    transform: scale(1.1);
   }
 }
 
@@ -70,7 +104,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-background font-sans leading-relaxed text-foreground;
+    @apply bg-gray-950 font-sans leading-relaxed text-white;
   }
   /* add montserrat font for headings */
   h1,
@@ -82,6 +116,8 @@
     @apply font-montserrat;
   }
 }
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
 @font-face {
   font-family: "Beckman";

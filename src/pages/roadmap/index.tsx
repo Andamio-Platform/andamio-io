@@ -1,6 +1,5 @@
 import { useState, useMemo } from "react";
 import { roadmap, type Epic } from "../../roadmap";
-import MenuBar from "../../ui/landing/MenuBar";
 import Footer from "~/ui/landing/Footer";
 import { Clock, Layers } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
@@ -135,23 +134,119 @@ const ProductRoadmap = () => {
   }, [timeSortedItems, activeYear]);
 
   return (
-    <>
-      <MenuBar />
-      <main className="container mx-auto px-4 py-12">
-        <div className="mx-auto max-w-7xl">
-          {/* Simple, centered header */}
-          <div className="mb-8 flex flex-col items-center justify-center border-b border-primary/20 pb-12 text-center">
-            <h1 className="text-4xl font-bold tracking-tight md:text-6xl">
-              Roadmap
-            </h1>
+    <div className="min-h-screen bg-gray-950 text-white">
+      {/* Angular Grid Overlay */}
+      <div className="pointer-events-none fixed inset-0 opacity-10">
+        <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/5 to-transparent"></div>
+        <div className="grid h-full grid-cols-16">
+          {Array.from({ length: 16 }).map((_, i) => (
+            <div key={i} className="border-r border-white/20"></div>
+          ))}
+        </div>
+        <div className="absolute inset-0">
+          <div className="flex h-full flex-col">
+            {Array.from({ length: 24 }).map((_, i) => (
+              <div key={i} className="flex-1 border-b border-white/10"></div>
+            ))}
+          </div>
+        </div>
+        {/* Additional vertical accent lines */}
+        <div className="absolute left-1/4 top-0 h-full w-px bg-white/15"></div>
+        <div className="absolute left-1/2 top-0 h-full w-px bg-white/20"></div>
+        <div className="absolute left-3/4 top-0 h-full w-px bg-white/15"></div>
+      </div>
 
-            <p className="mx-auto mt-4 max-w-2xl text-xl text-muted-foreground">
+      {/* Navigation */}
+      <nav className="fixed top-0 z-50 w-full border-b border-white/20 bg-gray-950/90 shadow-2xl backdrop-blur-xl">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="flex h-20 items-center justify-between">
+            <div className="flex items-center">
+              <Link href="/">
+                <div className="flex items-center gap-3">
+                  <Image
+                    className="h-10 w-auto"
+                    src="/andamio-logo-no-white-overflow.png"
+                    alt="Andamio"
+                    width={100}
+                    height={100}
+                  />
+                  <span className="text-xl font-bold text-white">Andamio</span>
+                </div>
+              </Link>
+            </div>
+            <div className="hidden items-center space-x-8 md:flex">
+              <Link
+                href="/#protocol"
+                className="font-medium text-gray-300 transition-colors duration-200 hover:text-white"
+              >
+                Docs
+              </Link>
+              <Link
+                href="/roadmap"
+                className="font-medium text-white transition-colors duration-200"
+              >
+                Roadmap
+              </Link>
+              <Link
+                href="/blog"
+                className="font-medium text-gray-300 transition-colors duration-200 hover:text-white"
+              >
+                Blog
+              </Link>
+              <Button
+                size="sm"
+                className="bg-blue-600 text-white shadow-lg shadow-blue-500/25 hover:bg-blue-700"
+              >
+                Andamio 101
+              </Button>
+              <Link
+                href="https://app.andamio.io"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-sm border border-white/30 bg-gray-800/50 px-4 py-2 text-sm font-medium text-white shadow-lg transition-all duration-200 hover:border-white/50 hover:bg-gray-700/50"
+              >
+                <span>Enter App</span>
+                <svg
+                  className="h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                  />
+                </svg>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <main className="relative pt-20">
+        <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
+          {/* Header */}
+          <div className="relative mb-16">
+            {/* Angular accent lines */}
+            <div className="absolute -top-8 left-0 h-1 w-32 bg-gradient-to-r from-blue-500 to-transparent shadow-lg shadow-blue-500/50"></div>
+            <div className="absolute -top-4 left-8 h-1 w-16 bg-gradient-to-r from-white/60 to-transparent"></div>
+
+            <div className="mb-6 flex items-center gap-4">
+              <div className="h-1 w-12 bg-gradient-to-r from-blue-500 to-transparent"></div>
+              <h1 className="text-4xl font-bold text-white lg:text-6xl">
+                Roadmap
+              </h1>
+            </div>
+            <p className="max-w-3xl text-xl text-gray-300">
               Our journey of building the Andamio platform and ecosystem, from
               founding to the present day and beyond.
             </p>
           </div>
-          {/* View mode and sort controls */}
-          <div className="w-full md:w-80 md:shrink-0 md:pr-8">
+
+          {/* View mode controls */}
+          <div className="mb-8 w-full md:w-80">
             <Tabs
               defaultValue="time"
               value={viewMode}
@@ -160,29 +255,30 @@ const ProductRoadmap = () => {
               }
               className="rounded-none"
             >
-              <TabsList className="grid w-full grid-cols-2 rounded-none bg-white shadow-lg">
+              <TabsList className="grid w-full grid-cols-2 rounded-sm border border-white/20 bg-gray-800/50 backdrop-blur-sm">
                 <TabsTrigger
                   value="time"
-                  className="flex items-center justify-center space-x-2 rounded-none"
+                  className="flex items-center justify-center space-x-2 rounded-sm text-white data-[state=active]:bg-blue-600 data-[state=active]:text-white"
                 >
                   <Clock className="h-4 w-4" />
+                  <span>Timeline</span>
                 </TabsTrigger>
                 <TabsTrigger
                   value="category"
-                  className="flex items-center justify-center space-x-2 rounded-none"
+                  className="flex items-center justify-center space-x-2 rounded-sm text-white data-[state=active]:bg-blue-600 data-[state=active]:text-white"
                 >
                   <Layers className="h-4 w-4" />
+                  <span>Categories</span>
                 </TabsTrigger>
               </TabsList>
             </Tabs>
           </div>
 
-          {/* Main timeline container */}
+          {/* Main content container */}
           <div className="relative">
             {/* Time-based view */}
             {viewMode === "time" && (
               <div className="relative z-10">
-                {/* Year tabs with vertical layout */}
                 <div className="mb-8 mt-2">
                   <Tabs
                     value={activeYear}
@@ -190,21 +286,21 @@ const ProductRoadmap = () => {
                     orientation="vertical"
                     className="flex flex-col md:flex-row"
                   >
-                    {/* Vertical sidebar with year tabs */}
+                    {/* Sidebar with year tabs */}
                     <div className="w-full md:w-80 md:shrink-0 md:pr-8">
                       <TabsList className="mb-2 flex w-full flex-row gap-2 overflow-x-auto bg-transparent p-0 md:flex-col md:overflow-visible">
                         {uniqueYears.map((year) => (
                           <TabsTrigger
                             key={year}
                             value={year}
-                            className="w-full justify-start rounded-none border border-primary/20 bg-white px-4 py-3 text-left text-sm font-light shadow-lg"
+                            className="w-full justify-start rounded-sm border border-white/20 bg-gray-800/50 px-4 py-3 text-left text-sm font-medium text-white backdrop-blur-sm hover:bg-gray-700/50 data-[state=active]:bg-blue-600 data-[state=active]:text-white"
                           >
                             {year}
                           </TabsTrigger>
                         ))}
                       </TabsList>
                       <Link href="https://andamio.notion.site/1fb44d820e1d804ebec4f0142d3f267a?pvs=105">
-                        <Button className="w-full rounded-none">
+                        <Button className="w-full rounded-sm bg-blue-600 text-white hover:bg-blue-700">
                           Give Feedback
                         </Button>
                       </Link>
@@ -212,17 +308,16 @@ const ProductRoadmap = () => {
 
                     {/* Content area */}
                     <div className="mt-6 flex-1 md:-mt-12">
-                      {/* Content for each year tab */}
                       {uniqueYears.map((year) => (
                         <TabsContent key={year} value={year} className="mt-0">
                           {/* Year heading */}
                           <div className="mb-8 text-right">
-                            <h2 className="text-6xl font-bold tracking-tight">
+                            <h2 className="bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-6xl font-bold tracking-tight text-transparent">
                               {year}
                             </h2>
                           </div>
 
-                          {/* Timeline items sorted chronologically and filtered by year */}
+                          {/* Timeline items */}
                           <div className="mb-16 grid grid-cols-1 gap-6">
                             {(newestFirst
                               ? [...filteredByYear].reverse()
@@ -246,7 +341,7 @@ const ProductRoadmap = () => {
 
                           {/* End marker */}
                           <div className="mt-12 text-center">
-                            <p className="text-sm text-muted-foreground">
+                            <p className="text-sm text-gray-400">
                               End of {year}
                             </p>
                           </div>
@@ -261,7 +356,6 @@ const ProductRoadmap = () => {
             {/* Category-based view */}
             {viewMode === "category" && (
               <div className="relative z-10">
-                {/* Category tabs with vertical layout */}
                 <div className="mb-8 mt-2">
                   <Tabs
                     value={activeCategory}
@@ -269,21 +363,21 @@ const ProductRoadmap = () => {
                     orientation="vertical"
                     className="flex flex-col md:flex-row"
                   >
-                    {/* Vertical sidebar with tabs */}
+                    {/* Sidebar with category tabs */}
                     <div className="w-full md:w-80 md:shrink-0 md:pr-8">
                       <TabsList className="mb-2 flex w-full flex-row gap-2 overflow-x-auto bg-transparent p-0 md:flex-col md:overflow-visible">
                         {categorySortedItems.map((category, index) => (
                           <TabsTrigger
                             key={index}
                             value={category.category}
-                            className="w-full justify-start rounded-none border border-primary/20 bg-white px-4 py-3 text-left text-sm font-light shadow-lg"
+                            className="w-full justify-start rounded-sm border border-white/20 bg-gray-800/50 px-4 py-3 text-left text-sm font-medium text-white backdrop-blur-sm hover:bg-gray-700/50 data-[state=active]:bg-blue-600 data-[state=active]:text-white"
                           >
                             {category.category}
                           </TabsTrigger>
                         ))}
                       </TabsList>
                       <Link href="https://andamio.notion.site/1fb44d820e1d804ebec4f0142d3f267a?pvs=105">
-                        <Button className="w-full rounded-none">
+                        <Button className="w-full rounded-sm bg-blue-600 text-white hover:bg-blue-700">
                           Give Feedback
                         </Button>
                       </Link>
@@ -291,7 +385,6 @@ const ProductRoadmap = () => {
 
                     {/* Content area */}
                     <div className="mt-6 flex-1 md:-mt-12">
-                      {/* Content for each category tab */}
                       {categorySortedItems.map((category, index) => (
                         <TabsContent
                           key={index}
@@ -300,12 +393,12 @@ const ProductRoadmap = () => {
                         >
                           {/* Category heading */}
                           <div className="mb-8 text-right">
-                            <h2 className="text-6xl font-bold tracking-tight">
+                            <h2 className="bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-6xl font-bold tracking-tight text-transparent">
                               {category.category}
                             </h2>
                           </div>
 
-                          {/* Epics in this category - stacked layout */}
+                          {/* Epics in this category */}
                           <div className="mb-16 grid grid-cols-1 gap-6">
                             {category.epics.map((epic, epicIndex) => (
                               <div key={epicIndex} className="w-full">
@@ -316,7 +409,7 @@ const ProductRoadmap = () => {
 
                           {/* End marker */}
                           <div className="mt-12 text-center">
-                            <p className="text-sm text-muted-foreground">
+                            <p className="text-sm text-gray-400">
                               End of {category.category}
                             </p>
                           </div>
@@ -331,7 +424,7 @@ const ProductRoadmap = () => {
         </div>
       </main>
       <Footer />
-    </>
+    </div>
   );
 };
 

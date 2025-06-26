@@ -114,9 +114,9 @@ export default function ModernLanding() {
 
             <div className="grid items-center gap-8 lg:grid-cols-2">
               <div className="relative">
-                <h1 className="mb-10 text-5xl font-bold tracking-tight lg:text-8xl">
-                  <span className="block">Enabling</span>
-                  <span className="block bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent drop-shadow-lg">
+                <h1 className="mb-10 text-5xl font-bold  lg:text-8xl">
+                  <span className="block tracking-tight">Verified</span>
+                  <span className="block bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text tracking-tight text-transparent drop-shadow-lg">
                     Trust
                   </span>
                   <span className="mt-4 block text-2xl font-normal text-gray-300 lg:text-4xl">

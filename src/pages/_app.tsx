@@ -3,7 +3,6 @@ import { type Session } from "next-auth";
 import { type AppType } from "next/app";
 import { Toaster } from "react-hot-toast";
 import { Toaster as UiToaster } from "~/components/ui/toaster";
-import { DialogReportSupport } from "~/ui/site/DialogReportSupport";
 import Metatags from "~/components/site/metatags";
 
 const MyApp: AppType<{ session: Session | null }> = ({
@@ -18,7 +17,6 @@ const MyApp: AppType<{ session: Session | null }> = ({
         <Component {...pageProps} />
         <UiToaster />
       </div>
-      <DialogReportSupport />
     </div>
   );
 };

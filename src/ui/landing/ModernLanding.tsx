@@ -241,6 +241,226 @@ export default function ModernLanding() {
           <button
             onClick={() =>
               document
+                .getElementById("trust")
+                ?.scrollIntoView({ behavior: "smooth" })
+            }
+            className="group flex flex-col items-center text-white/60 transition-colors duration-300 hover:text-white"
+          >
+            <div className="mb-2 text-xs font-medium uppercase tracking-widest">
+              Next
+            </div>
+            <div className="h-8 w-px bg-white/20 transition-colors duration-300 group-hover:bg-white/40"></div>
+            <svg
+              className="mt-2 h-4 w-4 animate-[throb_2s_ease-in-out_infinite]"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 14l-7 7m0 0l-7-7m7 7V3"
+              />
+            </svg>
+          </button>
+        </div>
+      </section>
+
+      {/* Trust Framework */}
+      <section
+        id="trust"
+        className="relative flex h-screen items-center overflow-hidden border-t border-white/10 bg-gradient-to-b from-gray-950 to-gray-900"
+      >
+        <div className="mx-auto max-w-5xl px-6 py-8 lg:px-8">
+          <div className="relative">
+            {/* Section header */}
+            <div className="mb-8">
+              <div className="mb-4 flex items-center gap-4">
+                <div className="h-1 w-12 bg-gradient-to-r from-cyan-500 to-transparent"></div>
+                <h2 className="text-3xl font-bold text-white lg:text-4xl">
+                  Three Pillars of Trust
+                </h2>
+              </div>
+              <p className="max-w-3xl text-lg text-gray-300">
+                Trust is the foundation of any distributed ecosystem. By
+                enabling purpose-driven, collaborative work, Andamio creates
+                ways for trust networks to thrive.
+              </p>
+            </div>
+
+            {/* Vertical Process Flow */}
+            <div className="relative">
+              {/* Central connecting line */}
+              <div className="absolute bottom-0 left-1/2 top-0 w-px -translate-x-1/2 transform bg-gradient-to-b from-blue-500 via-green-500 to-purple-500"></div>
+
+              {/* Process flow items */}
+              <div className="space-y-8 lg:space-y-12">
+                {/* Purpose - Slides in from left */}
+                <div className="relative animate-[slideInLeft_1s_ease-out_0.2s_both]">
+                  <div className="flex flex-col items-center justify-between lg:flex-row">
+                    <div className="w-full pr-0 lg:w-5/12 lg:pr-8">
+                      <div className="group relative">
+                        <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-blue-500/30 to-blue-600/30 opacity-50 blur-xl transition duration-500 group-hover:opacity-75"></div>
+                        <div className="relative rounded-2xl border border-white/20 bg-gray-800/60 p-6 shadow-2xl backdrop-blur-sm">
+                          <div className="mb-4 flex items-center gap-4">
+                            <div className="flex h-16 w-16 items-center justify-center rounded-sm bg-gradient-to-br from-blue-500 to-blue-600 text-2xl font-bold text-white shadow-xl shadow-blue-500/25">
+                              <Target className="h-8 w-8" />
+                            </div>
+                            <div>
+                              <h3 className="mb-2 text-2xl font-bold text-white">
+                                Purpose
+                              </h3>
+                              <div className="h-0.5 w-16 bg-blue-500"></div>
+                            </div>
+                          </div>
+                          <p className="mb-3 text-base font-semibold text-blue-400">
+                            Do we trust that our work matters?
+                          </p>
+                          <p className="text-base leading-relaxed text-gray-300">
+                            Infrastructure for projects to define their mission,
+                            manage treasuries, and create
+                            <strong className="text-white">
+                              {" "}
+                              transparent governance structures
+                            </strong>{" "}
+                            that ensure meaningful work.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Central node */}
+                    <div className="relative z-10 hidden lg:block">
+                      <div className="h-8 w-8 rounded-full border-4 border-gray-950 bg-blue-500 shadow-lg shadow-blue-500/50"></div>
+                      <div className="absolute -inset-2 animate-pulse rounded-full bg-blue-500/20"></div>
+                    </div>
+
+                    <div className="hidden w-5/12 pl-8 lg:block">
+                      <div className="text-right opacity-40">
+                        <div className="text-6xl font-bold text-blue-500/30">
+                          01
+                        </div>
+                        <div className="mt-2 text-blue-300/50">Foundation</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Participation - Slides in from right */}
+                <div className="relative animate-[slideInRight_1s_ease-out_0.4s_both]">
+                  <div className="flex flex-col items-center justify-between lg:flex-row">
+                    <div className="hidden w-5/12 pr-8 lg:block">
+                      <div className="text-left opacity-40">
+                        <div className="text-6xl font-bold text-green-500/30">
+                          02
+                        </div>
+                        <div className="mt-2 text-green-300/50">Connection</div>
+                      </div>
+                    </div>
+
+                    {/* Central node */}
+                    <div className="relative z-10 hidden lg:block">
+                      <div className="h-8 w-8 rounded-full border-4 border-gray-950 bg-green-500 shadow-lg shadow-green-500/50"></div>
+                      <div className="absolute -inset-2 animate-pulse rounded-full bg-green-500/20"></div>
+                    </div>
+
+                    <div className="w-full pl-0 lg:w-5/12 lg:pl-8">
+                      <div className="group relative">
+                        <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-green-500/30 to-green-600/30 opacity-50 blur-xl transition duration-500 group-hover:opacity-75"></div>
+                        <div className="relative rounded-2xl border border-white/20 bg-gray-800/60 p-6 shadow-2xl backdrop-blur-sm">
+                          <div className="mb-4 flex items-center gap-4">
+                            <div className="flex h-16 w-16 items-center justify-center rounded-sm bg-gradient-to-br from-green-500 to-green-600 text-2xl font-bold text-white shadow-xl shadow-green-500/25">
+                              <Users className="h-8 w-8" />
+                            </div>
+                            <div>
+                              <h3 className="mb-2 text-2xl font-bold text-white">
+                                Participation
+                              </h3>
+                              <div className="h-0.5 w-16 bg-green-500"></div>
+                            </div>
+                          </div>
+                          <p className="mb-3 text-base font-semibold text-green-400">
+                            Do we trust the people we are working with?
+                          </p>
+                          <p className="text-base leading-relaxed text-gray-300">
+                            Credentials and rewards systems that enable
+                            contributor onboarding,
+                            <strong className="text-white">
+                              {" "}
+                              role-based access control
+                            </strong>
+                            , and recognition of valuable contributions.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Proof - Slides in from left */}
+                <div className="relative animate-[slideInLeft_1s_ease-out_0.6s_both]">
+                  <div className="flex flex-col items-center justify-between lg:flex-row">
+                    <div className="w-full pr-0 lg:w-5/12 lg:pr-8">
+                      <div className="group relative">
+                        <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-purple-500/30 to-purple-600/30 opacity-50 blur-xl transition duration-500 group-hover:opacity-75"></div>
+                        <div className="relative rounded-2xl border border-white/20 bg-gray-800/60 p-6 shadow-2xl backdrop-blur-sm">
+                          <div className="mb-4 flex items-center gap-4">
+                            <div className="flex h-16 w-16 items-center justify-center rounded-sm bg-gradient-to-br from-purple-500 to-purple-600 text-2xl font-bold text-white shadow-xl shadow-purple-500/25">
+                              <CheckCircle className="h-8 w-8" />
+                            </div>
+                            <div>
+                              <h3 className="mb-2 text-2xl font-bold text-white">
+                                Proof
+                              </h3>
+                              <div className="h-0.5 w-16 bg-purple-500"></div>
+                            </div>
+                          </div>
+                          <p className="mb-3 text-base font-semibold text-purple-400">
+                            Do we trust that others can do what they say they
+                            can do?
+                          </p>
+                          <p className="text-base leading-relaxed text-gray-300">
+                            Discovery and connection tools that make credentials
+                            portable and verifiable, enabling
+                            <strong className="text-white">
+                              {" "}
+                              global opportunities through local participation
+                            </strong>
+                            .
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Central node */}
+                    <div className="relative z-10 hidden lg:block">
+                      <div className="h-8 w-8 rounded-full border-4 border-gray-950 bg-purple-500 shadow-lg shadow-purple-500/50"></div>
+                      <div className="absolute -inset-2 animate-pulse rounded-full bg-purple-500/20"></div>
+                    </div>
+
+                    <div className="hidden w-5/12 pl-8 lg:block">
+                      <div className="text-right opacity-40">
+                        <div className="text-6xl font-bold text-purple-500/30">
+                          03
+                        </div>
+                        <div className="mt-2 text-purple-300/50">
+                          Verification
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Scroll down arrow */}
+        <div className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 transform lg:flex">
+          <button
+            onClick={() =>
+              document
                 .getElementById("protocol")
                 ?.scrollIntoView({ behavior: "smooth" })
             }
@@ -401,226 +621,6 @@ export default function ModernLanding() {
 
                   {/* Hover overlay */}
                   <div className="absolute inset-0 bg-purple-900/20 opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Scroll down arrow */}
-        <div className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 transform lg:flex">
-          <button
-            onClick={() =>
-              document
-                .getElementById("trust")
-                ?.scrollIntoView({ behavior: "smooth" })
-            }
-            className="group flex flex-col items-center text-white/60 transition-colors duration-300 hover:text-white"
-          >
-            <div className="mb-2 text-xs font-medium uppercase tracking-widest">
-              Next
-            </div>
-            <div className="h-8 w-px bg-white/20 transition-colors duration-300 group-hover:bg-white/40"></div>
-            <svg
-              className="mt-2 h-4 w-4 animate-[throb_2s_ease-in-out_infinite]"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 14l-7 7m0 0l-7-7m7 7V3"
-              />
-            </svg>
-          </button>
-        </div>
-      </section>
-
-      {/* Trust Framework */}
-      <section
-        id="trust"
-        className="relative flex min-h-screen items-center overflow-hidden border-t border-white/10 bg-gradient-to-b from-gray-950 to-gray-900"
-      >
-        <div className="mx-auto max-w-5xl px-6 py-16 lg:px-8">
-          <div className="relative">
-            {/* Section header */}
-            <div className="mb-12">
-              <div className="mb-6 flex items-center gap-4">
-                <div className="h-1 w-12 bg-gradient-to-r from-cyan-500 to-transparent"></div>
-                <h2 className="text-4xl font-bold text-white lg:text-5xl">
-                  Three Pillars of Trust
-                </h2>
-              </div>
-              <p className="max-w-3xl text-xl text-gray-300">
-                Trust is the foundation of any distributed ecosystem. By
-                enabling purpose-driven, collaborative work, Andamio creates
-                ways for trust networks to thrive.
-              </p>
-            </div>
-
-            {/* Vertical Process Flow */}
-            <div className="relative">
-              {/* Central connecting line */}
-              <div className="absolute bottom-0 left-1/2 top-0 w-px -translate-x-1/2 transform bg-gradient-to-b from-blue-500 via-green-500 to-purple-500"></div>
-
-              {/* Process flow items */}
-              <div className="space-y-12 lg:space-y-20">
-                {/* Purpose - Slides in from left */}
-                <div className="relative animate-[slideInLeft_1s_ease-out_0.2s_both]">
-                  <div className="flex flex-col items-center justify-between lg:flex-row">
-                    <div className="w-full pr-0 lg:w-5/12 lg:pr-8">
-                      <div className="group relative">
-                        <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-blue-500/30 to-blue-600/30 opacity-50 blur-xl transition duration-500 group-hover:opacity-75"></div>
-                        <div className="relative rounded-2xl border border-white/20 bg-gray-800/60 p-6 shadow-2xl backdrop-blur-sm">
-                          <div className="mb-4 flex items-center gap-4">
-                            <div className="flex h-16 w-16 items-center justify-center rounded-sm bg-gradient-to-br from-blue-500 to-blue-600 text-2xl font-bold text-white shadow-xl shadow-blue-500/25">
-                              <Target className="h-8 w-8" />
-                            </div>
-                            <div>
-                              <h3 className="mb-2 text-2xl font-bold text-white">
-                                Purpose
-                              </h3>
-                              <div className="h-0.5 w-16 bg-blue-500"></div>
-                            </div>
-                          </div>
-                          <p className="mb-3 text-base font-semibold text-blue-400">
-                            Do we trust that our work matters?
-                          </p>
-                          <p className="text-base leading-relaxed text-gray-300">
-                            Infrastructure for projects to define their mission,
-                            manage treasuries, and create
-                            <strong className="text-white">
-                              {" "}
-                              transparent governance structures
-                            </strong>{" "}
-                            that ensure meaningful work.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Central node */}
-                    <div className="relative z-10 hidden lg:block">
-                      <div className="h-8 w-8 rounded-full border-4 border-gray-950 bg-blue-500 shadow-lg shadow-blue-500/50"></div>
-                      <div className="absolute -inset-2 animate-pulse rounded-full bg-blue-500/20"></div>
-                    </div>
-
-                    <div className="hidden w-5/12 pl-8 lg:block">
-                      <div className="text-right opacity-40">
-                        <div className="text-6xl font-bold text-blue-500/30">
-                          01
-                        </div>
-                        <div className="mt-2 text-blue-300/50">Foundation</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Participation - Slides in from right */}
-                <div className="relative animate-[slideInRight_1s_ease-out_0.4s_both]">
-                  <div className="flex flex-col items-center justify-between lg:flex-row">
-                    <div className="hidden w-5/12 pr-8 lg:block">
-                      <div className="text-left opacity-40">
-                        <div className="text-6xl font-bold text-green-500/30">
-                          02
-                        </div>
-                        <div className="mt-2 text-green-300/50">Connection</div>
-                      </div>
-                    </div>
-
-                    {/* Central node */}
-                    <div className="relative z-10 hidden lg:block">
-                      <div className="h-8 w-8 rounded-full border-4 border-gray-950 bg-green-500 shadow-lg shadow-green-500/50"></div>
-                      <div className="absolute -inset-2 animate-pulse rounded-full bg-green-500/20"></div>
-                    </div>
-
-                    <div className="w-full pl-0 lg:w-5/12 lg:pl-8">
-                      <div className="group relative">
-                        <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-green-500/30 to-green-600/30 opacity-50 blur-xl transition duration-500 group-hover:opacity-75"></div>
-                        <div className="relative rounded-2xl border border-white/20 bg-gray-800/60 p-6 shadow-2xl backdrop-blur-sm">
-                          <div className="mb-4 flex items-center gap-4">
-                            <div className="flex h-16 w-16 items-center justify-center rounded-sm bg-gradient-to-br from-green-500 to-green-600 text-2xl font-bold text-white shadow-xl shadow-green-500/25">
-                              <Users className="h-8 w-8" />
-                            </div>
-                            <div>
-                              <h3 className="mb-2 text-2xl font-bold text-white">
-                                Participation
-                              </h3>
-                              <div className="h-0.5 w-16 bg-green-500"></div>
-                            </div>
-                          </div>
-                          <p className="mb-3 text-base font-semibold text-green-400">
-                            Do we trust the people we are working with?
-                          </p>
-                          <p className="text-base leading-relaxed text-gray-300">
-                            Credentials and rewards systems that enable
-                            contributor onboarding,
-                            <strong className="text-white">
-                              {" "}
-                              role-based access control
-                            </strong>
-                            , and recognition of valuable contributions.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Proof - Slides in from left */}
-                <div className="relative animate-[slideInLeft_1s_ease-out_0.6s_both]">
-                  <div className="flex flex-col items-center justify-between lg:flex-row">
-                    <div className="w-full pr-0 lg:w-5/12 lg:pr-8">
-                      <div className="group relative">
-                        <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-purple-500/30 to-purple-600/30 opacity-50 blur-xl transition duration-500 group-hover:opacity-75"></div>
-                        <div className="relative rounded-2xl border border-white/20 bg-gray-800/60 p-6 shadow-2xl backdrop-blur-sm">
-                          <div className="mb-4 flex items-center gap-4">
-                            <div className="flex h-16 w-16 items-center justify-center rounded-sm bg-gradient-to-br from-purple-500 to-purple-600 text-2xl font-bold text-white shadow-xl shadow-purple-500/25">
-                              <CheckCircle className="h-8 w-8" />
-                            </div>
-                            <div>
-                              <h3 className="mb-2 text-2xl font-bold text-white">
-                                Proof
-                              </h3>
-                              <div className="h-0.5 w-16 bg-purple-500"></div>
-                            </div>
-                          </div>
-                          <p className="mb-3 text-base font-semibold text-purple-400">
-                            Do we trust that others can do what they say they
-                            can do?
-                          </p>
-                          <p className="text-base leading-relaxed text-gray-300">
-                            Discovery and connection tools that make credentials
-                            portable and verifiable, enabling
-                            <strong className="text-white">
-                              {" "}
-                              global opportunities through local participation
-                            </strong>
-                            .
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Central node */}
-                    <div className="relative z-10 hidden lg:block">
-                      <div className="h-8 w-8 rounded-full border-4 border-gray-950 bg-purple-500 shadow-lg shadow-purple-500/50"></div>
-                      <div className="absolute -inset-2 animate-pulse rounded-full bg-purple-500/20"></div>
-                    </div>
-
-                    <div className="hidden w-5/12 pl-8 lg:block">
-                      <div className="text-right opacity-40">
-                        <div className="text-6xl font-bold text-purple-500/30">
-                          03
-                        </div>
-                        <div className="mt-2 text-purple-300/50">
-                          Verification
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>

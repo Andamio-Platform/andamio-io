@@ -29,7 +29,7 @@ export default function ModernLanding() {
       </div>
 
       {/* Navigation */}
-      <nav className="fixed top-0 z-50 w-full border-b border-white/20 backdrop-blur-sm bg-black/20">
+      <nav className="fixed top-0 z-50 w-full border-b border-white/20 bg-black/20 backdrop-blur-sm">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="flex h-20 items-center justify-between">
             <div className="flex items-center">
@@ -46,7 +46,7 @@ export default function ModernLanding() {
             </div>
             <div className="hidden items-center space-x-8 md:flex">
               <a
-                href="#protocol"
+                href="https://docs.andamio.io"
                 className="font-medium text-gray-300 transition-colors duration-200 hover:text-white"
               >
                 Docs
@@ -63,12 +63,12 @@ export default function ModernLanding() {
               >
                 Blog
               </Link>
-              <Button
-                size="sm"
-                className="bg-blue-600 text-white shadow-lg shadow-blue-500/25 hover:bg-blue-700"
+              <Link
+                href="https://app.andamio.io/course/86affc4de251b0fb7636c376383bcebf6ca7ca426528f9b7a5adc298"
+                className="font-medium text-gray-300 transition-colors duration-200 hover:text-white"
               >
                 Andamio 101
-              </Button>
+              </Link>
               <Link
                 href="https://app.andamio.io"
                 target="_blank"
@@ -139,18 +139,22 @@ export default function ModernLanding() {
                 </div>
 
                 <div className="flex flex-col gap-6 sm:flex-row">
-                  <Button
-                    size="lg"
-                    className="bg-white px-8 py-4 font-semibold text-blue-900 shadow-xl hover:bg-gray-100"
-                  >
-                    Start with Andamio 101
-                  </Button>
-                  <Button
-                    size="lg"
-                    className="border-white/50 px-8 py-4 text-lg font-semibold text-white shadow-lg hover:bg-white/10 hover:text-white"
-                  >
-                    View Documentation
-                  </Button>
+                  <Link href="https://app.andamio.io/course/86affc4de251b0fb7636c376383bcebf6ca7ca426528f9b7a5adc298">
+                    <Button
+                      size="lg"
+                      className="bg-white px-8 py-4 font-semibold text-blue-900 shadow-xl hover:bg-gray-100"
+                    >
+                      Start with Andamio 101
+                    </Button>
+                  </Link>
+                  <Link href="https://docs.andamio.io/docs/">
+                    <Button
+                      size="lg"
+                      className="border-white/50 px-8 py-4 text-lg font-semibold text-white shadow-lg hover:bg-white/10 hover:text-white"
+                    >
+                      View Documentation
+                    </Button>
+                  </Link>
                 </div>
               </div>
 
@@ -784,18 +788,22 @@ export default function ModernLanding() {
               </p>
 
               <div className="mb-10 flex flex-col gap-6 sm:flex-row">
-                <Button
-                  size="lg"
-                  className="bg-white px-8 py-4 font-semibold text-blue-900 shadow-xl hover:bg-gray-100"
-                >
-                  Start with Andamio 101
-                </Button>
-                <Button
-                  size="lg"
-                  className="border-white/70 px-8 py-4 font-semibold text-white shadow-lg hover:bg-white/20 hover:text-white"
-                >
-                  View Documentation
-                </Button>
+                <Link href="https://app.andamio.io/course/86affc4de251b0fb7636c376383bcebf6ca7ca426528f9b7a5adc298">
+                  <Button
+                    size="lg"
+                    className="bg-white px-8 py-4 font-semibold text-blue-900 shadow-xl hover:bg-gray-100"
+                  >
+                    Start with Andamio 101
+                  </Button>
+                </Link>
+                <Link href="https://docs.andamio.io/docs/">
+                  <Button
+                    size="lg"
+                    className="border-white/70 px-8 py-4 font-semibold text-white shadow-lg hover:bg-white/20 hover:text-white"
+                  >
+                    View Documentation
+                  </Button>
+                </Link>
               </div>
 
               <div className="grid gap-6 text-blue-200 sm:grid-cols-2">

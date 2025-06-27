@@ -37,7 +37,7 @@ export default function AboutPage() {
         {/* Navigation Cards */}
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {/* Whitepaper Card */}
-          <Link href="/about/whitepaper">
+          <Link href="https://docs.andamio.io/docs/whitepaper">
             <Card className="group relative overflow-hidden border border-white/20 bg-gray-800/50 shadow-xl backdrop-blur-sm transition-all duration-300 hover:border-white/40 hover:shadow-2xl">
               <div className="p-6">
                 <div className="mb-4">

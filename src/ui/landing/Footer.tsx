@@ -5,6 +5,7 @@ const footerData = {
   "Stay Connected with Andamio": [
     { name: "Support", href: "mailto:dev@andamio.com" },
     { name: "Contact Us", href: "mailto:hello@andamio.com" },
+    { name: "Docs", href: "https://docs.andamio.io" },
   ],
   "Follow Us": [
     {

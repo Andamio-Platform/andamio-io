@@ -60,7 +60,7 @@ export default function ModernPageLayout({
             </div>
             <div className="hidden items-center space-x-8 md:flex">
               <Link
-                href="/#protocol"
+                href="https://docs.andamio.io"
                 className="font-medium text-gray-300 transition-colors duration-200 hover:text-white"
               >
                 Docs

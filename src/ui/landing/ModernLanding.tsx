@@ -274,7 +274,7 @@ export default function ModernLanding() {
       {/* Trust Framework */}
       <section
         id="trust"
-        className="relative flex h-screen items-center overflow-hidden border-t border-white/10"
+        className="relative flex min-h-screen items-center overflow-hidden border-t border-white/10 py-20"
       >
         <div className="mx-auto max-w-5xl px-6 py-8 lg:px-8">
           <div className="relative">

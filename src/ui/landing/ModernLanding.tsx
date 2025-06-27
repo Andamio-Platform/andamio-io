@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function ModernLanding() {
   return (
-    <div className="min-h-screen bg-gray-950 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-950 to-gray-900 text-white">
       {/* Angular Grid Overlay */}
       <div className="pointer-events-none fixed inset-0 opacity-10">
         <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/5 to-transparent"></div>
@@ -29,7 +29,7 @@ export default function ModernLanding() {
       </div>
 
       {/* Navigation */}
-      <nav className="fixed top-0 z-50 w-full border-b border-white/20 bg-gray-950/90">
+      <nav className="fixed top-0 z-50 w-full border-b border-white/20 backdrop-blur-sm bg-black/20">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="flex h-20 items-center justify-between">
             <div className="flex items-center">
@@ -96,7 +96,7 @@ export default function ModernLanding() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative flex min-h-screen items-center overflow-hidden bg-gray-950">
+      <section className="relative flex min-h-screen items-center overflow-hidden">
         {/* Background Andamio Logo */}
         <div className="absolute -left-40 top-1/2 -translate-y-1/2 transform opacity-5">
           <Image
@@ -270,7 +270,7 @@ export default function ModernLanding() {
       {/* Trust Framework */}
       <section
         id="trust"
-        className="relative flex h-screen items-center overflow-hidden border-t border-white/10 bg-gradient-to-b from-gray-950 to-gray-900"
+        className="relative flex h-screen items-center overflow-hidden border-t border-white/10"
       >
         <div className="mx-auto max-w-5xl px-6 py-8 lg:px-8">
           <div className="relative">
@@ -490,7 +490,7 @@ export default function ModernLanding() {
       {/* Andamio Protocol Components */}
       <section
         id="protocol"
-        className="relative flex min-h-screen items-center border-t border-white/10 bg-gray-950"
+        className="relative flex min-h-screen items-center border-t border-white/10"
       >
         <div className="mx-auto w-5/6 max-w-screen-2xl px-6 py-20 lg:px-8">
           <div className="relative">
@@ -661,7 +661,7 @@ export default function ModernLanding() {
       {/* Built on Cardano */}
       <section
         id="cardano"
-        className="relative flex min-h-screen items-center border-t border-white/10 bg-gray-950"
+        className="relative flex min-h-screen items-center border-t border-white/10"
       >
         <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
           <div className="grid items-center gap-20 lg:grid-cols-2">

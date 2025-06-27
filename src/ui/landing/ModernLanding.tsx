@@ -115,7 +115,7 @@ export default function ModernLanding() {
             <div className="grid items-center gap-8 lg:grid-cols-2">
               <div className="relative">
                 <h1 className="mb-10 text-5xl font-bold  lg:text-8xl">
-                  <span className="block tracking-tight">Verified</span>
+                  <span className="block tracking-tight">Enabling</span>
                   <span className="block bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text tracking-tight text-transparent drop-shadow-lg">
                     Trust
                   </span>
@@ -237,7 +237,7 @@ export default function ModernLanding() {
         </div>
 
         {/* Scroll down arrow */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 transform hidden lg:flex">
+        <div className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 transform lg:flex">
           <button
             onClick={() =>
               document
@@ -408,7 +408,7 @@ export default function ModernLanding() {
         </div>
 
         {/* Scroll down arrow */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 transform hidden lg:flex">
+        <div className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 transform lg:flex">
           <button
             onClick={() =>
               document
@@ -628,7 +628,7 @@ export default function ModernLanding() {
         </div>
 
         {/* Scroll down arrow */}
-        <div className="absolute bottom-16 left-1/2 -translate-x-1/2 transform lg:bottom-8 hidden lg:flex">
+        <div className="absolute bottom-16 left-1/2 hidden -translate-x-1/2 transform lg:bottom-8 lg:flex">
           <button
             onClick={() =>
               document
@@ -733,7 +733,7 @@ export default function ModernLanding() {
         </div>
 
         {/* Scroll down arrow */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 transform hidden lg:flex">
+        <div className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 transform lg:flex">
           <button
             onClick={() =>
               document

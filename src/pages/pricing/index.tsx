@@ -240,10 +240,10 @@ export default function PricingPage() {
 
               <div className="mb-10">
                 <div className="flex items-baseline gap-3">
-                  <span className="text-5xl font-bold text-white">1%</span>
+                  <span className="text-5xl font-bold text-white">0.25%</span>
                 </div>
                 <p className="mt-3 text-base text-gray-400">
-                  Of task payment from treasury
+                  Of task payment from treasury (min. 1 ADA)
                 </p>
               </div>
 
@@ -291,34 +291,6 @@ export default function PricingPage() {
                   security and decentralization for credential verification and
                   trust protocols. All transactions are recorded on-chain,
                   ensuring transparency and immutability.
-                </p>
-              </div>
-            </Card>
-
-            <Card className="border border-white/20 bg-gray-800/50 backdrop-blur-sm">
-              <div className="p-6">
-                <h3 className="mb-3 text-lg font-bold text-white">
-                  How does the pricing model work?
-                </h3>
-                <p className="text-lg text-gray-300">
-                  Andamio uses a hybrid model: transaction fees for specific
-                  actions (minting access tokens, adding managers) plus a
-                  one-time 150 ADA fee for creating courses/projects that
-                  includes a basic platform subscription. A 1% fee applies to
-                  successful task completions from project treasuries.
-                </p>
-              </div>
-            </Card>
-
-            <Card className="border border-white/20 bg-gray-800/50 backdrop-blur-sm">
-              <div className="p-6">
-                <h3 className="mb-3 text-lg font-bold text-white">
-                  What happens to the ADA I pay in fees?
-                </h3>
-                <p className="text-lg text-gray-300">
-                  Transaction fees support the platform's blockchain operations,
-                  smart contract execution, and ongoing development of the
-                  Andamio trust protocol infrastructure.
                 </p>
               </div>
             </Card>

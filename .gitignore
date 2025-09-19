@@ -42,7 +42,6 @@ yarn-error.log*
 *.tsbuildinfo
 
 package-lock.json
-yarn.lock
 /.yarn
 .pnp.cjs
 .pnp.loader.mjs

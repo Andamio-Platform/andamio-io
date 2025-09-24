@@ -62,7 +62,7 @@ const teamMembers = [
     name: "Sebastian Pabon",
     title: "Educator and Facilitator",
     summary:
-      "Gimbalabs educator and facilitator, Andamio founding member, MeshJS contributor. Open Source advocate",
+      "Educator and facilitator. Andamio founding member. Open Source advocate",
     image: "/images/team/sebastian.webp",
   },
 ];

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getBlogPageContent } from "~/lib/blogposts";
 import { parseBlogMarkdocFrontmatter } from "~/utils/markdown";
 import { TransformedPageContent } from "~/utils/transformedPageContent";
+import SocialShareButton from "~/components/media/SocialShareButton";
 
 export type Props = {
   blogPostId: string;
@@ -97,7 +98,9 @@ export default function Page({ params }: { params: Props }) {
             All Posts
           </Link>
 
-          <div className="text-sm text-gray-400">Share this post</div>
+          <div className="text-sm text-gray-400">
+            <SocialShareButton />
+          </div>
         </div>
       </div>
     </div>

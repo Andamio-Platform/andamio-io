@@ -1,6 +1,6 @@
 {
-  "name": "andamio-platform",
-  "version": "0.30",
+  "name": "andamio-landing-page-and-blog",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {

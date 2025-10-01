@@ -5,6 +5,7 @@ export interface BlogPostMetadata {
   author: string;
   date: string;
   image?: string;
+  tags?: string[];
 }
 
 export const parseBlogMarkdocFrontmatter = (ast: Node) => {

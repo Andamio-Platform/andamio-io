@@ -44,16 +44,6 @@ export default function NavigationBar({ currentPage }: NavigationBarProps) {
               Roadmap
             </Link>
             <Link
-              href="/pricing"
-              className={`font-medium transition-colors duration-200 ${
-                currentPage === "pricing"
-                  ? "text-white"
-                  : "text-gray-300 hover:text-white"
-              }`}
-            >
-              Pricing
-            </Link>
-            <Link
               href="/blog"
               className={`font-medium transition-colors duration-200 ${
                 currentPage === "blog"
@@ -61,24 +51,34 @@ export default function NavigationBar({ currentPage }: NavigationBarProps) {
                   : "text-gray-300 hover:text-white"
               }`}
             >
-              Blog
+              Blog 
             </Link>
             <Link
-              href="/about"
+                href="https://app.andamio.io/course/86affc4de251b0fb7636c376383bcebf6ca7ca426528f9b7a5adc298"
+                className="font-medium text-gray-300 transition-colors duration-200 hover:text-white"
+              >
+                Andamio 101
+            </Link>    
+            <Link
+              href="/customers"
               className={`font-medium transition-colors duration-200 ${
-                currentPage === "about"
+                currentPage === "customers"
                   ? "text-white"
                   : "text-gray-300 hover:text-white"
               }`}
             >
-              About
+              Customers  
             </Link>
-            <Button
-              size="sm"
-              className="bg-blue-600 text-white shadow-lg shadow-blue-500/25 hover:bg-blue-700"
+            <Link
+              href="/fund/13"
+              className={`font-medium transition-colors duration-200 ${
+                currentPage === "fund/13"
+                  ? "text-white"
+                  : "text-gray-300 hover:text-white"
+              }`}
             >
-              Andamio 101
-            </Button>
+              <span role="img" aria-label="rocket">🚀</span> Project Catalyst
+            </Link>
             <Link
               href="https://app.andamio.io"
               target="_blank"

@@ -14,6 +14,7 @@ const navigation = [
   { name: "Blog", href: "/blog" },
   { name: "Roadmap", href: "/roadmap" },
   { name: "Opportunities", href: "/opportunities" },
+  { name: "Project Catalyst", href: "/fund/13" },
 ];
 
 export default function MenuBar({

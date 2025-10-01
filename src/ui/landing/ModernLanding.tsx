@@ -70,6 +70,18 @@ export default function ModernLanding() {
                 Andamio 101
               </Link>
               <Link
+                href="/customers"
+                className="font-medium text-gray-300 transition-colors duration-200 hover:text-white"
+              >
+                Customers
+              </Link>
+              <Link
+                href="/fund/13"
+                className="font-medium text-gray-300 transition-colors duration-200 hover:text-white"
+              >
+                <span role="img" aria-label="rocket">🚀</span> Project Catalyst 
+              </Link>
+              <Link
                 href="https://app.andamio.io"
                 target="_blank"
                 rel="noopener noreferrer"

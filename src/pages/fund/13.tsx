@@ -1,7 +1,6 @@
-import MenuBar from "~/ui/landing/MenuBar";
 import React, { useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
-import Footer from "~/ui/landing/Footer";
 import {
   Card,
   CardHeader,
@@ -17,6 +16,7 @@ import {
   DocumentTextIcon,
   ShieldCheckIcon,
 } from "@heroicons/react/24/outline";
+import Footer from "~/ui/landing/Footer";
 
 type ProposalCategory = "technology" | "adoption";
 type Proposal = {
@@ -28,6 +28,27 @@ type Proposal = {
   fund: number;
   category: ProposalCategory;
 };
+
+const GridOverlay = () => (
+  <div className="pointer-events-none fixed inset-0 z-0 opacity-10">
+    <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/5 to-transparent"></div>
+    <div className="grid h-full grid-cols-16">
+      {Array.from({ length: 16 }).map((_, i) => (
+        <div key={i} className="border-r border-white/20"></div>
+      ))}
+    </div>
+    <div className="absolute inset-0">
+      <div className="flex h-full flex-col">
+        {Array.from({ length: 24 }).map((_, i) => (
+          <div key={i} className="flex-1 border-b border-white/10"></div>
+        ))}
+      </div>
+    </div>
+    <div className="absolute left-1/4 top-0 h-full w-px bg-white/15"></div>
+    <div className="absolute left-1/2 top-0 h-full w-px bg-white/20"></div>
+    <div className="absolute left-3/4 top-0 h-full w-px bg-white/15"></div>
+  </div>
+);
 
 const FundProposals: React.FC = () => {
   useEffect(() => {
@@ -107,164 +128,121 @@ const FundProposals: React.FC = () => {
   );
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <MenuBar />
-      <VideoBackground>
-        <main className="px-6 py-16 lg:px-24">
-          <section className="mb-16 text-center">
-            <div className="relative z-10 flex flex-col justify-center space-y-8">
-              {/* Countdown and Call to Action */}
-              <div className="flex flex-col items-center justify-center gap-8 md:flex-row">
-                <div className="flex flex-col text-center md:flex-row">
-                  <h2 className="mr-4 text-2xl font-bold text-primary">
-                    Register to Vote
-                  </h2>
-                  <div
-                    id="registerCountdown"
-                    className="inline-block text-2xl font-extrabold text-secondary"
-                  ></div>
-                </div>
-                <div className="flex flex-col text-center md:flex-row">
-                  <h2 className="mr-4 text-2xl font-bold text-primary">
-                    Time is Running Out to Vote!
-                  </h2>
-                  <div
-                    id="voteCountdown"
-                    className="text-2xl font-extrabold text-secondary"
-                  ></div>
-                </div>
-              </div>
+    <div className="relative min-h-screen bg-gradient-to-br from-gray-950 via-gray-950 to-gray-900 text-white">
+      <GridOverlay />
+      {/* Navigation Bar - copied from ModernLanding.tsx */}
+      <nav className="fixed top-0 z-50 w-full border-b border-white/20 bg-black/20 backdrop-blur-sm">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="flex h-20 items-center justify-between">
+            <div className="flex items-center">
+              <Link href="/" className="flex items-center gap-3">
+                <Image
+                  className="h-10 w-auto"
+                  src="/andamio-logo-no-white-overflow.png"
+                  alt="Andamio"
+                  width={100}
+                  height={100}
+                />
+                <span className="text-xl font-bold text-white">Andamio</span>
+              </Link>
             </div>
-            <h1 className="mt-8 text-5xl font-black uppercase text-primary sm:text-6xl md:text-7xl">
-              Project Catalyst Proposals
+            <div className="hidden items-center space-x-8 md:flex">
+              <a
+                href="https://docs.andamio.io"
+                className="font-medium text-gray-300 transition-colors duration-200 hover:text-white"
+              >
+                Docs
+              </a>
+              <Link
+                href="/roadmap"
+                className="font-medium text-gray-300 transition-colors duration-200 hover:text-white"
+              >
+                Roadmap
+              </Link>
+              <Link
+                href="/blog"
+                className="font-medium text-gray-300 transition-colors duration-200 hover:text-white"
+              >
+                Blog
+              </Link>
+              <Link
+                href="https://app.andamio.io/course/86affc4de251b0fb7636c376383bcebf6ca7ca426528f9b7a5adc298"
+                className="font-medium text-gray-300 transition-colors duration-200 hover:text-white"
+              >
+                Andamio 101
+              </Link>
+              <Link
+                href="/customers"
+                className="font-medium text-gray-300 transition-colors duration-200 hover:text-white"
+              >
+                Customers
+              </Link>
+              <Link
+                href="/fund/13"
+                className="font-medium text-gray-300 transition-colors duration-200 hover:text-white"
+              >
+                <span role="img" aria-label="rocket">🚀</span> Project Catalyst
+              </Link>
+              <Link
+                href="https://app.andamio.io"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-sm border border-white/30 bg-gray-800/50 px-4 py-2 text-sm font-medium text-white shadow-lg transition-all duration-200 hover:border-white/50 hover:bg-gray-700/50"
+              >
+                <span>Enter App</span>
+                <svg
+                  className="h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                  />
+                </svg>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div className="relative z-10 mx-auto max-w-7xl px-6 py-32 lg:px-8">
+        {/* Header */}
+        <div className="relative mb-16">
+          {/* Angular accent lines */}
+          <div className="absolute -top-8 left-0 h-1 w-32 bg-gradient-to-r from-blue-500 to-transparent shadow-lg shadow-blue-500/50"></div>
+          <div className="absolute -top-4 left-8 h-1 w-16 bg-gradient-to-r from-white/60 to-transparent"></div>
+          <div className="mb-6 flex items-center gap-4">
+            <div className="h-1 w-12 bg-gradient-to-r from-blue-500 to-transparent"></div>
+            <h1 className="text-4xl font-bold text-white lg:text-6xl">
+              Project Catalyst Fund 14
             </h1>
-            <p className="mx-auto mt-4 max-w-4xl text-lg font-light text-muted-foreground">
-              Discover our proposals for Cardano Project Catalyst and track the
-              progress of each initiative.
-            </p>
-          </section>
+          </div>
+          <p className="max-w-3xl text-xl text-gray-300">
+            Proposals that Andamio has submitted to Project Catalyst. Explore reasoning, progress, and impact.
+          </p>
+        </div>
 
+        {/* Proposals Grid */}
+        <div className="grid gap-8 lg:grid-cols-2">
           {Object.keys(groupedProposals)
             .sort((a, b) => parseInt(b) - parseInt(a))
             .map((fund) => {
-              const techProposals =
-                groupedProposals[parseInt(fund)]?.technology;
-              const adoptionProposals =
-                groupedProposals[parseInt(fund)]?.adoption;
+              const techProposals = groupedProposals[parseInt(fund)]?.technology;
+              const adoptionProposals = groupedProposals[parseInt(fund)]?.adoption;
 
-              return (
-                <section key={fund} className="my-12">
-                  <h2 className="mb-8 text-3xl font-bold text-primary">
-                    Fund {fund} Proposals
-                  </h2>
-
-                  <div className="grid gap-12 lg:grid-cols-2">
-                    {/* Technology column on the left */}
-                    <div>
-                      {!!techProposals && techProposals.length > 0 && (
-                        <>
-                          <h3 className="mb-4 text-2xl font-semibold text-primary">
-                            Technology Oriented
-                          </h3>
-                          <div className="grid gap-8 md:grid-cols-2">
-                            {techProposals?.map((proposal, index) => (
-                              <ProposalCard proposal={proposal} key={index} />
-                            ))}
-                          </div>
-                        </>
-                      )}
-                    </div>
-
-                    {/* Adoption column on the right */}
-                    <div>
-                      {!!adoptionProposals && adoptionProposals.length > 0 && (
-                        <>
-                          <h3 className="mb-4 text-2xl font-semibold text-primary">
-                            Adoption Oriented
-                          </h3>
-                          <div className="grid gap-8 md:grid-cols-2">
-                            {adoptionProposals.map((proposal, index) => (
-                              <ProposalCard proposal={proposal} key={index} />
-                            ))}
-                          </div>
-                        </>
-                      )}
-                    </div>
-                  </div>
-                </section>
-              );
+              return [
+                ...(techProposals || []),
+                ...(adoptionProposals || []),
+              ].map((proposal, idx) => (
+                <ProposalCard proposal={proposal} key={proposal.title + idx} />
+              ));
             })}
-          <div
-            className="flex flex-col items-center justify-center px-6 py-16 text-center md:px-12"
-            style={{
-              minHeight: "calc(100vh - 5rem - 5rem)", // Adjust for navbar and footer heights
-            }}
-          >
-            <h3 className="text-4xl font-black uppercase text-secondary sm:text-5xl md:text-6xl lg:text-7xl">
-              Vote for Andamio
-            </h3>
-            <p className="mt-6 w-full max-w-3xl px-4 text-start text-lg font-medium text-gray-700 md:text-xl">
-              Andamio's cutting-edge technology drives secure, scalable Cardano
-              adoption. Vote to empower communities and shape a decentralized
-              future.
-            </p>
-
-            {/* Benefits Section */}
-            <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              <Card className="flex flex-col items-center space-y-4 rounded-sm bg-white p-6 shadow-md">
-                <CardIcon>
-                  <BriefcaseIcon className="h-12 w-12 text-secondary" />
-                </CardIcon>
-                <CardHeader>
-                  <h4 className="text-lg font-bold text-primary sm:text-xl">
-                    Enterprise-ready Solution
-                  </h4>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-md text-justify font-light text-gray-600 sm:mt-6">
-                    Andamio enables companies to harness Cardano’s blockchain
-                    for secure, efficient, and scalable growth.
-                  </p>
-                </CardContent>
-              </Card>
-              <Card className="flex flex-col items-center space-y-4 rounded-sm bg-white p-6 shadow-md">
-                <CardIcon>
-                  <DocumentTextIcon className="h-12 w-12 text-secondary" />
-                </CardIcon>
-                <CardHeader>
-                  <h4 className="text-lg font-bold text-primary sm:text-xl">
-                    Next-Generation Smart Contracts
-                  </h4>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-md text-justify font-light text-gray-600">
-                    Andamio’s advanced smart contracts deliver automation,
-                    transparency, and trust, setting new standards for Cardano.
-                  </p>
-                </CardContent>
-              </Card>
-              <Card className="flex flex-col items-center space-y-4 rounded-sm bg-white p-6 shadow-md">
-                <CardIcon>
-                  <ShieldCheckIcon className="h-12 w-12 text-secondary" />
-                </CardIcon>
-                <CardHeader>
-                  <h4 className="text-lg font-bold text-primary sm:text-xl">
-                    Transparent On-Chain Operations
-                  </h4>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-md text-justify font-light text-gray-600">
-                    With verifiable on-chain transactions, Andamio ensures
-                    transparency, efficiency, and security.
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </main>
-
-        <Footer />
-      </VideoBackground>
+        </div>
+      </div>
+      <Footer />
     </div>
   );
 };
@@ -273,24 +251,25 @@ type ProposalCardProps = {
   proposal: Proposal;
 };
 
+// Update Card and Badge components for exact blog style
 const ProposalCard: React.FC<ProposalCardProps> = ({ proposal }) => (
-  <Card className="flex flex-col justify-start rounded-sm bg-white p-6 shadow-md transition-shadow duration-300 hover:shadow-lg">
+  <Card className="group relative overflow-hidden border border-white/20 bg-gray-800/50 backdrop-blur-sm shadow-xl transition-all duration-300 hover:border-white/40 hover:shadow-2xl">
     <CardHeader>
-      <CardTitle className="text-xl font-semibold text-primary">
+      <CardTitle className="text-xl font-bold text-white group-hover:text-blue-300 lg:text-2xl">
         {proposal.title}
       </CardTitle>
       <Badge
         className={`${
           proposal.status === "completed"
-            ? "bg-green-200 text-green-800"
+            ? "bg-green-800 text-green-200"
             : proposal.status === "in progress"
-              ? "bg-yellow-200 text-yellow-800"
-              : "bg-blue-200 text-blue-800"
-        } rounded-sm px-3 py-1 text-xs font-semibold`}
+              ? "bg-yellow-800 text-yellow-200"
+              : "bg-blue-800 text-blue-200"
+        } rounded-full px-3 py-1 text-xs font-medium border border-blue-500/30`}
       >
         {proposal.status}
       </Badge>
-      <CardDescription className="mt-2 text-muted-foreground">
+      <CardDescription className="mt-2 text-gray-400">
         {proposal.summary}
       </CardDescription>
     </CardHeader>
@@ -299,68 +278,27 @@ const ProposalCard: React.FC<ProposalCardProps> = ({ proposal }) => (
         {proposal.deliverables.map((deliverable, idx) => (
           <li key={idx} className="flex items-start gap-2">
             <Checkbox checked={deliverable.completed} disabled />
-            <p className="text-sm font-light text-foreground">
+            <p className="text-sm font-light text-gray-200">
               {deliverable.description}
             </p>
           </li>
         ))}
       </ul>
-      <Link
+      <a
         href={proposal.link}
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-4 inline-block text-sm font-medium text-primary hover:underline"
+        className="mt-4 inline-block text-sm font-medium text-blue-300 hover:underline"
       >
         View Proposal
-      </Link>
+      </a>
     </CardContent>
   </Card>
 );
 
 export default FundProposals;
 
-const VideoBackground = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <>
-      <div className="relative min-h-screen">
-        {/* Video container */}
-        <div className="fixed left-0 top-0 h-full w-full overflow-hidden opacity-70">
-          <video
-            className="min-h-screen min-w-full object-cover"
-            autoPlay
-            muted
-            loop
-            playsInline
-          >
-            <source src="/video/bg-video-002.webm" type="video/webm" />
-            Your browser does not support the video tag.
-          </video>
-        </div>
-
-        {/* Content overlay */}
-        <div className="relative z-10">{children}</div>
-      </div>
-    </>
-  );
-};
-
 const proposals: Proposal[] = [
-  {
-    title: "Decentralized Governance Smart Contracts",
-    summary:
-      "Building a complete set of open-source, ready-to-deploy governance smart contracts.",
-    deliverables: [
-      { description: "R&D of tug-of-war governance models", completed: false },
-      {
-        description: "R&D of Consent Decision-Making governance model",
-        completed: false,
-      },
-    ],
-    status: "voting",
-    link: "https://cardano.ideascale.com/c/cardano/idea/132774",
-    fund: 13,
-    category: "technology",
-  },
   {
     title: "FC Barcelona - Fan Engagement Infrastructure",
     summary:
@@ -375,8 +313,8 @@ const proposals: Proposal[] = [
         completed: false,
       },
     ],
-    status: "voting",
-    link: "https://cardano.ideascale.com/c/cardano/idea/134562",
+    status: "in progress",
+    link: "https://projectcatalyst.io/funds/13/cardano-partners-enterprise-randd/fc-barcelona-fan-engagement-infrastructure-cardano",
     fund: 13,
     category: "adoption",
   },
@@ -388,48 +326,23 @@ const proposals: Proposal[] = [
     deliverables: [
       {
         description: "Andamio SDK architecture and prototyping",
-        completed: false,
+        completed: true,
       },
       {
         description: "Andamio Client with UTxO-RPC integration",
-        completed: false,
+        completed: true,
       },
       {
         description: "Inclusion of Andamio Network Txs in SDK and Client",
-        completed: false,
+        completed: true,
       },
     ],
-    status: "voting",
-    link: "https://cardano.ideascale.com/c/cardano/idea/131718",
+    status: "completed",
+    link: "https://milestones.projectcatalyst.io/projects/1300020",
     fund: 13,
     category: "technology",
   },
   // Add additional proposals here
-  {
-    title:
-      "Cardano Youth Adoption: Global Education & Wallet Activation via Goodwall",
-    summary:
-      "Using Goodwall's 2.5M+ network for Cardano education and wallet activation.",
-    deliverables: [
-      {
-        description: "Onboarding Goodwall to Andamio",
-        completed: false,
-      },
-      {
-        description: "Development of the Learn to Work programs",
-        completed: false,
-      },
-      {
-        description:
-          "Set up a treasury to distribute rewards for approved work submissions",
-        completed: false,
-      },
-    ],
-    status: "voting",
-    link: "https://cardano.ideascale.com/c/cardano/idea/134665",
-    fund: 13,
-    category: "adoption",
-  },
   {
     title: "Syngenta Agricultural Insight",
     summary:
@@ -444,50 +357,10 @@ const proposals: Proposal[] = [
         completed: false,
       },
     ],
-    status: "voting",
-    link: "https://cardano.ideascale.com/c/cardano/idea/134587",
+    status: "in progress",
+    link: "https://projectcatalyst.io/funds/13/cardano-partners-enterprise-randd/syngenta-agricultural-insight-and-earth-observation-data-uplifts-subsistence-farmers-into-profitability",
     fund: 13,
     category: "adoption",
-  },
-  {
-    title: "Andamio+Identus+Mātou: Identity for Education & Economic Impact",
-    summary:
-      "A decentralised system where learners earn tokenised credentials through DIDs & VCs, allowing skills accumulation, credential sharing & recognition enabling seamless transition from education to work.",
-    deliverables: [
-      {
-        description:
-          "Provide a decentralised identity system for learners and communities",
-        completed: false,
-      },
-      {
-        description: "Create a practical system for education and employment",
-        completed: false,
-      },
-    ],
-    status: "voting",
-    link: "https://cardano.ideascale.com/c/cardano/idea/132155",
-    fund: 13,
-    category: "adoption",
-  },
-  {
-    title: "Andamio Governance Smart Contracts + Gimbalabs PBL Governance",
-    summary:
-      "Build a set of smart contracts that grant governance and decision-making power to people with a record of maintaining public resources. Publish a playbook so that anyone can use this governance model.",
-    deliverables: [
-      {
-        description: "Create spaces for students to start contributing",
-        completed: false,
-      },
-      {
-        description:
-          "Create systems that support contributors to become decision-makers",
-        completed: false,
-      },
-    ],
-    status: "voting",
-    link: "https://cardano.ideascale.com/c/cardano/idea/131346",
-    fund: 13,
-    category: "technology",
   },
   {
     title: "Andamio Purpose Sidechain / Layer 2 Concept",
@@ -500,24 +373,24 @@ const proposals: Proposal[] = [
       },
       {
         description: "Established infrastructure on cloud servers",
-        completed: false,
+        completed: true,
       },
       {
         description: "Detailed sidechain architecture design document",
-        completed: false,
+        completed: true,
       },
       {
         description:
           "Migrated smart contracts and data on the purpose sidechain",
-        completed: false,
+        completed: true,
       },
       {
         description: "Extensive testing on a public Cardano testnet",
-        completed: false,
+        completed: true,
       },
     ],
-    status: "in progress",
-    link: "https://cardano.ideascale.com/c/cardano/idea/122585",
+    status: "completed",
+    link: "https://milestones.projectcatalyst.io/projects/1200031",
     fund: 12,
     category: "technology",
   },
@@ -528,19 +401,19 @@ const proposals: Proposal[] = [
     deliverables: [
       {
         description: "Design preliminary framework for the SSOI system",
-        completed: false,
+        completed: true,
       },
       {
         description: "Develop initial components of the SSOI system",
-        completed: false,
+        completed: true,
       },
       {
         description: "SSOI prototype implementation and testing",
-        completed: false,
+        completed: true,
       },
     ],
-    status: "in progress",
-    link: "https://cardano.ideascale.com/c/cardano/idea/122055",
+    status: "completed",
+    link: "https://milestones.projectcatalyst.io/projects/1200099",
     fund: 12,
     category: "technology",
   },
@@ -573,7 +446,7 @@ const proposals: Proposal[] = [
       },
     ],
     status: "completed",
-    link: "https://cardano.ideascale.com/c/cardano/idea/113455   ",
+    link: "https://milestones.projectcatalyst.io/projects/1100216",
     fund: 11,
     category: "technology",
   },
@@ -598,7 +471,7 @@ const proposals: Proposal[] = [
       },
     ],
     status: "completed",
-    link: "https://cardano.ideascale.com/c/cardano/idea/104780",
+    link: "https://milestones.projectcatalyst.io/projects/1000061",
     fund: 10,
     category: "adoption",
   },

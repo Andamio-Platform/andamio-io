@@ -70,9 +70,9 @@ export default function NavigationBar({ currentPage }: NavigationBarProps) {
               Customers  
             </Link>
             <Link
-              href="/fund/13"
+              href="/fund/14"
               className={`font-medium transition-colors duration-200 ${
-                currentPage === "fund/13"
+                currentPage === "fund/14"
                   ? "text-white"
                   : "text-gray-300 hover:text-white"
               }`}

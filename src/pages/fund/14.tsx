@@ -300,6 +300,91 @@ export default FundProposals;
 
 const proposals: Proposal[] = [
   {
+    title: "Integration Web2 with solution Nestr.io: On‑Chain Task and Contributor Verification",
+    summary:
+      "Most collaboration tools are off-chain, hiding verifiable proof of work, while on-chain ools are too technical and lack proven, DAO-friendly collaboration models. A blockchain-powered collaboration tool based on proven decentralized practices, that record tasks and contributor activity, enabling verifiable proof of work.",
+    deliverables: [
+      {
+        description: "Architecture & Integration Plan",
+        completed: false,
+      },
+      {
+        description: "Protocol & SDK Development",
+        completed: false,
+      },
+      {
+        description: "On‑Chain Proof of Work Submission",
+        completed: false,
+      },
+            {
+        description: "Indexing & Auditability",
+        completed: false,
+      },
+      {
+        description: "Testnet Validation & Final Report",
+        completed: false,
+      },
+    ],
+    status: "voting",
+    link: "https://projectcatalyst.io/funds/14/cardano-use-cases-concepts/onchain-task-and-contributor-verification",
+    fund: 14,
+    category: "technology",
+  },
+  {
+    title: "Andamio Auth: T3 App Template with Cardano Token-Based Login",
+    summary:
+      "Cardano wallets can connect to dApps, but production apps still need authentication to Web2 services for data and APIs. Cardano devs need wallet connectivity integrated with traditional auth systems. We're open-sourcing Andamio Auth in a T3 App template connecting Cardano wallets and Web2 auth. Used in production at app.andamio.io, with JWT sessions, database integration, and protected routes.",
+    deliverables: [
+      {
+        description: "Core Template: T3 App template with Cardano wallet connection (CIP-30), Prisma database with basic user schema, Protected tRPC routes for authenticated database access, and more",
+        completed: false,
+      },
+      {
+        description: "OAuth2 Compliance & Standards",
+        completed: false,
+      },
+      {
+        description: "Industry-standard README.md and 'Getting Started' guide that help devs get the template up and running with Web3 Auth in under 10 minutes",
+        completed: false,
+      },
+            {
+        description: "Hands-on Starter Kit",
+        completed: false,
+      },
+      {
+        description: "Andamio SDK Integration",
+        completed: false,
+      },
+    ],
+    status: "voting",
+    link: "https://projectcatalyst.io/funds/14/cardano-open-developers/andamio-auth-t3-app-template-with-cardano-token-based-login",
+    fund: 14,
+    category: "technology",
+  },
+  {
+    title: "Catalyst Review Made Trustworthy with Andamio Protocol",
+    summary:
+      "Reviewers have no structured path to build skills, earn portable reputation, or prove impact, weakening Catalyst’s trust layer. We create a structured reviewer journey: learn, certify, contribute—each step verified on-chain, ensuring trust, transparency, and portable reputation.",
+    deliverables: [
+      {
+        description: "Curriculum Design & Onboarding Flow: Andamio interactive flow for Reviewers",
+        completed: false,
+      },
+      {
+        description: "Reviewer Contributions and Treasury Compensation: Activation of contribution system for Reviewers",
+        completed: false,
+      },
+      {
+        description: "Traceability report: data on reviewer participation, tasks completed, treasury operations, payouts executed, and insights for scaling to future Catalyst funds.",
+        completed: false,
+      },
+    ],
+    status: "voting",
+    link: "https://projectcatalyst.io/funds/14/cardano-open-ecosystem/catalyst-review-made-trustworthy-with-andamio-protocol",
+    fund: 14,
+    category: "technology",
+  },
+  {
     title: "FC Barcelona - Fan Engagement Infrastructure",
     summary:
       "Engage FC Barcelona fans through a learn-to-work platform, driving adoption of Cardano.",

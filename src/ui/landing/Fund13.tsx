@@ -21,7 +21,7 @@ const CatalystHero = () => {
 
         {/* Call to Action */}
         <div className="mt-8 flex justify-center space-x-4">
-          <Link href="/fund/13">
+          <Link href="/fund/14">
             <Button className="rounded-sm bg-white px-6 py-3 text-lg font-bold uppercase text-primary shadow-md transition-all duration-300 hover:bg-opacity-90">
               Explore Proposals
             </Button>

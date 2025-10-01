@@ -76,7 +76,7 @@ export default function ModernLanding() {
                 Customers
               </Link>
               <Link
-                href="/fund/13"
+                href="/fund/14"
                 className="font-medium text-gray-300 transition-colors duration-200 hover:text-white"
               >
                 <span role="img" aria-label="rocket">🚀</span> Project Catalyst 

@@ -4,7 +4,7 @@
   "tags": ["institutional"],
   "image": "/blog/Barca-learn-to-work.png",
   "logo": "/customer/fcbarcelona/fcbarcelona-logo.webp",
-  "redirectTo": "/blog/024.md"
+  "redirectTo": "/blog/024"
   
 }
 ---

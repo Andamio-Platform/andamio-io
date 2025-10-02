@@ -43,7 +43,7 @@ export default function CustomersPage() {
           </h1>
         </div>
         <p className="max-w-3xl text-xl text-gray-300">
-          Celebrating the global community of people building local states on Andamio. Teams of all sizes - tech teams, collaborative team, educational teams, and more.
+          Celebrating the global community of people building local states on Andamio. Teams of all sizes - tech teams, collaborative team, educational teams, institutions, and more.
         </p>
         <br />
         <p className="max-w-3xl text-xl text-gray-300">

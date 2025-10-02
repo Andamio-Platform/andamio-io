@@ -1,6 +1,7 @@
 // import { Metadata } from "next";
 import Markdoc from "@markdoc/markdoc";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { getCustomerPageContent } from "~/lib/customers";
 import { parseBlogMarkdocFrontmatter } from "~/utils/markdown";
 import { TransformedPageContent } from "~/utils/transformedPageContent";
@@ -20,6 +21,10 @@ function getFrontmatter(customerId: string) {
 export default function Page({ params }: { params: Props }) {
   const content = getCustomerPageContent(params.customerId);
   const data = getFrontmatter(params.customerId);
+
+  if (data?.redirectTo) {
+    redirect(data.redirectTo);
+  }
 
   return (
     <div className="mx-auto max-w-4xl px-6 py-20 lg:px-8">

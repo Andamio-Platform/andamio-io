@@ -1,6 +1,6 @@
 ---
 {
-  "title": "ODIN: How collaboration became verifiable—and contributions rewarded",
+  "title": "ODIN: How Collaboration Became Verifiable—and Contributions Rewarded",
   "tags": ["project mamagement"],
   "image": "/customer/odin/odin-cover.png",
   "logo": "/customer/odin/odin-logo.png"

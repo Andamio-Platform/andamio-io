@@ -14,7 +14,7 @@
 Despite its innovative design, *Gamechanger* faced a common hurdle: rapid technical development was outpacing community growth. Without clear educational pathways, they risked limiting their impact to only a handful of advanced users.
 
 ## **Solution**
-In collaboration with Andamio, *Gamechanger* transformed its educational vision into a practical learning journey. Through *Andamio’s Learning platform*, they built structured, hands-on modules that guide learners through the wallet’s capabilities and real-world applications. Once live on *Andamio*, the course not only teaches how to use *Gamechanger* but also becomes a onboarding mechanism for contributors via the *Andamio's Contribution platform*: a foundation for onboarding contributors into the Gamechanger community while strengthening ties to Cardano’s ecosystem.
+Using Andamio, *Gamechanger* transformed its educational vision into a practical learning journey. Through *Andamio’s Learning platform*, they built structured, hands-on modules that guide learners through the wallet’s capabilities and real-world applications. Once live on *Andamio*, the course not only teaches how to use *Gamechanger* but also becomes a onboarding mechanism for contributors via the *Andamio's Contribution platform*: a foundation for onboarding contributors into the Gamechanger community while strengthening ties to Cardano’s ecosystem.
 ![cover image](/customer/gamechanger/gamechanger-image-2.png)
 
 ## **Result**

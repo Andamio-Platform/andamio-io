@@ -15,3 +15,5 @@ For Cardano, the upside is clear: human-readable, trustless identifiers that dAp
 The strengths are clear: decentralization, interoperability, and technical depth. But challenges remain—cross-chain integrations are complex, requiring careful attention to security, user experience, and long-term maintenance. Still, this project will set a precedent for how specialized blockchains can combine forces to deliver practical, decentralized infrastructure—backed by the high technical expertise of the *Blink Labs* and *Andamio* teams.
 
 In short, *Handshake* leads with sovereign naming; *Cardano* amplifies it with programmable guarantees. Together, they move the web closer to open, verifiable, and user-owned identity.
+
+More details [here](https://projectcatalyst.io/funds/13/cardano-open-developers/decentralized-domain-name-system-dns-marketplace-powered-by-cardano-and-handshake-blockchains) 

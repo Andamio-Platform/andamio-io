@@ -95,7 +95,7 @@ export function BuiltOnCardano() {
         {/* Call to Action */}
         <div className="mt-12 text-center">
           <Link href="/about/our-technology">
-            <Button className="text-md hover:borderborder-primary rounded-sm bg-primary py-3 font-montserrat font-semibold uppercase text-white transition-all duration-300 hover:border-2 hover:border-primary hover:bg-white hover:text-primary md:px-6">
+            <Button className="text-md hover:borderborder-primary rounded-sm bg-primary py-3 font-sans font-semibold uppercase text-white transition-all duration-300 hover:border-2 hover:border-primary hover:bg-white hover:text-primary md:px-6">
               Learn About Our Technology
             </Button>
           </Link>

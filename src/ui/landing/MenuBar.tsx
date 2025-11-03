@@ -76,7 +76,7 @@ function Desktop({
         {navigation.map((item) => (
           <Link href={item.href} key={item.name} legacyBehavior passHref>
             <Button
-              className={`${navigationMenuTriggerStyle()} cursor-pointer rounded-sm bg-white font-montserrat text-primary shadow-none hover:text-white`}
+              className={`${navigationMenuTriggerStyle()} cursor-pointer rounded-sm bg-white font-sans text-primary shadow-none hover:text-white`}
             >
               {item.name}
             </Button>
@@ -84,7 +84,7 @@ function Desktop({
         ))}
 
         <Link href="/contact" legacyBehavior passHref>
-          <Button className="cursor-pointer rounded-sm font-montserrat text-white shadow-none hover:bg-white">
+          <Button className="cursor-pointer rounded-sm font-sans text-white shadow-none hover:bg-white">
             <span className="uppercase">Get in touch</span>
           </Button>
         </Link>
@@ -102,7 +102,7 @@ function Desktop({
             }`}
           >
             I am a&nbsp;
-            <span className="font-montserrat font-semibold uppercase">
+            <span className="font-sans font-semibold uppercase">
               learner
             </span>
           </Button>
@@ -115,7 +115,7 @@ function Desktop({
             }`}
           >
             I am an&nbsp;
-            <span className="font-montserrat font-semibold uppercase">
+            <span className="font-sans font-semibold uppercase">
               organization
             </span>
           </Button>
@@ -125,7 +125,7 @@ function Desktop({
       {/* User Login/Profile */}
       <div>
         <Link href={`https://app.andamio.io`}>
-          <Button className="text-md rounded-sm border-2 border-primary bg-primary py-2 font-montserrat font-semibold  uppercase text-white transition-all duration-300 hover:border-primary hover:bg-white hover:text-primary md:px-6">
+          <Button className="text-md rounded-sm border-2 border-primary bg-primary py-2 font-sans font-semibold  uppercase text-white transition-all duration-300 hover:border-primary hover:bg-white hover:text-primary md:px-6">
             Enter App
           </Button>
         </Link>
@@ -217,7 +217,7 @@ function Mobile({
                     : "bg-primary text-white hover:bg-white hover:text-primary"
                 }`}
               >
-                <span className="font-montserrat font-semibold uppercase">
+                <span className="font-sans font-semibold uppercase">
                   Learners
                 </span>
               </Button>
@@ -232,7 +232,7 @@ function Mobile({
                     : "bg-primary text-white hover:bg-white hover:text-primary"
                 }`}
               >
-                <span className="font-montserrat font-semibold uppercase">
+                <span className="font-sans font-semibold uppercase">
                   Organizations
                 </span>
               </Button>

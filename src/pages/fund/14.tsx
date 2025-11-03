@@ -30,23 +30,23 @@ type Proposal = {
 };
 
 const GridOverlay = () => (
-  <div className="pointer-events-none fixed inset-0 z-0 opacity-10">
-    <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/5 to-transparent"></div>
+  <div className="pointer-events-none fixed inset-0 z-0 opacity-[0.03]">
+    <div className="absolute inset-0 bg-gradient-to-br from-transparent via-primary/10 to-transparent"></div>
     <div className="grid h-full grid-cols-16">
       {Array.from({ length: 16 }).map((_, i) => (
-        <div key={i} className="border-r border-white/20"></div>
+        <div key={i} className="border-r border-primary/30"></div>
       ))}
     </div>
     <div className="absolute inset-0">
       <div className="flex h-full flex-col">
         {Array.from({ length: 24 }).map((_, i) => (
-          <div key={i} className="flex-1 border-b border-white/10"></div>
+          <div key={i} className="flex-1 border-b border-primary/20"></div>
         ))}
       </div>
     </div>
-    <div className="absolute left-1/4 top-0 h-full w-px bg-white/15"></div>
-    <div className="absolute left-1/2 top-0 h-full w-px bg-white/20"></div>
-    <div className="absolute left-3/4 top-0 h-full w-px bg-white/15"></div>
+    <div className="absolute left-1/4 top-0 h-full w-px bg-primary/25"></div>
+    <div className="absolute left-1/2 top-0 h-full w-px bg-primary/30"></div>
+    <div className="absolute left-3/4 top-0 h-full w-px bg-primary/25"></div>
   </div>
 );
 
@@ -128,10 +128,10 @@ const FundProposals: React.FC = () => {
   );
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-gray-950 via-gray-950 to-gray-900 text-white">
+    <div className="relative min-h-screen bg-background text-foreground">
       <GridOverlay />
-      {/* Navigation Bar - copied from ModernLanding.tsx */}
-      <nav className="fixed top-0 z-50 w-full border-b border-white/20 bg-black/20 backdrop-blur-sm">
+      {/* Navigation Bar - matches ModernLanding.tsx light theme */}
+      <nav className="fixed top-0 z-50 w-full border-b border-border bg-card/90 backdrop-blur-sm shadow-md">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="flex h-20 items-center justify-between">
             <div className="flex items-center">
@@ -143,43 +143,43 @@ const FundProposals: React.FC = () => {
                   width={100}
                   height={100}
                 />
-                <span className="text-xl font-bold text-white">Andamio</span>
+                <span className="text-xl font-bold text-foreground">Andamio</span>
               </Link>
             </div>
             <div className="hidden items-center space-x-8 md:flex">
               <a
                 href="https://docs.andamio.io"
-                className="font-medium text-gray-300 transition-colors duration-200 hover:text-white"
+                className="font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"
               >
                 Docs
               </a>
               <Link
                 href="/roadmap"
-                className="font-medium text-gray-300 transition-colors duration-200 hover:text-white"
+                className="font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"
               >
                 Roadmap
               </Link>
               <Link
                 href="/blog"
-                className="font-medium text-gray-300 transition-colors duration-200 hover:text-white"
+                className="font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"
               >
                 Blog
               </Link>
               <Link
                 href="https://app.andamio.io/course/86affc4de251b0fb7636c376383bcebf6ca7ca426528f9b7a5adc298"
-                className="font-medium text-gray-300 transition-colors duration-200 hover:text-white"
+                className="font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"
               >
                 Andamio 101
               </Link>
               <Link
                 href="/customers"
-                className="font-medium text-gray-300 transition-colors duration-200 hover:text-white"
+                className="font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"
               >
                 Customers
               </Link>
               <Link
                 href="/fund/13"
-                className="font-medium text-gray-300 transition-colors duration-200 hover:text-white"
+                className="font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"
               >
                 <span role="img" aria-label="rocket">🚀</span> Project Catalyst
               </Link>
@@ -187,7 +187,7 @@ const FundProposals: React.FC = () => {
                 href="https://app.andamio.io"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-sm border border-white/30 bg-gray-800/50 px-4 py-2 text-sm font-medium text-white shadow-lg transition-all duration-200 hover:border-white/50 hover:bg-gray-700/50"
+                className="inline-flex items-center gap-2 rounded-sm border border-border bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-lg transition-all duration-200 hover:bg-primary/90"
               >
                 <span>Enter App</span>
                 <svg
@@ -212,15 +212,15 @@ const FundProposals: React.FC = () => {
         {/* Header */}
         <div className="relative mb-16">
           {/* Angular accent lines */}
-          <div className="absolute -top-8 left-0 h-1 w-32 bg-gradient-to-r from-blue-500 to-transparent shadow-lg shadow-blue-500/50"></div>
-          <div className="absolute -top-4 left-8 h-1 w-16 bg-gradient-to-r from-white/60 to-transparent"></div>
+          <div className="absolute -top-8 left-0 h-1 w-32 bg-gradient-to-r from-primary to-transparent shadow-md shadow-primary/20"></div>
+          <div className="absolute -top-4 left-8 h-1 w-16 bg-gradient-to-r from-muted-foreground/40 to-transparent"></div>
           <div className="mb-6 flex items-center gap-4">
-            <div className="h-1 w-12 bg-gradient-to-r from-blue-500 to-transparent"></div>
-            <h1 className="text-4xl font-bold text-white lg:text-6xl">
+            <div className="h-1 w-12 bg-gradient-to-r from-primary to-transparent"></div>
+            <h1 className="text-4xl font-bold text-foreground lg:text-6xl">
               Project Catalyst Fund 14
             </h1>
           </div>
-          <p className="max-w-3xl text-xl text-gray-300">
+          <p className="max-w-3xl text-xl text-muted-foreground">
             Proposals that Andamio has submitted to Project Catalyst. Explore reasoning, progress, and impact.
           </p>
         </div>
@@ -251,25 +251,25 @@ type ProposalCardProps = {
   proposal: Proposal;
 };
 
-// Update Card and Badge components for exact blog style
+// Update Card and Badge components to match light style
 const ProposalCard: React.FC<ProposalCardProps> = ({ proposal }) => (
-  <Card className="group relative overflow-hidden border border-white/20 bg-gray-800/50 backdrop-blur-sm shadow-xl transition-all duration-300 hover:border-white/40 hover:shadow-2xl">
+  <Card className="group relative overflow-hidden border border-border bg-card shadow-lg transition-all duration-300 hover:border-primary/50 hover:shadow-xl">
     <CardHeader>
-      <CardTitle className="text-xl font-bold text-white group-hover:text-blue-300 lg:text-2xl">
+      <CardTitle className="text-xl font-bold text-foreground transition-colors duration-200 group-hover:text-primary lg:text-2xl">
         {proposal.title}
       </CardTitle>
       <Badge
         className={`${
           proposal.status === "completed"
-            ? "bg-green-800 text-green-200"
+            ? "bg-success/10 text-success border-success/30"
             : proposal.status === "in progress"
-              ? "bg-yellow-800 text-yellow-200"
-              : "bg-blue-800 text-blue-200"
-        } rounded-full px-3 py-1 text-xs font-medium border border-blue-500/30`}
+              ? "bg-accent/10 text-accent border-accent/30"
+              : "bg-primary/10 text-primary border-primary/30"
+        } rounded-full px-3 py-1 text-xs font-medium border`}
       >
         {proposal.status}
       </Badge>
-      <CardDescription className="mt-2 text-gray-400">
+      <CardDescription className="mt-2 text-muted-foreground">
         {proposal.summary}
       </CardDescription>
     </CardHeader>
@@ -278,7 +278,7 @@ const ProposalCard: React.FC<ProposalCardProps> = ({ proposal }) => (
         {proposal.deliverables.map((deliverable, idx) => (
           <li key={idx} className="flex items-start gap-2">
             <Checkbox checked={deliverable.completed} disabled />
-            <p className="text-sm font-light text-gray-200">
+            <p className="text-sm font-light text-foreground">
               {deliverable.description}
             </p>
           </li>
@@ -288,7 +288,7 @@ const ProposalCard: React.FC<ProposalCardProps> = ({ proposal }) => (
         href={proposal.link}
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-4 inline-block text-sm font-medium text-blue-300 hover:underline"
+        className="mt-4 inline-block text-sm font-medium text-primary transition-colors duration-200 hover:text-primary/80 hover:underline"
       >
         View Proposal
       </a>

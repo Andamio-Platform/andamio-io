@@ -6,30 +6,30 @@ import Link from "next/link";
 
 export default function ModernLanding() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-950 to-gray-900 text-white">
+    <div className="min-h-screen bg-background text-foreground">
       {/* Angular Grid Overlay */}
-      <div className="pointer-events-none fixed inset-0 opacity-10">
-        <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/5 to-transparent"></div>
+      <div className="pointer-events-none fixed inset-0 opacity-[0.03]">
+        <div className="absolute inset-0 bg-gradient-to-br from-transparent via-primary/10 to-transparent"></div>
         <div className="grid h-full grid-cols-16">
           {Array.from({ length: 16 }).map((_, i) => (
-            <div key={i} className="border-r border-white/20"></div>
+            <div key={i} className="border-r border-primary/30"></div>
           ))}
         </div>
         <div className="absolute inset-0">
           <div className="flex h-full flex-col">
             {Array.from({ length: 24 }).map((_, i) => (
-              <div key={i} className="flex-1 border-b border-white/10"></div>
+              <div key={i} className="flex-1 border-b border-primary/20"></div>
             ))}
           </div>
         </div>
         {/* Additional vertical accent lines */}
-        <div className="absolute left-1/4 top-0 h-full w-px bg-white/15"></div>
-        <div className="absolute left-1/2 top-0 h-full w-px bg-white/20"></div>
-        <div className="absolute left-3/4 top-0 h-full w-px bg-white/15"></div>
+        <div className="absolute left-1/4 top-0 h-full w-px bg-primary/25"></div>
+        <div className="absolute left-1/2 top-0 h-full w-px bg-primary/30"></div>
+        <div className="absolute left-3/4 top-0 h-full w-px bg-primary/25"></div>
       </div>
 
       {/* Navigation */}
-      <nav className="fixed top-0 z-50 w-full border-b border-white/20 bg-black/20 backdrop-blur-sm">
+      <nav className="fixed top-0 z-50 w-full border-b border-border bg-card/80 backdrop-blur-md shadow-sm">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="flex h-20 items-center justify-between">
             <div className="flex items-center">
@@ -41,51 +41,51 @@ export default function ModernLanding() {
                   width={100}
                   height={100}
                 />
-                <span className="text-xl font-bold text-white">Andamio</span>
+                <span className="text-xl font-bold text-foreground">Andamio</span>
               </div>
             </div>
             <div className="hidden items-center space-x-8 md:flex">
               <a
                 href="https://docs.andamio.io"
-                className="font-medium text-gray-300 transition-colors duration-200 hover:text-white"
+                className="font-medium text-muted-foreground transition-colors duration-200 hover:text-primary"
               >
                 Docs
               </a>
               <Link
                 href="/roadmap"
-                className="font-medium text-gray-300 transition-colors duration-200 hover:text-white"
+                className="font-medium text-muted-foreground transition-colors duration-200 hover:text-primary"
               >
                 Roadmap
               </Link>
               <Link
                 href="/blog"
-                className="font-medium text-gray-300 transition-colors duration-200 hover:text-white"
+                className="font-medium text-muted-foreground transition-colors duration-200 hover:text-primary"
               >
                 Blog
               </Link>
               <Link
                 href="https://app.andamio.io/course/86affc4de251b0fb7636c376383bcebf6ca7ca426528f9b7a5adc298"
-                className="font-medium text-gray-300 transition-colors duration-200 hover:text-white"
+                className="font-medium text-muted-foreground transition-colors duration-200 hover:text-primary"
               >
                 Andamio 101
               </Link>
               <Link
                 href="/customers"
-                className="font-medium text-gray-300 transition-colors duration-200 hover:text-white"
+                className="font-medium text-muted-foreground transition-colors duration-200 hover:text-primary"
               >
                 Customers
               </Link>
               <Link
                 href="/fund/14"
-                className="font-medium text-gray-300 transition-colors duration-200 hover:text-white"
+                className="font-medium text-muted-foreground transition-colors duration-200 hover:text-primary"
               >
-                <span role="img" aria-label="rocket">🚀</span> Project Catalyst 
+                <span role="img" aria-label="rocket">🚀</span> Project Catalyst
               </Link>
               <Link
                 href="https://app.andamio.io"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-sm border border-white/30 bg-gray-800/50 px-4 py-2 text-sm font-medium text-white shadow-lg transition-all duration-200 hover:border-white/50 hover:bg-gray-700/50"
+                className="inline-flex items-center gap-2 rounded-md border border-primary bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-md transition-all duration-200 hover:bg-primary/90 hover:shadow-lg"
               >
                 <span>Enter App</span>
                 <svg
@@ -110,7 +110,7 @@ export default function ModernLanding() {
       {/* Hero Section */}
       <section className="relative flex min-h-screen items-center overflow-hidden">
         {/* Background Andamio Logo */}
-        <div className="absolute -left-40 top-1/2 -translate-y-1/2 transform opacity-5">
+        <div className="absolute -left-40 top-1/2 -translate-y-1/2 transform opacity-50">
           <Image
             src="/andamio-logo-no-white-overflow.png"
             alt=""
@@ -120,128 +120,313 @@ export default function ModernLanding() {
           />
         </div>
 
+        {/* Left Content */}
         <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
+          <div className="relative max-w-3xl">
+            <h1 className="mb-12 text-6xl font-bold leading-[1.1] lg:text-9xl">
+              <span className="block tracking-tight text-foreground">Build</span>
+              <span className="block bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text tracking-tight text-transparent">
+                Great Teams
+              </span>
+            </h1>
+
+            <div className="relative mb-12">
+              <p className="mb-10 text-3xl font-bold leading-tight text-foreground lg:text-4xl">
+                Verify that people have the qualifications they say they do.
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-6 sm:flex-row">
+              <Link href="https://app.andamio.io/course/86affc4de251b0fb7636c376383bcebf6ca7ca426528f9b7a5adc298">
+                <Button
+                  size="lg"
+                  className="bg-primary px-8 py-4 font-semibold text-primary-foreground shadow-lg hover:bg-primary/90 hover:shadow-xl"
+                >
+                  Start with Andamio 101
+                </Button>
+              </Link>
+              <Link href="https://docs.andamio.io/docs/">
+                <Button
+                  size="lg"
+                  intent="outline"
+                  className="border-primary px-8 py-4 text-lg font-semibold text-foreground shadow-md hover:bg-primary hover:text-primary-foreground"
+                >
+                  View Documentation
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* Right side scaffolding grid - flush to viewport edge */}
+        <div className="absolute right-0 top-1/2 hidden -translate-y-1/2 transform lg:block">
+          <div className="flex flex-col gap-6 pr-0">
+            {/* Image 1 */}
+            <div className="relative h-[180px] w-[280px] overflow-hidden rounded-l-lg border-2 border-r-0 border-border shadow-lg">
+              <Image
+                src="/images/landing/example1.jpeg"
+                alt=""
+                width={380}
+                height={220}
+                className="h-full w-full object-cover"
+              />
+            </div>
+
+            {/* Image 2 */}
+            <div className="relative h-[180px] w-[280px] overflow-hidden rounded-l-lg border-2 border-r-0 border-border shadow-lg">
+              <Image
+                src="/images/landing/example2.jpeg"
+                alt=""
+                width={380}
+                height={220}
+                className="h-full w-full object-cover"
+              />
+            </div>
+
+            {/* Image 3 */}
+            <div className="relative h-[180px] w-[280px] overflow-hidden rounded-l-lg border-2 border-r-0 border-border shadow-lg">
+              <Image
+                src="/images/landing/example3.jpeg"
+                alt=""
+                width={380}
+                height={220}
+                className="h-full w-full object-cover"
+              />
+            </div>
+
+            {/* Image 4 */}
+            <div className="relative h-[180px] w-[280px] overflow-hidden rounded-l-lg border-2 border-r-0 border-border shadow-lg">
+              <Image
+                src="/images/landing/example4.jpeg"
+                alt=""
+                width={380}
+                height={220}
+                className="h-full w-full object-cover"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Scroll down arrow */}
+        <div className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 transform lg:flex">
+          <button
+            onClick={() =>
+              document
+                .getElementById("how-it-works")
+                ?.scrollIntoView({ behavior: "smooth" })
+            }
+            className="group flex flex-col items-center text-muted-foreground transition-colors duration-300 hover:text-primary"
+          >
+            <div className="mb-2 text-xs font-medium uppercase tracking-widest">
+              Next
+            </div>
+            <div className="h-8 w-px bg-border transition-colors duration-300 group-hover:bg-primary/40"></div>
+            <svg
+              className="mt-2 h-4 w-4 animate-[throb_2s_ease-in-out_infinite]"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 14l-7 7m0 0l-7-7m7 7V3"
+              />
+            </svg>
+          </button>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section
+        id="how-it-works"
+        className="relative flex min-h-screen items-center border-t border-border py-20"
+      >
+        <div className="mx-auto max-w-7xl px-6 py-8 lg:px-8">
           <div className="relative">
-            {/* Angular accent lines */}
+            {/* Section header */}
+            <div className="mb-16">
+              <div className="mb-4 flex items-center gap-4">
+                <div className="h-1 w-12 bg-gradient-to-r from-success to-transparent"></div>
+                <h2 className="text-3xl font-bold text-foreground lg:text-4xl">
+                  How It Works
+                </h2>
+              </div>
+              <p className="max-w-3xl text-xl text-muted-foreground">
+                A practical workflow for building and scaling your distributed team
+              </p>
+            </div>
 
-            <div className="grid items-center gap-8 lg:grid-cols-2">
-              <div className="relative">
-                <h1 className="mb-10 text-5xl font-bold  lg:text-8xl">
-                  <span className="block tracking-tight">Verified</span>
-                  <span className="block bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text tracking-tight text-transparent drop-shadow-lg">
-                    Trust
-                  </span>
-                  <span className="mt-4 block text-2xl font-normal text-gray-300 lg:text-4xl">
-                    for Distributed Work
-                  </span>
-                </h1>
-
-                <div className="relative mb-12 border-l-2 border-white/20 pl-6">
-                  <p className="mb-6 text-xl leading-relaxed text-gray-300">
-                    Infrastructure for{" "}
-                    <strong className="text-white">
-                      decentralized access control
-                    </strong>
-                    , credential issuance, contributor onboarding, and treasury
-                    management.
-                  </p>
-                  <p className="text-lg text-gray-400">
-                    Local participation that opens global opportunity.
-                  </p>
+            {/* Steps Grid */}
+            <div className="space-y-16">
+              {/* Step 1 */}
+              <div className="grid items-center gap-8 lg:grid-cols-2">
+                <div className="order-2 lg:order-1">
+                  <div className="group relative">
+                    <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-primary/10 to-primary/5 opacity-50 blur-xl transition duration-500 group-hover:opacity-75"></div>
+                    <div className="relative aspect-video overflow-hidden rounded-2xl border border-border bg-card shadow-xl">
+                      <Image
+                        src="/steps/001.png"
+                        alt="Create a Project - Project creation interface"
+                        width={1200}
+                        height={675}
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+                  </div>
                 </div>
-
-                <div className="flex flex-col gap-6 sm:flex-row">
-                  <Link href="https://app.andamio.io/course/86affc4de251b0fb7636c376383bcebf6ca7ca426528f9b7a5adc298">
-                    <Button
-                      size="lg"
-                      className="bg-white px-8 py-4 font-semibold text-blue-900 shadow-xl hover:bg-gray-100"
-                    >
-                      Start with Andamio 101
-                    </Button>
-                  </Link>
-                  <Link href="https://docs.andamio.io/docs/">
-                    <Button
-                      size="lg"
-                      className="border-white/50 px-8 py-4 text-lg font-semibold text-white shadow-lg hover:bg-white/10 hover:text-white"
-                    >
-                      View Documentation
-                    </Button>
-                  </Link>
+                <div className="order-1 lg:order-2">
+                  <div className="mb-4 flex items-center gap-4">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-xl font-bold text-primary-foreground shadow-lg">
+                      1
+                    </div>
+                    <h3 className="text-2xl font-bold text-foreground">Create a Project</h3>
+                  </div>
+                  <p className="text-lg leading-relaxed text-muted-foreground">
+                    Think of it like posting gigs appropriate for a contributor. Not a full job opening—just tasks, bounties, challenges.
+                  </p>
                 </div>
               </div>
 
-              {/* Right side image collage */}
-              <div className="relative hidden lg:block">
-                <div className="relative">
-                  <div className="relative h-[55vh] w-full">
-                    {/* Top left - smaller, rotated slightly */}
-                    <div className="absolute left-12 top-0 z-10 h-48 w-56 -rotate-2 transform overflow-hidden border-8 border-white shadow-2xl">
-                      <div
-                        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-                        style={{
-                          backgroundImage: "url(/images/landing/example1.jpeg)",
-                        }}
-                      ></div>
-                      <div className="absolute inset-0 bg-gradient-to-t from-blue-900/80 via-blue-800/40 to-transparent"></div>
-                      <div className="relative flex h-full flex-col justify-end p-4">
-                        <div className="mb-3 h-8 w-full bg-gradient-to-r from-blue-500/20 to-transparent"></div>
-                        <div className="space-y-1">
-                          <div className="h-1.5 w-2/3 bg-white/20"></div>
-                          <div className="h-1.5 w-1/2 bg-white/10"></div>
+              {/* Step 2 */}
+              <div className="grid items-center gap-8 lg:grid-cols-2">
+                <div className="order-1">
+                  <div className="mb-4 flex items-center gap-4">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-success text-xl font-bold text-success-foreground shadow-lg">
+                      2
+                    </div>
+                    <h3 className="text-2xl font-bold text-foreground">Define Prerequisites</h3>
+                  </div>
+                  <p className="text-lg leading-relaxed text-muted-foreground">
+                    What does someone need to know to join? For example: 'We need someone who knows TypeScript, understands Cardano architecture, and is familiar with our application stack.'
+                  </p>
+                </div>
+                <div className="order-2">
+                  <div className="group relative">
+                    <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-success/20 to-success/10 opacity-50 blur-xl transition duration-500 group-hover:opacity-75"></div>
+                    <div className="relative aspect-video overflow-hidden rounded-2xl border border-border bg-card shadow-xl">
+                      <Image
+                        src="/steps/002.png"
+                        alt="Define Prerequisites - Prerequisites setup interface"
+                        width={1200}
+                        height={675}
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Step 3 */}
+              <div className="grid items-center gap-8 lg:grid-cols-2">
+                <div className="order-2 lg:order-1">
+                  <div className="group relative">
+                    <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-secondary/20 to-secondary/10 opacity-50 blur-xl transition duration-500 group-hover:opacity-75"></div>
+                    <div className="relative aspect-video overflow-hidden rounded-2xl border border-border bg-card shadow-xl">
+                      <div className="flex h-full items-center justify-center bg-gradient-to-br from-secondary/5 to-muted/30">
+                        <div className="text-center">
+                          <div className="mb-4 text-6xl">📝</div>
+                          <div className="text-xl text-muted-foreground">Screenshot placeholder</div>
+                          <div className="mt-2 text-sm text-muted-foreground">Evidence submission</div>
                         </div>
                       </div>
                     </div>
+                  </div>
+                </div>
+                <div className="order-1 lg:order-2">
+                  <div className="mb-4 flex items-center gap-4">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-secondary text-xl font-bold text-secondary-foreground shadow-lg">
+                      3
+                    </div>
+                    <h3 className="text-2xl font-bold text-foreground">Contributors Submit Evidence</h3>
+                  </div>
+                  <p className="text-lg leading-relaxed text-muted-foreground">
+                    Not resumes. Actual tasks defined by the project team. They show what they can do.
+                  </p>
+                </div>
+              </div>
 
-                    {/* Top right - larger, slight rotation */}
-                    <div className="absolute right-8 top-8 z-20 h-64 w-64 rotate-1 transform overflow-hidden border-8 border-white shadow-2xl">
-                      <div
-                        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-                        style={{
-                          backgroundImage: "url(/images/landing/example2.jpeg)",
-                        }}
-                      ></div>
-                      <div className="absolute inset-0 bg-gradient-to-t from-cyan-900/80 via-cyan-800/40 to-transparent"></div>
-                      <div className="relative flex h-full flex-col justify-end p-4">
-                        <div className="mb-3 h-12 w-full bg-gradient-to-r from-cyan-500/20 to-transparent"></div>
-                        <div className="space-y-2">
-                          <div className="h-1.5 w-2/3 bg-white/20"></div>
-                          <div className="h-1.5 w-3/4 bg-white/10"></div>
+              {/* Step 4 */}
+              <div className="grid items-center gap-8 lg:grid-cols-2">
+                <div className="order-1">
+                  <div className="mb-4 flex items-center gap-4">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-accent text-xl font-bold text-accent-foreground shadow-lg">
+                      4
+                    </div>
+                    <h3 className="text-2xl font-bold text-foreground">Teach What They Don't Know</h3>
+                  </div>
+                  <p className="text-lg leading-relaxed text-muted-foreground">
+                    You can teach people what they're missing. Share a bit about your platform stack, your processes, your culture. We're doing this to build the Andamio team.
+                  </p>
+                </div>
+                <div className="order-2">
+                  <div className="group relative">
+                    <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-accent/20 to-accent/10 opacity-50 blur-xl transition duration-500 group-hover:opacity-75"></div>
+                    <div className="relative aspect-video overflow-hidden rounded-2xl border border-border bg-card shadow-xl">
+                      <div className="flex h-full items-center justify-center bg-gradient-to-br from-accent/5 to-muted/30">
+                        <div className="text-center">
+                          <div className="mb-4 text-6xl">📚</div>
+                          <div className="text-xl text-muted-foreground">Screenshot placeholder</div>
+                          <div className="mt-2 text-sm text-muted-foreground">Learning module</div>
                         </div>
                       </div>
                     </div>
+                  </div>
+                </div>
+              </div>
 
-                    {/* Bottom left - larger, overlapping */}
-                    <div className="absolute bottom-24 left-4 z-30 h-60 w-72 -rotate-1 transform overflow-hidden border-8 border-white shadow-2xl">
-                      <div
-                        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-                        style={{
-                          backgroundImage: "url(/images/landing/example3.jpeg)",
-                        }}
-                      ></div>
-                      <div className="absolute inset-0 bg-gradient-to-t from-purple-900/80 via-purple-800/40 to-transparent"></div>
-                      <div className="relative flex h-full flex-col justify-end p-4">
-                        <div className="mb-3 h-12 w-full bg-gradient-to-r from-purple-500/20 to-transparent"></div>
-                        <div className="space-y-2">
-                          <div className="h-1.5 w-1/2 bg-white/20"></div>
-                          <div className="h-1.5 w-2/3 bg-white/10"></div>
+              {/* Step 5 */}
+              <div className="grid items-center gap-8 lg:grid-cols-2">
+                <div className="order-2 lg:order-1">
+                  <div className="group relative">
+                    <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-secondary/20 to-secondary/10 opacity-50 blur-xl transition duration-500 group-hover:opacity-75"></div>
+                    <div className="relative aspect-video overflow-hidden rounded-2xl border border-border bg-card shadow-xl">
+                      <div className="flex h-full items-center justify-center bg-gradient-to-br from-secondary/5 to-muted/30">
+                        <div className="text-center">
+                          <div className="mb-4 text-6xl">🎓</div>
+                          <div className="text-xl text-muted-foreground">Screenshot placeholder</div>
+                          <div className="mt-2 text-sm text-muted-foreground">Credential approval</div>
                         </div>
                       </div>
                     </div>
+                  </div>
+                </div>
+                <div className="order-1 lg:order-2">
+                  <div className="mb-4 flex items-center gap-4">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-secondary text-xl font-bold text-secondary-foreground shadow-lg">
+                      5
+                    </div>
+                    <h3 className="text-2xl font-bold text-foreground">Approve Assignments</h3>
+                  </div>
+                  <p className="text-lg leading-relaxed text-muted-foreground">
+                    They complete learning, you approve it. They earn credentials.
+                  </p>
+                </div>
+              </div>
 
-                    {/* Bottom right - smaller, highest z-index */}
-                    <div className="absolute bottom-12 right-12 z-40 h-52 w-52 rotate-3 transform overflow-hidden border-8 border-white shadow-2xl">
-                      <div
-                        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-                        style={{
-                          backgroundImage: "url(/images/landing/example4.jpeg)",
-                        }}
-                      ></div>
-                      <div className="absolute inset-0 bg-gradient-to-t from-green-900/80 via-green-800/40 to-transparent"></div>
-                      <div className="relative flex h-full flex-col justify-end p-4">
-                        <div className="mb-3 h-10 w-full bg-gradient-to-r from-green-500/20 to-transparent"></div>
-                        <div className="space-y-1">
-                          <div className="h-1.5 w-3/5 bg-white/20"></div>
-                          <div className="h-1.5 w-4/5 bg-white/10"></div>
+              {/* Step 6 */}
+              <div className="grid items-center gap-8 lg:grid-cols-2">
+                <div className="order-1">
+                  <div className="mb-4 flex items-center gap-4">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-accent text-xl font-bold text-accent-foreground shadow-lg">
+                      6
+                    </div>
+                    <h3 className="text-2xl font-bold text-foreground">Contribute to Real Tasks with Real Rewards</h3>
+                  </div>
+                  <p className="text-lg leading-relaxed text-muted-foreground">
+                    Now they can start contributing. Paid bounties. Open tasks. Trial projects. The team practices working together. You see what they can actually do.
+                  </p>
+                </div>
+                <div className="order-2">
+                  <div className="group relative">
+                    <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-accent/20 to-accent/10 opacity-50 blur-xl transition duration-500 group-hover:opacity-75"></div>
+                    <div className="relative aspect-video overflow-hidden rounded-2xl border border-border bg-card shadow-xl">
+                      <div className="flex h-full items-center justify-center bg-gradient-to-br from-accent/5 to-muted/30">
+                        <div className="text-center">
+                          <div className="mb-4 text-6xl">💰</div>
+                          <div className="text-xl text-muted-foreground">Screenshot placeholder</div>
+                          <div className="mt-2 text-sm text-muted-foreground">Task contribution dashboard</div>
                         </div>
                       </div>
                     </div>
@@ -257,15 +442,138 @@ export default function ModernLanding() {
           <button
             onClick={() =>
               document
-                .getElementById("trust")
+                .getElementById("protocol")
                 ?.scrollIntoView({ behavior: "smooth" })
             }
-            className="group flex flex-col items-center text-white/60 transition-colors duration-300 hover:text-white"
+            className="group flex flex-col items-center text-muted-foreground transition-colors duration-300 hover:text-primary"
           >
             <div className="mb-2 text-xs font-medium uppercase tracking-widest">
               Next
             </div>
-            <div className="h-8 w-px bg-white/20 transition-colors duration-300 group-hover:bg-white/40"></div>
+            <div className="h-8 w-px bg-border transition-colors duration-300 group-hover:bg-primary/40"></div>
+            <svg
+              className="mt-2 h-4 w-4 animate-[throb_2s_ease-in-out_infinite]"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 14l-7 7m0 0l-7-7m7 7V3"
+              />
+            </svg>
+          </button>
+        </div>
+      </section>
+
+      {/* Risk-Free Team Building */}
+      <section
+        id="outcomes"
+        className="relative flex min-h-screen items-center border-t border-border py-20"
+      >
+        <div className="mx-auto max-w-7xl px-6 py-8 lg:px-8">
+          <div className="relative">
+            {/* Section header */}
+            <div className="mb-16">
+              <div className="mb-4 flex items-center gap-4">
+                <div className="h-1 w-12 bg-gradient-to-r from-secondary to-transparent"></div>
+                <h2 className="text-3xl font-bold text-foreground lg:text-4xl">
+                  Risk-Free Team Building
+                </h2>
+              </div>
+              <p className="max-w-3xl text-xl text-muted-foreground">
+                Either way, everyone wins. Skip the traditional interview theater.
+              </p>
+            </div>
+
+            {/* Outcomes Grid */}
+            <div className="grid gap-12 lg:grid-cols-2">
+              {/* Works Out */}
+              <div className="group relative">
+                <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-success/20 to-success/10 opacity-50 blur-xl transition duration-500 group-hover:opacity-75"></div>
+                <div className="relative rounded-2xl border border-border bg-card p-8 shadow-xl">
+                  <div className="mb-6 flex items-center gap-4">
+                    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-success shadow-lg">
+                      <svg className="h-8 w-8 text-success-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <h3 className="text-2xl font-bold text-foreground">If It Works Out</h3>
+                  </div>
+                  <div className="space-y-4 text-lg leading-relaxed text-muted-foreground">
+                    <p>
+                      You've built{" "}
+                      <strong className="text-foreground">real trust</strong> by working
+                      together on actual tasks.
+                    </p>
+                    <p>
+                      They're already{" "}
+                      <strong className="text-foreground">onboarded and enrolled</strong>{" "}
+                      in your project workflows.
+                    </p>
+                    <p>
+                      You skip the traditional interview theater and hire someone{" "}
+                      <strong className="text-foreground">
+                        you've actually worked with
+                      </strong>
+                      .
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Doesn't Work Out */}
+              <div className="group relative">
+                <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-primary/20 to-primary/10 opacity-50 blur-xl transition duration-500 group-hover:opacity-75"></div>
+                <div className="relative rounded-2xl border border-border bg-card p-8 shadow-xl">
+                  <div className="mb-6 flex items-center gap-4">
+                    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary shadow-lg">
+                      <svg className="h-8 w-8 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-2xl font-bold text-foreground">If It Doesn't Work Out</h3>
+                  </div>
+                  <div className="space-y-4 text-lg leading-relaxed text-muted-foreground">
+                    <p>
+                      The time wasn't wasted—your{" "}
+                      <strong className="text-foreground">team still got work done</strong>.
+                    </p>
+                    <p>
+                      The contributor has{" "}
+                      <strong className="text-foreground">
+                        verifiable credentials
+                      </strong>{" "}
+                      for what they learned and how they contributed.
+                    </p>
+                    <p>
+                      Those credentials are{" "}
+                      <strong className="text-foreground">portable across apps</strong>
+                      —someone else likely needs a Cardano TypeScript developer.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Scroll down arrow */}
+        <div className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 transform lg:flex">
+          <button
+            onClick={() =>
+              document
+                .getElementById("protocol")
+                ?.scrollIntoView({ behavior: "smooth" })
+            }
+            className="group flex flex-col items-center text-muted-foreground transition-colors duration-300 hover:text-primary"
+          >
+            <div className="mb-2 text-xs font-medium uppercase tracking-widest">
+              Next
+            </div>
+            <div className="h-8 w-px bg-border transition-colors duration-300 group-hover:bg-primary/40"></div>
             <svg
               className="mt-2 h-4 w-4 animate-[throb_2s_ease-in-out_infinite]"
               fill="none"
@@ -286,29 +594,29 @@ export default function ModernLanding() {
       {/* Trust Framework */}
       <section
         id="trust"
-        className="relative flex min-h-screen items-center overflow-hidden border-t border-white/10 py-20"
+        className="relative flex min-h-screen items-center overflow-hidden border-t border-border py-20"
       >
         <div className="mx-auto max-w-5xl px-6 py-8 lg:px-8">
           <div className="relative">
             {/* Section header */}
             <div className="mb-8">
               <div className="mb-4 flex items-center gap-4">
-                <div className="h-1 w-12 bg-gradient-to-r from-cyan-500 to-transparent"></div>
-                <h2 className="text-3xl font-bold text-white lg:text-4xl">
-                  Three Pillars of Trust
+                <div className="h-1 w-12 bg-gradient-to-r from-secondary to-transparent"></div>
+                <h2 className="text-3xl font-bold text-foreground lg:text-4xl">
+                  Building Teams That Work
                 </h2>
               </div>
-              <p className="max-w-3xl text-lg text-gray-300">
-                Trust is the foundation of any distributed ecosystem. By
-                enabling purpose-driven, collaborative work, Andamio creates
-                ways for trust networks to thrive.
+              <p className="max-w-3xl text-lg text-muted-foreground">
+                Great teams are built on trust. Andamio is credentialing
+                infrastructure for high-trust professional collaboration. Now, distributed teams can establish purpose,
+                manage participation, and verify capabilities based on the ways they really work together.
               </p>
             </div>
 
             {/* Vertical Process Flow */}
             <div className="relative">
               {/* Central connecting line */}
-              <div className="absolute bottom-0 left-1/2 top-0 w-px -translate-x-1/2 transform bg-gradient-to-b from-blue-500 via-green-500 to-purple-500"></div>
+              <div className="absolute bottom-0 left-1/2 top-0 w-px -translate-x-1/2 transform bg-gradient-to-b from-primary via-success to-secondary"></div>
 
               {/* Process flow items */}
               <div className="space-y-8 lg:space-y-12">
@@ -317,26 +625,26 @@ export default function ModernLanding() {
                   <div className="flex flex-col items-center justify-between lg:flex-row">
                     <div className="w-full pr-0 lg:w-5/12 lg:pr-8">
                       <div className="group relative">
-                        <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-blue-500/30 to-blue-600/30 opacity-50 blur-xl transition duration-500 group-hover:opacity-75"></div>
-                        <div className="relative rounded-2xl border border-white/20 bg-gray-800/60 p-6 shadow-2xl backdrop-blur-sm">
+                        <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-primary/20 to-primary/10 opacity-50 blur-xl transition duration-500 group-hover:opacity-75"></div>
+                        <div className="relative rounded-2xl border border-border bg-card p-6 shadow-xl">
                           <div className="mb-4 flex items-center gap-4">
-                            <div className="flex h-16 w-16 items-center justify-center rounded-sm bg-gradient-to-br from-blue-500 to-blue-600 text-2xl font-bold text-white shadow-xl shadow-blue-500/25">
+                            <div className="flex h-16 w-16 items-center justify-center rounded-md bg-gradient-to-br from-primary to-primary/80 text-2xl font-bold text-primary-foreground shadow-lg shadow-primary/25">
                               <Target className="h-8 w-8" />
                             </div>
                             <div>
-                              <h3 className="mb-2 text-2xl font-bold text-white">
+                              <h3 className="mb-2 text-2xl font-bold text-foreground">
                                 Purpose
                               </h3>
-                              <div className="h-0.5 w-16 bg-blue-500"></div>
+                              <div className="h-0.5 w-16 bg-primary"></div>
                             </div>
                           </div>
-                          <p className="mb-3 text-base font-semibold text-blue-400">
+                          <p className="mb-3 text-base font-semibold text-primary">
                             Do we trust that our work matters?
                           </p>
-                          <p className="text-base leading-relaxed text-gray-300">
+                          <p className="text-base leading-relaxed text-muted-foreground">
                             Infrastructure for projects to define their mission,
                             manage treasuries, and create
-                            <strong className="text-white">
+                            <strong className="text-foreground">
                               {" "}
                               transparent governance structures
                             </strong>{" "}
@@ -348,16 +656,16 @@ export default function ModernLanding() {
 
                     {/* Central node */}
                     <div className="relative z-10 hidden lg:block">
-                      <div className="h-8 w-8 rounded-full border-4 border-gray-950 bg-blue-500 shadow-lg shadow-blue-500/50"></div>
-                      <div className="absolute -inset-2 animate-pulse rounded-full bg-blue-500/20"></div>
+                      <div className="h-8 w-8 rounded-full border-4 border-background bg-primary shadow-lg shadow-primary/50"></div>
+                      <div className="absolute -inset-2 animate-pulse rounded-full bg-primary/20"></div>
                     </div>
 
                     <div className="hidden w-5/12 pl-8 lg:block">
-                      <div className="text-right opacity-40">
-                        <div className="text-6xl font-bold text-blue-500/30">
+                      <div className="text-right">
+                        <div className="text-6xl font-bold text-primary/40">
                           01
                         </div>
-                        <div className="mt-2 text-blue-300/50">Foundation</div>
+                        <div className="mt-2 text-muted-foreground">Foundation</div>
                       </div>
                     </div>
                   </div>
@@ -367,42 +675,42 @@ export default function ModernLanding() {
                 <div className="relative animate-[slideInRight_1s_ease-out_0.4s_both]">
                   <div className="flex flex-col items-center justify-between lg:flex-row">
                     <div className="hidden w-5/12 pr-8 lg:block">
-                      <div className="text-left opacity-40">
-                        <div className="text-6xl font-bold text-green-500/30">
+                      <div className="text-left">
+                        <div className="text-6xl font-bold text-success/40">
                           02
                         </div>
-                        <div className="mt-2 text-green-300/50">Connection</div>
+                        <div className="mt-2 text-muted-foreground">Connection</div>
                       </div>
                     </div>
 
                     {/* Central node */}
                     <div className="relative z-10 hidden lg:block">
-                      <div className="h-8 w-8 rounded-full border-4 border-gray-950 bg-green-500 shadow-lg shadow-green-500/50"></div>
-                      <div className="absolute -inset-2 animate-pulse rounded-full bg-green-500/20"></div>
+                      <div className="h-8 w-8 rounded-full border-4 border-background bg-success shadow-lg shadow-success/50"></div>
+                      <div className="absolute -inset-2 animate-pulse rounded-full bg-success/20"></div>
                     </div>
 
                     <div className="w-full pl-0 lg:w-5/12 lg:pl-8">
                       <div className="group relative">
-                        <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-green-500/30 to-green-600/30 opacity-50 blur-xl transition duration-500 group-hover:opacity-75"></div>
-                        <div className="relative rounded-2xl border border-white/20 bg-gray-800/60 p-6 shadow-2xl backdrop-blur-sm">
+                        <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-success/20 to-success/10 opacity-50 blur-xl transition duration-500 group-hover:opacity-75"></div>
+                        <div className="relative rounded-2xl border border-border bg-card p-6 shadow-xl">
                           <div className="mb-4 flex items-center gap-4">
-                            <div className="flex h-16 w-16 items-center justify-center rounded-sm bg-gradient-to-br from-green-500 to-green-600 text-2xl font-bold text-white shadow-xl shadow-green-500/25">
+                            <div className="flex h-16 w-16 items-center justify-center rounded-md bg-gradient-to-br from-success to-success/80 text-2xl font-bold text-success-foreground shadow-lg shadow-success/25">
                               <Users className="h-8 w-8" />
                             </div>
                             <div>
-                              <h3 className="mb-2 text-2xl font-bold text-white">
+                              <h3 className="mb-2 text-2xl font-bold text-foreground">
                                 Participation
                               </h3>
-                              <div className="h-0.5 w-16 bg-green-500"></div>
+                              <div className="h-0.5 w-16 bg-success"></div>
                             </div>
                           </div>
-                          <p className="mb-3 text-base font-semibold text-green-400">
+                          <p className="mb-3 text-base font-semibold text-success">
                             Do we trust the people we are working with?
                           </p>
-                          <p className="text-base leading-relaxed text-gray-300">
+                          <p className="text-base leading-relaxed text-muted-foreground">
                             Credentials and rewards systems that enable
                             contributor onboarding,
-                            <strong className="text-white">
+                            <strong className="text-foreground">
                               {" "}
                               role-based access control
                             </strong>
@@ -419,27 +727,26 @@ export default function ModernLanding() {
                   <div className="flex flex-col items-center justify-between lg:flex-row">
                     <div className="w-full pr-0 lg:w-5/12 lg:pr-8">
                       <div className="group relative">
-                        <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-purple-500/30 to-purple-600/30 opacity-50 blur-xl transition duration-500 group-hover:opacity-75"></div>
-                        <div className="relative rounded-2xl border border-white/20 bg-gray-800/60 p-6 shadow-2xl backdrop-blur-sm">
+                        <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-secondary/20 to-secondary/10 opacity-50 blur-xl transition duration-500 group-hover:opacity-75"></div>
+                        <div className="relative rounded-2xl border border-border bg-card p-6 shadow-xl">
                           <div className="mb-4 flex items-center gap-4">
-                            <div className="flex h-16 w-16 items-center justify-center rounded-sm bg-gradient-to-br from-purple-500 to-purple-600 text-2xl font-bold text-white shadow-xl shadow-purple-500/25">
+                            <div className="flex h-16 w-16 items-center justify-center rounded-md bg-gradient-to-br from-secondary to-secondary/80 text-2xl font-bold text-secondary-foreground shadow-lg shadow-secondary/25">
                               <CheckCircle className="h-8 w-8" />
                             </div>
                             <div>
-                              <h3 className="mb-2 text-2xl font-bold text-white">
+                              <h3 className="mb-2 text-2xl font-bold text-foreground">
                                 Proof
                               </h3>
-                              <div className="h-0.5 w-16 bg-purple-500"></div>
+                              <div className="h-0.5 w-16 bg-secondary"></div>
                             </div>
                           </div>
-                          <p className="mb-3 text-base font-semibold text-purple-400">
-                            Do we trust that others can do what they say they
-                            can do?
+                          <p className="mb-3 text-base font-semibold text-secondary">
+                            Do people have the qualifications they say they do?
                           </p>
-                          <p className="text-base leading-relaxed text-gray-300">
-                            Discovery and connection tools that make credentials
-                            portable and verifiable, enabling
-                            <strong className="text-white">
+                          <p className="text-base leading-relaxed text-muted-foreground">
+                            Verify capabilities with portable, verifiable credentials.
+                            Discovery and connection tools enable
+                            <strong className="text-foreground">
                               {" "}
                               global opportunities through local participation
                             </strong>
@@ -451,16 +758,16 @@ export default function ModernLanding() {
 
                     {/* Central node */}
                     <div className="relative z-10 hidden lg:block">
-                      <div className="h-8 w-8 rounded-full border-4 border-gray-950 bg-purple-500 shadow-lg shadow-purple-500/50"></div>
-                      <div className="absolute -inset-2 animate-pulse rounded-full bg-purple-500/20"></div>
+                      <div className="h-8 w-8 rounded-full border-4 border-background bg-secondary shadow-lg shadow-secondary/50"></div>
+                      <div className="absolute -inset-2 animate-pulse rounded-full bg-secondary/20"></div>
                     </div>
 
                     <div className="hidden w-5/12 pl-8 lg:block">
-                      <div className="text-right opacity-40">
-                        <div className="text-6xl font-bold text-purple-500/30">
+                      <div className="text-right">
+                        <div className="text-6xl font-bold text-secondary/40">
                           03
                         </div>
-                        <div className="mt-2 text-purple-300/50">
+                        <div className="mt-2 text-muted-foreground">
                           Verification
                         </div>
                       </div>
@@ -477,15 +784,15 @@ export default function ModernLanding() {
           <button
             onClick={() =>
               document
-                .getElementById("protocol")
+                .getElementById("how-it-works")
                 ?.scrollIntoView({ behavior: "smooth" })
             }
-            className="group flex flex-col items-center text-white/60 transition-colors duration-300 hover:text-white"
+            className="group flex flex-col items-center text-muted-foreground transition-colors duration-300 hover:text-primary"
           >
             <div className="mb-2 text-xs font-medium uppercase tracking-widest">
-              Scroll
+              Next
             </div>
-            <div className="h-8 w-px bg-white/20 transition-colors duration-300 group-hover:bg-white/40"></div>
+            <div className="h-8 w-px bg-border transition-colors duration-300 group-hover:bg-primary/40"></div>
             <svg
               className="mt-2 h-4 w-4 animate-[throb_2s_ease-in-out_infinite]"
               fill="none"
@@ -503,32 +810,41 @@ export default function ModernLanding() {
         </div>
       </section>
 
+      
+
       {/* Andamio Protocol Components */}
       <section
         id="protocol"
-        className="relative flex min-h-screen items-center border-t border-white/10"
+        className="relative flex min-h-screen items-center border-t border-border"
       >
         <div className="mx-auto w-5/6 max-w-screen-2xl px-6 py-20 lg:px-8">
           <div className="relative">
             {/* Section header */}
             <div className="mb-16">
               <div className="mb-6 flex items-center gap-4">
-                <div className="h-1 w-12 bg-gradient-to-r from-blue-500 to-transparent"></div>
-                <h2 className="text-4xl font-bold text-white lg:text-5xl">
-                  The Andamio Protocol
+                <div className="h-1 w-12 bg-gradient-to-r from-primary to-transparent"></div>
+                <h2 className="text-4xl font-bold text-foreground lg:text-5xl">
+                  Three Ways to Build with Andamio
                 </h2>
               </div>
-              <p className="max-w-3xl text-xl text-gray-300">
-                Three core components enabling trust for distributed work.
+              <p className="mb-4 max-w-3xl text-xl text-muted-foreground">
+                Stop rebuilding credentialing infrastructure.{" "}
+                <strong className="text-foreground">
+                  Integrate Andamio API in days, not months
+                </strong>
+                {" "}to enable portable credentials across your apps.
+              </p>
+              <p className="max-w-3xl text-lg text-muted-foreground">
+                Whether you want a ready-to-use solution, developer tools, or protocol-level integration—Andamio meets you where you are.
               </p>
             </div>
 
             {/* Three column grid */}
             <div className="grid max-w-none gap-16 lg:grid-cols-3">
-              {/* Global State */}
+              {/* Platform */}
               <div className="group relative">
-                <div className="absolute -inset-0.5 rounded-sm bg-gradient-to-r from-blue-500 to-blue-600 opacity-30 blur transition duration-500 group-hover:opacity-50"></div>
-                <div className="relative aspect-square overflow-hidden rounded-sm border border-white/20 bg-gray-900 shadow-2xl transition-all duration-500 hover:shadow-blue-500/10">
+                <div className="absolute -inset-0.5 rounded-lg bg-gradient-to-r from-primary/30 to-primary/20 opacity-30 blur transition duration-500 group-hover:opacity-50"></div>
+                <div className="relative aspect-square overflow-hidden rounded-lg border border-border bg-card shadow-xl transition-all duration-500 hover:shadow-2xl">
                   {/* Background image */}
                   <div
                     className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-700 ease-out group-hover:scale-110"
@@ -538,36 +854,33 @@ export default function ModernLanding() {
                   ></div>
 
                   {/* Overlay gradients */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-blue-900/90 via-blue-800/50 to-transparent"></div>
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-900/40 to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/40 to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-primary/30 to-transparent"></div>
 
                   {/* Content overlay */}
                   <div className="absolute inset-0 flex flex-col justify-end p-6">
                     <div className="space-y-3">
-                      <h3 className="text-xl font-bold text-white">
-                        Global Connection
+                      <h3 className="text-xl font-bold text-card">
+                        Platform
                       </h3>
-                      <div className="h-0.5 w-16 bg-blue-400"></div>
-                      <p className="text-sm leading-relaxed text-blue-100">
-                        Shared, immutable records of credentials and
-                        achievements across the entire network, enabling{" "}
-                        <strong className="text-white">
-                          universal verification
-                        </strong>{" "}
-                        and trust.
+                      <div className="h-0.5 w-16 bg-card"></div>
+                      <p className="text-sm leading-relaxed text-card">
+                        A complete, hosted solution at{" "}
+                        <strong className="text-card">app.andamio.io</strong>.
+                        Start building your team immediately with no infrastructure setup required.
                       </p>
                     </div>
                   </div>
 
                   {/* Hover overlay */}
-                  <div className="absolute inset-0 bg-blue-900/20 opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
+                  <div className="absolute inset-0 bg-primary/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
                 </div>
               </div>
 
-              {/* Local State */}
+              {/* SDK + API */}
               <div className="group relative">
-                <div className="absolute -inset-0.5 rounded-sm bg-gradient-to-r from-green-500 to-green-600 opacity-30 blur transition duration-500 group-hover:opacity-50"></div>
-                <div className="relative aspect-square overflow-hidden rounded-sm border border-white/20 bg-gray-900 shadow-2xl transition-all duration-500 hover:shadow-green-500/10">
+                <div className="absolute -inset-0.5 rounded-lg bg-gradient-to-r from-success/30 to-success/20 opacity-30 blur transition duration-500 group-hover:opacity-50"></div>
+                <div className="relative aspect-square overflow-hidden rounded-lg border border-border bg-card shadow-xl transition-all duration-500 hover:shadow-2xl">
                   {/* Background image */}
                   <div
                     className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-700 ease-out group-hover:scale-110"
@@ -577,36 +890,34 @@ export default function ModernLanding() {
                   ></div>
 
                   {/* Overlay gradients */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-green-900/90 via-green-800/50 to-transparent"></div>
-                  <div className="absolute inset-0 bg-gradient-to-r from-green-900/40 to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-success/80 via-success/40 to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-success/30 to-transparent"></div>
 
                   {/* Content overlay */}
                   <div className="absolute inset-0 flex flex-col justify-end p-6">
                     <div className="space-y-3">
-                      <h3 className="text-xl font-bold text-white">
-                        Local Infrastructure
+                      <h3 className="text-xl font-bold text-card">
+                        SDK + API
                       </h3>
-                      <div className="h-0.5 w-16 bg-green-400"></div>
-                      <p className="text-sm leading-relaxed text-green-100">
-                        Project-specific data and governance structures that
-                        manage participation, contributions, and{" "}
-                        <strong className="text-white">
-                          treasury allocation
-                        </strong>{" "}
-                        within communities.
+                      <div className="h-0.5 w-16 bg-card"></div>
+                      <p className="text-sm leading-relaxed text-card">
+                        Developer tools that{" "}
+                        <strong className="text-card">
+                          integrate with your existing applications
+                        </strong>. Add credentialing to your product in days, not months.
                       </p>
                     </div>
                   </div>
 
                   {/* Hover overlay */}
-                  <div className="absolute inset-0 bg-green-900/20 opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
+                  <div className="absolute inset-0 bg-success/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
                 </div>
               </div>
 
-              {/* Access Token */}
+              {/* Cardano Protocol */}
               <div className="group relative">
-                <div className="absolute -inset-0.5 rounded-sm bg-gradient-to-r from-purple-500 to-purple-600 opacity-30 blur transition duration-500 group-hover:opacity-50"></div>
-                <div className="relative aspect-square overflow-hidden rounded-sm border border-white/20 bg-gray-900 shadow-2xl transition-all duration-500 hover:shadow-purple-500/10">
+                <div className="absolute -inset-0.5 rounded-lg bg-gradient-to-r from-secondary/30 to-secondary/20 opacity-30 blur transition duration-500 group-hover:opacity-50"></div>
+                <div className="relative aspect-square overflow-hidden rounded-lg border border-border bg-card shadow-xl transition-all duration-500 hover:shadow-2xl">
                   {/* Background image */}
                   <div
                     className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-700 ease-out group-hover:scale-110"
@@ -616,27 +927,26 @@ export default function ModernLanding() {
                   ></div>
 
                   {/* Overlay gradients */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-purple-900/90 via-purple-800/50 to-transparent"></div>
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-900/40 to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-secondary/80 via-secondary/40 to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-secondary/30 to-transparent"></div>
 
                   {/* Content overlay */}
                   <div className="absolute inset-0 flex flex-col justify-end p-6">
                     <div className="space-y-3">
-                      <h3 className="text-xl font-bold text-white">
-                        Access Token
+                      <h3 className="text-xl font-bold text-card">
+                        Cardano Protocol
                       </h3>
-                      <div className="h-0.5 w-16 bg-purple-400"></div>
-                      <p className="text-sm leading-relaxed text-purple-100">
-                        Your key to a network of applications - enabling
-                        seamless{" "}
-                        <strong className="text-white">access control</strong>
-                        and participation across the distributed work ecosystem.
+                      <div className="h-0.5 w-16 bg-card"></div>
+                      <p className="text-sm leading-relaxed text-card">
+                        Open credentialing infrastructure built on{" "}
+                        <strong className="text-card">Cardano blockchain</strong>.
+                        Portable credentials that work across the entire ecosystem.
                       </p>
                     </div>
                   </div>
 
                   {/* Hover overlay */}
-                  <div className="absolute inset-0 bg-purple-900/20 opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
+                  <div className="absolute inset-0 bg-secondary/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
                 </div>
               </div>
             </div>
@@ -651,12 +961,12 @@ export default function ModernLanding() {
                 .getElementById("cardano")
                 ?.scrollIntoView({ behavior: "smooth" })
             }
-            className="group flex flex-col items-center text-white/60 transition-colors duration-300 hover:text-white"
+            className="group flex flex-col items-center text-muted-foreground transition-colors duration-300 hover:text-primary"
           >
             <div className="mb-2 text-xs font-medium uppercase tracking-widest">
               Next
             </div>
-            <div className="h-8 w-px bg-white/20 transition-colors duration-300 group-hover:bg-white/40"></div>
+            <div className="h-8 w-px bg-border transition-colors duration-300 group-hover:bg-primary/40"></div>
             <svg
               className="mt-2 h-4 w-4 animate-[throb_2s_ease-in-out_infinite]"
               fill="none"
@@ -677,35 +987,35 @@ export default function ModernLanding() {
       {/* Built on Cardano */}
       <section
         id="cardano"
-        className="relative flex min-h-screen items-center border-t border-white/10"
+        className="relative flex min-h-screen items-center border-t border-border"
       >
         <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
           <div className="grid items-center gap-20 lg:grid-cols-2">
             <div className="relative">
               <div className="mb-8 flex items-center gap-4">
-                <div className="h-1 w-12 bg-gradient-to-r from-orange-500 to-transparent"></div>
-                <h2 className="text-4xl font-bold text-white lg:text-5xl">
+                <div className="h-1 w-12 bg-gradient-to-r from-accent to-transparent"></div>
+                <h2 className="text-4xl font-bold text-foreground lg:text-5xl">
                   Built on Cardano
                 </h2>
               </div>
-              <p className="mb-10 text-xl text-gray-300">
+              <p className="mb-10 text-xl text-muted-foreground">
                 Leveraging the security and sustainability of the Cardano
                 blockchain.
               </p>
 
-              <div className="relative rounded-sm border border-white/20 bg-gray-100 p-8 text-gray-900 backdrop-blur-sm">
+              <div className="relative rounded-lg border border-border bg-card p-8 shadow-xl">
                 <Image
                   src="/cardano-horizontal-blue.svg"
                   alt="Cardano"
-                  className="mb-8 h-12 brightness-125 filter"
+                  className="mb-8 h-12"
                   width={500}
                   height={500}
                 />
-                <p className="text-lg leading-relaxed text-gray-800">
+                <p className="text-lg leading-relaxed text-muted-foreground">
                   Andamio harnesses Cardano's proof-of-stake blockchain to
                   provide secure, energy-efficient, and transparent
                   credentialing. Every certificate and achievement is{" "}
-                  <strong className="text-black">immutably recorded</strong>,
+                  <strong className="text-foreground">immutably recorded</strong>,
                   ensuring your credentials are always verifiable and portable.
                 </p>
               </div>
@@ -713,35 +1023,35 @@ export default function ModernLanding() {
 
             <div className="mx-auto grid w-[180px] grid-cols-1 gap-6">
               <div className="group relative">
-                <div className="absolute -inset-0.5 rounded-sm bg-blue-500/30 opacity-50 blur transition duration-300 group-hover:opacity-75"></div>
-                <div className="relative rounded-sm border border-white/20 bg-gray-800/80 p-6 shadow-xl backdrop-blur-sm">
-                  <div className="mb-2 text-3xl font-bold text-blue-400">
+                <div className="absolute -inset-0.5 rounded-lg bg-primary/20 opacity-50 blur transition duration-300 group-hover:opacity-75"></div>
+                <div className="relative rounded-lg border border-border bg-card p-6 shadow-lg">
+                  <div className="mb-2 text-3xl font-bold text-primary">
                     100%
                   </div>
-                  <div className="font-medium text-gray-300">Verifiable</div>
-                  <div className="mt-3 h-1 w-full rounded-full bg-blue-500/20"></div>
+                  <div className="font-medium text-muted-foreground">Verifiable</div>
+                  <div className="mt-3 h-1 w-full rounded-full bg-primary/20"></div>
                 </div>
               </div>
 
               <div className="group relative">
-                <div className="absolute -inset-0.5 rounded-sm bg-purple-500/30 opacity-50 blur transition duration-300 group-hover:opacity-75"></div>
-                <div className="relative rounded-sm border border-white/20 bg-gray-800/80 p-6 shadow-xl backdrop-blur-sm">
-                  <div className="mb-2 text-3xl font-bold text-purple-400">
+                <div className="absolute -inset-0.5 rounded-lg bg-secondary/20 opacity-50 blur transition duration-300 group-hover:opacity-75"></div>
+                <div className="relative rounded-lg border border-border bg-card p-6 shadow-lg">
+                  <div className="mb-2 text-3xl font-bold text-secondary">
                     ∞
                   </div>
-                  <div className="font-medium text-gray-300">Permanent</div>
-                  <div className="mt-3 h-1 w-full rounded-full bg-purple-500/20"></div>
+                  <div className="font-medium text-muted-foreground">Permanent</div>
+                  <div className="mt-3 h-1 w-full rounded-full bg-secondary/20"></div>
                 </div>
               </div>
 
               <div className="group relative">
-                <div className="absolute -inset-0.5 rounded-sm bg-orange-500/30 opacity-50 blur transition duration-300 group-hover:opacity-75"></div>
-                <div className="relative rounded-sm border border-white/20 bg-gray-800/80 p-6 shadow-xl backdrop-blur-sm">
-                  <div className="mb-2 text-3xl font-bold text-orange-400">
+                <div className="absolute -inset-0.5 rounded-lg bg-accent/20 opacity-50 blur transition duration-300 group-hover:opacity-75"></div>
+                <div className="relative rounded-lg border border-border bg-card p-6 shadow-lg">
+                  <div className="mb-2 text-3xl font-bold text-accent">
                     24/7
                   </div>
-                  <div className="font-medium text-gray-300">Accessible</div>
-                  <div className="mt-3 h-1 w-full rounded-full bg-orange-500/20"></div>
+                  <div className="font-medium text-muted-foreground">Accessible</div>
+                  <div className="mt-3 h-1 w-full rounded-full bg-accent/20"></div>
                 </div>
               </div>
             </div>
@@ -756,12 +1066,12 @@ export default function ModernLanding() {
                 .getElementById("cta")
                 ?.scrollIntoView({ behavior: "smooth" })
             }
-            className="group flex flex-col items-center text-white/60 transition-colors duration-300 hover:text-white"
+            className="group flex flex-col items-center text-muted-foreground transition-colors duration-300 hover:text-primary"
           >
             <div className="mb-2 text-xs font-medium uppercase tracking-widest">
               Final
             </div>
-            <div className="h-8 w-px bg-white/20 transition-colors duration-300 group-hover:bg-white/40"></div>
+            <div className="h-8 w-px bg-border transition-colors duration-300 group-hover:bg-primary/40"></div>
             <svg
               className="mt-2 h-4 w-4 animate-[throb_2s_ease-in-out_infinite]"
               fill="none"
@@ -782,28 +1092,28 @@ export default function ModernLanding() {
       {/* CTA Section */}
       <section
         id="cta"
-        className="relative flex min-h-screen items-center overflow-hidden border-t border-white/10 bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900"
+        className="relative flex min-h-screen items-center overflow-hidden border-t border-border bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5"
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent"></div>
         <div className="relative mx-auto max-w-7xl px-6 py-20 lg:px-8">
           <div className="grid items-center gap-16 lg:grid-cols-2">
             <div>
               <div className="mb-8 flex items-center gap-4">
-                <div className="h-1 w-12 bg-gradient-to-r from-white to-transparent"></div>
-                <h2 className="text-4xl font-bold text-white lg:text-5xl">
-                  Ready to enable trust for distributed work?
+                <div className="h-1 w-12 bg-gradient-to-r from-primary to-transparent"></div>
+                <h2 className="text-4xl font-bold text-foreground lg:text-5xl">
+                  Ready to Build Your Team?
                 </h2>
               </div>
-              <p className="mb-10 text-xl leading-relaxed text-blue-100">
-                Join projects and contributors building the future of
-                decentralized collaboration.
+              <p className="mb-10 text-xl leading-relaxed text-muted-foreground">
+                Stop rebuilding credentialing infrastructure. Integrate Andamio's API
+                and start building great teams today.
               </p>
 
               <div className="mb-10 flex flex-col gap-6 sm:flex-row">
                 <Link href="https://app.andamio.io/course/86affc4de251b0fb7636c376383bcebf6ca7ca426528f9b7a5adc298">
                   <Button
                     size="lg"
-                    className="bg-white px-8 py-4 font-semibold text-blue-900 shadow-xl hover:bg-gray-100"
+                    className="bg-primary px-8 py-4 font-semibold text-primary-foreground shadow-lg hover:bg-primary/90 hover:shadow-xl"
                   >
                     Start with Andamio 101
                   </Button>
@@ -811,45 +1121,46 @@ export default function ModernLanding() {
                 <Link href="https://docs.andamio.io/docs/">
                   <Button
                     size="lg"
-                    className="border-white/70 px-8 py-4 font-semibold text-white shadow-lg hover:bg-white/20 hover:text-white"
+                    intent="outline"
+                    className="border-primary px-8 py-4 font-semibold text-foreground shadow-md hover:bg-primary hover:text-primary-foreground"
                   >
                     View Documentation
                   </Button>
                 </Link>
               </div>
 
-              <div className="grid gap-6 text-blue-200 sm:grid-cols-2">
-                <div className="flex items-center gap-4 rounded-sm border border-white/20 bg-white/10 p-6 backdrop-blur-sm">
-                  <span className="text-3xl">👤</span>
-                  <div>
-                    <div className="text-lg font-semibold text-white">
-                      Curious Users
-                    </div>
-                    <div className="text-sm">Start with Andamio 101</div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-4 rounded-sm border border-white/20 bg-white/10 p-6 backdrop-blur-sm">
+              <div className="grid gap-6 sm:grid-cols-2">
+                <div className="flex items-center gap-4 rounded-lg border border-border bg-card p-6 shadow-md">
                   <span className="text-3xl">👩‍💻</span>
                   <div>
-                    <div className="text-lg font-semibold text-white">
+                    <div className="text-lg font-semibold text-foreground">
                       Developers
                     </div>
-                    <div className="text-sm">Explore Documentation</div>
+                    <div className="text-sm text-muted-foreground">Integrate in days with our API</div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4 rounded-lg border border-border bg-card p-6 shadow-md">
+                  <span className="text-3xl">🏢</span>
+                  <div>
+                    <div className="text-lg font-semibold text-foreground">
+                      Organizations
+                    </div>
+                    <div className="text-sm text-muted-foreground">Build and scale your team</div>
                   </div>
                 </div>
               </div>
             </div>
 
             <div className="relative hidden lg:block">
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/10 via-transparent to-white/5"></div>
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/10 via-transparent to-secondary/10"></div>
               <div className="relative p-8">
                 <div className="grid h-80 grid-cols-3 gap-4">
                   {Array.from({ length: 9 }).map((_, i) => (
                     <div
                       key={i}
-                      className={`rounded-sm border border-white/20 bg-white/10 backdrop-blur-sm ${i % 3 === 1 ? "mt-8" : i % 3 === 2 ? "-mt-4" : ""}`}
+                      className={`rounded-lg border border-border bg-card shadow-md ${i % 3 === 1 ? "mt-8" : i % 3 === 2 ? "-mt-4" : ""}`}
                     >
-                      <div className="h-full w-full rounded-sm bg-gradient-to-br from-blue-400/20 to-transparent"></div>
+                      <div className="h-full w-full rounded-lg bg-gradient-to-br from-primary/10 to-transparent"></div>
                     </div>
                   ))}
                 </div>

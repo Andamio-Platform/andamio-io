@@ -15,67 +15,67 @@ export default function RoadmapEpicComponent({
   switch (epic.status) {
     case "planned":
       statusMessage = "Planning";
-      borderColor = "border-purple-500";
-      bgColor = "bg-purple-900/30";
-      textColor = "text-purple-300";
+      borderColor = "border-secondary";
+      bgColor = "bg-secondary/10";
+      textColor = "text-secondary";
       break;
     case "inProgress":
       statusMessage = "Current";
-      borderColor = "border-blue-500";
-      bgColor = "bg-blue-900/30";
-      textColor = "text-blue-300";
+      borderColor = "border-primary";
+      bgColor = "bg-primary/10";
+      textColor = "text-primary";
       break;
     case "proposed":
       statusMessage = "Proposal";
-      borderColor = "border-orange-500";
-      bgColor = "bg-orange-900/30";
-      textColor = "text-orange-300";
+      borderColor = "border-accent";
+      bgColor = "bg-accent/10";
+      textColor = "text-accent";
       break;
     case "complete":
       statusMessage = "Complete";
-      borderColor = "border-green-500";
-      bgColor = "bg-green-900/30";
-      textColor = "text-green-300";
+      borderColor = "border-success";
+      bgColor = "bg-success/10";
+      textColor = "text-success";
       break;
     default:
       statusMessage = "Unknown";
-      borderColor = "border-gray-500";
-      bgColor = "bg-gray-800/50";
-      textColor = "text-gray-300";
+      borderColor = "border-border";
+      bgColor = "bg-muted";
+      textColor = "text-muted-foreground";
       break;
   }
 
   return (
-    <div className="group w-full rounded-sm border border-white/20 bg-gray-800/50 shadow-xl backdrop-blur-sm transition-all hover:border-white/40 hover:shadow-2xl">
+    <div className="group w-full rounded-lg border border-border bg-card shadow-lg transition-all hover:border-primary/50 hover:shadow-xl">
       {/* Epic content */}
       <div className="flex w-full">
         <div
-          className={`flex-grow border-l-4 bg-gray-900/60 ${borderColor} rounded-l-lg`}
+          className={`flex-grow border-l-4 bg-card ${borderColor} rounded-l-lg`}
         >
           <div className="p-5">
             {/* Category label if provided */}
             {category && (
-              <div className="mb-2 text-sm font-medium text-blue-400">
+              <div className="mb-2 text-sm font-medium text-primary">
                 {category}
               </div>
             )}
 
             <div className="mb-3">
-              <h3 className="text-xl font-bold tracking-tight text-white">
+              <h3 className="text-xl font-bold tracking-tight text-foreground">
                 {epic.name}
               </h3>
             </div>
 
-            <p className="max-w-2xl text-sm text-gray-300">
+            <p className="max-w-2xl text-sm text-muted-foreground">
               {epic.description}
             </p>
 
             {epic.features && epic.features.length > 0 && (
               <div className="mt-4">
-                <h4 className="mb-2 text-sm font-medium text-white">
+                <h4 className="mb-2 text-sm font-medium text-foreground">
                   Features:
                 </h4>
-                <ul className="list-inside list-disc space-y-1 text-sm text-gray-300">
+                <ul className="list-inside list-disc space-y-1 text-sm text-muted-foreground">
                   {epic.features.map((feature, index) => (
                     <li key={index}>{feature}</li>
                   ))}
@@ -89,7 +89,7 @@ export default function RoadmapEpicComponent({
                   href={epic.link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-400 transition-colors duration-200 hover:text-blue-300 hover:underline"
+                  className="text-primary transition-colors duration-200 hover:text-primary/80 hover:underline"
                 >
                   {epic.link.label}
                 </a>

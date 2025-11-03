@@ -22,7 +22,7 @@ export function RealWorldUseCases() {
           Explore Andamio Use Cases
         </h2>
         {/* Subheading or Description */}
-        <p className="mb-8 text-center font-montserrat text-lg text-muted-foreground">
+        <p className="mb-8 text-center font-sans text-lg text-muted-foreground">
           Discover use cases for Andamio and how it can support your
           organization.
         </p>
@@ -47,7 +47,7 @@ export function RealWorldUseCases() {
             </CardContent>
             <CardFooter>
               <Link href="/use-cases/DecentralizedInnovation" target="_blank">
-                <Button className="text-md mt-4 rounded-sm bg-primary px-6 py-2 font-montserrat font-semibold uppercase text-white transition-all duration-300 hover:border-2 hover:border-primary hover:bg-white hover:text-primary">
+                <Button className="text-md mt-4 rounded-sm bg-primary px-6 py-2 font-sans font-semibold uppercase text-white transition-all duration-300 hover:border-2 hover:border-primary hover:bg-white hover:text-primary">
                   Learn More
                 </Button>
               </Link>
@@ -73,7 +73,7 @@ export function RealWorldUseCases() {
             </CardContent>
             <CardFooter>
               <Link href="/use-cases/LeadGenerator" target="_blank">
-                <Button className="text-md mt-4 rounded-sm bg-primary px-6 py-2 font-montserrat font-semibold uppercase text-white transition-all duration-300 hover:border-2 hover:border-primary hover:bg-white hover:text-primary">
+                <Button className="text-md mt-4 rounded-sm bg-primary px-6 py-2 font-sans font-semibold uppercase text-white transition-all duration-300 hover:border-2 hover:border-primary hover:bg-white hover:text-primary">
                   Learn More
                 </Button>
               </Link>
@@ -99,7 +99,7 @@ export function RealWorldUseCases() {
             </CardContent>
             <CardFooter>
               <Link href="/use-cases/FanEngagement" target="_blank">
-                <Button className="text-md mt-4 rounded-sm bg-primary px-6 py-2 font-montserrat font-semibold uppercase text-white transition-all duration-300 hover:border-2 hover:border-primary hover:bg-white hover:text-primary">
+                <Button className="text-md mt-4 rounded-sm bg-primary px-6 py-2 font-sans font-semibold uppercase text-white transition-all duration-300 hover:border-2 hover:border-primary hover:bg-white hover:text-primary">
                   Learn More
                 </Button>
               </Link>
@@ -110,7 +110,7 @@ export function RealWorldUseCases() {
         {/* Call to Action */}
         <div className="mt-12 text-center">
           <Link href="mailto:hello@andamio.io" target="_blank">
-            <Button className="text-md hover:borderborder-primary rounded-sm bg-primary px-6 py-3 font-montserrat font-semibold uppercase text-white transition-all duration-300 hover:border-2 hover:border-primary hover:bg-white hover:text-primary">
+            <Button className="text-md hover:borderborder-primary rounded-sm bg-primary px-6 py-3 font-sans font-semibold uppercase text-white transition-all duration-300 hover:border-2 hover:border-primary hover:bg-white hover:text-primary">
               Get in touch
             </Button>
           </Link>

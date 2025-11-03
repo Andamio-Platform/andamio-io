@@ -34,33 +34,33 @@ export default function CustomersPage() {
       {/* Header */}
       <div className="relative mb-16">
         {/* Angular accent lines */}
-        <div className="absolute -top-8 left-0 h-1 w-32 bg-gradient-to-r from-blue-500 to-transparent shadow-lg shadow-blue-500/50"></div>
-        <div className="absolute -top-4 left-8 h-1 w-16 bg-gradient-to-r from-white/60 to-transparent"></div>
+        <div className="absolute -top-8 left-0 h-1 w-32 bg-gradient-to-r from-primary to-transparent shadow-md shadow-primary/20"></div>
+        <div className="absolute -top-4 left-8 h-1 w-16 bg-gradient-to-r from-muted-foreground/40 to-transparent"></div>
         <div className="mb-6 flex items-center gap-4">
-          <div className="h-1 w-12 bg-gradient-to-r from-blue-500 to-transparent"></div>
-          <h1 className="text-4xl font-bold text-white lg:text-6xl">
+          <div className="h-1 w-12 bg-gradient-to-r from-primary to-transparent"></div>
+          <h1 className="text-4xl font-bold text-foreground lg:text-6xl">
             Customers
           </h1>
         </div>
-        <p className="max-w-3xl text-xl text-gray-300">
+        <p className="max-w-3xl text-xl text-muted-foreground">
           Celebrating the global community of people building local states on Andamio. Teams of all sizes - tech teams, collaborative team, educational teams, institutions, and more.
         </p>
         <br />
-        <p className="max-w-3xl text-xl text-gray-300">
+        <p className="max-w-3xl text-xl text-muted-foreground">
           Discover their stories and how they are impacting lives in their distributed way of work.
-        </p>          
-        
+        </p>
+
       </div>
 
       {/* Customers Grid */}
       <div className="grid gap-8 lg:grid-cols-2">
         <Suspense fallback={
           <div className="flex items-center justify-center py-20">
-            <div className="text-gray-400">Loading customers...</div>
+            <div className="text-muted-foreground">Loading customers...</div>
           </div>
         }>
           {customers && customers.map(customer => (
-            <Card key={customer.id} className="group relative overflow-hidden border border-white/20 bg-gray-800/50 backdrop-blur-sm shadow-xl transition-all duration-300 hover:border-white/40 hover:shadow-2xl">
+            <Card key={customer.id} className="group relative overflow-hidden border border-border bg-card shadow-lg transition-all duration-300 hover:border-primary/50 hover:shadow-xl">
                   <Link href={`/customers/${customer.id}`} className="block">
                     {/* Featured Image */}
                     {customer.frontmatter.image && (
@@ -80,30 +80,30 @@ export default function CustomersPage() {
                               alt={customer.frontmatter.title || customer.id + ' logo'}
                               width={72}
                               height={72}
-                              className="rounded shadow-lg bg-white/80 p-1 object-contain"
+                              className="rounded shadow-lg bg-card/90 p-1 object-contain"
                             />
                           </div>
                         )}
-                        <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-transparent to-transparent"></div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent"></div>
                       </div>
                     )}
                     {/* Content */}
                     <div className="p-6">
                       {/* Category/Type Badge */}
                       <div className="mb-3">
-                        <span className="inline-block rounded-full bg-blue-600/20 px-3 py-1 text-xs font-medium text-blue-400 border border-blue-500/30">
+                        <span className="inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary border border-primary/30">
                           Customer
                         </span>
                       </div>
                       {/* Title */}
-                      <h2 className="mb-4 text-xl font-bold text-white transition-colors duration-200 group-hover:text-blue-300 lg:text-2xl">
+                      <h2 className="mb-4 text-xl font-bold text-foreground transition-colors duration-200 group-hover:text-primary lg:text-2xl">
                         {customer.frontmatter.title || customer.id}
                       </h2>
                       {/* Meta Information: Tags */}
                       {customer.frontmatter.tags && Array.isArray(customer.frontmatter.tags) && (
-                        <div className="mb-2 flex flex-wrap gap-2 text-sm text-gray-400">
+                        <div className="mb-2 flex flex-wrap gap-2 text-sm text-muted-foreground">
                           {customer.frontmatter.tags.map((tag: string) => (
-                            <span key={tag} className="inline-block rounded bg-blue-500/10 px-2 py-1 text-xs text-blue-300 border border-blue-500/20">
+                            <span key={tag} className="inline-block rounded bg-primary/10 px-2 py-1 text-xs text-primary border border-primary/20">
                               {tag}
                             </span>
                           ))}
@@ -111,7 +111,7 @@ export default function CustomersPage() {
                       )}
                       {/* Meta Information (add more fields as needed) */}
                       {/* Read More Arrow */}
-                      <div className="flex items-center gap-2 text-blue-400 transition-colors duration-200 group-hover:text-blue-300">
+                      <div className="flex items-center gap-2 text-primary transition-colors duration-200 group-hover:text-primary/80">
                         <span className="text-xs font-medium">Read More</span>
                         <svg className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -128,8 +128,8 @@ export default function CustomersPage() {
       {customers.length === 0 && (
         <div className="flex flex-col items-center justify-center py-20 text-center">
           <div className="mb-4 text-6xl opacity-20">👥</div>
-          <h3 className="mb-2 text-xl font-semibold text-white">No customers yet</h3>
-          <p className="text-gray-400">Check back soon for new customer stories.</p>
+          <h3 className="mb-2 text-xl font-semibold text-foreground">No customers yet</h3>
+          <p className="text-muted-foreground">Check back soon for new customer stories.</p>
         </div>
       )}
     </div>

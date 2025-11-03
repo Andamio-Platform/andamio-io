@@ -149,17 +149,17 @@ const ProductRoadmap = () => {
               }
               className="rounded-none"
             >
-              <TabsList className="grid w-full grid-cols-2 rounded-sm border border-white/20 bg-gray-800/50 backdrop-blur-sm">
+              <TabsList className="grid w-full grid-cols-2 rounded-md border border-border bg-muted">
                 <TabsTrigger
                   value="time"
-                  className="flex items-center justify-center space-x-2 rounded-sm text-white data-[state=active]:bg-blue-600 data-[state=active]:text-white"
+                  className="flex items-center justify-center space-x-2 rounded-md text-foreground data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
                 >
                   <Clock className="h-4 w-4" />
                   <span>Timeline</span>
                 </TabsTrigger>
                 <TabsTrigger
                   value="category"
-                  className="flex items-center justify-center space-x-2 rounded-sm text-white data-[state=active]:bg-blue-600 data-[state=active]:text-white"
+                  className="flex items-center justify-center space-x-2 rounded-md text-foreground data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
                 >
                   <Layers className="h-4 w-4" />
                   <span>Categories</span>
@@ -187,14 +187,14 @@ const ProductRoadmap = () => {
                           <TabsTrigger
                             key={year}
                             value={year}
-                            className="w-full justify-start rounded-sm border border-white/20 bg-gray-800/50 px-4 py-3 text-left text-sm font-medium text-white backdrop-blur-sm hover:bg-gray-700/50 data-[state=active]:bg-blue-600 data-[state=active]:text-white"
+                            className="w-full justify-start rounded-md border border-border bg-card px-4 py-3 text-left text-sm font-medium text-foreground shadow-sm hover:bg-muted data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
                           >
                             {year}
                           </TabsTrigger>
                         ))}
                       </TabsList>
                       <Link href="https://andamio.notion.site/1fb44d820e1d804ebec4f0142d3f267a?pvs=105">
-                        <Button className="w-full rounded-sm bg-blue-600 text-white hover:bg-blue-700">
+                        <Button className="w-full rounded-md bg-primary text-primary-foreground hover:bg-primary/90">
                           Give Feedback
                         </Button>
                       </Link>
@@ -206,7 +206,7 @@ const ProductRoadmap = () => {
                         <TabsContent key={year} value={year} className="mt-0">
                           {/* Year heading */}
                           <div className="mb-8 text-right">
-                            <h2 className="bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-6xl font-bold tracking-tight text-transparent">
+                            <h2 className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-6xl font-bold tracking-tight text-transparent">
                               {year}
                             </h2>
                           </div>
@@ -235,7 +235,7 @@ const ProductRoadmap = () => {
 
                           {/* End marker */}
                           <div className="mt-12 text-center">
-                            <p className="text-sm text-gray-400">
+                            <p className="text-sm text-muted-foreground">
                               End of {year}
                             </p>
                           </div>
@@ -264,14 +264,14 @@ const ProductRoadmap = () => {
                           <TabsTrigger
                             key={index}
                             value={category.category}
-                            className="w-full justify-start rounded-sm border border-white/20 bg-gray-800/50 px-4 py-3 text-left text-sm font-medium text-white backdrop-blur-sm hover:bg-gray-700/50 data-[state=active]:bg-blue-600 data-[state=active]:text-white"
+                            className="w-full justify-start rounded-md border border-border bg-card px-4 py-3 text-left text-sm font-medium text-foreground shadow-sm hover:bg-muted data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
                           >
                             {category.category}
                           </TabsTrigger>
                         ))}
                       </TabsList>
                       <Link href="https://andamio.notion.site/1fb44d820e1d804ebec4f0142d3f267a?pvs=105">
-                        <Button className="w-full rounded-sm bg-blue-600 text-white hover:bg-blue-700">
+                        <Button className="w-full rounded-md bg-primary text-primary-foreground hover:bg-primary/90">
                           Give Feedback
                         </Button>
                       </Link>
@@ -287,7 +287,7 @@ const ProductRoadmap = () => {
                         >
                           {/* Category heading */}
                           <div className="mb-8 text-right">
-                            <h2 className="bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-6xl font-bold tracking-tight text-transparent">
+                            <h2 className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-6xl font-bold tracking-tight text-transparent">
                               {category.category}
                             </h2>
                           </div>
@@ -303,7 +303,7 @@ const ProductRoadmap = () => {
 
                           {/* End marker */}
                           <div className="mt-12 text-center">
-                            <p className="text-sm text-gray-400">
+                            <p className="text-sm text-muted-foreground">
                               End of {category.category}
                             </p>
                           </div>

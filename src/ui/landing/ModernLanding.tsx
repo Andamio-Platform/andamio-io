@@ -67,11 +67,11 @@ export default function ModernLanding() {
 
       if (isInView) {
         if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+          e.preventDefault();
           // If on last step and pressing down/right, scroll to next section
           if (activeStep === 5) {
             document.getElementById('outcomes')?.scrollIntoView({ behavior: 'smooth' });
           } else {
-            e.preventDefault();
             setActiveStep(prev => Math.min(5, prev + 1));
           }
         } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
@@ -349,9 +349,9 @@ export default function ModernLanding() {
                     .getElementById("how-it-works")
                     ?.scrollIntoView({ behavior: "smooth" })
                 }
-                className="bg-primary px-8 py-4 font-semibold text-primary-foreground shadow-lg hover:bg-primary/90 hover:shadow-xl"
+                className="bg-primary px-8 py-4 font-semibold text-primary-foreground shadow-lg hover:bg-primary/90 hover:shadow-xl hover:text-success-foreground"
               >
-                How It Works
+                How It Works · Click or Press ↓
               </Button>
             </div>
           </div>
@@ -418,9 +418,9 @@ export default function ModernLanding() {
         <div className="sticky top-20 z-10 flex-shrink-0 bg-background/98 backdrop-blur-md px-6 py-6 border-b-2 border-primary shadow-lg">
           <div className="mx-auto max-w-full">
             <div className="mb-3 flex items-center gap-4">
-              <div className="h-1 w-16 bg-gradient-to-r from-success to-transparent"></div>
+              
               <h2 className="text-3xl font-bold text-foreground lg:text-5xl">
-                How It Works
+                How Andamio Works
               </h2>
             </div>
             <p className="max-w-4xl text-xl text-muted-foreground">
@@ -447,6 +447,31 @@ export default function ModernLanding() {
             </div>
           </div>
         </div>
+
+        {/* Navigation Arrows */}
+        <button
+          onClick={() => setActiveStep(prev => Math.max(0, prev - 1))}
+          className={`absolute bottom-8 left-8 z-20 rounded-full border border-border bg-card/80 p-3 shadow-lg backdrop-blur-sm transition-all duration-300 hover:bg-card hover:shadow-xl hover:scale-110 ${
+            activeStep === 0 ? 'opacity-0 pointer-events-none' : 'opacity-60 hover:opacity-100'
+          }`}
+          aria-label="Previous step"
+        >
+          <svg className="h-6 w-6 text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+
+        <button
+          onClick={() => setActiveStep(prev => Math.min(5, prev + 1))}
+          className={`absolute bottom-8 right-8 z-20 rounded-full border border-border bg-card/80 p-3 shadow-lg backdrop-blur-sm transition-all duration-300 hover:bg-card hover:shadow-xl hover:scale-110 ${
+            activeStep === 5 ? 'opacity-0 pointer-events-none' : 'opacity-60 hover:opacity-100'
+          }`}
+          aria-label="Next step"
+        >
+          <svg className="h-6 w-6 text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
 
         {/* Horizontal Scrolling Steps Container */}
         <div

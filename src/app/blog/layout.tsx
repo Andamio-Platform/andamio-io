@@ -17,7 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen bg-gray-950 text-white">
+      <body className="min-h-screen bg-background text-foreground">
         <AngularGridOverlay />
         <NavigationBar currentPage="blog" />
 

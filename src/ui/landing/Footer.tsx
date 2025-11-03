@@ -26,17 +26,17 @@ const footerData = {
 
 export default function Footer() {
   return (
-    <div className="relative z-30 border-t border-white/10 bg-gray-950 text-white">
+    <div className="relative z-30 border-t border-border bg-muted/30 text-foreground">
       <div className="pointer-events-none absolute inset-0 opacity-5">
         <div className="grid h-full grid-cols-16">
           {Array.from({ length: 16 }).map((_, i) => (
-            <div key={i} className="border-r border-white/20"></div>
+            <div key={i} className="border-r border-border"></div>
           ))}
         </div>
         <div className="absolute inset-0">
           <div className="flex h-full flex-col">
             {Array.from({ length: 8 }).map((_, i) => (
-              <div key={i} className="flex-1 border-b border-white/10"></div>
+              <div key={i} className="flex-1 border-b border-border"></div>
             ))}
           </div>
         </div>
@@ -44,7 +44,7 @@ export default function Footer() {
 
       <footer className="relative mx-auto max-w-7xl px-6 py-16 lg:px-8">
         {/* Top accent line */}
-        <div className="absolute left-6 right-6 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+        <div className="absolute left-6 right-6 top-0 h-px bg-gradient-to-r from-transparent via-border to-transparent"></div>
 
         <div className="flex flex-col">
           {/* Main footer content */}
@@ -52,9 +52,9 @@ export default function Footer() {
             {Object.entries(footerData).map(([key, links], index) => (
               <div key={key} className="relative">
                 {/* Angular accent for each section */}
-                <div className="absolute -top-2 left-0 h-1 w-8 bg-gradient-to-r from-blue-500 to-transparent opacity-60"></div>
+                <div className="absolute -top-2 left-0 h-1 w-8 bg-gradient-to-r from-primary to-transparent opacity-60"></div>
 
-                <h3 className="mb-6 text-lg font-bold uppercase tracking-wider text-white">
+                <h3 className="mb-6 text-lg font-bold uppercase tracking-wider text-foreground">
                   {key}
                 </h3>
                 <ul className="space-y-4">
@@ -62,9 +62,9 @@ export default function Footer() {
                     <li key={link.name}>
                       <Link
                         href={link.href}
-                        className="group flex items-center text-gray-300 transition-colors duration-200 hover:text-white"
+                        className="group flex items-center text-muted-foreground transition-colors duration-200 hover:text-foreground"
                       >
-                        <span className="mr-3 h-px w-2 bg-gray-600 transition-colors duration-200 group-hover:bg-white"></span>
+                        <span className="mr-3 h-px w-2 bg-border transition-colors duration-200 group-hover:bg-primary"></span>
                         {link.name}
                       </Link>
                     </li>
@@ -75,7 +75,7 @@ export default function Footer() {
           </div>
 
           {/* Bottom section */}
-          <div className="mt-16 border-t border-white/10 pt-8">
+          <div className="mt-16 border-t border-border pt-8">
             <div className="flex flex-col items-center justify-between md:flex-row">
               <div className="mb-4 flex items-center gap-4 md:mb-0">
                 <img
@@ -83,13 +83,13 @@ export default function Footer() {
                   src="/andamio-logo.svg"
                   alt="Andamio"
                 />
-                <div className="text-sm text-gray-400">
+                <div className="text-sm text-muted-foreground">
                   Trust Protocol for Distributed Work
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 text-sm text-gray-400">
-                <span className="rounded-sm border border-white/10 bg-gray-800/50 px-2 py-1 font-mono text-xs">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <span className="rounded-sm border border-border bg-muted px-2 py-1 font-mono text-xs">
                   v0.3.3
                 </span>
                 <span>|</span>

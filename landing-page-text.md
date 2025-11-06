@@ -101,6 +101,6 @@ Join projects and contributors building the future of decentralized collaboratio
 - Terms of Use
 
 ### Bottom Section
-- Trust Protocol for Distributed Work
-- v0.3.3
+- Professional Identity for Distributed Work
+- v1.5.0
 - © 2025 Andamio. All rights reserved.

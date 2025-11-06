@@ -414,7 +414,7 @@ export default function ModernLanding() {
 
             <div className="relative mb-6 sm:mb-8 lg:mb-12">
               <p className="mb-6 sm:mb-8 lg:mb-10 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold leading-tight text-foreground">
-                Verify that people have the qualifications they say they do.
+                professional identity for distributed work
               </p>
             </div>
 
@@ -884,20 +884,20 @@ export default function ModernLanding() {
                 </h2>
               </div>
               <p className="mb-1 max-w-3xl text-sm sm:text-base text-muted-foreground">
-                Stop rebuilding credentialing infrastructure.{" "}
                 <strong className="text-foreground">
-                  Integrate Andamio API in days, not months
+                Accessible professional identity{" "}
                 </strong>
-                {" "}to enable portable credentials across your apps.
+                  that works for your team
               </p>
-              <p className="max-w-3xl text-xs sm:text-sm text-muted-foreground">
-                Whether you want a ready-to-use solution, developer tools, or protocol-level integration—Andamio meets you where you are.
+              <p className="max-w-2xl text-xs sm:text-sm text-muted-foreground">
+                Andamio is built to be integrated across applications. Whether you want a ready-to-use solution, developer tools, or protocol-level integration, these tools help you get started. 
               </p>
             </div>
 
             {/* Three column grid */}
             <div className="grid gap-5 sm:gap-6 lg:gap-8 md:grid-cols-2 lg:grid-cols-3">
               {/* Platform */}
+              <Link href="https://app.andamio.io">
               <div className="group relative">
                 <div className="absolute -inset-0.5 rounded-lg bg-gradient-to-r from-primary/30 to-primary/20 opacity-30 blur transition duration-500 group-hover:opacity-50"></div>
                 <div className="relative aspect-square overflow-hidden rounded-lg border border-border bg-card shadow-xl transition-all duration-500 hover:shadow-2xl">
@@ -932,8 +932,10 @@ export default function ModernLanding() {
                   <div className="absolute inset-0 bg-primary/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
                 </div>
               </div>
+              </Link>
 
               {/* SDK + API */}
+              <Link href="https://sdk.andamio.io/">
               <div className="group relative">
                 <div className="absolute -inset-0.5 rounded-lg bg-gradient-to-r from-success/30 to-success/20 opacity-30 blur transition duration-500 group-hover:opacity-50"></div>
                 <div className="relative aspect-square overflow-hidden rounded-lg border border-border bg-card shadow-xl transition-all duration-500 hover:shadow-2xl">
@@ -969,8 +971,11 @@ export default function ModernLanding() {
                   <div className="absolute inset-0 bg-success/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
                 </div>
               </div>
+              </Link>
 
-              {/* Cardano Protocol */}
+
+              {/* Andamio Protocol */}
+              <Link href="https://docs.andamio.io">
               <div className="group relative md:col-span-2 lg:col-span-1">
                 <div className="absolute -inset-0.5 rounded-lg bg-gradient-to-r from-secondary/30 to-secondary/20 opacity-30 blur transition duration-500 group-hover:opacity-50"></div>
                 <div className="relative aspect-square overflow-hidden rounded-lg border border-border bg-card shadow-xl transition-all duration-500 hover:shadow-2xl">
@@ -990,13 +995,13 @@ export default function ModernLanding() {
                   <div className="absolute inset-0 flex flex-col justify-end p-3 sm:p-4 lg:p-5">
                     <div className="space-y-1.5 sm:space-y-2">
                       <h3 className="text-base sm:text-lg font-bold text-card">
-                        Cardano Protocol
+                        Andamio Protocol
                       </h3>
                       <div className="h-0.5 w-10 sm:w-12 bg-card"></div>
                       <p className="text-xs leading-relaxed text-card line-clamp-4">
                         Open credentialing infrastructure built on{" "}
                         <strong className="text-card">Cardano blockchain</strong>.
-                        Portable credentials that work across the entire ecosystem.
+                        Portable identity for distributed work.
                       </p>
                     </div>
                   </div>
@@ -1005,6 +1010,8 @@ export default function ModernLanding() {
                   <div className="absolute inset-0 bg-secondary/10 opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
                 </div>
               </div>
+              </Link>
+
             </div>
           </div>
         </div>

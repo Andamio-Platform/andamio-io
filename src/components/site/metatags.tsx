@@ -13,7 +13,7 @@ export default function Metatags({
 }) {
   if (description === undefined) {
     description =
-      "Andamio empowers your organization to teach skills that connect to contribution opportunities.";
+      "Build great teams with professional identity for distributed work";
   }
   if (keywords === undefined) {
     keywords =
@@ -60,10 +60,10 @@ export default function Metatags({
 }
 
 Metatags.defaultProps = {
-  title: "Andamio - Education & collaboration platform",
+  title: "Andamio - Build Great Teams",
   keywords:
     "blockchain, learning, management, contribution, skill, community, organization, education, web3",
   description:
-    "Andamio empowers your organization to teach skills that connect to contribution opportunities.",
+    "Professional identity for flexible teams and distributed work.",
   image: "/andamio.png",
 };

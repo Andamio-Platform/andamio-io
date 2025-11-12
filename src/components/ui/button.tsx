@@ -10,7 +10,7 @@ const buttonVariants = cva(
     variants: {
       intent: {
         default:
-          "bg-primary text-primary-foreground shadow hover:bg-success-foreground hover:text-success",
+          "bg-primary text-primary-foreground shadow hover:bg-primary/90",
         destructive:
           "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
         outline:

@@ -116,10 +116,10 @@ export default function Step({
   );
 
   return (
-    <div className="min-w-full h-full flex items-center justify-center snap-center px-4 sm:px-6 lg:px-8">
-      <div className="mx-auto w-full max-w-6xl">
+    <div className="min-w-full flex-shrink-0 flex items-center justify-center snap-center px-4 sm:px-6 lg:px-8 py-4">
+      <div className="mx-auto max-w-7xl w-full">
         <div
-          className={`grid items-center gap-6 sm:gap-8 lg:gap-12 ${isLeftLayout ? "lg:grid-cols-[1fr,1.2fr]" : "lg:grid-cols-[1.2fr,1fr]"}`}
+          className={`grid items-center gap-6 sm:gap-8 lg:gap-12 w-full ${isLeftLayout ? "lg:grid-cols-2" : "lg:grid-cols-2"}`}
         >
           {textContent}
           {imageContent}

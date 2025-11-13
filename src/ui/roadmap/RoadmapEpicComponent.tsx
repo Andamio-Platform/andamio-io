@@ -12,6 +12,11 @@ export default function RoadmapEpicComponent({
   let bgColor = "";
   let textColor = "";
 
+  // Format years as a range if multiple years, otherwise single year
+  const yearDisplay = epic.years.length > 1
+    ? `${Math.min(...epic.years.map(Number))}-${Math.max(...epic.years.map(Number))}`
+    : epic.years[0];
+
   switch (epic.status) {
     case "planned":
       statusMessage = "Planning";
@@ -103,11 +108,13 @@ export default function RoadmapEpicComponent({
           className={`flex w-32 flex-col justify-center ${bgColor} rounded-r-lg p-4`}
         >
           <div className="flex flex-col items-end">
-            <div className={`text-xl font-bold ${textColor}`}>{epic.year}</div>
-            <div className={`text-xl font-bold ${textColor}`}>
-              Q{epic.quarter}
-            </div>
-            <div className={`mt-6 text-xs font-medium ${textColor}`}>
+            <div className={`text-right text-xl font-bold ${textColor}`}>{yearDisplay}</div>
+            {epic.quarter !== undefined && (
+              <div className={`text-right text-xl font-bold ${textColor}`}>
+                Q{epic.quarter}
+              </div>
+            )}
+            <div className={`mt-6 text-right text-xs font-medium ${textColor}`}>
               {statusMessage}
             </div>
           </div>

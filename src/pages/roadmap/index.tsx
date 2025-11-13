@@ -22,13 +22,11 @@ const ProductRoadmap = () => {
 
   // Helper function to get timestamp from an epic for sorting
   const getEpicTimestamp = (epic: Epic): { year: number; quarter: number } => {
-    // Handle potential undefined year and ranges like "2025-2026"
-    const yearStr = epic.year ?? "0";
+    // Get the first year from the years array
+    const yearStr = epic.years[0] ?? "0";
     const epicYear = parseInt(yearStr);
-    const year = isNaN(epicYear)
-      ? parseInt(yearStr.split("-")[0] ?? "0")
-      : epicYear;
-    return { year, quarter: epic.quarter };
+    const year = isNaN(epicYear) ? 0 : epicYear;
+    return { year, quarter: epic.quarter ?? 0 };
   };
 
   // Sort roadmap items by category, with epics inside each category sorted chronologically
@@ -39,8 +37,21 @@ const ProductRoadmap = () => {
         const aTimestamp = getEpicTimestamp(a);
         const bTimestamp = getEpicTimestamp(b);
 
+        // Compare years first
         if (aTimestamp.year !== bTimestamp.year) {
           return aTimestamp.year - bTimestamp.year;
+        }
+
+        // If years are equal, compare quarters
+        // Treat undefined quarters as coming after defined quarters (sort to end of year)
+        if (aTimestamp.quarter === 0 && bTimestamp.quarter === 0) {
+          return 0; // Both undefined, maintain relative order
+        }
+        if (aTimestamp.quarter === 0) {
+          return 1; // a is undefined, b comes first
+        }
+        if (bTimestamp.quarter === 0) {
+          return -1; // b is undefined, a comes first
         }
         return aTimestamp.quarter - bTimestamp.quarter;
       });
@@ -81,8 +92,21 @@ const ProductRoadmap = () => {
       const aTimestamp = getEpicTimestamp(a.epic);
       const bTimestamp = getEpicTimestamp(b.epic);
 
+      // Compare years first
       if (aTimestamp.year !== bTimestamp.year) {
         return aTimestamp.year - bTimestamp.year;
+      }
+
+      // If years are equal, compare quarters
+      // Treat undefined quarters as coming after defined quarters (sort to end of year)
+      if (aTimestamp.quarter === 0 && bTimestamp.quarter === 0) {
+        return 0; // Both undefined, maintain relative order
+      }
+      if (aTimestamp.quarter === 0) {
+        return 1; // a is undefined, b comes first
+      }
+      if (bTimestamp.quarter === 0) {
+        return -1; // b is undefined, a comes first
       }
       return aTimestamp.quarter - bTimestamp.quarter;
     });
@@ -91,7 +115,7 @@ const ProductRoadmap = () => {
     if (sorted.length > 0 && !activeYear) {
       // Use setTimeout to avoid React warning about state updates during render
       setTimeout(() => {
-        const firstYear = sorted[0]?.epic.year ?? "";
+        const firstYear = sorted[0]?.epic.years[0] ?? "";
         setActiveYear(firstYear);
       }, 0);
     }
@@ -104,17 +128,12 @@ const ProductRoadmap = () => {
     const years: string[] = [];
 
     timeSortedItems.forEach((item) => {
-      // Safely handle potentially undefined year values
-      const yearStr = item.epic.year ?? "";
-      if (yearStr) {
-        // Handle year ranges like "2025-2026" by taking the first year
-        const year = yearStr.includes("-") ? yearStr.split("-")[0] : yearStr;
-
-        // Only add if not already in the array
-        if (!!year && !years.includes(year)) {
-          years.push(year);
+      // Extract all years from the years array
+      item.epic.years.forEach((yearStr) => {
+        if (yearStr && !years.includes(yearStr)) {
+          years.push(yearStr);
         }
-      }
+      });
     });
 
     return years.sort();
@@ -125,10 +144,8 @@ const ProductRoadmap = () => {
     if (!activeYear) return timeSortedItems;
 
     return timeSortedItems.filter((item) => {
-      // Safely handle potentially undefined year values
-      const yearStr = item.epic.year ?? "";
-      // Check if the year starts with the active year or matches it exactly
-      return yearStr.startsWith(activeYear) || yearStr === activeYear;
+      // Check if any of the epic's years matches the active year
+      return item.epic.years.includes(activeYear);
     });
   }, [timeSortedItems, activeYear]);
 
@@ -218,10 +235,7 @@ const ProductRoadmap = () => {
                               : filteredByYear
                             )
                               .filter((item) => {
-                                const yearStr = item.epic.year ?? "";
-                                return (
-                                  yearStr.startsWith(year) || yearStr === year
-                                );
+                                return item.epic.years.includes(year);
                               })
                               .map((item, index) => (
                                 <div key={index} className="w-full">

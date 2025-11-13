@@ -8,8 +8,8 @@ export interface Epic {
   description: string;
   features: string[];
   status: "complete" | "proposed" | "inProgress" | "planned";
-  year: string;
-  quarter: 1 | 2 | 3 | 4;
+  years: string[];
+  quarter: 1 | 2 | 3 | 4 | undefined;
   link?: {
     href: string;
     label: string;
@@ -26,7 +26,7 @@ export const roadmap: Roadmap[] = [
           "By a group of Catalyst veterans, Gimbalabs contributors, and Cardano builders",
         features: [],
         status: "complete",
-        year: "2023",
+        years: ["2023"],
         quarter: 2,
       },
       {
@@ -35,7 +35,7 @@ export const roadmap: Roadmap[] = [
           "Clarifying itentions for Andamio in how we organize and build it",
         features: [],
         status: "complete",
-        year: "2023",
+        years: ["2023"],
         quarter: 2,
       },
       {
@@ -44,7 +44,7 @@ export const roadmap: Roadmap[] = [
           "Refining and combining components prototyped at Bridge Builders, Gimbalabs, Mesh, and ODIN",
         features: [],
         status: "complete",
-        year: "2023",
+        years: ["2023"],
         quarter: 3,
       },
     ],
@@ -63,43 +63,35 @@ export const roadmap: Roadmap[] = [
           "Instance registration and administration",
         ],
         status: "complete",
-        year: "2025",
+        years: ["2025"],
         quarter: 1,
       },
       {
-        name: "Andamio Protocol 2.0",
+        name: "Andamio V2 Audit",
+        description: "Access Token and Global State validators audited by TxPipe",
+        features: ["Updates and documentation"],
+        status: "inProgress",
+        years: ["2025"],
+        quarter: 4,
+      },
+      {
+        name: "Transaction Sponsorship - Testing Phase",
         description:
-          "Rewrite Andamio validators in Aiken and deploy a more extensible Global State validator",
+          "Enable frictionless user onboarding by sponsoring blockchain transactions for new users",
         features: [
-          "Rewrite validators in Aiken",
-          "Deploy a more extensible Global State validator",
-          "Enable creation of custom local state validators",
+          "Mainnet deployment and initial testing",
+          "Anti-farming mechanisms",
+          "Sponsored transaction monitoring",
+          "Performance optimization",
         ],
         status: "inProgress",
-        year: "2025",
-        quarter: 2,
-      },
-      {
-        name: "Andamio V2 Audit (Ongoing)",
-        description: "Audit Andamio V2 validators as they are ready",
-        features: ["Audit Andamio V2 validators as they are ready"],
-        status: "planned",
-        year: "2025",
-        quarter: 2,
-      },
-      {
-        name: "Open Source V2 Validators",
-        description:
-          "Open source Andamio V2 validators for the community to build on",
-        features: ["Andamio V2 validators open source", "Documentation"],
-        status: "planned",
-        year: "2025",
+        years: ["2025"],
         quarter: 4,
       },
       {
         name: "Protocol Documentation and CIP",
         description:
-          "Comprehensive documentation and potential Cardano Improvement Proposal",
+          "Comprehensive protocol documentation and Cardano Improvement Proposal submission",
         features: [
           "Complete Global State documentation",
           "Local State Validator specifications",
@@ -107,7 +99,60 @@ export const roadmap: Roadmap[] = [
           "Cardano Improvement Proposal submission",
         ],
         status: "inProgress",
-        year: "2025",
+        years: ["2025"],
+        quarter: 4,
+      },
+      {
+        name: "Andamio Protocol 2.0",
+        description:
+          "Andamio validators in Aiken and extensible Global State validator with enhanced capabilities",
+        features: [
+          "Rewrite validators in Aiken",
+          "Generalized Global State validator",
+          "Creation of custom local state validators",
+          "Multi-prerequisites support for complex learning paths",
+        ],
+        status: "inProgress",
+        years: ["2026"],
+        quarter: 1,
+      },
+      {
+        name: "Open Source Validators",
+        description:
+          "Open source Andamio V2 validators for the community to build on",
+        features: ["Andamio Access Token and Global State V2 validators open source", "Documentation"],
+        status: "inProgress",
+        years: ["2026"],
+        quarter: 1,
+      },
+      {
+        name: "Self-Sovereign On-chain Identity (SSOI) Standard",
+        description:
+          "Standardization of professional identity built on verifiable contributions and credentials. Prove what you've done, not who you are - enabling privacy-preserving professional reputation across platforms",
+        features: [
+          "Draft Cardano Improvement Proposal",
+          "Universal credential verification standard",
+          "Portable identity framework",
+          "Privacy-preserving verification mechanisms",
+          "Cross-platform identity integration",
+        ],
+        status: "planned",
+        years: ["2026"],
+        quarter: 2,
+      },
+      {
+        name: "Transaction Sponsorship - Full Release",
+        description:
+          "Production-ready transaction sponsorship enabling seamless onboarding at scale for educational platforms and partnership integrations",
+        features: [
+          "High-volume transaction processing",
+          "Advanced anti-farming protections",
+          "Multi-organization sponsorship pools",
+          "Comprehensive analytics and monitoring",
+          "Integration guides for educational platforms",
+        ],
+        status: "planned",
+        years: ["2026"],
         quarter: 2,
       },
       {
@@ -122,8 +167,8 @@ export const roadmap: Roadmap[] = [
           "Launch governance experiments",
         ],
         status: "planned",
-        year: "2025",
-        quarter: 3,
+        years: ["2026"],
+        quarter: 2,
       },
       {
         name: "Andamio Purpose Sidechain Test Network",
@@ -136,23 +181,8 @@ export const roadmap: Roadmap[] = [
           "Seamless Cardano mainnet integration",
         ],
         status: "proposed",
-        year: "2026",
-        quarter: 1,
-      },
-      {
-        name: "Self-Sovereign On-chain Identity (SSOI) Standard",
-        description:
-          "Standardization of emergent identity built on skills and credentials",
-        features: [
-          "Publish Cardano Improvement Proposal",
-          "Universal credential verification standard",
-          "Portable identity framework",
-          "Privacy-preserving verification mechanisms",
-          "Cross-platform identity integration",
-        ],
-        status: "planned",
-        year: "2025",
-        quarter: 4,
+        years: ["2026"],
+        quarter: 3,
       },
     ],
   },
@@ -171,7 +201,7 @@ export const roadmap: Roadmap[] = [
           "Instance registration and administration",
         ],
         status: "complete",
-        year: "2025",
+        years: ["2025"],
         quarter: 1,
       },
       {
@@ -183,7 +213,7 @@ export const roadmap: Roadmap[] = [
           "Optimized on-chain interactions",
         ],
         status: "complete",
-        year: "2025",
+        years: ["2025"],
         quarter: 2,
       },
       {
@@ -195,13 +225,54 @@ export const roadmap: Roadmap[] = [
           "Notification Center",
           "Export reports",
         ],
-        status: "inProgress",
-        year: "2025",
+        status: "complete",
+        years: ["2025"],
         quarter: 2,
       },
-
       {
-        name: "White Label SDK",
+        name: "Andamio Platform 1.3",
+        description: "Cardano Wallet-Only Login and Enhanced Privacy",
+        features: [
+          "Wallet-only authentication (deprecated Discord login)",
+          "Database upgrades - no personal data collected",
+          "Andamio Access Token for account access",
+          "Check Wallet page",
+          "Course Studio UX improvements",
+        ],
+        status: "complete",
+        years: ["2025"],
+        quarter: 3,
+      },
+      {
+        name: "Andamio Platform 1.4",
+        description: "Self-Service Publishing and Task Management",
+        features: [
+          "Course and Project activation (150 ADA course, 250 ADA bundled)",
+          "Smart bundled publishing with prerequisite detection",
+          "Task commitment lifecycle improvements",
+          "Wallet support restricted to Eternl and Lace",
+          "External Task Query API",
+        ],
+        status: "complete",
+        years: ["2025"],
+        quarter: 4,
+      },
+      {
+        name: "Andamio Platform 1.5",
+        description: "Native Assets and Advanced Features",
+        features: [
+          "Native asset support for token rewards and deposits",
+          "User data export and account deletion (GDPR compliance)",
+          "Tiptap v3 editor upgrade",
+          "Nostr integration for real-time chat",
+          "Enhanced OpenAPI with taskCommitments endpoints",
+        ],
+        status: "complete",
+        years: ["2025"],
+        quarter: 4,
+      },
+      {
+        name: "Andamio SDK",
         description: "Andamio SDK for embedding contribution opportunities",
         features: [
           "SDK documentation",
@@ -209,25 +280,26 @@ export const roadmap: Roadmap[] = [
           "Contribution widget components",
           "Configurable front-end app",
         ],
-        status: "inProgress",
-        year: "2025",
+        status: "complete",
+        years: ["2025"],
         quarter: 3,
       },
       {
-        name: "Andamio Platform Component libraries",
+        name: "Andamio API 1.0",
         description:
-          "Open source Andamio Platform for the community to build on",
+          "Develop high-value API services for ecosystem integration",
         features: [
-          "Andamio platform open source",
-          "Documentation",
-          "Developer tokenomics",
+          "Credential Verification API",
+          "Project Performance API",
+          "Ecosystem Intelligence API",
+          "Reputation Scoring API",
         ],
-        status: "proposed",
-        year: "2026",
-        quarter: 1,
+        status: "complete",
+        years: ["2025"],
+        quarter: 4,
       },
       {
-        name: "Andamio APIs",
+        name: "Andamio API 2.0",
         description:
           "Develop high-value API services for ecosystem integration",
         features: [
@@ -237,10 +309,9 @@ export const roadmap: Roadmap[] = [
           "Reputation Scoring API",
         ],
         status: "inProgress",
-        year: "2025",
-        quarter: 3,
+        years: ["2026"],
+        quarter: 1,
       },
-
       {
         name: "Enterprise Integration Tools",
         description:
@@ -252,7 +323,7 @@ export const roadmap: Roadmap[] = [
           "Custom deployment solutions",
         ],
         status: "proposed",
-        year: "2026",
+        years: ["2026"],
         quarter: 1,
       },
       {
@@ -266,7 +337,7 @@ export const roadmap: Roadmap[] = [
           "Multi-platform project management",
         ],
         status: "proposed",
-        year: "2027",
+        years: ["2027"],
         quarter: 1,
       },
     ],
@@ -279,118 +350,24 @@ export const roadmap: Roadmap[] = [
         description:
           "Work with funded projects to deliver solutions for contributor onboarding and project tracking",
         features: [],
+        status: "complete",
+        years: ["2025"],
+        quarter: 2,
+      },
+      {
+        name: "5am App",
+        description:
+          "Building teams of skilled farmers and agriculture entrepreneurs in India. Partner with Syngenta and satellite oracle providers to enable credentialed training, satellite data integration, and resource allocation for agricultural excellence",
+        features: [
+          "Training Agriculture Entrepreneurs to become Certified Field Experts",
+          "Satellite data integration for agricultural monitoring",
+          "Resource allocation and coordination platform",
+          "Training curriculum and certification pathways",
+          "Enterprise-scale agricultural credentialing",
+        ],
         status: "inProgress",
-        year: "2025",
-        quarter: 2,
-      },
-      {
-        name: "Cardano Ecosystem",
-        description:
-          "Launch with 3-5 high-visibility funded projects focusing on minimal viable platform connecting projects with contributors",
-        features: [],
-        status: "inProgress",
-        year: "2025",
-        quarter: 2,
-      },
-      {
-        name: "Web3 Accessibility",
-        description:
-          "Expand to 10-15 additional projects with clear funding needs and establish reputation scoring",
-        features: [
-          "Reputation scoring implementation",
-          "TVL visualization dashboards",
-          "Andamio Contributors Circle for early adopters",
-          "Portable contribution history demonstrations",
-          "FC Barcelona: Launch initial 'learn to work' cycles",
-        ],
-        status: "planned",
-        year: "2025",
-        quarter: 3,
-      },
-      {
-        name: "FC Barcelona",
-        description:
-          "Scale messaging based on proven results and open platform for integration",
-        features: [
-          "Open APIs for platform integration",
-          "SDK for embedding contribution opportunities",
-          "Cross-project credential sharing",
-          "Real-time ecosystem impact dashboards",
-          "FC Barcelona: Expand 'learn to work' cycles with improved UX",
-        ],
-        status: "planned",
-        year: "2025",
-        quarter: 4,
-      },
-      {
-        name: "Mainstream Adoption",
-        description:
-          "Begin transition beyond blockchain-specific projects with mainstream-friendly interfaces",
-        features: [
-          "Blockchain complexity hidden from mainstream users",
-          "Bridges to traditional work platforms",
-          "No-blockchain-experience onboarding paths",
-          "FC Barcelona: Showcase proof-of-concept for mainstream adoption",
-        ],
-        status: "proposed",
-        year: "2026",
-        quarter: 1,
-      },
-      {
-        name: "Cross-Chain Implementation",
-        description:
-          "Extend Andamio infrastructure to support additional blockchain ecosystems",
-        features: [
-          "Multi-chain credential verification",
-          "Cross-chain contribution tracking",
-          "Interoperable treasury management",
-          "Unified reputation system across chains",
-        ],
-        status: "proposed",
-        year: "2026",
-        quarter: 3,
-      },
-      {
-        name: "Enterprise Implementation",
-        description:
-          "Adapt Andamio for enterprise coordination and talent management",
-        features: [
-          "Enterprise-grade security and compliance",
-          "Integration with existing HR systems",
-          "Custom workflow implementations",
-          "Private credential verification networks",
-        ],
-        status: "proposed",
-        year: "2026",
-        quarter: 4,
-      },
-      {
-        name: "Educational Institutions",
-        description:
-          "Implement Andamio in educational settings for skill verification and project-based learning",
-        features: [
-          "Academic credential verification",
-          "Project-based learning frameworks",
-          "Student contribution tracking",
-          "Educational institution dashboards",
-        ],
-        status: "proposed",
-        year: "2027",
-        quarter: 2,
-      },
-      {
-        name: "Global Coordination Networks",
-        description:
-          "Implement Andamio for large-scale coordination across organizational boundaries",
-        features: [
-          "Multi-organization coordination tools",
-          "Global talent pools with verified credentials",
-          "Cross-border project management",
-          "Distributed team coordination infrastructure",
-        ],
-        status: "proposed",
-        year: "2027",
-        quarter: 4,
+        years: ["2026"],
+        quarter: undefined,
       },
     ],
   },
@@ -404,7 +381,7 @@ export const roadmap: Roadmap[] = [
           "Initial designs and deployment of Andamio course application.",
         features: [],
         status: "complete",
-        year: "2024",
+        years: ["2024"],
         quarter: 1,
       },
       {
@@ -413,7 +390,7 @@ export const roadmap: Roadmap[] = [
           "Content plaform testing with Deep Funding Academy, Governance Guild, Gimbalabs and Mesh",
         features: [],
         status: "complete",
-        year: "2024",
+        years: ["2024"],
         quarter: 1,
       },
 
@@ -422,7 +399,7 @@ export const roadmap: Roadmap[] = [
         description: "Testing at Gimbalabs",
         features: ["Contributors can make treasury commitments"],
         status: "complete",
-        year: "2024",
+        years: ["2024"],
         quarter: 3,
       },
       {
@@ -431,7 +408,7 @@ export const roadmap: Roadmap[] = [
           "For students of Plutus PBL and Mesh PBL, public testing on Cardano Preprod",
         features: [],
         status: "complete",
-        year: "2024",
+        years: ["2024"],
         quarter: 3,
       },
       {
@@ -440,7 +417,7 @@ export const roadmap: Roadmap[] = [
           "Designs and Preprod deployment of contribution and credential features",
         features: [],
         status: "complete",
-        year: "2024",
+        years: ["2024"],
         quarter: 4,
       },
     ],
@@ -450,119 +427,38 @@ export const roadmap: Roadmap[] = [
     category: "Tokenomics",
     epics: [
       {
-        name: "Sustainable Tokenomics Development",
+        name: "Tokenomics Research",
         description:
-          "Design token mechanisms ensuring long-term protocol sustainability and value capture",
+          "Ongoing research into sustainable economic models for protocol development and ecosystem growth. We are exploring various approaches to value capture, incentive alignment, and long-term sustainability, though we have no formal plans for a token launch at this time.",
         features: [
-          "Token launch to support Andamio team runway",
-          "Protocol governance transition to community",
-          "Autonomous background operation systems",
+          "Economic model exploration",
+          "Revenue sustainability research",
+          "Incentive mechanism design",
+          "Community feedback on economic approaches",
         ],
         status: "inProgress",
-        year: "2025",
-        quarter: 2,
-      },
-      {
-        name: "ANT Token Launch",
-        description:
-          "Launch of Andamio token with self-sustaining economic model",
-        features: [
-          "Token backing through reserve growth",
-          "Separation between economics and governance",
-          "Concrete token utility features",
-          "Initial distribution mechanism",
-        ],
-        status: "proposed",
-        year: "2025",
-        quarter: 3,
-      },
-      {
-        name: "API Access Subscription Model",
-        description:
-          "Implementation of subscription-based revenue model for API access",
-        features: [
-          "Tiered API access model",
-          "Token staking for premium features",
-          "Usage-based pricing structure",
-          "Developer incentive program",
-        ],
-        status: "proposed",
-        year: "2026",
-        quarter: 1,
-      },
-      {
-        name: "Platform Subscription Tiers",
-        description: "Expanded subscription services for platform features",
-        features: [
-          "Premium organization features",
-          "Discord bot integration subscription",
-          "Data analytics dashboard access",
-          "Talent discovery services",
-        ],
-        status: "proposed",
-        year: "2026",
-        quarter: 2,
-      },
-      {
-        name: "Validator Staking Economics",
-        description: "Economic model for validator operation and staking",
-        features: [
-          "Validator staking requirements",
-          "Transaction fee allocation system",
-          "Validator reward distribution",
-          "Cross-validator operation incentives",
-        ],
-        status: "proposed",
-        year: "2026",
-        quarter: 3,
-      },
-      {
-        name: "White-Label Solution Economics",
-        description:
-          "Tokenomics model for enterprise and white-label implementations",
-        features: [
-          "Enterprise licensing model",
-          "Custom deployment pricing",
-          "White-label revenue sharing",
-          "Enterprise token utility",
-        ],
-        status: "proposed",
-        year: "2026",
-        quarter: 4,
-      },
-      {
-        name: "Data Provider Incentive System",
-        description:
-          "Economic model to incentivize high-quality data contributions",
-        features: [
-          "Data quality reward mechanisms",
-          "Reputation-based incentive multipliers",
-          "Data verification staking",
-          "Long-term data provider benefits",
-        ],
-        status: "proposed",
-        year: "2027",
-        quarter: 1,
-      },
-      {
-        name: "Cross-Chain Token Utility",
-        description:
-          "Expansion of token utility across multiple blockchain ecosystems",
-        features: [
-          "Cross-chain token bridging",
-          "Multi-chain staking benefits",
-          "Unified token utility across ecosystems",
-          "Chain-specific token features",
-        ],
-        status: "proposed",
-        year: "2027",
-        quarter: 3,
+        years: ["2026"],
+        quarter: undefined,
       },
     ],
   },
   {
     category: "Governance",
     epics: [
+      {
+        name: "Off-Chain Governance Experiments",
+        description:
+          "Initial off-chain governance experiments to test patterns",
+        features: [
+          "Community feedback mechanisms",
+          "Experimental governance proposals",
+          "Governance simulation tools",
+          "Governance metrics tracking",
+        ],
+        status: "complete",
+        years: ["2025"],
+        quarter: 2,
+      },
       {
         name: "Governance Features, Phase 1: Course Governance",
         description:
@@ -573,8 +469,8 @@ export const roadmap: Roadmap[] = [
           "Transparent decision tracking",
         ],
         status: "planned",
-        year: "2025",
-        quarter: 3,
+        years: ["2026"],
+        quarter: 2,
       },
       {
         name: "Governance Features, Phase 2: Project Governance",
@@ -586,8 +482,8 @@ export const roadmap: Roadmap[] = [
           "Project milestone governance",
         ],
         status: "planned",
-        year: "2025",
-        quarter: 3,
+        years: ["2026"],
+        quarter: 4,
       },
       {
         name: "Governance Framework Design",
@@ -600,22 +496,8 @@ export const roadmap: Roadmap[] = [
           "Transparent governance processes",
         ],
         status: "planned",
-        year: "2025",
-        quarter: 4,
-      },
-      {
-        name: "Off-Chain Governance Experiments",
-        description:
-          "Initial off-chain governance experiments to test patterns",
-        features: [
-          "Community feedback mechanisms",
-          "Experimental governance proposals",
-          "Governance simulation tools",
-          "Governance metrics tracking",
-        ],
-        status: "inProgress",
-        year: "2025",
-        quarter: 2,
+        years: ["2026"],
+        quarter: 1,
       },
       {
         name: "Platform Governance Implementation",
@@ -628,7 +510,21 @@ export const roadmap: Roadmap[] = [
           "User suggestion incorporation system",
         ],
         status: "proposed",
-        year: "2026",
+        years: ["2026"],
+        quarter: 1,
+      },
+      {
+        name: "Reputation-Based Governance",
+        description:
+          "Advanced governance systems using reputation and contribution history",
+        features: [
+          "Reputation-weighted voting",
+          "Domain-specific expertise recognition",
+          "Historical contribution influence",
+          "Adaptive governance weight algorithms",
+        ],
+        status: "proposed",
+        years: ["2026"],
         quarter: 1,
       },
       {
@@ -642,22 +538,8 @@ export const roadmap: Roadmap[] = [
           "Credential-based voting implementation",
         ],
         status: "proposed",
-        year: "2026",
+        years: ["2026"],
         quarter: 2,
-      },
-      {
-        name: "Reputation-Based Governance",
-        description:
-          "Advanced governance systems using reputation and contribution history",
-        features: [
-          "Reputation-weighted voting",
-          "Domain-specific expertise recognition",
-          "Historical contribution influence",
-          "Adaptive governance weight algorithms",
-        ],
-        status: "proposed",
-        year: "2026",
-        quarter: 1,
       },
       {
         name: "Governance Analytics Dashboard",
@@ -670,7 +552,7 @@ export const roadmap: Roadmap[] = [
           "Participant engagement visualization",
         ],
         status: "proposed",
-        year: "2027",
+        years: ["2027"],
         quarter: 1,
       },
     ],
@@ -684,7 +566,7 @@ export const roadmap: Roadmap[] = [
           "Develop core Andamio smart contracts for skill-acquisition and contribution tracking",
         features: [],
         status: "complete",
-        year: "2023",
+        years: ["2023"],
         quarter: 4,
         link: {
           href: "https://www.lidonation.com/en/proposals/daos-3-smart-contracts-for-skill-acquisition-and-contribution-tracking-f10",
@@ -696,23 +578,10 @@ export const roadmap: Roadmap[] = [
         description: "Develop Andamio CLI using Cardano Go libraries",
         features: [],
         status: "complete",
-        year: "2024",
+        years: ["2024"],
         quarter: 2,
         link: {
           href: "https://www.lidonation.com/en/proposals/open-source-cardano-go-libraries-docs-andamio-cli-f11",
-          label: "View Proposal",
-        },
-      },
-      {
-        name: "F12: Developing a Self Sovereign On-chain Identity (SSOI)",
-        description:
-          "Research and development into emergent identity built on skills and credentials",
-        features: [],
-        status: "complete",
-        year: "2025",
-        quarter: 2,
-        link: {
-          href: "https://www.lidonation.com/en/proposals/developing-a-self-sovereign-on-chain-identity-ssoi-f12",
           label: "View Proposal",
         },
       },
@@ -722,10 +591,23 @@ export const roadmap: Roadmap[] = [
           "Develop a Purpose Cardano Sidechain dedicated to Andamio network operations, enabling efficient on-chain record storage and user interactions. Andamio smart contracts and data will migrate to this sidechain, which uses Cardano Node software for compatibility with existing Cardano smart contracts.",
         features: [],
         status: "complete",
-        year: "2025",
+        years: ["2025"],
         quarter: 1,
         link: {
           href: "https://www.lidonation.com/en/proposals/andamio-purpose-sidechain-layer-2-concept-f12",
+          label: "View Proposal",
+        },
+      },
+      {
+        name: "F12: Developing a Self Sovereign On-chain Identity (SSOI)",
+        description:
+          "Research and development into emergent identity built on skills and credentials",
+        features: [],
+        status: "complete",
+        years: ["2025"],
+        quarter: 2,
+        link: {
+          href: "https://www.lidonation.com/en/proposals/developing-a-self-sovereign-on-chain-identity-ssoi-f12",
           label: "View Proposal",
         },
       },
@@ -734,8 +616,8 @@ export const roadmap: Roadmap[] = [
         description:
           "Develop Andamio SDKs and a UTxO-RPC Client enabling seamless integration with the Andamio network for both existing products and new decentralized solutions, without reliance on centralized third-party services.",
         features: [],
-        status: "inProgress",
-        year: "2025",
+        status: "complete",
+        years: ["2025"],
         quarter: 3,
         link: {
           href: "https://www.lidonation.com/en/proposals/andamio-sdk-utxo-rpc-client-f13",
@@ -745,11 +627,17 @@ export const roadmap: Roadmap[] = [
       {
         name: "F13: FC Barcelona - Fan engagement infrastructure Cardano",
         description:
-          "Leverage Cardano to support Barça in engaging fans through digital community initiatives, driving mainstream adoption of Cardano.",
-        features: [],
+          "Building teams of engaged fans and community leaders. Leverage Cardano to support Barça through digital community initiatives and contribution-based recognition, driving mainstream adoption of Cardano with scalable infrastructure and proven engagement models.",
+        features: [
+          "Open APIs for platform integration",
+          "SDK for embedding contribution opportunities",
+          "Cross-project credential sharing",
+          "Real-time ecosystem impact dashboards",
+          "Expand 'learn to work' cycles with improved UX",
+        ],
         status: "inProgress",
-        year: "2025",
-        quarter: 4,
+        years: ["2025", "2026", "2027"],
+        quarter: undefined,
         link: {
           href: "https://www.lidonation.com/en/proposals/fc-barcelona-fan-engagement-infrastructure-cardano-f13",
           label: "View Proposal",

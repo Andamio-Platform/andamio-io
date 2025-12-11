@@ -19,8 +19,8 @@ const footerData = {
     { name: "Roadmap", href: "/roadmap" },
   ],
   Legal: [
-    { name: "Privacy Policy", href: "/privacy-policy" },
-    { name: "Terms of Use", href: "/terms" },
+    { name: "Privacy Policy", href: "https://app.andamio.io/privacy-policy" },
+    { name: "Terms of Use", href: "https://app.andamio.io/terms" },
   ],
 };
 

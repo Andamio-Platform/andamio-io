@@ -6,13 +6,15 @@ const footerData = {
     { name: "Support", href: "mailto:dev@andamio.com" },
     { name: "Contact Us", href: "mailto:hello@andamio.com" },
     { name: "Docs", href: "https://docs.andamio.io" },
+    { name: "Andamio Network community", href: "https://discord.gg/FtvpAYnBMU" },
+
   ],
   "Follow Us": [
     {
       name: "LinkedIn",
-      href: "https://www.linkedin.com/company/andamio-platform",
+      href: "https://www.linkedin.com/company/andamio-teams",
     },
-    { name: "Twitter", href: "https://twitter.com/AndamioPlatform" },
+    { name: "Twitter", href: "https://twitter.com/andamio_teams" },
   ],
   Company: [
     { name: "About", href: "/about" },

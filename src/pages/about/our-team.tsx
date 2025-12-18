@@ -60,10 +60,10 @@ const teamMembers = [
   },
   {
     name: "Sebastian Pabon",
-    title: "Educator and Facilitator",
+    title: "Ecosystem Lead",
     summary:
-      "Educator and facilitator. Andamio founding member. Open Source advocate",
-    image: "/images/team/sebastian.webp",
+      "Educator and facilitator. Open Source advocate.",
+    image: "/images/team/sebastian.png",
   },
 ];
 

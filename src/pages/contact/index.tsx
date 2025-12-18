@@ -18,7 +18,7 @@ export default function AboutPage() {
           </p>
           <p className="py-3 font-medium">
             X:{" "}
-            <Link href="https://twitter.com/AndamioPlatform">
+            <Link href="https://twitter.com/andamio_teams">
               @AndamioPlatform
             </Link>
           </p>

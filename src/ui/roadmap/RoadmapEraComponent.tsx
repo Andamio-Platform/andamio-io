@@ -11,7 +11,7 @@ export default function RoadmapEraComponent({
   position,
 }: RoadmapEraProps) {
   // Get the year from the first epic for display purposes
-  const year = epics.length > 0 ? epics[0]?.year ?? "" : "";
+  const year = epics.length > 0 ? epics[0]?.years ?? "" : "";
   return (
     <div className="mb-20">
       {/* Era header */}
@@ -31,7 +31,7 @@ export default function RoadmapEraComponent({
       <div className="relative">
         {/* Sort epics by quarter in descending order (Q4 to Q1) */}
         {[...epics]
-          .sort((a, b) => b.quarter - a.quarter)
+          .sort((a, b) => b.quarter! - a.quarter!)
           .map((epic: Epic, i) => (
             <div
               key={i}

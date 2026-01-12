@@ -19,6 +19,7 @@ const footerData = {
   Company: [
     { name: "About", href: "/about" },
     { name: "Roadmap", href: "/roadmap" },
+    { name: "Brand Hub", href: "/brand" },
   ],
   Legal: [
     { name: "Privacy Policy", href: "https://app.andamio.io/privacy-policy" },

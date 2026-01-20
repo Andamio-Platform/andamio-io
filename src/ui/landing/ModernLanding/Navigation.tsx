@@ -13,11 +13,11 @@ export default function Navigation() {
           <div className="flex items-center">
             <div className="flex items-center gap-2 sm:gap-3">
               <Image
-                className="h-8 w-auto opacity-80"
-                src="/andamio-logo.svg"
+                className="h-10 w-auto"
+                src="/logo-with-typography.png"
                 alt="Andamio"
-                width={100}
-                height={100}
+                width={150}
+                height={40}
               />
             </div>
           </div>

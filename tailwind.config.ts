@@ -18,15 +18,12 @@ const config = {
       },
     },
     fontFamily: {
-      sans: ["Cera Pro", "ui-sans-serif", "system-ui", "sans-serif"],
+      sans: ["WorkSans", "ui-sans-serif", "system-ui", "sans-serif"],
       mono: ["Inconsolata", "ui-monospace"],
       serif: ["ui-serif"],
       beckman: ["Beckman", "ui-sans-serif", "system-ui"],
       workSans: ["WorkSans"],
       libreFranklin: ["LibreFranklin"],
-      montserrat: ["Cera Pro", "sans-serif"],
-      inter: ["Cera Pro", "ui-sans-serif", "system-ui", "sans-serif"],
-      ceraPro: ["Cera Pro", "ui-sans-serif", "system-ui", "sans-serif"],
     },
     extend: {
       gridTemplateColumns: {

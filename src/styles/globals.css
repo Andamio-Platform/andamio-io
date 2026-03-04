@@ -130,7 +130,6 @@
   body {
     @apply bg-background font-sans leading-relaxed text-foreground;
   }
-  /* Cera Pro for headings */
   h1,
   h2,
   h3,
@@ -141,24 +140,7 @@
   }
 }
 
-/* Cera Pro - Primary Font */
-@font-face {
-  font-family: "Cera Pro";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url(/fonts/Cera-Pro-Regular.woff2) format("woff2");
-}
-
-@font-face {
-  font-family: "Cera Pro";
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url(/fonts/Cera-Pro-Bold.woff2) format("woff2");
-}
-
-/* Additional Fonts */
+/* Custom Fonts */
 @font-face {
   font-family: "Beckman";
   font-style: normal;

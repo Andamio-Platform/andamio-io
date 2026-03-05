@@ -1,0 +1,194 @@
+"use client";
+
+import React, { useState, useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { Menu, X } from "lucide-react";
+
+const navItems = [
+  { label: "Platform", href: "#platform" },
+  { label: "API Docs", href: "https://docs.andamio.io", external: true },
+  { label: "Pricing", href: "#pricing" },
+  { label: "Use Cases", href: "/use-cases" },
+  { label: "Blog", href: "/blog" },
+  { label: "About", href: "/about" },
+];
+
+export default function V2Navigation() {
+  const pathname = usePathname();
+  const router = useRouter();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  const isHomePage = pathname === "/";
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const handleAnchorClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string
+  ) => {
+    if (href.startsWith("#")) {
+      e.preventDefault();
+      setMobileMenuOpen(false);
+
+      if (isHomePage) {
+        // On homepage: smooth-scroll to the section
+        const el = document.getElementById(href.slice(1));
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth" });
+        }
+      } else {
+        // On other pages: navigate to homepage with anchor
+        void router.push("/" + href);
+      }
+    }
+  };
+
+  return (
+    <nav
+      className={`fixed top-0 z-50 w-full transition-all duration-300 ${
+        scrolled
+          ? "border-b border-border bg-background/90 shadow-sm backdrop-blur-xl"
+          : "bg-gradient-to-b from-black/40 to-transparent"
+      }`}
+    >
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex h-16 items-center justify-between sm:h-20">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-2">
+            <Image
+              src="/logo-with-typography-dark.svg"
+              alt="Andamio"
+              width={100}
+              height={100}
+              className="h-8 w-auto opacity-90"
+            />
+          </Link>
+
+          {/* Desktop Navigation */}
+          <div className="hidden items-center gap-1 lg:flex">
+            {navItems.map((item) =>
+              item.external ? (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  {item.label}
+                </a>
+              ) : item.href.startsWith("#") ? (
+                <a
+                  key={item.label}
+                  href={isHomePage ? item.href : "/" + item.href}
+                  onClick={(e) => handleAnchorClick(e, item.href)}
+                  className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  {item.label}
+                </a>
+              ) : (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  {item.label}
+                </Link>
+              )
+            )}
+            <a
+              href="https://app.andamio.io"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ml-4 inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-sm transition-all hover:bg-primary/90 hover:shadow-md"
+            >
+              Get Started
+              <svg
+                className="ml-1.5 h-3.5 w-3.5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </a>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="rounded-md p-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground lg:hidden"
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? (
+              <X className="h-6 w-6" />
+            ) : (
+              <Menu className="h-6 w-6" />
+            )}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      {mobileMenuOpen && (
+        <div className="border-t border-border bg-background/95 backdrop-blur-xl lg:hidden">
+          <div className="space-y-1 px-4 py-4">
+            {navItems.map((item) =>
+              item.external ? (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block rounded-md px-3 py-2.5 text-base font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {item.label}
+                </a>
+              ) : item.href.startsWith("#") ? (
+                <a
+                  key={item.label}
+                  href={isHomePage ? item.href : "/" + item.href}
+                  onClick={(e) => handleAnchorClick(e, item.href)}
+                  className="block rounded-md px-3 py-2.5 text-base font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                >
+                  {item.label}
+                </a>
+              ) : (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className="block rounded-md px-3 py-2.5 text-base font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {item.label}
+                </Link>
+              )
+            )}
+            <a
+              href="https://app.andamio.io"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-3 block rounded-md bg-primary px-4 py-3 text-center text-base font-semibold text-primary-foreground shadow-sm transition-all hover:bg-primary/90"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Get Started
+            </a>
+          </div>
+        </div>
+      )}
+    </nav>
+  );
+}

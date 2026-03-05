@@ -5,11 +5,32 @@ import V2PageLayout from "~/ui/landing/V2Landing/V2PageLayout";
 
 const useCases = [
   {
+    title: "Intersect — Maintainer Retainer Program",
+    description:
+      "Governance treasury and contributor tracking for Cardano's open source ecosystem. Credential-gated onboarding, milestone-based payments, full on-chain accountability.",
+    href: "/use-cases/Intersect",
+    domain: "Governance",
+  },
+  {
+    title: "Toha Network — Nature Regeneration",
+    description:
+      "Nature regeneration financing with verifiable credentials. Contributors earn MAHI tokens for verified environmental actions — no wallets required.",
+    href: "/use-cases/Toha",
+    domain: "Nature Finance",
+  },
+  {
+    title: "Syngenta — Certified Field Experts",
+    description:
+      "Agricultural supply chain credentials at enterprise scale. Train 1,000 agri-entrepreneurs, reach 100,000 smallholder farmers.",
+    href: "/use-cases/Syngenta",
+    domain: "Agriculture",
+  },
+  {
     title: "Decentralized Innovation Fund",
     description:
       "Certify reviewers, build their reputation, and ensure high-quality assessments within your community.",
     href: "/use-cases/CatalystReviewers",
-    domain: "Governance",
+    domain: "Innovation",
   },
   {
     title: "Decentralized Innovation",

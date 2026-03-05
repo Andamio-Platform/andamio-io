@@ -83,7 +83,7 @@ export default function Footer() {
               <div className="mb-4 flex items-center gap-4 md:mb-0">
                 <img
                   className="h-8 w-auto opacity-80"
-                  src="/andamio-logo.svg"
+                  src="/logo-with-typography-dark.svg"
                   alt="Andamio"
                 />
                 <div className="text-sm text-muted-foreground">

@@ -32,7 +32,8 @@ export default function V2CTAFooter() {
               FOR DEVELOPERS
             </p>
             <h3 className="mb-6 text-2xl font-bold leading-snug text-white">
-              Get your API key and start building today.
+              Get your API key.{" "}
+              <span className="text-white/60">Start issuing credentials today.</span>
             </h3>
             <a
               href="https://docs.andamio.io"

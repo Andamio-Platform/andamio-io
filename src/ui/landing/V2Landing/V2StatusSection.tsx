@@ -116,12 +116,10 @@ export default function V2StatusSection() {
             <p className="mb-4 text-xs font-semibold uppercase tracking-widest text-primary">
               STATUS
             </p>
-            <h2 className="mb-2 text-3xl font-bold text-foreground sm:text-4xl">
-              V2 is live.
+            <h2 className="mb-6 text-3xl font-bold leading-tight text-foreground sm:text-4xl">
+              V2 is live.{" "}
+              <span className="text-muted-foreground">Still building.</span>
             </h2>
-            <p className="mb-6 text-3xl font-bold text-muted-foreground sm:text-4xl">
-              We&rsquo;re still building.
-            </p>
             <p className="text-lg text-muted-foreground">
               Full transparency. Here&rsquo;s exactly where things stand.
             </p>

@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 export default function V2CodeSection() {
   return (
-    <section className="bg-[#0d1117] py-16 sm:py-24">
+    <section className="flex min-h-screen items-center bg-[#0d1117] py-16 sm:py-24">
       <motion.div
         className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
         initial={{ opacity: 0, y: 40 }}
@@ -20,12 +20,12 @@ export default function V2CodeSection() {
               SEE IT WORK
             </p>
             <h2 className="mb-4 text-3xl font-bold text-white sm:text-4xl">
-              Credential issuance via API
+              Two steps.{" "}
+              <span className="text-gray-500">Credential on-chain.</span>
             </h2>
             <p className="mb-6 text-lg text-gray-400">
-              Build a credential transaction with a POST request. The API
-              returns an unsigned transaction for wallet signing and on-chain
-              submission.
+              POST to build the transaction. Sign with any Cardano wallet.
+              Submit. No gas estimation, no wallet setup for your users.
             </p>
             <a
               href="https://docs.andamio.io"

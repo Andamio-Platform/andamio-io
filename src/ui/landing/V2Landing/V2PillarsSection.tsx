@@ -92,21 +92,21 @@ interface PillarCard {
 const pillars: PillarCard[] = [
   {
     icon: <ClipboardIcon />,
-    title: "Onboard",
+    title: "Define & Issue",
     description:
-      "Verify skills and issue credentials your people actually own. Proof of capability, portable across platforms.",
+      "You define the credentials. You decide who earns them. Your recipients own them forever — portable across every platform on the protocol.",
   },
   {
     icon: <ChartIcon />,
-    title: "Track",
+    title: "Track & Verify",
     description:
-      "Every credential, every milestone — recorded permanently. No more lost certificates or disputed records.",
+      "Every credential, every milestone — recorded permanently on-chain. No more lost certificates, no disputed records, no platform lock-in.",
   },
   {
     icon: <DiamondIcon />,
     title: "Reward",
     description:
-      "Release funds when milestones are completed. Transparent treasury management with built-in accountability.",
+      "Release funds when milestones are completed. Transparent treasury management with built-in accountability. No platform can revoke what your people earned.",
   },
 ];
 
@@ -117,10 +117,11 @@ export default function V2PillarsSection() {
         {/* Section header */}
         <div className="text-center">
           <p className="mb-4 text-center text-xs font-semibold uppercase tracking-widest text-primary">
-            WHAT ANDAMIO DOES
+            HOW IT WORKS
           </p>
           <h2 className="mb-16 text-center text-3xl font-bold text-foreground sm:text-4xl">
-            Three building blocks. Endless applications.
+            Your credentials. Your standards.{" "}
+            <span className="text-muted-foreground">Your people own the proof.</span>
           </h2>
         </div>
 

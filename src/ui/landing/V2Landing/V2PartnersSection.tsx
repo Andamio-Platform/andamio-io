@@ -4,63 +4,55 @@ import React from "react";
 import { motion } from "framer-motion";
 
 interface Partner {
-  domain: string;
   name: string;
-  quote: string;
+  description: string;
   status: string;
   statusColor: string;
-  integration: string;
-  accentColor: string;
 }
 
 const partners: Partner[] = [
   {
-    domain: "Governance",
     name: "Intersect",
-    quote:
-      "Governance treasury & contributor tracking for Cardano\u2019s ecosystem",
+    description: "Cardano ecosystem governance & contributor tracking",
     status: "Enterprise Trial (V2)",
     statusColor: "text-warning",
-    integration: "API Integration",
-    accentColor: "border-l-primary",
   },
   {
-    domain: "Nature Finance",
     name: "Toha Network",
-    quote:
-      "Nature regeneration financing \u2014 contributors earn MAHI tokens for verified environmental actions",
+    description: "Nature regeneration financing",
     status: "Planning Phase",
     statusColor: "text-warning",
-    integration: "API Integration",
-    accentColor: "border-l-success",
   },
   {
-    domain: "Agriculture",
     name: "Syngenta",
-    quote:
-      "Agricultural supply chain credentials \u2014 1K entrepreneurs \u2192 100K farmers",
+    description: "Agricultural supply chain credentials",
     status: "Active",
     statusColor: "text-success",
-    integration: "API Integration",
-    accentColor: "border-l-secondary",
   },
 ];
 
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.12,
-    },
-  },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 24 },
+const fadeIn = {
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
     transition: { duration: 0.5, ease: "easeOut" },
+  },
+};
+
+const listVariants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.08 },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, x: -10 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.4, ease: "easeOut" },
   },
 };
 
@@ -70,10 +62,10 @@ export default function V2PartnersSection() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial="hidden"
+          whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
+          variants={fadeIn}
         >
           <p className="mb-4 text-center text-xs font-semibold uppercase tracking-widest text-primary">
             WHO&apos;S BUILDING ON ANDAMIO
@@ -87,10 +79,10 @@ export default function V2PartnersSection() {
           </p>
         </motion.div>
 
-        {/* Partner cards */}
+        {/* Partner list */}
         <motion.div
-          className="grid grid-cols-1 gap-6 lg:grid-cols-2"
-          variants={containerVariants}
+          className="mx-auto max-w-3xl"
+          variants={listVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-80px" }}
@@ -98,33 +90,20 @@ export default function V2PartnersSection() {
           {partners.map((partner) => (
             <motion.div
               key={partner.name}
-              variants={cardVariants}
-              className={`rounded-xl border border-border border-l-4 ${partner.accentColor} bg-card p-6 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg sm:p-8`}
+              variants={itemVariants}
+              className="flex items-center justify-between border-b border-border py-5"
             >
-              {/* Domain badge */}
-              <span className="inline-flex rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary">
-                {partner.domain}
-              </span>
-
-              {/* Name */}
-              <h3 className="mb-2 mt-3 text-xl font-bold text-foreground">
-                {partner.name}
-              </h3>
-
-              {/* Quote */}
-              <p className="mb-4 italic text-muted-foreground">
-                &ldquo;{partner.quote}&rdquo;
-              </p>
-
-              {/* Footer */}
-              <div className="flex items-center justify-between">
-                <span className={`text-sm font-medium ${partner.statusColor}`}>
-                  {partner.status}
+              <div>
+                <span className="font-semibold text-foreground">
+                  {partner.name}
                 </span>
-                <span className="text-sm text-muted-foreground">
-                  {partner.integration}
+                <span className="ml-3 text-muted-foreground">
+                  {partner.description}
                 </span>
               </div>
+              <span className={`shrink-0 text-sm font-medium ${partner.statusColor}`}>
+                {partner.status}
+              </span>
             </motion.div>
           ))}
         </motion.div>
@@ -135,15 +114,13 @@ export default function V2PartnersSection() {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.4 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
         >
           <a
-            href="https://docs.andamio.io"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/use-cases"
             className="font-medium text-primary transition-colors hover:text-primary/80"
           >
-            Learn More &rarr;
+            View all use cases &rarr;
           </a>
         </motion.div>
       </div>

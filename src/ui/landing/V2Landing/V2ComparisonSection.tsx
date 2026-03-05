@@ -72,7 +72,8 @@ export default function V2ComparisonSection() {
           WHY ANDAMIO
         </p>
         <h2 className="mb-16 text-center text-3xl font-bold text-foreground sm:text-4xl">
-          The protocol advantage
+          Your credentials. Your terms.{" "}
+          <span className="text-muted-foreground">Not a vendor&rsquo;s.</span>
         </h2>
 
         {/* Desktop table */}

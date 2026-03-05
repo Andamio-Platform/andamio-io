@@ -94,7 +94,8 @@ export default function V2ArchitectureSection() {
             HOW IT WORKS
           </p>
           <h2 className="mb-16 text-center text-3xl font-bold text-foreground sm:text-4xl">
-            Three layers. One protocol.
+            Three layers.{" "}
+            <span className="text-muted-foreground">One protocol.</span>
           </h2>
         </motion.div>
 

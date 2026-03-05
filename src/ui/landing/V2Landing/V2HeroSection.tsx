@@ -53,23 +53,25 @@ export default function V2HeroSection() {
             className="text-4xl font-bold leading-[1.08] tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl"
             style={{ textShadow: "0 2px 20px rgba(0,0,0,0.6), 0 0 40px rgba(0,0,0,0.4)" }}
           >
-            The credentialing protocol for verifiable work
+            Credentials That
+            <br />
+            <span className="text-primary">Belong to You</span>
           </motion.h1>
 
           <motion.p
             variants={childVariants}
-            className="mx-auto mt-6 max-w-2xl text-lg text-white sm:text-xl"
+            className="mx-auto mt-6 max-w-2xl text-lg text-white/80 sm:text-xl"
             style={{ textShadow: "0 1px 12px rgba(0,0,0,0.5), 0 0 30px rgba(0,0,0,0.3)" }}
           >
-            Issue credentials via API. Portable, permanent, and owned by the
-            people who earned them.
+            An open protocol for verifiable credentials. Issue via API,
+            permanent on-chain, owned by the people who earned them.
           </motion.p>
 
           <motion.p
             variants={childVariants}
-            className="mt-3 text-base font-medium text-white sm:text-lg"
+            className="mt-3 text-base font-medium text-white/60 sm:text-lg"
           >
-            Free tier available. Start building today.
+            Free to start. ~$0.17 per credential.*
           </motion.p>
 
           <motion.div

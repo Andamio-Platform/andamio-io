@@ -19,44 +19,44 @@ interface FAQItem {
 
 const faqItems: FAQItem[] = [
   {
-    question: "Why Cardano instead of Ethereum or Solana?",
+    question: "Why Cardano?",
     answer:
-      "Your credentials cost a fraction of what they would on Ethereum (~$0.17 vs ~$25 per credential*). Cardano\u2019s architecture gives you predictable costs without the gas fee unpredictability of account-based chains.",
+      "~$0.17 per credential*. Native multi-asset support. Predictable costs. At scale, that\u2019s ~$17K for 100K credentials \u2014 compared to ~$2.5M on Ethereum*. No gas fee surprises.",
   },
   {
     question: "Why not just use Credly or Accredible?",
     answer:
-      "With traditional platforms, your credentials are locked to that vendor \u2014 if they shut down or change terms, your records disappear. With Andamio, your recipients own their credentials permanently. At scale, you also pay a fraction of what traditional platforms charge.",
+      "Your credentials are locked to their platform. If they shut down or change terms, your records disappear. With Andamio, your recipients own their credentials permanently on-chain. No platform lock-in. At scale, you also pay a fraction of the cost.",
   },
   {
-    question: "Do our users need crypto wallets or ADA?",
+    question: "Do users need wallets?",
     answer:
-      "No. Your organization can sponsor transaction costs so your users never touch the blockchain. They sign in with social login and receive a managed wallet automatically. Transaction Sponsorship availability depends on your plan tier.",
+      "No. Email signup. Your organization sponsors transactions. The blockchain is invisible to your users. Transaction Sponsorship availability depends on your plan tier.",
   },
   {
-    question: "How does Andamio handle privacy?",
+    question: "What about privacy?",
     answer:
-      "Your users\u2019 personal data stays off-chain and under their control. Only the credential proof goes on-chain \u2014 and it contains no personally identifiable information. Private by design, not bolted on.",
+      "Personal data stays off-chain. Only credential proofs go on-chain \u2014 no personally identifiable information. Private by design, not bolted on.",
   },
   {
-    question: "What happens if Andamio shuts down?",
+    question: "What if Andamio disappears?",
     answer:
-      "Your credentials survive. They\u2019re permanent records on Cardano mainnet that anyone can verify, with or without Andamio\u2019s platform or API. You\u2019re never locked in.",
+      "Your credentials survive. They\u2019re permanent records on Cardano mainnet that anyone can verify, with or without Andamio. Open source protocol. You\u2019re never locked in.",
   },
   {
     question: "How long does integration take?",
     answer:
-      "The API is designed to be straightforward \u2014 build a transaction, sign it, submit it. Most teams integrate in days to a couple of weeks, depending on your use case and existing infrastructure.",
+      "Build a transaction, sign it, submit it. Most teams integrate in days to a couple of weeks, depending on your use case.",
   },
   {
     question: "What\u2019s the cost at scale?",
     answer:
-      "On-chain costs on Cardano are approximately $0.17 per credential*. At 100K credentials, that\u2019s roughly $17K \u2014 compared to millions per year on traditional platforms. API subscription tiers give you additional cost predictability. *Approximate; actual costs depend on transaction complexity and network conditions.",
+      "~$0.17 per credential on Cardano*. At 100K credentials, that\u2019s roughly $17K. API subscription tiers give you additional cost predictability. *Approximate; actual costs depend on transaction complexity and network conditions.",
   },
   {
     question: "Is the protocol audited?",
     answer:
-      "Yes. The V2 protocol was audited by TxPipe and includes 152 end-to-end tests. Smart contracts have been live on Cardano mainnet since February 6, 2026.",
+      "Yes. Audited by TxPipe. 152 end-to-end tests. Live on Cardano mainnet since February 2026.",
   },
 ];
 

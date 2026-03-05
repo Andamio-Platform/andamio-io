@@ -2,8 +2,7 @@ import "~/styles/globals.css";
 import "./blog.css";
 import type { Metadata } from "next";
 import Footer from "~/ui/landing/Footer";
-import NavigationBar from "~/components/shared/NavigationBar";
-import AngularGridOverlay from "~/components/shared/AngularGridOverlay";
+import V2Navigation from "~/ui/landing/V2Landing/V2Navigation";
 
 export const metadata: Metadata = {
   title: "Andamio Blog",
@@ -18,8 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="min-h-screen bg-background text-foreground">
-        <AngularGridOverlay />
-        <NavigationBar currentPage="blog" />
+        <V2Navigation />
 
         <main className="relative pt-20">{children}</main>
 

@@ -82,8 +82,13 @@ export default function Footer() {
             <div className="flex flex-col items-center justify-between md:flex-row">
               <div className="mb-4 flex items-center gap-4 md:mb-0">
                 <img
-                  className="h-8 w-auto opacity-80"
+                  className="hidden h-8 w-auto opacity-80 dark:block"
                   src="/logo-with-typography-dark.svg"
+                  alt="Andamio"
+                />
+                <img
+                  className="block h-8 w-auto opacity-80 dark:hidden"
+                  src="/logo-with-typography.svg"
                   alt="Andamio"
                 />
                 <div className="text-sm text-muted-foreground">

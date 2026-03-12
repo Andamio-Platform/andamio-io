@@ -4,20 +4,21 @@ import { type AppType } from "next/app";
 import { Toaster } from "react-hot-toast";
 import { Toaster as UiToaster } from "~/components/ui/toaster";
 import Metatags from "~/components/site/metatags";
+import { ThemeProvider } from "~/components/theme-provider";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { ...pageProps },
 }) => {
   return (
-    <div>
+    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
       <Metatags />
       <Toaster position="top-right" />
       <div className="min-h-screen bg-background text-foreground">
         <Component {...pageProps} />
         <UiToaster />
       </div>
-    </div>
+    </ThemeProvider>
   );
 };
 

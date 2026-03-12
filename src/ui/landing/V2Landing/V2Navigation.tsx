@@ -5,6 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Menu, X } from "lucide-react";
+import { useTheme } from "next-themes";
+import { ThemeToggle } from "~/components/theme-toggle";
 
 const navItems = [
   { label: "Platform", href: "#platform" },
@@ -18,10 +20,17 @@ const navItems = [
 export default function V2Navigation() {
   const pathname = usePathname();
   const router = useRouter();
+  const { resolvedTheme } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   const isHomePage = pathname === "/";
+  const logoSrc = mounted && resolvedTheme === "light"
+    ? "/logo-with-typography.svg"
+    : "/logo-with-typography-dark.svg";
+
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 10);
@@ -63,7 +72,7 @@ export default function V2Navigation() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
             <Image
-              src="/logo-with-typography-dark.svg"
+              src={logoSrc}
               alt="Andamio"
               width={100}
               height={100}
@@ -103,11 +112,12 @@ export default function V2Navigation() {
                 </Link>
               )
             )}
+            <ThemeToggle />
             <a
               href="https://app.andamio.io"
               target="_blank"
               rel="noopener noreferrer"
-              className="ml-4 inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-sm transition-all hover:bg-primary/90 hover:shadow-md"
+              className="ml-2 inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-sm transition-all hover:bg-primary/90 hover:shadow-md"
             >
               Get Started
               <svg

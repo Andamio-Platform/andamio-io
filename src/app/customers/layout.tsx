@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import Footer from "~/ui/landing/Footer";
 import NavigationBar from "~/components/shared/NavigationBar";
 import AngularGridOverlay from "~/components/shared/AngularGridOverlay";
+import { ThemeProvider } from "~/components/theme-provider";
 
 export const metadata = {
   title: 'Andamio Customers',
@@ -16,14 +17,16 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className="min-h-screen bg-background text-foreground">
-        <AngularGridOverlay />
-        <NavigationBar currentPage="customers" />
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          <AngularGridOverlay />
+          <NavigationBar currentPage="customers" />
 
-        <main className="relative pt-20">{children}</main>
+          <main className="relative pt-20">{children}</main>
 
-        <Footer />
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   )

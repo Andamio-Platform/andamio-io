@@ -13,7 +13,7 @@ import V2CTAFooter from "./V2CTAFooter";
 
 export default function V2Landing() {
   return (
-    <div className="dark min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground">
       <V2Navigation />
       <V2HeroSection />
       <V2CodeSection />

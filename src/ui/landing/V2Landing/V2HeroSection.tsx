@@ -27,19 +27,11 @@ const trustPartners = ["Intersect", "Syngenta", "Toha Network"];
 export default function V2HeroSection() {
   return (
     <section
-      className="relative flex min-h-screen items-center justify-center overflow-hidden pt-20"
-      style={{
-        backgroundImage: "url('/hero-background.png')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
+      className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background pt-20"
     >
-      {/* Uniform dark overlay */}
-      <div className="absolute inset-0 bg-black/60" />
-
       {/* Decorative gradient blobs */}
-      <div className="absolute -right-20 top-1/4 -z-10 h-[500px] w-[500px] rounded-full bg-primary/8 blur-[120px]" />
-      <div className="absolute -left-40 bottom-1/4 -z-10 h-[400px] w-[400px] rounded-full bg-secondary/6 blur-[100px]" />
+      <div className="absolute -right-20 top-1/4 h-[500px] w-[500px] rounded-full bg-primary/8 blur-[120px]" />
+      <div className="absolute -left-40 bottom-1/4 h-[400px] w-[400px] rounded-full bg-secondary/6 blur-[100px]" />
 
       <div className="relative z-10 mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8">
         <motion.div
@@ -50,8 +42,7 @@ export default function V2HeroSection() {
         >
           <motion.h1
             variants={childVariants}
-            className="text-4xl font-bold leading-[1.08] tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl"
-            style={{ textShadow: "0 2px 20px rgba(0,0,0,0.6), 0 0 40px rgba(0,0,0,0.4)" }}
+            className="text-4xl font-bold leading-[1.08] tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-7xl"
           >
             Credentials That
             <br />
@@ -60,8 +51,7 @@ export default function V2HeroSection() {
 
           <motion.p
             variants={childVariants}
-            className="mx-auto mt-6 max-w-2xl text-lg text-white/80 sm:text-xl"
-            style={{ textShadow: "0 1px 12px rgba(0,0,0,0.5), 0 0 30px rgba(0,0,0,0.3)" }}
+            className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground sm:text-xl"
           >
             An open protocol for verifiable credentials. Issue via API,
             permanent on-chain, owned by the people who earned them.
@@ -69,7 +59,7 @@ export default function V2HeroSection() {
 
           <motion.p
             variants={childVariants}
-            className="mt-3 text-base font-medium text-white/60 sm:text-lg"
+            className="mt-3 text-base font-medium text-muted-foreground/60 sm:text-lg"
           >
             Free to start. ~$0.17 per credential.*
           </motion.p>

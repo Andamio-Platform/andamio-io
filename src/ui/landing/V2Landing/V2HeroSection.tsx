@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
 import { motion } from "framer-motion";
+import { EXTERNAL_LINKS } from "~/lib/external-links";
 
 const containerVariants = {
   hidden: {},
@@ -33,7 +33,7 @@ export default function V2HeroSection() {
       <div className="absolute -right-20 top-1/4 h-[500px] w-[500px] rounded-full bg-primary/8 blur-[120px]" />
       <div className="absolute -left-40 bottom-1/4 h-[400px] w-[400px] rounded-full bg-secondary/6 blur-[100px]" />
 
-      <div className="relative z-10 mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           className="text-center"
           variants={containerVariants}
@@ -53,8 +53,7 @@ export default function V2HeroSection() {
             variants={childVariants}
             className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground sm:text-xl"
           >
-            An open protocol for verifiable credentials. Issue via API,
-            permanent on-chain, owned by the people who earned them.
+            An open protocol for verifiable credentials.
           </motion.p>
 
           <motion.p
@@ -68,21 +67,23 @@ export default function V2HeroSection() {
             variants={childVariants}
             className="mt-8 flex flex-wrap justify-center gap-3"
           >
-            <Link
-              href="https://app.andamio.io"
+            <a
+              href={EXTERNAL_LINKS.docs}
               className="inline-flex items-center rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm transition-all hover:bg-primary/90 hover:shadow-md"
             >
-              Get Started Free
+              Build with the API
               <svg className="ml-1.5 h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
-            </Link>
-            <Link
-              href="https://docs.andamio.io"
+            </a>
+            <a
+              href={EXTERNAL_LINKS.app}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center rounded-md border border-border px-5 py-2.5 text-sm font-medium text-foreground transition-all hover:bg-muted hover:shadow-sm"
             >
-              Explore the Docs
-            </Link>
+              Use the App
+            </a>
           </motion.div>
 
           <motion.div

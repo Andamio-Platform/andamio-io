@@ -2,6 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import { EXTERNAL_LINKS } from "~/lib/external-links";
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -46,24 +47,27 @@ interface IntegrationPath {
   description: string;
   linkLabel: string;
   linkHref: string;
+  external: boolean;
 }
 
 const integrationPaths: IntegrationPath[] = [
   {
     badge: "Turnkey",
     badgeClass: "bg-success/10 text-success",
-    title: "Use the Platform",
+    title: "Use the App",
     description: "app.andamio.io — ready to go. No code required.",
     linkLabel: "Launch App →",
-    linkHref: "https://app.andamio.io",
+    linkHref: EXTERNAL_LINKS.app,
+    external: true,
   },
   {
     badge: "Developer",
     badgeClass: "bg-primary/10 text-primary",
     title: "Integrate the API",
     description: "REST API — add credentials to your existing app.",
-    linkLabel: "Read the Docs →",
-    linkHref: "https://docs.andamio.io",
+    linkLabel: "Getting Started Guide →",
+    linkHref: EXTERNAL_LINKS.docsGettingStarted,
+    external: false,
   },
   {
     badge: "Advanced",
@@ -72,7 +76,8 @@ const integrationPaths: IntegrationPath[] = [
     description:
       "Smart contracts on Cardano — full control, maximum flexibility.",
     linkLabel: "View on GitHub →",
-    linkHref: "https://github.com/andamioio",
+    linkHref: EXTERNAL_LINKS.github,
+    external: true,
   },
 ];
 
@@ -113,7 +118,7 @@ export default function V2ArchitectureSection() {
               YOUR APPLICATION
             </p>
             <p className="mt-1 text-sm text-muted-foreground">
-              Platform, custom app, or partner integration
+              App, custom frontend, or partner integration
             </p>
           </motion.div>
 
@@ -152,7 +157,7 @@ export default function V2ArchitectureSection() {
 
         {/* Integration path cards */}
         <motion.div
-          className="grid grid-cols-1 gap-6 md:grid-cols-3"
+          className="mx-auto grid max-w-4xl grid-cols-1 gap-6 md:grid-cols-3"
           variants={cardContainerVariants}
           initial="hidden"
           whileInView="visible"
@@ -175,8 +180,7 @@ export default function V2ArchitectureSection() {
               </p>
               <a
                 href={path.linkHref}
-                target="_blank"
-                rel="noopener noreferrer"
+                {...(path.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                 className="text-sm font-medium text-primary hover:underline"
               >
                 {path.linkLabel}

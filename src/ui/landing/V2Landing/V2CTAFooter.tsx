@@ -2,6 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import { EXTERNAL_LINKS } from "~/lib/external-links";
 
 const fadeInVariants = {
   hidden: { opacity: 0, y: 30 },
@@ -36,7 +37,7 @@ export default function V2CTAFooter() {
               <span className="text-white/60">Start issuing credentials today.</span>
             </h3>
             <a
-              href="https://docs.andamio.io"
+              href={EXTERNAL_LINKS.docs}
               className="inline-flex items-center rounded-md bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
             >
               Read the Docs &rarr;

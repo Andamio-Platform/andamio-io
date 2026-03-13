@@ -2,6 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import { EXTERNAL_LINKS } from "~/lib/external-links";
 
 export default function V2CodeSection() {
   return (
@@ -24,13 +25,10 @@ export default function V2CodeSection() {
               <span className="text-gray-500">Credential on-chain.</span>
             </h2>
             <p className="mb-6 text-lg text-gray-400">
-              POST to build the transaction. Sign with any Cardano wallet.
-              Submit. No gas estimation, no wallet setup for your users.
+              POST to build the transaction. Sign and submit. That&apos;s it.
             </p>
             <a
-              href="https://docs.andamio.io"
-              target="_blank"
-              rel="noopener noreferrer"
+              href={EXTERNAL_LINKS.apiReference}
               className="font-medium text-primary transition-colors hover:text-primary/80"
             >
               View Full API Reference &rarr;

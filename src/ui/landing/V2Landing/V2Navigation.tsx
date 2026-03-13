@@ -7,10 +7,11 @@ import { usePathname, useRouter } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { useTheme } from "next-themes";
 import { ThemeToggle } from "~/components/theme-toggle";
+import { EXTERNAL_LINKS } from "~/lib/external-links";
 
 const navItems = [
-  { label: "Platform", href: "#platform" },
-  { label: "API Docs", href: "https://docs.andamio.io", external: true },
+  { label: "Docs", href: EXTERNAL_LINKS.docs },
+  { label: "API Reference", href: EXTERNAL_LINKS.apiReference },
   { label: "Pricing", href: "#pricing" },
   { label: "Use Cases", href: "/use-cases" },
   { label: "Blog", href: "/blog" },
@@ -83,12 +84,10 @@ export default function V2Navigation() {
           {/* Desktop Navigation */}
           <div className="hidden items-center gap-1 lg:flex">
             {navItems.map((item) =>
-              item.external ? (
+              item.href.startsWith("http") ? (
                 <a
                   key={item.label}
                   href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
                 >
                   {item.label}
@@ -114,7 +113,7 @@ export default function V2Navigation() {
             )}
             <ThemeToggle />
             <a
-              href="https://app.andamio.io"
+              href="https://mainnet.app.andamio.io"
               target="_blank"
               rel="noopener noreferrer"
               className="ml-2 inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-sm transition-all hover:bg-primary/90 hover:shadow-md"
@@ -156,12 +155,10 @@ export default function V2Navigation() {
         <div className="border-t border-border bg-background/95 backdrop-blur-xl lg:hidden">
           <div className="space-y-1 px-4 py-4">
             {navItems.map((item) =>
-              item.external ? (
+              item.href.startsWith("http") ? (
                 <a
                   key={item.label}
                   href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="block rounded-md px-3 py-2.5 text-base font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                   onClick={() => setMobileMenuOpen(false)}
                 >
@@ -188,7 +185,7 @@ export default function V2Navigation() {
               )
             )}
             <a
-              href="https://app.andamio.io"
+              href="https://mainnet.app.andamio.io"
               target="_blank"
               rel="noopener noreferrer"
               className="mt-3 block rounded-md bg-primary px-4 py-3 text-center text-base font-semibold text-primary-foreground shadow-sm transition-all hover:bg-primary/90"

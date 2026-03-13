@@ -2,6 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import { fadeIn, staggerContainer } from "./motion-variants";
 
 interface Partner {
   name: string;
@@ -31,21 +32,8 @@ const partners: Partner[] = [
   },
 ];
 
-const fadeIn = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: "easeOut" },
-  },
-};
-
-const listVariants = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.08 },
-  },
-};
+const fadeInVariants = fadeIn();
+const listVariants = staggerContainer(0.08);
 
 const itemVariants = {
   hidden: { opacity: 0, x: -10 },
@@ -65,7 +53,7 @@ export default function V2PartnersSection() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          variants={fadeIn}
+          variants={fadeInVariants}
         >
           <p className="mb-4 text-center text-xs font-semibold uppercase tracking-widest text-primary">
             WHO&apos;S BUILDING ON ANDAMIO

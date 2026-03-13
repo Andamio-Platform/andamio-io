@@ -15,7 +15,7 @@ const comparisonData: ComparisonRow[] = [
     feature: "Ownership",
     credly: "Platform-locked",
     ethereum: "Portable",
-    andamio: "Owned by the recipient",
+    andamio: "Owned by the user",
   },
   {
     feature: "Cost per credential",
@@ -117,7 +117,7 @@ export default function V2ComparisonSection() {
         </div>
 
         <p className="mt-3 hidden text-xs italic text-muted-foreground md:block">
-          *Approximate. Actual costs depend on transaction complexity and network conditions.
+          *Approximate protocol-level costs (API product). App subscribers pay an additional monthly subscription for hosted features, branding, and support. Actual on-chain costs depend on transaction complexity and network conditions.
         </p>
 
         {/* Mobile stacked cards */}
@@ -152,7 +152,7 @@ export default function V2ComparisonSection() {
           ))}
         </div>
         <p className="mt-3 text-xs italic text-muted-foreground md:hidden">
-          *Approximate. Actual costs depend on transaction complexity and network conditions.
+          *Approximate protocol-level costs (API product). App subscribers pay an additional monthly subscription. Actual on-chain costs depend on transaction complexity and network conditions.
         </p>
       </motion.div>
     </section>

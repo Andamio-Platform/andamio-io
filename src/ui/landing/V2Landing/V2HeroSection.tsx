@@ -2,18 +2,13 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import type { Variants } from "framer-motion";
 import { EXTERNAL_LINKS } from "~/lib/external-links";
+import { staggerContainer } from "./motion-variants";
 
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.12,
-    },
-  },
-};
+const containerVariants = staggerContainer(0.12);
 
-const childVariants = {
+const childVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
@@ -54,13 +49,7 @@ export default function V2HeroSection() {
             className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground sm:text-xl"
           >
             An open protocol for verifiable credentials.
-          </motion.p>
-
-          <motion.p
-            variants={childVariants}
-            className="mt-3 text-base font-medium text-muted-foreground/60 sm:text-lg"
-          >
-            Free to start. ~$0.17 per credential.*
+            {" "}Free to start &mdash; ~$0.17 per credential.*
           </motion.p>
 
           <motion.div

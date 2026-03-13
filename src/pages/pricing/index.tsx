@@ -6,11 +6,23 @@ import Link from "next/link";
 export default function PricingPage() {
   return (
     <ModernPageLayout
-      title="Transaction-Based Pricing"
-      description="Transparent pay-per-use pricing model. All transactions are processed with ADA on the Cardano blockchain."
+      title="Protocol Costs"
+      description="On-chain fees that apply to both the Andamio API and Platform products. All transactions are processed with ADA on the Cardano blockchain."
       currentPage="pricing"
     >
       <div className="pb-12">
+        {/* Intro note */}
+        <div className="mx-auto mb-8 max-w-3xl rounded-lg border border-blue-500/30 bg-blue-500/10 p-4 text-center">
+          <p className="text-sm text-gray-300">
+            These are <strong className="text-white">protocol-level costs</strong> that apply regardless
+            of whether you use the{" "}
+            <Link href="/#pricing" className="text-blue-400 underline hover:text-blue-300">
+              Andamio API or Platform
+            </Link>
+            . API and Platform subscription pricing is separate.
+          </p>
+        </div>
+
         {/* Transaction Fee Cards */}
         <div className="mx-auto grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:gap-6">
           {/* Access Token Minting */}
@@ -31,7 +43,7 @@ export default function PricingPage() {
                           strokeLinecap="round"
                           strokeLinejoin="round"
                           strokeWidth={2}
-                          d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1721 9z"
+                          d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"
                         />
                       </svg>
                     </div>
@@ -110,7 +122,7 @@ export default function PricingPage() {
                   </div>
                 </div>
                 <p className="text-sm text-gray-300">
-                  Create a new course or project
+                  Create a new course or project (mints a Project NFT)
                 </p>
               </div>
 
@@ -118,7 +130,7 @@ export default function PricingPage() {
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-center gap-2">
                     <div className="h-1 w-1 rounded-full bg-blue-400"></div>
-                    Platform access & APIs
+                    Protocol access & APIs
                   </li>
                   <li className="flex items-center gap-2">
                     <div className="h-1 w-1 rounded-full bg-blue-400"></div>
@@ -230,12 +242,12 @@ export default function PricingPage() {
                   </div>
                   <div className="text-right">
                     <div className="flex items-baseline gap-1">
-                      <span className="text-3xl font-bold text-white">0.25%</span>
+                      <span className="text-3xl font-bold text-white">5%</span>
                     </div>
                   </div>
                 </div>
                 <p className="text-sm text-gray-300">
-                  Fee on successful task payments
+                  Base commission on task reward payouts
                 </p>
               </div>
 
@@ -243,15 +255,15 @@ export default function PricingPage() {
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-center gap-2">
                     <div className="h-1 w-1 rounded-full bg-orange-400"></div>
-                    Automated payment processing
+                    Buy down to 0% with NFT add-ons
                   </li>
                   <li className="flex items-center gap-2">
                     <div className="h-1 w-1 rounded-full bg-orange-400"></div>
-                    Smart contract execution
+                    Per-project granularity
                   </li>
                   <li className="flex items-center gap-2">
                     <div className="h-1 w-1 rounded-full bg-orange-400"></div>
-                    Transparent fee structure
+                    On-chain verifiable rates
                   </li>
                 </ul>
               </div>
@@ -265,8 +277,111 @@ export default function PricingPage() {
           </Card>
         </div>
 
+        {/* Commission Discount Add-Ons Section */}
+        <div className="mt-12">
+          <h2 className="mb-2 text-center text-2xl font-bold text-white">
+            Commission Discount Add-Ons
+          </h2>
+          <p className="mb-6 text-center text-sm text-gray-400">
+            Purchase one-time NFT add-ons to permanently reduce commission on a per-project basis.
+          </p>
+
+          <div className="mx-auto max-w-4xl overflow-hidden rounded-xl border border-white/20">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="bg-gray-800/80">
+                  <th className="px-4 py-3 text-left font-semibold text-white">Add-On</th>
+                  <th className="px-4 py-3 text-left font-semibold text-white">Cost (ADA)</th>
+                  <th className="hidden px-4 py-3 text-left font-semibold text-white sm:table-cell">Cost (USD)*</th>
+                  <th className="px-4 py-3 text-left font-semibold text-white">Commission</th>
+                  <th className="hidden px-4 py-3 text-left font-semibold text-white md:table-cell">Best For</th>
+                </tr>
+              </thead>
+              <tbody className="text-gray-300">
+                <tr className="border-t border-white/10">
+                  <td className="px-4 py-3 font-medium text-white">Base (included)</td>
+                  <td className="px-4 py-3">~150</td>
+                  <td className="hidden px-4 py-3 sm:table-cell">~$68</td>
+                  <td className="px-4 py-3 font-semibold text-orange-400">5%</td>
+                  <td className="hidden px-4 py-3 md:table-cell">Testing, pilots</td>
+                </tr>
+                <tr className="border-t border-white/10">
+                  <td className="px-4 py-3 font-medium text-white">Tier 1</td>
+                  <td className="px-4 py-3">~500</td>
+                  <td className="hidden px-4 py-3 sm:table-cell">~$225</td>
+                  <td className="px-4 py-3 font-semibold text-yellow-400">3%</td>
+                  <td className="hidden px-4 py-3 md:table-cell">Growing projects</td>
+                </tr>
+                <tr className="border-t border-white/10">
+                  <td className="px-4 py-3 font-medium text-white">Tier 2</td>
+                  <td className="px-4 py-3">~1,500</td>
+                  <td className="hidden px-4 py-3 sm:table-cell">~$675</td>
+                  <td className="px-4 py-3 font-semibold text-green-400">2%</td>
+                  <td className="hidden px-4 py-3 md:table-cell">Established projects</td>
+                </tr>
+                <tr className="border-t border-white/10">
+                  <td className="px-4 py-3 font-medium text-white">Tier 3</td>
+                  <td className="px-4 py-3">~2,500</td>
+                  <td className="hidden px-4 py-3 sm:table-cell">~$1,125</td>
+                  <td className="px-4 py-3 font-semibold text-emerald-400">1%</td>
+                  <td className="hidden px-4 py-3 md:table-cell">High-volume enterprise</td>
+                </tr>
+                <tr className="border-t border-white/10 bg-primary/5">
+                  <td className="px-4 py-3 font-medium text-white">Lifetime Zero</td>
+                  <td className="px-4 py-3">~25,000</td>
+                  <td className="hidden px-4 py-3 sm:table-cell">~$11,250</td>
+                  <td className="px-4 py-3 font-bold text-blue-400">0%</td>
+                  <td className="hidden px-4 py-3 md:table-cell">Strategic partners</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p className="mt-3 text-center text-xs text-gray-500">
+            *USD estimates at $0.45/ADA. All prices are one-time, permanent, per-project. Commission tier is encoded in the Project NFT on-chain.
+          </p>
+        </div>
+
+        {/* Transaction Sponsorship */}
+        <div className="mt-12">
+          <h2 className="mb-2 text-center text-2xl font-bold text-white">
+            Transaction Sponsorship Bundles
+          </h2>
+          <p className="mb-6 text-center text-sm text-gray-400">
+            Pre-purchase ADA to cover on-chain costs for your users. Unused ADA stays with you.
+          </p>
+
+          <div className="mx-auto grid max-w-4xl grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { name: "Pilot", ada: "500", usd: "$225", courses: "1", students: "~15" },
+              { name: "Starter", ada: "2,500", usd: "$1,125", courses: "1", students: "~100" },
+              { name: "Growth", ada: "10,000", usd: "$4,500", courses: "3", students: "~350" },
+              { name: "Scale", ada: "25,000", usd: "$11,250", courses: "5", students: "~900" },
+            ].map((bundle) => (
+              <Card key={bundle.name} className="border border-white/20 bg-gray-800/50 backdrop-blur-sm">
+                <div className="p-5">
+                  <p className="text-lg font-bold text-white">{bundle.name}</p>
+                  <p className="mt-1 text-2xl font-bold text-white">
+                    {bundle.ada} <span className="text-sm font-normal text-gray-400">ADA</span>
+                  </p>
+                  <p className="text-xs text-gray-500">~{bundle.usd}</p>
+                  <div className="mt-3 border-t border-white/10 pt-3">
+                    <p className="text-xs text-gray-400">Covers approx.</p>
+                    <p className="text-sm text-gray-300">{bundle.courses} course, {bundle.students} students</p>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+
+          <p className="mt-3 text-center text-xs text-gray-500">
+            Enterprise sponsorship with custom amounts and auto-replenish available.{" "}
+            <a href="mailto:hello@andamio.io" className="text-blue-400 hover:underline">Contact sales</a>.
+          </p>
+        </div>
+
         {/* FAQ Section */}
-        <div className="mt-8">
+        <div className="mt-12">
           <h2 className="mb-4 text-center text-xl font-bold text-white">
             Frequently Asked Questions
           </h2>
@@ -281,6 +396,20 @@ export default function PricingPage() {
                   security and decentralization for credential verification and
                   trust protocols. All transactions are recorded on-chain,
                   ensuring transparency and immutability.
+                </p>
+              </div>
+            </Card>
+
+            <Card className="border border-white/20 bg-gray-800/50 backdrop-blur-sm">
+              <div className="p-4">
+                <h3 className="mb-2 text-base font-bold text-white">
+                  Are these fees separate from API / Platform subscriptions?
+                </h3>
+                <p className="text-sm text-gray-300">
+                  Yes. Protocol costs (on-chain fees, commission) apply to all
+                  Andamio users regardless of which product they use. API and
+                  Platform subscriptions cover access to the software layer on
+                  top of the protocol.
                 </p>
               </div>
             </Card>

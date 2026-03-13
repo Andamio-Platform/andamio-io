@@ -383,12 +383,12 @@ None. No database, session, or cache state involved.
 - [x] Developer clicking "Docs" from andamio.io lands on docs.andamio.io/docs (actual content)
 - [x] Developer clicking "API Reference" from andamio.io lands on dev.api.andamio.io/reference (Scalar)
 - [x] Developer clicking "View Full API Reference" from code section lands on dev.api.andamio.io/reference
-- [ ] docs.andamio.io root redirects to /docs (no empty gateway)
-- [ ] api.andamio.io logo links to andamio.io
-- [ ] docs.andamio.io logo links to andamio.io
+- [x] docs.andamio.io root redirects to /docs (no empty gateway)
+- [x] api.andamio.io logo links to andamio.io
+- [x] docs.andamio.io logo links to andamio.io
 - [x] All app.andamio.io references use consistent URL (not mainnet.app.andamio.io)
 - [x] All Discord links use `discord.gg/FtvpAYnBMU`
-- [ ] No circular navigation loops exist between any two sites
+- [x] No circular navigation loops exist between any two sites
 - [x] Footer includes both "Docs" and "API Reference" links
 - [x] Link constants file exists at `src/lib/external-links.ts` with all cross-site URLs centralized
 

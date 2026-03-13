@@ -3,15 +3,9 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { EXTERNAL_LINKS } from "~/lib/external-links";
+import { fadeIn } from "./motion-variants";
 
-const fadeInVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: "easeOut" },
-  },
-};
+const fadeInVariants = fadeIn(30, 0.6);
 
 export default function V2CTAFooter() {
   return (

@@ -2,65 +2,12 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import { CheckCircle2, Wrench } from "lucide-react";
+import { fadeIn, staggerContainer, slideInRight } from "./motion-variants";
 
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, x: 20 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.4, ease: "easeOut" },
-  },
-};
-
-const fadeInVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: "easeOut" },
-  },
-};
-
-function CheckCircleIcon() {
-  return (
-    <svg
-      className="mt-0.5 h-5 w-5 shrink-0 text-success"
-      viewBox="0 0 20 20"
-      fill="currentColor"
-    >
-      <path
-        fillRule="evenodd"
-        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-        clipRule="evenodd"
-      />
-    </svg>
-  );
-}
-
-function WrenchIcon() {
-  return (
-    <svg
-      className="mt-0.5 h-5 w-5 shrink-0 text-warning"
-      viewBox="0 0 20 20"
-      fill="currentColor"
-    >
-      <path
-        fillRule="evenodd"
-        d="M14.5 10a4.5 4.5 0 004.284-5.882c-.105-.324-.51-.391-.752-.15L15.34 6.66a.454.454 0 01-.493.11 3.01 3.01 0 01-1.618-1.616.455.455 0 01.11-.494l2.694-2.692c.24-.241.174-.647-.15-.752a4.5 4.5 0 00-5.873 4.575c.055.873-.128 1.808-.8 2.368l-7.23 6.024a2.724 2.724 0 103.837 3.837l6.024-7.23c.56-.672 1.495-.855 2.368-.8.096.007.193.01.291.01zM5 16a1 1 0 11-2 0 1 1 0 012 0z"
-        clipRule="evenodd"
-      />
-    </svg>
-  );
-}
+const containerVariants = staggerContainer();
+const itemVariants = slideInRight;
+const fadeInVariants = fadeIn();
 
 interface StatusItem {
   completed: boolean;
@@ -76,7 +23,7 @@ const statusItems: StatusItem[] = [
   },
   {
     completed: true,
-    title: "V2 Platform",
+    title: "V2 App",
     description: "12 features, 17 transaction types, audited",
   },
   {
@@ -140,7 +87,11 @@ export default function V2StatusSection() {
                   className="flex items-start gap-3"
                   variants={itemVariants}
                 >
-                  {item.completed ? <CheckCircleIcon /> : <WrenchIcon />}
+                  {item.completed ? (
+                    <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-success" />
+                  ) : (
+                    <Wrench className="mt-0.5 h-5 w-5 shrink-0 text-warning" />
+                  )}
                   <div>
                     <p className="text-sm font-semibold text-foreground">
                       {item.title}

@@ -34,7 +34,10 @@ export default function V2Navigation() {
   useEffect(() => setMounted(true), []);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 10);
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 10;
+      setScrolled((prev) => (prev === isScrolled ? prev : isScrolled));
+    };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -113,7 +116,7 @@ export default function V2Navigation() {
             )}
             <ThemeToggle />
             <a
-              href="https://mainnet.app.andamio.io"
+              href={EXTERNAL_LINKS.app}
               target="_blank"
               rel="noopener noreferrer"
               className="ml-2 inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-sm transition-all hover:bg-primary/90 hover:shadow-md"
@@ -185,7 +188,7 @@ export default function V2Navigation() {
               )
             )}
             <a
-              href="https://mainnet.app.andamio.io"
+              href={EXTERNAL_LINKS.app}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-3 block rounded-md bg-primary px-4 py-3 text-center text-base font-semibold text-primary-foreground shadow-sm transition-all hover:bg-primary/90"

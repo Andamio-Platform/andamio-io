@@ -2,24 +2,10 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import { fadeIn, staggerContainer } from "./motion-variants";
 
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.15,
-    },
-  },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: "easeOut" },
-  },
-};
+const containerVariants = staggerContainer(0.15);
+const cardVariants = fadeIn(30);
 
 function ClipboardIcon() {
   return (
@@ -100,13 +86,13 @@ const pillars: PillarCard[] = [
     icon: <ChartIcon />,
     title: "Track & Verify",
     description:
-      "Every credential, every milestone — recorded permanently on-chain. No more lost certificates, no disputed records, no platform lock-in.",
+      "Every credential, every contribution — recorded permanently on-chain. No more lost certificates, no disputed records, no platform lock-in.",
   },
   {
     icon: <DiamondIcon />,
     title: "Reward",
     description:
-      "Release funds when milestones are completed. Transparent treasury management with built-in accountability. No platform can revoke what your people earned.",
+      "Release funds when work is completed. Transparent treasury management with built-in accountability. No platform can revoke what your users earned.",
   },
 ];
 
@@ -117,11 +103,11 @@ export default function V2PillarsSection() {
         {/* Section header */}
         <div className="text-center">
           <p className="mb-4 text-center text-xs font-semibold uppercase tracking-widest text-primary">
-            HOW IT WORKS
+            WHAT YOU CAN DO
           </p>
           <h2 className="mb-16 text-center text-3xl font-bold text-foreground sm:text-4xl">
             Your credentials. Your standards.{" "}
-            <span className="text-muted-foreground">Your people own the proof.</span>
+            <span className="text-muted-foreground">Your users own the proof.</span>
           </h2>
         </div>
 

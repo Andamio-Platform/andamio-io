@@ -2,18 +2,15 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import type { Variants } from "framer-motion";
 import { EXTERNAL_LINKS } from "~/lib/external-links";
+import { fadeIn, staggerContainer } from "./motion-variants";
 
-const fadeIn = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: "easeOut" },
-  },
-};
+const fadeInVariants = fadeIn();
+const cardContainerVariants = staggerContainer(0.12);
+const cardVariants = fadeIn();
 
-const layerVariants = (delay: number) => ({
+const layerVariants = (delay: number): Variants => ({
   hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
@@ -21,24 +18,6 @@ const layerVariants = (delay: number) => ({
     transition: { duration: 0.5, ease: "easeOut", delay },
   },
 });
-
-const cardContainerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.12,
-    },
-  },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: "easeOut" },
-  },
-};
 
 interface IntegrationPath {
   badge: string;
@@ -90,7 +69,7 @@ export default function V2ArchitectureSection() {
         {/* Section header */}
         <motion.div
           className="text-center"
-          variants={fadeIn}
+          variants={fadeInVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}

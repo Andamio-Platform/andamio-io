@@ -1,20 +1,21 @@
 import Link from "next/link";
 import React from "react";
+import { EXTERNAL_LINKS } from "~/lib/external-links";
 
 const footerData = {
   "Stay Connected with Andamio": [
     { name: "Support", href: "mailto:dev@andamio.com" },
     { name: "Contact Us", href: "mailto:hello@andamio.com" },
-    { name: "Docs", href: "https://docs.andamio.io" },
-    { name: "Andamio Network community", href: "https://discord.gg/FtvpAYnBMU" },
-
+    { name: "Docs", href: EXTERNAL_LINKS.docs },
+    { name: "API Reference", href: EXTERNAL_LINKS.apiReference },
+    { name: "Discord", href: EXTERNAL_LINKS.discord },
   ],
   "Follow Us": [
     {
       name: "LinkedIn",
-      href: "https://www.linkedin.com/company/andamio-teams",
+      href: EXTERNAL_LINKS.linkedin,
     },
-    { name: "Twitter", href: "https://twitter.com/andamio_teams" },
+    { name: "Twitter", href: EXTERNAL_LINKS.twitter },
   ],
   Company: [
     { name: "About", href: "/about" },
@@ -82,8 +83,13 @@ export default function Footer() {
             <div className="flex flex-col items-center justify-between md:flex-row">
               <div className="mb-4 flex items-center gap-4 md:mb-0">
                 <img
-                  className="h-8 w-auto opacity-80"
-                  src="/andamio-logo.svg"
+                  className="hidden h-8 w-auto opacity-80 dark:block"
+                  src="/logo-with-typography-dark.svg"
+                  alt="Andamio"
+                />
+                <img
+                  className="block h-8 w-auto opacity-80 dark:hidden"
+                  src="/logo-with-typography.svg"
                   alt="Andamio"
                 />
                 <div className="text-sm text-muted-foreground">

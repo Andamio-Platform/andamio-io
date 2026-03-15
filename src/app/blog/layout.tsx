@@ -2,8 +2,8 @@ import "~/styles/globals.css";
 import "./blog.css";
 import type { Metadata } from "next";
 import Footer from "~/ui/landing/Footer";
-import NavigationBar from "~/components/shared/NavigationBar";
-import AngularGridOverlay from "~/components/shared/AngularGridOverlay";
+import V2Navigation from "~/ui/landing/V2Landing/V2Navigation";
+import { ThemeProvider } from "~/components/theme-provider";
 
 export const metadata: Metadata = {
   title: "Andamio Blog",
@@ -16,14 +16,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className="min-h-screen bg-background text-foreground">
-        <AngularGridOverlay />
-        <NavigationBar currentPage="blog" />
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          <V2Navigation />
 
-        <main className="relative pt-20">{children}</main>
+          <main className="relative pt-20">{children}</main>
 
-        <Footer />
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );

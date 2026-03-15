@@ -11,6 +11,7 @@
  */
 export const EXTERNAL_LINKS = {
   docs: "https://docs.andamio.io/docs",
+  docsWhitepaper: "https://docs.andamio.io/docs/whitepaper",
   docsGettingStarted: "https://docs.andamio.io/docs/guides/getting-started",
   apiReference: "https://dev.api.andamio.io/reference",
   app: "https://mainnet.app.andamio.io",

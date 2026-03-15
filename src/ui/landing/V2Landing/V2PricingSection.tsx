@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 import { EXTERNAL_LINKS } from "~/lib/external-links";
@@ -13,7 +14,7 @@ interface Tier {
   name: string;
   price: string;
   period?: string;
-  annual?: string;
+
   description?: string;
   features: string[];
   cta: string;
@@ -183,9 +184,6 @@ function TierCard({ tier }: { tier: Tier }) {
           </span>
         )}
       </p>
-      {tier.annual && (
-        <p className="text-xs text-muted-foreground">{tier.annual}</p>
-      )}
       <div className="my-4 border-t border-border" />
       <ul className="flex flex-col gap-3">
         {tier.features.map((feature) => (
@@ -381,12 +379,12 @@ export default function V2PricingSection() {
               </p>
             </div>
           </div>
-          <a
+          <Link
             href="/pricing"
             className="mt-4 inline-flex items-center text-sm font-medium text-primary hover:text-primary/80"
           >
             View full protocol costs →
-          </a>
+          </Link>
         </motion.div>
       </div>
     </section>

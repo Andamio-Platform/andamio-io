@@ -3,33 +3,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import V2PageLayout from "~/ui/landing/V2Landing/V2PageLayout";
+import { fadeIn as fadeInFactory, staggerContainer } from "~/ui/landing/V2Landing/motion-variants";
+import { EXTERNAL_LINKS } from "~/lib/external-links";
 
 /* ─── Animation variants ─── */
 
-const fadeIn = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: "easeOut" },
-  },
-};
-
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.08 },
-  },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: "easeOut" },
-  },
-};
+const fadeIn = fadeInFactory();
+const containerVariants = staggerContainer(0.08);
+const cardVariants = fadeInFactory();
 
 /* ─── Data ─── */
 
@@ -223,7 +204,7 @@ export default function AboutPage() {
         {/* Whitepaper link */}
         <motion.div className="mt-6" variants={cardVariants}>
           <a
-            href="https://docs.andamio.io/docs/whitepaper"
+            href={EXTERNAL_LINKS.docsWhitepaper}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-sm font-medium text-primary transition-colors hover:text-primary/80"
@@ -462,13 +443,13 @@ export default function AboutPage() {
         viewport={{ once: true }}
       >
         <Link
-          href="https://app.andamio.io"
+          href={EXTERNAL_LINKS.app}
           className="inline-flex items-center rounded-md bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
         >
           Get Started Free &rarr;
         </Link>
         <Link
-          href="https://docs.andamio.io"
+          href={EXTERNAL_LINKS.docs}
           className="inline-flex items-center rounded-md border border-border px-6 py-3 text-sm font-medium text-foreground transition-all hover:bg-muted"
         >
           Explore the Docs

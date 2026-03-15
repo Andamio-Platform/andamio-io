@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { fadeIn, staggerContainer } from "./motion-variants";
 
@@ -104,12 +105,12 @@ export default function V2PartnersSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
-          <a
+          <Link
             href="/use-cases"
             className="font-medium text-primary transition-colors hover:text-primary/80"
           >
             View all use cases &rarr;
-          </a>
+          </Link>
         </motion.div>
       </div>
     </section>

@@ -65,7 +65,7 @@ export default function V2CodeSection() {
                   <span className="text-[#ff7b72]">-H</span>
                   <span className="text-gray-300"> </span>
                   <span className="text-[#a5d6ff]">
-                    &quot;X-API-Key: sk_live_...&quot;
+                    &quot;X-API-Key: sk_demo_your_key_here&quot;
                   </span>
                   <span className="text-gray-300"> \</span>
                   {"\n"}

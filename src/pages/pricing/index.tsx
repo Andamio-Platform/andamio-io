@@ -1,22 +1,21 @@
 import { Card } from "~/components/ui/card";
-import ModernPageLayout from "~/components/layouts/ModernPageLayout";
+import V2PageLayout from "~/ui/landing/V2Landing/V2PageLayout";
 import { Button } from "~/components/ui/button";
 import Link from "next/link";
 
 export default function PricingPage() {
   return (
-    <ModernPageLayout
+    <V2PageLayout
       title="Protocol Costs"
       description="On-chain fees that apply to both the Andamio API and Platform products. All transactions are processed with ADA on the Cardano blockchain."
-      currentPage="pricing"
     >
       <div className="pb-12">
         {/* Intro note */}
         <div className="mx-auto mb-8 max-w-3xl rounded-lg border border-blue-500/30 bg-blue-500/10 p-4 text-center">
-          <p className="text-sm text-gray-300">
-            These are <strong className="text-white">protocol-level costs</strong> that apply regardless
+          <p className="text-sm text-muted-foreground">
+            These are <strong className="text-foreground">protocol-level costs</strong> that apply regardless
             of whether you use the{" "}
-            <Link href="/#pricing" className="text-blue-400 underline hover:text-blue-300">
+            <Link href="/#pricing" className="text-primary underline hover:text-primary/80">
               Andamio API or Platform
             </Link>
             . API and Platform subscription pricing is separate.
@@ -26,7 +25,7 @@ export default function PricingPage() {
         {/* Transaction Fee Cards */}
         <div className="mx-auto grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:gap-6">
           {/* Access Token Minting */}
-          <Card className="relative overflow-hidden border border-green-500/50 bg-gray-800/50 shadow-xl backdrop-blur-sm">
+          <Card className="relative overflow-hidden border border-green-500/50 bg-card shadow-xl">
             <div className="absolute -right-12 -top-12 h-20 w-20 bg-green-500/20 blur-2xl"></div>
             <div className="p-6">
               <div className="mb-4">
@@ -47,23 +46,23 @@ export default function PricingPage() {
                         />
                       </svg>
                     </div>
-                    <h3 className="text-2xl font-bold text-white">
+                    <h3 className="text-2xl font-bold text-foreground">
                       Access Token
                     </h3>
                   </div>
                   <div className="text-right">
                     <div className="flex items-baseline gap-1">
-                      <span className="text-3xl font-bold text-white">5</span>
-                      <span className="text-sm text-gray-400">ADA</span>
+                      <span className="text-3xl font-bold text-foreground">5</span>
+                      <span className="text-sm text-muted-foreground">ADA</span>
                     </div>
                   </div>
                 </div>
-                <p className="text-sm text-gray-300">
+                <p className="text-sm text-muted-foreground">
                   Mint access tokens for users
                 </p>
               </div>
 
-              <div className="mb-4 space-y-2 text-gray-300">
+              <div className="mb-4 space-y-2 text-muted-foreground">
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-center gap-2">
                     <div className="h-1 w-1 rounded-full bg-green-400"></div>
@@ -89,7 +88,7 @@ export default function PricingPage() {
           </Card>
 
           {/* Course/Project Creation */}
-          <Card className="relative overflow-hidden border border-blue-500/50 bg-gray-800/50 shadow-xl backdrop-blur-sm">
+          <Card className="relative overflow-hidden border border-blue-500/50 bg-card shadow-xl">
             <div className="absolute -right-12 -top-12 h-20 w-20 bg-blue-500/20 blur-2xl"></div>
             <div className="p-6">
               <div className="mb-4">
@@ -110,23 +109,23 @@ export default function PricingPage() {
                         />
                       </svg>
                     </div>
-                    <h3 className="text-2xl font-bold text-white">
+                    <h3 className="text-2xl font-bold text-foreground">
                       Course/Project
                     </h3>
                   </div>
                   <div className="text-right">
                     <div className="flex items-baseline gap-1">
-                      <span className="text-3xl font-bold text-white">150</span>
-                      <span className="text-sm text-gray-400">ADA</span>
+                      <span className="text-3xl font-bold text-foreground">150</span>
+                      <span className="text-sm text-muted-foreground">ADA</span>
                     </div>
                   </div>
                 </div>
-                <p className="text-sm text-gray-300">
+                <p className="text-sm text-muted-foreground">
                   Create a new course or project (mints a Project NFT)
                 </p>
               </div>
 
-              <div className="mb-4 space-y-2 text-gray-300">
+              <div className="mb-4 space-y-2 text-muted-foreground">
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-center gap-2">
                     <div className="h-1 w-1 rounded-full bg-blue-400"></div>
@@ -152,7 +151,7 @@ export default function PricingPage() {
           </Card>
 
           {/* Manager Addition */}
-          <Card className="relative overflow-hidden border border-purple-500/50 bg-gray-800/50 shadow-xl backdrop-blur-sm">
+          <Card className="relative overflow-hidden border border-purple-500/50 bg-card shadow-xl">
             <div className="absolute -right-12 -top-12 h-20 w-20 bg-purple-500/20 blur-2xl"></div>
             <div className="p-6">
               <div className="mb-4">
@@ -173,23 +172,23 @@ export default function PricingPage() {
                         />
                       </svg>
                     </div>
-                    <h3 className="text-2xl font-bold text-white">
+                    <h3 className="text-2xl font-bold text-foreground">
                       Add Manager
                     </h3>
                   </div>
                   <div className="text-right">
                     <div className="flex items-baseline gap-1">
-                      <span className="text-3xl font-bold text-white">10</span>
-                      <span className="text-sm text-gray-400">ADA</span>
+                      <span className="text-3xl font-bold text-foreground">10</span>
+                      <span className="text-sm text-muted-foreground">ADA</span>
                     </div>
                   </div>
                 </div>
-                <p className="text-sm text-gray-300">
+                <p className="text-sm text-muted-foreground">
                   Add managers to courses/projects
                 </p>
               </div>
 
-              <div className="mb-4 space-y-2 text-gray-300">
+              <div className="mb-4 space-y-2 text-muted-foreground">
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-center gap-2">
                     <div className="h-1 w-1 rounded-full bg-purple-400"></div>
@@ -215,7 +214,7 @@ export default function PricingPage() {
           </Card>
 
           {/* Task Completion Fee */}
-          <Card className="relative overflow-hidden border border-orange-500/50 bg-gray-800/50 shadow-xl backdrop-blur-sm">
+          <Card className="relative overflow-hidden border border-orange-500/50 bg-card shadow-xl">
             <div className="absolute -right-12 -top-12 h-20 w-20 bg-orange-500/20 blur-2xl"></div>
             <div className="p-6">
               <div className="mb-4">
@@ -236,22 +235,22 @@ export default function PricingPage() {
                         />
                       </svg>
                     </div>
-                    <h3 className="text-2xl font-bold text-white">
+                    <h3 className="text-2xl font-bold text-foreground">
                       Task Completion
                     </h3>
                   </div>
                   <div className="text-right">
                     <div className="flex items-baseline gap-1">
-                      <span className="text-3xl font-bold text-white">5%</span>
+                      <span className="text-3xl font-bold text-foreground">5%</span>
                     </div>
                   </div>
                 </div>
-                <p className="text-sm text-gray-300">
+                <p className="text-sm text-muted-foreground">
                   Base commission on task reward payouts
                 </p>
               </div>
 
-              <div className="mb-4 space-y-2 text-gray-300">
+              <div className="mb-4 space-y-2 text-muted-foreground">
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-center gap-2">
                     <div className="h-1 w-1 rounded-full bg-orange-400"></div>
@@ -279,55 +278,55 @@ export default function PricingPage() {
 
         {/* Commission Discount Add-Ons Section */}
         <div className="mt-12">
-          <h2 className="mb-2 text-center text-2xl font-bold text-white">
+          <h2 className="mb-2 text-center text-2xl font-bold text-foreground">
             Commission Discount Add-Ons
           </h2>
-          <p className="mb-6 text-center text-sm text-gray-400">
+          <p className="mb-6 text-center text-sm text-muted-foreground">
             Purchase one-time NFT add-ons to permanently reduce commission on a per-project basis.
           </p>
 
-          <div className="mx-auto max-w-4xl overflow-hidden rounded-xl border border-white/20">
+          <div className="mx-auto max-w-4xl overflow-hidden rounded-xl border border-border">
             <table className="w-full text-sm">
               <thead>
-                <tr className="bg-gray-800/80">
-                  <th className="px-4 py-3 text-left font-semibold text-white">Add-On</th>
-                  <th className="px-4 py-3 text-left font-semibold text-white">Cost (ADA)</th>
-                  <th className="hidden px-4 py-3 text-left font-semibold text-white sm:table-cell">Cost (USD)*</th>
-                  <th className="px-4 py-3 text-left font-semibold text-white">Commission</th>
-                  <th className="hidden px-4 py-3 text-left font-semibold text-white md:table-cell">Best For</th>
+                <tr className="bg-muted/50">
+                  <th className="px-4 py-3 text-left font-semibold text-foreground">Add-On</th>
+                  <th className="px-4 py-3 text-left font-semibold text-foreground">Cost (ADA)</th>
+                  <th className="hidden px-4 py-3 text-left font-semibold text-foreground sm:table-cell">Cost (USD)*</th>
+                  <th className="px-4 py-3 text-left font-semibold text-foreground">Commission</th>
+                  <th className="hidden px-4 py-3 text-left font-semibold text-foreground md:table-cell">Best For</th>
                 </tr>
               </thead>
-              <tbody className="text-gray-300">
-                <tr className="border-t border-white/10">
-                  <td className="px-4 py-3 font-medium text-white">Base (included)</td>
+              <tbody className="text-muted-foreground">
+                <tr className="border-t border-border">
+                  <td className="px-4 py-3 font-medium text-foreground">Base (included)</td>
                   <td className="px-4 py-3">~150</td>
                   <td className="hidden px-4 py-3 sm:table-cell">~$68</td>
                   <td className="px-4 py-3 font-semibold text-orange-400">5%</td>
                   <td className="hidden px-4 py-3 md:table-cell">Testing, pilots</td>
                 </tr>
-                <tr className="border-t border-white/10">
-                  <td className="px-4 py-3 font-medium text-white">Tier 1</td>
+                <tr className="border-t border-border">
+                  <td className="px-4 py-3 font-medium text-foreground">Tier 1</td>
                   <td className="px-4 py-3">~500</td>
                   <td className="hidden px-4 py-3 sm:table-cell">~$225</td>
                   <td className="px-4 py-3 font-semibold text-yellow-400">3%</td>
                   <td className="hidden px-4 py-3 md:table-cell">Growing projects</td>
                 </tr>
-                <tr className="border-t border-white/10">
-                  <td className="px-4 py-3 font-medium text-white">Tier 2</td>
+                <tr className="border-t border-border">
+                  <td className="px-4 py-3 font-medium text-foreground">Tier 2</td>
                   <td className="px-4 py-3">~1,500</td>
                   <td className="hidden px-4 py-3 sm:table-cell">~$675</td>
                   <td className="px-4 py-3 font-semibold text-green-400">2%</td>
                   <td className="hidden px-4 py-3 md:table-cell">Established projects</td>
                 </tr>
-                <tr className="border-t border-white/10">
-                  <td className="px-4 py-3 font-medium text-white">Tier 3</td>
+                <tr className="border-t border-border">
+                  <td className="px-4 py-3 font-medium text-foreground">Tier 3</td>
                   <td className="px-4 py-3">~2,500</td>
                   <td className="hidden px-4 py-3 sm:table-cell">~$1,125</td>
                   <td className="px-4 py-3 font-semibold text-emerald-400">1%</td>
                   <td className="hidden px-4 py-3 md:table-cell">High-volume enterprise</td>
                 </tr>
-                <tr className="border-t border-white/10 bg-primary/5">
-                  <td className="px-4 py-3 font-medium text-white">Lifetime Zero</td>
+                <tr className="border-t border-border bg-primary/5">
+                  <td className="px-4 py-3 font-medium text-foreground">Lifetime Zero</td>
                   <td className="px-4 py-3">~25,000</td>
                   <td className="hidden px-4 py-3 sm:table-cell">~$11,250</td>
                   <td className="px-4 py-3 font-bold text-blue-400">0%</td>
@@ -337,17 +336,17 @@ export default function PricingPage() {
             </table>
           </div>
 
-          <p className="mt-3 text-center text-xs text-gray-500">
+          <p className="mt-3 text-center text-xs text-muted-foreground/70">
             *USD estimates at $0.45/ADA. All prices are one-time, permanent, per-project. Commission tier is encoded in the Project NFT on-chain.
           </p>
         </div>
 
         {/* Transaction Sponsorship */}
         <div className="mt-12">
-          <h2 className="mb-2 text-center text-2xl font-bold text-white">
+          <h2 className="mb-2 text-center text-2xl font-bold text-foreground">
             Transaction Sponsorship Bundles
           </h2>
-          <p className="mb-6 text-center text-sm text-gray-400">
+          <p className="mb-6 text-center text-sm text-muted-foreground">
             Pre-purchase ADA to cover on-chain costs for your users. Unused ADA stays with you.
           </p>
 
@@ -358,40 +357,40 @@ export default function PricingPage() {
               { name: "Growth", ada: "10,000", usd: "$4,500", courses: "3", students: "~350" },
               { name: "Scale", ada: "25,000", usd: "$11,250", courses: "5", students: "~900" },
             ].map((bundle) => (
-              <Card key={bundle.name} className="border border-white/20 bg-gray-800/50 backdrop-blur-sm">
+              <Card key={bundle.name} className="border border-border bg-card">
                 <div className="p-5">
-                  <p className="text-lg font-bold text-white">{bundle.name}</p>
-                  <p className="mt-1 text-2xl font-bold text-white">
-                    {bundle.ada} <span className="text-sm font-normal text-gray-400">ADA</span>
+                  <p className="text-lg font-bold text-foreground">{bundle.name}</p>
+                  <p className="mt-1 text-2xl font-bold text-foreground">
+                    {bundle.ada} <span className="text-sm font-normal text-muted-foreground">ADA</span>
                   </p>
-                  <p className="text-xs text-gray-500">~{bundle.usd}</p>
-                  <div className="mt-3 border-t border-white/10 pt-3">
-                    <p className="text-xs text-gray-400">Covers approx.</p>
-                    <p className="text-sm text-gray-300">{bundle.courses} course, {bundle.students} students</p>
+                  <p className="text-xs text-muted-foreground/70">~{bundle.usd}</p>
+                  <div className="mt-3 border-t border-border pt-3">
+                    <p className="text-xs text-muted-foreground">Covers approx.</p>
+                    <p className="text-sm text-muted-foreground">{bundle.courses} course, {bundle.students} students</p>
                   </div>
                 </div>
               </Card>
             ))}
           </div>
 
-          <p className="mt-3 text-center text-xs text-gray-500">
+          <p className="mt-3 text-center text-xs text-muted-foreground/70">
             Enterprise sponsorship with custom amounts and auto-replenish available.{" "}
-            <a href="mailto:hello@andamio.io" className="text-blue-400 hover:underline">Contact sales</a>.
+            <a href="mailto:hello@andamio.io" className="text-primary hover:underline">Contact sales</a>.
           </p>
         </div>
 
         {/* FAQ Section */}
         <div className="mt-12">
-          <h2 className="mb-4 text-center text-xl font-bold text-white">
+          <h2 className="mb-4 text-center text-xl font-bold text-foreground">
             Frequently Asked Questions
           </h2>
           <div className="mx-auto max-w-3xl space-y-3">
-            <Card className="border border-white/20 bg-gray-800/50 backdrop-blur-sm">
+            <Card className="border border-border bg-card">
               <div className="p-4">
-                <h3 className="mb-2 text-base font-bold text-white">
+                <h3 className="mb-2 text-base font-bold text-foreground">
                   Why do you charge transaction fees in ADA?
                 </h3>
-                <p className="text-sm text-gray-300">
+                <p className="text-sm text-muted-foreground">
                   Andamio operates on the Cardano blockchain, leveraging its
                   security and decentralization for credential verification and
                   trust protocols. All transactions are recorded on-chain,
@@ -400,12 +399,12 @@ export default function PricingPage() {
               </div>
             </Card>
 
-            <Card className="border border-white/20 bg-gray-800/50 backdrop-blur-sm">
+            <Card className="border border-border bg-card">
               <div className="p-4">
-                <h3 className="mb-2 text-base font-bold text-white">
+                <h3 className="mb-2 text-base font-bold text-foreground">
                   Are these fees separate from API / Platform subscriptions?
                 </h3>
-                <p className="text-sm text-gray-300">
+                <p className="text-sm text-muted-foreground">
                   Yes. Protocol costs (on-chain fees, commission) apply to all
                   Andamio users regardless of which product they use. API and
                   Platform subscriptions cover access to the software layer on
@@ -414,12 +413,12 @@ export default function PricingPage() {
               </div>
             </Card>
 
-            <Card className="border border-white/20 bg-gray-800/50 backdrop-blur-sm">
+            <Card className="border border-border bg-card">
               <div className="p-4">
-                <h3 className="mb-2 text-base font-bold text-white">
+                <h3 className="mb-2 text-base font-bold text-foreground">
                   Can I get a refund on transaction fees?
                 </h3>
-                <p className="text-sm text-gray-300">
+                <p className="text-sm text-muted-foreground">
                   Since all transactions are processed on the Cardano blockchain
                   and are immutable once confirmed, transaction fees cannot be
                   refunded. However, we provide clear pricing upfront so you
@@ -430,6 +429,6 @@ export default function PricingPage() {
           </div>
         </div>
       </div>
-    </ModernPageLayout>
+    </V2PageLayout>
   );
 }

@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import V2PageLayout from "~/ui/landing/V2Landing/V2PageLayout";
+import { fadeIn as fadeInFactory, staggerContainer } from "~/ui/landing/V2Landing/motion-variants";
 
 const useCases = [
   {
@@ -55,19 +56,8 @@ const useCases = [
   },
 ];
 
-const containerVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.1 } },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: "easeOut" },
-  },
-};
+const containerVariants = staggerContainer();
+const cardVariants = fadeInFactory();
 
 export default function UseCasesIndex() {
   return (

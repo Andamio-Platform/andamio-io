@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { EXTERNAL_LINKS } from "~/lib/external-links";
 import { fadeIn } from "./motion-variants";
@@ -47,12 +48,12 @@ export default function V2CTAFooter() {
               See how Intersect, Toha, and Syngenta use Andamio.
             </h3>
             <div className="flex flex-col gap-3 sm:flex-row">
-              <a
+              <Link
                 href="/use-cases"
                 className="inline-flex items-center rounded-md bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
               >
                 View Use Cases &rarr;
-              </a>
+              </Link>
               <a
                 href="mailto:hello@andamio.io"
                 className="inline-flex items-center rounded-md border border-white/20 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-white/10"

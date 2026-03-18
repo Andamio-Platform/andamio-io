@@ -47,7 +47,7 @@ const itemVariants = {
 
 export default function V2PartnersSection() {
   return (
-    <section id="partners" className="bg-background py-16 sm:py-24">
+    <section id="partners" className="py-12 sm:py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -56,16 +56,13 @@ export default function V2PartnersSection() {
           viewport={{ once: true, margin: "-100px" }}
           variants={fadeInVariants}
         >
-          <p className="mb-4 text-center text-xs font-semibold uppercase tracking-widest text-primary">
+          <p className="mb-6 text-center font-mono text-xs font-medium uppercase tracking-[0.2em] text-primary">
             WHO&apos;S BUILDING ON ANDAMIO
           </p>
-          <h2 className="mb-4 text-center text-3xl font-bold text-foreground sm:text-4xl">
-            From governance to agriculture
+          <h2 className="mb-16 text-center text-3xl font-bold text-foreground sm:text-4xl">
+            From governance to agriculture.{" "}
+            <span className="text-muted-foreground">Room for more.</span>
           </h2>
-          <p className="mx-auto mb-16 max-w-2xl text-center text-lg text-muted-foreground">
-            The diversity is the proof. Each partner validates a different use
-            case.
-          </p>
         </motion.div>
 
         {/* Partner list */}

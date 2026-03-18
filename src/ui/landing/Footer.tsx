@@ -2,114 +2,77 @@ import Link from "next/link";
 import React from "react";
 import { EXTERNAL_LINKS } from "~/lib/external-links";
 
-const footerData = {
-  "Stay Connected with Andamio": [
-    { name: "Support", href: "mailto:dev@andamio.com" },
-    { name: "Contact Us", href: "mailto:hello@andamio.com" },
+const footerLinks = {
+  Build: [
     { name: "Docs", href: EXTERNAL_LINKS.docs },
     { name: "API Reference", href: EXTERNAL_LINKS.apiReference },
+    { name: "GitHub", href: EXTERNAL_LINKS.github },
     { name: "Discord", href: EXTERNAL_LINKS.discord },
   ],
-  "Follow Us": [
-    {
-      name: "LinkedIn",
-      href: EXTERNAL_LINKS.linkedin,
-    },
+  Explore: [
+    { name: "Use Cases", href: "/use-cases" },
+    { name: "Blog", href: "/blog" },
+    { name: "About", href: "/about" },
+    { name: "App", href: EXTERNAL_LINKS.app },
+  ],
+  Connect: [
+    { name: "hello@andamio.io", href: "mailto:hello@andamio.io" },
+    { name: "LinkedIn", href: EXTERNAL_LINKS.linkedin },
     { name: "Twitter", href: EXTERNAL_LINKS.twitter },
   ],
-  Company: [
-    { name: "About", href: "/about" },
-    { name: "Roadmap", href: "/roadmap" },
-    { name: "Brand Hub", href: "/brand" },
-  ],
   Legal: [
-    { name: "Privacy Policy", href: "https://app.andamio.io/privacy-policy" },
-    { name: "Terms of Use", href: "https://app.andamio.io/terms" },
+    { name: "Privacy", href: "https://app.andamio.io/privacy-policy" },
+    { name: "Terms", href: "https://app.andamio.io/terms" },
   ],
 };
 
 export default function Footer() {
   return (
-    <div className="relative z-30 border-t border-border bg-muted/30 text-foreground">
-      <div className="pointer-events-none absolute inset-0 opacity-5">
-        <div className="grid h-full grid-cols-16">
-          {Array.from({ length: 16 }).map((_, i) => (
-            <div key={i} className="border-r border-border"></div>
+    <footer className="border-t border-border">
+      <div className="mx-auto flex max-w-7xl flex-col gap-8 px-6 py-10 md:flex-row md:items-start md:justify-between lg:px-8">
+        {/* Left — brand */}
+        <div className="shrink-0">
+          <img
+            className="hidden mb-3 h-6 w-auto opacity-80 dark:block"
+            src="/logo-with-typography-dark.svg"
+            alt="Andamio"
+          />
+          <img
+            className="block mb-3 h-6 w-auto opacity-80 dark:hidden"
+            src="/logo-with-typography.svg"
+            alt="Andamio"
+          />
+          <p className="text-xs text-muted-foreground/60">
+            Open protocol for interoperable credentials
+          </p>
+          <p className="mt-4 text-xs text-muted-foreground/40">
+            © {new Date().getFullYear()} Andamio
+          </p>
+        </div>
+
+        {/* Right — link columns */}
+        <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
+          {Object.entries(footerLinks).map(([key, links]) => (
+            <div key={key}>
+              <h3 className="mb-3 font-mono text-xs font-medium uppercase tracking-wider text-muted-foreground/60">
+                {key}
+              </h3>
+              <ul className="space-y-2">
+                {links.map((link) => (
+                  <li key={link.name}>
+                    <Link
+                      href={link.href}
+                      className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           ))}
         </div>
-        <div className="absolute inset-0">
-          <div className="flex h-full flex-col">
-            {Array.from({ length: 8 }).map((_, i) => (
-              <div key={i} className="flex-1 border-b border-border"></div>
-            ))}
-          </div>
-        </div>
       </div>
-
-      <footer className="relative mx-auto max-w-7xl px-6 py-16 lg:px-8">
-        {/* Top accent line */}
-        <div className="absolute left-6 right-6 top-0 h-px bg-gradient-to-r from-transparent via-border to-transparent"></div>
-
-        <div className="flex flex-col">
-          {/* Main footer content */}
-          <div className="grid w-full grid-cols-1 gap-12 sm:grid-cols-2 md:grid-cols-3">
-            {Object.entries(footerData).map(([key, links], index) => (
-              <div key={key} className="relative">
-                {/* Angular accent for each section */}
-                <div className="absolute -top-2 left-0 h-1 w-8 bg-gradient-to-r from-primary to-transparent opacity-60"></div>
-
-                <h3 className="mb-6 text-lg font-bold uppercase tracking-wider text-foreground">
-                  {key}
-                </h3>
-                <ul className="space-y-4">
-                  {links.map((link) => (
-                    <li key={link.name}>
-                      <Link
-                        href={link.href}
-                        className="group flex items-center text-muted-foreground transition-colors duration-200 hover:text-foreground"
-                      >
-                        <span className="mr-3 h-px w-2 bg-border transition-colors duration-200 group-hover:bg-primary"></span>
-                        {link.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-
-          {/* Bottom section */}
-          <div className="mt-16 border-t border-border pt-8">
-            <div className="flex flex-col items-center justify-between md:flex-row">
-              <div className="mb-4 flex items-center gap-4 md:mb-0">
-                <img
-                  className="hidden h-8 w-auto opacity-80 dark:block"
-                  src="/logo-with-typography-dark.svg"
-                  alt="Andamio"
-                />
-                <img
-                  className="block h-8 w-auto opacity-80 dark:hidden"
-                  src="/logo-with-typography.svg"
-                  alt="Andamio"
-                />
-                <div className="text-sm text-muted-foreground">
-                  Trust Protocol for Distributed Work
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <span className="rounded-sm border border-border bg-muted px-2 py-1 font-mono text-xs">
-                  v0.3.3
-                </span>
-                <span>|</span>
-                <span>
-                  © {new Date().getFullYear()} Andamio. All rights reserved.
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
-    </div>
+    </footer>
   );
 }

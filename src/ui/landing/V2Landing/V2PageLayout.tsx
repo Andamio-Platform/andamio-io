@@ -23,24 +23,15 @@ export default function V2PageLayout({
       <main className="relative pt-20">
         {/* Page Header */}
         {(title ?? description) && (
-          <div className="relative overflow-hidden border-b border-border bg-muted/40 py-16 sm:py-20">
-            {/* Dot grid texture */}
-            <div
-              className="absolute inset-0 opacity-[0.03]"
-              style={{
-                backgroundImage:
-                  "radial-gradient(circle, currentColor 1px, transparent 1px)",
-                backgroundSize: "20px 20px",
-              }}
-            />
+          <div className="border-b border-border py-16 sm:py-20">
             <motion.div
-              className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
+              className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease: "easeOut" }}
             >
               {title && (
-                <h1 className="text-4xl font-bold text-foreground sm:text-5xl">
+                <h1 className="font-display text-4xl font-extrabold tracking-[-0.025em] text-foreground sm:text-5xl">
                   {title}
                 </h1>
               )}

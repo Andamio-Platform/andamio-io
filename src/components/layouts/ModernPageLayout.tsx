@@ -1,6 +1,5 @@
 import React from "react";
-import NavigationBar from "~/components/shared/NavigationBar";
-import AngularGridOverlay from "~/components/shared/AngularGridOverlay";
+import V2Navigation from "~/ui/landing/V2Landing/V2Navigation";
 import Footer from "~/ui/landing/Footer";
 
 interface ModernPageLayoutProps {
@@ -14,39 +13,34 @@ export default function ModernPageLayout({
   children,
   title,
   description,
-  currentPage,
 }: ModernPageLayoutProps) {
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <AngularGridOverlay />
-      <NavigationBar currentPage={currentPage} />
+      <V2Navigation />
 
       <main className="relative pt-20">
         {/* Page Header */}
         {(title ?? description) && (
-          <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
-            <div className="relative">
-              {/* Angular accent lines */}
-              <div className="absolute -top-8 left-0 h-1 w-32 bg-gradient-to-r from-primary to-transparent shadow-lg shadow-primary/50"></div>
-              <div className="absolute -top-4 left-8 h-1 w-16 bg-gradient-to-r from-muted-foreground/60 to-transparent"></div>
-
+          <div className="border-b border-border py-16 sm:py-20">
+            <div className="mx-auto max-w-7xl px-6 lg:px-8">
               {title && (
-                <div className="mb-6 flex items-center gap-4">
-                  <div className="h-1 w-12 bg-gradient-to-r from-primary to-transparent"></div>
-                  <h1 className="text-4xl font-bold text-foreground lg:text-6xl">
-                    {title}
-                  </h1>
-                </div>
+                <h1 className="font-display text-4xl font-extrabold tracking-[-0.025em] text-foreground sm:text-5xl">
+                  {title}
+                </h1>
               )}
               {description && (
-                <p className="max-w-3xl text-xl text-muted-foreground">{description}</p>
+                <p className="mt-4 max-w-3xl text-lg text-muted-foreground">
+                  {description}
+                </p>
               )}
             </div>
           </div>
         )}
 
         {/* Page Content */}
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">{children}</div>
+        <div className="mx-auto max-w-7xl px-6 py-12 sm:py-16 lg:px-8">
+          {children}
+        </div>
       </main>
 
       <Footer />

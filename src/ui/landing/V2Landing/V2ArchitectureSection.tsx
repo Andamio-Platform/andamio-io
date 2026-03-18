@@ -31,19 +31,10 @@ interface IntegrationPath {
 
 const integrationPaths: IntegrationPath[] = [
   {
-    badge: "Turnkey",
-    badgeClass: "bg-success/10 text-success",
-    title: "Use the App",
-    description: "app.andamio.io — ready to go. No code required.",
-    linkLabel: "Launch App →",
-    linkHref: EXTERNAL_LINKS.app,
-    external: true,
-  },
-  {
     badge: "Developer",
     badgeClass: "bg-primary/10 text-primary",
-    title: "Integrate the API",
-    description: "REST API — add credentials to your existing app.",
+    title: "Build with the API",
+    description: "Add credentials, access control, and courses to your app via REST API.",
     linkLabel: "Getting Started Guide →",
     linkHref: EXTERNAL_LINKS.docsGettingStarted,
     external: false,
@@ -51,20 +42,29 @@ const integrationPaths: IntegrationPath[] = [
   {
     badge: "Advanced",
     badgeClass: "bg-secondary/10 text-secondary",
-    title: "Build on Protocol",
+    title: "Build on the Platform",
     description:
-      "Smart contracts on Cardano — full control, maximum flexibility.",
+      "Work directly with Andamio smart contracts on Cardano. Full control.",
     linkLabel: "View on GitHub →",
     linkHref: EXTERNAL_LINKS.github,
+    external: true,
+  },
+  {
+    badge: "Explore",
+    badgeClass: "bg-success/10 text-success",
+    title: "See It in Action",
+    description: "Explore the Andamio App to see how credentials, courses, and projects work together.",
+    linkLabel: "Open the App →",
+    linkHref: EXTERNAL_LINKS.app,
     external: true,
   },
 ];
 
 export default function V2ArchitectureSection() {
   return (
-    <section id="platform" className="relative bg-muted/30 py-16 sm:py-24 overflow-hidden">
-      {/* Subtle grid texture */}
-      <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: "radial-gradient(circle, currentColor 1px, transparent 1px)", backgroundSize: "20px 20px" }} />
+    <section id="platform" className="relative py-16 sm:py-24 overflow-hidden">
+      {/* Section divider */}
+      <div className="absolute left-1/2 top-0 h-px w-4/5 -translate-x-1/2 bg-gradient-to-r from-transparent via-border to-transparent" />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section header */}
         <motion.div
@@ -74,13 +74,17 @@ export default function V2ArchitectureSection() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
         >
-          <p className="mb-4 text-center text-xs font-semibold uppercase tracking-widest text-primary">
+          <p className="mb-6 text-center font-mono text-xs font-medium uppercase tracking-[0.2em] text-primary">
             HOW IT WORKS
           </p>
-          <h2 className="mb-16 text-center text-3xl font-bold text-foreground sm:text-4xl">
-            Three layers.{" "}
-            <span className="text-muted-foreground">One protocol.</span>
+          <h2 className="mb-4 text-center text-3xl font-bold text-foreground sm:text-4xl">
+            Andamio is built on Cardano.
+            <br />
+            <span className="mt-2 inline-block text-muted-foreground">Your app is built on Andamio.</span>
           </h2>
+          <p className="mx-auto mb-16 max-w-2xl text-center text-lg text-muted-foreground">
+            Role-based access, credential gating, and contribution tracking — on a layer you don&rsquo;t have to build yourself.
+          </p>
         </motion.div>
 
         {/* Architecture diagram */}
@@ -88,23 +92,23 @@ export default function V2ArchitectureSection() {
           {/* Top layer — Your Application */}
           <motion.div
             className="rounded-t-xl border border-border bg-card p-6"
-            variants={layerVariants(0.4)}
+            variants={layerVariants(0.6)}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-80px" }}
           >
             <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-              YOUR APPLICATION
+              YOUR APP
             </p>
             <p className="mt-1 text-sm text-muted-foreground">
-              App, custom frontend, or partner integration
+              You build this — your frontend, your experience, your users
             </p>
           </motion.div>
 
-          {/* Middle layer — Andamio API */}
+          {/* Andamio API */}
           <motion.div
             className="border-x border-border bg-primary/5 p-6"
-            variants={layerVariants(0.2)}
+            variants={layerVariants(0.4)}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-80px" }}
@@ -113,11 +117,27 @@ export default function V2ArchitectureSection() {
               ANDAMIO API
             </p>
             <p className="mt-1 text-sm text-muted-foreground">
-              Credentials · Identity · Treasury · Courses
+              Credentials &middot; Access Control &middot; Courses &middot; Treasury
             </p>
           </motion.div>
 
-          {/* Bottom layer — Andamio Protocol */}
+          {/* Andamio Platform */}
+          <motion.div
+            className="border-x border-border bg-primary/3 p-6"
+            variants={layerVariants(0.2)}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+          >
+            <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+              ANDAMIO PLATFORM
+            </p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Smart contracts, on-chain state, credential registry (audited by TxPipe)
+            </p>
+          </motion.div>
+
+          {/* Cardano */}
           <motion.div
             className="rounded-b-xl border border-border bg-card p-6"
             variants={layerVariants(0)}
@@ -126,10 +146,10 @@ export default function V2ArchitectureSection() {
             viewport={{ once: true, margin: "-80px" }}
           >
             <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-              ANDAMIO PROTOCOL
+              CARDANO BLOCKCHAIN
             </p>
             <p className="mt-1 text-sm text-muted-foreground">
-              Smart contracts on Cardano (audited by TxPipe)
+              Settlement, permanence, interoperability
             </p>
           </motion.div>
         </div>
@@ -145,7 +165,7 @@ export default function V2ArchitectureSection() {
           {integrationPaths.map((path) => (
             <motion.div
               key={path.title}
-              className="rounded-xl border border-border bg-card p-6"
+              className="rounded-lg border border-border bg-card p-6"
               variants={cardVariants}
             >
               <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -131,7 +133,9 @@
     @apply bg-background font-sans leading-relaxed text-foreground;
   }
   h1,
-  h2,
+  h2 {
+    @apply font-display tracking-tight;
+  }
   h3,
   h4,
   h5,

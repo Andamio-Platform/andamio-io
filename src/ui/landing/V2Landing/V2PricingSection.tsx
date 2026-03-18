@@ -220,7 +220,7 @@ export default function V2PricingSection() {
   const tiers = activeTab === "api" ? apiTiers : platformTiers;
 
   return (
-    <section id="pricing" className="bg-background py-16 sm:py-24">
+    <section id="pricing" className="relative py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -230,7 +230,7 @@ export default function V2PricingSection() {
           variants={fadeInVariants}
           className="text-center"
         >
-          <p className="mb-4 text-center text-xs font-semibold uppercase tracking-widest text-primary">
+          <p className="mb-6 text-center font-mono text-xs font-medium uppercase tracking-[0.2em] text-primary">
             PRICING
           </p>
           <h2 className="mb-4 text-center text-3xl font-bold text-foreground sm:text-4xl">

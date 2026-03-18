@@ -13,7 +13,7 @@ export default function Metatags({
 }) {
   if (description === undefined) {
     description =
-      "Build great teams with professional identity for distributed work";
+      "An open protocol for interoperable credentials.";
   }
   if (keywords === undefined) {
     keywords =
@@ -60,10 +60,10 @@ export default function Metatags({
 }
 
 Metatags.defaultProps = {
-  title: "Andamio - Build Great Teams",
+  title: "Andamio",
   keywords:
-    "blockchain, learning, management, contribution, skill, community, organization, education, web3",
+    "credentials, blockchain, cardano, API, learning, contribution, verification, open protocol",
   description:
-    "Professional identity for flexible teams and distributed work.",
+    "An open protocol for interoperable credentials.",
   image: "/andamio.png",
 };

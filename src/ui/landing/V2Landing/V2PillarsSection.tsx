@@ -78,36 +78,36 @@ interface PillarCard {
 const pillars: PillarCard[] = [
   {
     icon: <ClipboardIcon />,
-    title: "Define & Issue",
+    title: "Issue",
     description:
-      "You define the credentials. You decide who earns them. Your recipients own them forever — portable across every platform on the protocol.",
+      "Define credentials that mean something in your context. Anyone can issue. Recipients carry them across every app on the protocol.",
   },
   {
     icon: <ChartIcon />,
-    title: "Track & Verify",
+    title: "Verify",
     description:
-      "Every credential, every contribution — recorded permanently on-chain. No more lost certificates, no disputed records, no platform lock-in.",
+      "Check any credential, from any issuer, in real time. On-chain records mean no phone calls, no PDFs, no trust required.",
   },
   {
     icon: <DiamondIcon />,
-    title: "Reward",
+    title: "Gate",
     description:
-      "Release funds when work is completed. Transparent treasury management with built-in accountability. No platform can revoke what your users earned.",
+      "Use credentials to unlock content, roles, or rewards. Build learning paths, contributor programs, or access tiers — all anchored on proof.",
   },
 ];
 
 export default function V2PillarsSection() {
   return (
-    <section className="bg-background py-16 sm:py-24">
+    <section className="bg-background py-20 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section header */}
         <div className="text-center">
-          <p className="mb-4 text-center text-xs font-semibold uppercase tracking-widest text-primary">
+          <p className="mb-6 text-center font-mono text-xs font-medium uppercase tracking-[0.2em] text-primary">
             WHAT YOU CAN DO
           </p>
           <h2 className="mb-16 text-center text-3xl font-bold text-foreground sm:text-4xl">
-            Your credentials. Your standards.{" "}
-            <span className="text-muted-foreground">Your users own the proof.</span>
+            Your app. Shared credentials.{" "}
+            <span className="text-muted-foreground">Users own the proof.</span>
           </h2>
         </div>
 
@@ -122,7 +122,7 @@ export default function V2PillarsSection() {
           {pillars.map((pillar) => (
             <motion.div
               key={pillar.title}
-              className="group rounded-xl border border-border bg-card p-8 transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-xl"
+              className="group rounded-lg border border-border bg-card p-8 transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-xl"
               variants={cardVariants}
             >
               {pillar.icon}

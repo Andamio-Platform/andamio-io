@@ -2,13 +2,12 @@ import "~/styles/globals.css";
 import "./blog.css";
 import type { Metadata } from "next";
 import Footer from "~/ui/landing/Footer";
-import NavigationBar from "~/components/shared/NavigationBar";
-import AngularGridOverlay from "~/components/shared/AngularGridOverlay";
+import V2Navigation from "~/ui/landing/V2Landing/V2Navigation";
 import { ThemeProvider } from "~/components/theme-provider";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Andamio Customers',
-  description: "Insights, updates, and stories from the Andamio customers",
+  description: "Insights, updates, and stories from Andamio customers",
 }
 
 export default function RootLayout({
@@ -20,8 +19,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className="min-h-screen bg-background text-foreground">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-          <AngularGridOverlay />
-          <NavigationBar currentPage="customers" />
+          <V2Navigation />
 
           <main className="relative pt-20">{children}</main>
 
@@ -31,6 +29,3 @@ export default function RootLayout({
     </html>
   )
 }
-
-
-

@@ -43,7 +43,7 @@ const apiTiers: Tier[] = [
   },
   {
     name: "Starter",
-    price: "$99",
+    price: "$$$",
     period: "/mo",
     description: "For teams building on Andamio",
     features: [
@@ -57,7 +57,7 @@ const apiTiers: Tier[] = [
   },
   {
     name: "Growth",
-    price: "$299",
+    price: "$$$",
     period: "/mo",
     description: "Production-ready throughput",
     features: [
@@ -103,7 +103,7 @@ const issuerTiers: Tier[] = [
   },
   {
     name: "Pro",
-    price: "$99",
+    price: "$$$",
     period: "/mo",
     description: "Reduced fees for growing programs",
     features: [
@@ -118,7 +118,7 @@ const issuerTiers: Tier[] = [
   },
   {
     name: "Growth",
-    price: "$299",
+    price: "$$$",
     period: "/mo",
     description: "Scale your credential programs",
     features: [
@@ -367,13 +367,13 @@ export default function PricingPage() {
                   </div>
                   <div className="text-right">
                     <div className="flex items-baseline gap-1">
-                      <span className="text-3xl font-bold text-foreground">8.3</span>
+                      <span className="text-3xl font-bold text-foreground">~8</span>
                       <span className="text-sm text-muted-foreground">ADA</span>
                     </div>
                   </div>
                 </div>
                 <p className="text-sm text-muted-foreground">
-                  Onboard a participant (fixed protocol fee)
+  Mint access tokens for users
                 </p>
               </div>
 
@@ -381,11 +381,11 @@ export default function PricingPage() {
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-center gap-2">
                     <div className="h-1 w-1 rounded-full bg-green-400"></div>
-                    One-time fee per participant
+                    One-time fee per user
                   </li>
                   <li className="flex items-center gap-2">
                     <div className="h-1 w-1 rounded-full bg-green-400"></div>
-                    Fixed cost — does not reduce with tier
+                    Enables credential verification
                   </li>
                   <li className="flex items-center gap-2">
                     <div className="h-1 w-1 rounded-full bg-green-400"></div>
@@ -444,7 +444,7 @@ export default function PricingPage() {
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-center gap-2">
                     <div className="h-1 w-1 rounded-full bg-blue-400"></div>
-                    ~50 ADA network + ~100 ADA service fee
+                    150 ADA per course or project
                   </li>
                   <li className="flex items-center gap-2">
                     <div className="h-1 w-1 rounded-full bg-blue-400"></div>
@@ -493,7 +493,7 @@ export default function PricingPage() {
                   </div>
                   <div className="text-right">
                     <div className="flex items-baseline gap-1">
-                      <span className="text-3xl font-bold text-foreground">~2</span>
+                      <span className="text-3xl font-bold text-foreground">10</span>
                       <span className="text-sm text-muted-foreground">ADA</span>
                     </div>
                   </div>
@@ -561,7 +561,7 @@ export default function PricingPage() {
                   </div>
                 </div>
                 <p className="text-sm text-muted-foreground">
-                  Base commission on reward payouts (min 1 ADA)
+                  Base commission on task reward payouts
                 </p>
               </div>
 
@@ -569,11 +569,11 @@ export default function PricingPage() {
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-center gap-2">
                     <div className="h-1 w-1 rounded-full bg-orange-400"></div>
-                    Reduced by Issuer tier or NFT purchase
+                    Buy down to 0% with NFT add-ons
                   </li>
                   <li className="flex items-center gap-2">
                     <div className="h-1 w-1 rounded-full bg-orange-400"></div>
-                    Education-only issuers pay zero commission
+                    Per-project granularity
                   </li>
                   <li className="flex items-center gap-2">
                     <div className="h-1 w-1 rounded-full bg-orange-400"></div>

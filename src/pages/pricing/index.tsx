@@ -2,23 +2,53 @@ import { Card } from "~/components/ui/card";
 import V2PageLayout from "~/ui/landing/V2Landing/V2PageLayout";
 import { Button } from "~/components/ui/button";
 import Link from "next/link";
+import { EXTERNAL_LINKS } from "~/lib/external-links";
+
+// TODO: Restore subscription tier cards when pricing is finalized
+// Tier data and TierCard component temporarily removed — see git history
 
 export default function PricingPage() {
   return (
     <V2PageLayout
-      title="Protocol Costs"
-      description="On-chain fees that apply to both the Andamio API and Platform products. All transactions are processed with ADA on the Cardano blockchain."
+      title="Pricing"
+      description="Two products. One protocol. Build with the API or use the hosted App."
     >
       <div className="pb-12">
-        {/* Intro note */}
-        <div className="mx-auto mb-8 max-w-3xl rounded-lg border border-blue-500/30 bg-blue-500/10 p-4 text-center">
-          <p className="text-sm text-muted-foreground">
-            These are <strong className="text-foreground">protocol-level costs</strong> that apply regardless
-            of whether you use the{" "}
-            <Link href="/#pricing" className="text-primary underline hover:text-primary/80">
-              Andamio API or Platform
-            </Link>
-            . API and Platform subscription pricing is separate.
+        {/* Subscription Tiers — Coming Soon */}
+        <div className="mb-16">
+          <div className="mx-auto max-w-2xl rounded-xl border border-primary/20 bg-primary/5 p-8 text-center">
+            <p className="mb-2 font-mono text-xs font-medium uppercase tracking-[0.2em] text-primary">
+              COMING SOON
+            </p>
+            <h2 className="mb-3 text-2xl font-bold text-foreground">
+              API & Platform Subscription Plans
+            </h2>
+            <p className="mb-4 text-muted-foreground">
+              We&apos;re finalizing subscription tiers for the Andamio API and
+              Platform. In the meantime, the protocol is free to start building on.
+            </p>
+            <a
+              href={EXTERNAL_LINKS.app}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm transition-all hover:bg-primary/90"
+            >
+              Get Started Free
+            </a>
+          </div>
+        </div>
+
+        {/* Protocol Costs Divider */}
+        <div className="mb-12 border-t border-border pt-12">
+          <p className="mb-2 text-center font-mono text-xs font-medium uppercase tracking-[0.2em] text-primary">
+            PROTOCOL COSTS
+          </p>
+          <h2 className="mb-2 text-center text-2xl font-bold text-foreground">
+            On-Chain Fees
+          </h2>
+          <p className="mx-auto mb-8 max-w-3xl text-center text-sm text-muted-foreground">
+            These protocol-level costs apply regardless of whether you use the
+            Andamio API or App. All transactions are processed with ADA on the Cardano blockchain.
           </p>
         </div>
 

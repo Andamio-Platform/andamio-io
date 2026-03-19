@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { useTheme } from "next-themes";
 import { ThemeToggle } from "~/components/theme-toggle";
@@ -12,21 +11,18 @@ import { EXTERNAL_LINKS } from "~/lib/external-links";
 const navItems = [
   { label: "Docs", href: EXTERNAL_LINKS.docs },
   { label: "API Reference", href: EXTERNAL_LINKS.apiReference },
-  { label: "Pricing", href: "#pricing" },
+  { label: "Pricing", href: "/pricing" },
   { label: "Use Cases", href: "/use-cases" },
   { label: "Blog", href: "/blog" },
   { label: "About", href: "/about" },
 ];
 
 export default function V2Navigation() {
-  const pathname = usePathname();
-  const router = useRouter();
   const { resolvedTheme } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
 
-  const isHomePage = pathname === "/";
   const logoSrc = mounted && resolvedTheme === "light"
     ? "/logo-with-typography.svg"
     : "/logo-with-typography-dark.svg";
@@ -41,27 +37,6 @@ export default function V2Navigation() {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const handleAnchorClick = (
-    e: React.MouseEvent<HTMLAnchorElement>,
-    href: string
-  ) => {
-    if (href.startsWith("#")) {
-      e.preventDefault();
-      setMobileMenuOpen(false);
-
-      if (isHomePage) {
-        // On homepage: smooth-scroll to the section
-        const el = document.getElementById(href.slice(1));
-        if (el) {
-          el.scrollIntoView({ behavior: "smooth" });
-        }
-      } else {
-        // On other pages: navigate to homepage with anchor
-        void router.push("/" + href);
-      }
-    }
-  };
 
   return (
     <nav
@@ -91,15 +66,6 @@ export default function V2Navigation() {
                 <a
                   key={item.label}
                   href={item.href}
-                  className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  {item.label}
-                </a>
-              ) : item.href.startsWith("#") ? (
-                <a
-                  key={item.label}
-                  href={isHomePage ? item.href : "/" + item.href}
-                  onClick={(e) => handleAnchorClick(e, item.href)}
                   className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
                 >
                   {item.label}
@@ -164,15 +130,6 @@ export default function V2Navigation() {
                   href={item.href}
                   className="block rounded-md px-3 py-2.5 text-base font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                   onClick={() => setMobileMenuOpen(false)}
-                >
-                  {item.label}
-                </a>
-              ) : item.href.startsWith("#") ? (
-                <a
-                  key={item.label}
-                  href={isHomePage ? item.href : "/" + item.href}
-                  onClick={(e) => handleAnchorClick(e, item.href)}
-                  className="block rounded-md px-3 py-2.5 text-base font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                 >
                   {item.label}
                 </a>

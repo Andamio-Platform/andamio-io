@@ -6,7 +6,6 @@ import V2PillarsSection from "./V2PillarsSection";
 import V2ArchitectureSection from "./V2ArchitectureSection";
 import V2PartnersSection from "./V2PartnersSection";
 import V2ComparisonSection from "./V2ComparisonSection";
-import V2PricingSection from "./V2PricingSection";
 import V2FAQSection from "./V2FAQSection";
 import V2StatusSection from "./V2StatusSection";
 import V2CTAFooter from "./V2CTAFooter";
@@ -21,7 +20,6 @@ export default function V2Landing() {
       <V2ArchitectureSection />
       <V2PartnersSection />
       <V2ComparisonSection />
-      <V2PricingSection />
       <V2FAQSection />
       <V2StatusSection />
       <V2CTAFooter />

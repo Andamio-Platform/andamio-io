@@ -91,8 +91,6 @@ const issuerTiers: Tier[] = [
     price: "Free",
     description: "Pay per action, no subscription",
     features: [
-      "Unlimited courses & projects",
-      "Unlimited participants",
       "Full on-chain service fees",
       "5% commission on rewards",
       "Community support",

@@ -11,7 +11,6 @@ import { EXTERNAL_LINKS } from "~/lib/external-links";
 const navItems = [
   { label: "Docs", href: EXTERNAL_LINKS.docs },
   { label: "API Reference", href: EXTERNAL_LINKS.apiReference },
-  { label: "Pricing", href: "/pricing" },
   { label: "Use Cases", href: "/use-cases" },
   { label: "Blog", href: "/blog" },
   { label: "About", href: "/about" },

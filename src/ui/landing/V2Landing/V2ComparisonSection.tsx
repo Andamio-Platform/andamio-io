@@ -14,8 +14,8 @@ const featureData: FeatureRow[] = [
     detail: "Credentials belong to the recipient. Portable across every app on the protocol.",
   },
   {
-    feature: "Cost",
-    detail: "Free tier to start. No per-user licensing. On-chain costs scale with usage.",
+    feature: "Accessibility",
+    detail: "No per-user licensing. Start building without upfront commitments.",
   },
   {
     feature: "Privacy",
@@ -53,7 +53,7 @@ export default function V2ComparisonSection() {
         </p>
         <h2 className="mb-16 text-center text-3xl font-bold text-foreground sm:text-4xl">
           What you get.{" "}
-          <span className="text-muted-foreground">What it costs.</span>
+          <span className="text-muted-foreground">Why it matters.</span>
         </h2>
 
         {/* Feature table */}
@@ -73,10 +73,6 @@ export default function V2ComparisonSection() {
             </tbody>
           </table>
         </div>
-
-        <p className="mt-3 text-xs italic text-muted-foreground">
-          *Approximate on-chain costs. Actual costs depend on transaction complexity and network conditions.
-        </p>
       </motion.div>
     </section>
   );

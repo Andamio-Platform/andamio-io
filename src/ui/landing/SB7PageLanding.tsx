@@ -33,14 +33,6 @@ export default function SB7PageLanding() {
           <RealWorldUseCases />
         )}
         <BuiltOnCardano />
-        {/* <JoinAndamio role={role} />
-        {role === "organization" ? (
-          <>
-            <Pricing />
-          </>
-        ) : (
-          <FAQ />
-        )} */}
         <FAQ />
       </VideoBackground>
     </>

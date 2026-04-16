@@ -13,7 +13,7 @@ const childVariants: Variants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] },
+    transition: { duration: 0.6, ease: "easeOut" },
   },
 };
 
@@ -33,38 +33,33 @@ export default function V2HeroSection() {
         >
           <motion.h1
             variants={childVariants}
-            className="font-display text-5xl font-extrabold leading-[1.08] tracking-[-0.025em] text-foreground sm:text-6xl md:text-7xl lg:text-8xl"
+            className="font-display text-5xl font-extrabold leading-[1.05] tracking-[-0.03em] text-foreground sm:text-6xl md:text-7xl lg:text-[7.5rem]"
           >
-            Credentials That
-            <br />
-            <span className="text-primary">Belong to You</span>
+            Credentials that belong to you.
           </motion.h1>
 
           <motion.p
             variants={childVariants}
-            className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground sm:text-xl"
+            className="mx-auto mt-8 max-w-xl text-lg text-muted-foreground sm:text-xl"
           >
             An open protocol for interoperable credentials.
           </motion.p>
 
           <motion.div
             variants={childVariants}
-            className="mt-8 flex flex-wrap justify-center gap-3"
+            className="mt-10 flex flex-wrap justify-center gap-3"
           >
             <a
               href={EXTERNAL_LINKS.docs}
-              className="inline-flex items-center rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-sm transition-all hover:bg-primary/90 hover:shadow-md"
+              className="inline-flex items-center rounded-md bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
             >
               Build on Andamio
-              <svg className="ml-1.5 h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
             </a>
             <a
               href={EXTERNAL_LINKS.app}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center rounded-md border border-border px-5 py-2.5 text-sm font-medium text-foreground transition-all hover:bg-muted hover:shadow-sm"
+              className="inline-flex items-center rounded-md border border-border px-6 py-3 text-sm font-medium text-foreground transition-colors hover:bg-muted"
             >
               Learn What Andamio Can Do
             </a>
@@ -72,18 +67,15 @@ export default function V2HeroSection() {
 
           <motion.div
             variants={childVariants}
-            className="mt-16 flex flex-wrap items-center justify-center gap-x-2 font-mono text-xs uppercase tracking-widest text-muted-foreground/40"
+            className="mt-20 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground"
           >
-            <span className="font-medium">Trusted by</span>
-            {trustPartners.map((partner, index) => (
-              <React.Fragment key={partner}>
-                {index > 0 && (
-                  <span className="select-none" aria-hidden="true">
-                    &middot;
-                  </span>
-                )}
-                <span>{partner}</span>
-              </React.Fragment>
+            <span className="text-xs uppercase tracking-[0.18em] text-muted-foreground/80">
+              Trusted by
+            </span>
+            {trustPartners.map((partner) => (
+              <span key={partner} className="font-medium text-foreground/70">
+                {partner}
+              </span>
             ))}
           </motion.div>
         </motion.div>

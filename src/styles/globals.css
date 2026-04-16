@@ -46,6 +46,7 @@
     --editor-green: hsl(140 65% 35%);
     --editor-orange: hsl(15 80% 55%);
     --editor-yellow: hsl(40 85% 45%);
+    --surface-subtle: oklch(0.97 0.004 106.423);
   }
 
   .dark {
@@ -88,6 +89,7 @@
     --editor-green: hsl(140 65% 40%);
     --editor-orange: hsl(15 70% 50%);
     --editor-yellow: hsl(40 80% 50%);
+    --surface-subtle: oklch(0.215 0.015 257.128);
   }
 }
 

@@ -1,7 +1,4 @@
-"use client";
-
 import React from "react";
-import { motion } from "framer-motion";
 
 interface FeatureRow {
   feature: string;
@@ -11,7 +8,8 @@ interface FeatureRow {
 const featureData: FeatureRow[] = [
   {
     feature: "Ownership",
-    detail: "Credentials belong to the recipient. Portable across every app on the protocol.",
+    detail:
+      "Credentials belong to the recipient. Portable across every app on the protocol.",
   },
   {
     feature: "Accessibility",
@@ -19,61 +17,55 @@ const featureData: FeatureRow[] = [
   },
   {
     feature: "Privacy",
-    detail: "Personal data stays off-chain. Only credential proofs are recorded.",
+    detail:
+      "Personal data stays off-chain. Only credential proofs are recorded.",
   },
   {
     feature: "Wallets",
-    detail: "Users don\u2019t need one. Organizations sponsor transactions. Blockchain is invisible.",
+    detail:
+      "Users don\u2019t need one. Organizations sponsor transactions. Blockchain is invisible.",
   },
   {
     feature: "Durability",
-    detail: "Credentials survive on Cardano mainnet regardless of any single platform. Open source.",
+    detail:
+      "Credentials survive on Cardano mainnet regardless of any single platform. Open source.",
   },
   {
     feature: "Integration",
-    detail: "REST API. Add credentials to your existing app without learning Cardano.",
+    detail:
+      "REST API. Add credentials to your existing app without learning Cardano.",
   },
 ];
 
 export default function V2ComparisonSection() {
   return (
-    <section className="relative py-20 sm:py-32 overflow-hidden">
-      {/* Section divider */}
-      <div className="absolute left-1/2 top-0 h-px w-4/5 -translate-x-1/2 bg-gradient-to-r from-transparent via-border to-transparent" />
-      <motion.div
-        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-      >
-        {/* Header */}
-        <p className="mb-6 text-center font-mono text-xs font-medium uppercase tracking-[0.2em] text-primary">
-          WHY ANDAMIO
-        </p>
-        <h2 className="mb-16 text-center text-3xl font-bold text-foreground sm:text-4xl">
-          What you get.{" "}
-          <span className="text-muted-foreground">Why it matters.</span>
-        </h2>
+    <section className="border-t border-border/60 bg-surface-subtle py-20 sm:py-28">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid gap-16 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.6fr)] lg:gap-24">
+          <div className="lg:sticky lg:top-28 lg:self-start">
+            <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+              What Andamio gives you.
+            </h2>
+            <p className="mt-6 text-base text-muted-foreground">
+              Six guarantees of the protocol — the same whether you build with
+              the API or work directly with the smart contracts.
+            </p>
+          </div>
 
-        {/* Feature table */}
-        <div className="overflow-hidden rounded-lg border border-border">
-          <table className="w-full text-sm">
-            <tbody>
-              {featureData.map((row) => (
-                <tr key={row.feature} className="border-t border-border first:border-t-0">
-                  <td className="px-6 py-4 font-medium text-foreground w-1/4">
-                    {row.feature}
-                  </td>
-                  <td className="px-6 py-4 text-muted-foreground">
-                    {row.detail}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <dl className="grid gap-x-10 gap-y-10 sm:grid-cols-2">
+            {featureData.map((row) => (
+              <div key={row.feature}>
+                <dt className="font-display text-base font-semibold text-foreground">
+                  {row.feature}
+                </dt>
+                <dd className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  {row.detail}
+                </dd>
+              </div>
+            ))}
+          </dl>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 }

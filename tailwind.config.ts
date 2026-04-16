@@ -85,6 +85,9 @@ const config = {
         "warning-foreground": "var(--warning-foreground)",
         success: "var(--success)",
         "success-foreground": "var(--success-foreground)",
+        surface: {
+          subtle: "var(--surface-subtle)",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

@@ -1,0 +1,29 @@
+{
+  "reviewer": "correctness",
+  "findings": [],
+  "residual_risks": [
+    {
+      "area": "V2CTAFooter — Next.js Link with external/mailto hrefs",
+      "detail": "The footer nav renders all links via <Link href={link.href}> regardless of whether href is an internal path, an https:// URL, a mailto:, etc. This is a pre-existing pattern, not introduced by this diff. In Next.js pages router this does not crash — Link passes external hrefs through as plain <a> tags — but it bypasses rel=\"noopener noreferrer\" on external targets. Pre-existing, not a regression from this refactor.",
+      "file": "/Users/james/projects/01-projects/landing-page-and-blog/src/ui/landing/V2Landing/V2CTAFooter.tsx",
+      "severity": "low"
+    },
+    {
+      "area": "V2PillarsSection / V2ComparisonSection — lg:sticky inside CSS Grid",
+      "detail": "Both sections use lg:sticky lg:top-28 lg:self-start on a grid child. lg:self-start correctly sets align-self: start, which is required for sticky to engage inside a grid. This is structurally correct. Risk: if the sibling column is shorter than the sticky column (unlikely given prose vs. list content), the sticky element will not scroll at all — but that is a content length concern, not a logic error.",
+      "file": "/Users/james/projects/01-projects/landing-page-and-blog/src/ui/landing/V2Landing/V2PillarsSection.tsx",
+      "severity": "low"
+    }
+  ],
+  "testing_gaps": [
+    {
+      "gap": "FAQ accordion — keyboard navigation",
+      "detail": "The toggle function and grid-rows animation are correct: setOpenIndex uses a functional updater that compares prev === index to toggle, and the grid-rows-[0fr]/grid-rows-[1fr] pattern with overflow-hidden correctly collapses/expands content. However, the button has no aria-expanded attribute, no aria-controls, and the answer region has no role='region' or id for association. These are accessibility gaps, not logic bugs, but worth noting since the accordion is the only interactive component in the diff.",
+      "file": "/Users/james/projects/01-projects/landing-page-and-blog/src/ui/landing/V2Landing/V2FAQSection.tsx"
+    },
+    {
+      "gap": "motion-variants.ts external consumers — not exercised by visual review",
+      "detail": "All three exports (fadeIn, staggerContainer, slideInRight) remain in motion-variants.ts — the file was not modified. Both src/pages/about/index.tsx and src/pages/use-cases/index.tsx import fadeIn and staggerContainer, which are still present. No regression. Build and typecheck already verified this, but a visual smoke test of /about and /use-cases pages post-deploy would confirm no runtime import error."
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "reviewer": "project-standards",
+  "run_id": "20260416-172313-f1240cb9",
+  "standards_read": [
+    "/Users/james/projects/01-projects/landing-page-and-blog/CLAUDE.md",
+    "/Users/james/projects/01-projects/.claude/CLAUDE.md",
+    "/Users/james/.claude/CLAUDE.md"
+  ],
+  "analysis_notes": "All three standards files were read in full. The project-level CLAUDE.md (landing-page-and-blog) contains only a project name declaration and a skill reference for seo-setup — no rules governing component structure, Tailwind usage, CSS custom properties, framer-motion, import organization, or presentational style. The workspace CLAUDE.md covers cross-repo patterns and common commands; it has no rules applicable to src/ui/landing/ presentational changes. The global CLAUDE.md defines git workflow (PRs only, no direct push to main), scope containment, and destructive operation guards. The branch is refactor/de-slop-v2-landing, which is a feature branch — consistent with the PR-only workflow. The docs/plans/ artifact is protected per task instructions and no standards file contradicts this. No rules in any standards file apply to: CSS variable naming, Tailwind class choices, removal of framer-motion, use-client directive usage, or component layout restructuring. Zero findings meet the evidence threshold (specific rule + specific diff line).",
+  "findings": [],
+  "residual_risks": [],
+  "testing_gaps": []
+}

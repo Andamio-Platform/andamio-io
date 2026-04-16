@@ -1,0 +1,16 @@
+{
+  "run_id": "20260416-172313-f1240cb9",
+  "reviewer": "agent-native",
+  "verdict": "PASS",
+  "score": "N/A — no agent integration exists or is warranted",
+  "summary": "This is a purely static marketing landing page (Next.js). The diff is a presentational refactor: removal of framer-motion scroll animations, replacement of decorative icon SVGs with numbered list items, CSS variable additions, and Tailwind config extension. No forms, no auth, no stateful user features were added or removed. User 'actions' are limited to clicking external href links (docs, GitHub, app, Discord, email) and a single client-side FAQ accordion toggle. No LLM integration, no tool definitions, and no agent system prompts exist anywhere in the repository. Agent-native concerns do not apply to this surface.",
+  "findings": [],
+  "capability_map": [],
+  "what_is_working_well": [
+    "The refactor correctly removes 'use client' directives from components that no longer need client-side JS, reducing bundle size.",
+    "External links are centralized in EXTERNAL_LINKS constants, making them easy to reference from any context including future agent tooling if the site ever gains interactive features.",
+    "The FAQ accordion (V2FAQSection) correctly retains 'use client' since it has genuine client-side state."
+  ],
+  "confidence": 0.97,
+  "notes": "No agent-native gaps to report. The scope matches the stated intent exactly."
+}

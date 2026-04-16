@@ -1,0 +1,101 @@
+{
+  "reviewer": "maintainability",
+  "findings": [
+    {
+      "id": "MAINT-001",
+      "title": "Hard-coded dark background color duplicated across two components",
+      "category": "dead_code_or_tokenization_smell",
+      "confidence": 0.88,
+      "severity": "medium",
+      "files": [
+        "src/ui/landing/V2Landing/V2CodeSection.tsx",
+        "src/ui/landing/V2Landing/V2CTAFooter.tsx"
+      ],
+      "description": "The color `#0d1117` (GitHub-dark) appears three times: as the section background in V2CodeSection.tsx:6 and V2CTAFooter.tsx:31, and again as the terminal-header background in V2CodeSection.tsx:29. These two sections share a deliberate design intent — a contiguous dark band — but the color is encoded as an arbitrary hex literal in each file independently. If the dark band color changes, it requires locating and updating three separate Tailwind arbitrary-value classes instead of changing one token. The pattern is especially fragile because V2CTAFooter also houses the site footer, so that section is likely to be styled independently by a future author who won't realize the hex must match V2CodeSection.",
+      "recommendation": "Add a `--surface-dark` CSS variable (or name it `--surface-code` / `--surface-inverse`) alongside the existing `--surface-subtle` in globals.css, register it in tailwind.config.ts as `surface.dark`, and replace all three `bg-[#0d1117]` references. This mirrors the pattern already established for `--surface-subtle` in this same refactor."
+    },
+    {
+      "id": "MAINT-002",
+      "title": "Three-section wrapper class duplicated verbatim without abstraction",
+      "category": "duplication_without_extraction",
+      "confidence": 0.82,
+      "severity": "low",
+      "files": [
+        "src/ui/landing/V2Landing/V2PillarsSection.tsx",
+        "src/ui/landing/V2Landing/V2ComparisonSection.tsx",
+        "src/ui/landing/V2Landing/V2StatusSection.tsx"
+      ],
+      "description": "The class string `border-t border-border/60 bg-surface-subtle` appears identically on the outermost `<section>` of V2PillarsSection, V2ComparisonSection, and V2StatusSection. This is the visual rhythm device that alternates surface tone across the page. As a raw className string it is invisible to the next author — they have no way to know these three sections are intentionally a group, and editing one may break the pattern silently. This is lower severity than MAINT-001 because all three files live in the same directory, making grep easy, but it still has no canonical home.",
+      "recommendation": "Options in ascending commitment level: (a) Define a string constant `SECTION_SUBTLE = 'border-t border-border/60 bg-surface-subtle'` in a local `section-styles.ts` file and import it in each; (b) build a thin `<SubtleSectionWrapper>` component in the same directory; or (c) leave as-is and accept the grep cost. Option (a) adds one file but makes the three-section group explicit and searchable."
+    },
+    {
+      "id": "MAINT-003",
+      "title": "Primary CTA button style duplicated five times across four components",
+      "category": "duplication_without_extraction",
+      "confidence": 0.80,
+      "severity": "low",
+      "files": [
+        "src/ui/landing/V2Landing/V2HeroSection.tsx",
+        "src/ui/landing/V2Landing/V2StatusSection.tsx",
+        "src/ui/landing/V2Landing/V2CTAFooter.tsx",
+        "src/ui/landing/V2Landing/V2Navigation.tsx"
+      ],
+      "description": "The primary button style appears in five places. Four are identical: `inline-flex items-center rounded-md bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90`. V2StatusSection and V2Navigation use a slightly different size (`px-5 py-2.5` and `px-4 py-2`). The refactor cleaned up text-arrows and hover-shadow inconsistencies but left the structural duplication. Each section independently assembles the same multi-class string. When a design decision changes (e.g., border radius, font weight, padding scale) it requires updating five files.",
+      "recommendation": "This codebase already has a `src/components/ui/` directory with shadcn-style components. A `<Button variant='primary'>` likely exists or could be adapted. Landing page CTA buttons should consume it rather than assembling ad-hoc Tailwind strings."
+    },
+    {
+      "id": "MAINT-004",
+      "title": "CSS keyframes slideInLeft and slideInRight in globals.css have zero TSX consumers",
+      "category": "dead_code",
+      "confidence": 0.95,
+      "severity": "medium",
+      "files": [
+        "src/styles/globals.css"
+      ],
+      "description": "globals.css defines `@keyframes slideInLeft` (line 97) and `@keyframes slideInRight` (line 108) with a comment 'Custom animations for trust pillars'. Neither keyframe is referenced by any Tailwind animation name, any `animate-[...]` arbitrary value, or any CSS rule in any .tsx file in the codebase. The trust-pillar section was converted to Framer Motion in a previous phase and these CSS keyframes were never cleaned up. They are dead code. They also define a `@keyframes throb` (line 119) with no consumers.",
+      "recommendation": "Delete the `@keyframes slideInLeft`, `@keyframes slideInRight`, and `@keyframes throb` blocks from globals.css, along with the 'Custom animations for trust pillars' comment. The `@keyframes slideIn` and `@keyframes slideOut` blocks at lines 190+ are live (consumed by `.CollapsibleContent`) and must be retained."
+    },
+    {
+      "id": "MAINT-005",
+      "title": "Tailwind animation config entries `glow` and `pulse-slow` have no consumers in V2Landing",
+      "category": "dead_code",
+      "confidence": 0.72,
+      "severity": "low",
+      "files": [
+        "tailwind.config.ts"
+      ],
+      "description": "tailwind.config.ts registers `animate-glow` and `animate-pulse-slow` in the animation map. Grep finds no `animate-glow` or `animate-pulse-slow` usage in any .tsx file anywhere in the repo. The keyframes exist only in tailwind.config.ts. These were likely added in an earlier design iteration and never removed. Confidence is 0.72 rather than higher because Tailwind's JIT scanner could theoretically pull these from a non-tsx source (e.g., a CSS file or dynamic class construction), but no such pattern was found.",
+      "recommendation": "Audit with a full-text search for `animate-glow` and `animate-pulse-slow` across all content paths. If truly unused, remove the keyframe and animation entries from tailwind.config.ts."
+    },
+    {
+      "id": "MAINT-006",
+      "title": "motion-variants.ts: `fadeIn` export is still live but its location in V2Landing/ is misleading",
+      "category": "naming_that_obscures_intent",
+      "confidence": 0.65,
+      "severity": "low",
+      "files": [
+        "src/ui/landing/V2Landing/motion-variants.ts",
+        "src/pages/about/index.tsx",
+        "src/pages/use-cases/index.tsx"
+      ],
+      "description": "`fadeIn` and `staggerContainer` are imported by `src/pages/about/index.tsx` and `src/pages/use-cases/index.tsx` — page-level files that are entirely outside the V2Landing component tree. The module's physical location (`src/ui/landing/V2Landing/motion-variants.ts`) implies it is private to V2Landing, but it is effectively a shared utility consumed by at least three separate locations. The refactor correctly verified that `fadeIn` is still live (so this is not dead code), but the colocation is misleading: a developer working on the about page must know to import from a landing-page subcomponent directory.",
+      "recommendation": "Move `motion-variants.ts` to `src/lib/motion-variants.ts` or `src/ui/shared/motion-variants.ts` and update the three import paths. This is a low-risk mechanical move that makes the cross-cutting usage discoverable."
+    }
+  ],
+  "residual_risks": [
+    {
+      "id": "RR-001",
+      "description": "V2ArchitectureSection defines a `surface` field on its `StackLayer` interface and sets values like `'bg-surface-subtle'` and `'bg-primary/10'` as raw strings. These are applied via template literal className concatenation. If the design token name changes, this interface field will not be caught by TypeScript — it is typed as `string`, not a union of valid Tailwind classes. The refactor introduced this pattern; it is not a regression from before, but it is a static-analysis gap."
+    },
+    {
+      "id": "RR-002",
+      "description": "V2Navigation still uses `transition-all hover:shadow-md` on the 'Get Started' CTA button (line 87), which was listed as a slop pattern being removed. All other section CTAs now use `transition-colors`. The nav button retains the old pattern — possibly intentional for the nav context, but worth confirming the inconsistency is deliberate."
+    }
+  ],
+  "testing_gaps": [
+    {
+      "id": "TG-001",
+      "description": "The `--surface-subtle` CSS variable is defined in both the light `:root` block and the dark `.dark` block, but V2CodeSection and V2CTAFooter use the hard-coded `#0d1117` which has no dark-mode counterpart. If a future developer adds a light theme variant of the dark band they will have to discover the hard-coded value by inspecting rendered output, not by reading the token map."
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "reviewer": "kieran-typescript",
+  "findings": [
+    {
+      "id": "KT-001",
+      "file": "src/ui/landing/V2Landing/V2CTAFooter.tsx",
+      "line_range": [90, 99],
+      "severity": "low",
+      "confidence": 0.65,
+      "category": "type-safety",
+      "title": "Next.js Link receiving external mailto: and https:// hrefs",
+      "description": "footerLinks contains entries with href values of 'mailto:hello@andamio.io', 'https://app.andamio.io/privacy-policy', and 'https://app.andamio.io/terms'. These are all passed directly to Next.js Link. Next.js Link accepts external hrefs but delegates to client-side router first; for mailto: and external https: URLs a plain <a> is the correct primitive. TypeScript does not catch this because Link accepts string. The behavior is currently benign in a pages-router context but is semantically wrong — 'mailto:' especially can trigger unexpected routing behavior depending on the Next.js version.",
+      "suggestion": "In the footer links iteration, render <a> for hrefs that start with 'http' or 'mailto:' and Link only for internal paths. The same pattern is already applied correctly in V2Navigation."
+    },
+    {
+      "id": "KT-002",
+      "file": "src/ui/landing/V2Landing/V2FAQSection.tsx",
+      "line_range": [68, 69],
+      "severity": "low",
+      "confidence": 0.62,
+      "category": "clarity",
+      "title": "Array index used as React key when a stable string key is available",
+      "description": "faqItems.map((item, index) => <div key={index} ...>). The faqItems array is a module-level constant and will never reorder at runtime, so this causes no bug today. However using item.question as the key is both more idiomatic and makes the intent explicit: each accordion item is identified by its question, not its position.",
+      "suggestion": "Change key={index} to key={item.question}."
+    }
+  ],
+  "residual_risks": [
+    {
+      "area": "motion-variants.ts — fadeIn export is now dead code",
+      "detail": "After this refactor, fadeIn() is exported from motion-variants.ts but no component in V2Landing/ imports it anymore (V2FAQSection, V2StatusSection, and all the newly-static components dropped it). The export itself is harmless and the module is tiny, but if a future author copies the import pattern from git history they will add an animation that was intentionally removed. Low risk given how small the file is.",
+      "severity": "low"
+    },
+    {
+      "area": "V2ArchitectureSection — StackLayer.surface typed as string, not a Tailwind class union",
+      "detail": "The surface field on StackLayer holds Tailwind class strings ('bg-card', 'bg-primary/10', 'bg-surface-subtle') and is interpolated directly into className. This is the standard pattern for static data in this codebase and the build validates the classes, so there is no runtime risk. Mentioned because if a future author adds a surface value with a typo, nothing will catch it before visual inspection.",
+      "severity": "low"
+    }
+  ],
+  "testing_gaps": [
+    {
+      "area": "V2FAQSection accordion toggle",
+      "detail": "The accordion relies on grid-rows-[0fr]/grid-rows-[1fr] CSS for open/close animation. There are no tests covering the toggle interaction (open → close → open) or the edge case where the same item is clicked twice. Not introduced by this diff — it was already untested — but the refactor removed the framer-motion AnimatePresence wrapper that was previously handling exit, making the pure-CSS approach the only safety net."
+    }
+  ]
+}

@@ -87,6 +87,8 @@ const config = {
         "success-foreground": "var(--success-foreground)",
         surface: {
           subtle: "var(--surface-subtle)",
+          dark: "var(--surface-dark)",
+          "dark-elevated": "var(--surface-dark-elevated)",
         },
       },
       borderRadius: {

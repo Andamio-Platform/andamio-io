@@ -66,7 +66,7 @@ export default function V2FAQSection() {
 
         <div className="border-t border-border">
           {faqItems.map((item, index) => (
-            <div key={index} className="border-b border-border">
+            <div key={item.question} className="border-b border-border">
               <button
                 onClick={() => toggle(index)}
                 className="flex w-full items-center justify-between gap-4 py-5 text-left text-base font-medium text-foreground transition-colors hover:text-primary"

@@ -28,7 +28,7 @@ const footerLinks = {
 
 export default function V2CTAFooter() {
   return (
-    <section className="bg-[#0d1117]">
+    <section className="bg-surface-dark">
       <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
         <div className="grid gap-6 md:grid-cols-2 lg:gap-8">
           <div className="rounded-xl border border-white/10 bg-white/[0.04] p-8 sm:p-10">
@@ -88,16 +88,33 @@ export default function V2CTAFooter() {
                   {key}
                 </h3>
                 <ul className="space-y-2.5">
-                  {links.map((link) => (
-                    <li key={link.name}>
-                      <Link
-                        href={link.href}
-                        className="text-sm text-white/70 transition-colors hover:text-white"
-                      >
-                        {link.name}
-                      </Link>
-                    </li>
-                  ))}
+                  {links.map((link) => {
+                    const isExternal =
+                      link.href.startsWith("http") ||
+                      link.href.startsWith("mailto:");
+                    return (
+                      <li key={link.name}>
+                        {isExternal ? (
+                          <a
+                            href={link.href}
+                            {...(link.href.startsWith("http")
+                              ? { target: "_blank", rel: "noopener noreferrer" }
+                              : {})}
+                            className="text-sm text-white/70 transition-colors hover:text-white"
+                          >
+                            {link.name}
+                          </a>
+                        ) : (
+                          <Link
+                            href={link.href}
+                            className="text-sm text-white/70 transition-colors hover:text-white"
+                          >
+                            {link.name}
+                          </Link>
+                        )}
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             ))}

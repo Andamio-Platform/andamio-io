@@ -3,7 +3,7 @@ import { EXTERNAL_LINKS } from "~/lib/external-links";
 
 export default function V2CodeSection() {
   return (
-    <section className="bg-[#0d1117] py-24 sm:py-32">
+    <section className="bg-surface-dark py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <div>
@@ -25,8 +25,8 @@ export default function V2CodeSection() {
 
           <div className="relative">
             <div className="absolute -inset-1 rounded-lg bg-gradient-to-br from-primary/20 to-secondary/10 opacity-50 blur-xl" />
-            <div className="relative overflow-hidden rounded-lg border border-white/10 bg-[#161b22]">
-              <div className="flex items-center gap-2 border-b border-white/10 bg-[#0d1117] px-4 py-3">
+            <div className="relative overflow-hidden rounded-lg border border-white/10 bg-surface-dark-elevated">
+              <div className="flex items-center gap-2 border-b border-white/10 bg-surface-dark px-4 py-3">
                 <span className="font-mono text-xs text-gray-500">
                   api.andamio.io
                 </span>

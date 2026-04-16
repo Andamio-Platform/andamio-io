@@ -47,6 +47,8 @@
     --editor-orange: hsl(15 80% 55%);
     --editor-yellow: hsl(40 85% 45%);
     --surface-subtle: oklch(0.97 0.004 106.423);
+    --surface-dark: #0d1117;
+    --surface-dark-elevated: #161b22;
   }
 
   .dark {
@@ -90,40 +92,8 @@
     --editor-orange: hsl(15 70% 50%);
     --editor-yellow: hsl(40 80% 50%);
     --surface-subtle: oklch(0.215 0.015 257.128);
-  }
-}
-
-/* Custom animations for trust pillars */
-@keyframes slideInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-100px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes slideInRight {
-  from {
-    opacity: 0;
-    transform: translateX(100px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes throb {
-  0%, 100% { 
-    opacity: 0.6;
-    transform: scale(1);
-  }
-  50% { 
-    opacity: 1;
-    transform: scale(1.1);
+    --surface-dark: #0d1117;
+    --surface-dark-elevated: #161b22;
   }
 }
 

@@ -49,8 +49,8 @@ export default function V2ArchitectureSection() {
             </h2>
             <p className="mt-6 max-w-lg text-lg text-muted-foreground">
               Andamio does not replace your LMS or your certification platform.
-              It adds a verifiable, composable credential layer that your current
-              stack calls via REST API.
+              It adds a composable credential layer, anchored on Cardano, that
+              your current stack calls via REST API.
             </p>
             <p className="mt-6 max-w-lg text-base text-muted-foreground">
               Smart contracts audited by TxPipe. Live on Cardano mainnet since

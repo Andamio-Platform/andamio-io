@@ -49,7 +49,7 @@ export default function V2HeroSection() {
               variants={childVariants}
               className="mt-6 font-display text-4xl font-extrabold leading-[1.05] tracking-[-0.02em] text-foreground sm:text-5xl lg:text-6xl xl:text-[4.5rem]"
             >
-              Verifiable credentials your customers can check{" "}
+              Credentials your customers can check{" "}
               <span className="text-primary">without calling you.</span>
             </motion.h1>
 
@@ -58,9 +58,9 @@ export default function V2HeroSection() {
               className="mt-8 max-w-xl text-lg text-muted-foreground sm:text-xl"
             >
               Credential programs today are dead ends — issued once, owned by
-              the platform, forgotten. Andamio makes every credential
-              independently verifiable, portable, and programmable, on
-              infrastructure you already trust.
+              the platform, forgotten. Andamio anchors every credential on
+              Cardano so anyone can check it — portable, programmable, and
+              yours to keep.
             </motion.p>
 
             <motion.div
@@ -123,7 +123,7 @@ export default function V2HeroSection() {
                       Valid
                     </p>
                     <p className="text-sm text-muted-foreground">
-                      Verified on-chain — no issuer lookup
+                      Confirmed on-chain — no issuer lookup
                     </p>
                   </div>
                 </div>

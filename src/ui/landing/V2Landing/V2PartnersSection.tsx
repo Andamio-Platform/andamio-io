@@ -14,7 +14,7 @@ const useCases: UseCase[] = [
     buyerTitle: "VP of Certification, Head of Credentialing",
     problem:
       "Credentials sit inside Credly or Accredible. Compliance asks about fraud-proof records. A competitor body can't verify your credentials without a phone call.",
-    fit: "Issue verifiable credentials alongside your current platform. Fraud-resistant records your compliance team can point to. Portable across the network without data-sharing agreements.",
+    fit: "Issue credentials anchored on Cardano alongside your current platform. Fraud-resistant records your compliance team can point to. Portable across the network without data-sharing agreements.",
   },
   {
     segment: "Partner & channel certification programs",

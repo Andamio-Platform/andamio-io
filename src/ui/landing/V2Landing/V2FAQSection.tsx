@@ -11,7 +11,7 @@ const faqItems: FAQItem[] = [
   {
     question: "How is this different from Credly or Accredible?",
     answer:
-      "Credly and Accredible store credentials in their databases. If they change pricing, get acquired, or change terms, your credentials are subject to that. Andamio credentials live on Cardano mainnet — verifiable forever, by anyone, with or without us. And we're the only protocol where a credential from Org A can gate access to Org B's program without the two orgs ever integrating.",
+      "Credly and Accredible store credentials in their databases. If they change pricing, get acquired, or change terms, your credentials are subject to that. Andamio credentials live on Cardano mainnet — verifiable forever, by anyone, with or without us. And on Andamio, a credential from Org A can gate access to Org B's program without the two orgs ever integrating.",
   },
   {
     question: "Do we have to migrate off our current platform?",

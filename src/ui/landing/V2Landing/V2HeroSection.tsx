@@ -32,7 +32,7 @@ export default function V2HeroSection() {
             variants={childVariants}
             className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground"
           >
-            Credential infrastructure for certification bodies, partner programs, and corporate training
+            For organizations that issue credentials
           </motion.p>
 
           <motion.h1

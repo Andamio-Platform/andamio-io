@@ -37,7 +37,7 @@ export default function V2CompositionSection() {
         <div className="grid gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)] lg:gap-20">
           <div className="lg:sticky lg:top-28 lg:self-start">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">
-              The one thing no one else can do
+              How credentials compose
             </p>
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
               Credentials that compose.
@@ -45,9 +45,10 @@ export default function V2CompositionSection() {
               Across issuers who never met.
             </h2>
             <p className="mt-6 max-w-lg text-lg text-muted-foreground">
-              Credly, Accredible, and Canvas can issue badges. None of them can
-              enforce a prerequisite from a credential they didn&rsquo;t issue.
-              That&rsquo;s the category line.
+              A credential you issue can be a prerequisite for a program you
+              don&rsquo;t run. A credential your learners hold from another
+              issuer can unlock access inside yours. No data-sharing
+              agreement, no API handshake.
             </p>
           </div>
 

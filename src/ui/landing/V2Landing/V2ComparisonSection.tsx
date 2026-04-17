@@ -48,11 +48,11 @@ export default function V2ComparisonSection() {
               What you actually get
             </p>
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-              Six things Credly and Accredible can&rsquo;t match.
+              Six differences from Credly and Accredible.
             </h2>
             <p className="mt-6 text-base text-muted-foreground">
-              Guarantees of the protocol itself \u2014 the same whether your team
-              calls our API or works directly with the smart contracts.
+              Guarantees of the protocol itself — the same whether your team
+              calls the API or works directly with the smart contracts.
             </p>
           </div>
 

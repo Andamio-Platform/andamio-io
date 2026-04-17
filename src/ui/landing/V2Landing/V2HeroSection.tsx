@@ -58,9 +58,9 @@ export default function V2HeroSection() {
               className="mt-8 max-w-xl text-lg text-muted-foreground sm:text-xl"
             >
               Credential programs today are dead ends — issued once, owned by
-              the platform, forgotten. Andamio anchors every credential on
-              Cardano so anyone can check it — portable, programmable, and
-              yours to keep.
+              the platform, forgotten. Andamio makes every credential
+              tamper-resistant, portable, and programmable — anyone can check
+              it, any time, on infrastructure you already trust.
             </motion.p>
 
             <motion.div

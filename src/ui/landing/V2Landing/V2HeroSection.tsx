@@ -55,16 +55,9 @@ export default function V2HeroSection() {
             initial="hidden"
             animate="visible"
           >
-            <motion.p
-              variants={childVariants}
-              className="text-xs font-semibold uppercase tracking-[0.22em] text-primary"
-            >
-              A new category of credential
-            </motion.p>
-
             <motion.h1
               variants={childVariants}
-              className="mt-6 font-display text-5xl font-extrabold leading-[0.98] tracking-[-0.03em] text-foreground sm:text-6xl md:text-7xl lg:text-[6.25rem]"
+              className="font-display text-5xl font-extrabold leading-[0.98] tracking-[-0.03em] text-foreground sm:text-6xl md:text-7xl lg:text-[6.25rem]"
             >
               Composable
               <br />
@@ -75,16 +68,8 @@ export default function V2HeroSection() {
               variants={childVariants}
               className="mt-8 max-w-xl text-lg text-muted-foreground sm:text-xl"
             >
-              The end of dead-end credentials. Andamio is building the
-              infrastructure for credentials that compose — across issuers,
-              programs, and time.
-            </motion.p>
-
-            <motion.p
-              variants={childVariants}
-              className="mt-4 max-w-xl text-lg font-medium text-foreground sm:text-xl"
-            >
-              Your credentials. Your credential graph.
+              Credentials that plug into any program, not just the one that
+              issued them. Built on The Credential Graph.
             </motion.p>
 
             <motion.div
@@ -98,10 +83,10 @@ export default function V2HeroSection() {
                 Book a 20-minute walkthrough
               </a>
               <a
-                href="#manifesto"
+                href="#graph"
                 className="inline-flex items-center rounded-md border border-border px-6 py-3 text-sm font-medium text-foreground transition-colors hover:bg-muted"
               >
-                Read the manifesto
+                See how the graph works
               </a>
             </motion.div>
 

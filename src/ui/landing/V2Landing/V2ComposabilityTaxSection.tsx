@@ -44,11 +44,11 @@ export default function V2ComposabilityTaxSection() {
               The cost of dead-end credentials
             </p>
             <h2 className="mt-4 font-display text-4xl font-extrabold leading-[1.05] tracking-[-0.02em] text-foreground sm:text-5xl lg:text-6xl">
-              You&rsquo;re already paying the Composability Tax.
+              You&rsquo;re already paying the Dead-End Tax.
             </h2>
             <p className="mt-6 max-w-md text-lg text-muted-foreground sm:text-xl">
               Every organization issuing credentials today pays the
-              Composability Tax. It doesn&rsquo;t show up as a line item —
+              Dead-End Tax. It doesn&rsquo;t show up as a line item —
               which is why it keeps getting paid.
             </p>
             <p className="mt-4 max-w-md text-base text-muted-foreground">

@@ -52,10 +52,10 @@ export default function V2CTAFooter() {
             Book a 20-minute walkthrough
           </a>
           <a
-            href="#manifesto"
+            href="#graph"
             className="inline-flex items-center rounded-md border border-white/20 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-white/10"
           >
-            Read the manifesto
+            See how the graph works
           </a>
         </div>
       </div>

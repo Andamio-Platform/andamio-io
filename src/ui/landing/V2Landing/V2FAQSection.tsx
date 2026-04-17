@@ -70,15 +70,12 @@ export default function V2FAQSection() {
   return (
     <section className="border-t border-border/60 py-24 sm:py-32">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
-          The dictionary
-        </p>
-        <h2 className="mt-4 font-display text-4xl font-extrabold leading-[1.05] tracking-[-0.02em] text-foreground sm:text-5xl">
-          New category, new vocabulary.
+        <h2 className="font-display text-4xl font-extrabold leading-[1.05] tracking-[-0.02em] text-foreground sm:text-5xl">
+          Questions we get asked.
         </h2>
         <p className="mt-6 mb-12 text-lg text-muted-foreground sm:text-xl">
-          What a composable credential is, what the graph is, and how this
-          actually gets implemented.
+          What composable means, what the graph is, and how this actually
+          gets implemented.
         </p>
 
         <div className="border-t border-border">

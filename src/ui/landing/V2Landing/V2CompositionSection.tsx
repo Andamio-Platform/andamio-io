@@ -49,8 +49,8 @@ export default function V2CompositionSection() {
               agreement. No API handshake.
             </p>
             <p className="mt-4 max-w-lg text-base text-muted-foreground">
-              Every credential composes with every other. That&rsquo;s the
-              graph. That&rsquo;s the category.
+              Every credential composes with every other. No gatekeeper, no
+              platform walls, no dead ends.
             </p>
           </div>
 

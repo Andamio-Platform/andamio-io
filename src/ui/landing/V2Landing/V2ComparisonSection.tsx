@@ -52,7 +52,7 @@ export default function V2ComparisonSection() {
           </h2>
           <p className="mt-6 text-lg text-muted-foreground sm:text-xl">
             Six places the difference shows up. The same credential. Two
-            different categories.
+            very different futures for the people who hold it.
           </p>
         </div>
 

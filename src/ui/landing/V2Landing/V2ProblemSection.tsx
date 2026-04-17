@@ -8,39 +8,39 @@ interface Pain {
 
 const pains: Pain[] = [
   {
-    headline: "Platform lock-in.",
+    headline: "Locked to a platform.",
     buyerQuote: "\u201cWhat happens if Credly changes their pricing?\u201d",
     translation:
-      "Microsoft spent eighteen months migrating off Credly. Your credentials live in someone else's database — until they don't.",
+      "Your credentials live in someone else's database. When that platform changes terms, gets acquired, or disappears, your credentials go with it.",
   },
   {
-    headline: "Cross-vendor verification is manual.",
+    headline: "Unusable across issuers.",
     buyerQuote: "\u201cWe need to verify credentials from multiple vendors.\u201d",
     translation:
-      "When a learner holds badges from three issuers, nothing composes. Each one is a dead end verified by phone, PDF, or trust.",
+      "A learner holds a credential from you and two other issuers. Nothing composes. Each one is a dead end verified by phone, PDF, or trust.",
   },
   {
-    headline: "A badge isn\u2019t proof of anything.",
+    headline: "Proof of nothing.",
     buyerQuote: "\u201cOur badges don\u2019t mean anything anymore.\u201d",
     translation:
-      "Attendance is not assessment. Without enforced prerequisites, a badge is a JPEG that says someone showed up.",
+      "Without enforced prerequisites, a credential is a JPEG that says someone showed up. It doesn\u2019t unlock anything else.",
   },
 ];
 
 export default function V2ProblemSection() {
   return (
-    <section className="border-t border-border/60 bg-surface-subtle py-20 sm:py-28">
+    <section className="border-t border-border/60 bg-background py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-            The state of credentialing
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+            The old world
           </p>
-          <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-            What a badge actually does today: almost nothing.
+          <h2 className="mt-4 font-display text-4xl font-extrabold leading-[1.05] tracking-[-0.02em] text-foreground sm:text-5xl lg:text-6xl">
+            This is a dead-end credential.
           </h2>
-          <p className="mt-6 text-lg text-muted-foreground">
-            Every team we talk to names the same three pains. None of them are
-            solved by issuing a prettier PNG.
+          <p className="mt-6 text-lg text-muted-foreground sm:text-xl">
+            It was issued once. It was put on LinkedIn. It never did anything
+            again. Three things make a credential a dead end today.
           </p>
         </div>
 

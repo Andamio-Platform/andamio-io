@@ -38,11 +38,11 @@ export default function V2PartnersSection() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-2xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-              Who we&rsquo;re built for
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary">
+              Who&rsquo;s joining the graph first
             </p>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-              If you already issue credentials, we make them portable, composable, and fraud-resistant.
+            <h2 className="mt-4 font-display text-4xl font-extrabold leading-[1.05] tracking-[-0.02em] text-foreground sm:text-5xl">
+              The first issuers on the credential graph.
             </h2>
           </div>
           <Link

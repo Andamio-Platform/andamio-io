@@ -1,69 +1,85 @@
 import React from "react";
 
-interface FeatureRow {
-  feature: string;
-  detail: string;
+interface ContrastRow {
+  dimension: string;
+  deadEnd: string;
+  composable: string;
 }
 
-const featureData: FeatureRow[] = [
+const contrastData: ContrastRow[] = [
   {
-    feature: "No platform lock-in",
-    detail:
-      "Credentials survive any vendor change. They exist on Cardano mainnet, not in our database — or anyone else\u2019s.",
+    dimension: "Ownership",
+    deadEnd: "Stored in the issuing platform\u2019s database.",
+    composable: "Anchored publicly. Outlives any platform.",
   },
   {
-    feature: "Cross-issuer composability",
-    detail:
-      "A credential from Org A can gate access to Org B\u2019s program without API integrations or trust agreements. No competitor can do this.",
+    dimension: "Verification",
+    deadEnd: "A phone call, an email, or a proprietary API.",
+    composable: "Anyone can check. No call to the issuer.",
   },
   {
-    feature: "Fraud-resistant by construction",
-    detail:
-      "On-chain records your compliance team can audit. Tamper-proof. No \u201cwe\u2019ll email a verification letter\u201d workflow.",
+    dimension: "Prerequisites",
+    deadEnd: "Manually enforced, usually via spreadsheet.",
+    composable: "Enforced by the protocol. Across issuers.",
   },
   {
-    feature: "Coexists with your stack",
-    detail:
-      "Runs alongside your LMS, CRM, or current certification platform. Add it, don\u2019t migrate. REST API only.",
+    dimension: "Cross-issuer use",
+    deadEnd: "Not possible without a bespoke integration.",
+    composable: "Default. No data-sharing agreement required.",
   },
   {
-    feature: "No crypto wallets for your users",
-    detail:
-      "Your organization sponsors transactions. Earners sign up with email. The blockchain stays invisible.",
+    dimension: "Fraud resistance",
+    deadEnd: "As strong as the database password.",
+    composable: "As strong as the underlying cryptography.",
   },
   {
-    feature: "Per-credential pricing",
-    detail:
-      "Flat cost per credential issued. No per-seat licensing. No catalog hostage-taking.",
+    dimension: "User experience",
+    deadEnd: "Earner needs an account on each platform.",
+    composable: "Earner signs up with email. No crypto wallets.",
   },
 ];
 
 export default function V2ComparisonSection() {
   return (
-    <section className="border-t border-border/60 bg-surface-subtle py-20 sm:py-28">
+    <section className="border-t border-border/60 bg-background py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-16 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.6fr)] lg:gap-24">
-          <div className="lg:sticky lg:top-28 lg:self-start">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-              What you actually get
-            </p>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-              Six differences from Credly and Accredible.
-            </h2>
-            <p className="mt-6 text-base text-muted-foreground">
-              Guarantees of the protocol itself — the same whether your team
-              calls the API or works directly with the smart contracts.
-            </p>
-          </div>
+        <div className="max-w-3xl">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+            The side-by-side
+          </p>
+          <h2 className="mt-4 font-display text-4xl font-extrabold leading-[1.05] tracking-[-0.02em] text-foreground sm:text-5xl">
+            Dead-end versus composable.
+          </h2>
+          <p className="mt-6 text-lg text-muted-foreground sm:text-xl">
+            Six places the difference shows up. The same credential. Two
+            different categories.
+          </p>
+        </div>
 
-          <dl className="grid gap-x-10 gap-y-10 sm:grid-cols-2">
-            {featureData.map((row) => (
-              <div key={row.feature}>
-                <dt className="font-display text-base font-semibold text-foreground">
-                  {row.feature}
+        <div className="mt-16 overflow-hidden rounded-xl border border-border">
+          <div className="grid grid-cols-[minmax(0,0.7fr)_minmax(0,1fr)_minmax(0,1fr)] border-b border-border bg-surface-subtle text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+            <div className="px-5 py-4 sm:px-6">Dimension</div>
+            <div className="border-l border-border px-5 py-4 sm:px-6">
+              Dead-end credential
+            </div>
+            <div className="border-l border-border bg-primary/5 px-5 py-4 text-primary sm:px-6">
+              Composable credential
+            </div>
+          </div>
+          <dl className="divide-y divide-border">
+            {contrastData.map((row) => (
+              <div
+                key={row.dimension}
+                className="grid grid-cols-[minmax(0,0.7fr)_minmax(0,1fr)_minmax(0,1fr)]"
+              >
+                <dt className="px-5 py-5 font-display text-sm font-semibold text-foreground sm:px-6 sm:text-base">
+                  {row.dimension}
                 </dt>
-                <dd className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {row.detail}
+                <dd className="border-l border-border px-5 py-5 text-sm leading-relaxed text-muted-foreground sm:px-6">
+                  {row.deadEnd}
+                </dd>
+                <dd className="border-l border-border bg-primary/5 px-5 py-5 text-sm leading-relaxed text-foreground sm:px-6">
+                  {row.composable}
                 </dd>
               </div>
             ))}

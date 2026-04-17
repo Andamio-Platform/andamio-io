@@ -31,30 +31,32 @@ export default function V2CTAFooter() {
   return (
     <section className="bg-surface-dark">
       <div className="mx-auto max-w-5xl px-4 py-24 text-center sm:px-6 sm:py-32 lg:px-8">
-        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/60">
-          Ready when you are
+        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary">
+          Build the graph with us
         </p>
-        <h3 className="mt-6 text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl">
-          Talk to our enterprise team.
+        <h3 className="mt-6 font-display text-4xl font-extrabold leading-[1.05] tracking-[-0.02em] text-white sm:text-5xl lg:text-6xl">
+          The credential graph is being drawn.
+          <br />
+          <span className="text-primary">Get your issuers on it.</span>
         </h3>
-        <p className="mx-auto mt-6 max-w-2xl text-lg text-white/70">
+        <p className="mx-auto mt-6 max-w-2xl text-lg text-white/70 sm:text-xl">
           Twenty minutes. We&rsquo;ll scope a pilot against one of your
-          active credentialing programs and show you the cross-issuer demo
-          live. No slides.
+          active credentialing programs and show you cross-issuer
+          composability live. No slides.
         </p>
         <div className="mt-10 flex flex-wrap justify-center gap-3">
           <a
-            href="mailto:hello@andamio.io?subject=Enterprise%20demo%20request"
+            href="mailto:hello@andamio.io?subject=Enterprise%20walkthrough%20request"
             className="inline-flex items-center rounded-md bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
           >
             Book a 20-minute walkthrough
           </a>
-          <Link
-            href="/use-cases"
+          <a
+            href="#manifesto"
             className="inline-flex items-center rounded-md border border-white/20 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-white/10"
           >
-            See use cases
-          </Link>
+            Read the manifesto
+          </a>
         </div>
       </div>
 
@@ -67,7 +69,8 @@ export default function V2CTAFooter() {
               alt="Andamio"
             />
             <p className="max-w-xs text-sm text-white/60">
-              Open, interoperable, composable credentials. Ready to integrate with your systems.
+              Composable Credentials. The credential graph, built on an open
+              protocol, ready to integrate with your systems.
             </p>
             <p className="mt-6 text-xs text-white/40">
               © {new Date().getFullYear()} Andamio

@@ -9,9 +9,19 @@ interface FAQItem {
 
 const faqItems: FAQItem[] = [
   {
+    question: "What is a composable credential?",
+    answer:
+      "A credential that can be used as a prerequisite, input, or condition by a system that didn't issue it. A Credly badge is not composable — only Credly can decide what it unlocks. A composable credential is one where any issuer on the graph can reference any other issuer's credential as a condition of their own program, without an integration or data-sharing agreement.",
+  },
+  {
+    question: "What is the credential graph?",
+    answer:
+      "The network of composable credentials across every issuer who participates. Today a learner's credentials live in as many silos as they have platforms. In the graph, they compose — a credential earned with Org A automatically unlocks paths with Org B, C, and D that reference it as a prerequisite. One graph per learner. Every issuer who joins makes the graph more valuable for every other.",
+  },
+  {
     question: "How is this different from Credly or Accredible?",
     answer:
-      "Credly and Accredible store credentials in their databases. If they change pricing, get acquired, or change terms, your credentials are subject to that. Andamio credentials live on Cardano mainnet — durable records anyone can audit, with or without us. And on Andamio, a credential from Org A can gate access to Org B's program without the two orgs ever integrating.",
+      "Credly and Accredible are excellent issuance platforms. Their credentials are not composable — each one lives inside their database and unlocks things only inside their walled garden. Andamio credentials exist on an open protocol, can be referenced by any other issuer, and survive any vendor change. We interoperate with Credly and Accredible; we don't replace them on day one.",
   },
   {
     question: "Do we have to migrate off our current platform?",
@@ -21,12 +31,12 @@ const faqItems: FAQItem[] = [
   {
     question: "What does the workflow look like?",
     answer:
-      "Three steps: Commit, Assess, Claim. You define what a credential means and what's required to earn it. Learners complete the work through whatever LMS or assessment platform you already use. On completion, the credential is issued on-chain. Your users never touch crypto — your organization sponsors the transactions.",
+      "Three steps: Commit, Assess, Claim. You define what a credential means and what's required to earn it. Learners complete the work through whatever LMS or assessment platform you already use. On completion, the credential is issued on the protocol. Your users never touch crypto — your organization sponsors the transactions.",
   },
   {
     question: "How fast can we get a pilot running?",
     answer:
-      "Most integrations take weeks, not quarters. The API is REST, the smart contracts are audited by TxPipe, and the protocol has been live on Cardano mainnet since February 2026. Talk to our team and we'll scope a pilot against one of your active credentialing programs.",
+      "Most integrations take weeks, not quarters. The API is REST, the smart contracts are audited, and the protocol has been live since February 2026. Talk to our team and we'll scope a pilot against one of your active credentialing programs.",
   },
 ];
 
@@ -58,11 +68,18 @@ export default function V2FAQSection() {
   };
 
   return (
-    <section className="py-20 sm:py-28">
+    <section className="border-t border-border/60 py-24 sm:py-32">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-        <h2 className="mb-10 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          Questions buyers actually ask.
+        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+          The dictionary
+        </p>
+        <h2 className="mt-4 font-display text-4xl font-extrabold leading-[1.05] tracking-[-0.02em] text-foreground sm:text-5xl">
+          New category, new vocabulary.
         </h2>
+        <p className="mt-6 mb-12 text-lg text-muted-foreground sm:text-xl">
+          What a composable credential is, what the graph is, and how this
+          actually gets implemented.
+        </p>
 
         <div className="border-t border-border">
           {faqItems.map((item, index) => (

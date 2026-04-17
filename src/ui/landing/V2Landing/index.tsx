@@ -1,8 +1,10 @@
 import React from "react";
 import V2Navigation from "./V2Navigation";
 import V2HeroSection from "./V2HeroSection";
+import V2ManifestoSection from "./V2ManifestoSection";
 import V2ProblemSection from "./V2ProblemSection";
 import V2CompositionSection from "./V2CompositionSection";
+import V2ComposabilityTaxSection from "./V2ComposabilityTaxSection";
 import V2ArchitectureSection from "./V2ArchitectureSection";
 import V2PillarsSection from "./V2PillarsSection";
 import V2PartnersSection from "./V2PartnersSection";
@@ -16,8 +18,10 @@ export default function V2Landing() {
     <div className="min-h-screen bg-background text-foreground">
       <V2Navigation />
       <V2HeroSection />
+      <V2ManifestoSection />
       <V2ProblemSection />
       <V2CompositionSection />
+      <V2ComposabilityTaxSection />
       <V2ArchitectureSection />
       <V2PillarsSection />
       <V2PartnersSection />

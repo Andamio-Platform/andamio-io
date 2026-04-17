@@ -37,19 +37,20 @@ export default function V2HeroSection() {
 
           <motion.h1
             variants={childVariants}
-            className="mt-8 font-display text-5xl font-extrabold leading-[1.05] tracking-[-0.03em] text-foreground sm:text-6xl md:text-7xl lg:text-[7rem]"
+            className="mt-8 font-display text-4xl font-extrabold leading-[1.05] tracking-[-0.02em] text-foreground sm:text-5xl md:text-6xl lg:text-[5.5rem]"
           >
-            Your badges are dead ends.
-            <br />
-            <span className="text-primary">What if they were building blocks?</span>
+            Verifiable credentials your customers can check{" "}
+            <span className="text-primary">without calling you.</span>
           </motion.h1>
 
           <motion.p
             variants={childVariants}
             className="mx-auto mt-10 max-w-2xl text-lg text-muted-foreground sm:text-xl"
           >
-            Open, interoperable, composable credentials. Ready to integrate
-            with your systems.
+            Credential programs today are dead ends — issued once, owned by
+            the platform, forgotten. Andamio makes every credential
+            independently verifiable, portable, and programmable, on
+            infrastructure you already trust.
           </motion.p>
 
           <motion.div
@@ -57,10 +58,10 @@ export default function V2HeroSection() {
             className="mt-10 flex flex-wrap justify-center gap-3"
           >
             <a
-              href="mailto:hello@andamio.io?subject=Enterprise%20demo%20request"
+              href="mailto:hello@andamio.io?subject=Enterprise%20walkthrough%20request"
               className="inline-flex items-center rounded-md bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
             >
-              Talk to our enterprise team
+              Book a 20-minute walkthrough
             </a>
             <a
               href="#composability"
@@ -69,6 +70,13 @@ export default function V2HeroSection() {
               See how it works
             </a>
           </motion.div>
+
+          <motion.p
+            variants={childVariants}
+            className="mx-auto mt-8 max-w-xl text-sm text-muted-foreground/90"
+          >
+            Runs alongside Credly, Accredible, and custom systems. No migration on day one.
+          </motion.p>
         </motion.div>
       </div>
     </section>

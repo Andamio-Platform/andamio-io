@@ -4,7 +4,7 @@ import { EXTERNAL_LINKS } from "~/lib/external-links";
 
 const footerLinks = {
   "For buyers": [
-    { name: "Book a demo", href: "mailto:hello@andamio.io?subject=Enterprise%20demo%20request" },
+    { name: "Book a walkthrough", href: "mailto:hello@andamio.io?subject=Enterprise%20walkthrough%20request" },
     { name: "Use cases", href: "/use-cases" },
     { name: "Blog", href: "/blog" },
     { name: "About", href: "/about" },
@@ -38,7 +38,7 @@ export default function V2CTAFooter() {
           Talk to our enterprise team.
         </h3>
         <p className="mx-auto mt-6 max-w-2xl text-lg text-white/70">
-          Thirty minutes. We&rsquo;ll scope a pilot against one of your
+          Twenty minutes. We&rsquo;ll scope a pilot against one of your
           active credentialing programs and show you the cross-issuer demo
           live. No slides.
         </p>
@@ -47,7 +47,7 @@ export default function V2CTAFooter() {
             href="mailto:hello@andamio.io?subject=Enterprise%20demo%20request"
             className="inline-flex items-center rounded-md bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
           >
-            Book a 30-min call
+            Book a 20-minute walkthrough
           </a>
           <Link
             href="/use-cases"

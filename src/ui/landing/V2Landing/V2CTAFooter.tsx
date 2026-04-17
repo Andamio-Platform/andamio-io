@@ -67,7 +67,7 @@ export default function V2CTAFooter() {
               alt="Andamio"
             />
             <p className="max-w-xs text-sm text-white/60">
-              A verifiable, composable credential layer for the programs you already run.
+              Open, interoperable, composable credentials. Ready to integrate with your systems.
             </p>
             <p className="mt-6 text-xs text-white/40">
               © {new Date().getFullYear()} Andamio

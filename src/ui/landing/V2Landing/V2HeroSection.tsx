@@ -48,8 +48,8 @@ export default function V2HeroSection() {
             variants={childVariants}
             className="mx-auto mt-10 max-w-2xl text-lg text-muted-foreground sm:text-xl"
           >
-            Add a verifiable credential layer on top of what you already run —
-            without replacing your LMS, your CRM, or your certification system.
+            Open, interoperable, composable credentials. Ready to integrate
+            with your systems.
           </motion.p>
 
           <motion.div

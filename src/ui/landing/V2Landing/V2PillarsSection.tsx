@@ -11,19 +11,19 @@ const pillars: Pillar[] = [
     number: "01",
     title: "Issue",
     description:
-      "Define credentials that mean something in your context. Anyone can issue. Recipients carry them across every app on the protocol.",
+      "Define what a credential means and what it takes to earn one. Issue through the API from inside your existing workflows — no new interface for your team to learn.",
   },
   {
     number: "02",
     title: "Verify",
     description:
-      "Check any credential, from any issuer, in real time. On-chain records mean no phone calls, no PDFs, no trust required.",
+      "Any credential, from any issuer, in real time. Your compliance team, your partners, and your customers check the same on-chain record. No phone calls. No PDFs.",
   },
   {
     number: "03",
     title: "Gate",
     description:
-      "Use credentials to unlock content, roles, or rewards. Build learning paths, contributor programs, or access tiers — all anchored on proof.",
+      "Use credentials to gate content, partner tiers, pricing, or access — including credentials your organization didn't issue. The protocol enforces prerequisites across issuers.",
   },
 ];
 
@@ -33,12 +33,15 @@ export default function V2PillarsSection() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] lg:gap-20">
           <div className="lg:sticky lg:top-28 lg:self-start">
-            <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-              Your app.
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+              What the protocol does
+            </p>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+              Issue.
               <br />
-              Shared credentials.
+              Verify.
               <br />
-              Users own the proof.
+              Gate.
             </h2>
           </div>
 

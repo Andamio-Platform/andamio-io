@@ -55,33 +55,24 @@ export default function V2StatusSection() {
         <div className="grid items-start gap-16 lg:grid-cols-2 lg:gap-24">
           <div>
             <h2 className="text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-              V2 is live. We&rsquo;re still building.
+              Live on mainnet. Audited. In production.
             </h2>
             <p className="mt-6 max-w-md text-lg text-muted-foreground">
-              Full transparency. Here&rsquo;s exactly where things stand.
+              Full transparency on what&rsquo;s ready today and what&rsquo;s
+              next. Buy with eyes open.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <a
-                href={EXTERNAL_LINKS.docs}
+                href="mailto:hello@andamio.io?subject=Enterprise%20demo%20request"
                 className="inline-flex items-center rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
               >
-                Read the Docs
+                Talk to our team
               </a>
               <a
-                href={EXTERNAL_LINKS.app}
-                target="_blank"
-                rel="noopener noreferrer"
+                href={EXTERNAL_LINKS.docs}
                 className="inline-flex items-center rounded-md border border-border px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted"
               >
-                Join the Pioneer Program
-              </a>
-              <a
-                href={EXTERNAL_LINKS.discord}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center rounded-md border border-border px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted"
-              >
-                Discord
+                Read the docs
               </a>
             </div>
           </div>

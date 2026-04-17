@@ -9,24 +9,24 @@ interface FAQItem {
 
 const faqItems: FAQItem[] = [
   {
-    question: "What's the difference between the API and the App?",
+    question: "How is this different from Credly or Accredible?",
     answer:
-      "The API is for developers building their own applications — bring your own frontend, your own UX. The App is a hosted solution for organizations that want to get started without writing code. Think Stripe vs. Shopify.",
+      "Credly and Accredible store credentials in their databases. If they change pricing, get acquired, or change terms, your credentials are subject to that. Andamio credentials live on Cardano mainnet — verifiable forever, by anyone, with or without us. And we're the only protocol where a credential from Org A can gate access to Org B's program without the two orgs ever integrating.",
   },
   {
-    question: "Do users need crypto wallets?",
+    question: "Do we have to migrate off our current platform?",
     answer:
-      "No. Email signup. Your organization sponsors transactions. The blockchain is invisible to your users.",
+      "No. Andamio runs alongside your LMS, CRM, or certification system. Issue through the API while leaving the rest of your stack where it is. Most pilots start on a single product line or partner tier — no rip-and-replace required on day one.",
   },
   {
-    question: "What if Andamio disappears?",
+    question: "What does the workflow look like?",
     answer:
-      "Your credentials survive. They're permanent records on Cardano mainnet — open source, verifiable by anyone, with or without Andamio.",
+      "Three steps: Commit, Assess, Claim. You define what a credential means and what's required to earn it. Learners complete the work through whatever LMS or assessment platform you already use. On completion, the credential is issued on-chain. Your users never touch crypto — your organization sponsors the transactions.",
   },
   {
-    question: "Is the platform audited?",
+    question: "How fast can we get a pilot running?",
     answer:
-      "Yes. Smart contracts audited by TxPipe. 152 end-to-end tests. Live on Cardano mainnet since February 2026.",
+      "Most integrations take weeks, not quarters. The API is REST, the smart contracts are audited by TxPipe, and the protocol has been live on Cardano mainnet since February 2026. Talk to our team and we'll scope a pilot against one of your active credentialing programs.",
   },
 ];
 
@@ -61,7 +61,7 @@ export default function V2FAQSection() {
     <section className="py-20 sm:py-28">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <h2 className="mb-10 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          Questions.
+          Questions buyers actually ask.
         </h2>
 
         <div className="border-t border-border">

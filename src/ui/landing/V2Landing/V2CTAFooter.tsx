@@ -3,22 +3,23 @@ import Link from "next/link";
 import { EXTERNAL_LINKS } from "~/lib/external-links";
 
 const footerLinks = {
-  Build: [
+  "For buyers": [
+    { name: "Book a demo", href: "mailto:hello@andamio.io?subject=Enterprise%20demo%20request" },
+    { name: "Use cases", href: "/use-cases" },
+    { name: "Blog", href: "/blog" },
+    { name: "About", href: "/about" },
+  ],
+  "For builders": [
     { name: "Docs", href: EXTERNAL_LINKS.docs },
     { name: "API Reference", href: EXTERNAL_LINKS.apiReference },
     { name: "GitHub", href: EXTERNAL_LINKS.github },
-    { name: "Discord", href: EXTERNAL_LINKS.discord },
-  ],
-  Explore: [
-    { name: "Use Cases", href: "/use-cases" },
-    { name: "Blog", href: "/blog" },
-    { name: "About", href: "/about" },
     { name: "App", href: EXTERNAL_LINKS.app },
   ],
   Connect: [
     { name: "hello@andamio.io", href: "mailto:hello@andamio.io" },
     { name: "LinkedIn", href: EXTERNAL_LINKS.linkedin },
     { name: "Twitter", href: EXTERNAL_LINKS.twitter },
+    { name: "Discord", href: EXTERNAL_LINKS.discord },
   ],
   Legal: [
     { name: "Privacy", href: "/privacy-policy" },
@@ -29,39 +30,31 @@ const footerLinks = {
 export default function V2CTAFooter() {
   return (
     <section className="bg-surface-dark">
-      <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
-        <div className="grid gap-6 md:grid-cols-2 lg:gap-8">
-          <div className="rounded-xl border border-white/10 bg-white/[0.04] p-8 sm:p-10">
-            <h3 className="text-2xl font-bold leading-snug text-white sm:text-3xl">
-              Get your API key. Start issuing credentials today.
-            </h3>
-            <a
-              href={EXTERNAL_LINKS.docs}
-              className="mt-8 inline-flex items-center rounded-md bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
-            >
-              Read the Docs
-            </a>
-          </div>
-
-          <div className="rounded-xl border border-white/10 bg-white/[0.04] p-8 sm:p-10">
-            <h3 className="text-2xl font-bold leading-snug text-white sm:text-3xl">
-              See how Intersect, Toha, and Syngenta use Andamio.
-            </h3>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link
-                href="/use-cases"
-                className="inline-flex items-center rounded-md bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
-              >
-                View Use Cases
-              </Link>
-              <a
-                href="mailto:hello@andamio.io"
-                className="inline-flex items-center rounded-md border border-white/20 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-white/10"
-              >
-                Talk to Us
-              </a>
-            </div>
-          </div>
+      <div className="mx-auto max-w-5xl px-4 py-24 text-center sm:px-6 sm:py-32 lg:px-8">
+        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/60">
+          Ready when you are
+        </p>
+        <h3 className="mt-6 text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl">
+          Talk to our enterprise team.
+        </h3>
+        <p className="mx-auto mt-6 max-w-2xl text-lg text-white/70">
+          Thirty minutes. We&rsquo;ll scope a pilot against one of your
+          active credentialing programs and show you the cross-issuer demo
+          live. No slides.
+        </p>
+        <div className="mt-10 flex flex-wrap justify-center gap-3">
+          <a
+            href="mailto:hello@andamio.io?subject=Enterprise%20demo%20request"
+            className="inline-flex items-center rounded-md bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+          >
+            Book a 30-min call
+          </a>
+          <Link
+            href="/use-cases"
+            className="inline-flex items-center rounded-md border border-white/20 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-white/10"
+          >
+            See use cases
+          </Link>
         </div>
       </div>
 
@@ -74,7 +67,7 @@ export default function V2CTAFooter() {
               alt="Andamio"
             />
             <p className="max-w-xs text-sm text-white/60">
-              Open protocol for interoperable credentials.
+              Credential infrastructure for certification bodies, partner programs, and corporate training.
             </p>
             <p className="mt-6 text-xs text-white/40">
               © {new Date().getFullYear()} Andamio

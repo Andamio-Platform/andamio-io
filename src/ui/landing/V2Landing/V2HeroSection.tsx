@@ -3,7 +3,6 @@
 import React from "react";
 import { motion } from "framer-motion";
 import type { Variants } from "framer-motion";
-import { EXTERNAL_LINKS } from "~/lib/external-links";
 import { staggerContainer } from "./motion-variants";
 
 const containerVariants = staggerContainer(0.12);
@@ -17,8 +16,6 @@ const childVariants: Variants = {
   },
 };
 
-const trustPartners = ["Intersect", "Syngenta", "Toha Network"];
-
 export default function V2HeroSection() {
   return (
     <section
@@ -31,18 +28,28 @@ export default function V2HeroSection() {
           initial="hidden"
           animate="visible"
         >
+          <motion.p
+            variants={childVariants}
+            className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground"
+          >
+            Credential infrastructure for certification bodies, partner programs, and corporate training
+          </motion.p>
+
           <motion.h1
             variants={childVariants}
-            className="font-display text-5xl font-extrabold leading-[1.05] tracking-[-0.03em] text-foreground sm:text-6xl md:text-7xl lg:text-[7.5rem]"
+            className="mt-8 font-display text-5xl font-extrabold leading-[1.05] tracking-[-0.03em] text-foreground sm:text-6xl md:text-7xl lg:text-[7rem]"
           >
-            Credentials that belong to you.
+            Your badges are dead ends.
+            <br />
+            <span className="text-primary">What if they were building blocks?</span>
           </motion.h1>
 
           <motion.p
             variants={childVariants}
-            className="mx-auto mt-8 max-w-xl text-lg text-muted-foreground sm:text-xl"
+            className="mx-auto mt-10 max-w-2xl text-lg text-muted-foreground sm:text-xl"
           >
-            An open protocol for interoperable credentials.
+            Add a verifiable credential layer on top of what you already run —
+            without replacing your LMS, your CRM, or your certification system.
           </motion.p>
 
           <motion.div
@@ -50,33 +57,17 @@ export default function V2HeroSection() {
             className="mt-10 flex flex-wrap justify-center gap-3"
           >
             <a
-              href={EXTERNAL_LINKS.docs}
+              href="mailto:hello@andamio.io?subject=Enterprise%20demo%20request"
               className="inline-flex items-center rounded-md bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
             >
-              Build on Andamio
+              Talk to our enterprise team
             </a>
             <a
-              href={EXTERNAL_LINKS.app}
-              target="_blank"
-              rel="noopener noreferrer"
+              href="#composability"
               className="inline-flex items-center rounded-md border border-border px-6 py-3 text-sm font-medium text-foreground transition-colors hover:bg-muted"
             >
-              Learn What Andamio Can Do
+              See how it works
             </a>
-          </motion.div>
-
-          <motion.div
-            variants={childVariants}
-            className="mt-20 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground"
-          >
-            <span className="text-xs uppercase tracking-[0.18em] text-muted-foreground/80">
-              Trusted by
-            </span>
-            {trustPartners.map((partner) => (
-              <span key={partner} className="font-medium text-foreground/70">
-                {partner}
-              </span>
-            ))}
           </motion.div>
         </motion.div>
       </div>

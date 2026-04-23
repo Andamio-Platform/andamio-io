@@ -31,7 +31,7 @@ const faqItems: FAQItem[] = [
   {
     question: "What does the workflow look like?",
     answer:
-      "Three steps: Commit, Assess, Claim. You define what a credential means and what's required to earn it. Learners complete the work through whatever LMS or assessment platform you already use. On completion, the credential is issued on the protocol. Your users never touch crypto — your organization sponsors the transactions.",
+      "Three steps: Commit, Assess, Claim. You define what a credential means and what's required to earn one. Learners complete the work through whatever LMS or assessment platform you already use. On completion, the credential is issued on the protocol. Your users never touch crypto — your organization sponsors the transactions.",
   },
   {
     question: "How fast can we get a pilot running?",
@@ -68,24 +68,39 @@ export default function V2FAQSection() {
   };
 
   return (
-    <section className="border-t border-border/60 py-24 sm:py-32">
+    <section className="border-t border-border/60 bg-background py-24 sm:py-32">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-        <h2 className="font-display text-4xl font-extrabold leading-[1.05] tracking-[-0.02em] text-foreground sm:text-5xl">
+        <div className="flex items-baseline justify-between gap-6">
+          <span className="inline-flex items-center gap-3 font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
+            <span className="h-px w-8 bg-current opacity-70" aria-hidden />
+            Real questions
+          </span>
+          <span className="font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground opacity-80">
+            FAQ
+          </span>
+        </div>
+
+        <h2 className="mt-6 font-display text-4xl font-semibold leading-[1.02] tracking-[-0.035em] text-foreground sm:text-5xl">
           Questions we get asked.
         </h2>
-        <p className="mt-6 mb-12 text-lg text-muted-foreground sm:text-xl">
+        <p className="mt-6 mb-12 text-lg leading-relaxed tracking-[-0.005em] text-muted-foreground sm:text-xl">
           What composable means, what the graph is, and how this actually
           gets implemented.
         </p>
 
-        <div className="border-t border-border">
+        <div className="border-t border-foreground">
           {faqItems.map((item, index) => (
             <div key={item.question} className="border-b border-border">
               <button
                 onClick={() => toggle(index)}
-                className="flex w-full items-center justify-between gap-4 py-5 text-left text-base font-medium text-foreground transition-colors hover:text-primary"
+                className="flex w-full items-center gap-5 py-6 text-left transition-colors hover:text-primary"
               >
-                <span className="pr-4">{item.question}</span>
+                <span className="font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <span className="flex-1 pr-4 text-base font-medium tracking-[-0.005em] text-foreground">
+                  {item.question}
+                </span>
                 <ChevronIcon open={openIndex === index} />
               </button>
               <div
@@ -96,7 +111,7 @@ export default function V2FAQSection() {
                 }`}
               >
                 <div className="overflow-hidden">
-                  <p className="pb-5 leading-relaxed text-muted-foreground">
+                  <p className="pb-6 pl-[52px] pr-8 text-[15px] leading-relaxed tracking-[-0.005em] text-muted-foreground">
                     {item.answer}
                   </p>
                 </div>

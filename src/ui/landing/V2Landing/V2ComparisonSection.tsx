@@ -9,7 +9,7 @@ interface ContrastRow {
 const contrastData: ContrastRow[] = [
   {
     dimension: "Ownership",
-    deadEnd: "Stored in the issuing platform\u2019s database.",
+    deadEnd: "Stored in the issuing platform’s database.",
     composable: "Anchored publicly. Outlives any platform.",
   },
   {
@@ -43,42 +43,51 @@ export default function V2ComparisonSection() {
   return (
     <section className="border-t border-border/60 bg-background py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="max-w-3xl">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+        <div className="flex items-baseline justify-between gap-6">
+          <span className="inline-flex items-center gap-3 font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
+            <span className="h-px w-8 bg-current opacity-70" aria-hidden />
             The side-by-side
-          </p>
-          <h2 className="mt-4 font-display text-4xl font-extrabold leading-[1.05] tracking-[-0.02em] text-foreground sm:text-5xl">
+          </span>
+          <span className="font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground opacity-80">
+            6 dimensions
+          </span>
+        </div>
+
+        <div className="mt-6 max-w-3xl">
+          <h2 className="font-display text-4xl font-semibold leading-[1.02] tracking-[-0.035em] text-foreground sm:text-5xl">
             Dead-end versus composable.
           </h2>
-          <p className="mt-6 text-lg text-muted-foreground sm:text-xl">
-            Six places the difference shows up. The same credential. Two
-            very different futures for the people who hold it.
+          <p className="mt-6 text-lg leading-relaxed tracking-[-0.005em] text-muted-foreground sm:text-xl">
+            Six places the difference shows up. The same credential. Two very
+            different futures for the people who hold it.
           </p>
         </div>
 
-        <div className="mt-16 overflow-hidden rounded-xl border border-border">
-          <div className="grid grid-cols-[minmax(0,0.7fr)_minmax(0,1fr)_minmax(0,1fr)] border-b border-border bg-surface-subtle text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+        <div className="mt-16 border border-foreground">
+          <div className="grid grid-cols-[minmax(0,0.7fr)_minmax(0,1fr)_minmax(0,1fr)] border-b border-foreground bg-foreground font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-background">
             <div className="px-5 py-4 sm:px-6">Dimension</div>
-            <div className="border-l border-border px-5 py-4 sm:px-6">
+            <div className="border-l border-background/20 px-5 py-4 sm:px-6">
               Dead-end credential
             </div>
-            <div className="border-l border-border bg-primary/5 px-5 py-4 text-primary sm:px-6">
+            <div className="border-l border-background/20 bg-primary px-5 py-4 text-primary-foreground sm:px-6">
               Composable credential
             </div>
           </div>
-          <dl className="divide-y divide-border">
-            {contrastData.map((row) => (
+          <dl>
+            {contrastData.map((row, index) => (
               <div
                 key={row.dimension}
-                className="grid grid-cols-[minmax(0,0.7fr)_minmax(0,1fr)_minmax(0,1fr)]"
+                className={`grid grid-cols-[minmax(0,0.7fr)_minmax(0,1fr)_minmax(0,1fr)] ${
+                  index > 0 ? "border-t border-border" : ""
+                }`}
               >
-                <dt className="px-5 py-5 font-display text-sm font-semibold text-foreground sm:px-6 sm:text-base">
+                <dt className="px-5 py-5 font-display text-sm font-semibold tracking-[-0.005em] text-foreground sm:px-6 sm:text-base">
                   {row.dimension}
                 </dt>
-                <dd className="border-l border-border px-5 py-5 text-sm leading-relaxed text-muted-foreground sm:px-6">
+                <dd className="border-l border-border px-5 py-5 text-[15px] leading-relaxed tracking-[-0.005em] text-muted-foreground sm:px-6">
                   {row.deadEnd}
                 </dd>
-                <dd className="border-l border-border bg-primary/5 px-5 py-5 text-sm leading-relaxed text-foreground sm:px-6">
+                <dd className="border-l border-border bg-primary/5 px-5 py-5 text-[15px] leading-relaxed tracking-[-0.005em] text-foreground sm:px-6">
                   {row.composable}
                 </dd>
               </div>

@@ -2,7 +2,6 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { CheckCircle2, Wrench } from "lucide-react";
 import { EXTERNAL_LINKS } from "~/lib/external-links";
 import { staggerContainer, slideInRight } from "./motion-variants";
 
@@ -48,37 +47,50 @@ const statusItems: StatusItem[] = [
   },
 ];
 
+const primaryBtn =
+  "inline-flex items-center gap-2 rounded-sm border border-[oklch(0.55_0.19_38)] bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-[0_2px_0_oklch(0.45_0.17_38)] transition-[background,transform,box-shadow] duration-150 hover:bg-primary/90 active:translate-y-[2px] active:shadow-[0_0_0_oklch(0.45_0.17_38)]";
+
+const outlineBtn =
+  "inline-flex items-center gap-2 rounded-sm border border-foreground bg-background px-5 py-2.5 text-sm font-medium text-foreground shadow-[0_2px_0_var(--foreground)] transition-[background,color,transform,box-shadow] duration-150 hover:bg-foreground hover:text-background active:translate-y-[2px] active:shadow-[0_0_0_var(--foreground)]";
+
 export default function V2StatusSection() {
   return (
     <section className="border-t border-border/60 bg-surface-subtle py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid items-start gap-16 lg:grid-cols-2 lg:gap-24">
+        <div className="flex items-baseline justify-between gap-6">
+          <span className="inline-flex items-center gap-3 font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-primary">
+            <span className="h-px w-8 bg-current opacity-70" aria-hidden />
+            What’s live · what’s next
+          </span>
+          <span className="font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground opacity-80">
+            Build log
+          </span>
+        </div>
+
+        <div className="mt-10 grid items-start gap-16 lg:grid-cols-2 lg:gap-24">
           <div>
-            <h2 className="text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+            <h2 className="font-display text-3xl font-semibold leading-[1.05] tracking-[-0.035em] text-foreground sm:text-4xl lg:text-5xl">
               Live on mainnet. Audited. In production.
             </h2>
-            <p className="mt-6 max-w-md text-lg text-muted-foreground">
-              Full transparency on what&rsquo;s ready today and what&rsquo;s
-              next. Buy with eyes open.
+            <p className="mt-6 max-w-md text-lg leading-relaxed tracking-[-0.005em] text-muted-foreground">
+              Full transparency on what’s ready today and what’s next. Buy
+              with eyes open.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <a
                 href="mailto:hello@andamio.io?subject=Enterprise%20demo%20request"
-                className="inline-flex items-center rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+                className={primaryBtn}
               >
                 Talk to our team
               </a>
-              <a
-                href={EXTERNAL_LINKS.docs}
-                className="inline-flex items-center rounded-md border border-border px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted"
-              >
+              <a href={EXTERNAL_LINKS.docs} className={outlineBtn}>
                 Read the docs
               </a>
             </div>
           </div>
 
           <motion.ul
-            className="space-y-5"
+            className="flex flex-col"
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
@@ -87,22 +99,30 @@ export default function V2StatusSection() {
             {statusItems.map((item) => (
               <motion.li
                 key={item.title}
-                className="flex items-start gap-4 border-b border-border/60 pb-5 last:border-b-0"
+                className="grid grid-cols-[28px_1fr_auto] items-baseline gap-5 border-t border-border py-6 first:border-t-0 first:pt-0"
                 variants={itemVariants}
               >
-                {item.completed ? (
-                  <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-success" />
-                ) : (
-                  <Wrench className="mt-0.5 h-5 w-5 shrink-0 text-warning" />
-                )}
+                <span
+                  className={`inline-block h-2 w-2 translate-y-[6px] ${
+                    item.completed ? "bg-success" : "bg-warning"
+                  }`}
+                  aria-hidden
+                />
                 <div>
-                  <p className="font-display text-base font-semibold text-foreground">
+                  <p className="font-display text-base font-semibold tracking-[-0.01em] text-foreground">
                     {item.title}
                   </p>
-                  <p className="mt-1 text-sm text-muted-foreground">
+                  <p className="mt-1 text-[14px] leading-relaxed tracking-[-0.005em] text-muted-foreground">
                     {item.description}
                   </p>
                 </div>
+                <span
+                  className={`font-mono text-[10px] font-medium uppercase tracking-[0.18em] ${
+                    item.completed ? "text-success" : "text-warning"
+                  }`}
+                >
+                  {item.completed ? "Live" : "In dev"}
+                </span>
               </motion.li>
             ))}
           </motion.ul>

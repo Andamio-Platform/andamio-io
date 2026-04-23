@@ -9,9 +9,9 @@ import { ThemeToggle } from "~/components/theme-toggle";
 import { EXTERNAL_LINKS } from "~/lib/external-links";
 
 const navItems = [
+  { label: "Archetypes", href: "#archetypes" },
   { label: "Docs", href: EXTERNAL_LINKS.docs },
   { label: "API Reference", href: EXTERNAL_LINKS.apiReference },
-  { label: "Use Cases", href: "/use-cases" },
   { label: "Blog", href: "/blog" },
   { label: "About", href: "/about" },
 ];
@@ -84,7 +84,7 @@ export default function V2Navigation() {
               href={EXTERNAL_LINKS.app}
               target="_blank"
               rel="noopener noreferrer"
-              className="ml-2 inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-sm transition-all hover:bg-primary/90 hover:shadow-md"
+              className="ml-2 inline-flex items-center rounded-sm border border-[oklch(0.55_0.19_38)] bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-[0_2px_0_oklch(0.45_0.17_38)] transition-[background,transform,box-shadow] duration-150 hover:bg-primary/90 active:translate-y-[2px] active:shadow-[0_0_0_oklch(0.45_0.17_38)]"
             >
               Get Started
               <svg
@@ -147,7 +147,7 @@ export default function V2Navigation() {
               href={EXTERNAL_LINKS.app}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-3 block rounded-md bg-primary px-4 py-3 text-center text-base font-semibold text-primary-foreground shadow-sm transition-all hover:bg-primary/90"
+              className="mt-3 block rounded-sm border border-[oklch(0.55_0.19_38)] bg-primary px-4 py-3 text-center text-base font-semibold text-primary-foreground shadow-[0_2px_0_oklch(0.45_0.17_38)] transition-[background,transform,box-shadow] duration-150 hover:bg-primary/90 active:translate-y-[2px] active:shadow-[0_0_0_oklch(0.45_0.17_38)]"
               onClick={() => setMobileMenuOpen(false)}
             >
               Get Started

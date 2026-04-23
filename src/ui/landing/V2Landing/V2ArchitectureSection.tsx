@@ -1,7 +1,8 @@
 import React from "react";
 
 interface StackLayer {
-  label: string;
+  labelKicker: string;
+  name: string;
   description: string;
   emphasis?: boolean;
   surface: string;
@@ -9,71 +10,101 @@ interface StackLayer {
 
 const stackLayers: StackLayer[] = [
   {
-    label: "What you already run",
+    labelKicker: "Your surface",
+    name: "What you already run",
     description:
       "Your LMS, CRM, or certification platform. Stays where it is.",
     surface: "bg-card",
   },
   {
-    label: "Andamio API",
+    labelKicker: "Integration",
+    name: "Andamio API",
     description:
-      "REST endpoints for issuing, verifying, and gating credentials.",
+      "REST endpoints for issuing, verifying, and composing credentials.",
     emphasis: true,
-    surface: "bg-primary/10",
+    surface: "bg-primary",
   },
   {
-    label: "Andamio Protocol",
+    labelKicker: "Protocol",
+    name: "Andamio smart contracts",
     description:
-      "Smart contracts audited by TxPipe. On-chain credential registry.",
+      "Audited by TxPipe. On-chain credential registry. 17 transaction types.",
     surface: "bg-surface-subtle",
   },
   {
-    label: "Cardano mainnet",
+    labelKicker: "Settlement",
+    name: "Cardano mainnet",
     description:
-      "Settlement and permanence. The credentials outlive every vendor.",
+      "Permanence. Your credentials outlive every vendor — including us.",
     surface: "bg-card",
   },
 ];
 
 export default function V2ArchitectureSection() {
   return (
-    <section id="platform" className="py-20 sm:py-28">
+    <section
+      id="architecture"
+      className="border-t border-border/60 bg-surface-subtle py-24 sm:py-32"
+    >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center lg:gap-20">
+        <div className="grid gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center lg:gap-24">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            <span className="inline-flex items-center gap-3 font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
+              <span className="h-px w-8 bg-current opacity-70" aria-hidden />
               How it fits
-            </p>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+            </span>
+
+            <h2 className="mt-7 font-display text-4xl font-semibold leading-[1.02] tracking-[-0.035em] text-foreground sm:text-5xl lg:text-6xl">
               A credential layer on top of what you already run.
             </h2>
-            <p className="mt-6 max-w-lg text-lg text-muted-foreground">
-              Andamio does not replace your LMS or your certification platform.
-              It adds a composable credential layer, anchored on Cardano, that
-              your current stack calls via REST API.
+            <p className="mt-7 max-w-lg text-lg leading-relaxed tracking-[-0.005em] text-muted-foreground">
+              Andamio does not replace your LMS or your certification
+              platform. It adds a composable credential layer, anchored on
+              Cardano, that your current stack calls via REST API.
             </p>
-            <p className="mt-6 max-w-lg text-base text-muted-foreground">
-              Smart contracts audited by TxPipe. Live on Cardano mainnet since
-              February 2026.
+            <p className="mt-5 max-w-[48ch] text-base leading-relaxed text-muted-foreground">
+              Smart contracts audited by TxPipe. Live on Cardano mainnet
+              since February 2026. No migration on day one — you can run both
+              in parallel for as long as you want.
             </p>
+            <a
+              href="#"
+              className="mt-8 inline-flex items-center gap-1.5 text-sm font-medium text-primary underline-offset-4 hover:underline"
+            >
+              View the full architecture docs{" "}
+              <span aria-hidden className="transition-transform duration-150 hover:translate-x-1">→</span>
+            </a>
           </div>
 
-          <div className="overflow-hidden rounded-2xl border border-border">
+          <div className="border border-foreground bg-background shadow-[8px_8px_0_var(--foreground)]">
             {stackLayers.map((layer, index) => (
               <div
-                key={layer.label}
+                key={layer.name}
                 className={`${layer.surface} ${
-                  index > 0 ? "border-t border-border" : ""
-                } px-6 py-6 sm:px-8`}
+                  index > 0 ? "border-t border-foreground" : ""
+                } px-7 py-7 sm:px-8`}
               >
                 <p
-                  className={`text-xs font-semibold uppercase tracking-[0.18em] ${
-                    layer.emphasis ? "text-primary" : "text-muted-foreground"
+                  className={`font-mono text-[11px] font-medium uppercase tracking-[0.2em] ${
+                    layer.emphasis
+                      ? "text-primary-foreground/85"
+                      : "text-muted-foreground"
                   }`}
                 >
-                  {layer.label}
+                  {layer.labelKicker}
                 </p>
-                <p className="mt-2 text-sm text-muted-foreground">
+                <p
+                  className={`mt-1.5 font-display text-[18px] font-semibold tracking-[-0.015em] ${
+                    layer.emphasis ? "text-primary-foreground" : "text-foreground"
+                  }`}
+                >
+                  {layer.name}
+                </p>
+                <p
+                  className={`mt-2 text-[14px] leading-relaxed tracking-[-0.005em] ${
+                    layer.emphasis ? "text-primary-foreground/85" : "text-muted-foreground"
+                  }`}
+                >
                   {layer.description}
                 </p>
               </div>

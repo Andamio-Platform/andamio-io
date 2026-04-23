@@ -8,27 +8,27 @@ interface Belief {
 const leadBelief: Belief = {
   headline: "Credentials should outlive the platform that issued them.",
   elaboration:
-    "A credential locked inside a vendor\u2019s database isn\u2019t a credential. It\u2019s a rental.",
+    "A credential locked inside a vendor’s database isn’t a credential. It’s a rental.",
 };
 
 const beliefs: Belief[] = [
   {
     headline:
-      "A credential that can\u2019t unlock anything else is a receipt.",
+      "A credential that can’t unlock anything else is a receipt.",
     elaboration:
-      "If your customers hold a credential and can\u2019t use it anywhere but your app, you\u2019ve issued a souvenir.",
+      "If your customers hold a credential and can’t use it anywhere but your app, you’ve issued a souvenir.",
   },
   {
     headline:
-      "Composability is not a feature. It\u2019s the architecture.",
+      "Composability is not a feature. It’s the architecture.",
     elaboration:
       "Credly and Accredible are world-class at issuing. They are not composable. That gap is where we work.",
   },
   {
     headline:
-      "The credential graph is coming. We\u2019re building it.",
+      "The credential graph is coming. We’re building it.",
     elaboration:
-      "Every credential a person earns should compose with every other \u2014 across issuers, across industries, across time. One graph. No gatekeeper.",
+      "Every credential a person earns should compose with every other — across issuers, across industries, across time. One graph. No gatekeeper.",
   },
 ];
 
@@ -39,29 +39,39 @@ export default function V2ManifestoSection() {
       className="relative overflow-hidden border-t border-border/60 bg-background py-24 sm:py-32"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl">
-          <h2 className="font-display text-4xl font-extrabold leading-[1.05] tracking-[-0.02em] text-foreground sm:text-5xl lg:text-6xl">
+        <div className="flex items-baseline justify-between gap-6">
+          <span className="inline-flex items-center gap-3 font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-primary">
+            <span className="h-px w-8 bg-current opacity-70" aria-hidden />
+            What we believe
+          </span>
+          <span className="font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground opacity-80">
+            01 / 04
+          </span>
+        </div>
+
+        <div className="mt-6 max-w-4xl">
+          <h2 className="font-display text-4xl font-semibold leading-[1.02] tracking-[-0.035em] text-foreground sm:text-5xl lg:text-6xl">
             {leadBelief.headline}
           </h2>
-          <p className="mt-6 max-w-2xl text-lg text-muted-foreground sm:text-xl">
+          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
             {leadBelief.elaboration}
           </p>
         </div>
 
-        <ol className="mt-20 space-y-12 sm:space-y-16">
+        <ol className="mt-20 space-y-0">
           {beliefs.map((belief, index) => (
             <li
               key={belief.headline}
-              className="grid gap-6 border-t-2 border-foreground/80 pt-8 sm:grid-cols-[auto_1fr] sm:gap-12"
+              className="grid gap-6 border-t border-border py-10 sm:grid-cols-[72px_1fr] sm:gap-12"
             >
-              <p className="font-display text-3xl font-extrabold text-primary tabular-nums sm:text-4xl">
+              <p className="font-mono text-[13px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
                 0{index + 2}
               </p>
               <div>
-                <p className="font-display text-2xl font-bold leading-tight text-foreground sm:text-3xl lg:text-4xl">
+                <p className="font-display text-2xl font-semibold leading-[1.1] tracking-[-0.025em] text-foreground sm:text-3xl lg:text-[2.25rem]">
                   {belief.headline}
                 </p>
-                <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+                <p className="mt-4 max-w-2xl text-base leading-relaxed tracking-[-0.005em] text-muted-foreground sm:text-lg">
                   {belief.elaboration}
                 </p>
               </div>

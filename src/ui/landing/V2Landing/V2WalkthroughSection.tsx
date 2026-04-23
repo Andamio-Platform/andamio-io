@@ -1,0 +1,214 @@
+"use client";
+
+import React from "react";
+import { WALKTHROUGH, type Archetype } from "./walkthrough-data";
+
+const ARCHETYPE_ORDER: Archetype[] = ["cert", "partner", "cohort"];
+const STORAGE_KEY = "andamio-wt";
+
+const primaryBtn =
+  "inline-flex items-center gap-2 rounded-sm border border-[oklch(0.55_0.19_38)] bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow-[0_2px_0_oklch(0.45_0.17_38)] transition-[background,transform,box-shadow] duration-150 hover:bg-primary/90 active:translate-y-[2px] active:shadow-[0_0_0_oklch(0.45_0.17_38)]";
+
+const outlineBtn =
+  "inline-flex items-center gap-2 rounded-sm border border-foreground bg-background px-5 py-2.5 text-sm font-medium text-foreground shadow-[0_2px_0_var(--foreground)] transition-[background,color,transform,box-shadow] duration-150 hover:bg-foreground hover:text-background active:translate-y-[2px] active:shadow-[0_0_0_var(--foreground)]";
+
+const ghostBtn =
+  "inline-flex items-center rounded-sm border border-border bg-transparent px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted";
+
+export default function V2WalkthroughSection() {
+  const [archetype, setArchetype] = React.useState<Archetype | null>(null);
+  const [step, setStep] = React.useState<number>(0);
+
+  React.useEffect(() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      const saved = JSON.parse(raw) as { archetype?: Archetype; step?: number };
+      if (saved.archetype && saved.archetype in WALKTHROUGH) {
+        setArchetype(saved.archetype);
+        setStep(Math.min(Math.max(0, saved.step ?? 0), 3));
+      }
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
+  React.useEffect(() => {
+    if (!archetype) return;
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ archetype, step }));
+    } catch {
+      /* ignore */
+    }
+  }, [archetype, step]);
+
+  const selectArchetype = (next: Archetype) => {
+    if (archetype !== next) {
+      setArchetype(next);
+      setStep(0);
+    }
+  };
+
+  const entry = archetype ? WALKTHROUGH[archetype] : null;
+  const currentStep = entry ? entry.steps[step] : null;
+  const isLastStep = entry ? step === entry.steps.length - 1 : false;
+
+  return (
+    <section
+      id="walkthrough-section"
+      className="border-t border-border/60 bg-surface-subtle py-20 sm:py-24"
+    >
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div
+          id="walkthrough"
+          className="relative border border-foreground bg-background shadow-[10px_10px_0_var(--foreground)]"
+        >
+          {/* Top bar */}
+          <div className="grid gap-6 bg-foreground px-6 py-10 text-background sm:px-14 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:gap-14">
+            <div>
+              <p className="font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-primary">
+                Choose your archetype · live narrative
+              </p>
+              <h3 className="mt-3 font-display text-[1.625rem] font-semibold leading-[1.1] tracking-[-0.025em] text-background sm:text-[2rem] lg:text-[2.25rem]">
+                Which describes you? We&rsquo;ll walk you through the first
+                six months, in four steps.
+              </h3>
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              {ARCHETYPE_ORDER.map((key) => {
+                const e = WALKTHROUGH[key];
+                const active = archetype === key;
+                return (
+                  <button
+                    key={key}
+                    type="button"
+                    onClick={() => selectArchetype(key)}
+                    className={`flex max-w-[240px] flex-col rounded-sm border px-4 py-3 text-left text-[13px] tracking-[-0.005em] transition-colors duration-150 ${
+                      active
+                        ? "border-[oklch(0.55_0.19_38)] bg-primary text-primary-foreground"
+                        : "border-white/30 bg-transparent text-background hover:bg-white/10"
+                    }`}
+                  >
+                    <span
+                      className={`mb-1 font-mono text-[10px] font-medium uppercase tracking-[0.18em] ${
+                        active ? "text-primary-foreground/80" : "opacity-70"
+                      }`}
+                    >
+                      {e.chipKicker}
+                    </span>
+                    <span className="font-medium">{e.chipLabel}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Stage */}
+          <div className="px-6 py-12 sm:px-14">
+            {!entry && (
+              <p className="py-16 text-center text-base text-muted-foreground">
+                Pick one above to see the 4-step story tailored to your work.
+              </p>
+            )}
+
+            {entry && currentStep && (
+              <div className="grid gap-10 lg:grid-cols-[200px_minmax(0,1fr)] lg:gap-14">
+                {/* Step list (vertical on desktop) */}
+                <div className="flex flex-wrap gap-1 lg:flex-col lg:gap-0">
+                  {entry.steps.map((s, i) => {
+                    const active = i === step;
+                    const shortTitle = s.title.split(".")[0] + ".";
+                    return (
+                      <button
+                        key={s.n}
+                        type="button"
+                        onClick={() => setStep(i)}
+                        className={`flex flex-1 flex-col gap-1 border-l-2 px-4 py-3.5 text-left text-[13px] tracking-[-0.005em] transition-colors duration-150 lg:flex-initial ${
+                          active
+                            ? "border-l-primary bg-surface-subtle text-foreground"
+                            : "border-l-border text-muted-foreground hover:text-foreground"
+                        }`}
+                      >
+                        <span className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] opacity-70">
+                          {s.n} · {s.k}
+                        </span>
+                        <span className="font-medium">{shortTitle}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Panel */}
+                <div className="min-h-[320px]">
+                  <span className="font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-primary">
+                    {currentStep.n} · {currentStep.k}
+                  </span>
+                  <h4 className="mt-3 font-display text-2xl font-semibold leading-[1.12] tracking-[-0.025em] text-foreground sm:text-[2rem]">
+                    {currentStep.title}
+                  </h4>
+                  <p className="mt-5 max-w-[58ch] text-[17px] leading-[1.55] tracking-[-0.005em] text-muted-foreground">
+                    {currentStep.lede}
+                  </p>
+                  <ul className="mt-7 grid gap-4">
+                    {currentStep.bullets.map((b) => (
+                      <li
+                        key={b}
+                        className="grid grid-cols-[24px_1fr] gap-3 text-[15px] leading-[1.55] tracking-[-0.005em] text-foreground"
+                      >
+                        <span aria-hidden className="font-medium text-primary">
+                          →
+                        </span>
+                        <span>{b}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-6">
+                    <span className="font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground">
+                      Step {step + 1} of {entry.steps.length}
+                    </span>
+                    <div className="flex flex-wrap gap-2">
+                      {step > 0 && (
+                        <button
+                          type="button"
+                          onClick={() => setStep((s) => Math.max(0, s - 1))}
+                          className={ghostBtn}
+                        >
+                          Back
+                        </button>
+                      )}
+                      {!isLastStep && (
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setStep((s) =>
+                              Math.min(entry.steps.length - 1, s + 1)
+                            )
+                          }
+                          className={outlineBtn}
+                        >
+                          Next step →
+                        </button>
+                      )}
+                      {isLastStep && (
+                        <>
+                          <a href={entry.cta.secondary.href} className={outlineBtn}>
+                            {entry.cta.secondary.label}
+                          </a>
+                          <a href={entry.cta.href} className={primaryBtn}>
+                            {entry.cta.label}
+                          </a>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

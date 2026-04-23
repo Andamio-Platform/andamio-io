@@ -31,31 +31,50 @@ export default function V2CTAFooter() {
   return (
     <section className="bg-surface-dark">
       <div className="mx-auto max-w-5xl px-4 py-24 text-center sm:px-6 sm:py-32 lg:px-8">
-        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary">
+        <span className="inline-flex items-center gap-3 font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-primary">
+          <span className="h-px w-8 bg-current opacity-70" aria-hidden />
           Build the graph with us
-        </p>
-        <h3 className="mt-6 font-display text-4xl font-extrabold leading-[1.05] tracking-[-0.02em] text-white sm:text-5xl lg:text-6xl">
+          <span className="h-px w-8 bg-current opacity-70" aria-hidden />
+        </span>
+
+        <h3 className="mt-8 font-display text-4xl font-semibold leading-[1.02] tracking-[-0.035em] text-white sm:text-5xl lg:text-6xl">
           The credential graph is being drawn.
           <br />
           <span className="text-primary">Get your issuers on it.</span>
         </h3>
-        <p className="mx-auto mt-6 max-w-2xl text-lg text-white/70 sm:text-xl">
-          Twenty minutes. We&rsquo;ll scope a pilot against one of your
-          active credentialing programs and show you cross-issuer
-          composability live. No slides.
+        <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed tracking-[-0.005em] text-white/70 sm:text-xl">
+          Twenty minutes. We’ll scope a pilot against one of your active
+          credentialing programs and show you cross-issuer composability live.
+          No slides.
         </p>
         <div className="mt-10 flex flex-wrap justify-center gap-3">
           <a
             href="mailto:hello@andamio.io?subject=Enterprise%20walkthrough%20request"
-            className="inline-flex items-center rounded-md bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+            className="inline-flex items-center gap-2 rounded-sm border border-[oklch(0.55_0.19_38)] bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-[0_2px_0_oklch(0.45_0.17_38)] transition-[background,transform,box-shadow] duration-150 hover:bg-primary/90 active:translate-y-[2px] active:shadow-[0_0_0_oklch(0.45_0.17_38)]"
           >
             Book a 20-minute walkthrough
+            <svg
+              aria-hidden
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              className="h-3.5 w-3.5"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M17 8l4 4m0 0l-4 4m4-4H3"
+              />
+            </svg>
           </a>
           <a
-            href="#graph"
-            className="inline-flex items-center rounded-md border border-white/20 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-white/10"
+            href="/dead-end-tax.html"
+            target="_blank"
+            rel="noopener"
+            className="inline-flex items-center rounded-sm border border-white/30 bg-transparent px-6 py-3 text-sm font-medium text-white shadow-[0_2px_0_rgb(255_255_255_/_0.2)] transition-[background,transform,box-shadow] duration-150 hover:bg-white hover:text-surface-dark active:translate-y-[2px] active:shadow-[0_0_0_rgb(255_255_255_/_0.2)]"
           >
-            See how the graph works
+            Read the Dead-End Tax audit
           </a>
         </div>
       </div>
@@ -68,11 +87,11 @@ export default function V2CTAFooter() {
               src="/logo-with-typography-dark.svg"
               alt="Andamio"
             />
-            <p className="max-w-xs text-sm text-white/60">
+            <p className="max-w-xs text-sm leading-relaxed text-white/60">
               Composable Credentials. The credential graph, built on an open
               protocol, ready to integrate with your systems.
             </p>
-            <p className="mt-6 text-xs text-white/40">
+            <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.18em] text-white/40">
               © {new Date().getFullYear()} Andamio
             </p>
           </div>
@@ -80,7 +99,7 @@ export default function V2CTAFooter() {
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
             {Object.entries(footerLinks).map(([key, links]) => (
               <div key={key}>
-                <h3 className="mb-4 text-xs font-semibold uppercase tracking-[0.15em] text-white/50">
+                <h3 className="mb-4 font-mono text-[10px] font-medium uppercase tracking-[0.2em] text-white/50">
                   {key}
                 </h3>
                 <ul className="space-y-2.5">

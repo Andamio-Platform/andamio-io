@@ -21,8 +21,8 @@ const footerLinks = {
     { name: "Twitter", href: EXTERNAL_LINKS.twitter },
   ],
   Legal: [
-    { name: "Privacy", href: "https://app.andamio.io/privacy-policy" },
-    { name: "Terms", href: "https://app.andamio.io/terms" },
+    { name: "Privacy", href: "/privacy-policy" },
+    { name: "Terms", href: "/terms" },
   ],
 };
 

@@ -17,6 +17,6 @@ export const EXTERNAL_LINKS = {
   app: "https://mainnet.app.andamio.io",
   github: "https://github.com/Andamio-Platform",
   discord: "https://discord.gg/FtvpAYnBMU",
-  linkedin: "https://www.linkedin.com/company/andamio-platform",
-  twitter: "https://x.com/AndamioPlatform",
+  linkedin: "https://www.linkedin.com/company/andamio-teams",
+  twitter: "https://x.com/andamio_teams",
 } as const;

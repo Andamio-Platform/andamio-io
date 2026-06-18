@@ -6,6 +6,10 @@ export interface Step {
   title: string;
   lede: string;
   bullets: string[];
+  /** Optional id of an interactive demo to mount under this step's bullets.
+   *  Resolved against STEP_DEMOS in step-demos.tsx. Keep this declarative — the
+   *  data layer references a demo by id; it never imports a component. */
+  demoId?: string;
 }
 
 export interface WalkthroughEntry {
@@ -49,6 +53,7 @@ export const WALKTHROUGH: Record<Archetype, WalkthroughEntry> = {
           "Verification becomes public read, not a support ticket",
           "The credential outlives the vendor that processed it",
         ],
+        demoId: "cert-verifier",
       },
       {
         n: "03",

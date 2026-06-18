@@ -3,6 +3,7 @@
 import React from "react";
 import { WALKTHROUGH, type Archetype } from "./walkthrough-data";
 import { primaryBtnSm, outlineBtnSm, ghostBtnSm } from "./_ui";
+import { STEP_DEMOS } from "./step-demos";
 
 const ARCHETYPE_ORDER: Archetype[] = ["cert", "partner", "cohort"];
 const STORAGE_KEY = "andamio-wt";
@@ -48,6 +49,7 @@ export default function V2WalkthroughSection() {
   const entry = archetype ? WALKTHROUGH[archetype] : null;
   const currentStep = entry ? entry.steps[step] : null;
   const isLastStep = entry ? step === entry.steps.length - 1 : false;
+  const StepDemo = currentStep?.demoId ? STEP_DEMOS[currentStep.demoId] : undefined;
 
   return (
     <section
@@ -159,6 +161,12 @@ export default function V2WalkthroughSection() {
                       </li>
                     ))}
                   </ul>
+
+                  {StepDemo && (
+                    <div className="mt-7">
+                      <StepDemo />
+                    </div>
+                  )}
 
                   <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-6">
                     <span className="text-[13px] font-medium text-muted-foreground">

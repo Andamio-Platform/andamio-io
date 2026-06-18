@@ -2,18 +2,14 @@
 
 import React from "react";
 import { WALKTHROUGH, type Archetype } from "./walkthrough-data";
+import { primaryBtnSm, outlineBtnSm, ghostBtnSm } from "./_ui";
 
 const ARCHETYPE_ORDER: Archetype[] = ["cert", "partner", "cohort"];
 const STORAGE_KEY = "andamio-wt";
 
-const primaryBtn =
-  "inline-flex items-center gap-2 rounded-sm border border-[oklch(0.55_0.19_38)] bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow-[0_2px_0_oklch(0.45_0.17_38)] transition-[background,transform,box-shadow] duration-150 hover:bg-primary/90 active:translate-y-[2px] active:shadow-[0_0_0_oklch(0.45_0.17_38)]";
-
-const outlineBtn =
-  "inline-flex items-center gap-2 rounded-sm border border-foreground bg-background px-5 py-2.5 text-sm font-medium text-foreground shadow-[0_2px_0_var(--foreground)] transition-[background,color,transform,box-shadow] duration-150 hover:bg-foreground hover:text-background active:translate-y-[2px] active:shadow-[0_0_0_var(--foreground)]";
-
-const ghostBtn =
-  "inline-flex items-center rounded-sm border border-border bg-transparent px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted";
+const primaryBtn = primaryBtnSm;
+const outlineBtn = outlineBtnSm;
+const ghostBtn = ghostBtnSm;
 
 export default function V2WalkthroughSection() {
   const [archetype, setArchetype] = React.useState<Archetype | null>(null);
@@ -61,15 +57,15 @@ export default function V2WalkthroughSection() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div
           id="walkthrough"
-          className="relative border border-foreground bg-background shadow-[10px_10px_0_var(--foreground)]"
+          className="relative overflow-hidden rounded-xl border border-border bg-background shadow-lg"
         >
           {/* Top bar */}
-          <div className="grid gap-6 bg-foreground px-6 py-10 text-background sm:px-14 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:gap-14">
+          <div className="grid gap-6 bg-secondary px-6 py-10 text-white sm:px-14 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:gap-14">
             <div>
-              <p className="font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-primary">
-                Choose your archetype · live narrative
+              <p className="text-[13px] font-semibold text-white/75">
+                Choose your archetype
               </p>
-              <h3 className="mt-3 font-display text-[1.625rem] font-semibold leading-[1.1] tracking-[-0.025em] text-background sm:text-[2rem] lg:text-[2.25rem]">
+              <h3 className="mt-3 font-display text-[1.625rem] font-semibold leading-[1.1] tracking-[-0.025em] text-white sm:text-[2rem] lg:text-[2.25rem]">
                 Which describes you? We&rsquo;ll walk you through the first
                 six months, in four steps.
               </h3>
@@ -84,20 +80,20 @@ export default function V2WalkthroughSection() {
                     key={key}
                     type="button"
                     onClick={() => selectArchetype(key)}
-                    className={`flex max-w-[240px] flex-col rounded-sm border px-4 py-3 text-left text-[13px] tracking-[-0.005em] transition-colors duration-150 ${
+                    className={`flex max-w-[240px] flex-col rounded-md border px-4 py-3 text-left text-[13px] tracking-[-0.005em] transition-colors duration-150 ${
                       active
-                        ? "border-[oklch(0.55_0.19_38)] bg-primary text-primary-foreground"
-                        : "border-white/30 bg-transparent text-background hover:bg-white/10"
+                        ? "border-primary bg-primary text-primary-foreground"
+                        : "border-white/30 bg-transparent text-white hover:bg-white/10"
                     }`}
                   >
                     <span
-                      className={`mb-1 font-mono text-[10px] font-medium uppercase tracking-[0.18em] ${
-                        active ? "text-primary-foreground/80" : "opacity-70"
+                      className={`mb-1 text-[12px] font-medium ${
+                        active ? "text-primary-foreground/80" : "text-white/70"
                       }`}
                     >
                       {e.chipKicker}
                     </span>
-                    <span className="font-medium">{e.chipLabel}</span>
+                    <span className="font-semibold">{e.chipLabel}</span>
                   </button>
                 );
               })}
@@ -126,14 +122,14 @@ export default function V2WalkthroughSection() {
                         onClick={() => setStep(i)}
                         className={`flex flex-1 flex-col gap-1 border-l-2 px-4 py-3.5 text-left text-[13px] tracking-[-0.005em] transition-colors duration-150 lg:flex-initial ${
                           active
-                            ? "border-l-primary bg-surface-subtle text-foreground"
+                            ? "border-l-primary bg-muted text-foreground"
                             : "border-l-border text-muted-foreground hover:text-foreground"
                         }`}
                       >
-                        <span className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] opacity-70">
-                          {s.n} · {s.k}
+                        <span className="text-[12px] font-medium text-muted-foreground">
+                          Step {s.n} · {s.k}
                         </span>
-                        <span className="font-medium">{shortTitle}</span>
+                        <span className="font-semibold">{shortTitle}</span>
                       </button>
                     );
                   })}
@@ -141,8 +137,8 @@ export default function V2WalkthroughSection() {
 
                 {/* Panel */}
                 <div className="min-h-[320px]">
-                  <span className="font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-primary">
-                    {currentStep.n} · {currentStep.k}
+                  <span className="text-[13px] font-semibold text-primary">
+                    Step {currentStep.n} · {currentStep.k}
                   </span>
                   <h4 className="mt-3 font-display text-2xl font-semibold leading-[1.12] tracking-[-0.025em] text-foreground sm:text-[2rem]">
                     {currentStep.title}
@@ -165,7 +161,7 @@ export default function V2WalkthroughSection() {
                   </ul>
 
                   <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-6">
-                    <span className="font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground">
+                    <span className="text-[13px] font-medium text-muted-foreground">
                       Step {step + 1} of {entry.steps.length}
                     </span>
                     <div className="flex flex-wrap gap-2">

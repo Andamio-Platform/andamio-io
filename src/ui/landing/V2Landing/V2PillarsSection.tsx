@@ -1,4 +1,5 @@
 import React from "react";
+import { Kicker } from "./_ui";
 
 interface Pillar {
   number: string;
@@ -56,17 +57,9 @@ export default function V2PillarsSection() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.6fr)] lg:gap-[96px]">
           <div className="lg:sticky lg:top-28 lg:self-start">
-            <div className="flex items-baseline justify-between gap-6">
-              <span className="inline-flex items-center gap-3 font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
-                <span className="h-px w-8 bg-current opacity-70" aria-hidden />
-                What the protocol does
-              </span>
-              <span className="font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground opacity-80">
-                03 / 05
-              </span>
-            </div>
+            <Kicker tone="muted">What the protocol does</Kicker>
 
-            <h2 className="mt-7 font-display text-[2.5rem] font-semibold leading-[1] tracking-[-0.04em] text-foreground sm:text-[3.5rem] lg:text-[4rem]">
+            <h2 className="mt-4 font-display text-[2.5rem] font-semibold leading-[1] tracking-[-0.04em] text-foreground sm:text-[3.5rem] lg:text-[4rem]">
               <span className="block">Issue.</span>
               <span className="block">Verify.</span>
               <span className="block text-primary">Compose.</span>
@@ -85,9 +78,9 @@ export default function V2PillarsSection() {
             {pillars.map((pillar) => (
               <div
                 key={pillar.title}
-                className="grid grid-cols-[64px_1fr] items-baseline gap-8 border-t border-border py-10 first:border-t-0 first:pt-0"
+                className="grid grid-cols-[56px_1fr] items-baseline gap-8 border-t border-border py-10 first:border-t-0 first:pt-0"
               >
-                <dt className="font-mono text-[13px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
+                <dt className="font-display text-[1.75rem] font-semibold tabular-nums text-primary/70">
                   {pillar.number}
                 </dt>
                 <div>
@@ -97,7 +90,7 @@ export default function V2PillarsSection() {
                   <p className="mt-4 max-w-[58ch] text-base leading-relaxed tracking-[-0.005em] text-muted-foreground">
                     {pillar.description}
                   </p>
-                  <span className="mt-4 inline-block rounded-sm border border-border px-2 py-1 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
+                  <span className="mt-5 inline-block text-[13px] font-medium text-muted-foreground">
                     {pillar.tag}
                   </span>
                 </div>

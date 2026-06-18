@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { EXTERNAL_LINKS } from "~/lib/external-links";
+import { primaryBtnClass } from "./_ui";
 
 const footerLinks = {
   "For buyers": [
@@ -31,13 +32,9 @@ export default function V2CTAFooter() {
   return (
     <section className="bg-surface-dark">
       <div className="mx-auto max-w-5xl px-4 py-24 text-center sm:px-6 sm:py-32 lg:px-8">
-        <span className="inline-flex items-center gap-3 font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-primary">
-          <span className="h-px w-8 bg-current opacity-70" aria-hidden />
-          Build the graph with us
-          <span className="h-px w-8 bg-current opacity-70" aria-hidden />
-        </span>
+        <p className="text-sm font-semibold text-primary">Build the graph with us</p>
 
-        <h3 className="mt-8 font-display text-4xl font-semibold leading-[1.02] tracking-[-0.035em] text-white sm:text-5xl lg:text-6xl">
+        <h3 className="mt-6 font-display text-4xl font-semibold leading-[1.02] tracking-[-0.035em] text-white sm:text-5xl lg:text-6xl">
           The credential graph is being drawn.
           <br />
           <span className="text-primary">Get your issuers on it.</span>
@@ -50,7 +47,7 @@ export default function V2CTAFooter() {
         <div className="mt-10 flex flex-wrap justify-center gap-3">
           <a
             href="mailto:hello@andamio.io?subject=Enterprise%20walkthrough%20request"
-            className="inline-flex items-center gap-2 rounded-sm border border-[oklch(0.55_0.19_38)] bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-[0_2px_0_oklch(0.45_0.17_38)] transition-[background,transform,box-shadow] duration-150 hover:bg-primary/90 active:translate-y-[2px] active:shadow-[0_0_0_oklch(0.45_0.17_38)]"
+            className={primaryBtnClass}
           >
             Book a 20-minute walkthrough
             <svg
@@ -72,7 +69,7 @@ export default function V2CTAFooter() {
             href="/dead-end-tax.html"
             target="_blank"
             rel="noopener"
-            className="inline-flex items-center rounded-sm border border-white/30 bg-transparent px-6 py-3 text-sm font-medium text-white shadow-[0_2px_0_rgb(255_255_255_/_0.2)] transition-[background,transform,box-shadow] duration-150 hover:bg-white hover:text-surface-dark active:translate-y-[2px] active:shadow-[0_0_0_rgb(255_255_255_/_0.2)]"
+            className="inline-flex items-center rounded-md border border-white/30 bg-transparent px-6 py-3 text-[15px] font-medium text-white transition-colors duration-150 hover:border-white/60 hover:bg-white/[0.06]"
           >
             Read the Dead-End Tax audit
           </a>
@@ -91,7 +88,7 @@ export default function V2CTAFooter() {
               Composable Credentials. The credential graph, built on an open
               protocol, ready to integrate with your systems.
             </p>
-            <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.18em] text-white/40">
+            <p className="mt-6 text-[13px] text-white/40">
               © {new Date().getFullYear()} Andamio
             </p>
           </div>
@@ -99,7 +96,7 @@ export default function V2CTAFooter() {
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
             {Object.entries(footerLinks).map(([key, links]) => (
               <div key={key}>
-                <h3 className="mb-4 font-mono text-[10px] font-medium uppercase tracking-[0.2em] text-white/50">
+                <h3 className="mb-4 text-[13px] font-semibold text-white/80">
                   {key}
                 </h3>
                 <ul className="space-y-2.5">

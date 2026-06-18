@@ -1,4 +1,5 @@
 import React from "react";
+import { Kicker } from "./_ui";
 
 interface Pain {
   headline: string;
@@ -31,17 +32,9 @@ export default function V2ProblemSection() {
   return (
     <section className="border-t border-border/60 bg-background py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex items-baseline justify-between gap-6">
-          <span className="inline-flex items-center gap-3 font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
-            <span className="h-px w-8 bg-current opacity-70" aria-hidden />
-            The old world
-          </span>
-          <span className="font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground opacity-80">
-            01 / 05
-          </span>
-        </div>
+        <Kicker tone="muted">The old world</Kicker>
 
-        <div className="mt-6 max-w-3xl">
+        <div className="mt-4 max-w-3xl">
           <h2 className="font-display text-4xl font-semibold leading-[1.02] tracking-[-0.035em] text-foreground sm:text-5xl lg:text-6xl">
             Three ways a credential becomes a dead end.
           </h2>
@@ -53,14 +46,11 @@ export default function V2ProblemSection() {
         </div>
 
         <dl className="mt-20 grid gap-14 sm:grid-cols-3 sm:gap-12">
-          {pains.map((pain, index) => (
+          {pains.map((pain) => (
             <div
               key={pain.headline}
-              className="relative flex flex-col border-t-2 border-foreground pt-10"
+              className="relative flex flex-col border-t border-border pt-8"
             >
-              <span className="absolute -top-[11px] left-0 bg-background pr-3 font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-foreground">
-                Dead end 0{index + 1}
-              </span>
               <dt className="font-display text-xl font-semibold leading-[1.1] tracking-[-0.02em] text-foreground sm:text-2xl">
                 {pain.headline}
               </dt>

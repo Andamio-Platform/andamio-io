@@ -1,4 +1,5 @@
 import React from "react";
+import { Kicker } from "./_ui";
 
 interface QuoteStat {
   v: string;
@@ -18,12 +19,9 @@ export default function V2QuoteBandSection() {
       className="border-y border-border bg-background py-24 sm:py-32"
     >
       <div className="mx-auto max-w-[62rem] px-4 sm:px-6 lg:px-8">
-        <span className="inline-flex items-center gap-3 font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-primary">
-          <span className="h-px w-8 bg-current opacity-70" aria-hidden />
-          From an early design partner
-        </span>
+        <Kicker>From an early design partner</Kicker>
 
-        <blockquote className="mt-8 max-w-[36ch] font-display text-[1.75rem] font-medium leading-[1.2] tracking-[-0.025em] text-foreground sm:text-[2.25rem] lg:text-[2.75rem]">
+        <blockquote className="mt-6 max-w-[36ch] font-display text-[1.75rem] font-medium leading-[1.2] tracking-[-0.025em] text-foreground sm:text-[2.25rem] lg:text-[2.75rem]">
           “Once our credential lived somewhere other than a vendor’s database,
           the verification calls stopped. That alone paid for the first year.
           The compose part — other issuers gating on us — is what made it a
@@ -45,7 +43,7 @@ export default function V2QuoteBandSection() {
                 <dt className="font-display text-[1.75rem] font-semibold leading-none tracking-[-0.035em] text-primary tabular-nums sm:text-[2.25rem]">
                   {s.v}
                 </dt>
-                <dd className="font-mono text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
+                <dd className="text-[12px] leading-snug text-muted-foreground">
                   {s.k}
                 </dd>
               </div>

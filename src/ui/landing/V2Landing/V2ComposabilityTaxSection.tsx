@@ -1,4 +1,5 @@
 import React from "react";
+import { Kicker } from "./_ui";
 
 interface TaxLine {
   label: string;
@@ -43,17 +44,9 @@ export default function V2ComposabilityTaxSection() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-14 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.4fr)] lg:gap-[104px]">
           <div className="lg:self-start">
-            <div className="flex items-baseline justify-between gap-6">
-              <span className="inline-flex items-center gap-3 font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-primary">
-                <span className="h-px w-8 bg-current opacity-70" aria-hidden />
-                The cost of dead-end credentials
-              </span>
-              <span className="font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-background/50">
-                02 / 05
-              </span>
-            </div>
+            <Kicker>The cost of dead-end credentials</Kicker>
 
-            <h2 className="mt-7 font-display text-4xl font-semibold leading-[1.02] tracking-[-0.035em] text-background sm:text-5xl lg:text-6xl">
+            <h2 className="mt-4 font-display text-4xl font-semibold leading-[1.02] tracking-[-0.035em] text-background sm:text-5xl lg:text-6xl">
               You’re already paying the Dead-End&nbsp;Tax.
             </h2>
             <p className="mt-7 max-w-md text-lg leading-relaxed tracking-[-0.005em] text-background/70 sm:text-xl">
@@ -68,27 +61,22 @@ export default function V2ComposabilityTaxSection() {
           </div>
 
           <dl className="flex flex-col">
-            {taxLines.map((line, index) => (
+            {taxLines.map((line) => (
               <div
                 key={line.label}
-                className="grid grid-cols-[48px_1fr] items-baseline gap-6 border-t border-background/15 py-9 first:border-t-0 first:pt-0"
+                className="border-t border-background/15 py-9 first:border-t-0 first:pt-0"
               >
-                <dt className="font-mono text-[13px] font-medium uppercase tracking-[0.12em] text-background/50">
-                  0{index + 1}
-                </dt>
-                <div>
-                  <div className="flex flex-wrap items-baseline justify-between gap-4">
-                    <p className="font-display text-lg font-semibold leading-[1.2] tracking-[-0.015em] text-background sm:text-[1.375rem]">
-                      {line.label}
-                    </p>
-                    <p className="font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-primary">
-                      {line.cost}
-                    </p>
-                  </div>
-                  <p className="mt-3.5 max-w-[58ch] text-[15px] leading-relaxed tracking-[-0.005em] text-background/65">
-                    {line.note}
+                <div className="flex flex-wrap items-baseline justify-between gap-4">
+                  <p className="font-display text-lg font-semibold leading-[1.2] tracking-[-0.015em] text-background sm:text-[1.375rem]">
+                    {line.label}
+                  </p>
+                  <p className="text-[13px] font-semibold text-primary">
+                    {line.cost}
                   </p>
                 </div>
+                <p className="mt-3.5 max-w-[58ch] text-[15px] leading-relaxed tracking-[-0.005em] text-background/65">
+                  {line.note}
+                </p>
               </div>
             ))}
           </dl>
@@ -97,10 +85,10 @@ export default function V2ComposabilityTaxSection() {
         {/* Lead-magnet card — spans full width under the 2-column tax layout */}
         <div className="mt-20 grid gap-8 border border-background/20 bg-background/[0.04] p-8 md:grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)] md:items-center md:gap-16 md:p-14">
           <div>
-            <p className="font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-primary">
-              Lead magnet · 8-page brief · PDF
+            <p className="text-[13px] font-semibold text-primary">
+              Free brief · 8 pages · PDF
             </p>
-            <h3 className="mt-4 font-display text-2xl font-semibold leading-[1.1] tracking-[-0.025em] text-background sm:text-[1.75rem] lg:text-[2.125rem]">
+            <h3 className="mt-3 font-display text-2xl font-semibold leading-[1.1] tracking-[-0.025em] text-background sm:text-[1.75rem] lg:text-[2.125rem]">
               The Dead-End Tax: <br className="hidden sm:inline" />
               an 8-page brief on what credentials cost when they don’t
               compose.
@@ -114,7 +102,7 @@ export default function V2ComposabilityTaxSection() {
               href="/dead-end-tax.html"
               target="_blank"
               rel="noopener"
-              className="mt-5 inline-flex items-center gap-1.5 font-mono text-[13px] font-medium text-primary underline-offset-4 hover:underline"
+              className="mt-5 inline-flex items-center gap-1.5 text-[14px] font-medium text-primary underline-offset-4 hover:underline"
             >
               Preview the report <span aria-hidden>→</span>
             </a>
@@ -127,11 +115,11 @@ export default function V2ComposabilityTaxSection() {
           >
             <label
               htmlFor="mag-email"
-              className="font-mono text-[10px] font-medium uppercase tracking-[0.2em] text-background/55"
+              className="text-[13px] font-medium text-background/65"
             >
               Work email
             </label>
-            <div className="flex overflow-hidden rounded-sm border border-background/25 bg-background/[0.04]">
+            <div className="flex overflow-hidden rounded-md border border-background/25 bg-background/[0.04]">
               <input
                 id="mag-email"
                 name="subject"
@@ -142,7 +130,7 @@ export default function V2ComposabilityTaxSection() {
               />
               <button
                 type="submit"
-                className="border-l border-[oklch(0.55_0.19_38)] bg-primary px-5 py-3.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                className="bg-primary px-5 py-3.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
               >
                 Send the audit
               </button>

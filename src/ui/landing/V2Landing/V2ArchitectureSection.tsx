@@ -1,4 +1,5 @@
 import React from "react";
+import { Kicker } from "./_ui";
 
 interface StackLayer {
   labelKicker: string;
@@ -49,12 +50,9 @@ export default function V2ArchitectureSection() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center lg:gap-24">
           <div>
-            <span className="inline-flex items-center gap-3 font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
-              <span className="h-px w-8 bg-current opacity-70" aria-hidden />
-              How it fits
-            </span>
+            <Kicker tone="muted">How it fits</Kicker>
 
-            <h2 className="mt-7 font-display text-4xl font-semibold leading-[1.02] tracking-[-0.035em] text-foreground sm:text-5xl lg:text-6xl">
+            <h2 className="mt-4 font-display text-4xl font-semibold leading-[1.02] tracking-[-0.035em] text-foreground sm:text-5xl lg:text-6xl">
               A credential layer on top of what you already run.
             </h2>
             <p className="mt-7 max-w-lg text-lg leading-relaxed tracking-[-0.005em] text-muted-foreground">
@@ -76,16 +74,16 @@ export default function V2ArchitectureSection() {
             </a>
           </div>
 
-          <div className="border border-foreground bg-background shadow-[8px_8px_0_var(--foreground)]">
+          <div className="overflow-hidden rounded-xl border border-border bg-background shadow-lg">
             {stackLayers.map((layer, index) => (
               <div
                 key={layer.name}
                 className={`${layer.surface} ${
-                  index > 0 ? "border-t border-foreground" : ""
+                  index > 0 ? "border-t border-border" : ""
                 } px-7 py-7 sm:px-8`}
               >
                 <p
-                  className={`font-mono text-[11px] font-medium uppercase tracking-[0.2em] ${
+                  className={`text-[13px] font-semibold ${
                     layer.emphasis
                       ? "text-primary-foreground/85"
                       : "text-muted-foreground"

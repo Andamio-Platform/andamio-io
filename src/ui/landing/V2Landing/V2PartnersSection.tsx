@@ -1,4 +1,5 @@
 import React from "react";
+import { Kicker } from "./_ui";
 
 interface Archetype {
   n: string;
@@ -11,7 +12,7 @@ interface Archetype {
 
 const archetypes: Archetype[] = [
   {
-    n: "01 · Certification",
+    n: "Certification",
     label: "If you certify professionals",
     headline:
       "Your credential is the deliverable. Make it fraud-resistant, portable, and cheap to verify.",
@@ -20,7 +21,7 @@ const archetypes: Archetype[] = [
     buyer: "Buyer: VP Certification · Head of Credentialing",
   },
   {
-    n: "02 · Partner programs",
+    n: "Partner programs",
     label: "If you run a partner program",
     headline:
       "The credential carries the tier. The protocol enforces the rule across vendors.",
@@ -29,7 +30,7 @@ const archetypes: Archetype[] = [
     buyer: "Buyer: Head of Partner Enablement · CRO",
   },
   {
-    n: "03 · Cohort training",
+    n: "Cohort training",
     label: "If you run cohort-based training",
     headline:
       "Per-credential cost. Credentials that work downstream, not just on LinkedIn.",
@@ -43,17 +44,9 @@ export default function V2PartnersSection() {
   return (
     <section id="archetypes" className="border-t border-border/60 bg-background py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex items-baseline justify-between gap-6">
-          <span className="inline-flex items-center gap-3 font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
-            <span className="h-px w-8 bg-current opacity-70" aria-hidden />
-            The first issuers on the graph
-          </span>
-          <span className="font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground opacity-80">
-            05 / 05
-          </span>
-        </div>
+        <Kicker tone="muted">The first issuers on the graph</Kicker>
 
-        <div className="mt-7 max-w-3xl">
+        <div className="mt-4 max-w-3xl">
           <h2 className="font-display text-4xl font-semibold leading-[1.02] tracking-[-0.035em] text-foreground sm:text-5xl">
             Three kinds of work, one protocol.
           </h2>
@@ -68,24 +61,24 @@ export default function V2PartnersSection() {
             <a
               key={a.n}
               href="#walkthrough"
-              className="group relative flex flex-col border border-foreground bg-background p-9 transition-[background,transform,box-shadow,color] duration-150 hover:-translate-x-[2px] hover:-translate-y-[2px] hover:bg-foreground hover:text-background hover:shadow-[6px_6px_0_var(--primary)]"
+              className="group relative flex flex-col rounded-lg border border-border bg-card/40 p-9 transition-[border-color,transform] duration-200 hover:-translate-y-1 hover:border-primary/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
             >
-              <span className="mb-5 font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground group-hover:text-background/60">
+              <span className="mb-5 text-[13px] font-semibold text-muted-foreground">
                 {a.n}
               </span>
-              <p className="font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-primary">
+              <p className="text-[14px] font-semibold text-primary">
                 {a.label}
               </p>
-              <h3 className="mt-3 font-display text-xl font-semibold leading-[1.15] tracking-[-0.025em] text-foreground group-hover:text-background sm:text-[1.5rem]">
+              <h3 className="mt-3 font-display text-xl font-semibold leading-[1.15] tracking-[-0.025em] text-foreground sm:text-[1.5rem]">
                 {a.headline}
               </h3>
-              <p className="mt-5 text-[15px] leading-relaxed tracking-[-0.005em] text-muted-foreground group-hover:text-background/80">
+              <p className="mt-5 text-[15px] leading-relaxed tracking-[-0.005em] text-muted-foreground">
                 {a.body}
               </p>
-              <p className="mt-3 text-[14px] leading-relaxed tracking-[-0.005em] text-muted-foreground group-hover:text-background/70">
+              <p className="mt-3 text-[14px] leading-relaxed tracking-[-0.005em] text-muted-foreground">
                 {a.fit}
               </p>
-              <span className="mt-auto inline-flex items-center gap-1.5 pt-6 text-sm font-medium text-primary group-hover:text-primary">
+              <span className="mt-auto inline-flex items-center gap-1.5 pt-6 text-sm font-medium text-primary">
                 See the 4-step walkthrough{" "}
                 <span
                   aria-hidden
@@ -94,7 +87,7 @@ export default function V2PartnersSection() {
                   →
                 </span>
               </span>
-              <span className="mt-6 border-t border-dashed border-border pt-4 font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground group-hover:border-background/20 group-hover:text-background/60">
+              <span className="mt-6 border-t border-border pt-4 text-[13px] text-muted-foreground">
                 {a.buyer}
               </span>
             </a>

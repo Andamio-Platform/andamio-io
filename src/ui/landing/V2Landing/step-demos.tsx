@@ -9,6 +9,10 @@ import V2VerifierDemo from "./V2VerifierDemo";
  *   2. Add its scenario data.
  *   3. Register it here and set `demoId` on the relevant step.
  * The render seam in V2WalkthroughSection never changes. */
-export const STEP_DEMOS: Record<string, React.FC> = {
+export const STEP_DEMOS = {
   "cert-verifier": V2VerifierDemo,
-};
+} satisfies Record<string, React.FC>;
+
+/** The set of registered demo ids. A step's `demoId` must be one of these, so a
+ *  typo is a compile error instead of a silently-missing demo. */
+export type DemoId = keyof typeof STEP_DEMOS;

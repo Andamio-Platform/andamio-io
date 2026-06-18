@@ -1,3 +1,5 @@
+import type { DemoId } from "./step-demos";
+
 export type Archetype = "cert" | "partner" | "cohort";
 
 export interface Step {
@@ -7,9 +9,10 @@ export interface Step {
   lede: string;
   bullets: string[];
   /** Optional id of an interactive demo to mount under this step's bullets.
-   *  Resolved against STEP_DEMOS in step-demos.tsx. Keep this declarative — the
-   *  data layer references a demo by id; it never imports a component. */
-  demoId?: string;
+   *  Resolved against STEP_DEMOS in step-demos.tsx. The id is type-checked
+   *  against the registry (DemoId is a type-only import — no component is
+   *  pulled into the data layer at runtime). */
+  demoId?: DemoId;
 }
 
 export interface WalkthroughEntry {

@@ -11,25 +11,38 @@ export type VerifierStatus = "valid" | "revoked" | "not-found";
 
 export type VerifierTone = "verified" | "revoked" | "neutral";
 
-export interface VerifierScenario {
+interface BaseScenario {
   /** Stable key + the example chip label that selects this scenario. */
   key: VerifierStatus;
   chipLabel: string;
-  /** Credential id shown in the input and echoed in the result header. */
+  /** Example id shown in the input and echoed in the result header — including
+   *  the not-found example, which the Not-found chip uses as its display id. */
   credentialId: string;
-  /** Result fields. Absent on not-found, where there is nothing to show. */
-  credentialName?: string;
-  issuer?: string;
-  /** Truncated holder address — the on-chain controller of the credential. */
-  holder?: string;
-  /** On-chain anchor: the block and transaction the issue was recorded in. */
-  anchor?: { block: string; tx: string };
   /** Status badge label + tone. */
   badgeLabel: string;
   tone: VerifierTone;
   /** One-line plain-language explanation shown under the result. */
   note: string;
 }
+
+/** A credential that exists on-chain: result fields are guaranteed present. */
+export interface FoundScenario extends BaseScenario {
+  key: "valid" | "revoked";
+  credentialName: string;
+  issuer: string;
+  /** Truncated holder address — the on-chain controller of the credential. */
+  holder: string;
+  /** On-chain anchor: the block and transaction the issue was recorded in. */
+  anchor: { block: string; tx: string };
+}
+
+/** No credential found: only the base fields apply. */
+export interface NotFoundScenario extends BaseScenario {
+  key: "not-found";
+}
+
+/** Discriminated on `key` so the result card never has to assert field presence. */
+export type VerifierScenario = FoundScenario | NotFoundScenario;
 
 /** Pre-fills the verifier input and resolves to the `valid` scenario. */
 export const SAMPLE_ID = "AND-7F3K-2027";

@@ -32,17 +32,17 @@ export default function V2CTAFooter() {
   return (
     <section className="bg-surface-dark">
       <div className="mx-auto max-w-5xl px-4 py-24 text-center sm:px-6 sm:py-32 lg:px-8">
-        <p className="text-sm font-semibold text-primary">Build the graph with us</p>
+        <p className="text-sm font-semibold text-primary">Andamio Issuer</p>
 
         <h3 className="mt-6 font-display text-4xl font-semibold leading-[1.02] tracking-[-0.035em] text-white sm:text-5xl lg:text-6xl">
-          The credential graph is being drawn.
+          Stop issuing dead ends.
           <br />
-          <span className="text-primary">Get your issuers on it.</span>
+          <span className="text-primary">Issue credentials that keep working.</span>
         </h3>
         <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed tracking-[-0.005em] text-white/70 sm:text-xl">
           Twenty minutes. We’ll scope a pilot against one of your active
-          credentialing programs and show you cross-issuer composability live.
-          No slides.
+          credentialing programs and show you verifiable, earner-owned
+          credentials live. No slides.
         </p>
         <div className="mt-10 flex flex-wrap justify-center gap-3">
           <a
@@ -85,8 +85,8 @@ export default function V2CTAFooter() {
               alt="Andamio"
             />
             <p className="max-w-xs text-sm leading-relaxed text-white/60">
-              Composable Credentials. The credential graph, built on an open
-              protocol, ready to integrate with your systems.
+              Verifiable credentials that keep working after you issue them.
+              A credentialing company that happens to use blockchain.
             </p>
             <p className="mt-6 text-[13px] text-white/40">
               © {new Date().getFullYear()} Andamio

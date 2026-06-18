@@ -4,7 +4,6 @@ import V2HeroSection from "./V2HeroSection";
 import V2ProblemSection from "./V2ProblemSection";
 import V2ComposabilityTaxSection from "./V2ComposabilityTaxSection";
 import V2PillarsSection from "./V2PillarsSection";
-import V2CredentialGraphSection from "./V2CredentialGraphSection";
 import V2PartnersSection from "./V2PartnersSection";
 import V2WalkthroughSection from "./V2WalkthroughSection";
 import V2QuoteBandSection from "./V2QuoteBandSection";
@@ -19,10 +18,10 @@ export default function V2Landing() {
       <V2ProblemSection />
       <V2ComposabilityTaxSection />
       <V2PillarsSection />
-      <V2CredentialGraphSection />
       <V2PartnersSection />
       <V2WalkthroughSection />
       <V2QuoteBandSection />
+      {/* Andamio API — the builder product, secondary to the Issuer lead */}
       <V2ArchitectureSection />
       <V2CTAFooter />
     </div>

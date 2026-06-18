@@ -1,5 +1,6 @@
 import React from "react";
 import { Kicker } from "./_ui";
+import { EXTERNAL_LINKS } from "~/lib/external-links";
 
 interface StackLayer {
   labelKicker: string;
@@ -21,7 +22,7 @@ const stackLayers: StackLayer[] = [
     labelKicker: "Integration",
     name: "Andamio API",
     description:
-      "REST endpoints for issuing, verifying, and composing credentials.",
+      "REST endpoints to issue, verify, and gate on credentials from your own stack.",
     emphasis: true,
     surface: "bg-primary",
   },
@@ -44,32 +45,36 @@ const stackLayers: StackLayer[] = [
 export default function V2ArchitectureSection() {
   return (
     <section
-      id="architecture"
+      id="andamio-api"
       className="border-t border-border/60 bg-surface-subtle py-24 sm:py-32"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center lg:gap-24">
           <div>
-            <Kicker tone="muted">How it fits</Kicker>
+            <Kicker>Andamio API · for builders</Kicker>
 
             <h2 className="mt-4 font-display text-4xl font-semibold leading-[1.02] tracking-[-0.035em] text-foreground sm:text-5xl lg:text-6xl">
-              A credential layer on top of what you already run.
+              Building on credentials? Start with the API.
             </h2>
             <p className="mt-7 max-w-lg text-lg leading-relaxed tracking-[-0.005em] text-muted-foreground">
-              Andamio does not replace your LMS or your certification
-              platform. It adds a composable credential layer, anchored on
-              Cardano, that your current stack calls via REST API.
+              The Issuer product runs on the same machinery you can build on
+              directly. Andamio credentials are machine-readable: an application
+              can check that someone holds one and act on it — gate access,
+              unlock the next step, or drive what the app does next.
             </p>
             <p className="mt-5 max-w-[48ch] text-base leading-relaxed text-muted-foreground">
-              Smart contracts audited by TxPipe. Live on Cardano mainnet
-              since February 2026. No migration on day one — you can run both
-              in parallel for as long as you want.
+              This is where credentials gate access today: a course credential
+              can gate a project through the API. Smart contracts audited by
+              TxPipe, live on Cardano mainnet, called over REST — your stack
+              never touches crypto.
             </p>
             <a
-              href="#"
+              href={EXTERNAL_LINKS.apiReference}
+              target="_blank"
+              rel="noopener noreferrer"
               className="mt-8 inline-flex items-center gap-1.5 text-sm font-medium text-primary underline-offset-4 hover:underline"
             >
-              View the full architecture docs{" "}
+              Read the API reference{" "}
               <span aria-hidden className="transition-transform duration-150 hover:translate-x-1">→</span>
             </a>
           </div>

@@ -24,17 +24,17 @@ const archetypes: Archetype[] = [
     n: "Partner programs",
     label: "If you run a partner program",
     headline:
-      "The credential carries the tier. The protocol enforces the rule across vendors.",
-    body: "Cross-vendor prerequisites your CRM can’t express. Partner tiers that unlock in real time when the credential lands. Revenue gates that resolve without a support loop.",
-    fit: "Fit: channel programs, GSI partner tiers, cloud-partner certification — anywhere partner status should compose.",
+      "The credential carries the tier — verifiable, fraud-resistant, and held by the partner.",
+    body: "Partner status that travels with the credential instead of living in a spreadsheet. Verifiable in real time, so tier checks resolve without a support loop.",
+    fit: "Fit: channel programs, GSI partner tiers, cloud-partner certification — anywhere partner status has to be proven.",
     buyer: "Buyer: Head of Partner Enablement · CRO",
   },
   {
     n: "Cohort training",
     label: "If you run cohort-based training",
     headline:
-      "Per-credential cost. Credentials that work downstream, not just on LinkedIn.",
-    body: "Alumni carry your credential into programs that gate on it. Other issuers can set your credential as a prerequisite — your catalog earns for you after the cohort ends.",
+      "Per-credential pricing. Credentials your alumni actually keep.",
+    body: "Pay per credential issued, not per seat. Alumni hold the credential themselves and can carry it anywhere — even after the cohort ends.",
     fit: "Fit: Pavilion-shape cohort schools, platform academies, founder-led programs.",
     buyer: "Buyer: Founder / CEO · Head of Programs",
   },
@@ -44,11 +44,11 @@ export default function V2PartnersSection() {
   return (
     <section id="archetypes" className="border-t border-border/60 bg-background py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <Kicker tone="muted">The first issuers on the graph</Kicker>
+        <Kicker tone="muted">Who Andamio Issuer is for</Kicker>
 
         <div className="mt-4 max-w-3xl">
           <h2 className="font-display text-4xl font-semibold leading-[1.02] tracking-[-0.035em] text-foreground sm:text-5xl">
-            Three kinds of work, one protocol.
+            Three kinds of work, one credential layer.
           </h2>
           <p className="mt-6 text-lg leading-relaxed tracking-[-0.005em] text-muted-foreground sm:text-xl">
             Pick the one that describes your day. Each goes somewhere

@@ -90,8 +90,8 @@ export default function V2ComposabilityTaxSection() {
             </p>
             <h3 className="mt-3 font-display text-2xl font-semibold leading-[1.1] tracking-[-0.025em] text-background sm:text-[1.75rem] lg:text-[2.125rem]">
               The Dead-End Tax: <br className="hidden sm:inline" />
-              an 8-page brief on what credentials cost when they don’t
-              compose.
+              an 8-page brief on what badges cost when they stop working the
+              moment you issue them.
             </h3>
             <p className="mt-5 max-w-[52ch] text-[15px] leading-relaxed text-background/70">
               Five cost categories with real-world examples, source

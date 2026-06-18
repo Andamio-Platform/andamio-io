@@ -14,40 +14,40 @@ const pillars: Pillar[] = [
     title: "Issue.",
     description: (
       <>
-        Define what a credential means and what it takes to earn one. Issue
-        through the REST API from inside your existing workflows — no new
-        interface for your team to learn, no blockchain to operate, no
-        wallets to onboard. Permissionless.
+        Define what a credential means and what it takes to earn one, then
+        issue from the tools you already use — a no-code dashboard or the
+        API. No new interface for your team to learn, no blockchain to
+        operate, no wallets, no crypto.
       </>
     ),
-    tag: "REST · Webhook · SDK",
+    tag: "No-code · API · No wallets",
   },
   {
     number: "02",
     title: "Verify.",
     description: (
       <>
-        Any credential, from any issuer, in real time. Your compliance team,
-        your partners, and your customers check the same on-chain record.
-        Verification is a public read — no phone calls, no PDFs, no
-        proprietary API to the issuing vendor.
+        Any Andamio credential, checked in real time against the same public
+        record. Your compliance team, a partner, and an employer all read the
+        same thing. Verification is a public read — no phone calls, no PDFs,
+        no call to the vendor.
       </>
     ),
     tag: "Public read · On-chain",
   },
   {
     number: "03",
-    title: "Compose.",
+    title: "Own.",
     description: (
       <>
-        Use credentials to gate content, partner tiers, and pricing —{" "}
-        <em className="not-italic text-foreground">including</em> credentials
-        your organization didn’t issue. Chain them as prerequisites for new
-        credentials. The protocol enforces the rule across issuers. No
-        data-sharing agreements, no API handshake.
+        The credential is immutable and stored on public infrastructure no
+        single company controls. It can&rsquo;t be quietly changed or switched
+        off, it doesn&rsquo;t vanish when a vendor does, and it lives with the
+        person who earned it — who can carry it anywhere, even after they
+        leave your program.
       </>
     ),
-    tag: "Gate · Prerequisite · Cross-issuer",
+    tag: "Immutable · Earner-held · Portable",
   },
 ];
 
@@ -57,20 +57,19 @@ export default function V2PillarsSection() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.6fr)] lg:gap-[96px]">
           <div className="lg:sticky lg:top-28 lg:self-start">
-            <Kicker tone="muted">What the protocol does</Kicker>
+            <Kicker tone="muted">What Andamio Issuer does</Kicker>
 
             <h2 className="mt-4 font-display text-[2.5rem] font-semibold leading-[1] tracking-[-0.04em] text-foreground sm:text-[3.5rem] lg:text-[4rem]">
               <span className="block">Issue.</span>
               <span className="block">Verify.</span>
-              <span className="block text-primary">Compose.</span>
+              <span className="block text-primary">Own.</span>
             </h2>
 
             <p className="mt-9 max-w-md text-lg leading-relaxed tracking-[-0.005em] text-muted-foreground">
-              Three moves. The third used to be &ldquo;Gate&rdquo; — we
-              changed it, because a credential that{" "}
-              <em className="not-italic text-foreground">only</em> gates is
-              still a local move. Compose covers both: gate content, and
-              chain into somebody else&rsquo;s program.
+              Three things the Issuer product does today: issue credentials from
+              the tools you already use, let anyone verify them as a public read,
+              and put them in the hands of the people who earned them — where they
+              keep working after you issue them.
             </p>
           </div>
 

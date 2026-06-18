@@ -9,22 +9,22 @@ interface Pain {
 
 const pains: Pain[] = [
   {
-    headline: "Locked to a platform.",
-    buyerQuote: "“What happens if Credly changes their pricing?”",
+    headline: "It dies in a database.",
+    buyerQuote: "“What happens when our vendor changes terms?”",
     translation:
-      "Your credentials live in someone else's database. When that platform changes terms, gets acquired, or disappears, your credentials go with it.",
+      "A badge lives in your vendor's system. When the contract ends or the company folds, the records go with it — and so does the proof your learners earned.",
   },
   {
-    headline: "Unusable across issuers.",
-    buyerQuote: "“We need to verify credentials from multiple vendors.”",
+    headline: "Software can’t use it.",
+    buyerQuote: "“Our hiring systems can’t act on these.”",
     translation:
-      "A learner holds a credential from you and two other issuers. Nothing composes. Each one is a dead end verified by phone, PDF, or trust.",
+      "A badge is a picture. In one 2025 survey, 60% of employers wanted credentials their systems could read, while only 34% of issuers supplied the structured data to make that possible.",
   },
   {
-    headline: "Proof of nothing.",
-    buyerQuote: "“Our badges don’t mean anything anymore.”",
+    headline: "The earner can’t keep it.",
+    buyerQuote: "“Our alumni can’t carry it anywhere.”",
     translation:
-      "Without enforced prerequisites, a credential is a JPEG that says someone showed up. It doesn’t unlock anything else.",
+      "A badge is trapped in the system that issued it. That's a large part of why so few are ever seen again.",
   },
 ];
 
@@ -32,16 +32,17 @@ export default function V2ProblemSection() {
   return (
     <section className="border-t border-border/60 bg-background py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <Kicker tone="muted">The old world</Kicker>
+        <Kicker tone="muted">The badge problem</Kicker>
 
         <div className="mt-4 max-w-3xl">
           <h2 className="font-display text-4xl font-semibold leading-[1.02] tracking-[-0.035em] text-foreground sm:text-5xl lg:text-6xl">
-            Three ways a credential becomes a dead end.
+            Most badges are dead ends.
           </h2>
           <p className="mt-6 text-lg leading-relaxed tracking-[-0.005em] text-muted-foreground sm:text-xl">
-            It was issued once. It was put on LinkedIn. It never did anything
-            again. Three failure modes, one root cause: the credential lives
-            inside somebody else’s database.
+            Most of the badges you issue will never be seen again. Each one costs
+            something to produce, then proves someone did a thing once and sits in
+            a profile doing nothing. The effort was real. The credential is a dead
+            end.
           </p>
         </div>
 

@@ -84,7 +84,7 @@ export const WALKTHROUGH: Record<Archetype, WalkthroughEntry> = {
     cta: {
       label: "Book a 20-min walkthrough — cert-body context",
       href: "mailto:hello@andamio.io?subject=Walkthrough%20%E2%80%94%20certification%20body",
-      secondary: { label: "Read the cert-body brief", href: "#" },
+      secondary: { label: "Read the Andamio Issuer paper", href: "/whitepaper/issuer" },
     },
   },
 
@@ -142,7 +142,7 @@ export const WALKTHROUGH: Record<Archetype, WalkthroughEntry> = {
     cta: {
       label: "Book a 20-min walkthrough — partner program",
       href: "mailto:hello@andamio.io?subject=Walkthrough%20%E2%80%94%20partner%20program",
-      secondary: { label: "Read the partner-ops brief", href: "#" },
+      secondary: { label: "Read the Andamio Issuer paper", href: "/whitepaper/issuer" },
     },
   },
 
@@ -200,7 +200,7 @@ export const WALKTHROUGH: Record<Archetype, WalkthroughEntry> = {
     cta: {
       label: "Book a 20-min walkthrough — cohort program",
       href: "mailto:hello@andamio.io?subject=Walkthrough%20%E2%80%94%20cohort%20training",
-      secondary: { label: "Read the cohort-training brief", href: "#" },
+      secondary: { label: "Read the Andamio Issuer paper", href: "/whitepaper/issuer" },
     },
   },
 };

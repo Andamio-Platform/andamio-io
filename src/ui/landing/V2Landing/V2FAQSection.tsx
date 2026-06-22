@@ -69,7 +69,7 @@ export default function V2FAQSection() {
 
   return (
     <section className="border-t border-border/60 bg-background py-24 sm:py-32">
-      <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-3xl px-5 sm:px-8 lg:px-14 2xl:px-20">
         <div className="flex items-baseline justify-between gap-6">
           <span className="inline-flex items-center gap-3 font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
             <span className="h-px w-8 bg-current opacity-70" aria-hidden />

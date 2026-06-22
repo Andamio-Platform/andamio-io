@@ -30,14 +30,14 @@ const stackLayers: StackLayer[] = [
     labelKicker: "Protocol",
     name: "Andamio smart contracts",
     description:
-      "Audited by TxPipe. On-chain credential registry. 17 transaction types.",
+      "Audited by TxPipe. On-chain credential registry. The full transaction lifecycle, wrapped as an API.",
     surface: "bg-surface-subtle",
   },
   {
     labelKicker: "Settlement",
     name: "Cardano mainnet",
     description:
-      "Permanence. Your credentials outlive every vendor — including us.",
+      "Permanence. Your credentials outlive every vendor, including us.",
     surface: "bg-card",
   },
 ];
@@ -45,28 +45,28 @@ const stackLayers: StackLayer[] = [
 export default function V2ArchitectureSection() {
   return (
     <section
-      id="andamio-api"
-      className="border-t border-border/60 bg-surface-subtle py-24 sm:py-32"
+      id="api-architecture"
+      className="flex min-h-screen flex-col justify-center bg-surface-subtle py-20 sm:py-24"
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-none px-5 sm:px-8 lg:px-14 2xl:px-20">
         <div className="grid gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center lg:gap-24">
           <div>
-            <Kicker>Andamio API · for builders</Kicker>
+            <Kicker>How it fits your stack</Kicker>
 
             <h2 className="mt-4 font-display text-4xl font-semibold leading-[1.02] tracking-[-0.035em] text-foreground sm:text-5xl lg:text-6xl">
-              Building on credentials? Start with the API.
+              Build on the same machinery
             </h2>
             <p className="mt-7 max-w-lg text-lg leading-relaxed tracking-[-0.005em] text-muted-foreground">
-              The Issuer product runs on the same machinery you can build on
-              directly. Andamio credentials are machine-readable: an application
-              can check that someone holds one and act on it — gate access,
-              unlock the next step, or drive what the app does next.
+              The Issuer runs on the same machinery you can build on directly.
+              Andamio credentials are machine-readable. An app can check that
+              someone holds one, then act on it. Gate access, unlock the next
+              step, or drive what happens next.
             </p>
             <p className="mt-5 max-w-[48ch] text-base leading-relaxed text-muted-foreground">
-              This is where credentials gate access today: a course credential
-              can gate a project through the API. Smart contracts audited by
-              TxPipe, live on Cardano mainnet, called over REST — your stack
-              never touches crypto.
+              Credentials are composable. One can gate another. The chain
+              enforces the prerequisite, not an app, so it holds across
+              organizations. Audited smart contracts on Cardano, called over
+              REST. Your stack never touches crypto.
             </p>
             <a
               href={EXTERNAL_LINKS.apiReference}

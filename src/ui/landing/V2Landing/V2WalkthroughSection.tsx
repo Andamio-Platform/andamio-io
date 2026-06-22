@@ -54,22 +54,19 @@ export default function V2WalkthroughSection() {
   return (
     <section
       id="walkthrough-section"
-      className="border-t border-border/60 bg-surface-subtle py-20 sm:py-24"
+      className="flex min-h-screen flex-col justify-center border-t border-border/60 bg-surface-subtle py-20 sm:py-24"
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div
-          id="walkthrough"
-          className="relative overflow-hidden rounded-xl border border-border bg-background shadow-lg"
-        >
-          {/* Top bar */}
-          <div className="grid gap-6 bg-secondary px-6 py-10 text-white sm:px-14 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:gap-14">
+      <div className="mx-auto max-w-none px-5 sm:px-8 lg:px-14 2xl:px-20">
+        <div id="walkthrough">
+          {/* Header */}
+          <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:gap-14">
             <div>
-              <p className="text-[13px] font-semibold text-white/75">
+              <p className="text-sm font-semibold text-muted-foreground">
                 Choose your archetype
               </p>
-              <h3 className="mt-3 font-display text-[1.625rem] font-semibold leading-[1.1] tracking-[-0.025em] text-white sm:text-[2rem] lg:text-[2.25rem]">
+              <h3 className="mt-4 font-display text-[2.5rem] font-bold leading-[1.0] tracking-[-0.02em] text-foreground sm:text-6xl lg:text-7xl">
                 Which describes you? We&rsquo;ll walk you through the first
-                six months, in four steps.
+                six months, in four steps
               </h3>
             </div>
 
@@ -85,12 +82,12 @@ export default function V2WalkthroughSection() {
                     className={`flex max-w-[240px] flex-col rounded-md border px-4 py-3 text-left text-[13px] tracking-[-0.005em] transition-colors duration-150 ${
                       active
                         ? "border-primary bg-primary text-primary-foreground"
-                        : "border-white/30 bg-transparent text-white hover:bg-white/10"
+                        : "border-border bg-background text-foreground hover:border-foreground/40 hover:bg-foreground/[0.04]"
                     }`}
                   >
                     <span
                       className={`mb-1 text-[12px] font-medium ${
-                        active ? "text-primary-foreground/80" : "text-white/70"
+                        active ? "text-primary-foreground/80" : "text-muted-foreground"
                       }`}
                     >
                       {e.chipKicker}
@@ -103,7 +100,7 @@ export default function V2WalkthroughSection() {
           </div>
 
           {/* Stage */}
-          <div className="px-6 py-12 sm:px-14">
+          <div className="mt-14 border-t border-border pt-12">
             {!entry && (
               <p className="py-16 text-center text-base text-muted-foreground">
                 Pick one above to see the 4-step story tailored to your work.

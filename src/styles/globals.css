@@ -1,11 +1,21 @@
 /* Design tokens source: ~/projects/andamio-design-system-test/colors_and_type.css
    Apr 2026 update — Geist + JetBrains Mono + Instrument Serif; tighter radii (2–6px);
    bold offset shadow system. Legacy Beckman/WorkSans/LibreFranklin/Inconsolata kept as aliases. */
-@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital,wght@0,400;1,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Sora:wght@400;500;600;700;800&family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Fraunces:opsz,wght@9..144,400..900&family=Instrument+Serif:ital,wght@0,400;1,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* V2 landing — full-height panels with plain, smooth scrolling. No scroll-snap:
+   proximity snapping fought the wheel across variable-height panels and felt
+   wonky. scroll-behavior smooths anchor jumps; scroll-padding clears the fixed nav. */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+}
 
 @layer base {
   :root {
@@ -67,7 +77,7 @@
     /* Typography families — Geist primary, IBM Plex Sans for long-form, JetBrains Mono for code.
        Beckman/WorkSans/LibreFranklin/Inconsolata retained as legacy aliases. */
     --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-    --font-display: "Archivo", "Inter", ui-sans-serif, system-ui, sans-serif;
+    --font-display: "Sora", "Inter", ui-sans-serif, system-ui, sans-serif;
     --font-serif: "Instrument Serif", "Iowan Old Style", "Times New Roman", serif;
     --font-mono: "JetBrains Mono", "Inconsolata", ui-monospace, monospace;
     --font-plex: "IBM Plex Sans", "Geist", system-ui, sans-serif;

@@ -35,14 +35,13 @@ export default function V2CTAFooter() {
         <p className="text-sm font-semibold text-primary">Andamio Issuer</p>
 
         <h3 className="mt-6 font-display text-4xl font-semibold leading-[1.02] tracking-[-0.035em] text-white sm:text-5xl lg:text-6xl">
-          Stop issuing dead ends.
+          Upgrade your credentials
           <br />
-          <span className="text-primary">Issue credentials that keep working.</span>
+          <span className="text-primary">Issue ones that keep working</span>
         </h3>
         <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed tracking-[-0.005em] text-white/70 sm:text-xl">
-          Twenty minutes. We’ll scope a pilot against one of your active
-          credentialing programs and show you verifiable, earner-owned
-          credentials live. No slides.
+          Twenty minutes. We scope a pilot on one of your programs. We show you
+          the credentials working. No slides.
         </p>
         <div className="mt-10 flex flex-wrap justify-center gap-3">
           <a
@@ -65,19 +64,11 @@ export default function V2CTAFooter() {
               />
             </svg>
           </a>
-          <a
-            href="/dead-end-tax.html"
-            target="_blank"
-            rel="noopener"
-            className="inline-flex items-center rounded-md border border-white/30 bg-transparent px-6 py-3 text-[15px] font-medium text-white transition-colors duration-150 hover:border-white/60 hover:bg-white/[0.06]"
-          >
-            Read the Dead-End Tax audit
-          </a>
         </div>
       </div>
 
       <div className="border-t border-white/10">
-        <div className="mx-auto flex max-w-7xl flex-col gap-10 px-6 py-12 md:flex-row md:items-start md:justify-between lg:px-8">
+        <div className="mx-auto flex max-w-none flex-col gap-10 px-6 py-12 md:flex-row md:items-start md:justify-between lg:px-8">
           <div className="shrink-0">
             <img
               className="mb-3 h-6 w-auto opacity-80"
@@ -88,7 +79,10 @@ export default function V2CTAFooter() {
               Verifiable credentials that keep working after you issue them.
               A credentialing company that happens to use blockchain.
             </p>
-            <p className="mt-6 text-[13px] text-white/40">
+            <p className="mt-5 text-[13px] text-white/45">
+              Live on Cardano mainnet · Audited by TxPipe
+            </p>
+            <p className="mt-4 text-[13px] text-white/40">
               © {new Date().getFullYear()} Andamio
             </p>
           </div>

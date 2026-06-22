@@ -38,19 +38,20 @@ export const ghostBtnSm =
   focusable +
   " focus-visible:outline-foreground/30";
 
-/* A restrained editorial kicker. Sentence case, no mono, no wide tracking, no
-   hairline dash — the opposite of the generated eyebrow it replaces. */
+/* A restrained editorial label. Sentence case, muted, never the orange
+   uppercase "eyebrow" (textbook AI slop — banned). `tone` is kept for call-site
+   compatibility but both render muted; nothing here is ever primary-orange. */
 export function Kicker({
   children,
-  tone = "primary",
   className = "",
 }: {
   children: React.ReactNode;
   tone?: "primary" | "muted";
   className?: string;
 }) {
-  const color = tone === "primary" ? "text-primary" : "text-muted-foreground";
   return (
-    <p className={`text-sm font-semibold ${color} ${className}`}>{children}</p>
+    <p className={`text-sm font-semibold text-muted-foreground ${className}`}>
+      {children}
+    </p>
   );
 }

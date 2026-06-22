@@ -19,7 +19,7 @@ export default function V2StatStrip() {
       aria-label="Protocol status at a glance"
       className="border-y border-foreground bg-foreground text-background"
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-none px-5 sm:px-8 lg:px-14 2xl:px-20">
         <dl className="grid grid-cols-2 divide-x divide-background/15 sm:grid-cols-3 lg:grid-cols-5">
           {stats.map((stat, index) => (
             <div

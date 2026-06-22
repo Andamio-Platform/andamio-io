@@ -11,7 +11,7 @@ interface Pillar {
 const pillars: Pillar[] = [
   {
     number: "01",
-    title: "Issue.",
+    title: "Issue",
     description: (
       <>
         Define what a credential means and what it takes to earn one, then
@@ -24,7 +24,7 @@ const pillars: Pillar[] = [
   },
   {
     number: "02",
-    title: "Verify.",
+    title: "Verify",
     description: (
       <>
         Any Andamio credential, checked in real time against the same public
@@ -37,7 +37,7 @@ const pillars: Pillar[] = [
   },
   {
     number: "03",
-    title: "Own.",
+    title: "Own",
     description: (
       <>
         The credential is immutable and stored on public infrastructure no
@@ -53,16 +53,16 @@ const pillars: Pillar[] = [
 
 export default function V2PillarsSection() {
   return (
-    <section id="protocol" className="border-t border-border/60 bg-background py-24 sm:py-32">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section id="protocol" className="flex min-h-screen flex-col justify-center border-t border-border/60 bg-background py-24 sm:py-32">
+      <div className="mx-auto max-w-none px-5 sm:px-8 lg:px-14 2xl:px-20">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.6fr)] lg:gap-[96px]">
           <div className="lg:sticky lg:top-28 lg:self-start">
             <Kicker tone="muted">What Andamio Issuer does</Kicker>
 
             <h2 className="mt-4 font-display text-[2.5rem] font-semibold leading-[1] tracking-[-0.04em] text-foreground sm:text-[3.5rem] lg:text-[4rem]">
-              <span className="block">Issue.</span>
-              <span className="block">Verify.</span>
-              <span className="block text-primary">Own.</span>
+              <span className="block">Issue</span>
+              <span className="block">Verify</span>
+              <span className="block text-primary">Own</span>
             </h2>
 
             <p className="mt-9 max-w-md text-lg leading-relaxed tracking-[-0.005em] text-muted-foreground">

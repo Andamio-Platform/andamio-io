@@ -19,7 +19,7 @@ const config = {
     },
     fontFamily: {
       sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
-      display: ["Archivo", "Inter", "system-ui", "sans-serif"],
+      display: ["Sora", "Inter", "system-ui", "sans-serif"],
       mono: ["JetBrains Mono", "Inconsolata", "ui-monospace"],
       serif: ["Instrument Serif", "ui-serif"],
       plex: ["IBM Plex Sans", "Geist", "system-ui", "sans-serif"],

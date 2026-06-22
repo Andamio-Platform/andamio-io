@@ -134,7 +134,7 @@ export default function V2CredentialGraphSection() {
       id="graph"
       className="border-t border-border/60 bg-surface-subtle py-24 sm:py-32"
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-none px-5 sm:px-8 lg:px-14 2xl:px-20">
         <Kicker>The new world · in progress</Kicker>
 
         <div className="mt-4 max-w-[60rem]">

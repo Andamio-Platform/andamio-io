@@ -25,7 +25,7 @@ export default function V2PageLayout({
         {(title ?? description) && (
           <div className="border-b border-border py-16 sm:py-20">
             <motion.div
-              className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
+              className="mx-auto max-w-none px-5 sm:px-8 lg:px-14 2xl:px-20"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, ease: "easeOut" }}
@@ -45,7 +45,7 @@ export default function V2PageLayout({
         )}
 
         {/* Page Content */}
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+        <div className="mx-auto max-w-none px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
           {children}
         </div>
       </main>

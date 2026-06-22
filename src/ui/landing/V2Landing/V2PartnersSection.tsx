@@ -17,16 +17,16 @@ const archetypes: Archetype[] = [
     headline:
       "Your credential is the deliverable. Make it fraud-resistant, portable, and cheap to verify.",
     body: "Issue alongside Credly or Accredible. Anchor the record of issue on-chain. Verification becomes a public read, not a support ticket.",
-    fit: "Fit: HRCI, CompTIA, Scaled Agile, OffSec — any body whose credential name is the product.",
+    fit: "Good for HRCI, CompTIA, Scaled Agile, OffSec, and any body whose credential name is the product.",
     buyer: "Buyer: VP Certification · Head of Credentialing",
   },
   {
     n: "Partner programs",
     label: "If you run a partner program",
     headline:
-      "The credential carries the tier — verifiable, fraud-resistant, and held by the partner.",
+      "The credential carries the tier. Verifiable, fraud-resistant, held by the partner.",
     body: "Partner status that travels with the credential instead of living in a spreadsheet. Verifiable in real time, so tier checks resolve without a support loop.",
-    fit: "Fit: channel programs, GSI partner tiers, cloud-partner certification — anywhere partner status has to be proven.",
+    fit: "Good for channel programs, GSI partner tiers, and cloud-partner certification.",
     buyer: "Buyer: Head of Partner Enablement · CRO",
   },
   {
@@ -34,25 +34,24 @@ const archetypes: Archetype[] = [
     label: "If you run cohort-based training",
     headline:
       "Per-credential pricing. Credentials your alumni actually keep.",
-    body: "Pay per credential issued, not per seat. Alumni hold the credential themselves and can carry it anywhere — even after the cohort ends.",
-    fit: "Fit: Pavilion-shape cohort schools, platform academies, founder-led programs.",
+    body: "Pay per credential issued, not per seat. Alumni hold the credential themselves. They can carry it anywhere, even after the cohort ends.",
+    fit: "Good for cohort schools, platform academies, and founder-led programs.",
     buyer: "Buyer: Founder / CEO · Head of Programs",
   },
 ];
 
 export default function V2PartnersSection() {
   return (
-    <section id="archetypes" className="border-t border-border/60 bg-background py-24 sm:py-32">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section id="archetypes" className="flex min-h-screen flex-col justify-center border-t border-border/60 bg-background py-24 sm:py-32">
+      <div className="mx-auto max-w-none px-5 sm:px-8 lg:px-14 2xl:px-20">
         <Kicker tone="muted">Who Andamio Issuer is for</Kicker>
 
         <div className="mt-4 max-w-3xl">
           <h2 className="font-display text-4xl font-semibold leading-[1.02] tracking-[-0.035em] text-foreground sm:text-5xl">
-            Three kinds of work, one credential layer.
+            Three kinds of work, one credential layer
           </h2>
           <p className="mt-6 text-lg leading-relaxed tracking-[-0.005em] text-muted-foreground sm:text-xl">
-            Pick the one that describes your day. Each goes somewhere
-            different.
+            Pick the one that describes your day.
           </p>
         </div>
 
@@ -86,9 +85,6 @@ export default function V2PartnersSection() {
                 >
                   →
                 </span>
-              </span>
-              <span className="mt-6 border-t border-border pt-4 text-[13px] text-muted-foreground">
-                {a.buyer}
               </span>
             </a>
           ))}

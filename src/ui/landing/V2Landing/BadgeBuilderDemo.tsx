@@ -2,9 +2,7 @@
 
 import React from "react";
 import { Kicker } from "./_ui";
-import { buildBadgeSvg } from "./badge/badge-generator";
-import { buildBadgeParams } from "./badge/badge-model";
-import { PALETTES, withInterior, type InteriorStyle } from "./badge/palettes";
+import { buildBadgeSvg, buildBadgeParams, PALETTES, withInterior, type InteriorStyle } from "./badge";
 
 /* Live "build a credential" demo. The visitor types a course name, a module
  * name, and a list of SLTs, picks a palette, and toggles light/dark interior;

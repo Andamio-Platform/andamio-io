@@ -7,7 +7,7 @@
 // tick geometry round-trips back to the hashes (credential-badges decode.py).
 // Lit strokes keep the `var(--prim|--sec, #hex)` form so decode.py reads them.
 
-import { ALL_TOKENS, Palette } from "./palettes";
+import { ALL_TOKENS, type Palette } from "./palettes";
 import { FONT_FACE } from "./fonts";
 
 const CX = 512;
@@ -127,7 +127,7 @@ function layTitle(text: string, base: number, maxw: number, factor: number, minO
  *  `verify` stays empty — the demo badge is a preview, never a signed claim. */
 function credentialJson(P: Required<Palette>, params: BadgeParams): string {
   const theme: Record<string, string> = {};
-  for (const k of ALL_TOKENS) theme[k] = (P as Record<string, string>)[k];
+  for (const k of ALL_TOKENS) theme[k] = (P as Record<string, string>)[k] ?? "";
   return JSON.stringify(
     {
       "@context": [

@@ -6,7 +6,7 @@
 //
 // Pure: Web Crypto only, no React / Next / landing imports (extraction-ready, R9).
 
-import { BadgeParams } from "./badge-generator";
+import type { BadgeParams } from "./badge-generator";
 
 export interface BadgeInputs {
   courseName: string;

@@ -71,7 +71,7 @@ export function mix(hexc: string, toward: string, t: number): string {
   const b = toward.replace("#", "");
   const r = [0, 2, 4].map((i) => parseInt(a.slice(i, i + 2), 16));
   const s = [0, 2, 4].map((i) => parseInt(b.slice(i, i + 2), 16));
-  const m = r.map((v, i) => Math.round(v + (s[i] - v) * t));
+  const m = r.map((v, i) => Math.round(v + (s[i]! - v) * t));
   return "#" + m.map((v) => v.toString(16).padStart(2, "0").toUpperCase()).join("");
 }
 

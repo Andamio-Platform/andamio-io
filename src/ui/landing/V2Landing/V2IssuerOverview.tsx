@@ -1,4 +1,5 @@
 import React from "react";
+import { primaryBtnClass, outlineBtnClass } from "./_ui";
 
 interface Decision {
   title: string;
@@ -77,6 +78,24 @@ export default function V2IssuerOverview() {
             </div>
           ))}
         </dl>
+
+        <div className="mt-16 flex flex-wrap items-center gap-3 border-t border-border pt-8">
+          {/* FUTURE: capture email, send the 1-page report. Disabled until it ships. */}
+          <button
+            type="button"
+            disabled
+            title="Coming soon"
+            className={`${outlineBtnClass} cursor-not-allowed opacity-50`}
+          >
+            Get the report
+          </button>
+          <a
+            href="mailto:hello@andamio.io?subject=Andamio%20Issuer%20walkthrough"
+            className={primaryBtnClass}
+          >
+            Book a 20-minute walkthrough
+          </a>
+        </div>
       </div>
     </section>
   );

@@ -56,8 +56,9 @@ export default function V2Landing() {
       </div>
 
       {/* ===================== ANDAMIO ISSUER (dark) ============== */}
-      <V2IssuerOverview />
+      {/* Demo first (show, don't tell), then the Product 01 frame + its CTAs. */}
       <V2IssuerExplorer />
+      <V2IssuerOverview />
 
       {/* ===================== ANDAMIO API (light) =============== */}
       <div className="light bg-background text-foreground">

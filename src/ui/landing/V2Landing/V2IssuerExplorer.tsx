@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { primaryBtnClass, outlineBtnClass } from "./_ui";
 import BadgeBuilderDemo from "./BadgeBuilderDemo";
 import {
   Sheet,
@@ -146,24 +145,6 @@ export default function V2IssuerExplorer() {
           />
         </div>
 
-        {/* CTA */}
-        <div className="mt-8 flex flex-wrap items-center justify-end gap-3 border-t border-border pt-6">
-          {/* FUTURE: capture email, send the 1-page report. Disabled until it ships. */}
-          <button
-            type="button"
-            disabled
-            title="Coming soon"
-            className={`${outlineBtnClass} cursor-not-allowed opacity-50`}
-          >
-            Get the report
-          </button>
-          <a
-            href="mailto:hello@andamio.io?subject=Andamio%20Issuer%20walkthrough"
-            className={primaryBtnClass}
-          >
-            Book a 20-minute walkthrough
-          </a>
-        </div>
       </div>
     </section>
   );

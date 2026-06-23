@@ -127,22 +127,23 @@ export default function V2IssuerExplorer() {
           </Sheet>
         </div>
 
-        {/* Demo centerpiece — full width */}
+        {/* Demo centerpiece — full width. Annotations live INSIDE the card's left
+            column (passed as a slot) so the badge column stays free to be larger. */}
         <div className="mt-8">
-          <BadgeBuilderDemo onDerived={setRings} />
-        </div>
-
-        {/* Annotations — what the rings encode, plus the broader story on demand */}
-        <div className="mt-6 flex flex-wrap items-stretch gap-4">
-          <div className="grid flex-1 gap-4 sm:grid-cols-2">
-            {/* R10: James to add the "two ways" to acquire the course token to OUTER_RING.body */}
-            <RingRow note={OUTER_RING} value={rings?.courseId ?? null} />
-            <RingRow note={INNER_RING} value={rings?.sltHash ?? null} />
-          </div>
-          <div className="flex items-center gap-3">
-            <MessageCard card={SHIFT} />
-            <MessageCard card={LEFT_WITH} />
-          </div>
+          <BadgeBuilderDemo
+            onDerived={setRings}
+            annotations={
+              <div className="flex flex-col gap-3 border-t border-border pt-4">
+                {/* R10: James to add the "two ways" to acquire the course token to OUTER_RING.body */}
+                <RingRow note={OUTER_RING} value={rings?.courseId ?? null} />
+                <RingRow note={INNER_RING} value={rings?.sltHash ?? null} />
+                <div className="flex flex-wrap gap-2">
+                  <MessageCard card={SHIFT} />
+                  <MessageCard card={LEFT_WITH} />
+                </div>
+              </div>
+            }
+          />
         </div>
 
         {/* CTA */}

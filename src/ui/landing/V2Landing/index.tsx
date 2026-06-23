@@ -7,6 +7,7 @@ import V2IssuerExplorer from "./V2IssuerExplorer";
 import V2QuoteBandSection from "./V2QuoteBandSection";
 import V2ArchitectureSection from "./V2ArchitectureSection";
 import V2CTAFooter from "./V2CTAFooter";
+import V2ScrollNav from "./V2ScrollNav";
 
 /* Zone header — marks the two products as distinct sections of the page. */
 function ZoneHeader({
@@ -72,6 +73,8 @@ export default function V2Landing() {
       {/* ===================== PROOF + CLOSE (dark) =============== */}
       <V2QuoteBandSection />
       <V2CTAFooter />
+
+      <V2ScrollNav />
     </div>
   );
 }

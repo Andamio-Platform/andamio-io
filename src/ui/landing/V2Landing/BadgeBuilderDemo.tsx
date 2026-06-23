@@ -64,7 +64,7 @@ export default function BadgeBuilderDemo() {
   const removeSlt = (i: number) => setSlts((prev) => prev.filter((_, j) => j !== i));
 
   return (
-    <div className="mt-2 rounded-lg border border-border bg-card/40 p-5 sm:p-6">
+    <div className="mt-2 mx-auto w-full max-w-4xl rounded-lg border border-border bg-card/40 p-5 sm:p-6">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <Kicker>Build a credential</Kicker>
         <span className="rounded-full border border-border px-2 py-0.5 text-[11px] text-muted-foreground">

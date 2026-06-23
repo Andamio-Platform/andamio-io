@@ -2,7 +2,7 @@
 title: "feat: Badge-builder demo — live in-browser Proof Rings generator on the landing page"
 date: 2026-06-23
 type: feat
-status: active
+status: completed
 branch: feat/enterprise-landing-page
 ---
 

@@ -41,28 +41,35 @@ function ZoneHeader({
 }
 
 export default function V2Landing() {
+  // The landing is dark-based (no theme toggle); sections alternate light/dark
+  // via fixed `.light` islands rather than a global switch. API zone is the
+  // opposite scheme from the Issuer zone, per the product note.
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="dark min-h-screen bg-background text-foreground">
       <V2Navigation />
       <V2HeroSection />
 
-      {/* ===================== THE PROBLEM ======================== */}
-      <V2ProblemSection />
+      {/* ===================== THE PROBLEM (light) ================ */}
+      <div className="light bg-background text-foreground">
+        <V2ProblemSection />
+      </div>
 
-      {/* ===================== ANDAMIO ISSUER ===================== */}
+      {/* ===================== ANDAMIO ISSUER (dark) ============== */}
       <V2IssuerOverview />
       <V2IssuerExplorer />
 
-      {/* ===================== ANDAMIO API ======================= */}
-      <ZoneHeader
-        id="andamio-api"
-        eyebrow="Product 02 · For builders"
-        title="Andamio API"
-        blurb="The protocol you build on. The same credentials, as REST endpoints. Issue, verify, and gate on them from your own stack."
-      />
-      <V2ArchitectureSection />
+      {/* ===================== ANDAMIO API (light) =============== */}
+      <div className="light bg-background text-foreground">
+        <ZoneHeader
+          id="andamio-api"
+          eyebrow="Product 02 · For builders"
+          title="Andamio API"
+          blurb="The protocol you build on. The same credentials, as REST endpoints. Issue, verify, and gate on them from your own stack."
+        />
+        <V2ArchitectureSection />
+      </div>
 
-      {/* ===================== PROOF + CLOSE ====================== */}
+      {/* ===================== PROOF + CLOSE (dark) =============== */}
       <V2QuoteBandSection />
       <V2CTAFooter />
     </div>

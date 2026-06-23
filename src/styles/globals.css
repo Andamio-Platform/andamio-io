@@ -147,6 +147,47 @@
     --surface-dark: #0d1117;
     --surface-dark-elevated: #161b22;
   }
+
+  /* Light "island" — re-asserts the light token values so a subtree can render
+     light inside a dark-based page (used to alternate section backgrounds on the
+     landing; see V2Landing). Mirrors the token set that .dark overrides. */
+  .light {
+    --background: oklch(1 0 0);
+    --foreground: oklch(0.145 0 0);
+    --card: oklch(1 0 0);
+    --card-foreground: oklch(0.145 0 0);
+    --popover: oklch(1 0 0);
+    --popover-foreground: oklch(0.145 0 0);
+    --primary: #FF6B35;
+    --primary-foreground: #ffffff;
+    --secondary: #004E89;
+    --secondary-foreground: #ffffff;
+    --muted: oklch(0.985 0.002 106.423);
+    --muted-foreground: oklch(0.478 0.029 255.508);
+    --accent: oklch(0.988 0.008 79.439);
+    --accent-foreground: oklch(0.145 0 0);
+    --destructive: oklch(0.608 0.227 27.325);
+    --border: oklch(0.922 0.003 106.423);
+    --input: oklch(0.922 0.003 106.423);
+    --ring: #FF6B35;
+    --sidebar: oklch(0.988 0.008 79.439);
+    --sidebar-foreground: oklch(0.145 0 0);
+    --sidebar-primary: oklch(0.669 0.199 38.581);
+    --sidebar-primary-foreground: oklch(1 0 0);
+    --sidebar-accent: oklch(1 0 0);
+    --sidebar-accent-foreground: oklch(0.145 0 0);
+    --sidebar-border: oklch(0.922 0.003 106.423);
+    --sidebar-ring: oklch(0.669 0.199 38.581);
+    --warning: hsl(30 90% 55%);
+    --warning-foreground: hsl(40 95% 95%);
+    --success: hsl(140 65% 30%);
+    --success-foreground: hsl(140 65% 90%);
+    --editor-blue: hsl(200 70% 35%);
+    --editor-green: hsl(140 65% 35%);
+    --editor-orange: hsl(15 80% 55%);
+    --editor-yellow: hsl(40 85% 45%);
+    --surface-subtle: oklch(0.97 0.004 106.423);
+  }
 }
 
 @layer base {

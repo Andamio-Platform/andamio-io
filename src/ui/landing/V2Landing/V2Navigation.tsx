@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { useTheme } from "next-themes";
-import { ThemeToggle } from "~/components/theme-toggle";
 import { EXTERNAL_LINKS } from "~/lib/external-links";
 
 const navItems = [
@@ -79,7 +78,6 @@ export default function V2Navigation() {
                 </Link>
               )
             )}
-            <ThemeToggle />
             <a
               href={EXTERNAL_LINKS.app}
               target="_blank"

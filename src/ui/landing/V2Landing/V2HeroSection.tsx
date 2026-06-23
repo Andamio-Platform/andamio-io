@@ -23,9 +23,9 @@ export default function V2HeroSection() {
   return (
     <section className="relative flex min-h-screen items-center overflow-hidden bg-background pt-28 pb-20 sm:pt-32">
       <div className="relative z-10 mx-auto w-full max-w-none px-5 sm:px-8 lg:px-14 2xl:px-20">
-        <div className="grid items-center gap-16 lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)] lg:gap-20">
-          {/* ---- Message ---------------------------------------------- */}
-          <motion.div variants={stagger} initial="hidden" animate="visible" className="mx-auto max-w-2xl lg:-translate-y-8">
+        <div className="grid items-center gap-16 lg:grid-cols-2 lg:gap-20">
+          {/* ---- Message (centered in the left half) ------------------ */}
+          <motion.div variants={stagger} initial="hidden" animate="visible" className="mx-auto max-w-2xl">
             <motion.h1
               variants={rise}
               className="font-display text-[clamp(3.25rem,7.2vw,7rem)] font-extrabold leading-[1.02] tracking-[-0.02em] text-foreground"

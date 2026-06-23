@@ -12,6 +12,59 @@ import {
   SheetTrigger,
 } from "~/components/ui/sheet";
 import { INSPIRATION } from "./inspiration-data";
+import { Popover, PopoverContent, PopoverTrigger } from "~/components/ui/popover";
+import { OUTER_RING, INNER_RING, SHIFT, LEFT_WITH, type RingNote, type InfoCard } from "./annotation-data";
+
+function truncHash(hex: string): string {
+  return hex.length > 16 ? `${hex.slice(0, 10)}…${hex.slice(-6)}` : hex;
+}
+
+function InfoDot({ label }: { label: string }) {
+  return (
+    <PopoverTrigger
+      aria-label={label}
+      className="inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full border border-border text-[10px] font-semibold text-muted-foreground transition-colors hover:border-foreground/50 hover:text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+    >
+      i
+    </PopoverTrigger>
+  );
+}
+
+function RingRow({ note, value }: { note: RingNote; value: string | null }) {
+  return (
+    <div className="flex flex-col gap-1 rounded-lg border border-border bg-background p-4">
+      <Popover>
+        <div className="flex items-center gap-2">
+          <span className="text-[15px] font-semibold text-foreground">{note.label}</span>
+          <InfoDot label={`About the ${note.label} ring`} />
+        </div>
+        <PopoverContent align="start" className="max-w-xs text-[13px] leading-relaxed">
+          {note.body}
+        </PopoverContent>
+      </Popover>
+      <span className="text-[11px] uppercase tracking-wide text-muted-foreground">{note.sub}</span>
+      <span className="mt-1 font-mono text-[12px] text-foreground" aria-live="polite">
+        {value ? truncHash(value) : "…"}
+      </span>
+    </div>
+  );
+}
+
+function MessageCard({ card }: { card: InfoCard }) {
+  return (
+    <Popover>
+      <PopoverTrigger className="inline-flex items-center gap-2 rounded-md border border-border px-3 py-2 text-[14px] font-medium text-foreground transition-colors hover:border-foreground/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary">
+        {card.title}
+        <span aria-hidden className="inline-flex h-4 w-4 items-center justify-center rounded-full border border-border text-[10px] text-muted-foreground">
+          i
+        </span>
+      </PopoverTrigger>
+      <PopoverContent align="start" className="max-w-xs text-[13px] leading-relaxed">
+        {card.body}
+      </PopoverContent>
+    </Popover>
+  );
+}
 
 /* "How it works" — one general-purpose, show-don't-tell badge demo. The visitor
  * builds a credential and sees what makes it an Andamio credential. The old
@@ -19,6 +72,7 @@ import { INSPIRATION } from "./inspiration-data";
  * "Need Inspiration" drawer (U2) and the demo annotations (U3). */
 
 export default function V2IssuerExplorer() {
+  const [rings, setRings] = React.useState<{ courseId: string; sltHash: string } | null>(null);
   return (
     <section
       id="archetypes"
@@ -73,7 +127,20 @@ export default function V2IssuerExplorer() {
 
         {/* Demo centerpiece */}
         <div className="mt-16">
-          <BadgeBuilderDemo />
+          <BadgeBuilderDemo onDerived={setRings} />
+        </div>
+
+        {/* Annotations — what the rings encode, plus the broader story on demand */}
+        <div className="mx-auto mt-8 w-full max-w-6xl">
+          <div className="grid gap-4 sm:grid-cols-2">
+            {/* R10: James to add the "two ways" to acquire the course token to OUTER_RING.body */}
+            <RingRow note={OUTER_RING} value={rings?.courseId ?? null} />
+            <RingRow note={INNER_RING} value={rings?.sltHash ?? null} />
+          </div>
+          <div className="mt-4 flex flex-wrap items-center gap-3">
+            <MessageCard card={SHIFT} />
+            <MessageCard card={LEFT_WITH} />
+          </div>
         </div>
 
         {/* CTA */}

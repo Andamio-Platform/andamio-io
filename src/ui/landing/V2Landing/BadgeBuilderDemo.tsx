@@ -31,7 +31,13 @@ function FieldLabel({ htmlFor, children }: { htmlFor: string; children: React.Re
   );
 }
 
-export default function BadgeBuilderDemo() {
+export interface BadgeBuilderDemoProps {
+  /** Optional: receive the derived ring hashes on each render, for annotations.
+   *  Pass a stable callback (e.g. a setState fn). Omit for standalone use. */
+  onDerived?: (d: { courseId: string; sltHash: string }) => void;
+}
+
+export default function BadgeBuilderDemo({ onDerived }: BadgeBuilderDemoProps = {}) {
   // Unique, SVG-id-safe suffix per instance so multiple inline badges never collide.
   const idSuffix = React.useId().replace(/:/g, "");
 
@@ -52,9 +58,10 @@ export default function BadgeBuilderDemo() {
       if (myReq !== reqRef.current) return; // a newer change superseded this one
       const palette = withInterior(PALETTES[paletteIndex] ?? PALETTES[0]!, interior);
       setSvg(buildBadgeSvg(params, palette, { idSuffix }));
+      onDerived?.({ courseId: params.courseId, sltHash: params.sltHash });
     }, 150);
     return () => window.clearTimeout(t);
-  }, [courseName, moduleName, slts, paletteIndex, interior, idSuffix]);
+  }, [courseName, moduleName, slts, paletteIndex, interior, idSuffix, onDerived]);
 
   const updateSlt = (i: number, value: string) =>
     setSlts((prev) => prev.map((s, j) => (j === i ? value : s)));

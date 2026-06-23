@@ -75,21 +75,23 @@ export default function V2IssuerExplorer() {
   const [rings, setRings] = React.useState<{ courseId: string; sltHash: string } | null>(null);
   return (
     <section
-      id="archetypes"
-      className="flex min-h-screen flex-col justify-center border-t border-border/60 bg-surface-subtle py-24 sm:py-32"
+      id="how-it-works"
+      className="flex min-h-screen flex-col justify-center border-t border-border/60 bg-surface-subtle py-12 sm:py-16"
     >
-      <div className="mx-auto max-w-none px-5 sm:px-8 lg:px-14 2xl:px-20">
-        <div>
-          <h2 className="whitespace-nowrap font-display text-[3.25rem] font-bold leading-[0.98] tracking-[-0.02em] text-foreground sm:text-8xl lg:text-9xl">
-            How it works
-          </h2>
-          <p className="mt-6 max-w-3xl text-xl leading-relaxed tracking-[-0.005em] text-muted-foreground sm:text-2xl">
-            Build a credential and see what makes it an Andamio credential.
-          </p>
+      <div className="mx-auto w-full max-w-none px-5 sm:px-8 lg:px-14 2xl:px-20">
+        <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
+          <div>
+            <h2 className="font-display text-4xl font-bold leading-[0.98] tracking-[-0.02em] text-foreground sm:text-5xl lg:text-6xl">
+              How it works
+            </h2>
+            <p className="mt-3 max-w-3xl text-lg leading-relaxed tracking-[-0.005em] text-muted-foreground sm:text-xl">
+              Build a credential and see what makes it an Andamio credential.
+            </p>
+          </div>
 
           <Sheet>
             <SheetTrigger
-              className="mt-6 inline-flex items-center gap-2 text-[15px] font-medium text-primary underline-offset-4 transition-colors hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+              className="inline-flex items-center gap-2 text-[15px] font-medium text-primary underline-offset-4 transition-colors hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
             >
               Need inspiration? See ways to use it
               <span aria-hidden>→</span>
@@ -100,7 +102,7 @@ export default function V2IssuerExplorer() {
                   Ways to use it
                 </SheetTitle>
                 <SheetDescription className="text-[15px] leading-relaxed">
-                  A few places an owned, verifiable credential changes the game.
+                  A few ways teams put an owned credential to work.
                 </SheetDescription>
               </SheetHeader>
               <ul className="mt-8 flex flex-col gap-7">
@@ -125,26 +127,26 @@ export default function V2IssuerExplorer() {
           </Sheet>
         </div>
 
-        {/* Demo centerpiece */}
-        <div className="mt-16">
+        {/* Demo centerpiece — full width */}
+        <div className="mt-8">
           <BadgeBuilderDemo onDerived={setRings} />
         </div>
 
         {/* Annotations — what the rings encode, plus the broader story on demand */}
-        <div className="mx-auto mt-8 w-full max-w-6xl">
-          <div className="grid gap-4 sm:grid-cols-2">
+        <div className="mt-6 flex flex-wrap items-stretch gap-4">
+          <div className="grid flex-1 gap-4 sm:grid-cols-2">
             {/* R10: James to add the "two ways" to acquire the course token to OUTER_RING.body */}
             <RingRow note={OUTER_RING} value={rings?.courseId ?? null} />
             <RingRow note={INNER_RING} value={rings?.sltHash ?? null} />
           </div>
-          <div className="mt-4 flex flex-wrap items-center gap-3">
+          <div className="flex items-center gap-3">
             <MessageCard card={SHIFT} />
             <MessageCard card={LEFT_WITH} />
           </div>
         </div>
 
         {/* CTA */}
-        <div className="mt-14 flex flex-wrap items-center justify-end gap-3 border-t border-border pt-6">
+        <div className="mt-8 flex flex-wrap items-center justify-end gap-3 border-t border-border pt-6">
           {/* FUTURE: capture email, send the 1-page report. Disabled until it ships. */}
           <button
             type="button"

@@ -1,6 +1,5 @@
 import type React from "react";
 import V2VerifierDemo from "./V2VerifierDemo";
-import BadgeBuilderDemo from "./BadgeBuilderDemo";
 
 /* Registry mapping a step's `demoId` (declared in walkthrough-data.ts) to the
  * component rendered under that step's bullets.
@@ -12,7 +11,6 @@ import BadgeBuilderDemo from "./BadgeBuilderDemo";
  * The render seam in V2WalkthroughSection never changes. */
 export const STEP_DEMOS = {
   "cert-verifier": V2VerifierDemo,
-  "badge-builder": BadgeBuilderDemo,
 } satisfies Record<string, React.FC>;
 
 /** The set of registered demo ids. A step's `demoId` must be one of these, so a

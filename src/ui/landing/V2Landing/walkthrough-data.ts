@@ -173,7 +173,6 @@ export const WALKTHROUGH: Record<Archetype, WalkthroughEntry> = {
           "Alumni hold the credential and can take it anywhere it’s useful",
           "The catalog you built is the catalog you own",
         ],
-        demoId: "badge-builder",
       },
       {
         n: "03",

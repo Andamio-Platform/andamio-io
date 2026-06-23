@@ -3,6 +3,7 @@
 import React from "react";
 import { primaryBtnClass, outlineBtnClass } from "./_ui";
 import { EXTERNAL_LINKS } from "~/lib/external-links";
+import BadgeBuilderDemo from "./BadgeBuilderDemo";
 
 type Key = "cohort" | "cert" | "platform";
 
@@ -15,6 +16,7 @@ interface Step {
   lede: string;
   points: string[];
   evidence?: Evidence[];
+  demo?: boolean; // render the live badge builder under this step's slide
 }
 interface Archetype {
   label: string;
@@ -161,6 +163,7 @@ const ARCHETYPES: Record<Key, Archetype> = {
           "Each graduate gets a credential they own.",
           "You keep the data, and you keep the standard.",
         ],
+        demo: true,
       },
       {
         name: "What you’re left with",
@@ -301,6 +304,13 @@ export default function V2IssuerExplorer() {
               )}
             </div>
           </div>
+
+          {/* Live "build a credential" demo — the hands-on "Try it yourself" */}
+          {current.demo && (
+            <div className="mt-12 border-t border-border pt-10">
+              <BadgeBuilderDemo />
+            </div>
+          )}
 
           {/* Slide nav + CTA ladder */}
           <div className="mt-14 flex flex-wrap items-center justify-between gap-6 border-t border-border pt-6">

@@ -35,6 +35,7 @@ try {
       path.join(badgeDir, "badge-generator.ts"),
       path.join(badgeDir, "palettes.ts"),
       path.join(badgeDir, "fonts.ts"),
+      path.join(badgeDir, "badge-model.ts"),
       "--outDir", out,
       "--module", "commonjs",
       "--target", "es2020",
@@ -103,6 +104,25 @@ if (decodeRing(inv, "--prim", 456, 486, 28) !== courseId) fail("inverted interio
 const idsA = [...svg.matchAll(/id="([^"]+)"/g)].map((m) => m[1]);
 const idsB = [...inv.matchAll(/id="([^"]+)"/g)].map((m) => m[1]);
 if (idsA.some((id) => idsB.includes(id))) fail("two badges share internal SVG ids — collision risk");
+
+// --- 4b. badge-model (U2): hashing typed inputs → ring hex ------------------
+const { buildBadgeParams, canonicalizeSlts } = await import(path.join(out, "badge-model.js"));
+const inputsA = { courseName: "Intro to Cardano", moduleName: "Wallets", slts: ["I can create a wallet", "I can send ada"] };
+const pA = await buildBadgeParams(inputsA);
+const pA2 = await buildBadgeParams(inputsA);
+if (pA.courseId.length !== 56) fail(`courseId should be 56 hex chars, got ${pA.courseId.length}`);
+if (pA.sltHash.length !== 64) fail(`sltHash should be 64 hex chars, got ${pA.sltHash.length}`);
+if (pA.courseId !== pA2.courseId || pA.sltHash !== pA2.sltHash) fail("buildBadgeParams not deterministic");
+// changing an SLT changes the inner ring, not the outer
+const pB = await buildBadgeParams({ ...inputsA, slts: ["I can create a wallet", "I can stake ada"] });
+if (pB.courseId !== pA.courseId) fail("courseId changed when only SLTs changed");
+if (pB.sltHash === pA.sltHash) fail("sltHash did not change when an SLT changed");
+// empty / whitespace rows dropped before hashing
+if (canonicalizeSlts(["a", " ", "", "b"]) !== "a\nb") fail("canonicalizeSlts did not drop empty rows");
+// the rendered preview carries no signed verify= claim (R7)
+if (!buildBadgeSvg(pA, pal, { idSuffix: "x" }).includes('<openbadges:credential verify="">')) {
+  fail("preview badge should have an empty verify= claim");
+}
 
 // --- 5. R9 import boundary --------------------------------------------------
 const forbidden = /from\s+["'](react|next|@\/|\.\.\/)/;

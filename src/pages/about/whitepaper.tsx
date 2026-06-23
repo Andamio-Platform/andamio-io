@@ -1,10 +1,10 @@
 import { GetServerSideProps } from "next";
 
-// Redirect to external whitepaper on docs site
+// Redirect the legacy /about/whitepaper path to the internal /whitepaper route.
 export const getServerSideProps: GetServerSideProps = async () => {
   return {
     redirect: {
-      destination: "https://docs.andamio.io/docs/whitepaper",
+      destination: "/whitepaper",
       permanent: true,
     },
   };

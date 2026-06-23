@@ -11,7 +11,10 @@
  */
 export const EXTERNAL_LINKS = {
   docs: "https://docs.andamio.io/docs",
-  docsWhitepaper: "https://docs.andamio.io/docs/whitepaper",
+  // The whitepaper now lives on the landing site itself (/whitepaper), derived
+  // from ecosystem-enterprise/papers/. Flipping this constant repoints every
+  // reference (nav, footer, V2 sections, about) to the internal route.
+  docsWhitepaper: "/whitepaper",
   docsGettingStarted: "https://docs.andamio.io/docs/guides/getting-started",
   apiReference: "https://dev.api.andamio.io/reference",
   app: "https://mainnet.app.andamio.io",

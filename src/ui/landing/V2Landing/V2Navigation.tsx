@@ -10,6 +10,7 @@ import { EXTERNAL_LINKS } from "~/lib/external-links";
 const navItems = [
   { label: "Issuer", href: "#issuer" },
   { label: "API", href: "#andamio-api" },
+  { label: "Roadmap", href: "/roadmap" },
   { label: "Whitepaper", href: "/whitepaper" },
   { label: "Docs", href: EXTERNAL_LINKS.docs },
   { label: "Blog", href: "/blog" },

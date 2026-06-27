@@ -1,5 +1,9 @@
 export interface Roadmap {
   category: string;
+  /** One-line description of the product / track. */
+  tagline?: string;
+  /** "product" tracks render as release timelines; "history" tracks render in the History & Funding section. */
+  kind?: "product" | "history";
   epics: Epic[];
 }
 
@@ -16,9 +20,214 @@ export interface Epic {
   };
 }
 
+// Product tracks are sourced from the Product Circle public roadmap
+// (product-circle/roadmap: historical-releases.json + roadmap-public.json),
+// the curated source of truth for what ships and roughly when. Blurbs are
+// customer-voice and intentionally do not mirror the internal board.
+// "Founding & Vision" and "Catalyst Proposals" are preserved historical
+// context (kind: "history") that the release data does not carry.
 export const roadmap: Roadmap[] = [
   {
+    category: "Andamio Issuer",
+    tagline: "Verifiable, learner-owned credentials",
+    kind: "product",
+    epics: [
+      {
+        name: "On-chain credential issuance",
+        description:
+          "The on-chain foundation for issuing credentials: protocol utilities and data encoding that let credentials be written to and verified on Cardano.",
+        features: [],
+        status: "complete",
+        years: ["2026"],
+        quarter: 1,
+      },
+      {
+        name: "Andamio Issuer 1.0",
+        description:
+          "Turn the badges you issue into credentials you control. Andamio Issuer adds a verifiable credential layer on top of the programs you already run: credentials that outlive their issuer, that software can verify, and that belong to the people who earn them. No new tools or accounts for you or your people to manage.",
+        features: [],
+        status: "inProgress",
+        years: ["2026"],
+        quarter: 3,
+      },
+    ],
+  },
+  {
+    category: "Andamio API",
+    tagline: "The integration layer for credentials and identity",
+    kind: "product",
+    epics: [
+      {
+        name: "Andamio API 1.0",
+        description:
+          "The Andamio API goes live on Cardano mainnet: developer email sign-in, a consolidated dashboard for learners and teachers, and the first assignment-commitment flows.",
+        features: [],
+        status: "complete",
+        years: ["2025"],
+        quarter: 4,
+      },
+      {
+        name: "Andamio API 2.0",
+        description:
+          "A ground-up rebuild: a developer gateway portal at api.andamio.io, a consistent response format across every endpoint, and access-token ownership verification.",
+        features: [],
+        status: "complete",
+        years: ["2026"],
+        quarter: 1,
+      },
+      {
+        name: "Andamio API 2.2",
+        description:
+          "Billing and pricing go public: tier and plan endpoints, metered quotas, and sponsored-transaction support so apps never ask users to pay gas.",
+        features: [],
+        status: "complete",
+        years: ["2026"],
+        quarter: 2,
+      },
+      {
+        name: "Andamio API 2.3",
+        description:
+          "Wallet-based developer login with CIP-30 signatures and refresh tokens, plus cross-environment enterprise key provisioning.",
+        features: [],
+        status: "complete",
+        years: ["2026"],
+        quarter: 2,
+      },
+      {
+        name: "Andamio API 2.4",
+        description:
+          "Back-office controls to set up and meter enterprise customers: enterprise key provisioning, allocation lifecycle, and a sponsorship reconciler with full observability.",
+        features: [],
+        status: "complete",
+        years: ["2026"],
+        quarter: 2,
+      },
+      {
+        name: "Andamio API 2.5",
+        description:
+          "2.5 is when apps can integrate Andamio Issuer directly. Where 2.4 gave Andamio the back-office controls to set up and meter enterprise customers, 2.5 ships the public Issuer API their own apps call: issue and read credentials, sign users in without wallets, every action sponsored, with no third-party infrastructure to wire up.",
+        features: [],
+        status: "inProgress",
+        years: ["2026"],
+        quarter: 3,
+      },
+    ],
+  },
+  {
+    category: "Apps & Tooling",
+    tagline: "Web app, templates, CLI, and bots for building on Andamio",
+    kind: "product",
+    epics: [
+      {
+        name: "Andamio App Template v2.0",
+        description:
+          "A modernized starter template (Next.js 15) for building apps on Andamio, with an agent-agnostic skills structure for AI-assisted development.",
+        features: [],
+        status: "complete",
+        years: ["2026"],
+        quarter: 1,
+      },
+      {
+        name: "Andamio App v2.0",
+        description:
+          "The Andamio web app, rebuilt: project overviews, the full task-commitment lifecycle, manager dashboards, and sponsored migration from V1 to V2.",
+        features: [],
+        status: "complete",
+        years: ["2026"],
+        quarter: 1,
+      },
+      {
+        name: "Andamio CLI v0.1",
+        description:
+          "First release of the Andamio CLI: import and export course modules, manage content, and drive course updates from the terminal.",
+        features: [],
+        status: "complete",
+        years: ["2026"],
+        quarter: 1,
+      },
+      {
+        name: "Andamio CLI v0.13",
+        description:
+          "The CLI matures: teacher assignment workflows, richer course tooling, and a hardened release pipeline.",
+        features: [],
+        status: "complete",
+        years: ["2026"],
+        quarter: 2,
+      },
+      {
+        name: "Andamio Bot v1.0",
+        description:
+          "A credential-gated Discord bot you can deploy in minutes: gate channels on what people have actually earned.",
+        features: [],
+        status: "planned",
+        years: ["2026"],
+        quarter: 2,
+      },
+      {
+        name: "Andamio App v2.5.0",
+        description:
+          "The Andamio web app: the interface where learners and teachers interact with courses, credentials, and assignments.",
+        features: [],
+        status: "planned",
+        years: ["2026"],
+        quarter: 3,
+      },
+      {
+        name: "Andamio CLI v0.14.0",
+        description:
+          "The developer-facing command-line interface to Andamio: drive courses, credentials, and protocol actions from your terminal.",
+        features: [],
+        status: "planned",
+        years: ["2026"],
+        quarter: undefined,
+      },
+    ],
+  },
+  {
+    category: "Credential Badges",
+    tagline: "Open Badges 3.0 visuals and credential integration",
+    kind: "product",
+    epics: [
+      {
+        name: "Credential Badges 0.1",
+        description:
+          "The foundation for verifiable credential badges: a hosted Open Badges 3.0 issuer profile and the first set of V2 credential badge visuals.",
+        features: [],
+        status: "complete",
+        years: ["2026"],
+        quarter: 2,
+      },
+      {
+        name: "Credential Badges v1.0",
+        description:
+          "Andamio Credential Badges 1.0 introduces Open Badges 3.0 (OB3) credential integration and badge visuals.",
+        features: [],
+        status: "planned",
+        years: ["2026"],
+        quarter: 2,
+      },
+    ],
+  },
+  {
+    category: "Andamio Pioneers",
+    tagline: "Developer cohorts learning to build on Andamio",
+    kind: "product",
+    epics: [
+      {
+        name: "Pioneers Cohort 1",
+        description:
+          "The first Andamio Pioneers developer cohort: ten weekly sessions taking developers through building on Andamio, February to April 2026.",
+        features: [],
+        status: "complete",
+        years: ["2026"],
+        quarter: 1,
+      },
+    ],
+  },
+  {
     category: "Founding & Vision",
+    tagline: "How Andamio began",
+    kind: "history",
     epics: [
       {
         name: "Andamio Founded",
@@ -50,515 +259,9 @@ export const roadmap: Roadmap[] = [
     ],
   },
   {
-    category: "Andamio Protocol",
-    epics: [
-      {
-        name: "Andamio Protocol 1.0: Initial Mainnet Release",
-        description:
-          "Andamio protocol goes live with Access Token, learning, contribution, and credential features",
-        features: [
-          "Access Token minting with unique token name",
-          "Global Credential validator",
-          "Course and Project validators",
-          "Instance registration and administration",
-        ],
-        status: "complete",
-        years: ["2025"],
-        quarter: 1,
-      },
-      {
-        name: "Andamio V2 Audit",
-        description: "Access Token and Global State validators audited by TxPipe",
-        features: ["Updates and documentation"],
-        status: "inProgress",
-        years: ["2025"],
-        quarter: 4,
-      },
-      {
-        name: "Transaction Sponsorship - Testing Phase",
-        description:
-          "Enable frictionless user onboarding by sponsoring blockchain transactions for new users",
-        features: [
-          "Mainnet deployment and initial testing",
-          "Anti-farming mechanisms",
-          "Sponsored transaction monitoring",
-          "Performance optimization",
-        ],
-        status: "inProgress",
-        years: ["2025"],
-        quarter: 4,
-      },
-      {
-        name: "Protocol Documentation and CIP",
-        description:
-          "Comprehensive protocol documentation and Cardano Improvement Proposal submission",
-        features: [
-          "Complete Global State documentation",
-          "Local State Validator specifications",
-          "Protocol integration guides",
-          "Cardano Improvement Proposal submission",
-        ],
-        status: "inProgress",
-        years: ["2025"],
-        quarter: 4,
-      },
-      {
-        name: "Andamio Protocol 2.0",
-        description:
-          "Andamio validators in Aiken and extensible Global State validator with enhanced capabilities",
-        features: [
-          "Rewrite validators in Aiken",
-          "Generalized Global State validator",
-          "Creation of custom local state validators",
-          "Multi-prerequisites support for complex learning paths",
-        ],
-        status: "inProgress",
-        years: ["2026"],
-        quarter: 1,
-      },
-      {
-        name: "Open Source Validators",
-        description:
-          "Open source Andamio V2 validators for the community to build on",
-        features: ["Andamio Access Token and Global State V2 validators open source", "Documentation"],
-        status: "inProgress",
-        years: ["2026"],
-        quarter: 1,
-      },
-      {
-        name: "Self-Sovereign On-chain Identity (SSOI) Standard",
-        description:
-          "Standardization of professional identity built on verifiable contributions and credentials. Prove what you've done, not who you are - enabling privacy-preserving professional reputation across platforms",
-        features: [
-          "Draft Cardano Improvement Proposal",
-          "Universal credential verification standard",
-          "Portable identity framework",
-          "Privacy-preserving verification mechanisms",
-          "Cross-platform identity integration",
-        ],
-        status: "planned",
-        years: ["2026"],
-        quarter: 2,
-      },
-      {
-        name: "Transaction Sponsorship - Full Release",
-        description:
-          "Production-ready transaction sponsorship enabling seamless onboarding at scale for educational platforms and partnership integrations",
-        features: [
-          "High-volume transaction processing",
-          "Advanced anti-farming protections",
-          "Multi-organization sponsorship pools",
-          "Comprehensive analytics and monitoring",
-          "Integration guides for educational platforms",
-        ],
-        status: "planned",
-        years: ["2026"],
-        quarter: 2,
-      },
-      {
-        name: "Local State Validator Expansion",
-        description:
-          "Partner with third-party developers to expand Local State Validator implementations",
-        features: [
-          "Build local validators with ecosystem partners",
-          "Integrate existing contribution systems",
-          "Developer documentation for validator creation",
-          "Validator testing framework",
-          "Launch governance experiments",
-        ],
-        status: "planned",
-        years: ["2026"],
-        quarter: 2,
-      },
-      {
-        name: "Andamio Purpose Sidechain Test Network",
-        description:
-          "Implementation of dedicated sidechain for cost-effective scaling",
-        features: [
-          "Dedicated validation network",
-          "Reduced transaction costs",
-          "Increased throughput capacity",
-          "Seamless Cardano mainnet integration",
-        ],
-        status: "proposed",
-        years: ["2026"],
-        quarter: 3,
-      },
-    ],
-  },
-  {
-    category: "Andamio Platform + Services",
-    epics: [
-      {
-        name: "Andamio Platform 1.0 ",
-        description:
-          "Initial Mainnet Release of Andamio Platform. The Andamio Platform is a reference implementation that shows what can be built on top of the Andamio Protocol.",
-        features: [
-          "Access token minting",
-          "Credential validator",
-          "Course validator",
-          "Project validator",
-          "Instance registration and administration",
-        ],
-        status: "complete",
-        years: ["2025"],
-        quarter: 1,
-      },
-      {
-        name: "Andamio Platform 1.1 ",
-        description: "Refined User Experience",
-        features: [
-          "Workflows for launching Projects, Credentials, and Courses",
-          "Improved transaction flows",
-          "Optimized on-chain interactions",
-        ],
-        status: "complete",
-        years: ["2025"],
-        quarter: 2,
-      },
-      {
-        name: "Andamio Platform 1.2",
-        description: "Improved reporting features and mainstream accessibility",
-        features: [
-          "Web3 Authentication",
-          "Transaction History",
-          "Notification Center",
-          "Export reports",
-        ],
-        status: "complete",
-        years: ["2025"],
-        quarter: 2,
-      },
-      {
-        name: "Andamio Platform 1.3",
-        description: "Cardano Wallet-Only Login and Enhanced Privacy",
-        features: [
-          "Wallet-only authentication (deprecated Discord login)",
-          "Database upgrades - no personal data collected",
-          "Andamio Access Token for account access",
-          "Check Wallet page",
-          "Course Studio UX improvements",
-        ],
-        status: "complete",
-        years: ["2025"],
-        quarter: 3,
-      },
-      {
-        name: "Andamio Platform 1.4",
-        description: "Self-Service Publishing and Task Management",
-        features: [
-          "Course and Project activation (150 ADA course, 250 ADA bundled)",
-          "Smart bundled publishing with prerequisite detection",
-          "Task commitment lifecycle improvements",
-          "Wallet support restricted to Eternl and Lace",
-          "External Task Query API",
-        ],
-        status: "complete",
-        years: ["2025"],
-        quarter: 4,
-      },
-      {
-        name: "Andamio Platform 1.5",
-        description: "Native Assets and Advanced Features",
-        features: [
-          "Native asset support for token rewards and deposits",
-          "User data export and account deletion (GDPR compliance)",
-          "Tiptap v3 editor upgrade",
-          "Nostr integration for real-time chat",
-          "Enhanced OpenAPI with taskCommitments endpoints",
-        ],
-        status: "complete",
-        years: ["2025"],
-        quarter: 4,
-      },
-      {
-        name: "Andamio SDK",
-        description: "Andamio SDK for embedding contribution opportunities",
-        features: [
-          "SDK documentation",
-          "Integration examples",
-          "Contribution widget components",
-          "Configurable front-end app",
-        ],
-        status: "complete",
-        years: ["2025"],
-        quarter: 3,
-      },
-      {
-        name: "Andamio API 1.0",
-        description:
-          "Develop high-value API services for ecosystem integration",
-        features: [
-          "Credential Verification API",
-          "Project Performance API",
-          "Ecosystem Intelligence API",
-          "Reputation Scoring API",
-        ],
-        status: "complete",
-        years: ["2025"],
-        quarter: 4,
-      },
-      {
-        name: "Andamio API 2.0",
-        description:
-          "Develop high-value API services for ecosystem integration",
-        features: [
-          "Credential Verification API",
-          "Project Performance API",
-          "Ecosystem Intelligence API",
-          "Reputation Scoring API",
-        ],
-        status: "inProgress",
-        years: ["2026"],
-        quarter: 1,
-      },
-      {
-        name: "Enterprise Integration Tools",
-        description:
-          "Tools for enterprise adoption and integration with traditional systems",
-        features: [
-          "Enterprise authentication adapters",
-          "Legacy system connectors",
-          "Compliance reporting tools",
-          "Custom deployment solutions",
-        ],
-        status: "proposed",
-        years: ["2026"],
-        quarter: 1,
-      },
-      {
-        name: "Platform Interoperability Framework",
-        description:
-          "Framework for connecting Andamio with other coordination platforms",
-        features: [
-          "Universal credential standard",
-          "Cross-platform contribution tracking",
-          "Interoperable reputation systems",
-          "Multi-platform project management",
-        ],
-        status: "proposed",
-        years: ["2027"],
-        quarter: 1,
-      },
-    ],
-  },
-  {
-    category: "Partnerships + Integrations",
-    epics: [
-      {
-        name: "Catalyst Partnerships",
-        description:
-          "Work with funded projects to deliver solutions for contributor onboarding and project tracking",
-        features: [],
-        status: "complete",
-        years: ["2025"],
-        quarter: 2,
-      },
-      {
-        name: "5am App",
-        description:
-          "Building teams of skilled farmers and agriculture entrepreneurs in India. Partner with Syngenta and satellite oracle providers to enable credentialed training, satellite data integration, and resource allocation for agricultural excellence",
-        features: [
-          "Training Agriculture Entrepreneurs to become Certified Field Experts",
-          "Satellite data integration for agricultural monitoring",
-          "Resource allocation and coordination platform",
-          "Training curriculum and certification pathways",
-          "Enterprise-scale agricultural credentialing",
-        ],
-        status: "inProgress",
-        years: ["2026"],
-        quarter: undefined,
-      },
-    ],
-  },
-
-  {
-    category: "Prototypes and System Designs",
-    epics: [
-      {
-        name: "Andamio Course Platform Prototype",
-        description:
-          "Initial designs and deployment of Andamio course application.",
-        features: [],
-        status: "complete",
-        years: ["2024"],
-        quarter: 1,
-      },
-      {
-        name: "Alpha Onboarding to Course Platform",
-        description:
-          "Content plaform testing with Deep Funding Academy, Governance Guild, Gimbalabs and Mesh",
-        features: [],
-        status: "complete",
-        years: ["2024"],
-        quarter: 1,
-      },
-
-      {
-        name: "Andamio Contributor Platform Prototype",
-        description: "Testing at Gimbalabs",
-        features: ["Contributors can make treasury commitments"],
-        status: "complete",
-        years: ["2024"],
-        quarter: 3,
-      },
-      {
-        name: "Andamio Course Platform: Preproduction Release",
-        description:
-          "For students of Plutus PBL and Mesh PBL, public testing on Cardano Preprod",
-        features: [],
-        status: "complete",
-        years: ["2024"],
-        quarter: 3,
-      },
-      {
-        name: "Andamio Contribution and Credential Features",
-        description:
-          "Designs and Preprod deployment of contribution and credential features",
-        features: [],
-        status: "complete",
-        years: ["2024"],
-        quarter: 4,
-      },
-    ],
-  },
-
-  {
-    category: "Tokenomics",
-    epics: [
-      {
-        name: "Tokenomics Research",
-        description:
-          "Ongoing research into sustainable economic models for protocol development and ecosystem growth. We are exploring various approaches to value capture, incentive alignment, and long-term sustainability, though we have no formal plans for a token launch at this time.",
-        features: [
-          "Economic model exploration",
-          "Revenue sustainability research",
-          "Incentive mechanism design",
-          "Community feedback on economic approaches",
-        ],
-        status: "inProgress",
-        years: ["2026"],
-        quarter: undefined,
-      },
-    ],
-  },
-  {
-    category: "Governance",
-    epics: [
-      {
-        name: "Off-Chain Governance Experiments",
-        description:
-          "Initial off-chain governance experiments to test patterns",
-        features: [
-          "Community feedback mechanisms",
-          "Experimental governance proposals",
-          "Governance simulation tools",
-          "Governance metrics tracking",
-        ],
-        status: "complete",
-        years: ["2025"],
-        quarter: 2,
-      },
-      {
-        name: "Governance Features, Phase 1: Course Governance",
-        description:
-          "Initial integration of governance features with on-chain smart contracts and Andamio Platform",
-        features: [
-          "Credential-based voting mechanisms",
-          "Course content governance validators",
-          "Transparent decision tracking",
-        ],
-        status: "planned",
-        years: ["2026"],
-        quarter: 2,
-      },
-      {
-        name: "Governance Features, Phase 2: Project Governance",
-        description:
-          "Integration of governance features with project, contribution and treasury management",
-        features: [
-          "Treasury governance validators",
-          "Contribution approval mechanisms",
-          "Project milestone governance",
-        ],
-        status: "planned",
-        years: ["2026"],
-        quarter: 4,
-      },
-      {
-        name: "Governance Framework Design",
-        description:
-          "Design and documentation of credential-based governance system",
-        features: [
-          "Credential-based voting patterns",
-          "Governance validator specifications",
-          "Decision-making authority separation from economic rights",
-          "Transparent governance processes",
-        ],
-        status: "planned",
-        years: ["2026"],
-        quarter: 1,
-      },
-      {
-        name: "Platform Governance Implementation",
-        description:
-          "Implementation of governance features within the Andamio Platform",
-        features: [
-          "Platform-based governance experiments",
-          "Public roadmap with community feedback",
-          "Transparent priority-setting processes",
-          "User suggestion incorporation system",
-        ],
-        status: "proposed",
-        years: ["2026"],
-        quarter: 1,
-      },
-      {
-        name: "Reputation-Based Governance",
-        description:
-          "Advanced governance systems using reputation and contribution history",
-        features: [
-          "Reputation-weighted voting",
-          "Domain-specific expertise recognition",
-          "Historical contribution influence",
-          "Adaptive governance weight algorithms",
-        ],
-        status: "proposed",
-        years: ["2026"],
-        quarter: 1,
-      },
-      {
-        name: "On-Chain Governance Validators",
-        description:
-          "Development and deployment of on-chain governance validators",
-        features: [
-          "Treasury governance validators",
-          "Protocol upgrade governance",
-          "Parameter change governance",
-          "Credential-based voting implementation",
-        ],
-        status: "proposed",
-        years: ["2026"],
-        quarter: 2,
-      },
-      {
-        name: "Governance Analytics Dashboard",
-        description:
-          "Comprehensive analytics for governance participation and outcomes",
-        features: [
-          "Governance participation metrics",
-          "Decision outcome tracking",
-          "Governance effectiveness analysis",
-          "Participant engagement visualization",
-        ],
-        status: "proposed",
-        years: ["2027"],
-        quarter: 1,
-      },
-    ],
-  },
-  {
     category: "Catalyst Proposals",
+    tagline: "Project Catalyst funding milestones",
+    kind: "history",
     epics: [
       {
         name: "F10: DAOs <3 smart contracts for skill-acquisition and contribution tracking",

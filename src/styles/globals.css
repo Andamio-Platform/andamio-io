@@ -307,3 +307,70 @@
 .visible {
   opacity: 1 !important; /* Set visible when the observer detects entry */
 }
+
+/* Credential Assay Station — the live readout values settle in (blur → sharp)
+   each time the derived hash changes, keyed by value in BadgeBuilderDemo. */
+@keyframes assaySettle {
+  from {
+    opacity: 0.3;
+    filter: blur(3px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+.assay-settle {
+  animation: assaySettle 320ms ease-out;
+}
+
+/* A single scan-line sweeps the specimen once when the badge re-renders. */
+@keyframes assayScan {
+  from {
+    transform: translateY(-120%);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.85;
+  }
+  to {
+    transform: translateY(120%);
+    opacity: 0;
+  }
+}
+
+.assay-scan {
+  animation: assayScan 700ms ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .assay-settle,
+  .assay-scan {
+    animation: none;
+  }
+}
+
+/* Light "island" — re-declares the theme tokens to their light values for a
+   subtree, so a widget can render light-on-dark while the rest of the page
+   stays dark. Apply to a container; everything inside resolves to light. */
+.demo-light {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --muted: oklch(0.965 0.003 106.423);
+  --muted-foreground: oklch(0.478 0.029 255.508);
+  --accent: oklch(0.97 0.004 106.423);
+  --accent-foreground: oklch(0.145 0 0);
+  --border: oklch(0.912 0.004 106.423);
+  --input: oklch(0.912 0.004 106.423);
+  --ring: #ff6b35;
+  --primary: #ff6b35;
+  --primary-foreground: #ffffff;
+  --secondary: #004e89;
+  --secondary-foreground: #ffffff;
+  color: var(--foreground);
+}

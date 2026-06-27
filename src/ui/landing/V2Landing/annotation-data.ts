@@ -39,6 +39,6 @@ export const SHIFT: InfoCard = {
 };
 
 export const LEFT_WITH: InfoCard = {
-  title: "What you’re left with",
+  title: "What you keep",
   body: "A credential that can’t be faked and that you own for good. It outlives any vendor, including us, and holders carry it anywhere it’s useful.",
 };

@@ -30,11 +30,17 @@ export default function V2HeroSection() {
               variants={rise}
               className="font-display text-[clamp(3.25rem,7.2vw,7rem)] font-extrabold leading-[1.02] tracking-[-0.02em] text-foreground"
             >
-              Badges are due for an{" "}
-              <span className="text-primary">upgrade</span>
+              Own Your <span className="text-primary">Badges</span>
             </motion.h1>
 
-            <motion.div variants={rise} className="mt-16">
+            <motion.p
+              variants={rise}
+              className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground sm:text-xl"
+            >
+              Andamio Credential Badges are permanent, programmable, and yours.
+            </motion.p>
+
+            <motion.div variants={rise} className="mt-12">
               <p className="text-sm font-semibold text-muted-foreground">
                 Learn how
               </p>

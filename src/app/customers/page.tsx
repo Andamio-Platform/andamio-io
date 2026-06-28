@@ -1,12 +1,11 @@
 import { Suspense } from "react";
 import Link from "next/link";
-import { Card } from "~/components/ui/card";
 import Image from "next/image";
 import fs from "fs";
 import path from "path";
 import Markdoc from "@markdoc/markdoc";
 import { parseBlogMarkdocFrontmatter } from "~/utils/markdown";
-
+import { color, font, containerCls, layout } from "~/ui/system/tokens";
 
 type CustomerFrontmatter = {
   title?: string;
@@ -18,10 +17,13 @@ type Customer = {
   frontmatter: CustomerFrontmatter;
 };
 
+/* Andamio Customers index — Warm Index design system (light, Inter, ink on
+ * paper, blue accents). Server component; reads src/customers/*.md via fs +
+ * Markdoc, styled with system tokens. */
 export default function CustomersPage() {
   const customersDir = path.join(process.cwd(), "src", "customers");
-  const files = fs.readdirSync(customersDir).filter(f => f.endsWith(".md"));
-  const customers: Customer[] = files.map(file => {
+  const files = fs.readdirSync(customersDir).filter((f) => f.endsWith(".md"));
+  const customers: Customer[] = files.map((file) => {
     const id = file.replace(/\.md$/, "");
     const content = fs.readFileSync(path.join(customersDir, file), "utf-8");
     const pageAST = Markdoc.parse(content);
@@ -30,106 +32,123 @@ export default function CustomersPage() {
   });
 
   return (
-    <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
+    <div className={containerCls} style={{ maxWidth: layout.maxWidth }}>
       {/* Header */}
-      <div className="relative mb-16">
-        {/* Angular accent lines */}
-        <div className="absolute -top-8 left-0 h-1 w-32 bg-gradient-to-r from-primary to-transparent shadow-md shadow-primary/20"></div>
-        <div className="absolute -top-4 left-8 h-1 w-16 bg-gradient-to-r from-muted-foreground/40 to-transparent"></div>
-        <div className="mb-6 flex items-center gap-4">
-          <div className="h-1 w-12 bg-gradient-to-r from-primary to-transparent"></div>
-          <h1 className="text-4xl font-bold text-foreground lg:text-6xl">
-            Customers
-          </h1>
-        </div>
-        <p className="max-w-3xl text-xl text-muted-foreground">
-          Celebrating the global community of people building local states on Andamio. Teams of all sizes - tech teams, collaborative team, educational teams, institutions, and more.
+      <header className="pb-12 pt-16 sm:pt-24">
+        <p
+          className="text-[11px] uppercase tracking-[0.18em]"
+          style={{ fontFamily: font.mono, color: color.inkMuted }}
+        >
+          The Andamio Community
         </p>
-        <br />
-        <p className="max-w-3xl text-xl text-muted-foreground">
-          Discover their stories and how they are impacting lives in their distributed way of work.
+        <h1 className="mt-4 text-[clamp(2.6rem,7vw,5rem)] font-semibold leading-[0.95] tracking-[-0.045em]">
+          Customers
+        </h1>
+        <p className="mt-5 max-w-2xl text-lg leading-relaxed" style={{ color: color.inkMuted }}>
+          Celebrating the global community of people building local states on Andamio. Teams
+          of all sizes — tech teams, collaborative teams, educational teams, institutions, and
+          more.
         </p>
-
-      </div>
+        <p className="mt-4 max-w-2xl text-lg leading-relaxed" style={{ color: color.inkMuted }}>
+          Discover their stories and how they are impacting lives in their distributed way of
+          work.
+        </p>
+      </header>
 
       {/* Customers Grid */}
-      <div className="grid gap-8 lg:grid-cols-2">
-        <Suspense fallback={
-          <div className="flex items-center justify-center py-20">
-            <div className="text-muted-foreground">Loading customers...</div>
-          </div>
-        }>
-          {customers && customers.map(customer => (
-            <Card key={customer.id} className="group relative overflow-hidden border border-border bg-card shadow-lg transition-all duration-300 hover:border-primary/50 hover:shadow-xl">
-                  <Link href={`/customers/${customer.id}`} className="block">
-                    {/* Featured Image */}
-                    {customer.frontmatter.image && (
-                      <div className="relative aspect-video overflow-hidden">
+      {customers.length > 0 ? (
+        <div className="grid gap-6 py-14 sm:py-16 lg:grid-cols-2">
+          <Suspense
+            fallback={
+              <div className="flex items-center justify-center py-20">
+                <div style={{ color: color.inkMuted }}>Loading customers...</div>
+              </div>
+            }
+          >
+            {customers.map((customer) => (
+              <Link
+                key={customer.id}
+                href={`/customers/${customer.id}`}
+                className="group flex flex-col transition-colors"
+                style={{ border: `1px solid ${color.cell}` }}
+              >
+                {customer.frontmatter.image && (
+                  <div
+                    className="relative aspect-video overflow-hidden border-b"
+                    style={{ borderColor: color.cell }}
+                  >
+                    <Image
+                      src={customer.frontmatter.image}
+                      height={400}
+                      width={800}
+                      alt={customer.frontmatter.title || customer.id}
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                    />
+                    {/* Customer Logo at top right */}
+                    {customer.frontmatter.logo && (
+                      <div className="absolute right-2 top-2 z-10">
                         <Image
-                          src={customer.frontmatter.image}
-                          height={400}
-                          width={800}
-                          alt={customer.frontmatter.title || customer.id}
-                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          src={customer.frontmatter.logo}
+                          alt={customer.frontmatter.title || customer.id + " logo"}
+                          width={72}
+                          height={72}
+                          className="rounded object-contain p-1 shadow-md"
+                          style={{ background: color.paper }}
                         />
-                        {/* Customer Logo at top right */}
-                        {customer.frontmatter.logo && (
-                          <div className="absolute top-2 right-2 z-10">
-                            <Image
-                              src={customer.frontmatter.logo}
-                              alt={customer.frontmatter.title || customer.id + ' logo'}
-                              width={72}
-                              height={72}
-                              className="rounded shadow-lg bg-card/90 p-1 object-contain"
-                            />
-                          </div>
-                        )}
-                        <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent"></div>
                       </div>
                     )}
-                    {/* Content */}
-                    <div className="p-6">
-                      {/* Category/Type Badge */}
-                      <div className="mb-3">
-                        <span className="inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary border border-primary/30">
-                          Customer
+                  </div>
+                )}
+                <div className="flex flex-1 flex-col p-6">
+                  <div className="flex items-center gap-3" style={{ fontFamily: font.mono }}>
+                    <span
+                      className="text-[10px] uppercase tracking-[0.16em]"
+                      style={{ color: color.blue }}
+                    >
+                      Customer
+                    </span>
+                  </div>
+                  <h2 className="mt-3 text-xl font-semibold leading-tight tracking-[-0.02em] lg:text-2xl">
+                    {customer.frontmatter.title || customer.id}
+                  </h2>
+                  {/* Tags */}
+                  {customer.frontmatter.tags && Array.isArray(customer.frontmatter.tags) && (
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {customer.frontmatter.tags.map((tag: string) => (
+                        <span
+                          key={tag}
+                          className="inline-block px-2 py-1 text-[10px] uppercase tracking-[0.12em]"
+                          style={{
+                            fontFamily: font.mono,
+                            color: color.inkMuted,
+                            border: `1px solid ${color.cell}`,
+                          }}
+                        >
+                          {tag}
                         </span>
-                      </div>
-                      {/* Title */}
-                      <h2 className="mb-4 text-xl font-bold text-foreground transition-colors duration-200 group-hover:text-primary lg:text-2xl">
-                        {customer.frontmatter.title || customer.id}
-                      </h2>
-                      {/* Meta Information: Tags */}
-                      {customer.frontmatter.tags && Array.isArray(customer.frontmatter.tags) && (
-                        <div className="mb-2 flex flex-wrap gap-2 text-sm text-muted-foreground">
-                          {customer.frontmatter.tags.map((tag: string) => (
-                            <span key={tag} className="inline-block rounded bg-primary/10 px-2 py-1 text-xs text-primary border border-primary/20">
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                      {/* Meta Information (add more fields as needed) */}
-                      {/* Read More Arrow */}
-                      <div className="flex items-center gap-2 text-primary transition-colors duration-200 group-hover:text-primary/80">
-                        <span className="text-xs font-medium">Read More</span>
-                        <svg className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                        </svg>
-                      </div>
+                      ))}
                     </div>
-                  </Link>
-            </Card>
-          ))}
-        </Suspense>
-      </div>
-
-      {/* Empty State */}
-      {customers.length === 0 && (
-        <div className="flex flex-col items-center justify-center py-20 text-center">
-          <div className="mb-4 text-6xl opacity-20">👥</div>
-          <h3 className="mb-2 text-xl font-semibold text-foreground">No customers yet</h3>
-          <p className="text-muted-foreground">Check back soon for new customer stories.</p>
+                  )}
+                  <div className="mt-auto flex items-center justify-between pt-6">
+                    <span />
+                    <span
+                      className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.12em] opacity-0 transition-opacity group-hover:opacity-100"
+                      style={{ fontFamily: font.mono, color: color.blue }}
+                    >
+                      Read →
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </Suspense>
+        </div>
+      ) : (
+        <div className="flex flex-col items-center justify-center py-28 text-center">
+          <h3 className="text-xl font-semibold">No customers yet</h3>
+          <p className="mt-2" style={{ color: color.inkMuted }}>
+            Check back soon for new customer stories.
+          </p>
         </div>
       )}
     </div>

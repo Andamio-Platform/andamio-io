@@ -1,9 +1,9 @@
+import Head from "next/head";
 import { roadmap } from "../../roadmap";
-import ModernPageLayout from "~/components/layouts/ModernPageLayout";
-import RoadmapProductComponent from "~/ui/roadmap/RoadmapProductComponent";
-
-// TODO (next week): per-roadmap-item feedback mechanism. Replaces the old
-// single Notion "Give Feedback" link (removed — Notion is no longer used).
+import { nav, footer as footerData } from "~/ui/explore/content";
+import { color, font, containerCls, layout } from "~/ui/system/tokens";
+import { Page, Section, Kicker, Display, Footer, type RailItem } from "~/ui/system/kit";
+import RoadmapTrack from "~/ui/system/RoadmapTrack";
 
 const slug = (s: string) =>
   s
@@ -12,103 +12,103 @@ const slug = (s: string) =>
     .replace(/(^-|-$)/g, "");
 
 const LEGEND = [
-  { label: "Shipped", dot: "border-success bg-success" },
-  { label: "In progress", dot: "border-primary bg-primary" },
-  { label: "Planned", dot: "border-secondary bg-card" },
+  { label: "Shipped", dot: { background: color.ink, borderColor: color.ink } },
+  { label: "In progress", dot: { background: color.orange, borderColor: color.orange } },
+  { label: "Planned", dot: { background: color.paper, borderColor: color.inkFaint } },
 ];
 
-const ProductRoadmap = () => {
+export default function ProductRoadmap() {
   const products = roadmap.filter((r) => r.kind !== "history");
   const history = roadmap.filter((r) => r.kind === "history");
 
-  return (
-    <ModernPageLayout
-      title="Roadmap"
-      description="Every Andamio product and its releases — what has shipped, what's underway, and what's coming next."
-      currentPage="roadmap"
-    >
-      <div className="flex flex-col gap-10 pb-20 lg:flex-row lg:gap-12">
-        {/* Sticky product navigation */}
-        <aside className="lg:w-56 lg:shrink-0">
-          <div className="lg:sticky lg:top-24">
-            <nav className="flex flex-col gap-1">
-              <p className="px-3 pb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                Products
-              </p>
-              {products.map((product) => (
-                <a
-                  key={product.category}
-                  href={`#${slug(product.category)}`}
-                  className="rounded-md px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted"
-                >
-                  {product.category}
-                </a>
-              ))}
+  // Editorial rail = every track, in order. (In-page anchors → scroll-spy.)
+  const railSections: RailItem[] = [...products, ...history].map((r) => ({
+    id: slug(r.category),
+    label: r.category,
+  }));
 
-              {history.length > 0 && (
-                <>
-                  <p className="px-3 pb-1 pt-4 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                    History &amp; Funding
-                  </p>
-                  {history.map((track) => (
-                    <a
-                      key={track.category}
-                      href={`#${slug(track.category)}`}
-                      className="rounded-md px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted"
-                    >
-                      {track.category}
-                    </a>
-                  ))}
-                </>
-              )}
-            </nav>
+  return (
+    <>
+      <Head>
+        <title>Roadmap — Andamio</title>
+        <meta
+          name="description"
+          content="Every Andamio product and its releases — what has shipped, what's underway, and what's coming next."
+        />
+      </Head>
+
+      <Page nav={{ items: nav.items, cta: nav.cta }} sections={railSections}>
+        {/* Header */}
+        <Section bordered={false}>
+          <div className="pb-12 pt-16 sm:pt-24">
+            <Kicker>Product roadmap</Kicker>
+            <Display as="h1" size="lg" className="mt-5">
+              Roadmap
+            </Display>
+            <p className="mt-5 max-w-2xl text-lg leading-relaxed" style={{ color: color.inkMuted }}>
+              Every Andamio product and its releases — what has shipped, what&apos;s underway,
+              and what&apos;s coming next.
+            </p>
 
             {/* Legend */}
-            <div className="mt-6 space-y-2 border-t border-border px-3 pt-4">
+            <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2">
               {LEGEND.map((item) => (
                 <div key={item.label} className="flex items-center gap-2">
+                  <span className="h-3 w-3 rounded-full border-2" style={item.dot} />
                   <span
-                    className={`h-3 w-3 rounded-full border-2 ${item.dot}`}
-                  />
-                  <span className="text-xs text-muted-foreground">
+                    className="text-[11px] uppercase tracking-[0.14em]"
+                    style={{ fontFamily: font.mono, color: color.inkFaint }}
+                  >
                     {item.label}
                   </span>
                 </div>
               ))}
             </div>
           </div>
-        </aside>
+        </Section>
 
-        {/* Product timelines */}
-        <div className="min-w-0 flex-1 space-y-16">
-          {products.map((product) => (
-            <div key={product.category} id={slug(product.category)} className="scroll-mt-24">
-              <RoadmapProductComponent product={product} />
-            </div>
-          ))}
-
-          {history.length > 0 && (
-            <div className="space-y-12 border-t border-border pt-12">
-              <div>
-                <h2 className="font-display text-xl font-bold uppercase tracking-wide text-muted-foreground">
-                  History &amp; Funding
-                </h2>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  Where Andamio came from, and the Project Catalyst proposals
-                  that funded it.
-                </p>
+        {/* Tracks */}
+        <div className={containerCls} style={{ maxWidth: layout.maxWidth }}>
+          <div className="space-y-20 py-16">
+            {products.map((product) => (
+              <div key={product.category} id={slug(product.category)} className="scroll-mt-28">
+                <RoadmapTrack product={product} />
               </div>
-              {history.map((track) => (
-                <div key={track.category} id={slug(track.category)} className="scroll-mt-24">
-                  <RoadmapProductComponent product={track} />
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-    </ModernPageLayout>
-  );
-};
+            ))}
 
-export default ProductRoadmap;
+            {history.length > 0 && (
+              <div className="space-y-16 border-t pt-14" style={{ borderColor: color.rule }}>
+                <div>
+                  <h2
+                    className="text-[11px] font-semibold uppercase tracking-[0.18em]"
+                    style={{ fontFamily: font.mono, color: color.inkMuted }}
+                  >
+                    History &amp; Funding
+                  </h2>
+                  <p className="mt-2 max-w-2xl text-sm" style={{ color: color.inkMuted }}>
+                    Where Andamio came from, and the Project Catalyst proposals that funded it.
+                  </p>
+                </div>
+                {history.map((track) => (
+                  <div key={track.category} id={slug(track.category)} className="scroll-mt-28">
+                    <RoadmapTrack product={track} />
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        <Footer
+          tagline={footerData.tagline}
+          meta={footerData.meta}
+          copyright={footerData.copyright}
+          columns={footerData.columns}
+          backHref="/"
+          backLabel="← Back to home"
+          caption="Roadmap"
+        />
+      </Page>
+    </>
+  );
+}

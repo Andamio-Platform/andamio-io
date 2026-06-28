@@ -2,16 +2,23 @@ import React from "react";
 import Head from "next/head";
 import Link from "next/link";
 import type { GetStaticProps } from "next";
-import V2Navigation from "~/ui/landing/V2Landing/V2Navigation";
-import V2CTAFooter from "~/ui/landing/V2Landing/V2CTAFooter";
+import { nav, footer as footerData } from "~/ui/explore/content";
+import { color, font } from "~/ui/system/tokens";
+import { Page, Kicker, Display, Button, Footer, type RailItem } from "~/ui/system/kit";
 import PaperArticle from "~/ui/whitepaper/PaperArticle";
-import { primaryBtnClass, outlineBtnClass } from "~/ui/landing/V2Landing/_ui";
-import { SUB_PAPERS } from "~/lib/papers";
+import { PAPERS, SUB_PAPERS } from "~/lib/papers";
 import { readPaperBody } from "~/lib/papers.server";
 
 interface Props {
   body: string;
 }
+
+/** Rail = the four papers; the leader Light Paper is the active one on the hub. */
+const paperRail: RailItem[] = PAPERS.map((p) => ({
+  id: p.slug,
+  label: p.title.replace(/^Andamio\s+/, ""),
+  href: p.slug === "light-paper" ? "/whitepaper" : `/whitepaper/${p.slug}`,
+}));
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
   return { props: { body: readPaperBody("light-paper") } };
@@ -27,56 +34,73 @@ export default function WhitepaperHub({ body }: Props) {
           content="The Andamio Papers — the Light Paper, the Issuer paper, Building on Andamio, and the glossary. What Andamio is and how it works."
         />
       </Head>
-      <div className="dark min-h-screen bg-background text-foreground">
-        <V2Navigation />
-        <main className="mx-auto max-w-3xl px-5 pb-24 pt-28 sm:px-8 sm:pt-32">
+
+      <Page nav={{ items: nav.items, cta: nav.cta }} sections={paperRail} activeId="light-paper">
+        <main className="mx-auto max-w-3xl px-6 pb-24 pt-16 sm:px-10 sm:pt-24">
           <header>
-            <p className="text-sm font-semibold text-muted-foreground">The Andamio Papers</p>
-            <h1 className="mt-3 font-display text-5xl font-bold leading-[1.0] tracking-[-0.02em] text-foreground sm:text-6xl">
+            <Kicker>The Andamio Papers</Kicker>
+            <Display as="h1" size="lg" className="mt-4">
               Read the papers
-            </h1>
-            <p className="mt-5 text-lg leading-relaxed text-muted-foreground">
+            </Display>
+            <p className="mt-5 text-lg leading-relaxed" style={{ color: color.inkMuted }}>
               The single source for what Andamio is and how it works. The Light Paper leads. The
               Issuer paper, Building on Andamio, and the glossary go deeper, each on its own page.
             </p>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <a href="/papers/andamio-whitepapers.pdf" className={primaryBtnClass}>
+            <div className="mt-7">
+              <Button variant="primary" href="/papers/andamio-whitepapers.pdf">
                 Download the PDF
-              </a>
+              </Button>
             </div>
           </header>
 
-          <nav className="mt-12 grid gap-3 border-t border-border pt-8 sm:grid-cols-2">
+          <nav
+            className="mt-12 grid gap-3 border-t pt-8 sm:grid-cols-2"
+            style={{ borderColor: color.rule }}
+          >
             {SUB_PAPERS.map((p) => (
               <Link
                 key={p.slug}
                 href={`/whitepaper/${p.slug}`}
-                className="group rounded-lg border border-border bg-card/40 p-5 transition-colors hover:border-foreground/40"
+                className="group p-5 transition-colors"
+                style={{ border: `1px solid ${color.cell}` }}
               >
-                <span className="font-display text-lg font-semibold tracking-[-0.01em] text-foreground">
-                  {p.title}
-                </span>
-                <span className="mt-1.5 block text-[14px] leading-relaxed text-muted-foreground">
+                <span className="text-lg font-semibold tracking-[-0.01em]">{p.title}</span>
+                <span className="mt-1.5 block text-[14px] leading-relaxed" style={{ color: color.inkMuted }}>
                   {p.summary}
+                </span>
+                <span
+                  className="mt-3 inline-block text-[11px] uppercase tracking-[0.14em] opacity-0 transition-opacity group-hover:opacity-100"
+                  style={{ fontFamily: font.mono, color: color.blue }}
+                >
+                  Read →
                 </span>
               </Link>
             ))}
           </nav>
 
-          <div className="mt-16 border-t border-border pt-12">
+          <div className="mt-16 border-t pt-12" style={{ borderColor: color.rule }}>
             <PaperArticle body={body} />
           </div>
 
-          <div className="mt-12 flex flex-wrap gap-3 border-t border-border pt-8">
+          <div className="mt-12 flex flex-wrap gap-3 border-t pt-8" style={{ borderColor: color.rule }}>
             {SUB_PAPERS.map((p) => (
-              <Link key={p.slug} href={`/whitepaper/${p.slug}`} className={outlineBtnClass}>
+              <Button key={p.slug} variant="outline" href={`/whitepaper/${p.slug}`}>
                 {p.title} →
-              </Link>
+              </Button>
             ))}
           </div>
         </main>
-        <V2CTAFooter />
-      </div>
+
+        <Footer
+          tagline={footerData.tagline}
+          meta={footerData.meta}
+          copyright={footerData.copyright}
+          columns={footerData.columns}
+          backHref="/"
+          backLabel="← Back to home"
+          caption="Andamio Papers"
+        />
+      </Page>
     </>
   );
 }

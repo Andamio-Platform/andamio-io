@@ -1,22 +1,8 @@
 import React, { useEffect } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import {
-  Card,
-  CardHeader,
-  CardDescription,
-  CardTitle,
-  CardContent,
-  CardIcon,
-} from "~/components/ui/card";
-import { Badge } from "~/components/ui/badge";
-import { Checkbox } from "~/components/ui/checkbox";
-import {
-  BriefcaseIcon,
-  DocumentTextIcon,
-  ShieldCheckIcon,
-} from "@heroicons/react/24/outline";
-import Footer from "~/ui/landing/Footer";
+import Head from "next/head";
+import { nav, footer as footerData } from "~/ui/explore/content";
+import { color, font } from "~/ui/system/tokens";
+import { Page, Section, Kicker, Display, Footer } from "~/ui/system/kit";
 
 type ProposalCategory = "technology" | "adoption";
 type Proposal = {
@@ -29,26 +15,7 @@ type Proposal = {
   category: ProposalCategory;
 };
 
-const GridOverlay = () => (
-  <div className="pointer-events-none fixed inset-0 z-0 opacity-[0.03]">
-    <div className="absolute inset-0 bg-gradient-to-br from-transparent via-primary/10 to-transparent"></div>
-    <div className="grid h-full grid-cols-16">
-      {Array.from({ length: 16 }).map((_, i) => (
-        <div key={i} className="border-r border-primary/30"></div>
-      ))}
-    </div>
-    <div className="absolute inset-0">
-      <div className="flex h-full flex-col">
-        {Array.from({ length: 24 }).map((_, i) => (
-          <div key={i} className="flex-1 border-b border-primary/20"></div>
-        ))}
-      </div>
-    </div>
-    <div className="absolute left-1/4 top-0 h-full w-px bg-primary/25"></div>
-    <div className="absolute left-1/2 top-0 h-full w-px bg-primary/30"></div>
-    <div className="absolute left-3/4 top-0 h-full w-px bg-primary/25"></div>
-  </div>
-);
+const mono = { fontFamily: font.mono };
 
 const FundProposals: React.FC = () => {
   useEffect(() => {
@@ -119,7 +86,6 @@ const FundProposals: React.FC = () => {
         };
       }
 
-      // We don't need the type guard anymore since proposal.category is already typed correctly
       acc[proposal.fund]![proposal.category].push(proposal);
 
       return acc;
@@ -128,122 +94,68 @@ const FundProposals: React.FC = () => {
   );
 
   return (
-    <div className="relative min-h-screen bg-background text-foreground">
-      <GridOverlay />
-      {/* Navigation Bar - matches ModernLanding.tsx light theme */}
-      <nav className="fixed top-0 z-50 w-full border-b border-border bg-card/90 backdrop-blur-sm shadow-md">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="flex h-20 items-center justify-between">
-            <div className="flex items-center">
-              <Link href="/" className="flex items-center gap-3">
-                <Image
-                  className="h-10 w-auto"
-                  src="/andamio-logo-no-white-overflow.png"
-                  alt="Andamio"
-                  width={100}
-                  height={100}
-                />
-                <span className="text-xl font-bold text-foreground">Andamio</span>
-              </Link>
-            </div>
-            <div className="hidden items-center space-x-8 md:flex">
-              <a
-                href="https://docs.andamio.io"
-                className="font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"
-              >
-                Docs
-              </a>
-              <Link
-                href="/roadmap"
-                className="font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"
-              >
-                Roadmap
-              </Link>
-              <Link
-                href="/blog"
-                className="font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"
-              >
-                Blog
-              </Link>
-              <Link
-                href="https://app.andamio.io/course/86affc4de251b0fb7636c376383bcebf6ca7ca426528f9b7a5adc298"
-                className="font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"
-              >
-                Andamio 101
-              </Link>
-              <Link
-                href="/customers"
-                className="font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"
-              >
-                Customers
-              </Link>
-              <Link
-                href="/fund/13"
-                className="font-medium text-muted-foreground transition-colors duration-200 hover:text-foreground"
-              >
-                <span role="img" aria-label="rocket">🚀</span> Project Catalyst
-              </Link>
-              <Link
-                href="https://app.andamio.io"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-sm border border-border bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-lg transition-all duration-200 hover:bg-primary/90"
-              >
-                <span>Enter App</span>
-                <svg
-                  className="h-4 w-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                  />
-                </svg>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
-      <div className="relative z-10 mx-auto max-w-7xl px-6 py-32 lg:px-8">
-        {/* Header */}
-        <div className="relative mb-16">
-          {/* Angular accent lines */}
-          <div className="absolute -top-8 left-0 h-1 w-32 bg-gradient-to-r from-primary to-transparent shadow-md shadow-primary/20"></div>
-          <div className="absolute -top-4 left-8 h-1 w-16 bg-gradient-to-r from-muted-foreground/40 to-transparent"></div>
-          <div className="mb-6 flex items-center gap-4">
-            <div className="h-1 w-12 bg-gradient-to-r from-primary to-transparent"></div>
-            <h1 className="text-4xl font-bold text-foreground lg:text-6xl">
-              Project Catalyst
-            </h1>
-          </div>
-          <p className="max-w-3xl text-xl text-muted-foreground">
-            Proposals that Andamio has submitted to Project Catalyst. Explore reasoning, progress, and impact.
+    <Page nav={{ items: nav.items, cta: nav.cta }} sections={null}>
+      <Head>
+        <title>Project Catalyst · Andamio Proposals</title>
+        <meta
+          name="description"
+          content="Proposals that Andamio has submitted to Project Catalyst. Explore reasoning, progress, and impact."
+        />
+      </Head>
+
+      {/* Header */}
+      <Section bordered={false}>
+        <div className="pb-12 pt-16 sm:pt-24">
+          <Kicker>Proposals</Kicker>
+          <Display as="h1" size="lg" className="mt-5">
+            Project Catalyst
+          </Display>
+          <p
+            className="mt-5 max-w-2xl text-lg leading-relaxed"
+            style={{ color: color.inkMuted }}
+          >
+            Proposals that Andamio has submitted to Project Catalyst. Explore
+            reasoning, progress, and impact.
           </p>
         </div>
+      </Section>
 
-        {/* Proposals Grid */}
-        <div className="grid gap-8 lg:grid-cols-2">
-          {Object.keys(groupedProposals)
-            .sort((a, b) => parseInt(b) - parseInt(a))
-            .map((fund) => {
-              const techProposals = groupedProposals[parseInt(fund)]?.technology;
-              const adoptionProposals = groupedProposals[parseInt(fund)]?.adoption;
+      {/* Proposals Grid */}
+      <Section bordered={false}>
+        <div className="py-16 sm:py-20">
+          <div
+            className="grid gap-px lg:grid-cols-2"
+            style={{ background: color.cell }}
+          >
+            {Object.keys(groupedProposals)
+              .sort((a, b) => parseInt(b) - parseInt(a))
+              .map((fund) => {
+                const techProposals =
+                  groupedProposals[parseInt(fund)]?.technology;
+                const adoptionProposals =
+                  groupedProposals[parseInt(fund)]?.adoption;
 
-              return [
-                ...(techProposals || []),
-                ...(adoptionProposals || []),
-              ].map((proposal, idx) => (
-                <ProposalCard proposal={proposal} key={proposal.title + idx} />
-              ));
-            })}
+                return [
+                  ...(techProposals ?? []),
+                  ...(adoptionProposals ?? []),
+                ].map((proposal, idx) => (
+                  <ProposalCard proposal={proposal} key={proposal.title + idx} />
+                ));
+              })}
+          </div>
         </div>
-      </div>
-      <Footer />
-    </div>
+      </Section>
+
+      <Footer
+        tagline={footerData.tagline}
+        meta={footerData.meta}
+        copyright={footerData.copyright}
+        columns={footerData.columns}
+        backHref="/"
+        backLabel="← Back to home"
+        caption="Project Catalyst"
+      />
+    </Page>
   );
 };
 
@@ -251,49 +163,67 @@ type ProposalCardProps = {
   proposal: Proposal;
 };
 
-// Update Card and Badge components to match light style
 const ProposalCard: React.FC<ProposalCardProps> = ({ proposal }) => (
-  <Card className="group relative overflow-hidden border border-border bg-card shadow-lg transition-all duration-300 hover:border-primary/50 hover:shadow-xl">
-    <CardHeader>
-      <CardTitle className="text-xl font-bold text-foreground transition-colors duration-200 group-hover:text-primary lg:text-2xl">
+  <div className="flex flex-col p-6" style={{ background: color.paper }}>
+    <div className="flex flex-wrap items-start justify-between gap-3">
+      <h3 className="text-lg font-semibold leading-tight tracking-[-0.02em] lg:text-xl">
         {proposal.title}
-      </CardTitle>
-      <Badge
-        className={`${
-          proposal.status === "completed"
-            ? "bg-success/10 text-success border-success/30"
-            : proposal.status === "in progress"
-              ? "bg-accent/10 text-accent border-accent/30"
-              : "bg-primary/10 text-primary border-primary/30"
-        } rounded-full px-3 py-1 text-xs font-medium border`}
+      </h3>
+      <span
+        className="shrink-0 border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em]"
+        style={{
+          ...mono,
+          borderColor: color.cell,
+          color:
+            proposal.status === "completed" ? color.blue : color.inkMuted,
+        }}
       >
         {proposal.status}
-      </Badge>
-      <CardDescription className="mt-2 text-muted-foreground">
-        {proposal.summary}
-      </CardDescription>
-    </CardHeader>
-    <CardContent>
-      <ul className="space-y-3">
-        {proposal.deliverables.map((deliverable, idx) => (
-          <li key={idx} className="flex items-start gap-2">
-            <Checkbox checked={deliverable.completed} disabled />
-            <p className="text-sm font-light text-foreground">
-              {deliverable.description}
-            </p>
-          </li>
-        ))}
-      </ul>
+      </span>
+    </div>
+
+    <p
+      className="mt-3 text-sm leading-relaxed"
+      style={{ color: color.inkMuted }}
+    >
+      {proposal.summary}
+    </p>
+
+    <ul className="mt-5 flex-1 space-y-2.5">
+      {proposal.deliverables.map((deliverable, idx) => (
+        <li key={idx} className="flex items-start gap-2.5">
+          <span
+            aria-hidden
+            className="mt-0.5 inline-flex h-4 w-4 shrink-0 items-center justify-center text-[10px]"
+            style={{
+              border: `1px solid ${
+                deliverable.completed ? color.blue : color.cell
+              }`,
+              background: deliverable.completed ? color.blue : "transparent",
+              color: "#fff",
+            }}
+          >
+            {deliverable.completed ? "✓" : ""}
+          </span>
+          <p className="text-sm leading-snug" style={{ color: color.ink }}>
+            {deliverable.description}
+          </p>
+        </li>
+      ))}
+    </ul>
+
+    <div className="mt-5">
       <a
         href={proposal.link}
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-4 inline-block text-sm font-medium text-primary transition-colors duration-200 hover:text-primary/80 hover:underline"
+        className="inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.1em] transition-colors hover:underline"
+        style={{ ...mono, color: color.blue }}
       >
-        View Proposal
+        View Proposal →
       </a>
-    </CardContent>
-  </Card>
+    </div>
+  </div>
 );
 
 export default FundProposals;
@@ -318,7 +248,6 @@ const proposals: Proposal[] = [
     fund: 13,
     category: "adoption",
   },
-  // Add more proposals with "category" property as "technology" or "adoption"
   {
     title: "Andamio SDK & UTxO-RPC client",
     summary:
@@ -342,7 +271,6 @@ const proposals: Proposal[] = [
     fund: 13,
     category: "technology",
   },
-  // Add additional proposals here
   {
     title: "Syngenta Agricultural Insight",
     summary:

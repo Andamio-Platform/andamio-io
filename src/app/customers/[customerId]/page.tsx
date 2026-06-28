@@ -1,10 +1,10 @@
-// import { Metadata } from "next";
 import Markdoc from "@markdoc/markdoc";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getCustomerPageContent } from "~/lib/customers";
 import { parseBlogMarkdocFrontmatter } from "~/utils/markdown";
 import { TransformedPageContent } from "~/utils/transformedPageContent";
+import { color, font } from "~/ui/system/tokens";
 
 export type Props = {
   customerId: string;
@@ -14,9 +14,11 @@ function getFrontmatter(customerId: string) {
   const content = getCustomerPageContent(customerId);
   const pageAST = Markdoc.parse(content);
   const frontmatter = parseBlogMarkdocFrontmatter(pageAST);
-  
+
   return frontmatter;
 }
+
+const mono = { fontFamily: font.mono };
 
 export default function Page({ params }: { params: Props }) {
   const content = getCustomerPageContent(params.customerId);
@@ -27,90 +29,57 @@ export default function Page({ params }: { params: Props }) {
   }
 
   return (
-    <div className="mx-auto max-w-4xl px-6 py-20 lg:px-8">
-      {/* Header */}
-      <div className="relative mb-16">
-        {/* Angular accent lines */}
-        <div className="absolute -top-8 left-0 h-1 w-32 bg-gradient-to-r from-primary to-transparent shadow-lg shadow-primary/50"></div>
-        <div className="absolute -top-4 left-8 h-1 w-16 bg-gradient-to-r from-muted-foreground/60 to-transparent"></div>
+    <div className="mx-auto max-w-3xl px-6 pb-24 pt-16 sm:px-10 sm:pt-24">
+      {/* Breadcrumb */}
+      <Link
+        href="/customers"
+        className="inline-flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-[0.1em] transition-colors hover:text-black"
+        style={{ ...mono, color: color.inkFaint }}
+      >
+        ← Back to Customers
+      </Link>
 
-        {/* Breadcrumb */}
-        <div className="mb-6">
-          <Link
-            href="/customers"
-            className="inline-flex items-center gap-2 text-sm font-medium text-primary transition-colors duration-200 hover:text-primary/80"
-          >
-            <svg
-              className="h-4 w-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-            Back to Customers
-          </Link>
-        </div>
-
-        {/* Post Meta */}
-        <div className="mb-8">
-          <div className="mb-4 flex items-center gap-4 text-sm text-muted-foreground">
-            {Array.isArray(data?.tags) && data.tags.length > 0 && (
-              <div className="flex flex-wrap gap-2">
-                {data.tags.map((tag: string) => (
-                  <span key={tag} className="inline-block rounded bg-primary/10 px-2 py-1 text-xs text-primary border border-primary/20 font-mono">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            )}
+      {/* Meta + title */}
+      <header className="mt-8 border-b pb-8" style={{ borderColor: color.rule }}>
+        {Array.isArray(data?.tags) && data.tags.length > 0 && (
+          <div className="flex flex-wrap gap-2">
+            {data.tags.map((tag: string) => (
+              <span
+                key={tag}
+                className="inline-block px-2 py-1 text-[10px] uppercase tracking-[0.12em]"
+                style={{
+                  ...mono,
+                  color: color.inkMuted,
+                  border: `1px solid ${color.cell}`,
+                }}
+              >
+                {tag}
+              </span>
+            ))}
           </div>
+        )}
+        <h1 className="mt-5 text-[clamp(2.2rem,5.5vw,4rem)] font-semibold leading-[1.0] tracking-[-0.03em]">
+          {data?.title}
+        </h1>
+      </header>
 
-            {/* Title */}
-            <h1 className="text-4xl font-bold text-foreground lg:text-6xl">
-                {data?.title}
-            </h1>
-        </div>
-      </div>
-
-      {/* Article Content */}
-      <article className="relative">
-        {/* Content with styled prose */}
-        <div className="prose prose-lg max-w-none">
-          <TransformedPageContent content={content} />
-        </div>
+      {/* Article */}
+      <article
+        className="prose mt-10 max-w-none prose-headings:font-semibold prose-headings:tracking-[-0.02em] prose-headings:text-[#0A0A0A] prose-a:font-medium prose-a:text-[#2F6BFF] prose-a:no-underline hover:prose-a:underline prose-strong:text-[#0A0A0A] sm:prose-lg"
+        style={{ fontFamily: font.sans }}
+      >
+        <TransformedPageContent content={content} />
       </article>
 
-      {/* Footer Navigation */}
-      <div className="mt-16 border-t border-border pt-8">
-        <div className="flex items-center justify-between">
-          <Link
-            href="/customers"
-            className="inline-flex items-center gap-2 rounded-sm border border-border bg-muted/50 px-4 py-2 text-sm font-medium text-foreground transition-all duration-200 hover:border-border/80 hover:bg-muted"
-          >
-            <svg
-              className="h-4 w-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-            All Posts
-          </Link>
-
-          <div className="text-sm text-muted-foreground">Share this post</div>
-        </div>
+      {/* Footer nav */}
+      <div className="mt-16 flex items-center justify-between border-t pt-8" style={{ borderColor: color.rule }}>
+        <Link
+          href="/customers"
+          className="inline-flex items-center gap-2 px-4 py-2 text-[12px] font-semibold uppercase tracking-[0.1em] transition-colors hover:text-white"
+          style={{ ...mono, border: `1px solid ${color.ink}`, color: color.ink }}
+        >
+          ← All Customers
+        </Link>
       </div>
     </div>
   );

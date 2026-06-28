@@ -1,8 +1,11 @@
 import React from "react";
+import Head from "next/head";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import V2PageLayout from "~/ui/landing/V2Landing/V2PageLayout";
 import { fadeIn as fadeInFactory, staggerContainer } from "~/ui/landing/V2Landing/motion-variants";
+import { nav, footer as footerData } from "~/ui/explore/content";
+import { color, font } from "~/ui/system/tokens";
+import { Page, Section, Kicker, Display, Footer } from "~/ui/system/kit";
 
 const useCases = [
   {
@@ -61,33 +64,84 @@ const cardVariants = fadeInFactory();
 
 export default function UseCasesIndex() {
   return (
-    <V2PageLayout
-      title="Use Cases"
-      description="Explore how organizations use Andamio to manage credentials, coordinate contributors, and scale impact."
-    >
-      <motion.div
-        className="grid grid-cols-1 gap-6 sm:grid-cols-2"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        {useCases.map((uc) => (
-          <motion.div key={uc.href} variants={cardVariants}>
-            <Link
-              href={uc.href}
-              className="group block rounded-xl border border-border bg-card p-6 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg sm:p-8"
+    <>
+      <Head>
+        <title>Use Cases — Andamio</title>
+        <meta
+          name="description"
+          content="Explore how organizations use Andamio to manage credentials, coordinate contributors, and scale impact."
+        />
+      </Head>
+
+      <Page nav={{ items: nav.items, cta: nav.cta }} sections={null}>
+        {/* Header */}
+        <Section bordered={false}>
+          <div className="pb-12 pt-16 sm:pt-24">
+            <Kicker>Use Cases</Kicker>
+            <Display as="h1" size="lg" className="mt-5">
+              Use Cases
+            </Display>
+            <p className="mt-5 max-w-3xl text-lg leading-relaxed" style={{ color: color.inkMuted }}>
+              Explore how organizations use Andamio to manage credentials, coordinate
+              contributors, and scale impact.
+            </p>
+          </div>
+        </Section>
+
+        {/* Grid */}
+        <Section bordered={false}>
+          <div className="py-16 sm:py-20">
+            <motion.div
+              className="grid grid-cols-1 gap-px sm:grid-cols-2"
+              style={{ background: color.cell }}
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
             >
-              <span className="text-xs font-semibold uppercase tracking-wider text-primary">
-                {uc.domain}
-              </span>
-              <h2 className="mb-2 mt-3 text-xl font-bold text-foreground group-hover:text-primary">
-                {uc.title}
-              </h2>
-              <p className="text-muted-foreground">{uc.description}</p>
-            </Link>
-          </motion.div>
-        ))}
-      </motion.div>
-    </V2PageLayout>
+              {useCases.map((uc) => (
+                <motion.div key={uc.href} variants={cardVariants} style={{ background: color.paper }}>
+                  <Link
+                    href={uc.href}
+                    className="group block h-full p-6 transition-colors hover:bg-[rgba(10,10,10,0.02)] sm:p-8"
+                  >
+                    <span
+                      className="text-[11px] uppercase tracking-[0.16em]"
+                      style={{ fontFamily: font.mono, color: color.inkMuted }}
+                    >
+                      {uc.domain}
+                    </span>
+                    <h2
+                      className="mb-2 mt-3 text-xl font-semibold tracking-[-0.02em] transition-colors"
+                      style={{ color: color.ink }}
+                    >
+                      {uc.title}
+                    </h2>
+                    <p className="text-sm leading-relaxed" style={{ color: color.inkMuted }}>
+                      {uc.description}
+                    </p>
+                    <span
+                      className="mt-4 inline-block text-[12px] font-semibold uppercase tracking-[0.1em] opacity-0 transition-opacity group-hover:opacity-100"
+                      style={{ fontFamily: font.mono, color: color.blue }}
+                    >
+                      View →
+                    </span>
+                  </Link>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        </Section>
+
+        <Footer
+          tagline={footerData.tagline}
+          meta={footerData.meta}
+          copyright={footerData.copyright}
+          columns={footerData.columns}
+          backHref="/"
+          backLabel="← Back to home"
+          caption="Use Cases"
+        />
+      </Page>
+    </>
   );
 }

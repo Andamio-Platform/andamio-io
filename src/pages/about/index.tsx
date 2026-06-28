@@ -1,201 +1,140 @@
 import React from "react";
+import Head from "next/head";
 import Image from "next/image";
-import Link from "next/link";
-import { motion } from "framer-motion";
-import V2PageLayout from "~/ui/landing/V2Landing/V2PageLayout";
-import { fadeIn as fadeInFactory, staggerContainer } from "~/ui/landing/V2Landing/motion-variants";
+import { nav, footer as footerData } from "~/ui/explore/content";
+import { color, font } from "~/ui/system/tokens";
+import { Page, Section, Kicker, Display, Button, Footer } from "~/ui/system/kit";
 import { EXTERNAL_LINKS } from "~/lib/external-links";
 
-const fadeIn = fadeInFactory();
-const containerVariants = staggerContainer(0.08);
-const cardVariants = fadeInFactory();
-
 const teamMembers = [
-  {
-    name: "James Dunseith",
-    role: "Co-founder",
-    focus: "Learning design, developer experience, strategy",
-    image: "/images/team/james.webp",
-  },
-  {
-    name: "Yoram Ben Zvi",
-    role: "Co-founder",
-    focus: "Business models, partnerships, sustainability",
-    image: "/images/team/yoram.jpeg",
-  },
-  {
-    name: "Adrian Hüetter",
-    role: "Smart Contract Developer",
-    focus: "Plutus, protocol design, open source",
-    image: "/images/team/adrian.webp",
-  },
-  {
-    name: "HongJing (Jingles) K",
-    role: "Developer",
-    focus: "Full-stack, analytics, user experience",
-    image: "/images/team/jingles.webp",
-  },
-  {
-    name: "Nelson Kshetrimayum",
-    role: "Developer",
-    focus: "Full-stack, Cardano integration",
-    image: "/images/team/nelson.webp",
-  },
-  {
-    name: "Roberto Mayen",
-    role: "Product Manager",
-    focus: "Product strategy, design systems",
-    image: "/images/team/rmh.webp",
-  },
-  {
-    name: "M. Ali Modiri",
-    role: "Smart Contract Developer",
-    focus: "Plutus, security, CIP authorship",
-    image: "/images/team/mix.webp",
-  },
-  {
-    name: "Nori Nishigaya",
-    role: "Infrastructure",
-    focus: "DevOps, governance, systems architecture",
-    image: "/images/team/nori.jpeg",
-  },
-  {
-    name: "Sebastian Pabon",
-    role: "Ecosystem Lead",
-    focus: "Education, facilitation, open source",
-    image: "/images/team/sebastian.png",
-  },
+  { name: "James Dunseith", role: "Co-founder", focus: "Learning design, developer experience, strategy", image: "/images/team/james.webp" },
+  { name: "Yoram Ben Zvi", role: "Co-founder", focus: "Business models, partnerships, sustainability", image: "/images/team/yoram.jpeg" },
+  { name: "Adrian Hüetter", role: "Smart Contract Developer", focus: "Plutus, protocol design, open source", image: "/images/team/adrian.webp" },
+  { name: "HongJing (Jingles) K", role: "Developer", focus: "Full-stack, analytics, user experience", image: "/images/team/jingles.webp" },
+  { name: "Nelson Kshetrimayum", role: "Developer", focus: "Full-stack, Cardano integration", image: "/images/team/nelson.webp" },
+  { name: "Roberto Mayen", role: "Product Manager", focus: "Product strategy, design systems", image: "/images/team/rmh.webp" },
+  { name: "M. Ali Modiri", role: "Smart Contract Developer", focus: "Plutus, security, CIP authorship", image: "/images/team/mix.webp" },
+  { name: "Nori Nishigaya", role: "Infrastructure", focus: "DevOps, governance, systems architecture", image: "/images/team/nori.jpeg" },
+  { name: "Sebastian Pabon", role: "Ecosystem Lead", focus: "Education, facilitation, open source", image: "/images/team/sebastian.png" },
 ];
+
+const mono = { fontFamily: font.mono };
 
 export default function AboutPage() {
   return (
-    <V2PageLayout
-      title="About Andamio"
-      description="An open protocol for interoperable credentials, built on Cardano."
-    >
-      {/* Mission — one paragraph, no card */}
-      <motion.section
-        className="mb-20"
-        initial="hidden"
-        animate="visible"
-        variants={fadeIn}
-      >
-        <p className="max-w-3xl text-lg leading-relaxed text-muted-foreground">
-          Andamio gives organizations the infrastructure to issue credentials,
-          gate content, and manage contributions — all anchored on-chain.
-          Recipients own their credentials. Developers integrate via REST API.
-          The blockchain is invisible to end users.
-        </p>
-        <div className="mt-6 flex flex-wrap gap-3">
-          <a
-            href={EXTERNAL_LINKS.docsWhitepaper}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm font-medium text-primary transition-colors hover:text-primary/80"
-          >
-            Read the Whitepaper &rarr;
-          </a>
-        </div>
-      </motion.section>
+    <>
+      <Head>
+        <title>About Andamio</title>
+        <meta
+          name="description"
+          content="An open protocol for interoperable credentials, built on Cardano."
+        />
+      </Head>
 
-      {/* Team */}
-      <section id="team" className="mb-20 scroll-mt-24">
-        <motion.div
-          variants={fadeIn}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-80px" }}
-        >
-          <p className="mb-6 font-mono text-xs font-medium uppercase tracking-[0.2em] text-primary">
-            TEAM
-          </p>
-          <h2 className="mb-12 text-3xl font-bold text-foreground sm:text-4xl">
-            The people building Andamio.
-          </h2>
-        </motion.div>
-
-        <motion.div
-          className="grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2 lg:grid-cols-3"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-80px" }}
-        >
-          {teamMembers.map((member) => (
-            <motion.div
-              key={member.name}
-              className="flex items-start gap-4 bg-card p-6"
-              variants={cardVariants}
-            >
-              <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full bg-muted">
-                {member.image && (
-                  <Image
-                    src={member.image}
-                    alt={member.name}
-                    fill
-                    className="object-cover"
-                  />
-                )}
-              </div>
-              <div className="min-w-0">
-                <h3 className="font-semibold text-foreground">
-                  {member.name}
-                </h3>
-                <p className="text-sm font-medium text-primary">
-                  {member.role}
-                </p>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  {member.focus}
-                </p>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* Join */}
-        <motion.div
-          className="mt-8 flex items-center justify-between rounded-lg border border-border p-6"
-          variants={fadeIn}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          <div>
-            <h3 className="font-semibold text-foreground">Work with us</h3>
-            <p className="text-sm text-muted-foreground">
-              We're always looking for builders.
+      <Page nav={{ items: nav.items, cta: nav.cta }} sections={null}>
+        {/* Header */}
+        <Section bordered={false}>
+          <div className="pb-12 pt-16 sm:pt-24">
+            <Kicker>About</Kicker>
+            <Display as="h1" size="lg" className="mt-5">
+              About Andamio
+            </Display>
+            <p className="mt-5 max-w-2xl text-lg leading-relaxed" style={{ color: color.inkMuted }}>
+              An open protocol for interoperable credentials, built on Cardano.
             </p>
           </div>
-          <a
-            href="mailto:hello@andamio.io"
-            className="inline-flex shrink-0 items-center rounded-md border border-border px-5 py-2.5 text-sm font-medium text-foreground transition-all hover:bg-muted"
-          >
-            Get in Touch &rarr;
-          </a>
-        </motion.div>
-      </section>
+        </Section>
 
-      {/* Bottom CTA */}
-      <motion.div
-        className="flex flex-wrap items-center justify-center gap-3"
-        variants={fadeIn}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-      >
-        <Link
-          href={EXTERNAL_LINKS.docs}
-          className="inline-flex items-center rounded-md bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
-        >
-          Read the Docs &rarr;
-        </Link>
-        <Link
-          href="/use-cases"
-          className="inline-flex items-center rounded-md border border-border px-6 py-3 text-sm font-medium text-foreground transition-all hover:bg-muted"
-        >
-          View Use Cases
-        </Link>
-      </motion.div>
-    </V2PageLayout>
+        {/* Mission */}
+        <Section id="technology">
+          <div className="py-16 sm:py-20">
+            <p className="max-w-3xl text-xl leading-relaxed tracking-[-0.01em]" style={{ color: "rgba(10,10,10,0.7)" }}>
+              Andamio gives organizations the infrastructure to issue credentials, gate content,
+              and manage contributions — all anchored on-chain. Recipients own their credentials.
+              Developers integrate via REST API. The blockchain is invisible to end users.
+            </p>
+            <a
+              href={EXTERNAL_LINKS.docsWhitepaper}
+              className="mt-6 inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.1em] transition-colors hover:underline"
+              style={{ ...mono, color: color.blue }}
+            >
+              Read the Whitepaper →
+            </a>
+          </div>
+        </Section>
+
+        {/* Team */}
+        <Section id="team">
+          <div className="py-16 sm:py-20">
+            <Kicker>Team</Kicker>
+            <Display as="h2" size="md" className="mt-5">
+              The people building Andamio.
+            </Display>
+
+            <div
+              className="mt-12 grid gap-px sm:grid-cols-2 lg:grid-cols-3"
+              style={{ background: color.cell }}
+            >
+              {teamMembers.map((member) => (
+                <div key={member.name} className="flex items-start gap-4 p-6" style={{ background: color.paper }}>
+                  <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full" style={{ background: color.cell }}>
+                    {member.image && (
+                      <Image src={member.image} alt={member.name} fill className="object-cover" />
+                    )}
+                  </div>
+                  <div className="min-w-0">
+                    <h3 className="font-semibold tracking-[-0.01em]">{member.name}</h3>
+                    <p className="text-[13px] font-medium uppercase tracking-[0.08em]" style={{ ...mono, color: color.blue }}>
+                      {member.role}
+                    </p>
+                    <p className="mt-1 text-sm" style={{ color: color.inkMuted }}>
+                      {member.focus}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Join */}
+            <div
+              className="mt-8 flex flex-col items-start justify-between gap-4 p-6 sm:flex-row sm:items-center"
+              style={{ border: `1px solid ${color.cell}` }}
+            >
+              <div>
+                <h3 className="font-semibold">Work with us</h3>
+                <p className="text-sm" style={{ color: color.inkMuted }}>
+                  We&apos;re always looking for builders.
+                </p>
+              </div>
+              <Button variant="outline" href="mailto:hello@andamio.io">
+                Get in Touch →
+              </Button>
+            </div>
+          </div>
+        </Section>
+
+        {/* Bottom CTA */}
+        <Section bordered={false}>
+          <div className="flex flex-wrap items-center gap-3 py-16">
+            <Button variant="primary" href={EXTERNAL_LINKS.docs}>
+              Read the Docs →
+            </Button>
+            <Button variant="outline" href="/use-cases">
+              View Use Cases
+            </Button>
+          </div>
+        </Section>
+
+        <Footer
+          tagline={footerData.tagline}
+          meta={footerData.meta}
+          copyright={footerData.copyright}
+          columns={footerData.columns}
+          backHref="/"
+          backLabel="← Back to home"
+          caption="About"
+        />
+      </Page>
+    </>
   );
 }

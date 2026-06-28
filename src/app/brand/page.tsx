@@ -10,7 +10,7 @@
 
 import { useState } from "react";
 import { nav, footer as footerData, CREDENTIAL_BADGE_SRC, hero } from "~/ui/explore/content";
-import { color, font, typeScale } from "~/ui/system/tokens";
+import { color, font, typeScale, space } from "~/ui/system/tokens";
 import {
   Page,
   Section,
@@ -33,6 +33,7 @@ const rail: RailItem[] = [
   { id: "color", label: "Color" },
   { id: "discipline", label: "Accent discipline" },
   { id: "type", label: "Typography" },
+  { id: "spacing", label: "Spacing" },
   { id: "motion", label: "Motion" },
   { id: "voice", label: "Voice" },
   { id: "components", label: "Components" },
@@ -70,6 +71,18 @@ const scale: [keyof typeof typeScale, string][] = [
   ["lg", "Sub-heads"],
   ["md", "Card titles"],
   ["sm", "Leads"],
+];
+
+const spaceRoles: [string, string, string][] = [
+  ["sectionY", "py-16 sm:py-24", "Section content rhythm"],
+  ["headerTop", "pt-16 sm:pt-24", "Page-header top"],
+  ["cardPad", "p-6", "Card / panel interior"],
+  ["gapTight", "gap-2", "Label ↔ value · icon ↔ text"],
+  ["gap", "gap-4", "Default flex / grid gap"],
+  ["gapRow", "gap-y-10", "Between grid rows"],
+  ["rhythmTight", "mt-3", "Closely-related elements"],
+  ["rhythm", "mt-6", "Heading → body"],
+  ["rhythmGroup", "mt-12", "Block → block"],
 ];
 
 /* ── small helpers ─────────────────────────────────────────────────── */
@@ -127,7 +140,7 @@ function Swatch({
 
 function Rule({ ok, children }: { ok: boolean; children: React.ReactNode }) {
   return (
-    <li className="flex gap-3 py-2.5" style={{ borderTop: `1px solid ${color.cell}` }}>
+    <li className="flex gap-3 py-3" style={{ borderTop: `1px solid ${color.cell}` }}>
       <span
         aria-hidden
         className="mt-0.5 inline-flex h-4 w-4 shrink-0 items-center justify-center text-[11px] font-bold"
@@ -183,12 +196,12 @@ export default function BrandPage() {
       {/* ── Logo ───────────────────────────────────────────────── */}
       <Section id="logo">
         <SectionHead kicker="Logo" />
-        <div className="grid grid-cols-12 gap-y-10 py-14 sm:py-20">
+        <div className="grid grid-cols-12 gap-y-10 py-16 sm:py-24">
           <div className="col-span-12 lg:col-span-4 lg:pr-10">
             <Display as="h2" size="md">
               Mark + logotype
             </Display>
-            <p className="mt-5 text-[15px] leading-relaxed" style={muted}>
+            <p className="mt-6 text-[15px] leading-relaxed" style={muted}>
               The primary lockup is the scaffold mark with the ANDAMIO wordmark.
               The mark carries the exact brand orange <code style={mono}>#FF6B35</code>
               {" "}— which is why the UI accent is anchored to it. Keep clear space
@@ -221,7 +234,7 @@ export default function BrandPage() {
       {/* ── Color ──────────────────────────────────────────────── */}
       <Section id="color">
         <SectionHead kicker="Color" />
-        <div className="py-14 sm:py-20">
+        <div className="py-16 sm:py-24">
           <Display as="h2" size="md">
             Neutrals do the work; three accents have one job each.
           </Display>
@@ -258,12 +271,12 @@ export default function BrandPage() {
       {/* ── Accent discipline ──────────────────────────────────── */}
       <Section id="discipline">
         <SectionHead kicker="Accent discipline" />
-        <div className="grid grid-cols-12 gap-y-10 py-14 sm:py-20">
+        <div className="grid grid-cols-12 gap-y-10 py-16 sm:py-24">
           <div className="col-span-12 lg:col-span-5 lg:pr-12">
             <Display as="h2" size="md">
               The single most important rule.
             </Display>
-            <p className="mt-5 text-[15px] leading-relaxed" style={muted}>
+            <p className="mt-6 text-[15px] leading-relaxed" style={muted}>
               This is what keeps the brand from looking generic. If a screen has
               three orange things, two of them are wrong.
             </p>
@@ -276,15 +289,15 @@ export default function BrandPage() {
           </div>
           <div className="col-span-12 lg:col-span-7">
             <div className="grid gap-px sm:grid-cols-2" style={{ background: color.cell }}>
-              <div className="p-7" style={{ background: color.paper }}>
+              <div className="p-6" style={{ background: color.paper }}>
                 <p className="text-[11px] font-semibold uppercase tracking-[0.14em]" style={{ ...mono, color: color.blue }}>
                   Do
                 </p>
-                <div className="mt-5 flex flex-wrap items-center gap-3">
+                <div className="mt-6 flex flex-wrap items-center gap-3">
                   <Button variant="primary">Get started →</Button>
                   <Button variant="outline">Learn more</Button>
                 </div>
-                <p className="mt-5 text-[15px] leading-relaxed">
+                <p className="mt-6 text-[15px] leading-relaxed">
                   Verifiable credentials,{" "}
                   <a href="#" className="font-medium" style={{ color: color.blue }}>
                     on Cardano
@@ -292,11 +305,11 @@ export default function BrandPage() {
                   . One orange action; blue is the link.
                 </p>
               </div>
-              <div className="p-7" style={{ background: color.paper }}>
+              <div className="p-6" style={{ background: color.paper }}>
                 <p className="text-[11px] font-semibold uppercase tracking-[0.14em]" style={{ ...mono, color: color.orange }}>
                   Don&apos;t
                 </p>
-                <div className="mt-5 flex flex-wrap items-center gap-3">
+                <div className="mt-6 flex flex-wrap items-center gap-3">
                   <Button variant="primary">Get started →</Button>
                   <span
                     className="inline-flex items-center px-4 py-2 text-[12px] font-semibold uppercase tracking-[0.1em] text-white"
@@ -305,7 +318,7 @@ export default function BrandPage() {
                     Sign up
                   </span>
                 </div>
-                <p className="mt-5 text-[15px] leading-relaxed" style={{ color: color.orange }}>
+                <p className="mt-6 text-[15px] leading-relaxed" style={{ color: color.orange }}>
                   Orange headlines &amp; two CTAs — the brand signal goes mute.
                 </p>
               </div>
@@ -317,7 +330,7 @@ export default function BrandPage() {
       {/* ── Typography ─────────────────────────────────────────── */}
       <Section id="type">
         <SectionHead kicker="Typography" />
-        <div className="py-14 sm:py-20">
+        <div className="py-16 sm:py-24">
           <Display as="h2" size="md">
             Inter 600 for display. JetBrains Mono for labels &amp; data. Never a serif.
           </Display>
@@ -325,7 +338,7 @@ export default function BrandPage() {
           <div className="mt-12 grid grid-cols-12 gap-y-10">
             <div className="col-span-12 lg:col-span-7 lg:pr-12">
               {scale.map(([k, desc]) => (
-                <div key={k} className="py-5" style={{ borderTop: `1px solid ${color.cell}` }}>
+                <div key={k} className="py-4" style={{ borderTop: `1px solid ${color.cell}` }}>
                   <div className="flex items-baseline justify-between gap-4">
                     <span className="text-[11px] uppercase tracking-[0.14em]" style={{ ...mono, color: color.inkFaint }}>
                       {k}
@@ -344,7 +357,7 @@ export default function BrandPage() {
               ))}
             </div>
             <div className="col-span-12 lg:col-span-5">
-              <div className="p-7" style={{ border: `1px solid ${color.cell}` }}>
+              <div className="p-6" style={{ border: `1px solid ${color.cell}` }}>
                 <p className="text-[11px] uppercase tracking-[0.14em]" style={{ ...mono, color: color.inkFaint }}>
                   Inter — sans
                 </p>
@@ -370,15 +383,77 @@ export default function BrandPage() {
         </div>
       </Section>
 
+      {/* ── Spacing ────────────────────────────────────────────── */}
+      <Section id="spacing">
+        <SectionHead kicker="Spacing" />
+        <div className="py-16 sm:py-24">
+          <Display as="h2" size="md">
+            One role → one step. 4px base.
+          </Display>
+          <p className="mt-6 max-w-2xl text-[15px] leading-relaxed" style={muted}>
+            Spacing is chosen by intent, never eyeballed. Every margin, padding,
+            and gap lands on a step of the scale and, in components, on a named
+            role — so the rhythm stays identical across the marketing site and the
+            app. Dense app layouts need this more than marketing does; they drift
+            instantly without it.
+          </p>
+
+          <div className="mt-12 grid grid-cols-12 gap-y-10">
+            <div className="col-span-12 lg:col-span-5 lg:pr-12">
+              <h3 className="text-[12px] font-semibold uppercase tracking-[0.14em]" style={mono}>
+                Step scale · px
+              </h3>
+              <div className="mt-6">
+                {Object.entries(space.scale).map(([name, px]) => (
+                  <div key={name} className="flex items-center gap-4 py-3" style={{ borderTop: `1px solid ${color.cell}` }}>
+                    <span className="w-10 text-[12px]" style={{ ...mono, color: color.inkFaint }}>
+                      {name}
+                    </span>
+                    <span className="w-8 text-right text-[12px] tabular-nums" style={{ ...mono, color: color.inkGhost }}>
+                      {px}
+                    </span>
+                    <span className="h-3 shrink-0" style={{ width: px, background: color.ink }} />
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="col-span-12 lg:col-span-7">
+              <h3 className="text-[12px] font-semibold uppercase tracking-[0.14em]" style={mono}>
+                Roles
+              </h3>
+              <div className="mt-6">
+                {spaceRoles.map(([role, cls, usage]) => (
+                  <div
+                    key={role}
+                    className="grid grid-cols-12 items-baseline gap-3 py-3"
+                    style={{ borderTop: `1px solid ${color.cell}` }}
+                  >
+                    <span className="col-span-12 text-[13px] font-semibold tracking-[-0.01em] sm:col-span-4">
+                      {role}
+                    </span>
+                    <span className="col-span-6 text-[12px] sm:col-span-4" style={{ ...mono, color: color.blue }}>
+                      {cls}
+                    </span>
+                    <span className="col-span-6 text-[13px] sm:col-span-4" style={muted}>
+                      {usage}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </Section>
+
       {/* ── Motion ─────────────────────────────────────────────── */}
       <Section id="motion">
         <SectionHead kicker="Motion" live liveLabel="Live" />
-        <div className="grid grid-cols-12 gap-y-10 py-14 sm:py-20">
+        <div className="grid grid-cols-12 gap-y-10 py-16 sm:py-24">
           <div className="col-span-12 lg:col-span-4 lg:pr-10">
             <Display as="h2" size="md">
               Reveal, don&apos;t fade.
             </Display>
-            <p className="mt-5 text-[15px] leading-relaxed" style={muted}>
+            <p className="mt-6 text-[15px] leading-relaxed" style={muted}>
               The brand&apos;s one signature gesture: a credential is withheld,
               then revealed by a deliberate, physical motion. Scroll the frame —
               the specimen slides in and resolves. Reuse the <em>feel</em> (not the
@@ -394,7 +469,7 @@ export default function BrandPage() {
       {/* ── Voice ──────────────────────────────────────────────── */}
       <Section id="voice">
         <SectionHead kicker="Voice" />
-        <div className="py-14 sm:py-20">
+        <div className="py-16 sm:py-24">
           <Display as="h2" size="md" className="max-w-[20ch]">
             Confident, plain, technical-but-human. Own Your Badges.
           </Display>
@@ -418,7 +493,7 @@ export default function BrandPage() {
       {/* ── Components ─────────────────────────────────────────── */}
       <Section id="components">
         <SectionHead kicker="Components" />
-        <div className="py-14 sm:py-20">
+        <div className="py-16 sm:py-24">
           <Display as="h2" size="md">
             Intent contracts — one orange primary per view.
           </Display>
@@ -429,7 +504,7 @@ export default function BrandPage() {
             <Button variant="chip">Chip</Button>
             <Button variant="disabled">Disabled</Button>
           </div>
-          <p className="mt-5 max-w-2xl text-[14px] leading-relaxed" style={muted}>
+          <p className="mt-6 max-w-2xl text-[14px] leading-relaxed" style={muted}>
             Exactly one <strong>primary</strong> (orange) action per view; the rest
             are ink / outline / ghost. Blue is never a fill. Section-header rules
             carry no trailing meta. Build a shared <code style={mono}>PageHeader</code>
@@ -441,7 +516,7 @@ export default function BrandPage() {
       {/* ── Accessibility ──────────────────────────────────────── */}
       <Section id="access">
         <SectionHead kicker="Accessibility" />
-        <div className="py-14 sm:py-20">
+        <div className="py-16 sm:py-24">
           <Display as="h2" size="md">
             Contrast notes worth knowing.
           </Display>
@@ -457,7 +532,7 @@ export default function BrandPage() {
       {/* ── Assets ─────────────────────────────────────────────── */}
       <Section id="assets" bordered={false}>
         <SectionHead kicker="Assets" />
-        <div className="py-14 sm:py-20">
+        <div className="py-16 sm:py-24">
           <Display as="h2" size="md">
             Take what you need.
           </Display>

@@ -173,18 +173,55 @@ Mono**.
 
 ## 5. Spacing, grid, structure
 
+**The frame:**
+
 | Property | Value |
 |---|---|
 | Grid | fixed **12 columns**, faint (`grid`) |
 | Content measure | **1320px** marketing · **1280px** app (`MAX_CONTENT_WIDTH`) — treat as agreement |
-| Container padding | `px-6 sm:px-10` |
-| Section rhythm | `py-16 sm:py-24` (marketing) — app uses its own denser rhythm |
+| Container padding | `px-6 sm:px-10` (24 → 40px) |
+| Rail reserve | `150px` (marketing rail only) |
 
-- **Adopt:** the 12-col grid and ~1300px measure on both surfaces — same
-  proportional skeleton.
+### 5.1 Spacing scale — 4px base, role-driven
+
+The base grid is 4px (Tailwind-native, so every step is already a 4px multiple).
+The rule that was *missing* and is now canon: **one role → one step.** Spacing is
+chosen by intent, never eyeballed. Use a role; reach for a raw step only for
+one-offs. Governs layout spacing — not 1–2px optical nudges.
+
+**Canonical steps (px):** `4 · 8 · 12 · 16 · 24 · 32 · 40 · 48 · 64 · 96`
+(`space.scale` → `xs … 5xl`). Off-rhythm strays (`20 · 28 · 56 · 80`) are drift —
+migrate them to the nearest role.
+
+**Roles** (`space.*` in `tokens.ts`):
+
+| Role | Step | Class | Use |
+|---|---|---|---|
+| `sectionY` | 64→96 | `py-16 sm:py-24` | a section's content block (vertical rhythm) |
+| `headerTop` | 64→96 | `pt-16 sm:pt-24` | lead / page-header top padding |
+| `cardPad` | 24 | `p-6` | card / panel interior |
+| `gapTight` | 8 | `gap-2` | label↔value, icon↔text |
+| `gap` | 16 | `gap-4` | default flex / grid gap |
+| `gapRow` | 40 | `gap-y-10` | between grid rows |
+| `rhythmTight` | 12 | `mt-3` | closely-related elements |
+| `rhythm` | 24 | `mt-6` | heading → body (the default step-down) |
+| `rhythmGroup` | 48 | `mt-12` | block → block within a section |
+
+> **Reconciled (2026-06-28):** section vertical padding had drifted between
+> `py-16 sm:py-24` and `py-14 sm:py-20`; canonical is **`py-16 sm:py-24`**
+> (`sectionY`). `p-7` (28) → `p-6`. The marketing pages that still use the old
+> strays are a pending migration; new code uses the roles.
+
+### 5.2 Adopt vs. diverge
+
+- **Adopt:** the 12-col grid, the ~1300px measure, **and the spacing scale +
+  roles** on both surfaces — same proportional skeleton, same rhythm rules. (The
+  app needs the scale *more* than marketing: dense forms/tables drift instantly
+  without it.)
 - **Diverge by surface:** full-bleed ink hairline rules, the editorial margin
   rail, and the withheld-credential hero are **marketing-only**. The app uses
-  `cell`-weight dividers in dense layouts and its own navigation.
+  `cell`-weight dividers in dense layouts, its own navigation, and a denser
+  vertical rhythm (smaller `sectionY`) — but built from the *same* step scale.
 
 ---
 

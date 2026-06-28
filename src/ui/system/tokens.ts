@@ -18,6 +18,9 @@
  *       • CORAL is a tint, used in exactly one zone (the specimen plate).
  *  3. Structure — a faint fixed 12-column grid, a 1320px measure, generous
  *     vertical rhythm with full-width ink hairline rules between sections.
+ *       • Spacing is ROLE-DRIVEN on a 4px grid (see `space`): one role → one
+ *         step, never eyeballed. Canonical steps (px): 4·8·12·16·24·32·40·48·
+ *         64·96. The off-rhythm strays (20·28·56·80) migrate to the nearest role.
  *       • The LEAD / hero section carries NO bottom rule — it flows into the
  *         first section's header rather than closing with a heavy divider.
  *       • Section-header rules (kicker · [LIVE] · rule) carry NO trailing meta
@@ -119,6 +122,41 @@ export const motion = {
 /** Centered container at the system measure. */
 export const containerCls = `mx-auto ${layout.padX}`;
 export const sectionPadCls = layout.padY;
+
+/* ── Spacing roles ──────────────────────────────────────────────────── */
+/**
+ * 4px base grid (Tailwind-native, so every step is already a 4px multiple). The
+ * system's rule is not "use 4px" — it's "one ROLE → one STEP", so spacing is
+ * intentional rather than eyeballed. Reach for a role in components; use a raw
+ * step only for genuine one-offs. Governs LAYOUT spacing (padding, gaps, vertical
+ * rhythm) — not 1–2px optical nudges. Avoid the off-rhythm strays the audit
+ * found (20·28·56·80 → migrate to the nearest role).
+ */
+export const space = {
+  /** Canonical step scale (px) → Tailwind unit in comments. */
+  scale: {
+    xs: 4, //  1
+    sm: 8, //  2
+    md: 12, //  3
+    base: 16, //  4
+    lg: 24, //  6
+    xl: 32, //  8
+    "2xl": 40, // 10
+    "3xl": 48, // 12
+    "4xl": 64, // 16
+    "5xl": 96, // 24
+  },
+  /** Named roles — literal Tailwind class strings (scanner-visible). */
+  sectionY: layout.padY, //   py-16 sm:py-24 · 64→96 · a Section's content block
+  headerTop: "pt-16 sm:pt-24", // 64→96 · lead / page-header block top padding
+  cardPad: "p-6", //          24 · card / panel interior
+  gapTight: "gap-2", //        8 · label↔value, icon↔text
+  gap: "gap-4", //            16 · default flex / grid gap
+  gapRow: "gap-y-10", //      40 · between grid rows
+  rhythmTight: "mt-3", //     12 · closely-related elements
+  rhythm: "mt-6", //          24 · heading → body (the default step-down)
+  rhythmGroup: "mt-12", //    48 · block → block within a section
+} as const;
 /** The mono kicker className (color applied inline). Literal for Tailwind. */
 export const kickerCls = "text-[11px] uppercase tracking-[0.18em]";
 

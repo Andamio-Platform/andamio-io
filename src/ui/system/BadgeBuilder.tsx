@@ -228,6 +228,7 @@ export default function BadgeBuilder({ className = "" }: BadgeBuilderProps = {})
             </MicroLabel>
             <input
               id="bb-course"
+              {...noAutofill}
               value={courseName}
               onChange={(e) => setCourseName(e.target.value)}
               onFocus={() => focusZone("identity")}
@@ -244,6 +245,7 @@ export default function BadgeBuilder({ className = "" }: BadgeBuilderProps = {})
             </MicroLabel>
             <input
               id="bb-module"
+              {...noAutofill}
               value={moduleName}
               onChange={(e) => setModuleName(e.target.value)}
               onFocus={() => focusZone("identity")}
@@ -272,6 +274,7 @@ export default function BadgeBuilder({ className = "" }: BadgeBuilderProps = {})
                   </label>
                   <input
                     id={`bb-slt-${i}`}
+                    {...noAutofill}
                     value={slt}
                     onChange={(e) => updateSlt(i, e.target.value)}
                     onFocus={() => focusZone("targets")}

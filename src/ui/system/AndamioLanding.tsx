@@ -24,13 +24,11 @@ import { color, font } from "./tokens";
 import {
   Page,
   Section,
-  SectionHead,
   Kicker,
   Display,
   Button,
   Stitch,
   StackLayers,
-  NumberWatermark,
   Footer,
 } from "./kit";
 import BadgeBuilder from "./BadgeBuilder";
@@ -78,30 +76,28 @@ export default function AndamioLanding() {
 
       {/* ── Badge builder / demo — the live "build a credential" widget ── */}
       <Section id="how-it-works">
-        <SectionHead kicker={demo.kicker} live liveLabel={demo.liveLabel} />
-        <div className="py-14 sm:py-20">
-          <div className="grid grid-cols-12 gap-y-6">
-            <div className="col-span-12 lg:col-span-7 lg:pr-12">
-              <NumberWatermark>01</NumberWatermark>
-              <Display as="h2" size="md" className="mt-6" style={{ lineHeight: 1 }}>
-                {demo.title}
-              </Display>
-            </div>
-            <div className="col-span-12 self-end lg:col-span-5">
-              <p className="max-w-md text-[15px] leading-relaxed" style={muted}>
-                {demo.note}
-              </p>
-              <a
-                href="#issuer"
-                className="mt-6 inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.1em] transition-colors hover:opacity-60"
-                style={mono}
-              >
-                <span className="h-2 w-2" style={{ background: color.ink }} />
-                {demo.inspirationCta}
-              </a>
-            </div>
-          </div>
-          <BadgeBuilder className="mt-12" />
+        {/* Compact header: kicker · rule · inspiration link. The section title
+            and live pulse live INSIDE the builder box below, so the whole
+            section fits one laptop viewport without scrolling. */}
+        <div className="flex flex-wrap items-center gap-4 pt-6 sm:pt-8">
+          <Kicker>{demo.kicker}</Kicker>
+          <span className="h-px flex-1" style={{ background: color.rule }} />
+          <a
+            href="#issuer"
+            className="inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.1em] transition-colors hover:opacity-60"
+            style={mono}
+          >
+            <span className="h-2 w-2" style={{ background: color.ink }} />
+            {demo.inspirationCta}
+          </a>
+        </div>
+
+        <div className="pb-8 pt-4 sm:pb-10 sm:pt-5">
+          <BadgeBuilder
+            title={demo.title}
+            note={demo.note}
+            liveLabel={demo.liveLabel}
+          />
         </div>
       </Section>
 

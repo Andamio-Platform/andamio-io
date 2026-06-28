@@ -74,11 +74,11 @@ export const problem = {
 export const demo = {
   kicker: "How it works",
   liveLabel: "Live",
-  title: "Build a credential and watch it become verifiable",
+  title: "Build a credential badge",
   inspirationCta: "Need inspiration? See ways to use it",
   // Stand-in note shown in design-only iterations where the wired widget is
   // represented as a framed specimen rather than re-built.
-  note: "A control console drives the live badge; the derived hashes read out beside it.",
+  note: "Type below — the rings encode the course_id and slt_hash that identify the credential.",
 } as const;
 
 export const issuer = {

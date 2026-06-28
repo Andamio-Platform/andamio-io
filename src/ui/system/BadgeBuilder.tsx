@@ -47,7 +47,7 @@ const sans = { fontFamily: font.sans };
 
 /* Square, hairline input. Blue inset on focus = the system's data/linking accent. */
 const inputCls =
-  "w-full border bg-white px-3 py-2.5 text-[14px] transition-shadow placeholder:text-black/30 focus:outline-none focus:[box-shadow:inset_0_0_0_1.5px_#2F6BFF]";
+  "w-full border bg-white px-3 py-1.5 text-[14px] transition-shadow placeholder:text-black/30 focus:outline-none focus:[box-shadow:inset_0_0_0_1.5px_#2F6BFF]";
 const inputStyle: React.CSSProperties = { borderColor: color.cell, color: color.ink, ...sans };
 
 /* These are plain content fields, not credentials. Tell the browser and the
@@ -113,10 +113,26 @@ function InfoChip({ label, body }: { label: string; body: string }) {
       </PopoverTrigger>
       <PopoverContent
         align="center"
-        className="demo-light max-w-xs text-[13px] leading-relaxed"
-        style={{ ...sans }}
+        sideOffset={8}
+        className="w-72 overflow-hidden rounded-none border p-0 shadow-[0_18px_44px_-20px_rgba(0,0,0,0.45)]"
+        style={{ borderColor: color.rule, background: color.paper }}
       >
-        {body}
+        {/* Mono kicker header + hairline, then body — matches the section's
+            editorial idiom (square card, ink rule, system type). */}
+        <div className="border-b px-3.5 py-2" style={{ borderColor: color.cell }}>
+          <span
+            className="text-[10px] font-semibold uppercase tracking-[0.14em]"
+            style={{ ...mono, color: color.inkFaint }}
+          >
+            {label}
+          </span>
+        </div>
+        <p
+          className="px-3.5 py-3 text-[13px] leading-relaxed"
+          style={{ ...sans, color: color.inkMuted }}
+        >
+          {body}
+        </p>
       </PopoverContent>
     </Popover>
   );
@@ -124,9 +140,20 @@ function InfoChip({ label, body }: { label: string; body: string }) {
 
 export interface BadgeBuilderProps {
   className?: string;
+  /** Headline rendered inside the frame header (the section's title lives here). */
+  title?: string;
+  /** Short supporting line under the title. */
+  note?: string;
+  /** Label beside the live pulse. */
+  liveLabel?: string;
 }
 
-export default function BadgeBuilder({ className = "" }: BadgeBuilderProps = {}) {
+export default function BadgeBuilder({
+  className = "",
+  title = "Build a credential badge",
+  note,
+  liveLabel = "Live preview",
+}: BadgeBuilderProps = {}) {
   // Unique, SVG-id-safe suffix per instance so inline badges never collide.
   const idSuffix = React.useId().replace(/:/g, "");
 
@@ -137,10 +164,6 @@ export default function BadgeBuilder({ className = "" }: BadgeBuilderProps = {})
   const [interior, setInterior] = React.useState<InteriorStyle>("light");
   const [svg, setSvg] = React.useState("");
   const [scanKey, setScanKey] = React.useState(0);
-  const [derived, setDerived] = React.useState<{ courseId: string; sltHash: string }>({
-    courseId: "",
-    sltHash: "",
-  });
 
   // Which ring the visitor is editing — drives the linked highlight across the
   // console label and the specimen ring.
@@ -172,7 +195,6 @@ export default function BadgeBuilder({ className = "" }: BadgeBuilderProps = {})
       const palette = withInterior(PALETTES[paletteIndex] ?? PALETTES[0]!, interior);
       setSvg(buildBadgeSvg(params, palette, { idSuffix }));
       setScanKey((k) => k + 1);
-      setDerived({ courseId: params.courseId, sltHash: params.sltHash });
     }, 150);
     return () => window.clearTimeout(t);
   }, [courseName, moduleName, slts, paletteIndex, interior, idSuffix]);
@@ -188,30 +210,36 @@ export default function BadgeBuilder({ className = "" }: BadgeBuilderProps = {})
     setSlts((prev) => prev.filter((_, j) => j !== i));
   };
 
-  const short = (h: string) => (h ? `${h.slice(0, 16)}…` : "—");
-
   return (
     <figure
       className={`m-0 border ${className}`}
       style={{ borderColor: color.rule }}
     >
-      {/* ── Frame header: specimen label · live pulse ──────────────── */}
+      {/* ── Frame header: the section title lives here (inside the box) +
+             a live pulse. This keeps the whole section to one viewport. ──── */}
       <div
-        className="flex items-center justify-between border-b"
+        className="flex items-start justify-between gap-4 border-b px-4 py-3"
         style={{ borderColor: color.rule }}
       >
+        <div className="min-w-0">
+          <h2
+            className="text-[19px] leading-tight sm:text-[22px]"
+            style={{ ...sans, fontWeight: 600, letterSpacing: "-0.02em", color: color.ink }}
+          >
+            {title}
+          </h2>
+          {note && (
+            <p className="mt-0.5 text-[12px] leading-snug" style={{ color: color.inkMuted }}>
+              {note}
+            </p>
+          )}
+        </div>
         <span
-          className="px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.14em]"
-          style={mono}
-        >
-          Build a credential
-        </span>
-        <span
-          className="inline-flex items-center gap-2 border-l px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.14em]"
-          style={{ borderColor: color.rule, ...mono }}
+          className="inline-flex shrink-0 items-center gap-2 pt-1 text-[10px] font-semibold uppercase tracking-[0.14em]"
+          style={{ color: color.inkFaint, ...mono }}
         >
           <span className="h-1.5 w-1.5 animate-pulse rounded-full" style={{ background: color.orange }} />
-          Live preview
+          {liveLabel}
         </span>
       </div>
 
@@ -219,10 +247,10 @@ export default function BadgeBuilder({ className = "" }: BadgeBuilderProps = {})
       <div className="grid grid-cols-12">
         {/* Console — inputs */}
         <div
-          className="col-span-12 flex flex-col gap-5 p-5 sm:p-6 lg:col-span-5 lg:border-r"
+          className="col-span-12 flex flex-col gap-2.5 p-3.5 sm:p-4 lg:col-span-5 lg:border-r"
           style={{ borderColor: color.cell }}
         >
-          <div className="flex flex-col gap-1.5">
+          <div className="flex flex-col gap-1">
             <MicroLabel as="label" htmlFor="bb-course" on={active === "identity"}>
               Course name
             </MicroLabel>
@@ -239,7 +267,7 @@ export default function BadgeBuilder({ className = "" }: BadgeBuilderProps = {})
             />
           </div>
 
-          <div className="flex flex-col gap-1.5">
+          <div className="flex flex-col gap-1">
             <MicroLabel as="label" htmlFor="bb-module" on={active === "identity"}>
               Credential / module name
             </MicroLabel>
@@ -256,7 +284,7 @@ export default function BadgeBuilder({ className = "" }: BadgeBuilderProps = {})
             />
           </div>
 
-          <div className="flex flex-col gap-1.5">
+          <div className="flex flex-col gap-1">
             <div className="flex items-center justify-between">
               <MicroLabel on={active === "targets"}>Learning targets</MicroLabel>
               <span className="text-[10px] tabular-nums" style={{ ...mono, color: color.inkFaint }}>
@@ -264,7 +292,7 @@ export default function BadgeBuilder({ className = "" }: BadgeBuilderProps = {})
               </span>
             </div>
             <div
-              className="flex max-h-[42vh] flex-col gap-2 overflow-y-auto border p-2 [scrollbar-width:thin] lg:max-h-[46vh]"
+              className="flex max-h-[34vh] flex-col gap-1 overflow-y-auto border p-1 [scrollbar-width:thin]"
               style={{ borderColor: color.cell, background: "rgba(10,10,10,0.015)" }}
             >
               {slts.map((slt, i) => (
@@ -308,8 +336,8 @@ export default function BadgeBuilder({ className = "" }: BadgeBuilderProps = {})
           </div>
 
           {/* Palette + interior */}
-          <div className="flex flex-wrap items-end gap-x-8 gap-y-5">
-            <div className="flex flex-col gap-1.5">
+          <div className="flex flex-wrap items-end gap-x-8 gap-y-3.5">
+            <div className="flex flex-col gap-1">
               <MicroLabel>Color</MicroLabel>
               <div className="flex flex-wrap gap-2">
                 {PALETTES.map((p, i) => {
@@ -338,7 +366,7 @@ export default function BadgeBuilder({ className = "" }: BadgeBuilderProps = {})
               </div>
             </div>
 
-            <div className="flex flex-col gap-1.5">
+            <div className="flex flex-col gap-1">
               <MicroLabel>Interior</MicroLabel>
               <div className="inline-flex w-fit border p-0.5" style={{ borderColor: color.cell }}>
                 {(["light", "inverted"] as const).map((style) => {
@@ -365,12 +393,17 @@ export default function BadgeBuilder({ className = "" }: BadgeBuilderProps = {})
           </div>
         </div>
 
-        {/* Specimen — the live badge */}
+        {/* Specimen — the live badge. It carries the course_id + slt_hash inside
+            its own ring artwork, so it does the heavy lifting; nothing is echoed
+            (or concatenated) below it. */}
         <div
-          className="col-span-12 flex flex-col items-center justify-center gap-6 p-6 sm:p-8 lg:col-span-7"
+          className="col-span-12 flex flex-col items-center justify-center p-4 sm:p-5 lg:col-span-7"
           style={{ background: color.coralTint }}
         >
-          <div className="relative flex min-h-[320px] w-full flex-1 items-center justify-center [container-type:size] sm:min-h-[380px]">
+          {/* No tall min-height — the specimen column stretches to match the
+              console, and the badge sizes to fill it. So the section height is
+              driven by the console and stays within one viewport. */}
+          <div className="relative flex min-h-[300px] w-full flex-1 items-center justify-center [container-type:size]">
             {/* Faint tick-grid backdrop — echoes the badge's own ring marks. */}
             <div
               aria-hidden
@@ -384,7 +417,7 @@ export default function BadgeBuilder({ className = "" }: BadgeBuilderProps = {})
               }`}
             />
 
-            <div className="relative aspect-square w-[min(100cqw,100cqh,460px)]">
+            <div className="relative aspect-square w-[min(100cqw,100cqh,640px)]">
               <div className="relative aspect-square h-full w-full overflow-hidden rounded-full ring-1 ring-black/10 shadow-[0_18px_44px_-22px_rgba(0,0,0,0.4)]">
                 <div
                   className="absolute inset-[-1%] [&_svg]:block [&_svg]:h-full [&_svg]:w-full"
@@ -398,72 +431,45 @@ export default function BadgeBuilder({ className = "" }: BadgeBuilderProps = {})
                   aria-hidden
                   className="assay-scan pointer-events-none absolute inset-x-0 top-0 h-1/3 bg-[linear-gradient(to_bottom,transparent,rgba(255,255,255,0.14),transparent)]"
                 />
-                {/* Linked ring highlights (blue): outer = course identity, inner = targets. */}
+                {/* Linked ring highlights (blue): outer = course identity, inner = targets.
+                    Soft, blurred halos — no crisp line, so they read as a glow over the
+                    band rather than a second hairline competing with the badge artwork. */}
                 <div
                   aria-hidden
-                  className={`pointer-events-none absolute inset-[3%] rounded-full ring-2 ring-[#2F6BFF] shadow-[0_0_26px_3px_rgba(47,107,255,0.5)] transition-opacity duration-300 ${
+                  className={`pointer-events-none absolute inset-[3%] rounded-full blur-[3px] ring-[5px] ring-[#2F6BFF]/40 shadow-[0_0_28px_4px_rgba(47,107,255,0.45)] transition-opacity duration-300 ${
                     active === "identity" ? "opacity-100" : "opacity-0"
                   }`}
                 />
                 <div
                   aria-hidden
-                  className={`pointer-events-none absolute inset-[7%] rounded-full ring-2 ring-[#2F6BFF] shadow-[0_0_26px_3px_rgba(47,107,255,0.5)] transition-opacity duration-300 ${
+                  className={`pointer-events-none absolute inset-[7%] rounded-full blur-[3px] ring-[5px] ring-[#2F6BFF]/40 shadow-[0_0_28px_4px_rgba(47,107,255,0.45)] transition-opacity duration-300 ${
                     active === "targets" ? "opacity-100" : "opacity-0"
                   }`}
                 />
               </div>
             </div>
           </div>
-
-          {/* Live derived data readout (mono · blue = data). */}
-          <dl
-            className="w-full max-w-md border-t text-[11px]"
-            style={{ ...mono, borderColor: color.cell }}
-          >
-            {([
-              ["course_id", short(derived.courseId)],
-              ["slt_hash", short(derived.sltHash)],
-            ] as [string, string][]).map(([k, v]) => (
-              <div
-                key={k}
-                className="flex items-center justify-between gap-4 border-b py-2"
-                style={{ borderColor: color.cell }}
-              >
-                <dt className="uppercase tracking-[0.12em]" style={{ color: color.inkFaint }}>
-                  {k}
-                </dt>
-                <dd className="truncate" style={{ color: color.blue }}>{v}</dd>
-              </div>
-            ))}
-          </dl>
         </div>
       </div>
 
-      {/* ── Frame footer: info circles + address footnote ─────────── */}
-      <figcaption className="border-t" style={{ borderColor: color.rule }}>
-        <div className="flex flex-wrap items-center gap-2 px-4 py-4">
+      {/* ── Frame footer: info circles + address footnote on one row ─── */}
+      <figcaption
+        className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-t px-4 py-2.5"
+        style={{ borderColor: color.rule }}
+      >
+        <div className="flex flex-wrap items-center gap-2">
           <InfoChip label="Course identity" body={OUTER_RING.body} />
           <InfoChip label="Learning targets" body={INNER_RING.body} />
           <InfoChip label="What changes" body={SHIFT.body} />
           <InfoChip label="What you keep" body={LEFT_WITH.body} />
         </div>
-        <div
-          className="flex flex-col gap-1 border-t px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
-          style={{ borderColor: color.cell }}
-        >
-          <p className="text-[11px]" style={{ color: color.inkMuted }}>
-            Every credential is uniquely identified by{" "}
-            <span className="whitespace-nowrap" style={{ ...mono, color: color.ink }}>
-              &lt;course_id&gt;.&lt;slt_hash&gt;
-            </span>
-          </p>
-          <p
-            className="text-[10px] uppercase tracking-[0.12em]"
-            style={{ ...mono, color: color.inkGhost }}
-          >
-            Illustrative — not a real issued credential
-          </p>
-        </div>
+        <p className="text-[11px]" style={{ color: color.inkMuted }}>
+          Identified by{" "}
+          <span className="whitespace-nowrap" style={{ ...mono, color: color.ink }}>
+            &lt;course_id&gt;.&lt;slt_hash&gt;
+          </span>
+          <span style={{ color: color.inkGhost }}> · illustrative only</span>
+        </p>
       </figcaption>
     </figure>
   );

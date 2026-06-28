@@ -266,7 +266,7 @@ Surface-agnostic intent every implementation must honor (marketing kit lives in
 | Heading/Display | Inter 600, the clamp scale, tight tracking |
 | Kicker / label | mono 11px uppercase, muted, **never orange** |
 | Micro-label | mono **10px** uppercase, tracking 0.16em; `inkFaint` → **`blue` when focused/linked**; no background. The instrument-panel label (distinct from the 11px Kicker) |
-| Section header rule | kicker · optional `[LIVE]` pulse · rule — **no trailing meta text** |
+| Section header rule | kicker · optional `[LIVE]` pulse · rule — **no trailing meta text**. *Exception: the hero omits the rule entirely — its headline leads* |
 | Hairline / rule | thin divider; `strong` → `ink` (`rule`), else `cell`; square, full-bleed between marketing sections |
 | Live pulse | a single orange `#FF6B35` square dot, `animate-pulse`, paired with a mono label; the **only** non-CTA use of orange (live / real-time) |
 | Data readouts | mono (`DataList` / `StackLayers` idioms) |
@@ -399,6 +399,28 @@ package a moving target.
   both repos import — but only once App v2 has conformed to the locked values
   above (don't package a moving target). See **§7.1** (conformance sequence) and
   handoff brief §6 / §8.
+
+### 11.1 Change propagation — landing → guide  ⟢ *v1.1 draft*
+
+The marketing site (`src/ui/system/`) is the **reference implementation**. During
+the fine-tuning phase, every change to it is triaged for propagation so the guide
+stays true — keeping them in lockstep *is* the brand-guide review.
+
+| You tweak… | Propagate to |
+|---|---|
+| **Copy** (words in `content.ts`) | nothing — *unless* it shifts a §1 voice/tone principle |
+| **A token value** (color, type size, spacing, radius) | `tokens.ts` → guide §3 / §4 / §5 **and** the §7.1 token-bridge row → `/explore/system` |
+| **A component's style or structure** (popover, input, a primitive) | the component in `kit.tsx` → guide §7 contract → `/explore/system` specimen |
+| **An accent / usage rule** (where orange or blue may appear, a new "don't") | guide §3.2 / §9 |
+
+**The one rule that keeps it honest:** `tokens.ts` is the single source of truth
+for *values*; the guide is the single source of truth for *intent*. The guide
+**never re-hardcodes a hex** — except the §7.1 token-bridge table, which is the
+one intentional mirror, so it must be re-checked whenever a token value moves.
+
+**Working agreement:** each landing change ships with a one-line **Sync note** —
+what propagated, or `copy-only — no guide impact`. That note is the audit trail
+of this review phase.
 
 ---
 

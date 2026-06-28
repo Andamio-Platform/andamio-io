@@ -43,10 +43,10 @@ export default function AndamioLanding() {
       {/* ── Hero — full-bleed type, badge withheld. Lead section carries no
              bottom rule: it flows into the first section's header. ────────── */}
       <Section id="top" bordered={false}>
-        {/* Header rule: kicker · rule — no trailing meta (system rule). */}
-        <div className="flex items-center gap-4 pt-16 sm:pt-24">
+        {/* Hero exception: no header rule — the headline leads (see brand
+            guide §7 "Section header rule"). Other sections keep kicker · rule. */}
+        <div className="pt-16 sm:pt-24">
           <Kicker>Andamio / Credentialing</Kicker>
-          <span className="h-px flex-1" style={{ background: color.rule }} />
         </div>
 
         <Display as="h1" size="hero" className="mt-12 max-w-[15ch]">
@@ -63,7 +63,7 @@ export default function AndamioLanding() {
 
         <div className="mb-16 mt-12 sm:mb-24">
           <Stitch>
-            <Button variant="chip">{hero.ctaEyebrow}</Button>
+            <Button variant="chip" href="#how-it-works">{hero.ctaEyebrow}</Button>
             <Button variant="primary" href={hero.primaryCta.href}>
               {hero.primaryCta.label} <span aria-hidden>→</span>
             </Button>
@@ -164,7 +164,7 @@ export default function AndamioLanding() {
         <div className="mt-10 grid grid-cols-12 border-t" style={{ borderColor: color.rule }}>
           {issuer.decisions.map((d, i) => (
             <div
-              key={d.title}
+              key={d.heading}
               className="col-span-12 py-9 sm:col-span-6 sm:px-7 lg:col-span-4"
               style={{ borderTop: i > 0 ? `1px solid ${color.cell}` : undefined }}
             >
@@ -177,11 +177,11 @@ export default function AndamioLanding() {
                 </span>
                 <span className="h-px flex-1 translate-y-[-4px]" style={{ background: color.cell }} />
               </div>
-              <h3 className="mt-5 text-lg font-semibold leading-snug tracking-[-0.03em]">
-                {d.title}
+              <h3 className="mt-5 text-2xl font-semibold leading-none tracking-[-0.03em]">
+                {d.heading}
               </h3>
-              <p className="mt-3 text-[14px] leading-relaxed" style={muted}>
-                {d.body}
+              <p className="mt-3 text-[15px] leading-relaxed" style={muted}>
+                {d.text}
               </p>
             </div>
           ))}
@@ -226,12 +226,6 @@ export default function AndamioLanding() {
                 </p>
               </div>
             ))}
-            <p
-              className="col-span-1 border-t py-4 text-[12px] tabular-nums sm:col-span-2"
-              style={{ ...mono, color: color.inkGhost, borderColor: color.cell }}
-            >
-              {ecosystem.footnote}
-            </p>
           </div>
         </div>
       </Section>

@@ -162,7 +162,7 @@ export const kickerCls = "text-[11px] uppercase tracking-[0.18em]";
 
 /** Section index used by the editorial rail + section ids. */
 export const SECTIONS = [
-  { id: "top", num: "00", label: "Hero" },
+  { id: "top", num: "00", label: "Own Your Badges" },
   { id: "how-it-works", num: "01", label: "How it works" },
   { id: "problem", num: "02", label: "The problem" },
   { id: "issuer", num: "03", label: "Issuer" },

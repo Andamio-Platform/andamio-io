@@ -1,10 +1,11 @@
 /**
- * LOCKED landing-page content for Round 1 design exploration (/explore/01..10).
+ * Landing-page content — the single source of truth for copy on the live page
+ * (`AndamioLanding`) and the /explore design iterations.
  *
- * This is the single source of truth for copy across all 10 design iterations.
- * It is lifted verbatim from the live V2Landing (src/ui/landing/V2Landing/*).
- * Designs may restyle, reorder visually, and re-lay-out freely — but the words
- * here must not change. If the live copy changes, update it here once.
+ * Fine-tuning phase: copy is actively being sculpted here. Source prose for the
+ * vivid lines lives in the whitepapers; this file is where it's distilled.
+ * Per the brand guide §11.1, a copy change is `copy-only` (no brand-guide
+ * impact) unless it shifts a §1 voice/tone principle.
  */
 
 export const EXTERNAL_LINKS = {
@@ -87,51 +88,34 @@ export const issuer = {
   intro:
     "Andamio turns the badge you already issue into a credential you control. It adds a verifiable layer on top of the programs you already run. You get everything a blockchain guarantees, and none of the blockchain to learn.",
   decisionsHeading: "Six design decisions set an Andamio credential apart.",
+  // One-word heading + a single tight line. Source prose lives in the
+  // whitepapers; only lines that are already this terse make the cut here.
   decisions: [
-    {
-      title: "It outlives whoever issued it",
-      body: "It’s immutable, on public infrastructure no single company owns. It can’t be altered, and it doesn’t disappear when a vendor does. You’re not locked in, and neither are the people you credential.",
-    },
-    {
-      title: "It builds on other credentials",
-      body: "Like a university prerequisite, one credential can be required before another. The chain enforces it, not an app. So a credential you issue can gate a program someone else runs.",
-    },
-    {
-      title: "Software can act on it",
-      body: "It’s machine-readable and programmable. An app can check that someone holds it and gate access on that.",
-    },
-    {
-      title: "Proof is public; evidence is private",
-      body: "Anyone can verify a credential is real. The work behind it stays with the earner and the issuer. A diploma is public. The exam papers are not.",
-    },
-    {
-      title: "You own what it means",
-      body: "Issuing is easy, and the credential makes no claim about its own value. You define what it certifies. Its value comes from the track record it earns. The infrastructure is ours. The meaning is yours.",
-    },
-    {
-      title: "The earner keeps it",
-      body: "It lives with the person who earned it, not your system. Everything they earn from you sits in one record they control. They can carry it anywhere, even if they leave your program.",
-    },
+    { heading: "Permanent", text: "It outlives whoever issued it." },
+    { heading: "Composable", text: "It builds on other credentials." },
+    { heading: "Programmable", text: "Software can act on it." },
+    { heading: "Private", text: "A diploma is public. The exam papers are not." },
+    { heading: "Yours", text: "You define what it certifies." },
+    { heading: "Portable", text: "The earner keeps it." },
   ],
   reportCta: "Get the report",
   walkthroughCta: "Book a 20-minute walkthrough",
 } as const;
 
 export const ecosystem = {
-  kicker: "In the ecosystem",
+  kicker: "Where this goes",
   lead:
-    "Organizations are already issuing Andamio credentials. They mean something inside their world first.",
+    "A credential means something in your world first. Then it goes further than you do.",
   items: [
     {
-      title: "Intersect",
-      body: "The member body that stewards the Cardano ecosystem is issuing maintainer credentials to a live cohort on Andamio.",
+      title: "Portable",
+      body: "Because the earner owns it and anyone can verify it, it carries anywhere it’s useful next — another program, another organization, a hiring decision.",
     },
     {
-      title: "Where it goes",
-      body: "The same machinery that attests a person learned something can attest that knowledge is trustworthy. Put your expertise into a form software can read, and the credential record becomes a record of knowledge too.",
+      title: "Beyond people",
+      body: "The same machinery that proves a person learned something can prove a piece of knowledge is sound. Put expertise in a form software can read, and a record of who-knows-what becomes a record of what’s-known.",
     },
   ],
-  footnote: "Named organizations current as of June 2026.",
 } as const;
 
 export const api = {

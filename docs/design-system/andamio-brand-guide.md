@@ -1,8 +1,17 @@
 # Andamio Brand Guide
 
-**Status:** v1.0 — **locked** 2026-06-28
+**Status:** v1.0 locked 2026-06-28 · **v1.1 DRAFT 2026-06-28 — for review**
 **Canon for:** every Andamio surface — marketing (`landing-page-and-blog`),
 App v2 (`andamio-app-v2`), docs, demos.
+
+> **⟢ For Monday review (v1.1 draft, sculpt freely):** two additions, both
+> derived from a component audit of the marketing kit + App v2.
+> 1. **§7** — seven new component contracts now present in the marketing kit but
+>    previously undocumented (Stitch, Text input, Segmented control, Micro-label,
+>    Hairline, Live pulse, Specimen frame).
+> 2. **§7.1 — Governing shadcn (App v2)** — the cross-surface plan: a token
+>    bridge, a variant-intent map, and app-only contracts. *This is the part most
+>    worth pressure-testing.* Nothing here changes a **locked** value (§§1–6).
 **Relationship to other docs:** This is the *canon*. The
 [app-v2 handoff brief](./app-v2-handoff-brief.md) is the *migration plan* that
 applies this canon to App v2 (incl. the current-state audit). Where they ever
@@ -128,7 +137,8 @@ This is what stops the brand looking generic. **Enforce it in code review.**
 > **App-v2 structural note:** shadcn's stock `secondary` variant renders blue as
 > a *button fill* — which this rule forbids. Remapping shadcn's variant taxonomy
 > onto this intent model (one orange primary; blue = links/nav-active only) is
-> the real integration decision, not a value tweak. See handoff brief §8.
+> the real integration decision, not a value tweak. See **§7.1** for the plan;
+> handoff brief §8 for the audit.
 
 ### 3.3 Conformance deltas (App v2 → canon)
 
@@ -250,16 +260,85 @@ Surface-agnostic intent every implementation must honor (marketing kit lives in
 | Brand | mark+logotype lockup, links home, fixed heights |
 | Primary nav | the brand's **one** orange CTA; full-bleed bottom border |
 | Button hierarchy | exactly **one** orange primary per view; `ink`/`outline`/`ghost` for the rest; blue is **never** a fill |
+| Stitch (action group) | connected buttons whose borders overlap −1px to read as one stitched control; each member keeps its own variant; stacks vertically on mobile |
+| Text input / field | square, `cell` hairline, Inter, **no radius**; focus = blue inset shadow (`inset 0 0 0 1.5px #2F6BFF`); muted placeholder. Never rounded |
+| Segmented control | square radio group; `cell` dividers between segments; selected = faint ink tint + `ink` text; inactive = `inkMuted`. (App: shadcn `toggle-group` conformed to this) |
 | Heading/Display | Inter 600, the clamp scale, tight tracking |
 | Kicker / label | mono 11px uppercase, muted, **never orange** |
+| Micro-label | mono **10px** uppercase, tracking 0.16em; `inkFaint` → **`blue` when focused/linked**; no background. The instrument-panel label (distinct from the 11px Kicker) |
 | Section header rule | kicker · optional `[LIVE]` pulse · rule — **no trailing meta text** |
+| Hairline / rule | thin divider; `strong` → `ink` (`rule`), else `cell`; square, full-bleed between marketing sections |
+| Live pulse | a single orange `#FF6B35` square dot, `animate-pulse`, paired with a mono label; the **only** non-CTA use of orange (live / real-time) |
 | Data readouts | mono (`DataList` / `StackLayers` idioms) |
+| Popover / info card | square (no rounded), `ink` hairline border on `paper`; a mono uppercase kicker header above a `cell` hairline divider, then body in Inter `inkMuted` (13px); one editorial drop shadow. **Never** the rounded shadcn default — override its corner/padding/fill |
+| Specimen frame | the credential's museum frame (marketing signature): square `rule` hairlines, mono kicker header + caption, `coralTint` plate, orange "Verified" stamp; reveal motion per §6 |
 | State / feedback | use the §3.1 state palette, **not** the brand accents |
 
 **Build-on-day-one primitive (both surfaces):** a `PageHeader` (kicker + display
 + subtitle). Its absence is the one real fragility in the marketing system — the
 header block is duplicated inline ~13×, so structural header changes can't
 propagate. Don't repeat that in the app.
+
+---
+
+## 7.1 Governing shadcn (App v2)  ⟢ *v1.1 draft — review this*
+
+App v2 is built on **shadcn/ui (~45 components)**. The elegant rule: **don't
+style 45 components — govern the CSS-variable layer once, and document only the
+exceptions.** shadcn derives nearly everything from a handful of root tokens, so
+fixing those values cascades repo-wide. Documenting each component instead is
+maintenance debt.
+
+### The token bridge — the single conformance lever
+
+Set in App v2 `globals.css` `:root`. Fixing this short list conforms ~95% of
+components automatically; no per-component edits:
+
+| Brand token (§3 / §4 / §5) | shadcn CSS var | App today → canon |
+|---|---|---|
+| orange `#FF6B35` | `--primary`, `--ring` | repoint from `#F55C23` |
+| blue `#2F6BFF` | `--secondary` (links / nav-active only — see map) | from `#004488` |
+| **square** | `--radius` | **`0.5rem` → `0px`** |
+| Inter 600 / −0.045em / lh 0.92 | `h1`–`h6` `@layer base` | from 700 / −0.025em |
+| JetBrains Mono | `--font-mono` | from Geist Mono |
+| `cell` / `ink` neutrals | `--border`, `--input`, `--muted`, `--foreground` | already ink-on-paper; tidy to the §3.1 opacity ramp |
+
+> One `--radius: 0px` line squares every shadcn component. Never set radius
+> per-component.
+
+### Variant-intent map — the exceptions
+
+shadcn's variant taxonomy doesn't match the intent model (§3.2). Document the
+deltas; the load-bearing one is `secondary`:
+
+| shadcn variant | Brand intent | Action |
+|---|---|---|
+| `button` / `badge` `default` | orange primary | ✓ keep |
+| `button` / `badge` **`secondary`** | renders **blue as a fill** — forbidden (§3.2) | **forbid; use `outline` / `ghost`.** Also `sheet` close button: `bg-secondary` → `bg-muted` |
+| `button` `destructive` | state-red (§3.1) | ✓ keep |
+| `button` `outline` / `ghost` | secondary / tertiary actions | ✓ keep |
+| `button` / `link` `link` | wayfinding **blue text only** | ✓ keep (verify never a fill) |
+
+### App-only component contracts
+
+The marketing kit has no analogue for dense UI. Most auto-conform via the token
+bridge; these few need a contract because their default intent fights the brand:
+
+| Primitive | Contract |
+|---|---|
+| Dialog / Sheet / Drawer | inherit the **Popover / info card** contract: square, `ink` hairline, no rounded |
+| Form field | label per §7 Text-input; **errors use state-red (§3.1), never orange**; helper text `inkMuted` |
+| Table | `cell` hairline borders; `blue` for sortable headers / data links; row status via the state palette, not orange |
+| Tabs | active tab = `ink` fill/underline, **not blue** (blue is wayfinding; a tab is selection) |
+| Tooltip | square `cell`/`ink` container, **mono** label, small |
+| Toast (Sonner) | success / error / warning / info from the **state palette**; **never orange** |
+| Skeleton · Progress · Slider · Accordion · Select · … | no prose needed — conform via the token bridge |
+
+### Sequence
+
+Token bridge → variant map → app-only contracts → **then** extract a shared
+`@andamio/tokens` package (§11) — *only once App v2 conforms*, so we never
+package a moving target.
 
 ---
 
@@ -318,7 +397,8 @@ propagate. Don't repeat that in the app.
   this file is canonical and the others are bugs.
 - **Next step toward durable sync:** extract a shared `@andamio/tokens` package
   both repos import — but only once App v2 has conformed to the locked values
-  above (don't package a moving target). See handoff brief §6 / §8.
+  above (don't package a moving target). See **§7.1** (conformance sequence) and
+  handoff brief §6 / §8.
 
 ---
 

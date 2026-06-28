@@ -1,11 +1,11 @@
 import Metatags from "~/components/site/metatags";
-import V2Landing from "~/ui/landing/V2Landing";
+import AndamioLanding from "~/ui/system/AndamioLanding";
 
 export default function Landing() {
   return (
     <>
       <Metatags />
-      <V2Landing />
+      <AndamioLanding />
     </>
   );
 }

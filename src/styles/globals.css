@@ -11,9 +11,14 @@
    proximity snapping fought the wheel across variable-height panels and felt
    wonky. scroll-behavior smooths anchor jumps; scroll-padding clears the fixed nav. */
 @layer base {
+  :root {
+    /* Sticky-nav clearance. Single source for anchor scroll offset AND the
+       full-viewport Section height (kit `screen` prop). See tokens.layout.navClearance. */
+    --nav-clear: 5rem;
+  }
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 5rem;
+    scroll-padding-top: var(--nav-clear);
   }
 }
 

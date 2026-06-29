@@ -272,18 +272,30 @@ export function Section({
   id,
   children,
   bordered = true,
+  screen = false,
 }: {
   id?: string;
   children: React.ReactNode;
   bordered?: boolean;
+  /** Make the section at least one viewport tall and center its content. */
+  screen?: boolean;
 }) {
+  const cls = [
+    bordered ? "border-b" : "",
+    // Subtract the sticky-nav clearance (--nav-clear, shared with html
+    // scroll-padding-top) so content centers in the *visible* area, not behind
+    // the fixed header.
+    screen ? "flex min-h-[calc(100svh_-_var(--nav-clear))] flex-col justify-center" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
   return (
     <section
       id={id}
-      className={bordered ? "border-b" : undefined}
+      className={cls || undefined}
       style={bordered ? { borderColor: color.rule } : undefined}
     >
-      <div className={containerCls} style={{ maxWidth: layout.maxWidth }}>
+      <div className={`${containerCls} w-full`} style={{ maxWidth: layout.maxWidth }}>
         {children}
       </div>
     </section>

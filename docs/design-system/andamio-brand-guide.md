@@ -1,6 +1,6 @@
 # Andamio Brand Guide
 
-**Status:** v1.0 locked 2026-06-28 · **v1.1 DRAFT 2026-06-28 — for review**
+**Status:** v1.0 locked 2026-06-28 · **v1.1 DRAFT 2026-06-29 — for review**
 **Canon for:** every Andamio surface — marketing (`landing-page-and-blog`),
 App v2 (`andamio-app-v2`), docs, demos.
 
@@ -12,6 +12,12 @@ App v2 (`andamio-app-v2`), docs, demos.
 > 2. **§7.1 — Governing shadcn (App v2)** — the cross-surface plan: a token
 >    bridge, a variant-intent map, and app-only contracts. *This is the part most
 >    worth pressure-testing.* Nothing here changes a **locked** value (§§1–6).
+>
+> **2026-06-29 additions** (landing fine-tuning → propagated per §11.1):
+> - **§3.2** — orange-wordmark-in-headline exception (hero accent + the two
+>   product names). Codifies existing hero usage; **your sign-off requested.**
+> - **§7** — `Full-viewport section` contract (the `Section screen` variant).
+> - **§5 / `tokens.ts`** — `navClearance` (`--nav-clear` `5rem`) added to the frame.
 **Relationship to other docs:** This is the *canon*. The
 [app-v2 handoff brief](./app-v2-handoff-brief.md) is the *migration plan* that
 applies this canon to App v2 (incl. the current-state audit). Where they ever
@@ -129,6 +135,13 @@ This is what stops the brand looking generic. **Enforce it in code review.**
   action on a view, the live-pulse dot, the "VERIFIED" stamp. **Never** on
   headings, body, kickers, numerals, decoration, or as a success color.
   *If a screen has three orange things, two are wrong.*
+  - **Exception — wordmark accent in a display headline.** A **product or brand
+    wordmark** may take orange *within* a display headline: the hero accent
+    (`Own Your `**`Badges`**) and the two product names in the two-products map
+    (**`Andamio Issuer`** / **`Andamio API`**). The accent must be a *name*, not
+    arbitrary emphasis — still **one accent idea per screen**, never a phrase or
+    a verb highlighted for color. Kickers, numerals, and body stay ink. *(v1.1 —
+    derived from the landing hero + products section.)*
 - **Blue `#2F6BFF`** — wayfinding and data **only**: links, nav-active, the rail,
   data readouts. **Never a button fill, heading, or body color.**
 - **Coral tint** — background wash for credential artifacts only. Never type.
@@ -191,6 +204,7 @@ Mono**.
 | Content measure | **1320px** marketing · **1280px** app (`MAX_CONTENT_WIDTH`) — treat as agreement |
 | Container padding | `px-6 sm:px-10` (24 → 40px) |
 | Rail reserve | `150px` (marketing rail only) |
+| Nav clearance | `5rem` (`--nav-clear` / `layout.navClearance`) — sticky-nav offset for anchor scroll + full-viewport sections |
 
 ### 5.1 Spacing scale — 4px base, role-driven
 
@@ -273,6 +287,7 @@ Surface-agnostic intent every implementation must honor (marketing kit lives in
 | Kicker / label | mono 11px uppercase, muted, **never orange** |
 | Micro-label | mono **10px** uppercase, tracking 0.16em; `inkFaint` → **`blue` when focused/linked**; no background. The instrument-panel label (distinct from the 11px Kicker) |
 | Section header rule | kicker · optional `[LIVE]` pulse · rule — **no trailing meta text**. *Exception: a section omits the rule when its lead content carries its own header (the hero headline; the demo card's own title bar)* |
+| Full-viewport section | the landing's `Section screen` variant: at least one viewport tall, content vertically centered. Height = `calc(100svh − var(--nav-clear))` so content centers in the area **below** the sticky nav (not behind it); the same `--nav-clear` drives anchor `scroll-padding-top`. Taller-than-viewport content flows naturally (the min-height is a floor). Marketing-only |
 | Hairline / rule | thin divider; `strong` → `ink` (`rule`), else `cell`; square, full-bleed between marketing sections |
 | Live pulse | a single orange `#FF6B35` square dot, `animate-pulse`, paired with a mono label; the **only** non-CTA use of orange (live / real-time) |
 | Data readouts | mono (`DataList` / `StackLayers` idioms) |
@@ -375,7 +390,8 @@ package a moving target.
 - Use the state palette for feedback; pair state color with icon/label.
 
 **Don't**
-- Orange headings, orange body, orange "success", or >1 orange CTA.
+- Orange headings, orange body, orange "success", or >1 orange CTA. *(Sole
+  exception: a product/brand wordmark accent inside a display headline — §3.2.)*
 - Blue as a button fill (the shadcn `secondary` trap).
 - A serif, anywhere.
 - White text on `warning` amber; small orange text on white.

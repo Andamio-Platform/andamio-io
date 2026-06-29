@@ -42,7 +42,7 @@ export default function AndamioLanding() {
     <Page nav={{ items: nav.items, cta: nav.cta }}>
       {/* ── Hero — full-bleed type, badge withheld. Lead section carries no
              bottom rule: it flows into the first section's header. ────────── */}
-      <Section id="top" bordered={false}>
+      <Section id="top" bordered={false} screen>
         {/* Hero exception: no header rule — the headline leads (see brand
             guide §7 "Section header rule"). Other sections keep kicker · rule. */}
         <div className="pt-16 sm:pt-24">
@@ -75,7 +75,7 @@ export default function AndamioLanding() {
       </Section>
 
       {/* ── Problem ─────────────────────────────────────────────── */}
-      <Section id="problem" bordered={false}>
+      <Section id="problem" bordered={false} screen>
         <div className="grid grid-cols-12 gap-y-10 py-24 sm:py-32">
           <div className="col-span-12 lg:col-span-4 lg:pr-10">
             <Kicker>{problem.kicker}</Kicker>
@@ -116,7 +116,7 @@ export default function AndamioLanding() {
 
       {/* ── Badge builder / demo — the live "build a credential" widget.
              Flows directly into "Which one is for you?". ────────────────── */}
-      <Section id="how-it-works" bordered={false}>
+      <Section id="how-it-works" bordered={false} screen>
         {/* No section header rule here — the card carries its own title + live
             pulse, so the section is just the box. */}
         <div className="pb-12 pt-10 sm:pb-16 sm:pt-14">
@@ -128,20 +128,27 @@ export default function AndamioLanding() {
         </div>
       </Section>
 
-      {/* ── Issuer ──────────────────────────────────────────────── */}
-      <Section id="issuer" bordered={false}>
+      {/* ── Which one is for you? — the two products, side by side ─── */}
+      <Section id="products" bordered={false} screen>
         {/* Two products · one foundation — the map before the deep-dive.
             Issuer and API are INDEPENDENT products on a shared foundation;
             this contrast states that once, side-by-side. */}
         <div className="pt-24 pb-16 sm:pt-32 sm:pb-20">
-          <h2 className="text-2xl font-semibold tracking-[-0.03em] sm:text-3xl">
-            {products.heading}
-          </h2>
-          <div className="mt-8 grid grid-cols-1 gap-y-8 border-t pt-10 md:grid-cols-2 md:gap-y-0" style={{ borderColor: color.rule }}>
+          <Display as="h2" size="lg" className="max-w-4xl" style={{ lineHeight: 1.14 }}>
+            {products.heading}:
+            <br />
+            <span style={{ color: color.orange }}>{products.items[0].name}</span>
+            {" and "}
+            <span style={{ color: color.orange }}>{products.items[1].name}</span>
+          </Display>
+          <p className="mt-8 text-xl leading-snug sm:text-2xl" style={muted}>
+            {products.subheading}
+          </p>
+          <div className="mt-16 grid grid-cols-1 gap-y-12 border-t pt-12 md:grid-cols-2 md:gap-y-0" style={{ borderColor: color.rule }}>
             {products.items.map((p, i) => (
               <div
                 key={p.name}
-                className="md:px-10 md:first:pl-0 md:last:pr-0"
+                className="md:px-12 md:first:pl-0 md:last:pr-0"
                 style={i === 1 ? { borderLeft: `1px solid ${color.cell}` } : undefined}
               >
                 <p
@@ -150,15 +157,15 @@ export default function AndamioLanding() {
                 >
                   {p.mode}
                 </p>
-                <h3 className="mt-3 text-2xl font-semibold tracking-[-0.03em]">
+                <h3 className="mt-4 text-2xl font-semibold tracking-[-0.03em]">
                   {p.name}
                 </h3>
-                <p className="mt-3 text-[15px] leading-relaxed" style={muted}>
+                <p className="mt-4 text-[15px] leading-relaxed" style={muted}>
                   {p.blurb}
                 </p>
                 <a
                   href={p.href}
-                  className="mt-6 inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.1em] transition-colors hover:opacity-60"
+                  className="mt-8 inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.1em] transition-colors hover:opacity-60"
                   style={mono}
                 >
                   <span className="h-2 w-2" style={{ background: color.ink }} />
@@ -168,13 +175,16 @@ export default function AndamioLanding() {
             ))}
           </div>
           <p
-            className="mt-8 text-[13px] leading-relaxed"
+            className="mt-12 text-[13px] leading-relaxed"
             style={{ ...mono, color: color.inkFaint }}
           >
             {products.foundationNote}
           </p>
         </div>
+      </Section>
 
+      {/* ── Issuer ──────────────────────────────────────────────── */}
+      <Section id="issuer" bordered={false} screen>
         <div id="issuer-detail" className="grid scroll-mt-24 grid-cols-12 gap-y-8 border-t pt-14 pb-24 sm:pb-32" style={{ borderColor: color.rule }}>
           <div className="col-span-12 lg:col-span-7">
             <Kicker>{issuer.productLabel}</Kicker>
@@ -232,7 +242,7 @@ export default function AndamioLanding() {
       </Section>
 
       {/* ── API / Architecture ──────────────────────────────────── */}
-      <Section id="andamio-api" bordered={false}>
+      <Section id="andamio-api" bordered={false} screen>
         <div className="grid grid-cols-12 gap-y-8 py-24 sm:py-32">
           <div className="col-span-12 lg:col-span-7">
             <Kicker>{api.zoneLabel}</Kicker>
@@ -331,30 +341,33 @@ export default function AndamioLanding() {
       </Section>
 
       {/* ── Ecosystem ───────────────────────────────────────────── */}
-      <Section id="ecosystem" bordered={false}>
-        <div className="grid grid-cols-12 gap-y-10 py-24 sm:py-32">
-          <div className="col-span-12 lg:col-span-5 lg:pr-10">
-            <Kicker>{ecosystem.kicker}</Kicker>
-            <Display as="p" size="sm" className="mt-6" style={{ lineHeight: 1.05 }}>
-              {ecosystem.lead}
-            </Display>
-          </div>
-          <div className="col-span-12 grid grid-cols-1 self-end border-t sm:grid-cols-2 lg:col-span-7" style={{ borderColor: color.rule }}>
-            {ecosystem.items.map((it, i) => (
-              <div
-                key={it.title}
-                className="py-8"
-                style={i === 1 ? { borderTop: `1px solid ${color.cell}` } : undefined}
-              >
-                <p className="flex items-baseline gap-2 text-[13px] font-semibold uppercase tracking-[0.1em]">
-                  <span className="text-[12px] tabular-nums" style={{ ...mono, color: color.inkFaint }}>
-                    {NUMS[i]}
-                  </span>
+      <Section id="ecosystem" bordered={false} screen>
+        <div className="py-24 sm:py-32">
+          {/* Heading */}
+          <Kicker>{ecosystem.kicker}</Kicker>
+          <Display as="h2" size="lg" className="mt-6 max-w-4xl" style={{ lineHeight: 1.12 }}>
+            {ecosystem.lead}
+          </Display>
+
+          {/* Three cards — Portable · Agent ready · Community — each with its CTA */}
+          <div className="mt-16 grid grid-cols-1 gap-x-12 gap-y-12 border-t pt-12 sm:grid-cols-2 lg:grid-cols-3" style={{ borderColor: color.rule }}>
+            {ecosystem.items.map((it) => (
+              <div key={it.title} className="flex flex-col">
+                <p className="text-[13px] font-semibold uppercase tracking-[0.1em]">
                   {it.title}
                 </p>
-                <p className="mt-3 text-[14px] leading-relaxed" style={muted}>
+                <p className="mt-6 text-[15px] leading-relaxed" style={muted}>
                   {it.body}
                 </p>
+                <div className="mt-auto pt-10">
+                  <Button
+                    variant={it.cta.variant}
+                    href={"href" in it.cta ? it.cta.href : undefined}
+                  >
+                    {it.cta.label}
+                    {it.cta.variant !== "disabled" && <span aria-hidden> →</span>}
+                  </Button>
+                </div>
               </div>
             ))}
           </div>
@@ -362,7 +375,7 @@ export default function AndamioLanding() {
       </Section>
 
       {/* ── Closing ─────────────────────────────────────────────── */}
-      <Section id="closing" bordered={false}>
+      <Section id="closing" bordered={false} screen>
         <div className="grid grid-cols-12 py-24 sm:py-32">
           <div className="col-span-12 lg:col-span-9">
             <Kicker>{closing.eyebrow}</Kicker>

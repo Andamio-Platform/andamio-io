@@ -89,7 +89,8 @@ export const demo = {
  * Differentiator: Issuer = courses · API = courses AND projects.
  */
 export const products = {
-  heading: "Which one is for you?",
+  heading: "Andamio ships two products",
+  subheading: "Which one is for you?",
   items: [
     {
       name: "Andamio Issuer",
@@ -135,15 +136,22 @@ export const issuer = {
 export const ecosystem = {
   kicker: "Where this goes",
   lead:
-    "A credential means something in your world first. Then it goes further than you do.",
+    "A credential means something in your world first, then it goes further than you do.",
   items: [
     {
       title: "Portable",
-      body: "Because the earner owns it and anyone can verify it, it carries anywhere it’s useful next — another program, another organization, a hiring decision.",
+      body: "Andamio Credential Badges are owned by earners and verifiable anywhere. This means that other project teams, organizations, clubs, or coalitions can decide to make them useful in new ways.",
+      cta: { label: "Build with the API", href: EXTERNAL_LINKS.apiReference, variant: "primary" },
     },
     {
-      title: "Beyond people",
-      body: "The same machinery that proves a person learned something can prove a piece of knowledge is sound. Put expertise in a form software can read, and a record of who-knows-what becomes a record of what’s-known.",
+      title: "Agent ready",
+      body: "Credential Badges can be issued to agents that prove their capabilities, taking the guess-work out of agent delegation and access control.",
+      cta: { label: "Coming soon", variant: "disabled" },
+    },
+    {
+      title: "Community",
+      body: "Andamio is built in the open, with the people using it. Join the conversation, help shape the roadmap, and build alongside other teams.",
+      cta: { label: "Join the Discord", href: EXTERNAL_LINKS.discord, variant: "outline" },
     },
   ],
 } as const;

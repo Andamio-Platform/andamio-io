@@ -106,6 +106,10 @@ export const layout = {
   columns: 12,
   /** Reserved space for the editorial rail on xl+. */
   railReserve: 150,
+  /** Sticky-nav clearance. Mirrored as the `--nav-clear` CSS var (globals.css),
+   *  which drives both anchor scroll-padding-top and the full-viewport Section
+   *  (`screen` prop) height. Keep this and the CSS var in sync. */
+  navClearance: "5rem",
 } as const;
 
 /* ── Motion — the signature reveal ─────────────────────────────────── */
@@ -165,10 +169,11 @@ export const SECTIONS = [
   { id: "top", num: "00", label: "Own Your Badges" },
   { id: "problem", num: "01", label: "The problem" },
   { id: "how-it-works", num: "02", label: "How it works" },
-  { id: "issuer", num: "03", label: "Andamio Issuer" },
-  { id: "andamio-api", num: "04", label: "Andamio API" },
-  { id: "ecosystem", num: "05", label: "Ecosystem" },
-  { id: "closing", num: "06", label: "Upgrade" },
+  { id: "products", num: "03", label: "Which one?" },
+  { id: "issuer", num: "04", label: "Andamio Issuer" },
+  { id: "andamio-api", num: "05", label: "Andamio API" },
+  { id: "ecosystem", num: "06", label: "Ecosystem" },
+  { id: "closing", num: "07", label: "Upgrade" },
 ] as const;
 
 export type SectionId = (typeof SECTIONS)[number]["id"];

@@ -169,19 +169,18 @@ export default function BrandPage() {
         </div>
 
         <Display as="h1" size="xl" className="mt-10 max-w-[18ch]">
-          The Andamio brand, in one place.
+          Andamio brand guidelines
         </Display>
         <p className="mt-6 max-w-2xl text-xl leading-relaxed" style={muted}>
-          The canonical, human-readable guide to how Andamio looks and sounds —
-          rendered on the design system it documents. Every value here is the
-          source of truth; both the marketing site and the app conform to it.
+          How Andamio looks and sounds. These values are canonical — the
+          marketing site and the app both build from them.
         </p>
 
         <div className="mt-10 grid gap-px sm:grid-cols-3" style={{ background: color.cell }}>
           {[
-            ["One brand signal", "Orange is the mark, the single primary action, live, and verified. Nothing else."],
-            ["Ink on paper", "Near-black on white does the work; blue is wayfinding; type is Inter + JetBrains Mono."],
-            ["Reveal, don't fade", "Credentials resolve with deliberate motion — the museum-specimen gesture."],
+            ["Restraint", "Orange marks one thing per view — the primary action or a verified state. Nothing else."],
+            ["Ink on paper", "Near-black on white carries the page. Blue is for links and wayfinding only."],
+            ["Deliberate motion", "Credentials resolve with a physical reveal, not a fade."],
           ].map(([h, b]) => (
             <div key={h} className="p-6" style={{ background: color.paper }}>
               <h3 className="text-[15px] font-semibold tracking-[-0.01em]">{h}</h3>
@@ -202,10 +201,10 @@ export default function BrandPage() {
               Mark + logotype
             </Display>
             <p className="mt-6 text-[15px] leading-relaxed" style={muted}>
-              The primary lockup is the scaffold mark with the ANDAMIO wordmark.
-              The mark carries the exact brand orange <code style={mono}>#FF6B35</code>
-              {" "}— which is why the UI accent is anchored to it. Keep clear space
-              of at least the mark&apos;s height around the lockup.
+              Primary lockup: the mark with the ANDAMIO wordmark. The mark uses
+              the brand orange <code style={mono}>#FF6B35</code>, so the logo and
+              UI accent always match. Leave clear space of at least the
+              mark&apos;s height around it.
             </p>
             <ul className="mt-6">
               <Rule ok>Use the lockup in nav (~22px) and footer (~30px).</Rule>
@@ -236,7 +235,7 @@ export default function BrandPage() {
         <SectionHead kicker="Color" />
         <div className="py-16 sm:py-24">
           <Display as="h2" size="md">
-            Neutrals do the work; three accents have one job each.
+            One ink, one paper, three accents, four states.
           </Display>
 
           <h3 className="mt-12 text-[12px] font-semibold uppercase tracking-[0.14em]" style={mono}>
@@ -274,11 +273,11 @@ export default function BrandPage() {
         <div className="grid grid-cols-12 gap-y-10 py-16 sm:py-24">
           <div className="col-span-12 lg:col-span-5 lg:pr-12">
             <Display as="h2" size="md">
-              The single most important rule.
+              Where each accent is allowed.
             </Display>
             <p className="mt-6 text-[15px] leading-relaxed" style={muted}>
-              This is what keeps the brand from looking generic. If a screen has
-              three orange things, two of them are wrong.
+              Orange marks one action or state per view; blue is for links and
+              wayfinding. Used sparingly, the accents stay meaningful.
             </p>
             <ul className="mt-6">
               <Rule ok>Orange: the mark, the one primary CTA, live, verified.</Rule>
@@ -332,7 +331,7 @@ export default function BrandPage() {
         <SectionHead kicker="Typography" />
         <div className="py-16 sm:py-24">
           <Display as="h2" size="md">
-            Inter 600 for display. JetBrains Mono for labels &amp; data. Never a serif.
+            Two typefaces: Inter and JetBrains Mono.
           </Display>
 
           <div className="mt-12 grid grid-cols-12 gap-y-10">
@@ -388,14 +387,11 @@ export default function BrandPage() {
         <SectionHead kicker="Spacing" />
         <div className="py-16 sm:py-24">
           <Display as="h2" size="md">
-            One role → one step. 4px base.
+            A 4px scale, used through roles.
           </Display>
           <p className="mt-6 max-w-2xl text-[15px] leading-relaxed" style={muted}>
-            Spacing is chosen by intent, never eyeballed. Every margin, padding,
-            and gap lands on a step of the scale and, in components, on a named
-            role — so the rhythm stays identical across the marketing site and the
-            app. Dense app layouts need this more than marketing does; they drift
-            instantly without it.
+            Every margin, padding, and gap is a step on the scale, applied through
+            a named role. Same role, same step — on both surfaces.
           </p>
 
           <div className="mt-12 grid grid-cols-12 gap-y-10">
@@ -451,13 +447,12 @@ export default function BrandPage() {
         <div className="grid grid-cols-12 gap-y-10 py-16 sm:py-24">
           <div className="col-span-12 lg:col-span-4 lg:pr-10">
             <Display as="h2" size="md">
-              Reveal, don&apos;t fade.
+              Credentials resolve with motion.
             </Display>
             <p className="mt-6 text-[15px] leading-relaxed" style={muted}>
-              The brand&apos;s one signature gesture: a credential is withheld,
-              then revealed by a deliberate, physical motion. Scroll the frame —
-              the specimen slides in and resolves. Reuse the <em>feel</em> (not the
-              museum frame) at app mint / verify moments.
+              The signature gesture: a credential is withheld, then revealed by a
+              deliberate, physical motion. Scroll the frame to see it. Reuse the{" "}
+              <em>feel</em> — not the frame — for mint and verify moments in the app.
             </p>
           </div>
           <div className="col-span-12 lg:col-span-8">
@@ -471,13 +466,13 @@ export default function BrandPage() {
         <SectionHead kicker="Voice" />
         <div className="py-16 sm:py-24">
           <Display as="h2" size="md" className="max-w-[20ch]">
-            Confident, plain, technical-but-human. Own Your Badges.
+            Confident, plain, human.
           </Display>
           <div className="mt-10 grid gap-px sm:grid-cols-2 lg:grid-cols-3" style={{ background: color.cell }}>
             {[
               ["The promise", "Verifiable credentials that keep working after you issue them — a credentialing company that happens to use blockchain."],
-              ["Hero by surface", "Marketing: the issuer is the hero. App: the learner is the hero. One hero per surface — never mixed."],
-              ["Say the one thing", "The verbal equivalent of the accent discipline. No hype, no blockchain-maximalism. State it and stop."],
+              ["Hero by surface", "Marketing leads with the issuer; the app leads with the learner. One hero per surface, never mixed."],
+              ["Restraint", "Say the one important thing and stop. No hype, no blockchain-maximalism."],
             ].map(([h, b]) => (
               <div key={h} className="p-6" style={{ background: color.paper }}>
                 <h3 className="text-[15px] font-semibold tracking-[-0.01em]">{h}</h3>
@@ -495,7 +490,7 @@ export default function BrandPage() {
         <SectionHead kicker="Components" />
         <div className="py-16 sm:py-24">
           <Display as="h2" size="md">
-            Intent contracts — one orange primary per view.
+            One primary action per view.
           </Display>
           <div className="mt-10 flex flex-wrap items-center gap-3">
             <Button variant="primary">Primary</Button>
@@ -505,10 +500,10 @@ export default function BrandPage() {
             <Button variant="disabled">Disabled</Button>
           </div>
           <p className="mt-6 max-w-2xl text-[14px] leading-relaxed" style={muted}>
-            Exactly one <strong>primary</strong> (orange) action per view; the rest
-            are ink / outline / ghost. Blue is never a fill. Section-header rules
-            carry no trailing meta. Build a shared <code style={mono}>PageHeader</code>
-            {" "}before broad use — it&apos;s the one duplication to avoid.
+            One <strong>primary</strong> (orange) action per view; everything else
+            is ink, outline, or ghost. Blue is never a fill. Section-header rules
+            carry no trailing text. Build a shared <code style={mono}>PageHeader</code>
+            {" "}before broad use.
           </p>
         </div>
       </Section>
@@ -518,7 +513,7 @@ export default function BrandPage() {
         <SectionHead kicker="Accessibility" />
         <div className="py-16 sm:py-24">
           <Display as="h2" size="md">
-            Contrast notes worth knowing.
+            Color contrast.
           </Display>
           <ul className="mt-8 max-w-3xl">
             <Rule ok>Ink on paper ≈ 20:1. Blue links ≈ 4.5:1 — passes AA for body.</Rule>
@@ -534,7 +529,7 @@ export default function BrandPage() {
         <SectionHead kicker="Assets" />
         <div className="py-16 sm:py-24">
           <Display as="h2" size="md">
-            Take what you need.
+            Downloads &amp; references.
           </Display>
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <Button variant="primary" href="/logo-with-typography.svg">

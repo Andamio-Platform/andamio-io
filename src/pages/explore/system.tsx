@@ -22,12 +22,12 @@ import {
   NumberWatermark,
   Display,
 } from "~/ui/system/kit";
-import { api, hero, CREDENTIAL_BADGE_SRC } from "~/ui/explore/content";
+import { hero, CREDENTIAL_BADGE_SRC } from "~/ui/explore/content";
 
 /**
  * Living style guide for the Andamio Landing design system.
  * Renders the real tokens + components so the system is inspectable, not just
- * described. See it composed into a full page at /explore/final.
+ * described. See it composed into the full page at / (the live landing).
  */
 
 const SANS = font.sans;
@@ -104,7 +104,7 @@ export default function SystemPage() {
         <p className="mt-4 max-w-2xl text-lg" style={{ color: color.inkMuted }}>
           The tokens and components behind the chosen landing direction. Every
           piece below is the real, live thing — not a screenshot.{" "}
-          <Link href="/explore/final" className="font-medium underline-offset-2 hover:underline" style={{ color: color.blue }}>
+          <Link href="/" className="font-medium underline-offset-2 hover:underline" style={{ color: color.blue }}>
             See it composed into the full page →
           </Link>
         </p>
@@ -252,7 +252,13 @@ export default function SystemPage() {
               StackLayers (emphasis layer in ink + orange tick)
             </span>
             <div className="mt-3 border" style={{ borderColor: color.cell }}>
-              <StackLayers layers={api.stack} />
+              <StackLayers
+                layers={[
+                  { labelKicker: "Your surface", name: "What you already run", description: "Your LMS, CRM, or app. Stays where it is.", emphasis: false },
+                  { labelKicker: "Integration", name: "Andamio API", description: "REST endpoints — issue, verify, gate.", emphasis: true },
+                  { labelKicker: "Settlement", name: "Cardano mainnet", description: "Audited contracts. Permanent.", emphasis: false },
+                ]}
+              />
             </div>
           </div>
         </div>

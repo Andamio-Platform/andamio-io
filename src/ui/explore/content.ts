@@ -10,7 +10,7 @@
 
 export const EXTERNAL_LINKS = {
   docs: "https://docs.andamio.io/docs",
-  apiReference: "https://dev.api.andamio.io/reference",
+  apiReference: "https://api.andamio.io/reference",
   app: "https://mainnet.app.andamio.io",
   github: "https://github.com/Andamio-Platform",
   discord: "https://discord.gg/FtvpAYnBMU",
@@ -52,8 +52,8 @@ export const hero = {
 } as const;
 
 export const problem = {
-  kicker: "The problem with badges",
-  heading: "Badges aren’t effective",
+  kicker: "The problem with your badges",
+  heading: "What can your badges actually do?",
   intro:
     "The digital credential most organizations issue is a badge. And a badge falls short in three ways.",
   items: [
@@ -75,19 +75,49 @@ export const problem = {
 export const demo = {
   kicker: "How it works",
   liveLabel: "Live",
-  title: "Build a credential badge",
+  title: "Learn how an Andamio Credential Badge works",
   inspirationCta: "Need inspiration? See ways to use it",
   // Stand-in note shown in design-only iterations where the wired widget is
   // represented as a framed specimen rather than re-built.
   note: "Type below — the rings encode the course_id and slt_hash that identify the credential.",
 } as const;
 
+/**
+ * Two-product contrast — the map before the deep-dives. Issuer and API are
+ * INDEPENDENT products on the same on-chain foundation (not a stack; the API is
+ * not the layer Issuer is built on). Axis: Issuer = use it · API = build on it.
+ * Differentiator: Issuer = courses · API = courses AND projects.
+ */
+export const products = {
+  heading: "Which one is for you?",
+  items: [
+    {
+      name: "Andamio Issuer",
+      mode: "For organizations · Integrate it",
+      blurb:
+        "Turn the courses you run into credentials you own — the full stack: Andamio’s on-chain protocol and OpenBadges 3.0, non-custodial, integrated with your systems.",
+      cta: "Learn more",
+      href: "#issuer-detail",
+    },
+    {
+      name: "Andamio API",
+      mode: "For developers · Build your own",
+      blurb:
+        "Build your own apps on Andamio — across courses and projects — with the protocol as REST endpoints.",
+      cta: "Learn more",
+      href: "#andamio-api",
+    },
+  ],
+  foundationNote:
+    "Two independent products, both built on the same audited on-chain primitives.",
+} as const;
+
 export const issuer = {
-  productLabel: "Product 01 · No code",
+  productLabel: "Product 01 · For organizations",
   title: "Andamio Issuer",
   intro:
-    "Andamio turns the badge you already issue into a credential you control. It adds a verifiable layer on top of the programs you already run. You get everything a blockchain guarantees, and none of the blockchain to learn.",
-  decisionsHeading: "Six design decisions set an Andamio credential apart.",
+    "Andamio turns the badges you already issue into credentials you control, on the courses you already run. You get everything a blockchain guarantees, and none of the blockchain to learn.",
+  decisionsHeading: "What sets an Andamio credential apart",
   // One-word heading + a single tight line. Source prose lives in the
   // whitepapers; only lines that are already this terse make the cut here.
   decisions: [
@@ -119,46 +149,65 @@ export const ecosystem = {
 } as const;
 
 export const api = {
-  zoneLabel: "Product 02 · For builders",
+  zoneLabel: "Product 02 · For developers",
   zoneTitle: "Andamio API",
   zoneBlurb:
-    "The protocol you build on. The same credentials, as REST endpoints. Issue, verify, and gate on them from your own stack.",
-  kicker: "How it fits your stack",
-  heading: "Build on the same machinery",
-  body1:
-    "The Issuer runs on the same machinery you can build on directly. Andamio credentials are machine-readable. An app can check that someone holds one, then act on it. Gate access, unlock the next step, or drive what happens next.",
-  body2:
-    "Credentials are composable. One can gate another. The chain enforces the prerequisite, not an app, so it holds across organizations. Audited smart contracts on Cardano, called over REST. Your stack never touches crypto.",
-  apiRefCta: "Read the API reference",
-  stack: [
+    "Build your own apps on Andamio — across courses and projects — with the protocol as REST endpoints. Issue, verify, and gate on credentials from your own stack.",
+  kicker: "Built for developers",
+  heading: "Issue, verify, and gate",
+  lead:
+    "Andamio is made for developers to build on — courses, projects, and the credentials between them, all over plain REST. Audited smart contracts on Cardano, wrapped as an API. Your stack never touches crypto.",
+  // Verb-first capabilities — each maps to real API surface (see openapi).
+  capabilities: [
     {
-      labelKicker: "Your surface",
-      name: "What you already run",
-      description: "Your LMS, CRM, or certification platform. Stays where it is.",
-      emphasis: false,
+      verb: "Issue",
+      text: "Run the credential lifecycle — commit, assess, claim — for courses and projects.",
     },
     {
-      labelKicker: "Integration",
-      name: "Andamio API",
-      description:
-        "REST endpoints to issue, verify, and gate on credentials from your own stack.",
-      emphasis: true,
+      verb: "Verify",
+      text: "Read the credentials any holder owns, from anywhere.",
     },
+    { verb: "Gate", text: "Unlock features by who holds what." },
     {
-      labelKicker: "Protocol",
-      name: "Andamio smart contracts",
-      description:
-        "Audited by TxPipe. On-chain credential registry. The full transaction lifecycle, wrapped as an API.",
-      emphasis: false,
-    },
-    {
-      labelKicker: "Settlement",
-      name: "Cardano mainnet",
-      description:
-        "Permanence. Your credentials outlive every vendor, including us.",
-      emphasis: false,
+      verb: "Query",
+      text: "Courses, projects, modules, and SLTs as structured data.",
     },
   ],
+  apiRefCta: "Read the API reference",
+  galleryCta: "See what’s built on Andamio",
+  galleryHref: "/showcase",
+  // A real call — list the credentials a holder owns (the "gate" request).
+  // Path, header, and response shape are the live v2 API (api.andamio.io).
+  snippet: {
+    label: "Gate by credential",
+    request:
+      'curl https://api.andamio.io/api/v2/course/student/credentials/list \\\n  -H "X-API-Key: $ANDAMIO_KEY"',
+    response: `{
+  "data": [
+    {
+      "course_id": "bike-repair",
+      "course_title": "Bike Repair Basics",
+      "is_enrolled": true,
+      "enrollment_status": "completed",
+      "claimed_credentials": ["9b8fa722eac8…"],
+      "modules": [
+        { "course_module_code": "fix-a-flat",
+          "slt_hash": "b1093d4f…",
+          "title": "Fix a Flat Tire" }
+      ]
+    }
+  ]
+}`,
+  },
+  // Real top-level resource groups (projects is first-class — the differentiator).
+  resourcesLabel: "Resources",
+  resources: [
+    { name: "Credentials", ops: "list held · claim · assess" },
+    { name: "Courses", ops: "modules · SLTs · lessons · assignments" },
+    { name: "Projects", ops: "tasks · commitments · contributors" },
+    { name: "Transactions", ops: "build & submit on-chain · sponsored" },
+  ],
+  authNote: "Authenticate with an API key or a wallet JWT.",
 } as const;
 
 export const closing = {
@@ -199,50 +248,3 @@ export const footer = {
     ],
   },
 } as const;
-
-/** Registry of the explore iterations — drives the /explore gallery. */
-export interface VariantMeta {
-  slug: string; // "01".."20"
-  title: string;
-  scheme: "light" | "dark" | "mixed";
-  blurb: string;
-  batch: 1 | 2 | 3;
-}
-
-export const VARIANTS: VariantMeta[] = [
-  // ── Round 1 — broad exploration ──────────────────────────────────────
-  { slug: "01", title: "Editorial Light", scheme: "light", batch: 1, blurb: "Serif display, newspaper whitespace, ink-on-paper restraint." },
-  { slug: "02", title: "Terminal Protocol", scheme: "dark", batch: 1, blurb: "Monospace, hairline rules, a developer's-console reading of the page." },
-  { slug: "03", title: "Brutalist Contrast", scheme: "mixed", batch: 1, blurb: "Hard black/white blocks, one loud accent, sections that flip." },
-  { slug: "04", title: "Soft Warm SaaS", scheme: "light", batch: 1, blurb: "Warm off-white, rounded cards, friendly and approachable." },
-  { slug: "05", title: "Midnight Premium", scheme: "dark", batch: 1, blurb: "Deep navy, subtle glow, enterprise-grade and quiet." },
-  { slug: "06", title: "Swiss Grid", scheme: "light", batch: 1, blurb: "Strict international grid, red accent, typographic discipline." },
-  { slug: "07", title: "Credential Showcase", scheme: "mixed", batch: 1, blurb: "Badge-forward, the credential as the hero object throughout." },
-  { slug: "08", title: "Whitepaper Document", scheme: "light", batch: 1, blurb: "Reads like an authoritative spec — mono + serif, near-zero chrome." },
-  { slug: "09", title: "Neon Protocol", scheme: "dark", batch: 1, blurb: "Cyber-Cardano, electric accents, grid field, kinetic." },
-  { slug: "10", title: "Warm Magazine", scheme: "mixed", batch: 1, blurb: "Cream and charcoal spreads, Fraunces headlines, pull-quotes." },
-
-  // ── Round 2 — informed by feedback. Shared spine: Inter/Swiss type, no
-  //    orange, full-bleed hero with the badge withheld, then a scroll-driven
-  //    sideways reveal into a museum-specimen frame. Vary accent/scheme/layout.
-  { slug: "11", title: "Swiss Coral", scheme: "light", batch: 2, blurb: "Strict visible grid, coral accent, badge slides in from the right on scroll." },
-  { slug: "12", title: "Spec Sheet", scheme: "light", batch: 2, blurb: "Document + margin-note rail, cool-blue, reads like a precise technical spec." },
-  { slug: "13", title: "Acid Protocol", scheme: "dark", batch: 2, blurb: "Dark grid field, disciplined acid-yellow — the controlled cousin of brutalist." },
-  { slug: "14", title: "Editorial Vault", scheme: "mixed", batch: 2, blurb: "Light editorial body; scroll drops into a charcoal vault where the badge reveals." },
-  { slug: "15", title: "Instrument", scheme: "light", batch: 2, blurb: "Grid + margin data-rail hybrid; the badge reveal wires to live readouts." },
-
-  // ── Round 3 — convergence on 11 + 12 + 15. Shared synthesis: 11's light
-  //    grid + hero + vertical rhythm, 12's semibold-Inter type, 15's floating
-  //    right-side outline rail. Each a 3-color theme (coral · cool-blue ·
-  //    Andamio orange used sparingly), keeping the spine (full-bleed hero,
-  //    withheld badge, sideways reveal into a museum specimen).
-  { slug: "16", title: "Coral Index", scheme: "light", batch: 3, blurb: "11's grid leads; coral primary, blue rail, orange only on live/verified." },
-  { slug: "17", title: "Blueprint Spec", scheme: "light", batch: 3, blurb: "12's data-sheet rigor on a right rail; cool-blue led, coral + orange spark." },
-  { slug: "18", title: "Instrument Coral", scheme: "light", batch: 3, blurb: "15's instrument rail is the identity; blue readouts, coral heads, orange verified." },
-  { slug: "19", title: "Warm Index", scheme: "light", batch: 3, blurb: "Swiss-monochrome; orange as the lead accent but used precisely, blue rail." },
-  { slug: "20", title: "Tri-tone", scheme: "light", batch: 3, blurb: "Explicit 3-color system — coral display, blue data, orange for verified only." },
-
-  // Rail-placement studies off the chosen direction (19 · Warm Index).
-  { slug: "21", title: "Warm Index · Left rail", scheme: "light", batch: 3, blurb: "19, with the section index mirrored to the left. Minimal change — does left feel more expected?" },
-  { slug: "22", title: "Warm Index · Editorial rail", scheme: "light", batch: 3, blurb: "19, rail kept right but de-chromed — floating chapter-marks in the margin, not an app panel." },
-];

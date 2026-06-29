@@ -232,6 +232,12 @@ migrate them to the nearest role.
   rail, and the withheld-credential hero are **marketing-only**. The app uses
   `cell`-weight dividers in dense layouts, its own navigation, and a denser
   vertical rhythm (smaller `sectionY`) — but built from the *same* step scale.
+- **The landing page goes further:** it drops the full-bleed *between-section*
+  rules entirely and separates sections by **whitespace rhythm** (a more generous
+  `sectionY`, `py-24 sm:py-32`). Inner marketing pages (roadmap, about,
+  use-cases) **keep** the between-section rule — it suits their denser, more
+  document-like reading. In-section dividers (`cell`/`rule` borders inside a
+  section) stay everywhere; only the section-to-section boundary changes.
 
 ---
 
@@ -266,12 +272,15 @@ Surface-agnostic intent every implementation must honor (marketing kit lives in
 | Heading/Display | Inter 600, the clamp scale, tight tracking |
 | Kicker / label | mono 11px uppercase, muted, **never orange** |
 | Micro-label | mono **10px** uppercase, tracking 0.16em; `inkFaint` → **`blue` when focused/linked**; no background. The instrument-panel label (distinct from the 11px Kicker) |
-| Section header rule | kicker · optional `[LIVE]` pulse · rule — **no trailing meta text**. *Exception: the hero omits the rule entirely — its headline leads* |
+| Section header rule | kicker · optional `[LIVE]` pulse · rule — **no trailing meta text**. *Exception: a section omits the rule when its lead content carries its own header (the hero headline; the demo card's own title bar)* |
 | Hairline / rule | thin divider; `strong` → `ink` (`rule`), else `cell`; square, full-bleed between marketing sections |
 | Live pulse | a single orange `#FF6B35` square dot, `animate-pulse`, paired with a mono label; the **only** non-CTA use of orange (live / real-time) |
 | Data readouts | mono (`DataList` / `StackLayers` idioms) |
+| Code sample / API call | a square `rule`-bordered card; mono header bar (square `ink` bullet + `inkFaint` label) over a `cell` divider; request in `ink` mono, response below a `cell` divider in `inkMuted` mono; horizontal-scroll, code never wraps. Must show a **real** call — real path, auth header, and response shape — as proof the API is live; never a fabricated endpoint |
 | Popover / info card | square (no rounded), `ink` hairline border on `paper`; a mono uppercase kicker header above a `cell` hairline divider, then body in Inter `inkMuted` (13px); one editorial drop shadow. **Never** the rounded shadcn default — override its corner/padding/fill |
+| Modal / dialog | the Popover/info-card idiom at scale: square, `ink` hairline, `paper`, mono header bar + square close, on a dimmed scrim (`black/70`), opening with a subtle zoom. Radix-backed (Esc · click-outside · focus trap). Used for the badge zoom. **Never** the rounded shadcn default |
 | Specimen frame | the credential's museum frame (marketing signature): square `rule` hairlines, mono kicker header + caption, `coralTint` plate, orange "Verified" stamp; reveal motion per §6 |
+| Two-up contrast | a question heading (Inter 600) over a `cell` hairline, then paired peer columns; each column = a mono mode-label (`inkFaint`, **never** an accent, structured `[audience · action]`), an Inter 600 name, muted blurb, and an optional mono inline link (square `ink` bullet) jumping to that option's deep-dive; columns split by one `cell` vertical rule (stack on mobile); a mono `inkFaint` note below ties them to their shared foundation. Frames two equal options without ranking them (the two-products map). Used as the deep-dive lead-in |
 | State / feedback | use the §3.1 state palette, **not** the brand accents |
 
 **Build-on-day-one primitive (both surfaces):** a `PageHeader` (kicker + display

@@ -13,6 +13,7 @@ import {
   hero,
   problem,
   demo,
+  products,
   issuer,
   ecosystem,
   api,
@@ -28,7 +29,6 @@ import {
   Display,
   Button,
   Stitch,
-  StackLayers,
   Footer,
 } from "./kit";
 import BadgeBuilder from "./BadgeBuilder";
@@ -74,36 +74,9 @@ export default function AndamioLanding() {
         </div>
       </Section>
 
-      {/* ── Badge builder / demo — the live "build a credential" widget ── */}
-      <Section id="how-it-works">
-        {/* Compact header: kicker · rule · inspiration link. The section title
-            and live pulse live INSIDE the builder box below, so the whole
-            section fits one laptop viewport without scrolling. */}
-        <div className="flex flex-wrap items-center gap-4 pt-6 sm:pt-8">
-          <Kicker>{demo.kicker}</Kicker>
-          <span className="h-px flex-1" style={{ background: color.rule }} />
-          <a
-            href="#issuer"
-            className="inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.1em] transition-colors hover:opacity-60"
-            style={mono}
-          >
-            <span className="h-2 w-2" style={{ background: color.ink }} />
-            {demo.inspirationCta}
-          </a>
-        </div>
-
-        <div className="pb-8 pt-4 sm:pb-10 sm:pt-5">
-          <BadgeBuilder
-            title={demo.title}
-            note={demo.note}
-            liveLabel={demo.liveLabel}
-          />
-        </div>
-      </Section>
-
       {/* ── Problem ─────────────────────────────────────────────── */}
-      <Section id="problem">
-        <div className="grid grid-cols-12 gap-y-10 py-16 sm:py-24">
+      <Section id="problem" bordered={false}>
+        <div className="grid grid-cols-12 gap-y-10 py-24 sm:py-32">
           <div className="col-span-12 lg:col-span-4 lg:pr-10">
             <Kicker>{problem.kicker}</Kicker>
             <Display as="h2" size="lg" className="mt-5" style={{ lineHeight: 0.95 }}>
@@ -141,9 +114,68 @@ export default function AndamioLanding() {
         </div>
       </Section>
 
+      {/* ── Badge builder / demo — the live "build a credential" widget.
+             Flows directly into "Which one is for you?". ────────────────── */}
+      <Section id="how-it-works" bordered={false}>
+        {/* No section header rule here — the card carries its own title + live
+            pulse, so the section is just the box. */}
+        <div className="pb-12 pt-10 sm:pb-16 sm:pt-14">
+          <BadgeBuilder
+            title={demo.title}
+            note={demo.note}
+            liveLabel={demo.liveLabel}
+          />
+        </div>
+      </Section>
+
       {/* ── Issuer ──────────────────────────────────────────────── */}
-      <Section id="issuer">
-        <div className="grid grid-cols-12 gap-y-8 py-16 sm:py-24">
+      <Section id="issuer" bordered={false}>
+        {/* Two products · one foundation — the map before the deep-dive.
+            Issuer and API are INDEPENDENT products on a shared foundation;
+            this contrast states that once, side-by-side. */}
+        <div className="pt-24 pb-16 sm:pt-32 sm:pb-20">
+          <h2 className="text-2xl font-semibold tracking-[-0.03em] sm:text-3xl">
+            {products.heading}
+          </h2>
+          <div className="mt-8 grid grid-cols-1 gap-y-8 border-t pt-10 md:grid-cols-2 md:gap-y-0" style={{ borderColor: color.rule }}>
+            {products.items.map((p, i) => (
+              <div
+                key={p.name}
+                className="md:px-10 md:first:pl-0 md:last:pr-0"
+                style={i === 1 ? { borderLeft: `1px solid ${color.cell}` } : undefined}
+              >
+                <p
+                  className="text-[12px] uppercase tracking-[0.14em]"
+                  style={{ ...mono, color: color.inkFaint }}
+                >
+                  {p.mode}
+                </p>
+                <h3 className="mt-3 text-2xl font-semibold tracking-[-0.03em]">
+                  {p.name}
+                </h3>
+                <p className="mt-3 text-[15px] leading-relaxed" style={muted}>
+                  {p.blurb}
+                </p>
+                <a
+                  href={p.href}
+                  className="mt-6 inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.1em] transition-colors hover:opacity-60"
+                  style={mono}
+                >
+                  <span className="h-2 w-2" style={{ background: color.ink }} />
+                  {p.cta}
+                </a>
+              </div>
+            ))}
+          </div>
+          <p
+            className="mt-8 text-[13px] leading-relaxed"
+            style={{ ...mono, color: color.inkFaint }}
+          >
+            {products.foundationNote}
+          </p>
+        </div>
+
+        <div id="issuer-detail" className="grid scroll-mt-24 grid-cols-12 gap-y-8 border-t pt-14 pb-24 sm:pb-32" style={{ borderColor: color.rule }}>
           <div className="col-span-12 lg:col-span-7">
             <Kicker>{issuer.productLabel}</Kicker>
             <Display as="h2" size="xl" className="mt-5">
@@ -173,7 +205,7 @@ export default function AndamioLanding() {
                   className="text-[12px] uppercase tracking-[0.14em] tabular-nums"
                   style={{ ...mono, color: color.inkFaint }}
                 >
-                  D-{NUMS[i]}
+                  {NUMS[i]}
                 </span>
                 <span className="h-px flex-1 translate-y-[-4px]" style={{ background: color.cell }} />
               </div>
@@ -199,9 +231,108 @@ export default function AndamioLanding() {
         </div>
       </Section>
 
+      {/* ── API / Architecture ──────────────────────────────────── */}
+      <Section id="andamio-api" bordered={false}>
+        <div className="grid grid-cols-12 gap-y-8 py-24 sm:py-32">
+          <div className="col-span-12 lg:col-span-7">
+            <Kicker>{api.zoneLabel}</Kicker>
+            <Display as="h2" size="xl" className="mt-5">
+              {api.zoneTitle}
+            </Display>
+          </div>
+          <p className="col-span-12 self-end text-lg leading-relaxed lg:col-span-5 lg:pl-8" style={{ color: "rgba(10,10,10,0.65)" }}>
+            {api.zoneBlurb}
+          </p>
+        </div>
+
+        <div className="grid grid-cols-12 gap-x-10 gap-y-12 border-t pt-12" style={{ borderColor: color.rule }}>
+          {/* Left — what you can build */}
+          <div className="col-span-12 lg:col-span-5 lg:pr-6">
+            <Kicker>{api.kicker}</Kicker>
+            <h3 className="mt-4 text-[clamp(1.75rem,3vw,2.5rem)] font-semibold leading-[1.04] tracking-[-0.035em]">
+              {api.heading}
+            </h3>
+            <p className="mt-6 text-[15px] leading-relaxed" style={{ color: "rgba(10,10,10,0.65)" }}>
+              {api.lead}
+            </p>
+
+            {/* Capability cards — hairline 2×2 */}
+            <div className="mt-10 grid grid-cols-1 gap-px sm:grid-cols-2" style={{ background: color.cell }}>
+              {api.capabilities.map((c) => (
+                <div key={c.verb} className="bg-white p-5">
+                  <p className="text-[15px] font-semibold tracking-[-0.02em]">{c.verb}</p>
+                  <p className="mt-1.5 text-[13px] leading-relaxed" style={muted}>
+                    {c.text}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-8 flex flex-col gap-3">
+              <a
+                href={EXTERNAL_LINKS.apiReference}
+                className="inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.1em] transition-colors hover:opacity-60"
+                style={mono}
+              >
+                <span className="h-2 w-2" style={{ background: color.ink }} />
+                {api.apiRefCta}
+              </a>
+              <a
+                href={api.galleryHref}
+                className="inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.1em] transition-colors hover:opacity-60"
+                style={{ ...mono, color: color.inkMuted }}
+              >
+                <span className="h-2 w-2" style={{ background: color.inkFaint }} />
+                {api.galleryCta}
+              </a>
+            </div>
+          </div>
+
+          {/* Right — proof: a real call + the resource surface */}
+          <div className="col-span-12 lg:col-span-7">
+            <div className="border" style={{ borderColor: color.rule }}>
+              <div className="flex items-center gap-2 border-b px-4 py-2.5" style={{ borderColor: color.cell }}>
+                <span className="h-2 w-2" style={{ background: color.ink }} />
+                <span className="text-[11px] uppercase tracking-[0.16em]" style={{ ...mono, color: color.inkFaint }}>
+                  {api.snippet.label}
+                </span>
+              </div>
+              <pre className="overflow-x-auto px-4 py-4 text-[12.5px] leading-relaxed" style={mono}>
+                <code>{api.snippet.request}</code>
+              </pre>
+              <pre className="overflow-x-auto border-t px-4 py-4 text-[12px] leading-relaxed" style={{ ...mono, borderColor: color.cell, color: color.inkMuted }}>
+                <code>{api.snippet.response}</code>
+              </pre>
+            </div>
+
+            {/* Resource surface — projects is first-class */}
+            <p className="mt-8 text-[11px] uppercase tracking-[0.16em]" style={{ ...mono, color: color.inkFaint }}>
+              {api.resourcesLabel}
+            </p>
+            <dl className="mt-3 border-t" style={{ borderColor: color.cell }}>
+              {api.resources.map((r) => (
+                <div
+                  key={r.name}
+                  className="flex items-baseline justify-between gap-6 border-t py-3 first:border-t-0"
+                  style={{ borderColor: color.cell }}
+                >
+                  <dt className="text-[14px] font-semibold tracking-[-0.02em]">{r.name}</dt>
+                  <dd className="text-right text-[12px]" style={{ ...mono, color: color.inkMuted }}>
+                    {r.ops}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+            <p className="mt-4 text-[12px]" style={{ ...mono, color: color.inkFaint }}>
+              {api.authNote}
+            </p>
+          </div>
+        </div>
+      </Section>
+
       {/* ── Ecosystem ───────────────────────────────────────────── */}
-      <Section id="ecosystem">
-        <div className="grid grid-cols-12 gap-y-10 py-16 sm:py-24">
+      <Section id="ecosystem" bordered={false}>
+        <div className="grid grid-cols-12 gap-y-10 py-24 sm:py-32">
           <div className="col-span-12 lg:col-span-5 lg:pr-10">
             <Kicker>{ecosystem.kicker}</Kicker>
             <Display as="p" size="sm" className="mt-6" style={{ lineHeight: 1.05 }}>
@@ -230,50 +361,9 @@ export default function AndamioLanding() {
         </div>
       </Section>
 
-      {/* ── API / Architecture ──────────────────────────────────── */}
-      <Section id="andamio-api">
-        <div className="grid grid-cols-12 gap-y-8 py-16 sm:py-24">
-          <div className="col-span-12 lg:col-span-7">
-            <Kicker>{api.zoneLabel}</Kicker>
-            <Display as="h2" size="xl" className="mt-5">
-              {api.zoneTitle}
-            </Display>
-          </div>
-          <p className="col-span-12 self-end text-lg leading-relaxed lg:col-span-5 lg:pl-8" style={{ color: "rgba(10,10,10,0.65)" }}>
-            {api.zoneBlurb}
-          </p>
-        </div>
-
-        <div className="grid grid-cols-12 border-t" style={{ borderColor: color.rule }}>
-          <div className="col-span-12 py-12 lg:col-span-5 lg:pr-12" style={{ borderRight: `0` }}>
-            <Kicker>{api.kicker}</Kicker>
-            <h3 className="mt-4 text-[clamp(1.75rem,3vw,2.5rem)] font-semibold leading-[1.04] tracking-[-0.035em]">
-              {api.heading}
-            </h3>
-            <p className="mt-6 text-[15px] leading-relaxed" style={{ color: "rgba(10,10,10,0.65)" }}>
-              {api.body1}
-            </p>
-            <p className="mt-4 text-[14px] leading-relaxed" style={muted}>
-              {api.body2}
-            </p>
-            <a
-              href={EXTERNAL_LINKS.apiReference}
-              className="mt-8 inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.1em] transition-colors hover:opacity-60"
-              style={mono}
-            >
-              <span className="h-2 w-2" style={{ background: color.ink }} />
-              {api.apiRefCta}
-            </a>
-          </div>
-          <div className="col-span-12 lg:col-span-7">
-            <StackLayers layers={api.stack} />
-          </div>
-        </div>
-      </Section>
-
       {/* ── Closing ─────────────────────────────────────────────── */}
-      <Section id="closing">
-        <div className="grid grid-cols-12 py-20 sm:py-28">
+      <Section id="closing" bordered={false}>
+        <div className="grid grid-cols-12 py-24 sm:py-32">
           <div className="col-span-12 lg:col-span-9">
             <Kicker>{closing.eyebrow}</Kicker>
             <Display as="h2" size="xl" className="mt-6">

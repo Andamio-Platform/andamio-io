@@ -22,6 +22,8 @@ import {
   type InteriorStyle,
 } from "~/ui/landing/V2Landing/badge";
 import { Popover, PopoverContent, PopoverTrigger } from "~/components/ui/popover";
+import * as Dialog from "@radix-ui/react-dialog";
+import { ZoomIn } from "lucide-react";
 import {
   OUTER_RING,
   INNER_RING,
@@ -33,13 +35,9 @@ import { color, font } from "./tokens";
 type ActiveZone = "identity" | "targets" | null;
 
 const SAMPLE: { courseName: string; moduleName: string; slts: string[] } = {
-  courseName: "Cardano Developer Path",
-  moduleName: "Smart Contracts with Aiken",
-  slts: [
-    "I can write a validator in Aiken",
-    "I can test an on-chain contract",
-    "I can deploy to preprod",
-  ],
+  courseName: "Bike Repair Basics",
+  moduleName: "Fix a Flat Tire",
+  slts: ["I can remove a wheel", "I can patch an inner tube"],
 };
 
 const mono = { fontFamily: font.mono };
@@ -163,6 +161,9 @@ export default function BadgeBuilder({
   const [paletteIndex, setPaletteIndex] = React.useState(0);
   const [interior, setInterior] = React.useState<InteriorStyle>("light");
   const [svg, setSvg] = React.useState("");
+  // A second copy of the badge for the zoom modal, built with a distinct
+  // id-suffix so its SVG element ids never collide with the inline badge.
+  const [modalSvg, setModalSvg] = React.useState("");
   const [scanKey, setScanKey] = React.useState(0);
 
   // Which ring the visitor is editing — drives the linked highlight across the
@@ -194,6 +195,7 @@ export default function BadgeBuilder({
       if (myReq !== reqRef.current) return; // a newer change superseded this one
       const palette = withInterior(PALETTES[paletteIndex] ?? PALETTES[0]!, interior);
       setSvg(buildBadgeSvg(params, palette, { idSuffix }));
+      setModalSvg(buildBadgeSvg(params, palette, { idSuffix: `${idSuffix}z` }));
       setScanKey((k) => k + 1);
     }, 150);
     return () => window.clearTimeout(t);
@@ -263,13 +265,17 @@ export default function BadgeBuilder({
               onBlur={blurZone}
               className={inputCls}
               style={inputStyle}
-              placeholder="e.g. Cardano Developer Path"
+              placeholder="e.g. Bike Repair Basics"
             />
+            {/* What a course is + the ownership rule, in one quiet line. */}
+            <p className="mt-0.5 text-[11px] leading-snug" style={{ color: color.inkMuted }}>
+              A course is yours — only its owner can issue credentials on it.
+            </p>
           </div>
 
           <div className="flex flex-col gap-1">
             <MicroLabel as="label" htmlFor="bb-module" on={active === "identity"}>
-              Credential / module name
+              Credential name
             </MicroLabel>
             <input
               id="bb-module"
@@ -280,7 +286,7 @@ export default function BadgeBuilder({
               onBlur={blurZone}
               className={inputCls}
               style={inputStyle}
-              placeholder="e.g. Smart Contracts with Aiken"
+              placeholder="e.g. Fix a Flat Tire"
             />
           </div>
 
@@ -417,37 +423,98 @@ export default function BadgeBuilder({
               }`}
             />
 
-            <div className="relative aspect-square w-[min(100cqw,100cqh,640px)]">
-              <div className="relative aspect-square h-full w-full overflow-hidden rounded-full ring-1 ring-black/10 shadow-[0_18px_44px_-22px_rgba(0,0,0,0.4)]">
-                <div
-                  className="absolute inset-[-1%] [&_svg]:block [&_svg]:h-full [&_svg]:w-full"
-                  dangerouslySetInnerHTML={{ __html: svg }}
-                  role="img"
-                  aria-label={`Preview badge for ${moduleName || "your credential"}`}
-                />
-                {/* one-shot scan line on each re-render */}
-                <div
-                  key={scanKey}
-                  aria-hidden
-                  className="assay-scan pointer-events-none absolute inset-x-0 top-0 h-1/3 bg-[linear-gradient(to_bottom,transparent,rgba(255,255,255,0.14),transparent)]"
-                />
-                {/* Linked ring highlights (blue): outer = course identity, inner = targets.
-                    Soft, blurred halos — no crisp line, so they read as a glow over the
-                    band rather than a second hairline competing with the badge artwork. */}
-                <div
-                  aria-hidden
-                  className={`pointer-events-none absolute inset-[3%] rounded-full blur-[3px] ring-[5px] ring-[#2F6BFF]/40 shadow-[0_0_28px_4px_rgba(47,107,255,0.45)] transition-opacity duration-300 ${
-                    active === "identity" ? "opacity-100" : "opacity-0"
-                  }`}
-                />
-                <div
-                  aria-hidden
-                  className={`pointer-events-none absolute inset-[7%] rounded-full blur-[3px] ring-[5px] ring-[#2F6BFF]/40 shadow-[0_0_28px_4px_rgba(47,107,255,0.45)] transition-opacity duration-300 ${
-                    active === "targets" ? "opacity-100" : "opacity-0"
-                  }`}
-                />
-              </div>
-            </div>
+            {/* The badge is a zoom trigger — click opens it large for close
+                inspection (radix Dialog: Esc / click-outside / focus trap). */}
+            <Dialog.Root>
+              <Dialog.Trigger asChild>
+                <button
+                  type="button"
+                  aria-label="Zoom in on the badge"
+                  className="group relative block aspect-square w-[min(100cqw,100cqh,640px)] cursor-zoom-in rounded-full focus:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(47,107,255,0.55)]"
+                >
+                  <div className="relative aspect-square h-full w-full overflow-hidden rounded-full ring-1 ring-black/10 shadow-[0_18px_44px_-22px_rgba(0,0,0,0.4)]">
+                    <div
+                      className="absolute inset-[-1%] [&_svg]:block [&_svg]:h-full [&_svg]:w-full"
+                      dangerouslySetInnerHTML={{ __html: svg }}
+                      role="img"
+                      aria-label={`Preview badge for ${moduleName || "your credential"}`}
+                    />
+                    {/* one-shot scan line on each re-render */}
+                    <div
+                      key={scanKey}
+                      aria-hidden
+                      className="assay-scan pointer-events-none absolute inset-x-0 top-0 h-1/3 bg-[linear-gradient(to_bottom,transparent,rgba(255,255,255,0.14),transparent)]"
+                    />
+                    {/* Linked ring highlights (blue): outer = course identity, inner = targets.
+                        Soft, blurred halos — no crisp line, so they read as a glow over the
+                        band rather than a second hairline competing with the badge artwork. */}
+                    <div
+                      aria-hidden
+                      className={`pointer-events-none absolute inset-[3%] rounded-full blur-[3px] ring-[5px] ring-[#2F6BFF]/40 shadow-[0_0_28px_4px_rgba(47,107,255,0.45)] transition-opacity duration-300 ${
+                        active === "identity" ? "opacity-100" : "opacity-0"
+                      }`}
+                    />
+                    <div
+                      aria-hidden
+                      className={`pointer-events-none absolute inset-[7%] rounded-full blur-[3px] ring-[5px] ring-[#2F6BFF]/40 shadow-[0_0_28px_4px_rgba(47,107,255,0.45)] transition-opacity duration-300 ${
+                        active === "targets" ? "opacity-100" : "opacity-0"
+                      }`}
+                    />
+                  </div>
+                  {/* hover / focus affordance — overlaid, no layout impact */}
+                  <span
+                    aria-hidden
+                    className="pointer-events-none absolute bottom-[7%] left-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 border bg-white/90 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] opacity-0 backdrop-blur transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100"
+                    style={{ ...mono, borderColor: color.rule, color: color.ink }}
+                  >
+                    <ZoomIn className="h-3 w-3" /> Zoom in
+                  </span>
+                </button>
+              </Dialog.Trigger>
+
+              <Dialog.Portal>
+                <Dialog.Overlay className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=closed]:animate-out data-[state=closed]:fade-out-0" />
+                <Dialog.Content
+                  aria-describedby={undefined}
+                  className="fixed left-1/2 top-1/2 z-50 w-[min(94vw,760px)] -translate-x-1/2 -translate-y-1/2 border outline-none data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%]"
+                  style={{ borderColor: color.rule, background: color.paper }}
+                >
+                  <div
+                    className="flex items-center justify-between gap-4 border-b px-4 py-2.5"
+                    style={{ borderColor: color.rule }}
+                  >
+                    <Dialog.Title className="truncate text-[11px] font-semibold uppercase tracking-[0.14em]" style={mono}>
+                      {courseName || "Course"} · {moduleName || "Credential"}
+                    </Dialog.Title>
+                    <Dialog.Close
+                      aria-label="Close"
+                      className="shrink-0 border px-2.5 py-1 text-[13px] leading-none transition-colors hover:bg-black/[0.04] focus:outline-none focus-visible:[box-shadow:inset_0_0_0_1.5px_#2F6BFF]"
+                      style={{ borderColor: color.cell, color: color.inkFaint }}
+                    >
+                      ✕
+                    </Dialog.Close>
+                  </div>
+                  <div className="flex items-center justify-center p-6 sm:p-10" style={{ background: color.coralTint }}>
+                    <div className="relative aspect-square w-[min(78vh,82vw,560px)]">
+                      <div className="relative aspect-square h-full w-full overflow-hidden rounded-full ring-1 ring-black/10 shadow-[0_24px_60px_-24px_rgba(0,0,0,0.45)]">
+                        <div
+                          className="absolute inset-[-1%] [&_svg]:block [&_svg]:h-full [&_svg]:w-full"
+                          dangerouslySetInnerHTML={{ __html: modalSvg }}
+                          role="img"
+                          aria-label={`Badge for ${moduleName || "your credential"}`}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <p className="border-t px-4 py-2.5 text-[11px]" style={{ borderColor: color.cell, color: color.inkMuted }}>
+                    The rings encode the{" "}
+                    <span style={{ ...mono, color: color.ink }}>course_id</span> and{" "}
+                    <span style={{ ...mono, color: color.ink }}>slt_hash</span>. Press{" "}
+                    <span style={mono}>Esc</span> or click outside to close.
+                  </p>
+                </Dialog.Content>
+              </Dialog.Portal>
+            </Dialog.Root>
           </div>
         </div>
       </div>

@@ -163,11 +163,11 @@ export const kickerCls = "text-[11px] uppercase tracking-[0.18em]";
 /** Section index used by the editorial rail + section ids. */
 export const SECTIONS = [
   { id: "top", num: "00", label: "Own Your Badges" },
-  { id: "how-it-works", num: "01", label: "How it works" },
-  { id: "problem", num: "02", label: "The problem" },
-  { id: "issuer", num: "03", label: "Issuer" },
-  { id: "ecosystem", num: "04", label: "Ecosystem" },
-  { id: "andamio-api", num: "05", label: "API" },
+  { id: "problem", num: "01", label: "The problem" },
+  { id: "how-it-works", num: "02", label: "How it works" },
+  { id: "issuer", num: "03", label: "Andamio Issuer" },
+  { id: "andamio-api", num: "04", label: "Andamio API" },
+  { id: "ecosystem", num: "05", label: "Ecosystem" },
   { id: "closing", num: "06", label: "Upgrade" },
 ] as const;
 

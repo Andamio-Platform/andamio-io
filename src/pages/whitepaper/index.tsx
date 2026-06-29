@@ -4,7 +4,7 @@ import Link from "next/link";
 import type { GetStaticProps } from "next";
 import { nav, footer as footerData } from "~/ui/explore/content";
 import { color, font } from "~/ui/system/tokens";
-import { Page, Kicker, Display, Button, Footer, type RailItem } from "~/ui/system/kit";
+import { Page, Kicker, Display, Footer, type RailItem } from "~/ui/system/kit";
 import PaperArticle from "~/ui/whitepaper/PaperArticle";
 import { PAPERS, SUB_PAPERS } from "~/lib/papers";
 import { readPaperBody } from "~/lib/papers.server";
@@ -46,11 +46,6 @@ export default function WhitepaperHub({ body }: Props) {
               The single source for what Andamio is and how it works. The Light Paper leads. The
               Issuer paper, Building on Andamio, and the glossary go deeper, each on its own page.
             </p>
-            <div className="mt-7">
-              <Button variant="primary" href="/papers/andamio-whitepapers.pdf">
-                Download the PDF
-              </Button>
-            </div>
           </header>
 
           <nav

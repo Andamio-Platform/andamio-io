@@ -4,7 +4,7 @@ import Link from "next/link";
 import type { GetStaticProps } from "next";
 import { nav, footer as footerData } from "~/ui/explore/content";
 import { color, font } from "~/ui/system/tokens";
-import { Page, Kicker, Display, Footer, type RailItem } from "~/ui/system/kit";
+import { Page, Kicker, Display, Button, Footer, type RailItem } from "~/ui/system/kit";
 import PaperArticle from "~/ui/whitepaper/PaperArticle";
 import { PAPERS, SUB_PAPERS } from "~/lib/papers";
 import { readPaperBody } from "~/lib/papers.server";

@@ -11,9 +11,10 @@ const DIR = path.join(process.cwd(), "src/content/papers");
 
 /**
  * Read a paper's rendered-ready body. Strips the sync provenance comment, the
- * `doc-status` marker, and the internal "Draft, open for team review" callout
- * (review scaffolding that should not show on the public route). The source in
- * ecosystem-enterprise is untouched — this is a render-time transform only.
+ * YAML frontmatter (review/consent lifecycle metadata), the legacy `doc-status`
+ * marker, and the legacy "Draft, open for team review" callout (review scaffolding
+ * that should not show on the public route). The source in ecosystem-enterprise is
+ * untouched — this is a render-time transform only.
  */
 export function readPaperBody(slug: string): string {
   const meta = paperBySlug(slug);
@@ -21,7 +22,8 @@ export function readPaperBody(slug: string): string {
   const raw = fs.readFileSync(path.join(DIR, meta.file), "utf8");
   return raw
     .replace(/^<!--[\s\S]*?-->\s*/, "") // sync provenance header
-    .replace(/<!--\s*doc-status:[\s\S]*?-->\s*/g, "") // draft status marker
-    .replace(/^>\s*\*\*Draft\.[^\n]*\n/m, "") // internal review callout
+    .replace(/^---\r?\n[\s\S]*?\r?\n---\s*/, "") // YAML frontmatter (lifecycle metadata)
+    .replace(/<!--\s*doc-status:[\s\S]*?-->\s*/g, "") // legacy draft status marker
+    .replace(/^>\s*\*\*Draft\.[^\n]*\n/m, "") // legacy review callout
     .trimStart();
 }

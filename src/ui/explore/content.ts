@@ -95,6 +95,10 @@ export const products = {
     {
       name: "Andamio Issuer",
       mode: "For organizations · Integrate it",
+      // CLAIM SCOPE: "OpenBadges 3.0" here = the credential *format* (live with Credential Badges 1.0).
+      // Independent third-party OB3/VC verifiability needs the signing service + did:web, which ship
+      // in v1.1 (product-circle#82, Q3). When v1.1 lands, strengthen this to claim verifiable-anywhere
+      // interop. Tracked: orch task "Flip OB3 claims to independently-verifiable on v1.1 signing release".
       blurb:
         "Turn the courses you run into credentials you own — the full stack: Andamio’s on-chain protocol and OpenBadges 3.0, non-custodial, integrated with your systems.",
       cta: "Learn more",

@@ -209,12 +209,12 @@ export function TopNav({ items, cta }: NavData) {
       style={{ borderColor: color.rule, background: "rgb(var(--sys-paper-rgb) / 0.95)" }}
     >
       <div
-        className={`${containerCls} flex items-center justify-between py-3.5`}
+        className={`${containerCls} flex items-center justify-between gap-6 py-4`}
         style={{ maxWidth: layout.maxWidth }}
       >
         <Brand />
-        <div className="flex items-center gap-2 sm:gap-3">
-          <nav className="hidden items-center gap-6 lg:flex">
+        <div className="flex items-center gap-5 sm:gap-7">
+          <nav className="hidden items-center gap-7 lg:flex">
             {items.map((item) => (
               <a
                 key={item.label}
@@ -226,20 +226,29 @@ export function TopNav({ items, cta }: NavData) {
               </a>
             ))}
           </nav>
-          <ThemeToggle />
-          <Button href={cta.href} variant="ink">
-            {cta.label}
-          </Button>
-          <button
-            type="button"
-            onClick={() => setOpen((o) => !o)}
-            aria-label="Toggle menu"
-            aria-expanded={open}
-            className="inline-flex h-9 w-9 items-center justify-center lg:hidden"
-            style={{ color: color.ink }}
-          >
-            {open ? <X size={20} /> : <Menu size={20} />}
-          </button>
+          {/* Divider: separates wayfinding links from the actions so the CTA
+              isn't crowded against the last link. */}
+          <span
+            className="hidden h-5 w-px lg:block"
+            style={{ background: color.cell }}
+            aria-hidden
+          />
+          <div className="flex items-center gap-3 sm:gap-4">
+            <ThemeToggle />
+            <Button href={cta.href} variant="ink">
+              {cta.label}
+            </Button>
+            <button
+              type="button"
+              onClick={() => setOpen((o) => !o)}
+              aria-label="Toggle menu"
+              aria-expanded={open}
+              className="inline-flex h-9 w-9 items-center justify-center lg:hidden"
+              style={{ color: color.ink }}
+            >
+              {open ? <X size={20} /> : <Menu size={20} />}
+            </button>
+          </div>
         </div>
       </div>
       {open && (

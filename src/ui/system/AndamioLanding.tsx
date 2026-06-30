@@ -57,7 +57,6 @@ export default function AndamioLanding() {
 
         <div className="mb-16 mt-12 sm:mb-24">
           <Stitch>
-            <Button variant="chip" href="#how-it-works">{hero.ctaEyebrow}</Button>
             <Button variant="primary" href={hero.primaryCta.href}>
               {hero.primaryCta.label} <span aria-hidden>→</span>
             </Button>

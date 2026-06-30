@@ -42,9 +42,9 @@ export const hero = {
   headlineLead: "Own Your",
   headlineAccent: "Badges",
   subhead: "Andamio Credential Badges are permanent, programmable, and yours.",
-  ctaEyebrow: "Learn how",
   primaryCta: { label: "Andamio Issuer", href: "#issuer" },
-  secondaryCta: { label: "Andamio API", href: "#andamio-api" },
+  // Developer CTA: a value prop, not the product name (team feedback).
+  secondaryCta: { label: "Build on Andamio", href: "#andamio-api" },
   badgeAlt:
     "An Andamio credential, Getting Started with Andamio. Its rings encode the course it came from, and what it certifies.",
   badgeCaption:

@@ -190,8 +190,7 @@ export default function AndamioLanding() {
       <Section id="issuer" bordered={false} screen>
         <div id="issuer-detail" className="grid scroll-mt-24 grid-cols-12 gap-y-8 border-t pt-14 pb-24 sm:pb-32" style={{ borderColor: color.rule }}>
           <div className="col-span-12 lg:col-span-7">
-            <Kicker>{issuer.productLabel}</Kicker>
-            <Display as="h2" size="xl" className="mt-5">
+            <Display as="h2" size="xl">
               {issuer.title}
             </Display>
           </div>
@@ -248,8 +247,7 @@ export default function AndamioLanding() {
       <Section id="andamio-api" bordered={false} screen>
         <div className="grid grid-cols-12 gap-y-8 py-24 sm:py-32">
           <div className="col-span-12 lg:col-span-7">
-            <Kicker>{api.zoneLabel}</Kicker>
-            <Display as="h2" size="xl" className="mt-5">
+            <Display as="h2" size="xl">
               {api.zoneTitle}
             </Display>
           </div>

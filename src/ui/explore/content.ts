@@ -118,7 +118,6 @@ export const products = {
 } as const;
 
 export const issuer = {
-  productLabel: "Product 01 · For organizations",
   title: "Andamio Issuer",
   intro:
     "Andamio turns the badges you already issue into credentials you control, on the courses you already run. You get everything a blockchain guarantees, and none of the blockchain to learn.",
@@ -161,7 +160,6 @@ export const ecosystem = {
 } as const;
 
 export const api = {
-  zoneLabel: "Product 02 · For developers",
   zoneTitle: "Andamio API",
   zoneBlurb:
     "Build your own apps on Andamio — across courses and projects — with the protocol as REST endpoints. Issue, verify, and gate on credentials from your own stack.",

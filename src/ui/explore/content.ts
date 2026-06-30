@@ -25,16 +25,33 @@ export const CREDENTIAL_BADGE_SRC = "/andamio-credential-badge.svg";
 
 export const nav = {
   brand: "Andamio",
+  // Two rich click-open dropdown cards (Products, Resources) + flat links.
+  // A menu entry is a dropdown when it has `items`; otherwise it's a plain link.
+  // `soon: true` marks a destination that isn't live yet (rendered non-clickable).
   items: [
-    { label: "Issuer", href: "/#issuer" },
-    { label: "API", href: "/#andamio-api" },
+    {
+      label: "Products",
+      items: [
+        { name: "Andamio Issuer", desc: "Issue credentials your organization controls.", href: "/#issuer" },
+        { name: "Andamio API", desc: "The protocol, as REST endpoints.", href: "/#andamio-api" },
+        { name: "Andamio Bot", desc: "Credential-gate your Discord.", href: "#", soon: true },
+        { name: "Credential Badges", desc: "Permanent, programmable, yours.", href: "#", soon: true },
+      ],
+    },
+    {
+      label: "Resources",
+      items: [
+        { name: "Overview", desc: "Introducing Andamio.", href: "/whitepaper" },
+        { name: "Docs", desc: "Guides and protocol.", href: EXTERNAL_LINKS.docs },
+        { name: "API Reference", desc: "Interactive endpoint docs.", href: EXTERNAL_LINKS.apiReference },
+        { name: "Use cases", desc: "How teams put Andamio to work.", href: "/use-cases" },
+      ],
+    },
     { label: "Roadmap", href: "/roadmap" },
-    { label: "Whitepaper", href: "/whitepaper" },
-    { label: "Docs", href: EXTERNAL_LINKS.docs },
     { label: "Blog", href: "/blog" },
     { label: "About", href: "/about" },
   ],
-  cta: { label: "Get Started", href: EXTERNAL_LINKS.app },
+  cta: { label: "Open the App", href: EXTERNAL_LINKS.app },
 } as const;
 
 export const hero = {

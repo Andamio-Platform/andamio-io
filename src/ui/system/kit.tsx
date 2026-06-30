@@ -11,7 +11,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Menu, Moon, Sun, X } from "lucide-react";
+import { ChevronDown, Menu, Moon, Sun, X } from "lucide-react";
 import { useTheme } from "next-themes";
 import {
   color,
@@ -196,13 +196,145 @@ export function ThemeToggle() {
   );
 }
 
+/** A single card item inside a dropdown menu. */
+export interface NavMenuItem {
+  name: string;
+  desc: string;
+  href: string;
+  /** Destination not live yet — rendered non-clickable with a "Soon" tag. */
+  soon?: boolean;
+}
+/** A plain top-level link. */
+export interface NavLink {
+  label: string;
+  href: string;
+}
+/** A top-level entry that opens a rich card of items. */
+export interface NavMenu {
+  label: string;
+  items: readonly NavMenuItem[];
+}
+export type NavEntry = NavLink | NavMenu;
+
 export interface NavData {
-  items: readonly { label: string; href: string }[];
+  items: readonly NavEntry[];
   cta: { label: string; href: string };
+}
+
+/* ── Rich dropdown menu (click to open; card of items) ──────────────────── */
+function NavDropdown({
+  label,
+  items,
+  open,
+  onToggle,
+  onClose,
+}: {
+  label: string;
+  items: readonly NavMenuItem[];
+  open: boolean;
+  onToggle: () => void;
+  onClose: () => void;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!open) return;
+    const onDoc = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) onClose();
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("mousedown", onDoc);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDoc);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open, onClose]);
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        type="button"
+        onClick={onToggle}
+        aria-expanded={open}
+        aria-haspopup="true"
+        className="flex items-center gap-1.5 text-[12px] tracking-[0.02em] transition-colors hover:[color:var(--sys-ink)]"
+        style={{ color: open ? color.ink : color.inkMuted }}
+      >
+        {label}
+        <ChevronDown
+          size={13}
+          aria-hidden
+          className="transition-transform duration-200"
+          style={{ transform: open ? "rotate(180deg)" : "none" }}
+        />
+      </button>
+      {open && (
+        <div
+          className="absolute left-0 top-[calc(100%+0.85rem)] z-50 w-[26rem] animate-in fade-in-0 slide-in-from-top-1 duration-150"
+          style={{
+            background: color.paper,
+            border: `1px solid ${color.rule}`,
+            boxShadow: "var(--shadow-lg)",
+          }}
+        >
+          <div className="grid grid-cols-2">
+            {items.map((it, i) => {
+              const inner = (
+                <>
+                  <span
+                    className="flex items-center gap-2 text-[14px] font-semibold tracking-[-0.01em]"
+                    style={{ color: color.ink }}
+                  >
+                    {it.name}
+                    {it.soon && (
+                      <span
+                        className="text-[9px] font-semibold uppercase tracking-[0.14em]"
+                        style={{ fontFamily: font.mono, color: color.inkFaint }}
+                      >
+                        Soon
+                      </span>
+                    )}
+                  </span>
+                  <span
+                    className="mt-1 text-[12px] leading-snug"
+                    style={{ color: color.inkMuted }}
+                  >
+                    {it.desc}
+                  </span>
+                </>
+              );
+              const cellStyle: React.CSSProperties = {
+                borderTop: i >= 2 ? `1px solid ${color.cell}` : undefined,
+                borderLeft: i % 2 === 1 ? `1px solid ${color.cell}` : undefined,
+              };
+              return it.soon ? (
+                <span key={it.name} className="flex cursor-default flex-col p-4" style={cellStyle}>
+                  {inner}
+                </span>
+              ) : (
+                <a
+                  key={it.name}
+                  href={it.href}
+                  onClick={onClose}
+                  className="nav-card-item flex flex-col p-4"
+                  style={cellStyle}
+                >
+                  {inner}
+                </a>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }
 
 export function TopNav({ items, cta }: NavData) {
   const [open, setOpen] = useState(false);
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
   return (
     <header
       className="sticky top-0 z-50 border-b backdrop-blur"
@@ -213,58 +345,102 @@ export function TopNav({ items, cta }: NavData) {
         style={{ maxWidth: layout.maxWidth }}
       >
         <Brand />
-        <div className="flex items-center gap-5 sm:gap-7">
+        <div className="flex items-center gap-5 sm:gap-6">
           <nav className="hidden items-center gap-7 lg:flex">
-            {items.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                className="text-[12px] tracking-[0.02em] transition-colors hover:[color:var(--sys-ink)]"
-                style={{ color: color.inkMuted }}
-              >
-                {item.label}
-              </a>
-            ))}
+            {items.map((entry) =>
+              "items" in entry ? (
+                <NavDropdown
+                  key={entry.label}
+                  label={entry.label}
+                  items={entry.items}
+                  open={openMenu === entry.label}
+                  onToggle={() =>
+                    setOpenMenu((m) => (m === entry.label ? null : entry.label))
+                  }
+                  onClose={() => setOpenMenu(null)}
+                />
+              ) : (
+                <a
+                  key={entry.label}
+                  href={entry.href}
+                  className="text-[12px] tracking-[0.02em] transition-colors hover:[color:var(--sys-ink)]"
+                  style={{ color: color.inkMuted }}
+                >
+                  {entry.label}
+                </a>
+              )
+            )}
           </nav>
-          {/* Divider: separates wayfinding links from the actions so the CTA
-              isn't crowded against the last link. */}
+          {/* Theme toggle reads as a quiet page utility sitting with the nav. */}
+          <ThemeToggle />
+          {/* Divider isolates the single primary action (Open the App) from the
+              nav links and the theme utility. */}
           <span
             className="hidden h-5 w-px lg:block"
             style={{ background: color.cell }}
             aria-hidden
           />
-          <div className="flex items-center gap-3 sm:gap-4">
-            <ThemeToggle />
-            <Button href={cta.href} variant="ink">
-              {cta.label}
-            </Button>
-            <button
-              type="button"
-              onClick={() => setOpen((o) => !o)}
-              aria-label="Toggle menu"
-              aria-expanded={open}
-              className="inline-flex h-9 w-9 items-center justify-center lg:hidden"
-              style={{ color: color.ink }}
-            >
-              {open ? <X size={20} /> : <Menu size={20} />}
-            </button>
-          </div>
+          <Button href={cta.href} variant="ink">
+            {cta.label}
+          </Button>
+          <button
+            type="button"
+            onClick={() => setOpen((o) => !o)}
+            aria-label="Toggle menu"
+            aria-expanded={open}
+            className="inline-flex h-9 w-9 items-center justify-center lg:hidden"
+            style={{ color: color.ink }}
+          >
+            {open ? <X size={20} /> : <Menu size={20} />}
+          </button>
         </div>
       </div>
       {open && (
         <div className="border-t lg:hidden" style={{ borderColor: color.rule, background: color.paper }}>
           <nav className={`${containerCls} flex flex-col py-2`} style={{ maxWidth: layout.maxWidth }}>
-            {items.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                onClick={() => setOpen(false)}
-                className="py-2.5 text-[13px] uppercase tracking-[0.1em] transition-colors hover:[color:var(--sys-ink)]"
-                style={{ fontFamily: font.mono, color: color.inkMuted }}
-              >
-                {item.label}
-              </a>
-            ))}
+            {items.map((entry) =>
+              "items" in entry ? (
+                <div key={entry.label} className="py-2">
+                  <p
+                    className="py-1.5 text-[11px] uppercase tracking-[0.16em]"
+                    style={{ fontFamily: font.mono, color: color.inkFaint }}
+                  >
+                    {entry.label}
+                  </p>
+                  {entry.items.map((it) =>
+                    it.soon ? (
+                      <span
+                        key={it.name}
+                        className="block py-2 pl-3 text-[14px]"
+                        style={{ color: color.inkFaint }}
+                      >
+                        {it.name} <span className="text-[11px] uppercase">· soon</span>
+                      </span>
+                    ) : (
+                      <a
+                        key={it.name}
+                        href={it.href}
+                        onClick={() => setOpen(false)}
+                        className="block py-2 pl-3 text-[14px] transition-colors hover:[color:var(--sys-ink)]"
+                        style={{ color: color.inkMuted }}
+                      >
+                        {it.name}
+                      </a>
+                    )
+                  )}
+                </div>
+              ) : (
+                <a
+                  key={entry.label}
+                  href={entry.href}
+                  onClick={() => setOpen(false)}
+                  className="py-2.5 text-[13px] uppercase tracking-[0.1em] transition-colors hover:[color:var(--sys-ink)]"
+                  style={{ fontFamily: font.mono, color: color.inkMuted }}
+                >
+                  {entry.label}
+                </a>
+              )
+            )}
           </nav>
         </div>
       )}

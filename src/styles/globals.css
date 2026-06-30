@@ -237,6 +237,14 @@
     --sys-coral-tint: rgb(255 122 82 / 0.1);
   }
 
+  /* Nav dropdown card item — subtle theme-aware hover wash. */
+  .nav-card-item {
+    transition: background-color 0.15s ease;
+  }
+  .nav-card-item:hover {
+    background: rgb(var(--sys-ink-rgb) / 0.035);
+  }
+
   /* Forced-light island — re-pins the system palette to its light values for a
      subtree, so a widget renders light inside a dark page. Used for the badge
      builder, the design's "specimen under glass" (mirrors the old .demo-light).

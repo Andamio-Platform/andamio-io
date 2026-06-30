@@ -25,7 +25,6 @@ import { color, font } from "./tokens";
 import {
   Page,
   Section,
-  Kicker,
   Display,
   Button,
   Stitch,
@@ -43,13 +42,8 @@ export default function AndamioLanding() {
       {/* ── Hero — full-bleed type, badge withheld. Lead section carries no
              bottom rule: it flows into the first section's header. ────────── */}
       <Section id="top" bordered={false} screen>
-        {/* Hero exception: no header rule — the headline leads (see brand
-            guide §7 "Section header rule"). Other sections keep kicker · rule. */}
-        <div className="pt-16 sm:pt-24">
-          <Kicker>Andamio / Credentialing</Kicker>
-        </div>
-
-        <Display as="h1" size="hero" className="mt-12 max-w-[15ch]">
+        {/* Eyebrows removed across the page (team feedback): the headline leads. */}
+        <Display as="h1" size="hero" className="max-w-[15ch] pt-16 sm:pt-24">
           {hero.headlineLead}{" "}
           <span style={{ color: color.orange }}>{hero.headlineAccent}</span>
         </Display>
@@ -78,8 +72,7 @@ export default function AndamioLanding() {
       <Section id="problem" bordered={false} screen>
         <div className="grid grid-cols-12 gap-y-10 py-24 sm:py-32">
           <div className="col-span-12 lg:col-span-4 lg:pr-10">
-            <Kicker>{problem.kicker}</Kicker>
-            <Display as="h2" size="lg" className="mt-5" style={{ lineHeight: 0.95 }}>
+            <Display as="h2" size="lg" style={{ lineHeight: 0.95 }}>
               {problem.heading}
             </Display>
           </div>
@@ -259,8 +252,7 @@ export default function AndamioLanding() {
         <div className="grid grid-cols-12 gap-x-10 gap-y-12 border-t pt-12" style={{ borderColor: color.rule }}>
           {/* Left — what you can build */}
           <div className="col-span-12 lg:col-span-5 lg:pr-6">
-            <Kicker>{api.kicker}</Kicker>
-            <h3 className="mt-4 text-[clamp(1.75rem,3vw,2.5rem)] font-semibold leading-[1.04] tracking-[-0.035em]">
+            <h3 className="text-[clamp(1.75rem,3vw,2.5rem)] font-semibold leading-[1.04] tracking-[-0.035em]">
               {api.heading}
             </h3>
             <p className="mt-6 text-[15px] leading-relaxed" style={{ color: "rgb(var(--sys-ink-rgb) / 0.65)" }}>
@@ -345,8 +337,7 @@ export default function AndamioLanding() {
       <Section id="ecosystem" bordered={false} screen>
         <div className="py-24 sm:py-32">
           {/* Heading */}
-          <Kicker>{ecosystem.kicker}</Kicker>
-          <Display as="h2" size="lg" className="mt-6 max-w-4xl" style={{ lineHeight: 1.12 }}>
+          <Display as="h2" size="lg" className="max-w-4xl" style={{ lineHeight: 1.12 }}>
             {ecosystem.lead}
           </Display>
 
@@ -379,8 +370,7 @@ export default function AndamioLanding() {
       <Section id="closing" bordered={false} screen>
         <div className="grid grid-cols-12 py-24 sm:py-32">
           <div className="col-span-12 lg:col-span-9">
-            <Kicker>{closing.eyebrow}</Kicker>
-            <Display as="h2" size="xl" className="mt-6">
+            <Display as="h2" size="xl">
               {closing.headlineLine1}
               <br />
               {closing.headlineLine2}

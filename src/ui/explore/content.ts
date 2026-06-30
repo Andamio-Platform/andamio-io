@@ -52,7 +52,6 @@ export const hero = {
 } as const;
 
 export const problem = {
-  kicker: "The problem with your badges",
   heading: "What can your badges actually do?",
   intro:
     "The digital credential most organizations issue is a badge. And a badge falls short in three ways.",
@@ -137,7 +136,6 @@ export const issuer = {
 } as const;
 
 export const ecosystem = {
-  kicker: "Where this goes",
   lead:
     "A credential means something in your world first, then it goes further than you do.",
   items: [
@@ -163,7 +161,6 @@ export const api = {
   zoneTitle: "Andamio API",
   zoneBlurb:
     "Build your own apps on Andamio — across courses and projects — with the protocol as REST endpoints. Issue, verify, and gate on credentials from your own stack.",
-  kicker: "Built for developers",
   heading: "Issue, verify, and gate",
   lead:
     "Andamio is made for developers to build on — courses, projects, and the credentials between them, all over plain REST. Audited smart contracts on Cardano, wrapped as an API. Your stack never touches crypto.",
@@ -221,7 +218,6 @@ export const api = {
 } as const;
 
 export const closing = {
-  eyebrow: "Andamio Issuer",
   headlineLine1: "Upgrade your credentials",
   headlineLine2: "Issue ones that keep working",
   body: "Twenty minutes. We scope a pilot on one of your programs. We show you the credentials working. No slides.",

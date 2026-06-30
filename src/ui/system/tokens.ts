@@ -31,32 +31,40 @@
  *  5. Wayfinding is an editorial margin rail (de-chromed) — not app furniture.
  */
 
-/* ── Color ──────────────────────────────────────────────────────────── */
+/* ── Color ──────────────────────────────────────────────────────────────
+ * Values resolve to CSS vars defined in globals.css (`--sys-*`), so the whole
+ * design system flips with the global light/dark toggle (next-themes `.dark`).
+ * The ink/paper neutrals derive their alpha tints from a single channel triplet
+ * (`--sys-ink-rgb` / `--sys-paper-rgb`) so muted/faint/ghost/etc invert from one
+ * source. Editing a hex here does nothing — change the var in globals.css. */
 export const color = {
-  paper: "#FFFFFF",
-  ink: "#0A0A0A",
+  paper: "var(--sys-paper)",
+  ink: "var(--sys-ink)",
   /** Body / secondary text on paper. */
-  inkMuted: "rgba(10,10,10,0.60)",
-  inkFaint: "rgba(10,10,10,0.45)",
-  inkGhost: "rgba(10,10,10,0.30)",
+  inkMuted: "rgb(var(--sys-ink-rgb) / 0.60)",
+  inkFaint: "rgb(var(--sys-ink-rgb) / 0.45)",
+  inkGhost: "rgb(var(--sys-ink-rgb) / 0.30)",
   /** Big tabular watermark numerals. */
-  inkWatermark: "rgba(10,10,10,0.10)",
+  inkWatermark: "rgb(var(--sys-ink-rgb) / 0.10)",
 
-  /** Solid ink rule between full-bleed sections. */
-  rule: "#0A0A0A",
+  /** Solid ink rule between full-bleed sections (softened in dark). */
+  rule: "var(--sys-rule)",
   /** Inner cell / sub-divider. */
-  cell: "rgba(10,10,10,0.15)",
+  cell: "rgb(var(--sys-ink-rgb) / 0.15)",
   /** Faint fixed grid field. */
-  grid: "rgba(10,10,10,0.05)",
+  grid: "rgb(var(--sys-ink-rgb) / 0.05)",
   /** Hairline panel edge. */
-  hairline: "rgba(10,10,10,0.10)",
+  hairline: "rgb(var(--sys-ink-rgb) / 0.10)",
+
+  /** Contrast pair for ink-emphasis surfaces (ink button, emphasized layer). */
+  onInk: "var(--sys-on-ink)",
 
   /** Brand signal — sparing. Brand mark · primary CTA · live · verified. */
-  orange: "#FF6B35",
+  orange: "var(--sys-orange)",
   /** Secondary — wayfinding + data only. */
-  blue: "#2F6BFF",
+  blue: "var(--sys-blue)",
   /** Tertiary tint — the specimen plate only. */
-  coralTint: "rgba(255,107,74,0.055)",
+  coralTint: "var(--sys-coral-tint)",
 } as const;
 
 /** Where each accent is allowed — enforced by convention + reviewed in /explore/system. */

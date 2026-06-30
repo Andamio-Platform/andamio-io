@@ -195,6 +195,67 @@
   }
 }
 
+/* ── System design-system palette (src/ui/system) ─────────────────────────
+   The "Warm Index · Editorial rail" landing (AndamioLanding + kit.tsx) reads
+   its colors from tokens.ts, which now point at these CSS vars so the whole
+   design system flips with the global light/dark toggle (next-themes `.dark`).
+   The ink/paper neutrals are exposed BOTH as solids (--sys-ink) and as RGB
+   channel triplets (--sys-ink-rgb) so the many `rgb(... / alpha)` derivations
+   (muted/faint/ghost/watermark/cell/grid/hairline) invert from one source.
+   `--sys-on-ink` is the contrast pair for ink-emphasis surfaces (ink button,
+   emphasized API layer): white-on-ink in light, dark-on-ink in dark. The 3
+   accents follow the same discipline as light — orange sparing, blue for
+   wayfinding/data — just brightened for dark surfaces. */
+@layer base {
+  :root {
+    --sys-paper: #ffffff;
+    --sys-paper-rgb: 255 255 255;
+    --sys-ink: #0a0a0a;
+    --sys-ink-rgb: 10 10 10;
+    --sys-on-ink: #ffffff;
+    --sys-on-ink-rgb: 255 255 255;
+    /* Solid full-bleed editorial rule. Strong by design. */
+    --sys-rule: #0a0a0a;
+    --sys-orange: #ff6b35;
+    --sys-blue: #2f6bff;
+    --sys-coral-tint: rgb(255 107 74 / 0.055);
+  }
+
+  .dark {
+    /* Foundation dark paper #0F1419 (shared with the V2 --background). */
+    --sys-paper: #0f1419;
+    --sys-paper-rgb: 15 20 25;
+    --sys-ink: #ededed;
+    --sys-ink-rgb: 237 237 237;
+    --sys-on-ink: #0f1419;
+    --sys-on-ink-rgb: 15 20 25;
+    /* Softened rule: a full-strength white hairline edge-to-edge would glare;
+       this keeps the strong-divider character without blinding. */
+    --sys-rule: rgb(237 237 237 / 0.26);
+    --sys-orange: #ff7a52;
+    --sys-blue: #5b8bff;
+    --sys-coral-tint: rgb(255 122 82 / 0.1);
+  }
+
+  /* Forced-light island — re-pins the system palette to its light values for a
+     subtree, so a widget renders light inside a dark page. Used for the badge
+     builder, the design's "specimen under glass" (mirrors the old .demo-light).
+     Both `.sys-light` and `.dark .sys-light` so it wins under the dark root. */
+  .sys-light,
+  .dark .sys-light {
+    --sys-paper: #ffffff;
+    --sys-paper-rgb: 255 255 255;
+    --sys-ink: #0a0a0a;
+    --sys-ink-rgb: 10 10 10;
+    --sys-on-ink: #ffffff;
+    --sys-on-ink-rgb: 255 255 255;
+    --sys-rule: #0a0a0a;
+    --sys-orange: #ff6b35;
+    --sys-blue: #2f6bff;
+    --sys-coral-tint: rgb(255 107 74 / 0.055);
+  }
+}
+
 @layer base {
   * {
     @apply border-border;

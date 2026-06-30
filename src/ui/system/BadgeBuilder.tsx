@@ -215,7 +215,7 @@ export default function BadgeBuilder({
   return (
     <figure
       className={`m-0 border ${className}`}
-      style={{ borderColor: color.rule }}
+      style={{ borderColor: color.rule, background: color.paper }}
     >
       {/* ── Frame header: the section title lives here (inside the box) +
              a live pulse. This keeps the whole section to one viewport. ──── */}

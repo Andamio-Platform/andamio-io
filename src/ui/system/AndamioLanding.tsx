@@ -83,7 +83,7 @@ export default function AndamioLanding() {
               {problem.heading}
             </Display>
           </div>
-          <p className="col-span-12 self-end text-xl leading-snug tracking-[-0.015em] lg:col-span-7 lg:col-start-6" style={{ color: "rgba(10,10,10,0.7)" }}>
+          <p className="col-span-12 self-end text-xl leading-snug tracking-[-0.015em] lg:col-span-7 lg:col-start-6" style={{ color: "rgb(var(--sys-ink-rgb) / 0.7)" }}>
             {problem.intro}
           </p>
         </div>
@@ -119,7 +119,10 @@ export default function AndamioLanding() {
       <Section id="how-it-works" bordered={false} screen>
         {/* No section header rule here — the card carries its own title + live
             pulse, so the section is just the box. */}
-        <div className="pb-12 pt-10 sm:pb-16 sm:pt-14">
+        {/* The demo is the design's "specimen under glass": a deliberately LIGHT
+            plate in both themes (sys-light island re-pins the palette), so it
+            reads as an object on the page rather than a half-themed widget. */}
+        <div className="sys-light pb-12 pt-10 sm:pb-16 sm:pt-14">
           <BadgeBuilder
             title={demo.title}
             note={demo.note}
@@ -192,7 +195,7 @@ export default function AndamioLanding() {
               {issuer.title}
             </Display>
           </div>
-          <p className="col-span-12 self-end text-lg leading-relaxed lg:col-span-5 lg:pl-8" style={{ color: "rgba(10,10,10,0.65)" }}>
+          <p className="col-span-12 self-end text-lg leading-relaxed lg:col-span-5 lg:pl-8" style={{ color: "rgb(var(--sys-ink-rgb) / 0.65)" }}>
             {issuer.intro}
           </p>
         </div>
@@ -250,7 +253,7 @@ export default function AndamioLanding() {
               {api.zoneTitle}
             </Display>
           </div>
-          <p className="col-span-12 self-end text-lg leading-relaxed lg:col-span-5 lg:pl-8" style={{ color: "rgba(10,10,10,0.65)" }}>
+          <p className="col-span-12 self-end text-lg leading-relaxed lg:col-span-5 lg:pl-8" style={{ color: "rgb(var(--sys-ink-rgb) / 0.65)" }}>
             {api.zoneBlurb}
           </p>
         </div>
@@ -262,14 +265,14 @@ export default function AndamioLanding() {
             <h3 className="mt-4 text-[clamp(1.75rem,3vw,2.5rem)] font-semibold leading-[1.04] tracking-[-0.035em]">
               {api.heading}
             </h3>
-            <p className="mt-6 text-[15px] leading-relaxed" style={{ color: "rgba(10,10,10,0.65)" }}>
+            <p className="mt-6 text-[15px] leading-relaxed" style={{ color: "rgb(var(--sys-ink-rgb) / 0.65)" }}>
               {api.lead}
             </p>
 
             {/* Capability cards — hairline 2×2 */}
             <div className="mt-10 grid grid-cols-1 gap-px sm:grid-cols-2" style={{ background: color.cell }}>
               {api.capabilities.map((c) => (
-                <div key={c.verb} className="bg-white p-5">
+                <div key={c.verb} className="p-5" style={{ background: color.paper }}>
                   <p className="text-[15px] font-semibold tracking-[-0.02em]">{c.verb}</p>
                   <p className="mt-1.5 text-[13px] leading-relaxed" style={muted}>
                     {c.text}
@@ -384,7 +387,7 @@ export default function AndamioLanding() {
               <br />
               {closing.headlineLine2}
             </Display>
-            <p className="mt-8 max-w-lg text-lg leading-relaxed" style={{ color: "rgba(10,10,10,0.65)" }}>
+            <p className="mt-8 max-w-lg text-lg leading-relaxed" style={{ color: "rgb(var(--sys-ink-rgb) / 0.65)" }}>
               {closing.body}
             </p>
             <div className="mt-10">

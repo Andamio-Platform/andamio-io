@@ -11,7 +11,8 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, Moon, Sun, X } from "lucide-react";
+import { useTheme } from "next-themes";
 import {
   color,
   font,
@@ -108,7 +109,7 @@ export function EditorialRail({
                 className="inline-block h-px transition-all duration-300"
                 style={{
                   width: isActive ? 24 : 8,
-                  background: isActive ? color.blue : "rgba(10,10,10,0.22)",
+                  background: isActive ? color.blue : "rgb(var(--sys-ink-rgb) / 0.22)",
                 }}
               />
             </a>
@@ -122,7 +123,7 @@ export function EditorialRail({
 /* ── Rail fade: dissolves full-bleed rules behind the right rail ─────── */
 /* The section rules run edge-to-edge (full bleed) by design. Where they pass
  * behind the fixed editorial rail they would poke into the labels, so this
- * fixed gutter mask feathers them to paper (paper === #FFFFFF). Lives above
+ * fixed gutter mask feathers them to paper (theme-aware via --sys-paper-rgb). Lives above
  * the rules (z-20) and below the rail text (z-30). Rendered after TopNav inside
  * the z-10 wrapper, so the sticky header (z-50) paints its full-bleed border
  * over this mask while body rules below still dissolve. xl-only (rail is xl).
@@ -139,7 +140,7 @@ export function RailFade() {
       style={{
         width: layout.railReserve,
         background:
-          "linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.9) 55%, #FFFFFF 82%)",
+          "linear-gradient(to right, rgb(var(--sys-paper-rgb) / 0) 0%, rgb(var(--sys-paper-rgb) / 0.9) 55%, rgb(var(--sys-paper-rgb)) 82%)",
       }}
     />
   );
@@ -147,18 +148,51 @@ export function RailFade() {
 
 /* ── Brand mark (orange square + wordmark) ──────────────────────────── */
 export function Brand({ href = "/", height = 22 }: { href?: string; height?: number }) {
+  // Theme-aware wordmark: the ink logotype on light surfaces, the reversed one
+  // on dark. Swapped via the `.dark` selector (no JS, no hydration flash). The
+  // `.sys-light` island re-asserts light, so a Brand inside one would still want
+  // the light logo — Brand isn't used inside an island today, so this is moot.
   return (
     <a href={href} className="inline-flex items-center" aria-label="Andamio — home">
-      {/* Official mark + logotype. eslint-disable-next-line @next/next/no-img-element */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src="/logo-with-typography.svg"
         alt="Andamio"
         style={{ height, width: "auto" }}
-        className="block select-none"
+        className="block select-none dark:hidden"
+        draggable={false}
+      />
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/logo-with-typography-dark.svg"
+        alt="Andamio"
+        style={{ height, width: "auto" }}
+        className="hidden select-none dark:block"
         draggable={false}
       />
     </a>
+  );
+}
+
+/* ── Light/dark toggle (kit-styled: flat, ink-colored icon) ─────────────── */
+export function ThemeToggle() {
+  const { resolvedTheme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  // Reserve the slot before mount to avoid an SSR/theme hydration mismatch.
+  if (!mounted) return <span className="inline-block h-9 w-9" aria-hidden />;
+  const isDark = resolvedTheme === "dark";
+  return (
+    <button
+      type="button"
+      onClick={() => setTheme(isDark ? "light" : "dark")}
+      aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
+      className="inline-flex h-9 w-9 items-center justify-center transition-opacity hover:opacity-60"
+      style={{ color: color.ink }}
+    >
+      {isDark ? <Sun size={18} /> : <Moon size={18} />}
+    </button>
   );
 }
 
@@ -171,8 +205,8 @@ export function TopNav({ items, cta }: NavData) {
   const [open, setOpen] = useState(false);
   return (
     <header
-      className="sticky top-0 z-50 border-b bg-white/95 backdrop-blur"
-      style={{ borderColor: color.rule }}
+      className="sticky top-0 z-50 border-b backdrop-blur"
+      style={{ borderColor: color.rule, background: "rgb(var(--sys-paper-rgb) / 0.95)" }}
     >
       <div
         className={`${containerCls} flex items-center justify-between py-3.5`}
@@ -185,13 +219,14 @@ export function TopNav({ items, cta }: NavData) {
               <a
                 key={item.label}
                 href={item.href}
-                className="text-[12px] tracking-[0.02em] transition-colors hover:text-black"
+                className="text-[12px] tracking-[0.02em] transition-colors hover:[color:var(--sys-ink)]"
                 style={{ color: color.inkMuted }}
               >
                 {item.label}
               </a>
             ))}
           </nav>
+          <ThemeToggle />
           <Button href={cta.href} variant="ink">
             {cta.label}
           </Button>
@@ -215,7 +250,7 @@ export function TopNav({ items, cta }: NavData) {
                 key={item.label}
                 href={item.href}
                 onClick={() => setOpen(false)}
-                className="py-2.5 text-[13px] uppercase tracking-[0.1em] transition-colors hover:text-black"
+                className="py-2.5 text-[13px] uppercase tracking-[0.1em] transition-colors hover:[color:var(--sys-ink)]"
                 style={{ fontFamily: font.mono, color: color.inkMuted }}
               >
                 {item.label}
@@ -420,7 +455,7 @@ export function Button({
 }) {
   const styles: Record<ButtonVariant, React.CSSProperties> = {
     primary: { background: color.orange, border: `1px solid ${color.orange}`, color: "#fff" },
-    ink: { background: color.ink, border: `1px solid ${color.ink}`, color: "#fff" },
+    ink: { background: color.ink, border: `1px solid ${color.ink}`, color: color.onInk },
     outline: { border: `1px solid ${color.ink}`, color: color.ink },
     chip: { border: `1px solid ${color.ink}`, color: color.inkFaint },
     disabled: { border: `1px solid ${color.cell}`, color: color.inkGhost },
@@ -587,7 +622,7 @@ export function StackLayers({ layers }: { layers: readonly StackLayer[] }) {
           className="grid grid-cols-12 items-baseline gap-4 py-7 lg:px-10"
           style={{
             borderTop: i > 0 ? `1px solid ${color.cell}` : undefined,
-            ...(layer.emphasis ? { background: color.ink, color: "#fff" } : {}),
+            ...(layer.emphasis ? { background: color.ink, color: color.onInk } : {}),
           }}
         >
           <div className="col-span-12 sm:col-span-3">
@@ -595,7 +630,7 @@ export function StackLayers({ layers }: { layers: readonly StackLayer[] }) {
               className="text-[11px] uppercase tracking-[0.12em]"
               style={{
                 fontFamily: font.mono,
-                color: layer.emphasis ? "rgba(255,255,255,0.85)" : color.inkFaint,
+                color: layer.emphasis ? "rgb(var(--sys-on-ink-rgb) / 0.85)" : color.inkFaint,
               }}
             >
               L{i} · {layer.labelKicker}
@@ -610,7 +645,7 @@ export function StackLayers({ layers }: { layers: readonly StackLayer[] }) {
             </p>
             <p
               className="mt-1.5 text-[14px] leading-relaxed"
-              style={{ color: layer.emphasis ? "rgba(255,255,255,0.9)" : color.inkMuted }}
+              style={{ color: layer.emphasis ? "rgb(var(--sys-on-ink-rgb) / 0.9)" : color.inkMuted }}
             >
               {layer.description}
             </p>
@@ -676,7 +711,7 @@ export function Footer({
                     <li key={link.name}>
                       <a
                         href={link.href}
-                        className="text-[13px] transition-colors hover:text-black"
+                        className="text-[13px] transition-colors hover:[color:var(--sys-ink)]"
                         style={{ color: color.inkMuted }}
                       >
                         {link.name}
@@ -696,7 +731,7 @@ export function Footer({
             {backHref ? (
               <a
                 href={backHref}
-                className="text-[12px] font-semibold uppercase tracking-[0.1em] transition-colors hover:text-black"
+                className="text-[12px] font-semibold uppercase tracking-[0.1em] transition-colors hover:[color:var(--sys-ink)]"
                 style={{ fontFamily: font.mono, color: color.inkFaint }}
               >
                 {backLabel}

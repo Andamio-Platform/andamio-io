@@ -676,7 +676,13 @@ export function Footer({
   caption,
 }: FooterData) {
   return (
-    <footer>
+    // Distinct from the page: a strong full-bleed top rule (matching the
+    // editorial section dividers) over a faint ink-wash slab. Both theme-aware,
+    // so the footer reads as its own zone in light and dark.
+    <footer
+      className="border-t"
+      style={{ borderColor: color.rule, background: "rgb(var(--sys-ink-rgb) / 0.03)" }}
+    >
       <div className={containerCls} style={{ maxWidth: layout.maxWidth }}>
         <div className="grid grid-cols-12 gap-y-10 py-14">
           <div className="col-span-12 lg:col-span-4 lg:pr-10">

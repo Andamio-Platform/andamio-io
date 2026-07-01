@@ -135,6 +135,9 @@ export default function AndamioLanding() {
             <Display as="h2" size="xl">
               {issuer.title}
             </Display>
+            <p className="mt-3 text-xl leading-snug tracking-[-0.01em] sm:text-2xl" style={{ color: color.inkMuted }}>
+              {issuer.lead}
+            </p>
           </div>
           <p className="col-span-12 self-end text-lg leading-relaxed lg:col-span-5 lg:pl-8" style={{ color: "rgb(var(--sys-ink-rgb) / 0.65)" }}>
             {issuer.intro}
@@ -195,6 +198,9 @@ export default function AndamioLanding() {
              foundation, then the API deep-dive, then the ecosystem reach. ───── */}
       <Section id="products" bordered={false} screen>
         <div className="pt-24 pb-16 sm:pt-32 sm:pb-20">
+          <p className="mb-5 text-lg font-medium tracking-[-0.01em] sm:text-xl" style={{ color: color.inkMuted }}>
+            {products.lead}
+          </p>
           <Display as="h2" size="lg" className="max-w-4xl" style={{ lineHeight: 1.14 }}>
             {products.heading}:
             <br />

@@ -55,11 +55,12 @@ export const nav = {
 } as const;
 
 export const hero = {
-  // StoryBrand working draft (headline still in exploration) — the Character
-  // beat: the issuer whose mission is to be trusted. `Badges` is accented.
-  headlineLead: "Own Your",
-  headlineAccent: "Badges",
-  subhead: "You issue credentials to be trusted. Andamio makes them permanent, useful, and yours.",
+  // Hero headline: the badge/credential contrast (candidate #18). States what
+  // Andamio provides, no trust-as-headline (which has confused people over the
+  // years), no fear, no "future of". The trust story lives in subhead + close.
+  headlineLead: "Your badge is a picture.",
+  headlineAccent: "This is a credential.",
+  subhead: "You're building something real in a world short on trust. Andamio makes the credentials you issue believable: permanent, useful, and yours.",
   primaryCta: { label: "Andamio Issuer", href: "#issuer" },
   // Developer CTA: a value prop, not the product name (team feedback).
   secondaryCta: { label: "Build on Andamio", href: "#andamio-api" },
@@ -116,6 +117,9 @@ export const plan = {
  * Differentiator: Issuer = courses · API = courses AND projects.
  */
 export const products = {
+  // Lead into the builder movement (candidate #6): the credential is active,
+  // not static — which is why there's something to build on.
+  lead: "Credentials that do more than sit there.",
   heading: "One foundation, two products",
   subheading: "You've met the Issuer. Developers build on the same protocol directly.",
   items: [
@@ -146,9 +150,11 @@ export const products = {
 
 export const issuer = {
   title: "Andamio Issuer",
+  // The transformation tagline under the product title (candidate #11).
+  lead: "From badges to building blocks.",
   intro:
     "A credential is only as good as the trust people put in it. Andamio turns the badges you already issue into credentials you control, on the courses you already run: everything a blockchain guarantees, and none of the blockchain to learn.",
-  decisionsHeading: "Permanent, useful, and yours",
+  decisionsHeading: "A new kind of credential",
   // The three-pronged array, matching the Andamio Issuer paper: Composable +
   // Programmable fold into "useful"; Private + Portable fold into "yours".
   // One-word heading + a single tight line. Source prose lives in the paper.
@@ -249,9 +255,10 @@ export const stakes = {
 } as const;
 
 export const closing = {
-  headlineLine1: "Own the trust you build,",
-  headlineLine2: "and watch it compound.",
-  body: "Twenty minutes. We scope a pilot on one of your programs and show you the credentials working. No slides.",
+  // Philosophical close + movement: the manifesto payoff, then the invite.
+  headlineLine1: "Greater trust is possible.",
+  headlineLine2: "Let's build it.",
+  body: "In an internet where anyone can claim anything, a credential people can verify is the foundation. Issue ones people believe, and join the teams building a more trustworthy internet. Twenty minutes, we'll scope a pilot on one of your programs. No slides.",
   cta: "Book a 20-minute walkthrough",
 } as const;
 

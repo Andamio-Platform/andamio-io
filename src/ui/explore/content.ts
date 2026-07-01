@@ -31,32 +31,32 @@ export const CREDENTIAL_BADGE_SRC = "/andamio-credential-badge.svg";
 
 export const nav = {
   brand: "Andamio",
-  // Two rich click-open dropdown cards (Products, Resources) + flat links.
-  // A menu entry is a dropdown when it has `items`; otherwise it's a plain link.
-  // `soon: true` marks a destination that isn't live yet (rendered non-clickable).
+  // Nav maps onto the two audiences: Issuer (organizations) + Developers (the
+  // developer hub) as the primary entries, with Resources for reference. A menu
+  // entry is a dropdown when it has `items`; otherwise it's a plain link. Roadmap
+  // and Blog live in the footer only (follow-along content, not conversion paths).
   items: [
+    { label: "Issuer", href: "/issuer" },
     {
-      label: "Products",
+      // The developer hub: the build-on overview + the two dev tools + reference.
+      label: "Developers",
       items: [
-        { name: "Andamio Issuer", desc: "Issue credentials your organization controls.", href: "/issuer" },
         { name: "Build on Andamio", desc: "The protocol, as REST endpoints.", href: "/developers" },
         { name: "Andamio CLI", desc: "Drive the protocol from your terminal.", href: "/cli" },
         { name: "Andamio Bot", desc: "Credential-gate your Discord.", href: "/bot" },
+        { name: "Docs", desc: "Guides and protocol.", href: EXTERNAL_LINKS.docs },
+        { name: "API Reference", desc: "Interactive endpoint docs.", href: EXTERNAL_LINKS.apiReference },
+        { name: "Reference app", desc: "Build from the app template.", href: EXTERNAL_LINKS.appTemplate },
       ],
     },
     {
       label: "Resources",
       items: [
         { name: "Overview", desc: "Introducing Andamio.", href: "/whitepaper" },
-        { name: "Docs", desc: "Guides and protocol.", href: EXTERNAL_LINKS.docs },
-        { name: "API Reference", desc: "Interactive endpoint docs.", href: EXTERNAL_LINKS.apiReference },
         { name: "Use cases", desc: "How teams put Andamio to work.", href: "/use-cases" },
       ],
     },
     { label: "Pricing", href: "/pricing" },
-    { label: "Developers", href: "/developers" },
-    { label: "Roadmap", href: "/roadmap" },
-    { label: "Blog", href: "/blog" },
     { label: "About", href: "/about" },
   ],
   cta: { label: "Open the App", href: EXTERNAL_LINKS.app },
@@ -511,6 +511,7 @@ export const footer = {
     "For buyers": [
       { name: "Book a walkthrough", href: EXTERNAL_LINKS.walkthroughMailto },
       { name: "Use cases", href: "/use-cases" },
+      { name: "Roadmap", href: "/roadmap" },
       { name: "Blog", href: "/blog" },
       { name: "About", href: "/about" },
     ],

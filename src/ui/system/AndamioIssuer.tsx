@@ -18,17 +18,27 @@
 import React from "react";
 import { nav, demo, plan, issuer, footer, EXTERNAL_LINKS } from "~/ui/explore/content";
 import { color, font } from "./tokens";
-import { Page, Section, Display, Button, Stitch, Footer } from "./kit";
+import { Page, Section, Display, Button, Stitch, Footer, CardRow } from "./kit";
 import HowItWorks from "./HowItWorks";
 
-const NUMS = ["01", "02", "03", "04", "05", "06"];
 const muted = { color: color.inkMuted };
 const mono = { fontFamily: font.mono };
+
+const pageFooter = (
+  <Footer
+    tagline={footer.tagline}
+    meta={footer.meta}
+    copyright={footer.copyright}
+    columns={footer.columns}
+    backHref="/#issuer"
+    backLabel="← Andamio overview"
+  />
+);
 
 export default function AndamioIssuer() {
   return (
     // No editorial rail — this is a focused funnel page, not the indexed story.
-    <Page nav={{ items: nav.items, cta: nav.cta }} sections={null}>
+    <Page nav={{ items: nav.items, cta: nav.cta }} sections={null} footer={pageFooter}>
       {/* ── Hero — the product. Back-link to the overview keeps the funnel
              two-way; the title + transformation lead + guide intro set it up. */}
       <Section id="top" bordered={false} screen>
@@ -76,30 +86,12 @@ export default function AndamioIssuer() {
           </span>
         </div>
 
-        <div className="mt-10 grid grid-cols-12 border-t pb-8" style={{ borderColor: color.rule }}>
-          {issuer.decisions.map((d, i) => (
-            <div
-              key={d.heading}
-              className="col-span-12 py-9 sm:col-span-6 sm:px-7 lg:col-span-4"
-              style={{ borderTop: i > 0 ? `1px solid ${color.cell}` : undefined }}
-            >
-              <div className="flex items-baseline gap-4">
-                <span
-                  className="text-[12px] uppercase tracking-[0.14em] tabular-nums"
-                  style={{ ...mono, color: color.inkFaint }}
-                >
-                  {NUMS[i]}
-                </span>
-                <span className="h-px flex-1 translate-y-[-4px]" style={{ background: color.cell }} />
-              </div>
-              <h3 className="mt-5 text-2xl font-semibold leading-none tracking-[-0.03em]">
-                {d.heading}
-              </h3>
-              <p className="mt-3 text-[15px] leading-relaxed" style={muted}>
-                {d.text}
-              </p>
-            </div>
-          ))}
+        <div className="mt-10 pb-8">
+          <CardRow
+            items={issuer.decisions.map((d) => ({ heading: d.heading, body: d.text }))}
+            size="md"
+            numbered
+          />
         </div>
       </Section>
 
@@ -131,15 +123,6 @@ export default function AndamioIssuer() {
           </div>
         </div>
       </Section>
-
-      <Footer
-        tagline={footer.tagline}
-        meta={footer.meta}
-        copyright={footer.copyright}
-        columns={footer.columns}
-        backHref="/#issuer"
-        backLabel="← Andamio overview"
-      />
     </Page>
   );
 }

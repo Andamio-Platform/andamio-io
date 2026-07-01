@@ -40,7 +40,17 @@ import {
   Button,
   Stitch,
   Footer,
+  CardRow,
 } from "./kit";
+
+const pageFooter = (
+  <Footer
+    tagline={footer.tagline}
+    meta={footer.meta}
+    copyright={footer.copyright}
+    columns={footer.columns}
+  />
+);
 
 const NUMS = ["01", "02", "03", "04", "05", "06"];
 const muted = { color: color.inkMuted };
@@ -48,7 +58,7 @@ const mono = { fontFamily: font.mono };
 
 export default function AndamioLanding() {
   return (
-    <Page nav={{ items: nav.items, cta: nav.cta }}>
+    <Page nav={{ items: nav.items, cta: nav.cta }} footer={pageFooter}>
       {/* ── 1 · Character — Hero. Full-bleed type, badge withheld. Lead section
              carries no bottom rule: it flows into the first section's header. */}
       <Section id="top" bordered={false} screen>
@@ -145,22 +155,10 @@ export default function AndamioLanding() {
 
         {/* The three-pronged array, compressed to a single hairline row — the
             deep card treatment now lives on /issuer. */}
-        <div className="grid grid-cols-12 border-t" style={{ borderColor: color.rule }}>
-          {issuer.decisions.map((d, i) => (
-            <div
-              key={d.heading}
-              className="col-span-12 py-7 sm:col-span-4 sm:px-7 sm:first:pl-0"
-              style={{ borderTop: i > 0 ? `1px solid ${color.cell}` : undefined }}
-            >
-              <h3 className="text-xl font-semibold leading-none tracking-[-0.03em]">
-                {d.heading}
-              </h3>
-              <p className="mt-2.5 text-[14px] leading-relaxed" style={muted}>
-                {d.text}
-              </p>
-            </div>
-          ))}
-        </div>
+        <CardRow
+          items={issuer.decisions.map((d) => ({ heading: d.heading, body: d.text }))}
+          size="sm"
+        />
 
         <div className="border-t py-10" style={{ borderColor: color.rule }}>
           <Stitch>
@@ -380,13 +378,6 @@ export default function AndamioLanding() {
           </div>
         </div>
       </Section>
-
-      <Footer
-        tagline={footer.tagline}
-        meta={footer.meta}
-        copyright={footer.copyright}
-        columns={footer.columns}
-      />
     </Page>
   );
 }

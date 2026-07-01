@@ -454,6 +454,7 @@ export function Page({
   sections = SECTIONS,
   activeId,
   children,
+  footer,
 }: {
   nav: NavData;
   /** Rail items. Defaults to the landing index; pass `null` for no rail. */
@@ -461,6 +462,9 @@ export function Page({
   /** Force the active rail item (cross-page). Omit to use in-page scroll-spy. */
   activeId?: string;
   children: React.ReactNode;
+  /** Full-bleed footer, rendered OUTSIDE the rail-reserve padding so it spans
+   *  the whole viewport like the TopNav (not clipped at the rail gutter). */
+  footer?: React.ReactNode;
 }) {
   const railSections = sections && sections.length > 0 ? sections : null;
   const spyIds = railSections && activeId === undefined ? railSections.map((s) => s.id) : [];
@@ -482,6 +486,9 @@ export function Page({
         {/* railReserve (tokens.layout.railReserve = 150) — literal for Tailwind.
             Scoped to content only so the header border stays full-bleed. */}
         <div className={railSections ? "xl:pr-[150px]" : undefined}>{children}</div>
+        {/* Footer sits OUTSIDE the rail-reserve wrapper so it spans the full
+            viewport like the TopNav, instead of being clipped at the rail. */}
+        {footer}
       </div>
     </div>
   );
@@ -666,6 +673,160 @@ export function Stitch({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-stretch [&>*]:-mt-px [&>*:first-child]:mt-0 sm:[&>*]:mt-0 sm:[&>*]:-ml-px sm:[&>*:first-child]:ml-0">
       {children}
+    </div>
+  );
+}
+
+const CARD_NUMS = ["01", "02", "03", "04", "05", "06"];
+
+/**
+ * SectionIntro — the shared section-header triple (eyebrow · Display title ·
+ * lead). Used by the product/pricing sections so a header restyle lands once.
+ */
+export function SectionIntro({
+  eyebrow,
+  title,
+  lead,
+  size = "xl",
+}: {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  size?: SizeKey;
+}) {
+  return (
+    <>
+      {eyebrow && (
+        <p
+          className="text-[12px] uppercase tracking-[0.14em]"
+          style={{ fontFamily: font.mono, color: color.inkFaint }}
+        >
+          {eyebrow}
+        </p>
+      )}
+      <Display as="h2" size={size} className={eyebrow ? "mt-3" : undefined}>
+        {title}
+      </Display>
+      {lead && (
+        <p className="mt-3 text-lg leading-snug" style={{ color: color.inkMuted }}>
+          {lead}
+        </p>
+      )}
+    </>
+  );
+}
+
+/**
+ * CardRow — a hairline-ruled row of {heading, body} cards (the "three-pronged
+ * array" idiom). Shared by the landing Issuer teaser (size sm, no numbers) and
+ * the /issuer decisions block (size md, numbered). Renders its own top rule.
+ * NOTE: class strings are full literals per branch so Tailwind's JIT sees them.
+ */
+export function CardRow({
+  items,
+  size = "md",
+  numbered = false,
+}: {
+  items: readonly { heading: string; body: string }[];
+  size?: "sm" | "md";
+  numbered?: boolean;
+}) {
+  const md = size === "md";
+  const itemCls = md
+    ? "col-span-12 py-9 sm:col-span-6 sm:px-7 lg:col-span-4"
+    : "col-span-12 py-7 sm:col-span-4 sm:px-7 sm:first:pl-0";
+  const headCls = md
+    ? "text-2xl font-semibold leading-none tracking-[-0.03em]"
+    : "text-xl font-semibold leading-none tracking-[-0.03em]";
+  const bodyCls = md
+    ? "mt-3 text-[15px] leading-relaxed"
+    : "mt-2.5 text-[14px] leading-relaxed";
+  return (
+    <div className="grid grid-cols-12 border-t" style={{ borderColor: color.rule }}>
+      {items.map((it, i) => (
+        <div
+          key={it.heading}
+          className={itemCls}
+          style={{ borderTop: i > 0 ? `1px solid ${color.cell}` : undefined }}
+        >
+          {numbered && (
+            <div className="flex items-baseline gap-4">
+              <span
+                className="text-[12px] uppercase tracking-[0.14em] tabular-nums"
+                style={{ fontFamily: font.mono, color: color.inkFaint }}
+              >
+                {CARD_NUMS[i]}
+              </span>
+              <span className="h-px flex-1 translate-y-[-4px]" style={{ background: color.cell }} />
+            </div>
+          )}
+          <h3 className={numbered ? `mt-5 ${headCls}` : headCls}>{it.heading}</h3>
+          <p className={bodyCls} style={{ color: color.inkMuted }}>
+            {it.body}
+          </p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/**
+ * TierCard — one pricing tier: name + price (+ note), optional Recommended
+ * flag, optional dimmed price, and a body slot for the tier's contents. Shared
+ * across every pricing surface so a tier-card restyle lands once.
+ */
+export function TierCard({
+  name,
+  price,
+  priceNote,
+  recommended,
+  dim,
+  children,
+}: {
+  name: string;
+  price: string;
+  priceNote?: string;
+  recommended?: boolean;
+  dim?: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <div
+      className="flex flex-col p-6"
+      style={{
+        border: `1px solid ${recommended ? color.ink : color.cell}`,
+        background: recommended ? "rgb(var(--sys-ink-rgb) / 0.03)" : undefined,
+      }}
+    >
+      <div className="flex items-baseline justify-between gap-2">
+        <span className="text-[13px] font-semibold uppercase tracking-[0.1em]" style={{ fontFamily: font.mono }}>
+          {name}
+        </span>
+        {recommended && (
+          <span
+            className="text-[10px] font-semibold uppercase tracking-[0.14em]"
+            style={{ fontFamily: font.mono, color: color.orange }}
+          >
+            Recommended
+          </span>
+        )}
+      </div>
+      <div className="mt-4 flex items-baseline gap-1.5">
+        <span
+          className="text-3xl font-semibold tracking-[-0.03em] tabular-nums"
+          style={{ color: dim ? color.inkMuted : color.ink }}
+        >
+          {price}
+        </span>
+        {priceNote && (
+          <span className="text-[13px]" style={{ fontFamily: font.mono, color: color.inkFaint }}>
+            {priceNote}
+          </span>
+        )}
+      </div>
+      <div className="mt-5 border-t pt-5" style={{ borderColor: color.cell }}>
+        {children}
+      </div>
     </div>
   );
 }

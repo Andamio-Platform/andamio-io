@@ -13,71 +13,25 @@
 import React from "react";
 import { nav, pricing, footer, EXTERNAL_LINKS } from "~/ui/explore/content";
 import { color, font } from "./tokens";
-import { Page, Section, Display, Button, Footer } from "./kit";
+import { Page, Section, Display, Button, Footer, SectionIntro, TierCard } from "./kit";
 
 const mono = { fontFamily: font.mono };
 const muted = { color: color.inkMuted };
 
-/* A single pricing card — shared shape for both products. */
-function TierCard({
-  name,
-  price,
-  priceNote,
-  recommended,
-  dim,
-  children,
-}: {
-  name: string;
-  price: string;
-  priceNote?: string;
-  recommended?: boolean;
-  dim?: boolean;
-  children: React.ReactNode;
-}) {
-  return (
-    <div
-      className="flex flex-col p-6"
-      style={{
-        border: `1px solid ${recommended ? color.ink : color.cell}`,
-        background: recommended ? "rgb(var(--sys-ink-rgb) / 0.03)" : undefined,
-      }}
-    >
-      <div className="flex items-baseline justify-between gap-2">
-        <span className="text-[13px] font-semibold uppercase tracking-[0.1em]" style={mono}>
-          {name}
-        </span>
-        {recommended && (
-          <span
-            className="text-[10px] font-semibold uppercase tracking-[0.14em]"
-            style={{ ...mono, color: color.orange }}
-          >
-            Recommended
-          </span>
-        )}
-      </div>
-      <div className="mt-4 flex items-baseline gap-1.5">
-        <span
-          className="text-3xl font-semibold tracking-[-0.03em] tabular-nums"
-          style={{ color: dim ? color.inkMuted : color.ink }}
-        >
-          {price}
-        </span>
-        {priceNote && (
-          <span className="text-[13px]" style={{ ...mono, color: color.inkFaint }}>
-            {priceNote}
-          </span>
-        )}
-      </div>
-      <div className="mt-5 border-t pt-5" style={{ borderColor: color.cell }}>
-        {children}
-      </div>
-    </div>
-  );
-}
+const pageFooter = (
+  <Footer
+    tagline={footer.tagline}
+    meta={footer.meta}
+    copyright={footer.copyright}
+    columns={footer.columns}
+    backHref="/"
+    backLabel="← Back to Andamio"
+  />
+);
 
 export default function AndamioPricing() {
   return (
-    <Page nav={{ items: nav.items, cta: nav.cta }} sections={null}>
+    <Page nav={{ items: nav.items, cta: nav.cta }} sections={null} footer={pageFooter}>
       {/* ── Hero — set the two-products frame up front. ─────────────────── */}
       <Section id="top" bordered={false}>
         <div className="pt-16 sm:pt-24">
@@ -96,15 +50,11 @@ export default function AndamioPricing() {
       {/* ── For organizations — Andamio Issuer (annual, sales-led). ─────── */}
       <Section id="issuer" bordered={false}>
         <div className="border-t pt-14 pb-20" style={{ borderColor: color.rule }}>
-          <p className="text-[12px] uppercase tracking-[0.14em]" style={{ ...mono, color: color.inkFaint }}>
-            {pricing.issuer.audience}
-          </p>
-          <Display as="h2" size="xl" className="mt-3">
-            {pricing.issuer.title}
-          </Display>
-          <p className="mt-3 text-lg leading-snug" style={muted}>
-            {pricing.issuer.lead}
-          </p>
+          <SectionIntro
+            eyebrow={pricing.issuer.audience}
+            title={pricing.issuer.title}
+            lead={pricing.issuer.lead}
+          />
 
           {/* Metering explainer — the three levers. */}
           <div className="mt-10 border-t pt-8" style={{ borderColor: color.rule }}>
@@ -159,15 +109,11 @@ export default function AndamioPricing() {
       {/* ── For developers — Andamio API (monthly, self-serve). ─────────── */}
       <Section id="api" bordered={false}>
         <div className="border-t pt-14 pb-20" style={{ borderColor: color.rule }}>
-          <p className="text-[12px] uppercase tracking-[0.14em]" style={{ ...mono, color: color.inkFaint }}>
-            {pricing.api.audience}
-          </p>
-          <Display as="h2" size="xl" className="mt-3">
-            {pricing.api.title}
-          </Display>
-          <p className="mt-3 text-lg leading-snug" style={muted}>
-            {pricing.api.lead}
-          </p>
+          <SectionIntro
+            eyebrow={pricing.api.audience}
+            title={pricing.api.title}
+            lead={pricing.api.lead}
+          />
 
           <div className="mt-10 grid grid-cols-1 gap-px sm:grid-cols-2 lg:grid-cols-4" style={{ background: color.cell }}>
             {pricing.api.tiers.map((t) => (
@@ -194,15 +140,6 @@ export default function AndamioPricing() {
           </div>
         </div>
       </Section>
-
-      <Footer
-        tagline={footer.tagline}
-        meta={footer.meta}
-        copyright={footer.copyright}
-        columns={footer.columns}
-        backHref="/"
-        backLabel="← Back to Andamio"
-      />
     </Page>
   );
 }

@@ -44,7 +44,7 @@ export default function AndamioDevelopers() {
           <p className="text-[11px] uppercase tracking-[0.18em]" style={{ ...mono, color: color.inkMuted }}>
             {developers.hero.eyebrow}
           </p>
-          <Display as="h1" size="hero" className="mt-6 max-w-[15ch]">
+          <Display as="h1" size="xl" className="mt-6 max-w-[15ch]">
             {developers.hero.headline}
           </Display>
           <p className="mt-8 max-w-2xl text-lg leading-relaxed" style={{ color: "rgb(var(--sys-ink-rgb) / 0.7)" }}>

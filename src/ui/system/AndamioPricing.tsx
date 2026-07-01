@@ -34,11 +34,11 @@ export default function AndamioPricing() {
     <Page nav={{ items: nav.items, cta: nav.cta }} sections={null} footer={pageFooter}>
       {/* ── Hero — set the two-products frame up front. ─────────────────── */}
       <Section id="top" bordered={false}>
-        <div className="pt-16 sm:pt-24">
+        <div className="pb-16 pt-16 sm:pb-24 sm:pt-24">
           <p className="text-[11px] uppercase tracking-[0.18em]" style={{ ...mono, color: color.inkMuted }}>
             {pricing.hero.kicker}
           </p>
-          <Display as="h1" size="hero" className="mt-6 max-w-[18ch]">
+          <Display as="h1" size="xl" className="mt-6 max-w-[18ch]">
             {pricing.hero.headline}
           </Display>
           <p className="mt-8 max-w-2xl text-lg leading-relaxed" style={{ color: "rgb(var(--sys-ink-rgb) / 0.7)" }}>

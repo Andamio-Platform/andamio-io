@@ -50,7 +50,7 @@ export default function AndamioIssuer() {
           >
             {issuer.page.overviewCta}
           </a>
-          <Display as="h1" size="hero" className="mt-8 max-w-[16ch]">
+          <Display as="h1" size="xl" className="mt-8 max-w-[16ch]">
             {issuer.title}
           </Display>
           <p

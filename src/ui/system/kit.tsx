@@ -670,7 +670,7 @@ export function SectionIntro({
   eyebrow,
   title,
   lead,
-  size = "xl",
+  size = "lg",
 }: {
   eyebrow?: string;
   title: string;

@@ -86,7 +86,17 @@ export function EditorialRail({
       className="pointer-events-none fixed right-8 top-1/2 z-30 hidden -translate-y-1/2 xl:block"
       aria-label="Section index"
     >
-      <nav className="pointer-events-auto flex flex-col items-end gap-3.5">
+      {/* The rail's own plate: a height-constrained, generously padded box that
+          hugs the menu with a soft translucent paper background — so section
+          rules dissolve behind the labels without a full-height gutter mask. */}
+      <nav
+        className="pointer-events-auto flex flex-col items-end gap-3.5 px-6 py-7"
+        style={{
+          background: "rgb(var(--sys-paper-rgb) / 0.72)",
+          backdropFilter: "blur(4px)",
+          WebkitBackdropFilter: "blur(4px)",
+        }}
+      >
         {sections.map((s) => {
           const isActive = activeId === s.id;
           return (
@@ -117,32 +127,6 @@ export function EditorialRail({
         })}
       </nav>
     </aside>
-  );
-}
-
-/* ── Rail fade: dissolves full-bleed rules behind the right rail ─────── */
-/* The section rules run edge-to-edge (full bleed) by design. Where they pass
- * behind the fixed editorial rail they would poke into the labels, so this
- * fixed gutter mask feathers them to paper (theme-aware via --sys-paper-rgb). Lives above
- * the rules (z-20) and below the rail text (z-30). Rendered after TopNav inside
- * the z-10 wrapper, so the sticky header (z-50) paints its full-bleed border
- * over this mask while body rules below still dissolve. xl-only (rail is xl).
- *
- * CRITICAL: width === layout.railReserve. Content is padded out of exactly this
- * gutter (xl:pr-[150px]), so a mask of the same width only ever covers the
- * empty rail gutter — never the content. Widening it past the reserve would
- * veil the right edge of real content (e.g. the specimen plate). */
-export function RailFade() {
-  return (
-    <div
-      aria-hidden
-      className="pointer-events-none fixed inset-y-0 right-0 z-20 hidden xl:block"
-      style={{
-        width: layout.railReserve,
-        background:
-          "linear-gradient(to right, rgb(var(--sys-paper-rgb) / 0) 0%, rgb(var(--sys-paper-rgb) / 0.9) 55%, rgb(var(--sys-paper-rgb)) 82%)",
-      }}
-    />
   );
 }
 
@@ -480,11 +464,10 @@ export function Page({
       <div className="relative z-10">
         {/* TopNav spans the full viewport so its bottom border is edge-to-edge. */}
         <TopNav {...nav} />
-        {/* RailFade sits below TopNav (z-50) so the nav's full-bleed border is
-            never feathered, but above body rules so those dissolve at the rail. */}
-        {railSections && <RailFade />}
         {/* railReserve (tokens.layout.railReserve = 150) — literal for Tailwind.
-            Scoped to content only so the header border stays full-bleed. */}
+            Scoped to content only so the header border stays full-bleed. The rail
+            carries its own contained plate (see EditorialRail), so there is no
+            full-height gutter mask to wash over the footer. */}
         <div className={railSections ? "xl:pr-[150px]" : undefined}>{children}</div>
         {/* Footer sits OUTSIDE the rail-reserve wrapper so it spans the full
             viewport like the TopNav, instead of being clipped at the rail. */}

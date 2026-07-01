@@ -47,6 +47,7 @@ export const nav = {
         { name: "Use cases", desc: "How teams put Andamio to work.", href: "/use-cases" },
       ],
     },
+    { label: "Pricing", href: "/pricing" },
     { label: "Roadmap", href: "/roadmap" },
     { label: "Blog", href: "/blog" },
     { label: "About", href: "/about" },
@@ -268,6 +269,63 @@ export const closing = {
   headlineLine2: "Let's build it.",
   body: "In an internet where anyone can claim anything, a credential people can verify is the foundation. Issue ones people believe, and join the teams building a more trustworthy internet. Twenty minutes, we'll scope a pilot on one of your programs. No slides.",
   cta: "Book a 20-minute walkthrough",
+} as const;
+
+/**
+ * Pricing — two DISTINCT products, priced and sold separately (P-015). A tier
+ * name that appears in both ("Starter", "Growth", "Enterprise") means different
+ * things — the page always says which product.
+ *
+ * SOURCES OF TRUTH:
+ *   Issuer → product-circle/pricing/product-and-pricing-summary.md (P-015, the
+ *            consented model: Scale $30k, 5x badge allocations, Pilot/Starter
+ *            self-serve TBD, Custom = "Contact us"). Sales-led, annual.
+ *   API    → andamio-app-v2/src/config/billing.ts (LIVE, wired to Stripe).
+ *            Self-serve, monthly. Mirror only — subscribe happens in the app.
+ */
+export const pricing = {
+  hero: {
+    kicker: "Pricing",
+    headline: "Two products, priced separately.",
+    sub: "Andamio Issuer is a managed credential layer for organizations, sold as an annual contract. The Andamio API is self-serve access to the protocol for developers. They share protocol internals — neither depends on the other.",
+  },
+  issuer: {
+    audience: "For organizations",
+    title: "Andamio Issuer",
+    lead: "A managed course-credential layer. Sales-led, annual contract.",
+    meteringHeading: "You pay for three things",
+    meteringNote:
+      "Defining credentials is free. You draw down an allocation only when a credential is actually earned, and top up if you exceed it.",
+    levers: [
+      { name: "Users", text: "Each learner, counted once when they first join." },
+      { name: "Badges", text: "Credentials actually earned, counted on real issuance." },
+      { name: "Courses", text: "A set of linked credentials — a learning pathway." },
+    ],
+    tiers: [
+      { name: "Pilot", price: "Soon", priceNote: "self-serve", users: "—", badges: "—", courses: "—", muted: true },
+      { name: "Starter", price: "Soon", priceNote: "self-serve", users: "—", badges: "—", courses: "—", muted: true },
+      { name: "Growth", price: "$12,000", priceNote: "/ year", users: "250", badges: "~1,250", courses: "3", recommended: true },
+      { name: "Scale", price: "$30,000", priceNote: "/ year", users: "1,000", badges: "~5,000", courses: "5" },
+      { name: "Custom", price: "Contact us", priceNote: "", users: "—", badges: "—", courses: "—" },
+    ],
+    footnote:
+      "Growth ($12k / 250 users) is where cohort programs land; Scale is priced so upgrading beats Growth-plus-top-ups from ~900 users. Every lever tops up — badges are a starting allocation, not a cap. Pilot and Starter self-serve tiers arrive with the in-app billing motion.",
+    cta: { label: "Book a 20-minute walkthrough" },
+  },
+  api: {
+    audience: "For developers",
+    title: "Andamio API",
+    lead: "Programmatic access to the protocol as REST endpoints. Self-serve via Stripe, monthly.",
+    tiers: [
+      { name: "Free", price: "$0", priceNote: "", limits: "15K req/mo · 500 req/day · 1 API key", muted: true },
+      { name: "Starter", price: "$29", priceNote: "/ mo", limits: "75K req/mo · 2,500 req/day · 2 API keys" },
+      { name: "Growth", price: "$129", priceNote: "/ mo", limits: "750K req/mo · 25,000 req/day · 5 API keys", recommended: true },
+      { name: "Enterprise", price: "Custom", priceNote: "", limits: "Custom quota · priority support" },
+    ],
+    footnote:
+      "Subscribe in the app after connecting your wallet. Usage is billed to you, the developer, not your end users.",
+    cta: { label: "Open the app" },
+  },
 } as const;
 
 export const footer = {

@@ -181,9 +181,8 @@ export const SECTIONS = [
   { id: "problem", num: "01", label: "The problem" },
   { id: "issuer", num: "02", label: "Andamio Issuer" },
   { id: "products", num: "03", label: "Build on it" },
-  { id: "andamio-api", num: "04", label: "Andamio API" },
-  { id: "ecosystem", num: "05", label: "Ecosystem" },
-  { id: "closing", num: "06", label: "Get started" },
+  { id: "ecosystem", num: "04", label: "Ecosystem" },
+  { id: "closing", num: "05", label: "Get started" },
 ] as const;
 
 export type SectionId = (typeof SECTIONS)[number]["id"];

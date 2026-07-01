@@ -26,7 +26,6 @@ import {
   products,
   issuer,
   ecosystem,
-  api,
   stakes,
   closing,
   footer,
@@ -225,103 +224,6 @@ export default function AndamioLanding() {
           >
             {products.foundationNote}
           </p>
-        </div>
-      </Section>
-
-      {/* ── API / Architecture ──────────────────────────────────── */}
-      <Section id="andamio-api" bordered={false} screen>
-        <div className="grid grid-cols-12 gap-y-8 py-24 sm:py-32">
-          <div className="col-span-12 lg:col-span-7">
-            <Display as="h2" size="xl">
-              {api.zoneTitle}
-            </Display>
-          </div>
-          <p className="col-span-12 self-end text-lg leading-relaxed lg:col-span-5 lg:pl-8" style={{ color: "rgb(var(--sys-ink-rgb) / 0.65)" }}>
-            {api.zoneBlurb}
-          </p>
-        </div>
-
-        <div className="grid grid-cols-12 gap-x-10 gap-y-12 border-t pt-12" style={{ borderColor: color.rule }}>
-          {/* Left — what you can build */}
-          <div className="col-span-12 lg:col-span-5 lg:pr-6">
-            <h3 className="text-[clamp(1.75rem,3vw,2.5rem)] font-semibold leading-[1.04] tracking-[-0.035em]">
-              {api.heading}
-            </h3>
-            <p className="mt-6 text-[15px] leading-relaxed" style={{ color: "rgb(var(--sys-ink-rgb) / 0.65)" }}>
-              {api.lead}
-            </p>
-
-            {/* Capability cards — hairline 2×2 */}
-            <div className="mt-10 grid grid-cols-1 gap-px sm:grid-cols-2" style={{ background: color.cell }}>
-              {api.capabilities.map((c) => (
-                <div key={c.verb} className="p-5" style={{ background: color.paper }}>
-                  <p className="text-[15px] font-semibold tracking-[-0.02em]">{c.verb}</p>
-                  <p className="mt-1.5 text-[13px] leading-relaxed" style={muted}>
-                    {c.text}
-                  </p>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-8 flex flex-col gap-3">
-              <a
-                href={EXTERNAL_LINKS.apiReference}
-                className="inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.1em] transition-colors hover:opacity-60"
-                style={mono}
-              >
-                <span className="h-2 w-2" style={{ background: color.ink }} />
-                {api.apiRefCta}
-              </a>
-              <a
-                href={api.galleryHref}
-                className="inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.1em] transition-colors hover:opacity-60"
-                style={{ ...mono, color: color.inkMuted }}
-              >
-                <span className="h-2 w-2" style={{ background: color.inkFaint }} />
-                {api.galleryCta}
-              </a>
-            </div>
-          </div>
-
-          {/* Right — proof: a real call + the resource surface */}
-          <div className="col-span-12 lg:col-span-7">
-            <div className="border" style={{ borderColor: color.rule }}>
-              <div className="flex items-center gap-2 border-b px-4 py-2.5" style={{ borderColor: color.cell }}>
-                <span className="h-2 w-2" style={{ background: color.ink }} />
-                <span className="text-[11px] uppercase tracking-[0.16em]" style={{ ...mono, color: color.inkFaint }}>
-                  {api.snippet.label}
-                </span>
-              </div>
-              <pre className="overflow-x-auto px-4 py-4 text-[12.5px] leading-relaxed" style={mono}>
-                <code>{api.snippet.request}</code>
-              </pre>
-              <pre className="overflow-x-auto border-t px-4 py-4 text-[12px] leading-relaxed" style={{ ...mono, borderColor: color.cell, color: color.inkMuted }}>
-                <code>{api.snippet.response}</code>
-              </pre>
-            </div>
-
-            {/* Resource surface — projects is first-class */}
-            <p className="mt-8 text-[11px] uppercase tracking-[0.16em]" style={{ ...mono, color: color.inkFaint }}>
-              {api.resourcesLabel}
-            </p>
-            <dl className="mt-3 border-t" style={{ borderColor: color.cell }}>
-              {api.resources.map((r) => (
-                <div
-                  key={r.name}
-                  className="flex items-baseline justify-between gap-6 border-t py-3 first:border-t-0"
-                  style={{ borderColor: color.cell }}
-                >
-                  <dt className="text-[14px] font-semibold tracking-[-0.02em]">{r.name}</dt>
-                  <dd className="text-right text-[12px]" style={{ ...mono, color: color.inkMuted }}>
-                    {r.ops}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-            <p className="mt-4 text-[12px]" style={{ ...mono, color: color.inkFaint }}>
-              {api.authNote}
-            </p>
-          </div>
         </div>
       </Section>
 

@@ -33,7 +33,7 @@ export const nav = {
       label: "Products",
       items: [
         { name: "Andamio Issuer", desc: "Issue credentials your organization controls.", href: "/issuer" },
-        { name: "Andamio API", desc: "The protocol, as REST endpoints.", href: "/#andamio-api" },
+        { name: "Build on Andamio", desc: "The protocol, as REST endpoints.", href: "/developers" },
         { name: "Andamio Bot", desc: "Credential-gate your Discord.", href: "#", soon: true },
         { name: "Credential Badges", desc: "Permanent, useful, yours.", href: "#", soon: true },
       ],
@@ -48,6 +48,7 @@ export const nav = {
       ],
     },
     { label: "Pricing", href: "/pricing" },
+    { label: "Developers", href: "/developers" },
     { label: "Roadmap", href: "/roadmap" },
     { label: "Blog", href: "/blog" },
     { label: "About", href: "/about" },
@@ -63,8 +64,9 @@ export const hero = {
   headlineAccent: "This is a credential.",
   subhead: "You're building something real in a world short on trust. Andamio makes the credentials you issue believable: permanent, useful, and yours.",
   primaryCta: { label: "Andamio Issuer", href: "#issuer" },
-  // Developer CTA: a value prop, not the product name (team feedback).
-  secondaryCta: { label: "Build on Andamio", href: "#andamio-api" },
+  // Developer CTA: a value prop, not the product name (team feedback). Points at
+  // the builder-movement section, which funnels to the /developers page.
+  secondaryCta: { label: "Build on Andamio", href: "#products" },
   badgeAlt:
     "An Andamio credential, Getting Started with Andamio. Its rings encode the course it came from, and what it certifies.",
   badgeCaption:
@@ -137,12 +139,12 @@ export const products = {
       href: "#issuer-detail",
     },
     {
-      name: "Andamio API",
+      name: "Build on Andamio",
       mode: "For developers · Build your own",
       blurb:
         "Build your own apps on Andamio — across courses and projects — with the protocol as REST endpoints.",
-      cta: "Learn more",
-      href: "#andamio-api",
+      cta: "Explore the developer platform",
+      href: "/developers",
     },
   ],
   foundationNote:
@@ -256,6 +258,85 @@ export const api = {
     { name: "Transactions", ops: "build & submit on-chain · sponsored" },
   ],
   authNote: "Authenticate with an API key or a wallet JWT.",
+} as const;
+
+/**
+ * /developers — "Build on Andamio", distilled from the Building on Andamio
+ * paper (ecosystem-enterprise/papers/building-on-andamio.md, canonical). The
+ * landing retires its "Andamio API" deep-dive into a CTA that funnels here;
+ * this page carries the depth. The technical proof block (capabilities + a real
+ * call + resources) reuses the `api` export above.
+ */
+export const developers = {
+  hero: {
+    eyebrow: "For developers",
+    headline: "Build on Andamio.",
+    sub: "Andamio is a protocol made to be built upon. Issue, verify, and gate on credentials from your own stack — you query plain REST, and Cardano validators enforce the rules underneath. Your stack never touches crypto.",
+    primaryCta: { label: "Read the docs", href: EXTERNAL_LINKS.docs },
+    secondaryCta: { label: "API reference", href: EXTERNAL_LINKS.apiReference },
+  },
+  levels: {
+    heading: "Two levels to build on",
+    items: [
+      {
+        heading: "The on-chain layer",
+        body: "Cardano validators and minting policies enforce who can issue a credential, who can review work, and what has to be true before a badge is earned. On-chain, a credential is a hashed artifact on a public ledger — not a picture, not a database row.",
+      },
+      {
+        heading: "The Andamio API",
+        body: "REST endpoints that wrap those primitives. You query for data and for ready-to-sign transactions; the blockchain enforces the rules. Nothing to build from scratch.",
+      },
+    ],
+  },
+  loop: {
+    heading: "One loop, every credential",
+    sub: "Course assignment or Project task — every credential runs the same three steps, and a validator checks each role's authority on every transaction.",
+    steps: [
+      {
+        heading: "Commit",
+        body: "An Access Token holder commits to a piece of work. The definition is hashed at that moment, so the on-chain record is what they agreed to do.",
+      },
+      {
+        heading: "Review",
+        body: "The holder submits evidence; an on-chain-authorized reviewer accepts it, or refuses with specific feedback, against the work's learning targets.",
+      },
+      {
+        heading: "Claim",
+        body: "On a pass, the credential attaches to the holder's identity — carrying who committed, what they agreed to, who reviewed, and when.",
+      },
+    ],
+  },
+  paths: {
+    heading: "Two ways to build",
+    items: [
+      {
+        name: "Create your own",
+        body: "Call the API to create a Course or Project. You get an ID that's yours and published on-chain — now you're an issuer: you define what credentials mean, and every one earned against them carries your policy. Start from the app template.",
+        cta: "andamio-app-template",
+        href: "https://github.com/Andamio-Platform/andamio-app-template",
+      },
+      {
+        name: "Build on existing work",
+        body: "You don't have to own a Course or Project to build on one. Build a dashboard over a partner's credentials, a verifier, a directory, or an agent that commits on someone's behalf. Credentials are public and composable by design.",
+        cta: "Read the API reference",
+        href: EXTERNAL_LINKS.apiReference,
+      },
+    ],
+  },
+  agent: {
+    heading: "Hand it to your agent",
+    body: "Andamio's developer surface is small enough to give to an agent. Point it at andamio-dev — the knowledge layer that teaches it the protocol and estimates costs — and it drives the Andamio CLI to build, sign, and submit transactions for you.",
+  },
+  resourcesHeading: "Everything you need",
+  resources: [
+    { name: "Docs", desc: "Guides and protocol", href: EXTERNAL_LINKS.docs },
+    { name: "API Reference", desc: "Generated from the spec", href: EXTERNAL_LINKS.apiReference },
+    { name: "The app", desc: "Runs on the same API you build on", href: EXTERNAL_LINKS.app },
+    { name: "andamio-dev", desc: "The agent knowledge layer", href: "https://github.com/Andamio-Platform/andamio-dev" },
+    { name: "andamio-cli", desc: "The full transaction lifecycle", href: "https://github.com/Andamio-Platform/andamio-cli" },
+    { name: "GitHub", desc: "All the source", href: EXTERNAL_LINKS.github },
+  ],
+  cta: { label: "Read the docs", href: EXTERNAL_LINKS.docs },
 } as const;
 
 /** StoryBrand "avoid failure" beat — the stakes, one line before the close. */

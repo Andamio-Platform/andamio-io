@@ -32,7 +32,7 @@ export const nav = {
     {
       label: "Products",
       items: [
-        { name: "Andamio Issuer", desc: "Issue credentials your organization controls.", href: "/#issuer" },
+        { name: "Andamio Issuer", desc: "Issue credentials your organization controls.", href: "/issuer" },
         { name: "Andamio API", desc: "The protocol, as REST endpoints.", href: "/#andamio-api" },
         { name: "Andamio Bot", desc: "Credential-gate your Discord.", href: "#", soon: true },
         { name: "Credential Badges", desc: "Permanent, useful, yours.", href: "#", soon: true },
@@ -165,6 +165,14 @@ export const issuer = {
   ],
   reportCta: "Get the report",
   walkthroughCta: "Book a 20-minute walkthrough",
+  // Landing teaser → the dedicated /issuer page (demo + full product funnel).
+  learnMoreCta: "See how Andamio Issuer works",
+  // /issuer page-level framing.
+  page: {
+    overviewCta: "← Andamio overview",
+    demoLead:
+      "Three steps to a credential your organization controls. Try each one.",
+  },
 } as const;
 
 export const ecosystem = {

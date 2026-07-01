@@ -173,15 +173,17 @@ export const space = {
 export const kickerCls = "text-[11px] uppercase tracking-[0.18em]";
 
 /** Section index used by the editorial rail + section ids. */
+// Landing rail index — matches the story-first DOM order. The how-it-works demo
+// + the deep Issuer treatment moved to /issuer (2026-07-01); the landing keeps
+// an Issuer teaser that funnels there.
 export const SECTIONS = [
-  { id: "top", num: "00", label: "Own Your Badges" },
+  { id: "top", num: "00", label: "Overview" },
   { id: "problem", num: "01", label: "The problem" },
-  { id: "how-it-works", num: "02", label: "How it works" },
-  { id: "products", num: "03", label: "Which one?" },
-  { id: "issuer", num: "04", label: "Andamio Issuer" },
-  { id: "andamio-api", num: "05", label: "Andamio API" },
-  { id: "ecosystem", num: "06", label: "Ecosystem" },
-  { id: "closing", num: "07", label: "Upgrade" },
+  { id: "issuer", num: "02", label: "Andamio Issuer" },
+  { id: "products", num: "03", label: "Build on it" },
+  { id: "andamio-api", num: "04", label: "Andamio API" },
+  { id: "ecosystem", num: "05", label: "Ecosystem" },
+  { id: "closing", num: "06", label: "Get started" },
 ] as const;
 
 export type SectionId = (typeof SECTIONS)[number]["id"];

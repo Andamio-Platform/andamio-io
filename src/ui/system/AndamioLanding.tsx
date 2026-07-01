@@ -23,8 +23,6 @@ import {
   nav,
   hero,
   problem,
-  demo,
-  plan,
   products,
   issuer,
   ecosystem,
@@ -43,7 +41,6 @@ import {
   Stitch,
   Footer,
 } from "./kit";
-import HowItWorks from "./HowItWorks";
 
 const NUMS = ["01", "02", "03", "04", "05", "06"];
 const muted = { color: color.inkMuted };
@@ -127,10 +124,12 @@ export default function AndamioLanding() {
         </div>
       </Section>
 
-      {/* ── Guide + Solution — the Issuer. Intro carries the guide's
-             empathy + authority; the three decisions are the solution. ─────── */}
+      {/* ── Guide + Solution — the Issuer TEASER. The full product page (deep
+             messaging + the how-it-works demo) lives at /issuer; the landing
+             stays the story and funnels onward. The three decisions stay here
+             as a one-line array so the payoff still lands before the funnel. ── */}
       <Section id="issuer" bordered={false} screen>
-        <div id="issuer-detail" className="grid scroll-mt-24 grid-cols-12 gap-y-8 border-t pt-14 pb-24 sm:pb-32" style={{ borderColor: color.rule }}>
+        <div id="issuer-detail" className="grid scroll-mt-24 grid-cols-12 gap-y-8 border-t pt-14 pb-16 sm:pb-20" style={{ borderColor: color.rule }}>
           <div className="col-span-12 lg:col-span-7">
             <Display as="h2" size="xl">
               {issuer.title}
@@ -144,32 +143,19 @@ export default function AndamioLanding() {
           </p>
         </div>
 
-        <div className="border-t pt-8" style={{ borderColor: color.rule }}>
-          <span className="text-2xl font-semibold tracking-[-0.03em] sm:text-3xl">
-            {issuer.decisionsHeading}
-          </span>
-        </div>
-
-        <div className="mt-10 grid grid-cols-12 border-t" style={{ borderColor: color.rule }}>
+        {/* The three-pronged array, compressed to a single hairline row — the
+            deep card treatment now lives on /issuer. */}
+        <div className="grid grid-cols-12 border-t" style={{ borderColor: color.rule }}>
           {issuer.decisions.map((d, i) => (
             <div
               key={d.heading}
-              className="col-span-12 py-9 sm:col-span-6 sm:px-7 lg:col-span-4"
+              className="col-span-12 py-7 sm:col-span-4 sm:px-7 sm:first:pl-0"
               style={{ borderTop: i > 0 ? `1px solid ${color.cell}` : undefined }}
             >
-              <div className="flex items-baseline gap-4">
-                <span
-                  className="text-[12px] uppercase tracking-[0.14em] tabular-nums"
-                  style={{ ...mono, color: color.inkFaint }}
-                >
-                  {NUMS[i]}
-                </span>
-                <span className="h-px flex-1 translate-y-[-4px]" style={{ background: color.cell }} />
-              </div>
-              <h3 className="mt-5 text-2xl font-semibold leading-none tracking-[-0.03em]">
+              <h3 className="text-xl font-semibold leading-none tracking-[-0.03em]">
                 {d.heading}
               </h3>
-              <p className="mt-3 text-[15px] leading-relaxed" style={muted}>
+              <p className="mt-2.5 text-[14px] leading-relaxed" style={muted}>
                 {d.text}
               </p>
             </div>
@@ -178,20 +164,14 @@ export default function AndamioLanding() {
 
         <div className="border-t py-10" style={{ borderColor: color.rule }}>
           <Stitch>
-            <Button variant="disabled">
-              {issuer.reportCta} <span className="text-[10px]" style={mono}>soon</span>
+            <Button variant="ink" href="/issuer">
+              {issuer.learnMoreCta} <span aria-hidden>→</span>
             </Button>
-            <Button variant="ink" href={EXTERNAL_LINKS.walkthroughMailto}>
+            <Button variant="outline" href={EXTERNAL_LINKS.walkthroughMailto}>
               {issuer.walkthroughCta}
             </Button>
           </Stitch>
         </div>
-      </Section>
-
-      {/* ── How it works — the three steps are clickable tabs cycling three
-             mini-demos (Define builder · Issue mock · Verify mock). ─────────── */}
-      <Section id="how-it-works" bordered={false} screen>
-        <HowItWorks heading={plan.heading} steps={plan.steps} demo={demo} />
       </Section>
 
       {/* ── Secondary movement — the builder story. Two products on one

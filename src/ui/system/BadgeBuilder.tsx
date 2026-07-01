@@ -45,8 +45,8 @@ const sans = { fontFamily: font.sans };
 
 /* Square, hairline input. Blue inset on focus = the system's data/linking accent. */
 const inputCls =
-  "w-full border bg-white px-3 py-1.5 text-[14px] transition-shadow placeholder:text-black/30 focus:outline-none focus:[box-shadow:inset_0_0_0_1.5px_#2F6BFF]";
-const inputStyle: React.CSSProperties = { borderColor: color.cell, color: color.ink, ...sans };
+  "w-full border px-3 py-1.5 text-[14px] transition-shadow placeholder:text-black/30 focus:outline-none focus:[box-shadow:inset_0_0_0_1.5px_#2F6BFF]";
+const inputStyle: React.CSSProperties = { borderColor: color.cell, color: color.ink, background: color.paper, ...sans };
 
 /* These are plain content fields, not credentials. Tell the browser and the
    major password managers (1Password, LastPass, Dashlane) to keep their hands
@@ -136,6 +136,32 @@ function InfoChip({ label, body }: { label: string; body: string }) {
   );
 }
 
+/* The card's info footer — ring-anatomy chips + the address footnote. Shared by
+   the standalone builder (chrome) and the how-it-works tabs, so every card has
+   the same footer. */
+export function BadgeInfoFooter({ className = "" }: { className?: string }) {
+  return (
+    <div
+      className={`flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-t px-4 py-2.5 ${className}`}
+      style={{ borderColor: color.rule }}
+    >
+      <div className="flex flex-wrap items-center gap-2">
+        <InfoChip label="Course identity" body={OUTER_RING.body} />
+        <InfoChip label="Learning targets" body={INNER_RING.body} />
+        <InfoChip label="What changes" body={SHIFT.body} />
+        <InfoChip label="What you keep" body={LEFT_WITH.body} />
+      </div>
+      <p className="text-[11px]" style={{ color: color.inkMuted }}>
+        Identified by{" "}
+        <span className="whitespace-nowrap" style={{ ...mono, color: color.ink }}>
+          &lt;course_id&gt;.&lt;slt_hash&gt;
+        </span>
+        <span style={{ color: color.inkGhost }}> · illustrative only</span>
+      </p>
+    </div>
+  );
+}
+
 export interface BadgeBuilderProps {
   className?: string;
   /** Headline rendered inside the frame header (the section's title lives here). */
@@ -144,6 +170,9 @@ export interface BadgeBuilderProps {
   note?: string;
   /** Label beside the live pulse. */
   liveLabel?: string;
+  /** When false, render bare: no outer border, no header (the host supplies the
+   *  card + header). Used when the builder is one tab inside a shared card. */
+  chrome?: boolean;
 }
 
 export default function BadgeBuilder({
@@ -151,6 +180,7 @@ export default function BadgeBuilder({
   title = "Build a credential badge",
   note,
   liveLabel = "Live preview",
+  chrome = true,
 }: BadgeBuilderProps = {}) {
   // Unique, SVG-id-safe suffix per instance so inline badges never collide.
   const idSuffix = React.useId().replace(/:/g, "");
@@ -214,42 +244,44 @@ export default function BadgeBuilder({
 
   return (
     <figure
-      className={`m-0 border ${className}`}
-      style={{ borderColor: color.rule, background: color.paper }}
+      className={chrome ? `m-0 border ${className}` : `m-0 ${className}`}
+      style={chrome ? { borderColor: color.rule, background: color.paper } : undefined}
     >
-      {/* ── Frame header: the section title lives here (inside the box) +
-             a live pulse. This keeps the whole section to one viewport. ──── */}
-      <div
-        className="flex items-start justify-between gap-4 border-b px-4 py-3"
-        style={{ borderColor: color.rule }}
-      >
-        <div className="min-w-0">
-          <h2
-            className="text-[19px] leading-tight sm:text-[22px]"
-            style={{ ...sans, fontWeight: 600, letterSpacing: "-0.02em", color: color.ink }}
-          >
-            {title}
-          </h2>
-          {note && (
-            <p className="mt-0.5 text-[12px] leading-snug" style={{ color: color.inkMuted }}>
-              {note}
-            </p>
-          )}
-        </div>
-        <span
-          className="inline-flex shrink-0 items-center gap-2 pt-1 text-[10px] font-semibold uppercase tracking-[0.14em]"
-          style={{ color: color.inkFaint, ...mono }}
+      {/* ── Frame header: the section title lives here (inside the box) + a live
+             pulse. Omitted when chrome=false — the host card provides it. ──── */}
+      {chrome && (
+        <div
+          className="flex items-start justify-between gap-4 border-b px-4 py-3"
+          style={{ borderColor: color.rule }}
         >
-          <span className="h-1.5 w-1.5 animate-pulse rounded-full" style={{ background: color.orange }} />
-          {liveLabel}
-        </span>
-      </div>
+          <div className="min-w-0">
+            <h2
+              className="text-[19px] leading-tight sm:text-[22px]"
+              style={{ ...sans, fontWeight: 600, letterSpacing: "-0.02em", color: color.ink }}
+            >
+              {title}
+            </h2>
+            {note && (
+              <p className="mt-0.5 text-[12px] leading-snug" style={{ color: color.inkMuted }}>
+                {note}
+              </p>
+            )}
+          </div>
+          <span
+            className="inline-flex shrink-0 items-center gap-2 pt-1 text-[10px] font-semibold uppercase tracking-[0.14em]"
+            style={{ color: color.inkFaint, ...mono }}
+          >
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full" style={{ background: color.orange }} />
+            {liveLabel}
+          </span>
+        </div>
+      )}
 
       {/* ── Body: console · specimen ──────────────────────────────── */}
       <div className="grid grid-cols-12">
         {/* Console — inputs */}
         <div
-          className="col-span-12 flex flex-col gap-2.5 p-3.5 sm:p-4 lg:col-span-5 lg:border-r"
+          className="col-span-12 flex flex-col gap-2.5 p-3.5 sm:p-4 lg:col-span-6 lg:border-r"
           style={{ borderColor: color.cell }}
         >
           <div className="flex flex-col gap-1">
@@ -402,10 +434,7 @@ export default function BadgeBuilder({
         {/* Specimen — the live badge. It carries the course_id + slt_hash inside
             its own ring artwork, so it does the heavy lifting; nothing is echoed
             (or concatenated) below it. */}
-        <div
-          className="col-span-12 flex flex-col items-center justify-center p-4 sm:p-5 lg:col-span-7"
-          style={{ background: color.coralTint }}
-        >
+        <div className="col-span-12 flex flex-col items-center justify-center p-4 sm:p-5 lg:col-span-6">
           {/* No tall min-height — the specimen column stretches to match the
               console, and the badge sizes to fill it. So the section height is
               driven by the console and stays within one viewport. */}
@@ -430,7 +459,7 @@ export default function BadgeBuilder({
                 <button
                   type="button"
                   aria-label="Zoom in on the badge"
-                  className="group relative block aspect-square w-[min(100cqw,100cqh,640px)] cursor-zoom-in rounded-full focus:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(47,107,255,0.55)]"
+                  className="group relative block aspect-square w-[min(100cqw,100cqh,340px)] cursor-zoom-in rounded-full focus:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(47,107,255,0.55)]"
                 >
                   <div className="relative aspect-square h-full w-full overflow-hidden rounded-full ring-1 ring-black/10 shadow-[0_18px_44px_-22px_rgba(0,0,0,0.4)]">
                     <div
@@ -519,25 +548,9 @@ export default function BadgeBuilder({
         </div>
       </div>
 
-      {/* ── Frame footer: info circles + address footnote on one row ─── */}
-      <figcaption
-        className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-t px-4 py-2.5"
-        style={{ borderColor: color.rule }}
-      >
-        <div className="flex flex-wrap items-center gap-2">
-          <InfoChip label="Course identity" body={OUTER_RING.body} />
-          <InfoChip label="Learning targets" body={INNER_RING.body} />
-          <InfoChip label="What changes" body={SHIFT.body} />
-          <InfoChip label="What you keep" body={LEFT_WITH.body} />
-        </div>
-        <p className="text-[11px]" style={{ color: color.inkMuted }}>
-          Identified by{" "}
-          <span className="whitespace-nowrap" style={{ ...mono, color: color.ink }}>
-            &lt;course_id&gt;.&lt;slt_hash&gt;
-          </span>
-          <span style={{ color: color.inkGhost }}> · illustrative only</span>
-        </p>
-      </figcaption>
+      {/* ── Frame footer: the shared info footer. Rendered only with chrome;
+             the how-it-works card supplies one footer for all its tabs. ─────── */}
+      {chrome && <BadgeInfoFooter />}
     </figure>
   );
 }

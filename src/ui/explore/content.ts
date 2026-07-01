@@ -35,7 +35,7 @@ export const nav = {
         { name: "Andamio Issuer", desc: "Issue credentials your organization controls.", href: "/#issuer" },
         { name: "Andamio API", desc: "The protocol, as REST endpoints.", href: "/#andamio-api" },
         { name: "Andamio Bot", desc: "Credential-gate your Discord.", href: "#", soon: true },
-        { name: "Credential Badges", desc: "Permanent, programmable, yours.", href: "#", soon: true },
+        { name: "Credential Badges", desc: "Permanent, useful, yours.", href: "#", soon: true },
       ],
     },
     {
@@ -55,10 +55,11 @@ export const nav = {
 } as const;
 
 export const hero = {
-  // "Own Your Badges" — `Badges` is the accented word.
+  // StoryBrand working draft (headline still in exploration) — the Character
+  // beat: the issuer whose mission is to be trusted. `Badges` is accented.
   headlineLead: "Own Your",
   headlineAccent: "Badges",
-  subhead: "Andamio Credential Badges are permanent, programmable, and yours.",
+  subhead: "You issue credentials to be trusted. Andamio makes them permanent, useful, and yours.",
   primaryCta: { label: "Andamio Issuer", href: "#issuer" },
   // Developer CTA: a value prop, not the product name (team feedback).
   secondaryCta: { label: "Build on Andamio", href: "#andamio-api" },
@@ -69,21 +70,21 @@ export const hero = {
 } as const;
 
 export const problem = {
-  heading: "What can your badges actually do?",
+  heading: "Badges don’t build trust",
   intro:
-    "The digital credential most organizations issue is a badge. And a badge falls short in three ways.",
+    "The digital credential most organizations issue is a badge, and it falls short in three ways.",
   items: [
     {
+      headline: "It’s a rental",
+      body: "A badge lives in your vendor’s database, so they can change it, switch it off, or lose it if they close their doors. They control the records, the rules, and whether any of it survives.",
+    },
+    {
       headline: "It’s a picture, not data",
-      body: "A badge can be shared on LinkedIn, but your systems can’t act on it. In a 2025 survey, 91% of employers looked for digital credentials when hiring. Only 34% of issuers gave them data a system can read.",
+      body: "A badge can be shared on LinkedIn, but no system can act on it. It isn’t structured data, so the automated screening that gates hiring can’t read it. Harvard Business School found 88% of employers say that screening already rejects qualified people who don’t exactly match.",
     },
     {
-      headline: "It lives in your vendor’s database",
-      body: "It can be quietly changed, switched off, or lost if the vendor closes its doors. The proof your people earned goes with it.",
-    },
-    {
-      headline: "The vendor controls it, not you",
-      body: "Whoever runs the platform controls your credentialing system. The records, the rules, and whether any of it survives.",
+      headline: "It’s just a claim",
+      body: "A badge you can’t independently verify is taken on faith, no better than the résumé beside it. Peer-reviewed research found 72% of people embellish their résumés, and 31% fabricate outright.",
     },
   ],
 } as const;
@@ -98,6 +99,16 @@ export const demo = {
   note: "Type below — the rings encode the course_id and slt_hash that identify the credential.",
 } as const;
 
+/** StoryBrand "plan" beat — the three-step path that de-risks issuing. */
+export const plan = {
+  heading: "Issuing takes three steps",
+  steps: [
+    { title: "Define", body: "Say what the credential certifies. You own the meaning." },
+    { title: "Issue", body: "A few API calls, integrated in minutes. No wallets or keys for your team to hold." },
+    { title: "Verify", body: "Anyone can check it. No one, not even you, can switch it off." },
+  ],
+} as const;
+
 /**
  * Two-product contrast — the map before the deep-dives. Issuer and API are
  * INDEPENDENT products on the same on-chain foundation (not a stack; the API is
@@ -105,8 +116,8 @@ export const demo = {
  * Differentiator: Issuer = courses · API = courses AND projects.
  */
 export const products = {
-  heading: "Andamio ships two products",
-  subheading: "Which one is for you?",
+  heading: "One foundation, two products",
+  subheading: "You've met the Issuer. Developers build on the same protocol directly.",
   items: [
     {
       name: "Andamio Issuer",
@@ -136,17 +147,15 @@ export const products = {
 export const issuer = {
   title: "Andamio Issuer",
   intro:
-    "Andamio turns the badges you already issue into credentials you control, on the courses you already run. You get everything a blockchain guarantees, and none of the blockchain to learn.",
-  decisionsHeading: "What sets an Andamio credential apart",
-  // One-word heading + a single tight line. Source prose lives in the
-  // whitepapers; only lines that are already this terse make the cut here.
+    "A credential is only as good as the trust people put in it. Andamio turns the badges you already issue into credentials you control, on the courses you already run: everything a blockchain guarantees, and none of the blockchain to learn.",
+  decisionsHeading: "Permanent, useful, and yours",
+  // The three-pronged array, matching the Andamio Issuer paper: Composable +
+  // Programmable fold into "useful"; Private + Portable fold into "yours".
+  // One-word heading + a single tight line. Source prose lives in the paper.
   decisions: [
     { heading: "Permanent", text: "It outlives whoever issued it." },
-    { heading: "Composable", text: "It builds on other credentials." },
-    { heading: "Programmable", text: "Software can act on it." },
-    { heading: "Private", text: "A diploma is public. The exam papers are not." },
-    { heading: "Yours", text: "You define what it certifies." },
-    { heading: "Portable", text: "The earner keeps it." },
+    { heading: "Useful", text: "Software can act on it, not just look at it." },
+    { heading: "Yours", text: "You define what it means. The earner keeps it." },
   ],
   reportCta: "Get the report",
   walkthroughCta: "Book a 20-minute walkthrough",
@@ -234,10 +243,15 @@ export const api = {
   authNote: "Authenticate with an API key or a wallet JWT.",
 } as const;
 
+/** StoryBrand "avoid failure" beat — the stakes, one line before the close. */
+export const stakes = {
+  line: "Trust is expensive to earn and cheap to lose. A credential you don't control is a promise you can't keep.",
+} as const;
+
 export const closing = {
-  headlineLine1: "Upgrade your credentials",
-  headlineLine2: "Issue ones that keep working",
-  body: "Twenty minutes. We scope a pilot on one of your programs. We show you the credentials working. No slides.",
+  headlineLine1: "Own the trust you build,",
+  headlineLine2: "and watch it compound.",
+  body: "Twenty minutes. We scope a pilot on one of your programs and show you the credentials working. No slides.",
   cta: "Book a 20-minute walkthrough",
 } as const;
 

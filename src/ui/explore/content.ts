@@ -13,6 +13,12 @@ export const EXTERNAL_LINKS = {
   apiReference: "https://api.andamio.io/reference",
   app: "https://mainnet.app.andamio.io",
   github: "https://github.com/Andamio-Platform",
+  cliRepo: "https://github.com/Andamio-Platform/andamio-cli",
+  cliReleases: "https://github.com/Andamio-Platform/andamio-cli/releases/latest",
+  botRepo: "https://github.com/Andamio-Platform/andamio-bot",
+  botQuickstart: "https://github.com/Andamio-Platform/andamio-bot/blob/main/docs/QUICKSTART.md",
+  devRepo: "https://github.com/Andamio-Platform/andamio-dev",
+  appTemplate: "https://github.com/Andamio-Platform/andamio-app-template",
   discord: "https://discord.gg/FtvpAYnBMU",
   linkedin: "https://www.linkedin.com/company/andamio-platform",
   twitter: "https://x.com/AndamioPlatform",
@@ -34,8 +40,8 @@ export const nav = {
       items: [
         { name: "Andamio Issuer", desc: "Issue credentials your organization controls.", href: "/issuer" },
         { name: "Build on Andamio", desc: "The protocol, as REST endpoints.", href: "/developers" },
-        { name: "Andamio Bot", desc: "Credential-gate your Discord.", href: "#", soon: true },
-        { name: "Credential Badges", desc: "Permanent, useful, yours.", href: "#", soon: true },
+        { name: "Andamio CLI", desc: "Drive the protocol from your terminal.", href: "/cli" },
+        { name: "Andamio Bot", desc: "Credential-gate your Discord.", href: "/bot" },
       ],
     },
     {
@@ -337,6 +343,93 @@ export const developers = {
     { name: "GitHub", desc: "All the source", href: EXTERNAL_LINKS.github },
   ],
   cta: { label: "Read the docs", href: EXTERNAL_LINKS.docs },
+} as const;
+
+/**
+ * /cli — the Andamio CLI product page. Grounded in the andamio-cli README:
+ * runs the transaction lifecycle, authors courses/projects, authenticates by
+ * wallet signing. Cross-platform (Homebrew · release binary · go install).
+ */
+export const cli = {
+  hero: {
+    eyebrow: "Developer tool",
+    headline: "The Andamio CLI.",
+    sub: "Interact with the Andamio Protocol from your terminal — build, sign, and submit transactions, author courses and projects, and authenticate with your wallet. It's the source of truth for what an Andamio transaction looks like.",
+    primaryCta: { label: "Install", href: EXTERNAL_LINKS.cliReleases },
+    secondaryCta: { label: "View on GitHub", href: EXTERNAL_LINKS.cliRepo },
+  },
+  install: {
+    heading: "Install",
+    note: "macOS, Linux, and Windows — via Homebrew, a prebuilt release binary, or Go.",
+    snippets: [
+      { label: "Homebrew (macOS)", code: "brew install Andamio-Platform/tap/andamio-cli" },
+      { label: "Go", code: "go install github.com/Andamio-Platform/andamio-cli/cmd/andamio@latest" },
+    ],
+    verify: "andamio --version",
+  },
+  does: {
+    heading: "What it does",
+    items: [
+      {
+        heading: "Run the transaction lifecycle",
+        body: "Build, sign, submit, register, and confirm Andamio transactions on-chain — the full loop from one tool.",
+      },
+      {
+        heading: "Author courses & projects",
+        body: "Create courses and projects, register modules and tasks, and import lesson content, straight from the terminal.",
+      },
+      {
+        heading: "Authenticate",
+        body: "Log in by signing with your wallet to prove ownership of your Access Token, and get a JWT for the API.",
+      },
+    ],
+  },
+  agentNote:
+    "The CLI is also how an agent acts on Andamio: point andamio-dev at it and it builds, signs, and submits transactions for you.",
+  cta: { label: "Read the docs", href: EXTERNAL_LINKS.docs },
+} as const;
+
+/**
+ * /bot — the AndamioBot product page. Grounded in the andamio-bot README: a
+ * reusable Discord bot that reads members' credentials and gates roles, with no
+ * wallet handling by adopters or members. Deployable as a template, no code.
+ */
+export const bot = {
+  hero: {
+    eyebrow: "Product",
+    headline: "Credential-gate your Discord.",
+    sub: "AndamioBot reads each member's on-chain Andamio credentials and grants Discord roles based on what they hold. No wallet handling — for you or your members. Login is delegated to the hosted Andamio app; the bot never touches a wallet, seed, or key.",
+    primaryCta: { label: "Get the template", href: EXTERNAL_LINKS.botRepo },
+    secondaryCta: { label: "Quickstart", href: EXTERNAL_LINKS.botQuickstart },
+  },
+  how: {
+    heading: "How it works",
+    items: [
+      {
+        heading: "Members log in",
+        body: "A member runs /login and authenticates in their browser via the hosted Andamio app. The bot stores a Discord-to-alias link — never a wallet, seed, or key.",
+      },
+      {
+        heading: "The bot reads credentials",
+        body: "It reads each member's earned credentials from the authenticated Andamio API — /credentials shows their inventory, /available shows what your server gates on.",
+      },
+      {
+        heading: "Roles gate automatically",
+        body: "Members are granted Discord roles based on the credentials they hold. /check re-reads live and refreshes roles on demand.",
+      },
+    ],
+  },
+  commandsHeading: "The commands",
+  commands: [
+    { name: "/login", desc: "Link a Discord account to an Andamio alias." },
+    { name: "/credentials", desc: "See the credentials you've earned." },
+    { name: "/available", desc: "See what this server gates on, held or not." },
+    { name: "/check", desc: "Re-read credentials live and refresh roles." },
+    { name: "/faq", desc: "A get-started guide, always available." },
+  ],
+  noWallet:
+    "What you don't need: no wallet, no ADA, no signing, no Cardano knowledge, and no Andamio account to deploy. It's a template — run it against your own Discord server with no code changes.",
+  cta: { label: "Get the template", href: EXTERNAL_LINKS.botRepo },
 } as const;
 
 /** StoryBrand "avoid failure" beat — the stakes, one line before the close. */

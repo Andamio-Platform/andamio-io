@@ -65,6 +65,12 @@ export const color = {
   blue: "var(--sys-blue)",
   /** Tertiary tint — the specimen plate only. */
   coralTint: "var(--sys-coral-tint)",
+  /** Opaque artifact-plate fill: paper nudged toward ink — slightly darker
+   *  than the page in light mode, slightly lighter in dark mode. */
+  plate: "color-mix(in srgb, var(--sys-paper) 95%, var(--sys-ink))",
+  /** Soft lift for floating cards (artifact plate, demo container). Black-based
+   *  so it stays a shadow (not a glow) in dark mode. */
+  cardShadow: "0 1px 2px rgb(0 0 0 / 0.06), 0 8px 24px rgb(0 0 0 / 0.10)",
 } as const;
 
 /** Where each accent is allowed — enforced by convention + reviewed in /explore/system. */
@@ -112,8 +118,6 @@ export const layout = {
   padY: "py-16 sm:py-24",
   /** Grid columns. */
   columns: 12,
-  /** Reserved space for the editorial rail on xl+. */
-  railReserve: 150,
   /** Sticky-nav clearance. Mirrored as the `--nav-clear` CSS var (globals.css),
    *  which drives both anchor scroll-padding-top and the full-viewport Section
    *  (`screen` prop) height. Keep this and the CSS var in sync. */
@@ -163,14 +167,17 @@ export const space = {
   headerTop: "pt-16 sm:pt-24", // 64→96 · lead / page-header block top padding
   cardPad: "p-6", //          24 · card / panel interior
   gapTight: "gap-2", //        8 · label↔value, icon↔text
+  gapButtons: "gap-3", //     12 · between buttons in an action row — rows of
+  //                               buttons ALWAYS get x spacing, never touch
   gap: "gap-4", //            16 · default flex / grid gap
   gapRow: "gap-y-10", //      40 · between grid rows
   rhythmTight: "mt-3", //     12 · closely-related elements
   rhythm: "mt-6", //          24 · heading → body (the default step-down)
   rhythmGroup: "mt-12", //    48 · block → block within a section
 } as const;
-/** The mono kicker className (color applied inline). Literal for Tailwind. */
-export const kickerCls = "text-[11px] uppercase tracking-[0.18em]";
+/* `kickerCls` (mono-uppercase eyebrow) removed 2026-07-02 — the eyebrow is the
+ * Kicker component in kit.tsx (sentence case + orange square). All-caps
+ * letterspaced eyebrows are retired; they collided with pok.tech's treatment. */
 
 /** Section index used by the editorial rail + section ids. */
 // Landing rail index — matches the story-first DOM order. The how-it-works demo

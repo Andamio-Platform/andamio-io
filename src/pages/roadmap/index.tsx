@@ -1,8 +1,8 @@
 import Metatags from "~/components/site/metatags";
 import { roadmap } from "../../roadmap";
 import { nav, footer as footerData } from "~/ui/explore/content";
-import { color, font, containerCls, layout } from "~/ui/system/tokens";
-import { Page, Section, Kicker, Display, Footer, type RailItem } from "~/ui/system/kit";
+import { color, containerCls, layout } from "~/ui/system/tokens";
+import { Page, Section, Kicker, Display, Footer } from "~/ui/system/kit";
 import RoadmapTrack from "~/ui/system/RoadmapTrack";
 
 const slug = (s: string) =>
@@ -21,12 +21,6 @@ export default function ProductRoadmap() {
   const products = roadmap.filter((r) => r.kind !== "history");
   const history = roadmap.filter((r) => r.kind === "history");
 
-  // Editorial rail = every track, in order. (In-page anchors → scroll-spy.)
-  const railSections: RailItem[] = [...products, ...history].map((r) => ({
-    id: slug(r.category),
-    label: r.category,
-  }));
-
   return (
     <>
       <Metatags
@@ -34,7 +28,7 @@ export default function ProductRoadmap() {
         description="Every Andamio product and its releases — what has shipped, what's underway, and what's coming next."
       />
 
-      <Page nav={{ items: nav.items, cta: nav.cta }} sections={railSections}>
+      <Page nav={{ items: nav.items, cta: nav.cta }}>
         {/* Header */}
         <Section bordered={false}>
           <div className="pb-12 pt-16 sm:pt-24">
@@ -53,8 +47,8 @@ export default function ProductRoadmap() {
                 <div key={item.label} className="flex items-center gap-2">
                   <span className="h-3 w-3 rounded-full border-2" style={item.dot} />
                   <span
-                    className="text-[11px] uppercase tracking-[0.14em]"
-                    style={{ fontFamily: font.mono, color: color.inkFaint }}
+                    className="text-[12px] font-medium tracking-[-0.01em]"
+                    style={{ color: color.inkFaint }}
                   >
                     {item.label}
                   </span>
@@ -77,8 +71,8 @@ export default function ProductRoadmap() {
               <div className="space-y-16 border-t pt-14" style={{ borderColor: color.rule }}>
                 <div>
                   <h2
-                    className="text-[11px] font-semibold uppercase tracking-[0.18em]"
-                    style={{ fontFamily: font.mono, color: color.inkMuted }}
+                    className="text-[13px] font-semibold tracking-[-0.01em]"
+                    style={{ color: color.inkMuted }}
                   >
                     History &amp; Funding
                   </h2>

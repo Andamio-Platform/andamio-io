@@ -7,8 +7,6 @@
  *
  * SECTION ORDER:
  *   Hero    → Build on Andamio + the two-sentence value prop
- *   Levels  → the two levels of primitives (on-chain layer · the API)
- *   Loop    → Commit · Review · Claim (the credential loop)
  *   In practice → capabilities + a real call + the resource surface (reuses `api`)
  *   Paths   → create your own · build on existing work
  *   Resources → the link surface + docs CTA
@@ -19,7 +17,7 @@
 import React from "react";
 import { nav, developers, api, footer, EXTERNAL_LINKS } from "~/ui/explore/content";
 import { color, font } from "./tokens";
-import { Page, Section, Display, Button, Stitch, Footer, SectionIntro, CardRow } from "./kit";
+import { Page, Section, Display, Button, ButtonRow, Footer, SectionIntro, CardRow, Kicker } from "./kit";
 
 const mono = { fontFamily: font.mono };
 const muted = { color: color.inkMuted };
@@ -37,13 +35,11 @@ const pageFooter = (
 
 export default function AndamioDevelopers() {
   return (
-    <Page nav={{ items: nav.items, cta: nav.cta, secondaryCta: nav.secondaryCta }} sections={null} footer={pageFooter}>
+    <Page nav={{ items: nav.items, cta: nav.cta, secondaryCta: nav.secondaryCta }} footer={pageFooter}>
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
       <Section id="top" bordered={false}>
         <div className="pt-16 sm:pt-24">
-          <p className="text-[11px] uppercase tracking-[0.18em]" style={{ ...mono, color: color.inkMuted }}>
-            {developers.hero.eyebrow}
-          </p>
+          <Kicker>{developers.hero.eyebrow}</Kicker>
           <Display as="h1" size="xl" className="mt-6 max-w-[15ch]">
             {developers.hero.headline}
           </Display>
@@ -51,37 +47,20 @@ export default function AndamioDevelopers() {
             {developers.hero.sub}
           </p>
           <div className="mb-16 mt-12 sm:mb-24">
-            <Stitch>
+            <ButtonRow>
               <Button variant="ink" href={developers.hero.primaryCta.href}>
                 {developers.hero.primaryCta.label} <span aria-hidden>→</span>
               </Button>
               <Button variant="outline" href={developers.hero.secondaryCta.href}>
                 {developers.hero.secondaryCta.label} <span aria-hidden>→</span>
               </Button>
-            </Stitch>
+            </ButtonRow>
           </div>
         </div>
       </Section>
 
-      {/* ── Two levels of primitives ─────────────────────────────────────── */}
-      <Section id="levels" bordered={false}>
-        <div className="border-t pt-14 pb-16" style={{ borderColor: color.rule }}>
-          <SectionIntro title={developers.levels.heading} />
-          <div className="mt-8">
-            <CardRow items={developers.levels.items} size="sm" />
-          </div>
-        </div>
-      </Section>
-
-      {/* ── The credential loop — Commit · Review · Claim ────────────────── */}
-      <Section id="loop" bordered={false}>
-        <div className="border-t pt-14 pb-16" style={{ borderColor: color.rule }}>
-          <SectionIntro title={developers.loop.heading} lead={developers.loop.sub} />
-          <div className="mt-8">
-            <CardRow items={developers.loop.steps} size="md" numbered />
-          </div>
-        </div>
-      </Section>
+      {/* Levels + Loop sections removed 2026-07-02 (James: stale) — content
+          retained in git; the pattern now lives in the /show-me flow. */}
 
       {/* ── In practice — capabilities + a real call + the resource surface.
              Reuses the `api` content that used to live on the landing. ─────── */}
@@ -108,8 +87,7 @@ export default function AndamioDevelopers() {
             <div className="mt-8 flex flex-col gap-3">
               <a
                 href={EXTERNAL_LINKS.apiReference}
-                className="inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.1em] transition-colors hover:opacity-60"
-                style={mono}
+                className="inline-flex items-center gap-2 text-[13px] font-semibold tracking-[-0.01em] transition-colors hover:opacity-60"
               >
                 <span className="h-2 w-2" style={{ background: color.ink }} />
                 {api.apiRefCta}
@@ -122,7 +100,7 @@ export default function AndamioDevelopers() {
             <div className="border" style={{ borderColor: color.rule }}>
               <div className="flex items-center gap-2 border-b px-4 py-2.5" style={{ borderColor: color.cell }}>
                 <span className="h-2 w-2" style={{ background: color.ink }} />
-                <span className="text-[11px] uppercase tracking-[0.16em]" style={{ ...mono, color: color.inkFaint }}>
+                <span className="text-[12px] font-medium tracking-[-0.01em]" style={{ color: color.inkFaint }}>
                   {api.snippet.label}
                 </span>
               </div>
@@ -133,7 +111,7 @@ export default function AndamioDevelopers() {
                 <code>{api.snippet.response}</code>
               </pre>
             </div>
-            <p className="mt-8 text-[11px] uppercase tracking-[0.16em]" style={{ ...mono, color: color.inkFaint }}>
+            <p className="mt-8 text-[12px] font-medium tracking-[-0.01em]" style={{ color: color.inkFaint }}>
               {api.resourcesLabel}
             </p>
             <dl className="mt-3 border-t" style={{ borderColor: color.cell }}>
@@ -170,8 +148,7 @@ export default function AndamioDevelopers() {
                 </p>
                 <a
                   href={p.href}
-                  className="mt-8 inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.1em] transition-colors hover:opacity-60"
-                  style={mono}
+                  className="mt-8 inline-flex items-center gap-2 text-[13px] font-semibold tracking-[-0.01em] transition-colors hover:opacity-60"
                 >
                   <span className="h-2 w-2" style={{ background: color.ink }} />
                   {p.cta}

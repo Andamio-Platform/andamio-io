@@ -19,6 +19,7 @@ import {
   buildBadgeParams,
   PALETTES,
   withInterior,
+  type BadgeParams,
   type InteriorStyle,
 } from "~/ui/landing/V2Landing/badge";
 import { Popover, PopoverContent, PopoverTrigger } from "~/components/ui/popover";
@@ -34,11 +35,31 @@ import { color, font } from "./tokens";
 
 type ActiveZone = "identity" | "targets" | null;
 
-const SAMPLE: { courseName: string; moduleName: string; slts: string[] } = {
-  courseName: "Bike Repair Basics",
-  moduleName: "Fix a Flat Tire",
-  slts: ["I can remove a wheel", "I can patch an inner tube"],
-};
+/**
+ * The demo's starting point is the REAL "Getting Started with Andamio"
+ * credential — the same badge presented on the landing hero (fig. 1). Pristine
+ * inputs render the real on-chain identity (courseId/sltHash below, mainnet);
+ * the first edit flips the badge to a derived preview, so "your inputs become
+ * the rings" stays honest. Starting SLT lines are editable display copy only —
+ * the pristine rings come from the real hashes, never from hashing these lines.
+ */
+export const GETTING_STARTED = {
+  courseName: "Getting Started with Andamio",
+  moduleName: "Mint Access Token and Commit to Assignment",
+  slts: ["I can mint my Access Token", "I can commit to an assignment"],
+  params: {
+    courseTitle: "Getting Started with Andamio",
+    moduleTitle: "Mint Access Token and Commit to Assignment",
+    courseId: "ab5d9217bbbac409ffbe7c8c65d9b358932245079a7f8547a28bc755",
+    sltHash: "1b37e6b411bc614e9da67943124219053eafa717793e5424f4a33765e42328a3",
+    network: "mainnet",
+  } satisfies BadgeParams,
+  /** Pine Gold — the palette the real badge was generated with. */
+  paletteIndex: 3,
+} as const;
+
+const SAMPLE: { courseName: string; moduleName: string; slts: readonly string[] } =
+  GETTING_STARTED;
 
 const mono = { fontFamily: font.mono };
 const sans = { fontFamily: font.sans };
@@ -62,7 +83,7 @@ const noAutofill = {
   "data-bwignore": "true",
 } as const;
 
-/* Instrument-panel micro-label: mono, uppercase, tracked out. Lit → blue. */
+/* Instrument-panel micro-label: sentence case, body sans. Lit → blue. */
 function MicroLabel({
   children,
   on = false,
@@ -77,10 +98,9 @@ function MicroLabel({
   htmlFor?: string;
 }) {
   const style: React.CSSProperties = {
-    ...mono,
     color: on ? color.blue : color.inkFaint,
   };
-  const cls = `text-[10px] font-medium uppercase tracking-[0.16em] transition-colors ${className}`;
+  const cls = `text-[11px] font-medium tracking-[-0.01em] transition-colors ${className}`;
   return As === "label" ? (
     <label htmlFor={htmlFor} className={cls} style={style}>
       {children}
@@ -97,8 +117,8 @@ function InfoChip({ label, body }: { label: string; body: string }) {
   return (
     <Popover>
       <PopoverTrigger
-        className="inline-flex items-center gap-1.5 border px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.1em] transition-colors hover:bg-black/[0.03] focus:outline-none focus-visible:[box-shadow:inset_0_0_0_1.5px_#2F6BFF]"
-        style={{ ...mono, borderColor: color.rule, color: color.ink }}
+        className="inline-flex items-center gap-1.5 border px-3 py-1.5 text-[12px] font-medium tracking-[-0.01em] transition-colors hover:bg-black/[0.03] focus:outline-none focus-visible:[box-shadow:inset_0_0_0_1.5px_#2F6BFF]"
+        style={{ borderColor: color.rule, color: color.ink }}
       >
         {label}
         <span
@@ -115,12 +135,12 @@ function InfoChip({ label, body }: { label: string; body: string }) {
         className="w-72 overflow-hidden rounded-none border p-0 shadow-[0_18px_44px_-20px_rgba(0,0,0,0.45)]"
         style={{ borderColor: color.rule, background: color.paper }}
       >
-        {/* Mono kicker header + hairline, then body — matches the section's
+        {/* Kicker header + hairline, then body — matches the section's
             editorial idiom (square card, ink rule, system type). */}
         <div className="border-b px-3.5 py-2" style={{ borderColor: color.cell }}>
           <span
-            className="text-[10px] font-semibold uppercase tracking-[0.14em]"
-            style={{ ...mono, color: color.inkFaint }}
+            className="text-[11px] font-semibold tracking-[-0.01em]"
+            style={{ color: color.inkFaint }}
           >
             {label}
           </span>
@@ -187,8 +207,8 @@ export default function BadgeBuilder({
 
   const [courseName, setCourseName] = React.useState(SAMPLE.courseName);
   const [moduleName, setModuleName] = React.useState(SAMPLE.moduleName);
-  const [slts, setSlts] = React.useState<string[]>(SAMPLE.slts);
-  const [paletteIndex, setPaletteIndex] = React.useState(0);
+  const [slts, setSlts] = React.useState<string[]>([...SAMPLE.slts]);
+  const [paletteIndex, setPaletteIndex] = React.useState<number>(GETTING_STARTED.paletteIndex);
   const [interior, setInterior] = React.useState<InteriorStyle>("light");
   const [svg, setSvg] = React.useState("");
   // A second copy of the badge for the zoom modal, built with a distinct
@@ -221,7 +241,16 @@ export default function BadgeBuilder({
   React.useEffect(() => {
     const myReq = ++reqRef.current;
     const t = window.setTimeout(async () => {
-      const params = await buildBadgeParams({ courseName, moduleName, slts });
+      // Pristine inputs = the real Getting Started credential (real on-chain
+      // hashes, mainnet). Any text edit switches to the derived preview.
+      const pristine =
+        courseName === GETTING_STARTED.courseName &&
+        moduleName === GETTING_STARTED.moduleName &&
+        slts.length === GETTING_STARTED.slts.length &&
+        slts.every((s, i) => s === GETTING_STARTED.slts[i]);
+      const params = pristine
+        ? GETTING_STARTED.params
+        : await buildBadgeParams({ courseName, moduleName, slts });
       if (myReq !== reqRef.current) return; // a newer change superseded this one
       const palette = withInterior(PALETTES[paletteIndex] ?? PALETTES[0]!, interior);
       setSvg(buildBadgeSvg(params, palette, { idSuffix }));
@@ -268,8 +297,8 @@ export default function BadgeBuilder({
             )}
           </div>
           <span
-            className="inline-flex shrink-0 items-center gap-2 pt-1 text-[10px] font-semibold uppercase tracking-[0.14em]"
-            style={{ color: color.inkFaint, ...mono }}
+            className="inline-flex shrink-0 items-center gap-2 pt-1 text-[11px] font-semibold tracking-[-0.01em]"
+            style={{ color: color.inkFaint }}
           >
             <span className="h-1.5 w-1.5 animate-pulse rounded-full" style={{ background: color.orange }} />
             {liveLabel}
@@ -366,8 +395,8 @@ export default function BadgeBuilder({
               onClick={addSlt}
               onFocus={() => focusZone("targets")}
               onBlur={blurZone}
-              className="self-start text-[11px] font-semibold uppercase tracking-[0.1em] transition-colors hover:opacity-70"
-              style={{ ...mono, color: color.blue }}
+              className="self-start text-[12px] font-semibold tracking-[-0.01em] transition-colors hover:opacity-70"
+              style={{ color: color.blue }}
             >
               + Add a learning target
             </button>
@@ -415,9 +444,8 @@ export default function BadgeBuilder({
                       type="button"
                       onClick={() => setInterior(style)}
                       aria-pressed={selected}
-                      className="px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.08em] capitalize transition-colors"
+                      className="px-3 py-1.5 text-[12px] font-semibold tracking-[-0.01em] transition-colors"
                       style={{
-                        ...mono,
                         background: selected ? "rgba(10,10,10,0.06)" : "transparent",
                         color: selected ? color.ink : color.inkFaint,
                       }}
@@ -493,8 +521,8 @@ export default function BadgeBuilder({
                   {/* hover / focus affordance — overlaid, no layout impact */}
                   <span
                     aria-hidden
-                    className="pointer-events-none absolute bottom-[7%] left-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 border bg-white/90 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] opacity-0 backdrop-blur transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100"
-                    style={{ ...mono, borderColor: color.rule, color: color.ink }}
+                    className="pointer-events-none absolute bottom-[7%] left-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 border bg-white/90 px-2.5 py-1 text-[11px] font-semibold tracking-[-0.01em] opacity-0 backdrop-blur transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100"
+                    style={{ borderColor: color.rule, color: color.ink }}
                   >
                     <ZoomIn className="h-3 w-3" /> Zoom in
                   </span>
@@ -512,7 +540,7 @@ export default function BadgeBuilder({
                     className="flex items-center justify-between gap-4 border-b px-4 py-2.5"
                     style={{ borderColor: color.rule }}
                   >
-                    <Dialog.Title className="truncate text-[11px] font-semibold uppercase tracking-[0.14em]" style={mono}>
+                    <Dialog.Title className="truncate text-[12px] font-semibold tracking-[-0.01em]">
                       {courseName || "Course"} · {moduleName || "Credential"}
                     </Dialog.Title>
                     <Dialog.Close

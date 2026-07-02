@@ -19,114 +19,63 @@ import {
   display,
   typeScale,
   layout,
+  space,
   motion as motionTok,
   containerCls,
   SECTIONS,
 } from "./tokens";
 
-const IDS = SECTIONS.map((s) => s.id) as string[];
+/* The faint fixed 12-column GridField is RETIRED (2026-07-02): a graph-paper
+ * background is pok.tech's hero treatment (a direct competitor) — structure
+ * comes from the hairline section rules alone. Don't reintroduce a grid field. */
 
-/* ── Scroll-spy: which section is in view ───────────────────────────── */
-export function useActiveSection(ids: string[] = IDS, initial = "top"): string {
-  const [active, setActive] = useState<string>(initial);
-  useEffect(() => {
-    const els = ids
-      .map((id) => document.getElementById(id))
-      .filter((el): el is HTMLElement => el !== null);
-    const obs = new IntersectionObserver(
-      (entries) =>
-        entries.forEach((e) => {
-          if (e.isIntersecting) setActive(e.target.id);
-        }),
-      { rootMargin: "-45% 0px -50% 0px", threshold: 0 },
-    );
-    els.forEach((el) => obs.observe(el));
-    return () => obs.disconnect();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  return active;
+/* ── LogoWash: the atmosphere layer ─────────────────────────────────────
+ * Stand inside the logo mark. Its splotches — coral and vermilion pinwheels
+ * high, amber upper-right, teal rounds low in the corners, everything strung
+ * on the deep scaffold blue — are blown up far past focus and wash the page
+ * at near-threshold opacity. The composition mirrors the mark's own
+ * geography, and the center column stays nearly clean so content sits on
+ * paper. Fixed, non-interactive, no blend modes (predictable across themes);
+ * each theme gets its own tuned stack because a tint that reads on warm
+ * paper vanishes on ink, and vice versa. This is atmosphere, not structure —
+ * section rules still do the structural work. */
+const WASH = {
+  coral: "232 93 61", // the pinwheel vermilion
+  amber: "240 160 60", // the warm rounds
+  teal: "63 169 184", // the cool rounds
+  blue: "23 90 114", // the scaffold lattice
+} as const;
+
+function washStack(a: { coral: number; amber: number; teal: number; blue: number }) {
+  return [
+    // Corals live high in the mark.
+    `radial-gradient(46% 36% at 10% 6%, rgb(${WASH.coral} / ${a.coral}), transparent 70%)`,
+    `radial-gradient(38% 30% at 92% 10%, rgb(${WASH.amber} / ${a.amber}), transparent 70%)`,
+    // Teals hold the low corners.
+    `radial-gradient(42% 34% at 4% 82%, rgb(${WASH.teal} / ${a.teal}), transparent 70%)`,
+    `radial-gradient(36% 30% at 97% 68%, rgb(${WASH.teal} / ${a.teal * 0.8}), transparent 70%)`,
+    // A second coral ember low, off-center — the mark repeats them.
+    `radial-gradient(30% 26% at 74% 96%, rgb(${WASH.coral} / ${a.coral * 0.7}), transparent 70%)`,
+    // The scaffold blue is the room itself: one broad whisper across the middle.
+    `radial-gradient(70% 55% at 50% 42%, rgb(${WASH.blue} / ${a.blue}), transparent 75%)`,
+  ].join(", ");
 }
 
-/* ── Faint fixed 12-column grid field ───────────────────────────────── */
-export function GridField() {
+export function LogoWash() {
   return (
-    <div
-      aria-hidden
-      className="pointer-events-none fixed inset-0 z-0 hidden justify-center md:flex"
-    >
+    <>
       <div
-        className="grid h-full w-full grid-cols-12 px-6 sm:px-10"
-        style={{ maxWidth: layout.maxWidth, borderRight: `1px solid ${color.grid}` }}
-      >
-        {Array.from({ length: layout.columns }).map((_, i) => (
-          <div key={i} style={{ borderLeft: `1px solid ${color.grid}` }} />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-/* ── Editorial margin rail (right side, de-chromed) ─────────────────── */
-export interface RailItem {
-  id: string;
-  label: string;
-  /** Cross-page link; defaults to the in-page anchor `#${id}`. */
-  href?: string;
-}
-
-export function EditorialRail({
-  sections,
-  activeId,
-}: {
-  sections: readonly RailItem[];
-  activeId: string;
-}) {
-  return (
-    <aside
-      className="pointer-events-none fixed right-8 top-1/2 z-30 hidden -translate-y-1/2 xl:block"
-      aria-label="Section index"
-    >
-      {/* The rail's own plate: a height-constrained, generously padded box that
-          hugs the menu with a soft translucent paper background — so section
-          rules dissolve behind the labels without a full-height gutter mask. */}
-      <nav
-        className="pointer-events-auto flex flex-col items-end gap-3.5 px-6 py-7"
-        style={{
-          background: "rgb(var(--sys-paper-rgb) / 0.72)",
-          backdropFilter: "blur(4px)",
-          WebkitBackdropFilter: "blur(4px)",
-        }}
-      >
-        {sections.map((s) => {
-          const isActive = activeId === s.id;
-          return (
-            <a
-              key={s.id}
-              href={s.href ?? `#${s.id}`}
-              className="flex items-center gap-3"
-              style={{ fontFamily: font.mono }}
-            >
-              <span
-                className="text-[10px] tracking-[0.06em] transition-all duration-300"
-                style={{
-                  color: isActive ? color.ink : color.inkGhost,
-                  fontWeight: isActive ? 600 : 400,
-                }}
-              >
-                {s.label}
-              </span>
-              <span
-                className="inline-block h-px transition-all duration-300"
-                style={{
-                  width: isActive ? 24 : 8,
-                  background: isActive ? color.blue : "rgb(var(--sys-ink-rgb) / 0.22)",
-                }}
-              />
-            </a>
-          );
-        })}
-      </nav>
-    </aside>
+        aria-hidden
+        className="pointer-events-none fixed inset-0 z-0 dark:hidden"
+        style={{ backgroundImage: washStack({ coral: 0.1, amber: 0.09, teal: 0.09, blue: 0.045 }) }}
+      />
+      {/* Dark paper swallows tint, so the same hues run a step warmer/brighter. */}
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-0 z-0 hidden dark:block"
+        style={{ backgroundImage: washStack({ coral: 0.13, amber: 0.1, teal: 0.11, blue: 0.09 }) }}
+      />
+    </>
   );
 }
 
@@ -276,8 +225,8 @@ function NavDropdown({
                     {it.name}
                     {it.soon && (
                       <span
-                        className="text-[9px] font-semibold uppercase tracking-[0.14em]"
-                        style={{ fontFamily: font.mono, color: color.inkFaint }}
+                        className="text-[10px] font-semibold tracking-[-0.01em]"
+                        style={{ color: color.inkFaint }}
                       >
                         Soon
                       </span>
@@ -326,10 +275,9 @@ export function TopNav({ items, cta, secondaryCta }: NavData) {
       className="sticky top-0 z-50 border-b backdrop-blur"
       style={{ borderColor: color.rule, background: "rgb(var(--sys-paper-rgb) / 0.95)" }}
     >
-      <div
-        className={`${containerCls} flex items-center justify-between gap-6 py-4`}
-        style={{ maxWidth: layout.maxWidth }}
-      >
+      {/* Full-bleed row: the brand and CTAs anchor to the viewport edges
+          (at the shared padX gutter) rather than the content measure. */}
+      <div className={`flex items-center justify-between gap-6 py-4 ${layout.padX}`}>
         <Brand />
         <div className="flex items-center gap-5 sm:gap-6">
           <nav className="hidden items-center gap-7 lg:flex">
@@ -396,8 +344,8 @@ export function TopNav({ items, cta, secondaryCta }: NavData) {
               "items" in entry ? (
                 <div key={entry.label} className="py-2">
                   <p
-                    className="py-1.5 text-[11px] uppercase tracking-[0.16em]"
-                    style={{ fontFamily: font.mono, color: color.inkFaint }}
+                    className="py-1.5 text-[12px] font-medium tracking-[-0.01em]"
+                    style={{ color: color.inkFaint }}
                   >
                     {entry.label}
                   </p>
@@ -408,7 +356,7 @@ export function TopNav({ items, cta, secondaryCta }: NavData) {
                         className="block py-2 pl-3 text-[14px]"
                         style={{ color: color.inkFaint }}
                       >
-                        {it.name} <span className="text-[11px] uppercase">· soon</span>
+                        {it.name} <span className="text-[12px]">· soon</span>
                       </span>
                     ) : (
                       <a
@@ -428,8 +376,8 @@ export function TopNav({ items, cta, secondaryCta }: NavData) {
                   key={entry.label}
                   href={entry.href}
                   onClick={() => setOpen(false)}
-                  className="py-2.5 text-[13px] uppercase tracking-[0.1em] transition-colors hover:[color:var(--sys-ink)]"
-                  style={{ fontFamily: font.mono, color: color.inkMuted }}
+                  className="py-2.5 text-[14px] font-medium tracking-[-0.01em] transition-colors hover:[color:var(--sys-ink)]"
+                  style={{ color: color.inkMuted }}
                 >
                   {entry.label}
                 </a>
@@ -443,44 +391,28 @@ export function TopNav({ items, cta, secondaryCta }: NavData) {
 }
 
 /* ── Page frame: grid + rail + content offset ───────────────────────── */
+/* The right-hand EditorialRail (scroll-spy section index) is RETIRED
+ * (2026-07-02) — removed from the landing first, then everywhere. */
 export function Page({
   nav,
-  sections = SECTIONS,
-  activeId,
   children,
   footer,
 }: {
   nav: NavData;
-  /** Rail items. Defaults to the landing index; pass `null` for no rail. */
-  sections?: readonly RailItem[] | null;
-  /** Force the active rail item (cross-page). Omit to use in-page scroll-spy. */
-  activeId?: string;
   children: React.ReactNode;
-  /** Full-bleed footer, rendered OUTSIDE the rail-reserve padding so it spans
-   *  the whole viewport like the TopNav (not clipped at the rail gutter). */
+  /** Full-bleed footer — spans the whole viewport like the TopNav. */
   footer?: React.ReactNode;
 }) {
-  const railSections = sections && sections.length > 0 ? sections : null;
-  const spyIds = railSections && activeId === undefined ? railSections.map((s) => s.id) : [];
-  const spied = useActiveSection(spyIds);
-  const active = activeId ?? spied;
   return (
     <div
       className="relative min-h-screen antialiased"
       style={{ background: color.paper, color: color.ink, fontFamily: font.sans }}
     >
-      <GridField />
-      {railSections && <EditorialRail sections={railSections} activeId={active} />}
+      <LogoWash />
       <div className="relative z-10">
         {/* TopNav spans the full viewport so its bottom border is edge-to-edge. */}
         <TopNav {...nav} />
-        {/* railReserve (tokens.layout.railReserve = 150) — literal for Tailwind.
-            Scoped to content only so the header border stays full-bleed. The rail
-            carries its own contained plate (see EditorialRail), so there is no
-            full-height gutter mask to wash over the footer. */}
-        <div className={railSections ? "xl:pr-[150px]" : undefined}>{children}</div>
-        {/* Footer sits OUTSIDE the rail-reserve wrapper so it spans the full
-            viewport like the TopNav, instead of being clipped at the rail. */}
+        {children}
         {footer}
       </div>
     </div>
@@ -522,7 +454,11 @@ export function Section({
   );
 }
 
-/* ── Kicker: mono uppercase label. NEVER orange. ────────────────────── */
+/* ── Kicker: the section eyebrow ─────────────────────────────────────
+ * Sentence case in the body sans, led by a small Scaffold-Orange square —
+ * the brand mark's own tile, a mark competitors don't share. The previous
+ * mono-uppercase letterspaced eyebrow is RETIRED (2026-07-02): it was
+ * pok.tech's exact eyebrow treatment. No all-caps tracked eyebrows. */
 export function Kicker({
   children,
   className = "",
@@ -532,10 +468,11 @@ export function Kicker({
 }) {
   return (
     <p
-      className={`text-[11px] uppercase tracking-[0.18em] ${className}`}
-      style={{ fontFamily: font.mono, color: color.inkMuted }}
+      className={`flex items-center gap-2.5 text-[13px] font-semibold tracking-[-0.01em] ${className}`}
+      style={{ color: color.inkMuted }}
     >
-      {children}
+      <span aria-hidden className="h-2 w-2 shrink-0" style={{ background: color.orange }} />
+      <span>{children}</span>
     </p>
   );
 }
@@ -565,16 +502,11 @@ export function SectionHead({
 }) {
   return (
     <div className="flex flex-wrap items-center gap-4 pt-16 sm:pt-24">
-      <span
-        className="text-[11px] uppercase tracking-[0.18em]"
-        style={{ fontFamily: font.mono, color: color.inkMuted }}
-      >
-        {kicker}
-      </span>
+      <Kicker>{kicker}</Kicker>
       {live && (
         <span
-          className="inline-flex items-center gap-2 border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em]"
-          style={{ fontFamily: font.mono, borderColor: color.rule }}
+          className="inline-flex items-center gap-2 border px-2.5 py-1 text-[11px] font-semibold tracking-[-0.01em]"
+          style={{ borderColor: color.rule }}
         >
           <span
             className="h-1.5 w-1.5 animate-pulse"
@@ -622,18 +554,23 @@ export function Display({
 
 /* ── Buttons ───────────────────────────────────────────────────────── */
 type ButtonVariant = "primary" | "ink" | "outline" | "chip" | "disabled";
+// Button type follows the label system: Inter sentence case, no mono, no caps.
+// The square geometry + ink/orange fills carry the identity, not the type.
 const btnBase =
-  "inline-flex items-center justify-center gap-3 px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.1em] transition-colors";
+  "inline-flex items-center justify-center gap-3 px-6 py-3 text-[13px] font-semibold tracking-[-0.01em] transition-colors";
 
 export function Button({
   variant = "outline",
   href,
+  onClick,
   children,
   className = "",
   full = false,
 }: {
   variant?: ButtonVariant;
   href?: string;
+  /** Action buttons (no href) — e.g. the StoryFork chapter advances. */
+  onClick?: () => void;
   children: React.ReactNode;
   className?: string;
   full?: boolean;
@@ -646,7 +583,14 @@ export function Button({
     disabled: { border: `1px solid ${color.cell}`, color: color.inkGhost },
   };
   const cls = `${btnBase} ${variant === "disabled" ? "cursor-not-allowed" : ""} ${full ? "w-full" : ""} ${className}`;
-  const sty = { fontFamily: font.mono, ...styles[variant] };
+  const sty = styles[variant];
+  if (variant !== "disabled" && !href && onClick) {
+    return (
+      <button type="button" onClick={onClick} className={`${cls} hover:opacity-90`} style={sty}>
+        {children}
+      </button>
+    );
+  }
   if (variant === "disabled" || !href) {
     return (
       <span aria-disabled className={cls} style={sty}>
@@ -661,16 +605,18 @@ export function Button({
   );
 }
 
-/** Connected action group — stitches button borders (offset by 1px). */
-export function Stitch({ children }: { children: React.ReactNode }) {
+/**
+ * ButtonRow — an action group: buttons side by side with x spacing
+ * (space.gapButtons), stacking vertically on small screens. Replaces the old
+ * border-stitched treatment; rows of buttons always get a gap, never touch.
+ */
+export function ButtonRow({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-stretch [&>*]:-mt-px [&>*:first-child]:mt-0 sm:[&>*]:mt-0 sm:[&>*]:-ml-px sm:[&>*:first-child]:ml-0">
+    <div className={`flex flex-col ${space.gapButtons} sm:flex-row sm:flex-wrap sm:items-stretch`}>
       {children}
     </div>
   );
 }
-
-const CARD_NUMS = ["01", "02", "03", "04", "05", "06"];
 
 /**
  * SectionIntro — the shared section-header triple (eyebrow · Display title ·
@@ -689,14 +635,7 @@ export function SectionIntro({
 }) {
   return (
     <>
-      {eyebrow && (
-        <p
-          className="text-[12px] uppercase tracking-[0.14em]"
-          style={{ fontFamily: font.mono, color: color.inkFaint }}
-        >
-          {eyebrow}
-        </p>
-      )}
+      {eyebrow && <Kicker>{eyebrow}</Kicker>}
       <Display as="h2" size={size} className={eyebrow ? "mt-3" : undefined}>
         {title}
       </Display>
@@ -730,7 +669,9 @@ export function CardRow({
   const md = size === "md";
   const itemCls = md
     ? `col-span-12 py-9 sm:col-span-6 sm:px-7 ${cols === 4 ? "lg:col-span-3" : "lg:col-span-4"}`
-    : "col-span-12 py-7 sm:col-span-4 sm:px-7 sm:first:pl-0";
+    : cols === 4
+      ? "col-span-12 py-7 sm:col-span-6 sm:px-7 sm:first:pl-0 lg:col-span-3"
+      : "col-span-12 py-7 sm:col-span-4 sm:px-7 sm:first:pl-0";
   const headCls = md
     ? "text-2xl font-semibold leading-none tracking-[-0.03em]"
     : "text-xl font-semibold leading-none tracking-[-0.03em]";
@@ -745,18 +686,17 @@ export function CardRow({
           className={itemCls}
           style={{ borderTop: i > 0 ? `1px solid ${color.cell}` : undefined }}
         >
-          {numbered && (
-            <div className="flex items-baseline gap-4">
-              <span
-                className="text-[12px] uppercase tracking-[0.14em] tabular-nums"
-                style={{ fontFamily: font.mono, color: color.inkFaint }}
-              >
-                {CARD_NUMS[i]}
+          {/* Sequence numeral folds into the heading — an editorial "1. " in
+              the display face, NOT a floating mono `01` marker (that idiom is
+              retired with the old kicker; it matched pok.tech's card marks). */}
+          <h3 className={headCls}>
+            {numbered && (
+              <span className="tabular-nums" style={{ color: color.inkFaint }}>
+                {i + 1}.{" "}
               </span>
-              <span className="h-px flex-1 translate-y-[-4px]" style={{ background: color.cell }} />
-            </div>
-          )}
-          <h3 className={numbered ? `mt-5 ${headCls}` : headCls}>{it.heading}</h3>
+            )}
+            {it.heading}
+          </h3>
           <p className={bodyCls} style={{ color: color.inkMuted }}>
             {it.body}
           </p>
@@ -767,45 +707,29 @@ export function CardRow({
 }
 
 /**
- * TierCard — one pricing tier: name + price (+ note), optional Recommended
- * flag, optional dimmed price, and a body slot for the tier's contents. Shared
- * across every pricing surface so a tier-card restyle lands once.
+ * TierCard — one pricing tier: name + price (+ note), optional dimmed price,
+ * and a body slot for the tier's contents. Shared across every pricing
+ * surface so a tier-card restyle lands once.
  */
 export function TierCard({
   name,
   price,
   priceNote,
-  recommended,
   dim,
   children,
 }: {
   name: string;
   price: string;
   priceNote?: string;
-  recommended?: boolean;
   dim?: boolean;
   children: React.ReactNode;
 }) {
   return (
-    <div
-      className="flex flex-col p-6"
-      style={{
-        border: `1px solid ${recommended ? color.ink : color.cell}`,
-        background: recommended ? "rgb(var(--sys-ink-rgb) / 0.03)" : undefined,
-      }}
-    >
+    <div className="flex flex-col p-6" style={{ border: `1px solid ${color.cell}` }}>
       <div className="flex items-baseline justify-between gap-2">
-        <span className="text-[13px] font-semibold uppercase tracking-[0.1em]" style={{ fontFamily: font.mono }}>
+        <span className="text-[14px] font-semibold tracking-[-0.01em]">
           {name}
         </span>
-        {recommended && (
-          <span
-            className="text-[10px] font-semibold uppercase tracking-[0.14em]"
-            style={{ fontFamily: font.mono, color: color.orange }}
-          >
-            Recommended
-          </span>
-        )}
       </div>
       <div className="mt-4 flex items-baseline gap-1.5">
         <span
@@ -861,15 +785,12 @@ export function SpecimenReveal({
           className="flex items-center justify-between border-b"
           style={{ borderColor: color.rule }}
         >
-          <span
-            className="px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.14em]"
-            style={{ fontFamily: font.mono }}
-          >
+          <span className="px-4 py-2 text-[11px] font-semibold tracking-[-0.01em]">
             {specimenLabel}
           </span>
           <span
-            className="inline-flex items-center gap-2 border-l px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.14em]"
-            style={{ color: color.orange, borderColor: color.rule, fontFamily: font.mono }}
+            className="inline-flex items-center gap-2 border-l px-4 py-2 text-[11px] font-semibold tracking-[-0.01em]"
+            style={{ color: color.orange, borderColor: color.rule }}
           >
             <span className="h-1.5 w-1.5 rounded-full" style={{ background: color.orange }} />
             Verified
@@ -890,14 +811,14 @@ export function SpecimenReveal({
           </p>
           <div className="flex items-center justify-between border-t" style={{ borderColor: color.cell }}>
             <span
-              className="px-4 py-2 text-[10px] uppercase tracking-[0.14em] tabular-nums"
-              style={{ fontFamily: font.mono, color: color.inkFaint }}
+              className="px-4 py-2 text-[11px] font-medium tracking-[-0.01em] tabular-nums"
+              style={{ color: color.inkFaint }}
             >
               {metaLabel}
             </span>
             <span
-              className="border-l px-4 py-2 text-[10px] uppercase tracking-[0.14em]"
-              style={{ fontFamily: font.mono, color: color.inkFaint, borderColor: color.cell }}
+              className="border-l px-4 py-2 text-[11px] font-medium tracking-[-0.01em]"
+              style={{ color: color.inkFaint, borderColor: color.cell }}
             >
               {figLabel}
             </span>
@@ -905,6 +826,61 @@ export function SpecimenReveal({
         </figcaption>
       </motion.figure>
     </div>
+  );
+}
+
+/* ── Artifact plate: old-book / museum-figure container ─────────────────
+   Static sibling of SpecimenReveal (same border grammar as the demo card:
+   1px `color.rule` outside and in, nothing heavier). An artifact sits on a
+   bare plate; a hairline rule separates the fig-numbered caption below. */
+export function ArtifactPlate({
+  src,
+  alt,
+  caption,
+  figLabel = "fig. 1",
+  className = "",
+  imgStyle,
+}: {
+  src: string;
+  alt: string;
+  caption: string;
+  figLabel?: string;
+  className?: string;
+  imgStyle?: React.CSSProperties;
+}) {
+  return (
+    <figure
+      className={className}
+      style={{ border: `1px solid ${color.rule}`, boxShadow: color.cardShadow }}
+    >
+      {/* Opaque plate behind the artifact; the caption strip below stays
+          transparent (page paper shows through). */}
+      <div
+        className="flex items-center justify-center p-6 sm:p-10"
+        style={{ background: color.plate }}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={src}
+          alt={alt}
+          width={1024}
+          height={1024}
+          className="h-auto w-full"
+          style={imgStyle}
+        />
+      </div>
+      <figcaption className="border-t" style={{ borderColor: color.rule }}>
+        <p className="px-4 py-3 text-[13px] leading-relaxed" style={{ color: color.inkMuted }}>
+          <span
+            className="text-[12px] font-medium tracking-[-0.01em]"
+            style={{ color: color.inkFaint }}
+          >
+            {figLabel}:
+          </span>{" "}
+          {caption}
+        </p>
+      </figcaption>
+    </figure>
   );
 }
 
@@ -921,9 +897,9 @@ export function DataList({ rows }: { rows: [string, string][] }) {
           className="flex items-center justify-between border-b py-2.5"
           style={{ borderColor: color.cell }}
         >
-          <dt className="uppercase tracking-[0.12em]" style={{ color: color.inkFaint }}>
-            {k}
-          </dt>
+          {/* Keys stay mono with the readout (it's a data surface), but no
+              decorative uppercase/letterspacing. */}
+          <dt style={{ color: color.inkFaint }}>{k}</dt>
           <dd style={{ color: color.ink }}>{v}</dd>
         </div>
       ))}
@@ -969,9 +945,8 @@ export function StackLayers({ layers }: { layers: readonly StackLayer[] }) {
         >
           <div className="col-span-12 sm:col-span-3">
             <span
-              className="text-[11px] uppercase tracking-[0.12em]"
+              className="text-[12px] font-medium tracking-[-0.01em]"
               style={{
-                fontFamily: font.mono,
                 color: layer.emphasis ? "rgb(var(--sys-on-ink-rgb) / 0.85)" : color.inkFaint,
               }}
             >
@@ -1033,14 +1008,14 @@ export function Footer({
               {tagline}
             </p>
             <p
-              className="mt-5 text-[11px] uppercase tracking-[0.1em]"
-              style={{ fontFamily: font.mono, color: color.inkFaint }}
+              className="mt-5 text-[12px] font-medium tracking-[-0.01em]"
+              style={{ color: color.inkFaint }}
             >
               {meta}
             </p>
             <p
-              className="mt-2 text-[11px] tabular-nums"
-              style={{ fontFamily: font.mono, color: color.inkGhost }}
+              className="mt-2 text-[12px] tabular-nums"
+              style={{ color: color.inkGhost }}
             >
               {copyright}
             </p>
@@ -1049,8 +1024,8 @@ export function Footer({
             {Object.entries(columns).map(([key, links]) => (
               <div key={key}>
                 <h3
-                  className="mb-4 border-b pb-2 text-[11px] font-semibold uppercase tracking-[0.12em]"
-                  style={{ fontFamily: font.mono, borderColor: color.rule }}
+                  className="mb-4 border-b pb-2 text-[12px] font-semibold tracking-[-0.01em]"
+                  style={{ borderColor: color.rule }}
                 >
                   {key}
                 </h3>
@@ -1079,8 +1054,8 @@ export function Footer({
             {backHref ? (
               <a
                 href={backHref}
-                className="text-[12px] font-semibold uppercase tracking-[0.1em] transition-colors hover:[color:var(--sys-ink)]"
-                style={{ fontFamily: font.mono, color: color.inkFaint }}
+                className="text-[13px] font-semibold tracking-[-0.01em] transition-colors hover:[color:var(--sys-ink)]"
+                style={{ color: color.inkFaint }}
               >
                 {backLabel}
               </a>
@@ -1089,8 +1064,8 @@ export function Footer({
             )}
             {caption && (
               <span
-                className="text-[11px] uppercase tracking-[0.12em]"
-                style={{ fontFamily: font.mono, color: color.inkGhost }}
+                className="text-[12px] font-medium tracking-[-0.01em]"
+                style={{ color: color.inkGhost }}
               >
                 {caption}
               </span>

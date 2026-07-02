@@ -39,7 +39,7 @@ export function UseCaseLayout({
         {description && <meta name="description" content={description} />}
       </Head>
 
-      <Page nav={{ items: nav.items, cta: nav.cta }} sections={null}>
+      <Page nav={{ items: nav.items, cta: nav.cta }}>
         {/* Header */}
         <Section bordered={false}>
           <div className="pb-12 pt-16 sm:pt-24">

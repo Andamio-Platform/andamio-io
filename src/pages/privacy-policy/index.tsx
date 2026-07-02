@@ -1,10 +1,8 @@
 import React from "react";
 import Metatags from "~/components/site/metatags";
 import { nav, footer as footerData } from "~/ui/explore/content";
-import { color, font } from "~/ui/system/tokens";
+import { color } from "~/ui/system/tokens";
 import { Page, Section, Kicker, Display, Footer } from "~/ui/system/kit";
-
-const mono = { fontFamily: font.mono };
 
 function H2({ children }: { children: React.ReactNode }) {
   return (
@@ -55,7 +53,7 @@ export default function PrivacyPolicyPage() {
         description="Our commitment to protecting your privacy and personal data."
       />
 
-      <Page nav={{ items: nav.items, cta: nav.cta }} sections={null}>
+      <Page nav={{ items: nav.items, cta: nav.cta }}>
         {/* Header */}
         <Section bordered={false}>
           <div className="pb-12 pt-16 sm:pt-24">
@@ -82,7 +80,7 @@ export default function PrivacyPolicyPage() {
               <p className="text-lg" style={{ color: color.ink }}>
                 <strong style={{ fontWeight: 600 }}>Version 1.0.0</strong>
               </p>
-              <p className="mt-2 text-[12px] uppercase tracking-[0.1em]" style={{ ...mono, color: color.inkFaint }}>
+              <p className="mt-2 text-[13px] font-medium tracking-[-0.01em]" style={{ color: color.inkFaint }}>
                 Last updated: {new Date().toLocaleDateString()}
               </p>
             </div>

@@ -35,7 +35,7 @@ export default function ContactPage() {
         description="Get in touch with the Andamio team."
       />
 
-      <Page nav={{ items: nav.items, cta: nav.cta }} sections={null}>
+      <Page nav={{ items: nav.items, cta: nav.cta }}>
         {/* Header */}
         <Section bordered={false}>
           <div className="pb-12 pt-16 sm:pt-24">
@@ -65,12 +65,7 @@ export default function ContactPage() {
                   className="flex flex-col gap-3 p-6"
                   style={{ background: color.paper }}
                 >
-                  <p
-                    className="text-[11px] uppercase tracking-[0.18em]"
-                    style={{ ...mono, color: color.inkMuted }}
-                  >
-                    {channel.label}
-                  </p>
+                  <Kicker>{channel.label}</Kicker>
                   {channel.href ? (
                     <a
                       href={channel.href}

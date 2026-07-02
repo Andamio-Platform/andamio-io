@@ -9,7 +9,7 @@
 import React from "react";
 import { nav, cli, footer } from "~/ui/explore/content";
 import { color, font } from "./tokens";
-import { Page, Section, Display, Button, Stitch, Footer, SectionIntro, CardRow } from "./kit";
+import { Page, Section, Display, Button, ButtonRow, Footer, SectionIntro, CardRow, Kicker } from "./kit";
 
 const mono = { fontFamily: font.mono };
 const muted = { color: color.inkMuted };
@@ -27,13 +27,11 @@ const pageFooter = (
 
 export default function AndamioCli() {
   return (
-    <Page nav={{ items: nav.items, cta: nav.cta, secondaryCta: nav.secondaryCta }} sections={null} footer={pageFooter}>
+    <Page nav={{ items: nav.items, cta: nav.cta, secondaryCta: nav.secondaryCta }} footer={pageFooter}>
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
       <Section id="top" bordered={false}>
         <div className="pt-16 sm:pt-24">
-          <p className="text-[11px] uppercase tracking-[0.18em]" style={{ ...mono, color: color.inkMuted }}>
-            {cli.hero.eyebrow}
-          </p>
+          <Kicker>{cli.hero.eyebrow}</Kicker>
           <Display as="h1" size="xl" className="mt-6 max-w-[15ch]">
             {cli.hero.headline}
           </Display>
@@ -41,14 +39,14 @@ export default function AndamioCli() {
             {cli.hero.sub}
           </p>
           <div className="mb-16 mt-12 sm:mb-24">
-            <Stitch>
+            <ButtonRow>
               <Button variant="ink" href={cli.hero.primaryCta.href}>
                 {cli.hero.primaryCta.label} <span aria-hidden>→</span>
               </Button>
               <Button variant="outline" href={cli.hero.secondaryCta.href}>
                 {cli.hero.secondaryCta.label} <span aria-hidden>→</span>
               </Button>
-            </Stitch>
+            </ButtonRow>
           </div>
         </div>
       </Section>
@@ -61,7 +59,7 @@ export default function AndamioCli() {
             {cli.install.snippets.map((s) => (
               <div key={s.label} className="border" style={{ borderColor: color.rule }}>
                 <div className="border-b px-4 py-2.5" style={{ borderColor: color.cell }}>
-                  <span className="text-[11px] uppercase tracking-[0.16em]" style={{ ...mono, color: color.inkFaint }}>
+                  <span className="text-[12px] font-medium tracking-[-0.01em]" style={{ color: color.inkFaint }}>
                     {s.label}
                   </span>
                 </div>

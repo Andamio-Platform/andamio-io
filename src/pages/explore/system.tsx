@@ -15,7 +15,7 @@ import {
 import {
   Kicker,
   Button,
-  Stitch,
+  ButtonRow,
   SpecimenReveal,
   DataList,
   StackLayers,
@@ -179,7 +179,7 @@ export default function SystemPage() {
           ))}
           <div className="border-t pt-5" style={{ borderColor: color.cell }}>
             <span className="text-[11px] uppercase tracking-[0.16em]" style={{ fontFamily: MONO, color: color.inkGhost }}>
-              kicker · mono, muted, never orange
+              kicker · sentence case, orange tile, never all-caps
             </span>
             <div className="mt-3">
               <Kicker>The problem with badges</Kicker>
@@ -190,11 +190,11 @@ export default function SystemPage() {
 
       {/* buttons */}
       <Block n="03" title="Buttons">
-        <Stitch>
+        <ButtonRow>
           <Button variant="chip">Learn how</Button>
           <Button variant="primary" href="#">Primary CTA →</Button>
           <Button variant="outline" href="#">Secondary →</Button>
-        </Stitch>
+        </ButtonRow>
         <div className="mt-6 flex flex-wrap gap-3">
           <Button variant="ink" href="#">Ink</Button>
           <Button variant="disabled">Disabled soon</Button>
@@ -278,7 +278,6 @@ export default function SystemPage() {
             ["Columns", `${layout.columns} (faint grid)`],
             ["Container padding", layout.padX],
             ["Section rhythm", layout.padY],
-            ["Rail reserve (xl)", `${layout.railReserve}px`],
             ["Reveal — badge X", motionTok.badgeX.join(" → ")],
             ["Reveal — frame width", motionTok.frameWidth.join(" → ")],
             ["Reveal — offset", motionTok.revealOffset.join(" / ")],

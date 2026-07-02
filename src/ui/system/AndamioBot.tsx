@@ -9,7 +9,7 @@
 import React from "react";
 import { nav, bot, footer } from "~/ui/explore/content";
 import { color, font } from "./tokens";
-import { Page, Section, Display, Button, Stitch, Footer, SectionIntro, CardRow } from "./kit";
+import { Page, Section, Display, Button, ButtonRow, Footer, SectionIntro, CardRow, Kicker } from "./kit";
 
 const mono = { fontFamily: font.mono };
 const muted = { color: color.inkMuted };
@@ -27,13 +27,11 @@ const pageFooter = (
 
 export default function AndamioBot() {
   return (
-    <Page nav={{ items: nav.items, cta: nav.cta, secondaryCta: nav.secondaryCta }} sections={null} footer={pageFooter}>
+    <Page nav={{ items: nav.items, cta: nav.cta, secondaryCta: nav.secondaryCta }} footer={pageFooter}>
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
       <Section id="top" bordered={false}>
         <div className="pt-16 sm:pt-24">
-          <p className="text-[11px] uppercase tracking-[0.18em]" style={{ ...mono, color: color.inkMuted }}>
-            {bot.hero.eyebrow}
-          </p>
+          <Kicker>{bot.hero.eyebrow}</Kicker>
           <Display as="h1" size="xl" className="mt-6 max-w-[16ch]">
             {bot.hero.headline}
           </Display>
@@ -41,14 +39,14 @@ export default function AndamioBot() {
             {bot.hero.sub}
           </p>
           <div className="mb-16 mt-12 sm:mb-24">
-            <Stitch>
+            <ButtonRow>
               <Button variant="ink" href={bot.hero.primaryCta.href}>
                 {bot.hero.primaryCta.label} <span aria-hidden>→</span>
               </Button>
               <Button variant="outline" href={bot.hero.secondaryCta.href}>
                 {bot.hero.secondaryCta.label} <span aria-hidden>→</span>
               </Button>
-            </Stitch>
+            </ButtonRow>
           </div>
         </div>
       </Section>

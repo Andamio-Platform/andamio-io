@@ -4,8 +4,9 @@
  * HowItWorks — "Issuing takes three steps" as ONE demo card whose header
  * ("Learn how an Andamio Credential Badge works" + a live pulse) stays constant,
  * with the three steps (Define · Issue · Verify) as tabs INSIDE the card, right
- * below the header. The card body swaps between three mini-demos; the same
- * Fix-a-Flat-Tire badge stays on screen across all three:
+ * below the header. The card body swaps between three mini-demos; the REAL
+ * Getting Started with Andamio badge (the landing hero's fig. 1) stays on
+ * screen across all three — the landing presents it, this demo customizes it:
  *   Define → the real BadgeBuilder, rendered bare (chrome={false})
  *   Issue  → example evidence (assignment commitment) → press Issue → badge minted.
  *            The evidence stays in the customer's system; only the credential is
@@ -15,13 +16,8 @@
  */
 
 import React from "react";
-import BadgeBuilder, { BadgeInfoFooter } from "./BadgeBuilder";
-import {
-  buildBadgeParams,
-  buildBadgeSvg,
-  PALETTES,
-  withInterior,
-} from "~/ui/landing/V2Landing/badge";
+import BadgeBuilder, { BadgeInfoFooter, GETTING_STARTED } from "./BadgeBuilder";
+import { buildBadgeSvg, PALETTES, withInterior } from "~/ui/landing/V2Landing/badge";
 import { color, font } from "./tokens";
 
 const mono = { fontFamily: font.mono };
@@ -29,12 +25,10 @@ const sans = { fontFamily: font.sans };
 const NUMS = ["01", "02", "03"];
 const BLUE = "#2F6BFF"; // the system's data / confirmed accent
 
-// The one credential shown across every tab (matches the builder's sample).
-const SAMPLE = {
-  courseName: "Bike Repair Basics",
-  moduleName: "Fix a Flat Tire",
-  slts: ["I can remove a wheel", "I can patch an inner tube"],
-};
+// The credential's FULL on-chain address (<course_id>.<slt_hash>). Rule
+// (James, 2026-07-02): never truncate a credential address — the whole point
+// is that it can be validated, and a truncated address can't be.
+const REAL_ADDR = `${GETTING_STARTED.params.courseId}.${GETTING_STARTED.params.sltHash}`;
 
 type Step = { title: string; body: string };
 
@@ -49,19 +43,13 @@ export default function HowItWorks({
 }) {
   const [active, setActive] = React.useState(0);
 
-  // Build the static Fix-a-Flat-Tire badge once — shared by Issue + Verify.
+  // Build the static Getting Started badge once — shared by Issue + Verify.
+  // Real on-chain params + the real badge's Pine Gold palette, so it is the
+  // same artifact the landing hero presents (fig. 1).
   const [badgeSvg, setBadgeSvg] = React.useState("");
   React.useEffect(() => {
-    let alive = true;
-    (async () => {
-      const params = await buildBadgeParams(SAMPLE);
-      const palette = withInterior(PALETTES[0]!, "light");
-      const svg = buildBadgeSvg(params, palette, { idSuffix: "hiw" });
-      if (alive) setBadgeSvg(svg);
-    })();
-    return () => {
-      alive = false;
-    };
+    const palette = withInterior(PALETTES[GETTING_STARTED.paletteIndex]!, "light");
+    setBadgeSvg(buildBadgeSvg(GETTING_STARTED.params, palette, { idSuffix: "hiw" }));
   }, []);
 
   return (
@@ -76,7 +64,10 @@ export default function HowItWorks({
       {/* The demo card — header, then tabs, then the active pane, all inside one
           bordered card. Theme-aware (follows the app's light/dark). ────────── */}
       <div className="mt-10 pb-12 pt-8 sm:pb-16 sm:pt-10">
-        <div className="m-0 border" style={{ borderColor: color.rule, background: color.paper }}>
+        <div
+          className="m-0 border"
+          style={{ borderColor: color.rule, background: color.paper, boxShadow: color.cardShadow }}
+        >
           {/* Card header — constant across tabs */}
           <div
             className="flex items-start justify-between gap-4 border-b px-4 py-3"
@@ -89,8 +80,8 @@ export default function HowItWorks({
               {demo.title}
             </h2>
             <span
-              className="inline-flex shrink-0 items-center gap-2 pt-1 text-[10px] font-semibold uppercase tracking-[0.14em]"
-              style={{ color: color.inkFaint, ...mono }}
+              className="inline-flex shrink-0 items-center gap-2 pt-1 text-[11px] font-semibold tracking-[-0.01em]"
+              style={{ color: color.inkFaint }}
             >
               <span className="h-1.5 w-1.5 animate-pulse rounded-full" style={{ background: color.orange }} />
               {demo.liveLabel}
@@ -191,24 +182,24 @@ function IssueDemo({ svg }: { svg: string }) {
         <div>
           <div className="border" style={{ borderColor: color.cell }}>
             <div className="flex items-center justify-between border-b px-3 py-2" style={{ borderColor: color.cell }}>
-              <span className="text-[11px] uppercase tracking-[0.14em]" style={{ ...mono, color: color.inkFaint }}>
+              <span className="text-[12px] font-medium tracking-[-0.01em]" style={{ color: color.inkFaint }}>
                 Your system
               </span>
-              <span className="text-[10px] uppercase tracking-[0.12em]" style={{ ...mono, color: color.inkFaint }}>
+              <span className="text-[11px] font-medium tracking-[-0.01em]" style={{ color: color.inkFaint }}>
                 private · not on Andamio
               </span>
             </div>
             <div className="p-4">
-              <p className="text-[11px] uppercase tracking-[0.14em]" style={{ ...mono, color: color.inkFaint }}>
+              <p className="text-[12px] font-medium tracking-[-0.01em]" style={{ color: color.inkFaint }}>
                 Assignment commitment
               </p>
               <p className="mt-2 text-[14px] font-semibold" style={{ color: color.ink }}>
-                Fix a Flat Tire — submitted evidence
+                Mint Access Token and Commit to Assignment — submitted evidence
               </p>
               <ul className="mt-2 space-y-1.5 text-[13px]" style={{ color: color.inkMuted }}>
-                <li>• Photo — wheel removed and reseated</li>
-                <li>• Photo — inner tube patched</li>
-                <li>• Note — "Held 40 psi overnight."</li>
+                <li>• Screenshot — Access Token minted in the app</li>
+                <li>• Link — the commitment transaction</li>
+                <li>• Note — "Committed to the module assignment."</li>
               </ul>
             </div>
           </div>
@@ -231,15 +222,16 @@ function IssueDemo({ svg }: { svg: string }) {
             <StaticBadge svg={svg} />
           </div>
           <p className="mt-3 text-center text-[13px] font-semibold" style={{ color: issued ? BLUE : color.inkFaint }}>
-            {issued ? (
-              <>
-                Issued ✓{" "}
-                <span style={{ ...mono, color: color.inkMuted, fontWeight: 400 }}>9b8fa722…c26771</span>
-              </>
-            ) : (
-              "Awaiting issue"
-            )}
+            {issued ? "Issued ✓" : "Awaiting issue"}
           </p>
+          {issued && (
+            <p
+              className="mx-auto mt-2 max-w-[340px] break-all text-center text-[11px] leading-relaxed"
+              style={{ ...mono, color: color.inkMuted }}
+            >
+              {REAL_ADDR}
+            </p>
+          )}
         </div>
       </div>
     </Pane>
@@ -254,15 +246,18 @@ function VerifyDemo({ svg }: { svg: string }) {
       <div className="grid items-center gap-8 sm:grid-cols-2">
         {/* Left — verify (badge kept on the right to match Define + Issue) */}
         <div>
-          <label className="text-[11px] uppercase tracking-[0.14em]" style={{ ...mono, color: color.inkFaint }}>
+          <label className="text-[12px] font-medium tracking-[-0.01em]" style={{ color: color.inkFaint }}>
             Credential address
           </label>
-          <input
-            readOnly
-            value="bike-repair.b1093d4f"
-            className="mt-2 w-full border px-3 py-2 text-[13px]"
+          {/* A div, not an <input> — the full address must be visible, and
+              inputs clip instead of wrapping (never truncate a credential
+              address, an slt_hash, or a course_id). */}
+          <div
+            className="mt-2 w-full break-all border px-3 py-2 text-[12px] leading-relaxed"
             style={{ ...mono, borderColor: color.cell, color: color.ink, background: color.paper }}
-          />
+          >
+            {REAL_ADDR}
+          </div>
           <button
             type="button"
             className={runBtn}
@@ -278,8 +273,8 @@ function VerifyDemo({ svg }: { svg: string }) {
               </p>
               <dl className="mt-3 border-t pt-3 text-[13px]" style={{ borderColor: color.cell }}>
                 {[
-                  ["Course", "Bike Repair Basics"],
-                  ["Module", "Fix a Flat Tire"],
+                  ["Course", GETTING_STARTED.courseName],
+                  ["Module", GETTING_STARTED.moduleName],
                   ["Holder", "addr1q9…"],
                 ].map(([k, v]) => (
                   <div key={k} className="flex justify-between py-1">

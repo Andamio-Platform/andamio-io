@@ -21,25 +21,10 @@ import {
   Hairline,
   SpecimenReveal,
   Footer,
-  type RailItem,
 } from "~/ui/system/kit";
 
 const mono = { fontFamily: font.mono };
 const muted = { color: color.inkMuted };
-
-const rail: RailItem[] = [
-  { id: "overview", label: "Overview" },
-  { id: "logo", label: "Logo" },
-  { id: "color", label: "Color" },
-  { id: "discipline", label: "Accent discipline" },
-  { id: "type", label: "Typography" },
-  { id: "spacing", label: "Spacing" },
-  { id: "motion", label: "Motion" },
-  { id: "voice", label: "Voice" },
-  { id: "components", label: "Components" },
-  { id: "access", label: "Accessibility" },
-  { id: "assets", label: "Assets" },
-];
 
 const neutrals = [
   ["paper", "#FFFFFF", "Background"],
@@ -157,7 +142,7 @@ function Rule({ ok, children }: { ok: boolean; children: React.ReactNode }) {
 
 export default function BrandPage() {
   return (
-    <Page nav={{ items: nav.items, cta: nav.cta }} sections={rail}>
+    <Page nav={{ items: nav.items, cta: nav.cta }}>
       {/* ── Overview ───────────────────────────────────────────── */}
       <Section id="overview" bordered={false}>
         <div className="flex items-center gap-4 pt-16 sm:pt-24">
@@ -373,9 +358,9 @@ export default function BrandPage() {
                 <p className="mt-3 text-3xl font-semibold" style={mono}>
                   Aa 0123 — //
                 </p>
-                <p className="mt-2 text-[11px] uppercase tracking-[0.18em]" style={{ ...mono, color: color.inkMuted }}>
-                  Kicker · 11px · 0.18em · never orange
-                </p>
+                <div className="mt-2">
+                  <Kicker>Kicker · sentence case · orange tile · never all-caps</Kicker>
+                </div>
               </div>
             </div>
           </div>

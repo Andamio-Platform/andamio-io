@@ -4,7 +4,7 @@ import Metatags from "~/components/site/metatags";
 import { motion } from "framer-motion";
 import { fadeIn as fadeInFactory, staggerContainer } from "~/ui/landing/V2Landing/motion-variants";
 import { nav, footer as footerData } from "~/ui/explore/content";
-import { color, font } from "~/ui/system/tokens";
+import { color } from "~/ui/system/tokens";
 import { Page, Section, Kicker, Display, Footer } from "~/ui/system/kit";
 
 const useCases = [
@@ -70,7 +70,7 @@ export default function UseCasesIndex() {
         description="Explore how organizations use Andamio to manage credentials, coordinate contributors, and scale impact."
       />
 
-      <Page nav={{ items: nav.items, cta: nav.cta }} sections={null}>
+      <Page nav={{ items: nav.items, cta: nav.cta }}>
         {/* Header */}
         <Section bordered={false}>
           <div className="pb-12 pt-16 sm:pt-24">
@@ -102,8 +102,8 @@ export default function UseCasesIndex() {
                     className="group block h-full p-6 transition-colors hover:bg-[rgba(10,10,10,0.02)] sm:p-8"
                   >
                     <span
-                      className="text-[11px] uppercase tracking-[0.16em]"
-                      style={{ fontFamily: font.mono, color: color.inkMuted }}
+                      className="text-[12px] font-medium tracking-[-0.01em]"
+                      style={{ color: color.inkMuted }}
                     >
                       {uc.domain}
                     </span>
@@ -117,8 +117,8 @@ export default function UseCasesIndex() {
                       {uc.description}
                     </p>
                     <span
-                      className="mt-4 inline-block text-[12px] font-semibold uppercase tracking-[0.1em] opacity-0 transition-opacity group-hover:opacity-100"
-                      style={{ fontFamily: font.mono, color: color.blue }}
+                      className="mt-4 inline-block text-[13px] font-semibold tracking-[-0.01em] opacity-0 transition-opacity group-hover:opacity-100"
+                      style={{ color: color.blue }}
                     >
                       View →
                     </span>

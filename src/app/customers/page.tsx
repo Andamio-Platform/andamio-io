@@ -5,7 +5,8 @@ import fs from "fs";
 import path from "path";
 import Markdoc from "@markdoc/markdoc";
 import { parseBlogMarkdocFrontmatter } from "~/utils/markdown";
-import { color, font, containerCls, layout } from "~/ui/system/tokens";
+import { color, containerCls, layout } from "~/ui/system/tokens";
+import { Kicker } from "~/ui/system/kit";
 
 type CustomerFrontmatter = {
   title?: string;
@@ -35,12 +36,7 @@ export default function CustomersPage() {
     <div className={containerCls} style={{ maxWidth: layout.maxWidth }}>
       {/* Header */}
       <header className="pb-12 pt-16 sm:pt-24">
-        <p
-          className="text-[11px] uppercase tracking-[0.18em]"
-          style={{ fontFamily: font.mono, color: color.inkMuted }}
-        >
-          The Andamio Community
-        </p>
+        <Kicker>The Andamio Community</Kicker>
         <h1 className="mt-4 text-[clamp(2.6rem,7vw,5rem)] font-semibold leading-[0.95] tracking-[-0.045em]">
           Customers
         </h1>
@@ -100,9 +96,9 @@ export default function CustomersPage() {
                   </div>
                 )}
                 <div className="flex flex-1 flex-col p-6">
-                  <div className="flex items-center gap-3" style={{ fontFamily: font.mono }}>
+                  <div className="flex items-center gap-3">
                     <span
-                      className="text-[10px] uppercase tracking-[0.16em]"
+                      className="text-[11px] font-medium tracking-[-0.01em]"
                       style={{ color: color.blue }}
                     >
                       Customer
@@ -117,9 +113,8 @@ export default function CustomersPage() {
                       {customer.frontmatter.tags.map((tag: string) => (
                         <span
                           key={tag}
-                          className="inline-block px-2 py-1 text-[10px] uppercase tracking-[0.12em]"
+                          className="inline-block px-2 py-1 text-[11px] font-medium tracking-[-0.01em]"
                           style={{
-                            fontFamily: font.mono,
                             color: color.inkMuted,
                             border: `1px solid ${color.cell}`,
                           }}
@@ -132,8 +127,8 @@ export default function CustomersPage() {
                   <div className="mt-auto flex items-center justify-between pt-6">
                     <span />
                     <span
-                      className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.12em] opacity-0 transition-opacity group-hover:opacity-100"
-                      style={{ fontFamily: font.mono, color: color.blue }}
+                      className="inline-flex items-center gap-1.5 text-[12px] font-semibold tracking-[-0.01em] opacity-0 transition-opacity group-hover:opacity-100"
+                      style={{ color: color.blue }}
                     >
                       Read →
                     </span>

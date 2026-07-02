@@ -1,5 +1,5 @@
 import React from "react";
-import { color, font } from "~/ui/system/tokens";
+import { color } from "~/ui/system/tokens";
 import { Section, Kicker, Display } from "~/ui/system/kit";
 
 const proposals = [
@@ -87,8 +87,8 @@ export default function Fund12() {
                     href={proposal.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.1em] transition-colors hover:underline"
-                    style={{ fontFamily: font.mono, color: color.blue }}
+                    className="inline-flex items-center gap-2 text-[13px] font-semibold tracking-[-0.01em] transition-colors hover:underline"
+                    style={{ color: color.blue }}
                   >
                     Read more →
                   </a>

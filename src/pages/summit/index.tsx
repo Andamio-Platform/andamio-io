@@ -59,7 +59,7 @@ export default function SummitPage() {
         description="The benefits of voting for Andamio in Project Catalyst Fund 13."
       />
 
-      <Page nav={{ items: nav.items, cta: nav.cta }} sections={null}>
+      <Page nav={{ items: nav.items, cta: nav.cta }}>
         {/* Header */}
         <Section bordered={false}>
           <div className="pb-12 pt-16 sm:pt-24">

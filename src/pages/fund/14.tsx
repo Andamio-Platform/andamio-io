@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Metatags from "~/components/site/metatags";
 import { nav, footer as footerData } from "~/ui/explore/content";
-import { color, font } from "~/ui/system/tokens";
+import { color } from "~/ui/system/tokens";
 import { Page, Section, Kicker, Display, Footer } from "~/ui/system/kit";
 
 type ProposalCategory = "technology" | "adoption";
@@ -14,8 +14,6 @@ type Proposal = {
   fund: number;
   category: ProposalCategory;
 };
-
-const mono = { fontFamily: font.mono };
 
 const FundProposals: React.FC = () => {
   useEffect(() => {
@@ -94,7 +92,7 @@ const FundProposals: React.FC = () => {
   );
 
   return (
-    <Page nav={{ items: nav.items, cta: nav.cta }} sections={null}>
+    <Page nav={{ items: nav.items, cta: nav.cta }}>
       <Metatags
         title="Project Catalyst Proposals"
         description="Proposals that Andamio has submitted to Project Catalyst. Explore reasoning, progress, and impact."
@@ -167,9 +165,8 @@ const ProposalCard: React.FC<ProposalCardProps> = ({ proposal }) => (
         {proposal.title}
       </h3>
       <span
-        className="shrink-0 border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em]"
+        className="shrink-0 border px-2.5 py-1 text-[11px] font-semibold tracking-[-0.01em]"
         style={{
-          ...mono,
           borderColor: color.cell,
           color:
             proposal.status === "completed" ? color.blue : color.inkMuted,
@@ -214,8 +211,8 @@ const ProposalCard: React.FC<ProposalCardProps> = ({ proposal }) => (
         href={proposal.link}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.1em] transition-colors hover:underline"
-        style={{ ...mono, color: color.blue }}
+        className="inline-flex items-center gap-2 text-[13px] font-semibold tracking-[-0.01em] transition-colors hover:underline"
+        style={{ color: color.blue }}
       >
         View Proposal →
       </a>

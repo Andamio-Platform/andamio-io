@@ -13,7 +13,7 @@
 import React from "react";
 import { nav, pricing, footer, EXTERNAL_LINKS } from "~/ui/explore/content";
 import { color, font } from "./tokens";
-import { Page, Section, Display, Button, Footer, SectionIntro, TierCard } from "./kit";
+import { Page, Section, Display, Button, Footer, SectionIntro, TierCard, Kicker } from "./kit";
 
 const mono = { fontFamily: font.mono };
 const muted = { color: color.inkMuted };
@@ -31,13 +31,11 @@ const pageFooter = (
 
 export default function AndamioPricing() {
   return (
-    <Page nav={{ items: nav.items, cta: nav.cta, secondaryCta: nav.secondaryCta }} sections={null} footer={pageFooter}>
+    <Page nav={{ items: nav.items, cta: nav.cta, secondaryCta: nav.secondaryCta }} footer={pageFooter}>
       {/* ── Hero — set the two-products frame up front. ─────────────────── */}
       <Section id="top" bordered={false}>
         <div className="pb-16 pt-16 sm:pb-24 sm:pt-24">
-          <p className="text-[11px] uppercase tracking-[0.18em]" style={{ ...mono, color: color.inkMuted }}>
-            {pricing.hero.kicker}
-          </p>
+          <Kicker>{pricing.hero.kicker}</Kicker>
           <Display as="h1" size="xl" className="mt-6 max-w-[18ch]">
             {pricing.hero.headline}
           </Display>
@@ -80,7 +78,6 @@ export default function AndamioPricing() {
                 name={t.name}
                 price={t.price}
                 priceNote={t.priceNote}
-                recommended={"recommended" in t && t.recommended}
                 dim={"muted" in t && t.muted}
               >
                 <dl className="space-y-2.5 text-[13px]">
@@ -122,7 +119,6 @@ export default function AndamioPricing() {
                 name={t.name}
                 price={t.price}
                 priceNote={t.priceNote}
-                recommended={"recommended" in t && t.recommended}
                 dim={"muted" in t && t.muted}
               >
                 <p className="text-[13px] leading-relaxed" style={muted}>{t.limits}</p>

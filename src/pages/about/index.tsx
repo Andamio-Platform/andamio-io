@@ -2,23 +2,22 @@ import React from "react";
 import Image from "next/image";
 import Metatags from "~/components/site/metatags";
 import { nav, footer as footerData } from "~/ui/explore/content";
-import { color, font } from "~/ui/system/tokens";
+import { color } from "~/ui/system/tokens";
 import { Page, Section, Kicker, Display, Button, Footer } from "~/ui/system/kit";
 import { EXTERNAL_LINKS } from "~/lib/external-links";
 
+// Everyone here is a co-founder — no per-person role labels (the section
+// heading carries it), just a one-liner on what each person works across.
 const teamMembers = [
-  { name: "James Dunseith", role: "Co-founder", focus: "Learning design, developer experience, strategy", image: "/images/team/james.webp" },
-  { name: "Yoram Ben Zvi", role: "Co-founder", focus: "Business models, partnerships, sustainability", image: "/images/team/yoram.jpeg" },
-  { name: "Adrian Hüetter", role: "Smart Contract Developer", focus: "Plutus, protocol design, open source", image: "/images/team/adrian.webp" },
-  { name: "HongJing (Jingles) K", role: "Developer", focus: "Full-stack, analytics, user experience", image: "/images/team/jingles.webp" },
-  { name: "Nelson Kshetrimayum", role: "Developer", focus: "Full-stack, Cardano integration", image: "/images/team/nelson.webp" },
-  { name: "Roberto Mayen", role: "Product Manager", focus: "Product strategy, design systems", image: "/images/team/rmh.webp" },
-  { name: "M. Ali Modiri", role: "Smart Contract Developer", focus: "Plutus, security, CIP authorship", image: "/images/team/mix.webp" },
-  { name: "Nori Nishigaya", role: "Infrastructure", focus: "DevOps, governance, systems architecture", image: "/images/team/nori.jpeg" },
-  { name: "Sebastian Pabon", role: "Ecosystem Lead", focus: "Education, facilitation, open source", image: "/images/team/sebastian.png" },
+  { name: "James Dunseith", focus: "Learning design, developer experience, strategy", image: "/images/team/james.webp" },
+  { name: "Yoram Ben Zvi", focus: "Business models, partnerships, sustainability", image: "/images/team/yoram.jpeg" },
+  { name: "Adrian Hüetter", focus: "Plutus, protocol design, open source", image: "/images/team/adrian.webp" },
+  { name: "HongJing (Jingles) K", focus: "Full-stack, analytics, user experience", image: "/images/team/jingles.webp" },
+  { name: "Nelson Kshetrimayum", focus: "Full-stack, Cardano integration", image: "/images/team/nelson.webp" },
+  { name: "M. Ali Modiri", focus: "Plutus, security, CIP authorship", image: "/images/team/mix.webp" },
+  { name: "Nori Nishigaya", focus: "DevOps, governance, systems architecture", image: "/images/team/nori.jpeg" },
+  { name: "Sebastian Pabon", focus: "Education, facilitation, open source", image: "/images/team/sebastian.png" },
 ];
-
-const mono = { fontFamily: font.mono };
 
 export default function AboutPage() {
   return (
@@ -28,7 +27,7 @@ export default function AboutPage() {
         description="An open protocol for interoperable credentials, built on Cardano."
       />
 
-      <Page nav={{ items: nav.items, cta: nav.cta }} sections={null}>
+      <Page nav={{ items: nav.items, cta: nav.cta }}>
         {/* Header */}
         <Section bordered={false}>
           <div className="pb-12 pt-16 sm:pt-24">
@@ -52,8 +51,8 @@ export default function AboutPage() {
             </p>
             <a
               href={EXTERNAL_LINKS.papersHub}
-              className="mt-6 inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.1em] transition-colors hover:underline"
-              style={{ ...mono, color: color.blue }}
+              className="mt-6 inline-flex items-center gap-2 text-[13px] font-semibold tracking-[-0.01em] transition-colors hover:underline"
+              style={{ color: color.blue }}
             >
               Read the papers →
             </a>
@@ -65,11 +64,11 @@ export default function AboutPage() {
           <div className="py-16 sm:py-20">
             <Kicker>Team</Kicker>
             <Display as="h2" size="md" className="mt-5">
-              The people building Andamio.
+              Andamio founding team
             </Display>
 
             <div
-              className="mt-12 grid gap-px sm:grid-cols-2 lg:grid-cols-3"
+              className="mt-12 grid gap-px sm:grid-cols-2 lg:grid-cols-4"
               style={{ background: color.cell }}
             >
               {teamMembers.map((member) => (
@@ -81,9 +80,6 @@ export default function AboutPage() {
                   </div>
                   <div className="min-w-0">
                     <h3 className="font-semibold tracking-[-0.01em]">{member.name}</h3>
-                    <p className="text-[13px] font-medium uppercase tracking-[0.08em]" style={{ ...mono, color: color.blue }}>
-                      {member.role}
-                    </p>
                     <p className="mt-1 text-sm" style={{ color: color.inkMuted }}>
                       {member.focus}
                     </p>

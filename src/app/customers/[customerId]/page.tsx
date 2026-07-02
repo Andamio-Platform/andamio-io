@@ -57,7 +57,6 @@ export function generateMetadata({ params }: { params: Props }): Metadata {
   };
 }
 
-const mono = { fontFamily: font.mono };
 
 export default function Page({ params }: { params: Props }) {
   const content = getCustomerPageContent(params.customerId);
@@ -72,8 +71,8 @@ export default function Page({ params }: { params: Props }) {
       {/* Breadcrumb */}
       <Link
         href="/customers"
-        className="inline-flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-[0.1em] transition-colors hover:text-black"
-        style={{ ...mono, color: color.inkFaint }}
+        className="inline-flex items-center gap-1.5 text-[13px] font-semibold tracking-[-0.01em] transition-colors hover:text-black"
+        style={{ color: color.inkFaint }}
       >
         ← Back to Customers
       </Link>
@@ -85,9 +84,8 @@ export default function Page({ params }: { params: Props }) {
             {data.tags.map((tag: string) => (
               <span
                 key={tag}
-                className="inline-block px-2 py-1 text-[10px] uppercase tracking-[0.12em]"
+                className="inline-block px-2 py-1 text-[11px] font-medium tracking-[-0.01em]"
                 style={{
-                  ...mono,
                   color: color.inkMuted,
                   border: `1px solid ${color.cell}`,
                 }}
@@ -114,8 +112,8 @@ export default function Page({ params }: { params: Props }) {
       <div className="mt-16 flex items-center justify-between border-t pt-8" style={{ borderColor: color.rule }}>
         <Link
           href="/customers"
-          className="inline-flex items-center gap-2 px-4 py-2 text-[12px] font-semibold uppercase tracking-[0.1em] transition-colors hover:text-white"
-          style={{ ...mono, border: `1px solid ${color.ink}`, color: color.ink }}
+          className="inline-flex items-center gap-2 px-4 py-2 text-[13px] font-semibold tracking-[-0.01em] transition-colors hover:text-white"
+          style={{ border: `1px solid ${color.ink}`, color: color.ink }}
         >
           ← All Customers
         </Link>

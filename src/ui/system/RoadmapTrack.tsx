@@ -38,8 +38,8 @@ const statusMeta: Record<Epic["status"], NodeStyle> = {
 function Badge({ children, accent }: { children: React.ReactNode; accent?: string }) {
   return (
     <span
-      className="inline-flex items-center gap-1.5 border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.12em]"
-      style={{ fontFamily: font.mono, borderColor: color.cell, color: color.inkFaint }}
+      className="inline-flex items-center gap-1.5 border px-2 py-0.5 text-[11px] font-semibold tracking-[-0.01em]"
+      style={{ borderColor: color.cell, color: color.inkFaint }}
     >
       {accent && (
         <span className="inline-block h-1.5 w-1.5 rounded-full" style={{ background: accent }} />
@@ -107,8 +107,8 @@ export default function RoadmapTrack({ product }: { product: Roadmap }) {
                   <h3 className="text-base font-semibold tracking-[-0.02em]">{epic.name}</h3>
                   {isLaunch && (
                     <span
-                      className="inline-flex items-center border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-white"
-                      style={{ background: color.ink, borderColor: color.ink, fontFamily: font.mono }}
+                      className="inline-flex items-center border px-2 py-0.5 text-[11px] font-semibold tracking-[-0.01em]"
+                      style={{ background: color.ink, borderColor: color.ink, color: color.onInk }}
                     >
                       Launch
                     </span>

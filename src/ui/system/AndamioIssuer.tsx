@@ -8,7 +8,7 @@
  *
  * SECTION ORDER:
  *   Hero      → the product: title + transformation lead + the guide's intro
- *   Decisions → "A new kind of credential" (Permanent · Useful · Yours)
+ *   Decisions → "A new kind of credential" (Permanent · Useful · Yours · Proof)
  *   How it works → the three steps as clickable tabs (Define · Issue · Verify)
  *   Closing   → the walkthrough CTA
  *
@@ -16,9 +16,10 @@
  */
 
 import React from "react";
-import { nav, demo, plan, issuer, footer, EXTERNAL_LINKS } from "~/ui/explore/content";
+import Link from "next/link";
+import { nav, demo, plan, issuer, storyFork, footer, EXTERNAL_LINKS } from "~/ui/explore/content";
 import { color, font } from "./tokens";
-import { Page, Section, Display, Button, Stitch, Footer, CardRow } from "./kit";
+import { Page, Section, Display, Button, ButtonRow, Footer } from "./kit";
 import HowItWorks from "./HowItWorks";
 
 const muted = { color: color.inkMuted };
@@ -38,18 +39,18 @@ const pageFooter = (
 export default function AndamioIssuer() {
   return (
     // No editorial rail — this is a focused funnel page, not the indexed story.
-    <Page nav={{ items: nav.items, cta: nav.cta, secondaryCta: nav.secondaryCta }} sections={null} footer={pageFooter}>
+    <Page nav={{ items: nav.items, cta: nav.cta, secondaryCta: nav.secondaryCta }} footer={pageFooter}>
       {/* ── Hero — the product. Back-link to the overview keeps the funnel
              two-way; the title + transformation lead + guide intro set it up. */}
       <Section id="top" bordered={false} screen>
         <div className="pt-16 sm:pt-24">
-          <a
+          <Link
             href="/#issuer"
-            className="inline-flex items-center text-[12px] font-semibold uppercase tracking-[0.1em] transition-colors hover:[color:var(--sys-ink)]"
-            style={{ ...mono, color: color.inkFaint }}
+            className="inline-flex items-center text-[13px] font-medium tracking-[-0.01em] transition-colors hover:[color:var(--sys-ink)]"
+            style={{ color: color.inkMuted }}
           >
             {issuer.page.overviewCta}
-          </a>
+          </Link>
           <Display as="h1" size="xl" className="mt-8 max-w-[16ch]">
             {issuer.title}
           </Display>
@@ -66,19 +67,23 @@ export default function AndamioIssuer() {
             {issuer.intro}
           </p>
           <div className="mb-16 mt-12 sm:mb-24">
-            <Stitch>
+            <ButtonRow>
               <Button variant="ink" href={EXTERNAL_LINKS.walkthroughMailto}>
                 {issuer.walkthroughCta} <span aria-hidden>→</span>
               </Button>
               <Button variant="disabled">
                 {issuer.reportCta} <span className="text-[10px]" style={mono}>soon</span>
               </Button>
-            </Stitch>
+            </ButtonRow>
           </div>
         </div>
       </Section>
 
-      {/* ── Solution — the three-pronged array (Permanent · Useful · Yours). ── */}
+      {/* ── Solution — the four assumptions as full sentences (Permanent ·
+             Useful · Yours · Proof). The old card row read as deprecated
+             (James, 2026-07-02): same cards as the landing teaser, old idiom.
+             Now the numbered-list treatment, single-sourced from the story
+             flow's assumptions — one place to sculpt the canon. ── */}
       <Section id="decisions" bordered={false}>
         <div className="border-t pt-14" style={{ borderColor: color.rule }}>
           <span className="text-2xl font-semibold tracking-[-0.03em] sm:text-3xl">
@@ -86,13 +91,25 @@ export default function AndamioIssuer() {
           </span>
         </div>
 
-        <div className="mt-10 pb-8">
-          <CardRow
-            items={issuer.decisions.map((d) => ({ heading: d.heading, body: d.text }))}
-            size="md"
-            numbered
-          />
-        </div>
+        <ol className="mt-10 space-y-6 pb-8">
+          {storyFork.curious.assumptions.map((a, i) => (
+            <li key={a.term} className="flex gap-6">
+              <span
+                className="pt-1.5 text-[12px] tabular-nums tracking-[0.1em]"
+                style={{ ...mono, color: color.inkFaint }}
+              >
+                {`0${i + 1}`}
+              </span>
+              <p className="text-lg leading-relaxed sm:text-xl" style={muted}>
+                {a.before}{" "}
+                <strong className="font-semibold" style={{ color: color.ink }}>
+                  {a.term}
+                </strong>
+                {a.after}
+              </p>
+            </li>
+          ))}
+        </ol>
       </Section>
 
       {/* ── How it works — the three-tab demo (moved here off the landing). ── */}

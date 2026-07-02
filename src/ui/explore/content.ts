@@ -21,8 +21,8 @@ export const EXTERNAL_LINKS = {
   devRepo: "https://github.com/Andamio-Platform/andamio-dev",
   appTemplate: "https://github.com/Andamio-Platform/andamio-app-template",
   discord: "https://discord.gg/JKgckZGtf",
-  linkedin: "https://www.linkedin.com/company/andamio-platform",
-  twitter: "https://x.com/AndamioPlatform",
+  linkedin: "https://www.linkedin.com/company/andamio-teams",
+  twitter: "https://x.com/andamio_teams",
   walkthroughMailto:
     "mailto:hello@andamio.io?subject=Enterprise%20walkthrough%20request",
 } as const;

@@ -21,7 +21,7 @@ export const EXTERNAL_LINKS = {
   apiReference: "https://dev.api.andamio.io/reference",
   app: "https://mainnet.app.andamio.io",
   github: "https://github.com/Andamio-Platform",
-  discord: "https://discord.gg/FtvpAYnBMU",
+  discord: "https://discord.gg/JKgckZGtf",
   linkedin: "https://www.linkedin.com/company/andamio-teams",
   twitter: "https://x.com/andamio_teams",
 } as const;

@@ -1,5 +1,5 @@
 import React from "react";
-import Head from "next/head";
+import Metatags from "~/components/site/metatags";
 import { nav, footer as footerData } from "~/ui/explore/content";
 import { color } from "~/ui/system/tokens";
 import { Page, Section, Kicker, Display, Footer } from "~/ui/system/kit";
@@ -64,13 +64,10 @@ function InfoBox({ children }: { children: React.ReactNode }) {
 export default function TermsAndConditionsPage() {
   return (
     <>
-      <Head>
-        <title>Terms of Use</title>
-        <meta
-          name="description"
-          content="The terms and conditions governing your use of Andamio's services."
-        />
-      </Head>
+      <Metatags
+        title="Terms of Use"
+        description="The terms and conditions governing your use of Andamio's services."
+      />
 
       <Page nav={{ items: nav.items, cta: nav.cta }} sections={null}>
         {/* Header */}

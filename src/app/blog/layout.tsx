@@ -4,10 +4,13 @@ import type { Metadata } from "next";
 import { TopNav, GridField, Footer } from "~/ui/system/kit";
 import { nav, footer as footerData } from "~/ui/explore/content";
 import { color, font } from "~/ui/system/tokens";
+import { SITE_URL } from "~/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Andamio Blog",
+  metadataBase: new URL(SITE_URL),
+  title: { default: "Andamio Blog", template: "%s — Andamio" },
   description: "Insights, updates, and stories from the Andamio ecosystem",
+  alternates: { canonical: "/blog" },
 };
 
 export default function BlogLayout({ children }: { children: React.ReactNode }) {

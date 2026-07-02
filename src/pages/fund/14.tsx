@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Head from "next/head";
+import Metatags from "~/components/site/metatags";
 import { nav, footer as footerData } from "~/ui/explore/content";
 import { color, font } from "~/ui/system/tokens";
 import { Page, Section, Kicker, Display, Footer } from "~/ui/system/kit";
@@ -95,13 +95,10 @@ const FundProposals: React.FC = () => {
 
   return (
     <Page nav={{ items: nav.items, cta: nav.cta }} sections={null}>
-      <Head>
-        <title>Project Catalyst · Andamio Proposals</title>
-        <meta
-          name="description"
-          content="Proposals that Andamio has submitted to Project Catalyst. Explore reasoning, progress, and impact."
-        />
-      </Head>
+      <Metatags
+        title="Project Catalyst Proposals"
+        description="Proposals that Andamio has submitted to Project Catalyst. Explore reasoning, progress, and impact."
+      />
 
       {/* Header */}
       <Section bordered={false}>

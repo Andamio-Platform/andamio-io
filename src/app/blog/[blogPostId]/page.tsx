@@ -1,10 +1,18 @@
 import Markdoc from "@markdoc/markdoc";
 import Link from "next/link";
+import type { Metadata } from "next";
 import { getBlogPageContent } from "~/lib/blogposts";
-import { parseBlogMarkdocFrontmatter } from "~/utils/markdown";
+import { extractExcerpt, parseBlogMarkdocFrontmatter } from "~/utils/markdown";
 import { TransformedPageContent } from "~/utils/transformedPageContent";
 import SocialShareButton from "~/components/media/SocialShareButton";
 import { color, font } from "~/ui/system/tokens";
+import {
+  SITE_URL,
+  SITE_NAME,
+  DEFAULT_OG_IMAGE,
+  TWITTER_HANDLE,
+  absoluteUrl,
+} from "~/lib/seo";
 
 export type Props = {
   blogPostId: string;
@@ -16,14 +24,63 @@ function getFrontmatter(blogPostId: string) {
   return parseBlogMarkdocFrontmatter(pageAST);
 }
 
+export function generateMetadata({ params }: { params: Props }): Metadata {
+  const content = getBlogPageContent(params.blogPostId);
+  const data = parseBlogMarkdocFrontmatter(Markdoc.parse(content));
+
+  const title = data?.title ?? "Andamio Blog";
+  const description = data?.description ?? extractExcerpt(content);
+  const url = `${SITE_URL}/blog/${params.blogPostId}`;
+  const image = absoluteUrl(data?.image ?? DEFAULT_OG_IMAGE);
+
+  return {
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      type: "article",
+      url,
+      title,
+      description,
+      siteName: SITE_NAME,
+      images: [image],
+      publishedTime: data?.date,
+      authors: data?.author ? [data.author] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      site: TWITTER_HANDLE,
+      title,
+      description,
+      images: [image],
+    },
+  };
+}
+
 const mono = { fontFamily: font.mono };
 
 export default function Page({ params }: { params: Props }) {
   const content = getBlogPageContent(params.blogPostId);
   const data = getFrontmatter(params.blogPostId);
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: data?.title,
+    datePublished: data?.date,
+    author: data?.author
+      ? { "@type": "Person", name: data.author }
+      : undefined,
+    image: absoluteUrl(data?.image ?? DEFAULT_OG_IMAGE),
+    mainEntityOfPage: `${SITE_URL}/blog/${params.blogPostId}`,
+  };
+
   return (
     <div className="mx-auto max-w-3xl px-6 pb-24 pt-16 sm:px-10 sm:pt-24">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Breadcrumb */}
       <Link
         href="/blog"

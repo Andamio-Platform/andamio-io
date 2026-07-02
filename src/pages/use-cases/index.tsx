@@ -1,6 +1,6 @@
 import React from "react";
-import Head from "next/head";
 import Link from "next/link";
+import Metatags from "~/components/site/metatags";
 import { motion } from "framer-motion";
 import { fadeIn as fadeInFactory, staggerContainer } from "~/ui/landing/V2Landing/motion-variants";
 import { nav, footer as footerData } from "~/ui/explore/content";
@@ -65,13 +65,10 @@ const cardVariants = fadeInFactory();
 export default function UseCasesIndex() {
   return (
     <>
-      <Head>
-        <title>Use Cases — Andamio</title>
-        <meta
-          name="description"
-          content="Explore how organizations use Andamio to manage credentials, coordinate contributors, and scale impact."
-        />
-      </Head>
+      <Metatags
+        title="Use Cases"
+        description="Explore how organizations use Andamio to manage credentials, coordinate contributors, and scale impact."
+      />
 
       <Page nav={{ items: nav.items, cta: nav.cta }} sections={null}>
         {/* Header */}

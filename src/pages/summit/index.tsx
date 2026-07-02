@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Head from "next/head";
+import Metatags from "~/components/site/metatags";
 import { nav, footer as footerData } from "~/ui/explore/content";
 import { color, font } from "~/ui/system/tokens";
 import { Page, Section, Kicker, Display, Button, Footer } from "~/ui/system/kit";
@@ -54,13 +54,10 @@ export default function SummitPage() {
 
   return (
     <>
-      <Head>
-        <title>Vote for Andamio · Cardano Summit 2024</title>
-        <meta
-          name="description"
-          content="The benefits of voting for Andamio in Project Catalyst Fund 13."
-        />
-      </Head>
+      <Metatags
+        title="Cardano Summit 2024"
+        description="The benefits of voting for Andamio in Project Catalyst Fund 13."
+      />
 
       <Page nav={{ items: nav.items, cta: nav.cta }} sections={null}>
         {/* Header */}

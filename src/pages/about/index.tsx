@@ -1,6 +1,6 @@
 import React from "react";
-import Head from "next/head";
 import Image from "next/image";
+import Metatags from "~/components/site/metatags";
 import { nav, footer as footerData } from "~/ui/explore/content";
 import { color, font } from "~/ui/system/tokens";
 import { Page, Section, Kicker, Display, Button, Footer } from "~/ui/system/kit";
@@ -23,13 +23,10 @@ const mono = { fontFamily: font.mono };
 export default function AboutPage() {
   return (
     <>
-      <Head>
-        <title>About Andamio</title>
-        <meta
-          name="description"
-          content="An open protocol for interoperable credentials, built on Cardano."
-        />
-      </Head>
+      <Metatags
+        title="About"
+        description="An open protocol for interoperable credentials, built on Cardano."
+      />
 
       <Page nav={{ items: nav.items, cta: nav.cta }} sections={null}>
         {/* Header */}
@@ -54,11 +51,11 @@ export default function AboutPage() {
               Developers integrate via REST API. The blockchain is invisible to end users.
             </p>
             <a
-              href={EXTERNAL_LINKS.docsWhitepaper}
+              href={EXTERNAL_LINKS.papersHub}
               className="mt-6 inline-flex items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.1em] transition-colors hover:underline"
               style={{ ...mono, color: color.blue }}
             >
-              Read the Whitepaper →
+              Read the papers →
             </a>
           </div>
         </Section>

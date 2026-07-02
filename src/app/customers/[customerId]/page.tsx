@@ -1,10 +1,18 @@
 import Markdoc from "@markdoc/markdoc";
 import Link from "next/link";
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { getCustomerPageContent } from "~/lib/customers";
-import { parseBlogMarkdocFrontmatter } from "~/utils/markdown";
+import { extractExcerpt, parseBlogMarkdocFrontmatter } from "~/utils/markdown";
 import { TransformedPageContent } from "~/utils/transformedPageContent";
 import { color, font } from "~/ui/system/tokens";
+import {
+  SITE_URL,
+  SITE_NAME,
+  DEFAULT_OG_IMAGE,
+  TWITTER_HANDLE,
+  absoluteUrl,
+} from "~/lib/seo";
 
 export type Props = {
   customerId: string;
@@ -16,6 +24,37 @@ function getFrontmatter(customerId: string) {
   const frontmatter = parseBlogMarkdocFrontmatter(pageAST);
 
   return frontmatter;
+}
+
+export function generateMetadata({ params }: { params: Props }): Metadata {
+  const content = getCustomerPageContent(params.customerId);
+  const data = parseBlogMarkdocFrontmatter(Markdoc.parse(content));
+
+  const title = data?.title ?? "Andamio Customers";
+  const description = data?.description ?? extractExcerpt(content);
+  const url = `${SITE_URL}/customers/${params.customerId}`;
+  const image = absoluteUrl(data?.image ?? DEFAULT_OG_IMAGE);
+
+  return {
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      type: "article",
+      url,
+      title,
+      description,
+      siteName: SITE_NAME,
+      images: [image],
+    },
+    twitter: {
+      card: "summary_large_image",
+      site: TWITTER_HANDLE,
+      title,
+      description,
+      images: [image],
+    },
+  };
 }
 
 const mono = { fontFamily: font.mono };

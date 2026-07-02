@@ -1,5 +1,5 @@
 import React from "react";
-import Head from "next/head";
+import Metatags from "~/components/site/metatags";
 import { nav, footer as footerData } from "~/ui/explore/content";
 import { color } from "~/ui/system/tokens";
 import { Page, Section, Kicker, Display, Footer } from "~/ui/system/kit";
@@ -7,13 +7,10 @@ import { Page, Section, Kicker, Display, Footer } from "~/ui/system/kit";
 export default function CalendarPage() {
   return (
     <>
-      <Head>
-        <title>Andamio Public Calendar</title>
-        <meta
-          name="description"
-          content="Public calendar for Andamio and Gimbalabs events."
-        />
-      </Head>
+      <Metatags
+        title="Public Calendar"
+        description="Public calendar for Andamio and Gimbalabs events."
+      />
 
       <Page nav={{ items: nav.items, cta: nav.cta }} sections={null}>
         {/* Header */}

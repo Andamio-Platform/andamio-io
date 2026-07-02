@@ -1,4 +1,4 @@
-import Head from "next/head";
+import Metatags from "~/components/site/metatags";
 import { roadmap } from "../../roadmap";
 import { nav, footer as footerData } from "~/ui/explore/content";
 import { color, font, containerCls, layout } from "~/ui/system/tokens";
@@ -29,13 +29,10 @@ export default function ProductRoadmap() {
 
   return (
     <>
-      <Head>
-        <title>Roadmap — Andamio</title>
-        <meta
-          name="description"
-          content="Every Andamio product and its releases — what has shipped, what's underway, and what's coming next."
-        />
-      </Head>
+      <Metatags
+        title="Roadmap"
+        description="Every Andamio product and its releases — what has shipped, what's underway, and what's coming next."
+      />
 
       <Page nav={{ items: nav.items, cta: nav.cta }} sections={railSections}>
         {/* Header */}

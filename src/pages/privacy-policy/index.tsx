@@ -1,5 +1,5 @@
 import React from "react";
-import Head from "next/head";
+import Metatags from "~/components/site/metatags";
 import { nav, footer as footerData } from "~/ui/explore/content";
 import { color, font } from "~/ui/system/tokens";
 import { Page, Section, Kicker, Display, Footer } from "~/ui/system/kit";
@@ -50,13 +50,10 @@ function UL({ children }: { children: React.ReactNode }) {
 export default function PrivacyPolicyPage() {
   return (
     <>
-      <Head>
-        <title>Privacy Policy</title>
-        <meta
-          name="description"
-          content="Our commitment to protecting your privacy and personal data."
-        />
-      </Head>
+      <Metatags
+        title="Privacy Policy"
+        description="Our commitment to protecting your privacy and personal data."
+      />
 
       <Page nav={{ items: nav.items, cta: nav.cta }} sections={null}>
         {/* Header */}

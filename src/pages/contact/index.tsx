@@ -1,5 +1,5 @@
 import React from "react";
-import Head from "next/head";
+import Metatags from "~/components/site/metatags";
 import { nav, footer as footerData, EXTERNAL_LINKS } from "~/ui/explore/content";
 import { color, font } from "~/ui/system/tokens";
 import { Page, Section, Kicker, Display, Button, Footer } from "~/ui/system/kit";
@@ -30,13 +30,10 @@ const channels = [
 export default function ContactPage() {
   return (
     <>
-      <Head>
-        <title>Contact Andamio</title>
-        <meta
-          name="description"
-          content="Get in touch with the Andamio team."
-        />
-      </Head>
+      <Metatags
+        title="Contact"
+        description="Get in touch with the Andamio team."
+      />
 
       <Page nav={{ items: nav.items, cta: nav.cta }} sections={null}>
         {/* Header */}

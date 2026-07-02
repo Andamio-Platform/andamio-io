@@ -1,10 +1,21 @@
 <!-- GENERATED — DO NOT EDIT. Synced from ecosystem-enterprise/papers/building-on-andamio.md.
      Edit the source there and re-run scripts/sync-papers.sh. -->
 
-# Building on Andamio
+---
+title: Building on Andamio
+type: whitepaper
+status: draft
+canonical: true
+owner: Ecosystem Enterprise
+circle: Ecosystem Enterprise
+description: 'The developer and protocol paper: the Commit/Review/Claim loop, the on-chain layer, and building on the API.'
+reviewed: '2026-07-01'
+consented:
+target_meeting:
+review_due:
+---
 
-<!-- doc-status: draft -->
-> **Draft. Open for team review.** This is live on `main` so anyone can find it and comment. The language is not settled or consented yet, and it is not for external publication as written. To read it and leave feedback, run the `/whitepaper` skill. Review thread: #26.
+# Building on Andamio
 
 *The Protocol for Programmable Credentials*
 
@@ -50,7 +61,7 @@ For each learner or contributor:
 - **Review.** The holder produces evidence: an explanation, a working PR, a transaction hash, a design doc. An authorized reviewer evaluates it against the work's Student Learning Targets, the specific capabilities it is built to develop, and either accepts it or refuses it with specific feedback. The reviewer's authority is granted on-chain and enforced by a validator, so not just anyone can sign off, not even on a Course or Project you forked.
 - **Claim.** When the work passes, the holder Claims the credential and it attaches to their identity. The attestation is the explanation: the record carries who committed, what they agreed to, who reviewed it, and when.
 
-These three steps run the same whether the work is a Course assignment or a Project Task, the two systems the protocol ships today (section 3). They differ at the Claim: a Project funds its Tasks from its own treasury, so a contributor who completes one Claims a reward along with the credential, paid from the Project's funds rather than their own pocket.
+These three steps run the same whether the work is a Course assignment or a Project Task, the two systems the protocol ships (section 3). They differ at the Claim: a Project funds its Tasks from its own treasury, so a contributor who completes one Claims a reward along with the credential, paid from the Project's funds rather than their own pocket.
 
 ## 3. Blockchain Validation
 
@@ -83,13 +94,15 @@ Every credential a person earns, from every issuer, accumulates in that one reco
 
 The datum stores only `PolicyId -> hash` fingerprints. That is what lets a credential earned under one policy be required by another, while the work behind it stays private. In centralized services, competing credentials are illegible to each other; here, no one has to be trusted, because the rule lives in the validator.
 
-A Project can declare a credential from another issuer as a **prerequisite**. The check fires at **Commit time**: the validator confirms the holder's Global State already holds the required credential before it lets the commitment mint. This runs on mainnet today, across credentials from programs that never coordinated. (The portable, human-facing verifier that reads prerequisites out of a credential is still in flight; section 5.)
+A Project can declare a credential as a **prerequisite**. The check fires at **Commit time**: the validator confirms the holder's Global State already holds the required credential before it lets the commitment mint. This works within a single issuer's courses and pathways. Because the datum stores credentials as `PolicyId -> hash` fingerprints, the same rule extends across issuers, so a credential earned in a program that never coordinated with yours can stand as a prerequisite. Cross-issuer enforcement is not yet available. (The portable, human-facing verifier that reads prerequisites out of a credential is part of the same work; section 5.)
 
 ## 4. Build on the API
 
-The quickest way to see Andamio is to use it: [app.andamio.io](https://app.andamio.io) is the live app, open to anyone, where you can take a Course, Commit to work, and earn a credential right away. It runs entirely on the Andamio API, the same one you build on.
+The quickest way to see Andamio is to use it: [app.andamio.io](https://app.andamio.io) is the app, open to anyone, where you can take a Course, Commit to work, and earn a credential. It runs entirely on the Andamio API, the same one you build on.
 
 The Andamio API ([api.andamio.io](https://api.andamio.io)) turns the on-chain primitives into endpoints. You query it for data and for valid transactions, and the blockchain enforces the rules underneath. Its full reference is generated from the spec, [`andamio-dev`](https://github.com/Andamio-Platform/andamio-dev) plugs into your agent and walks you through it, and the documentation is at [docs.andamio.io](https://docs.andamio.io).
+
+<!-- TODO (capture 2026-07-01): Develop the "no dependency on Andamio the company" point as its own explicit beat. The protocol runs on public Cardano validators + minting policies; credentials are on-chain and verifiable without us (section 5 already says "you do not have to trust Andamio"). The deeper claim to make here: even if Andamio disappeared, the credentials persist AND the whole issuing/verifying system could be stood up or rebuilt without us, because the tooling is open. This is system-level "not locked in," beyond the credential. The WordPress analogy fits here (managed convenience over an open, self-hostable protocol) — but keep it out of the intro/issuer papers. This is the destination the intro ("build your own, with or without us") and issuer ("outgrow the product and you're still not stuck") papers now bridge to. VERIFY the claim is genuinely true (tooling open + documented enough to rebuild) before writing it as fact. -->
 
 ### Create Your Own
 
@@ -111,7 +124,7 @@ The verification model is fetch, recompute, compare: read the on-chain anchor, r
 
 Andamio's developer surface is small enough to hand to your agent. Point it at the **andamio-dev** repo (from section 4), the knowledge layer that teaches it the protocol and estimates costs, and it drives the **Andamio CLI** to build, sign, and submit transactions for you.
 
-The CLI ([`andamio-cli`](https://github.com/Andamio-Platform/andamio-cli), v0.13.3) wraps the full transaction lifecycle, build, sign, submit, register, and confirm on-chain, and is the source of truth for what an Andamio transaction looks like. It targets preprod for development and mainnet for production.
+The CLI ([`andamio-cli`](https://github.com/Andamio-Platform/andamio-cli), v0.13.3) wraps the full transaction lifecycle, build, sign, submit, register, and confirm on-chain, and is the source of truth for what an Andamio transaction looks like.
 
 ## 7. Future Development
 
@@ -119,9 +132,7 @@ The CLI ([`andamio-cli`](https://github.com/Andamio-Platform/andamio-cli), v0.13
 
 Earning a credential on-chain still asks an end user for a Cardano wallet and an Access Token. That is the last hard edge in the experience, and smoothing it is next on Andamio's roadmap.
 
-The lever is **sponsored transactions**: on the enterprise tier an issuer covers all user-facing transaction costs, so the people you credential never hold ADA or manage a wallet. Billing is ordinary; the chain is invisible to them. This path is built and exercised on preprod today, with an issuer-funded sidecar signing each user's transactions; mainnet activation is the step that remains.
-
-Build against the sponsored path on preprod today, and you are ready the day it ships on mainnet.
+The lever is **sponsored transactions**: on the enterprise tier an issuer covers all user-facing transaction costs, so the people you credential never hold ADA or manage a wallet. Billing is ordinary; the chain is invisible to them. An issuer-funded sidecar signs each user's transactions. This is not yet available.
 
 ### New Local States
 
@@ -130,4 +141,4 @@ Build against the sponsored path on preprod today, and you are ready the day it 
 The same machinery, Commit, Review, Claim, anchored by a hash and enforced by a validator, can carry any such loop you can define. Building an entirely new local-state system is protocol-level work, not a turnkey feature, but it is the deepest sense in which Andamio is a protocol you build on: Courses and Projects are where Andamio started, not the edge of what the pattern can hold.
 
 
-*For what Andamio is and why it is built this way, read the Andamio Light Paper. For what you can put to work today and what it saves you, read Andamio Issuer. This paper is the how.*
+*For what Andamio is and why it is built this way, read Introducing Andamio. For what you can put to work and what it saves you, read Andamio Issuer. This paper is the how.*

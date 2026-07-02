@@ -4,25 +4,27 @@
 # surfaces derive" (Whitepaper V2 Phase 4). Never hand-edit the synced files —
 # edit the source in ecosystem-enterprise/papers/ and re-run this.
 #
-# Rendered as plain markdown (react-markdown) on the /whitepaper route, so the
+# Rendered as plain markdown (react-markdown) on the /papers route, so the
 # provenance banner is an HTML comment and the output is .md.
 #
+# The combined-PDF copy was dropped 2026-07-02 (James): the papers are pages,
+# not a downloadable "whitepapers" bundle — the word and the artifact are both
+# retired from the site.
+#
 # Usage (local):
-#   SRC=../ecosystem-enterprise/papers DEST=src/content/papers PDF_DEST=public/papers ./scripts/sync-papers.sh
+#   SRC=../ecosystem-enterprise/papers DEST=src/content/papers ./scripts/sync-papers.sh
 # Defaults assume the CI layout (ecosystem-enterprise checked out to ./papers-src).
 set -euo pipefail
 
 SRC="${SRC:-./papers-src/papers}"
 DEST="${DEST:-src/content/papers}"
-PDF_DEST="${PDF_DEST:-public/papers}"
-PDF_NAME="andamio-whitepapers.pdf"
 
 if [ ! -d "$SRC" ]; then
   echo "::error::source dir not found: $SRC" >&2
   exit 1
 fi
 
-mkdir -p "$DEST" "$PDF_DEST"
+mkdir -p "$DEST"
 
 shopt -s nullglob
 count=0
@@ -38,11 +40,6 @@ for f in "$SRC"/*.md; do
   echo "  synced  $base.md -> $out"
   count=$((count + 1))
 done
-
-if [ -f "$SRC/$PDF_NAME" ]; then
-  cp "$SRC/$PDF_NAME" "$PDF_DEST/$PDF_NAME"
-  echo "  copied  $PDF_NAME -> $PDF_DEST/$PDF_NAME"
-fi
 
 echo "✓ synced $count paper(s) from $SRC"
 if [ "$count" -eq 0 ]; then

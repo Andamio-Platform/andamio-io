@@ -1,10 +1,10 @@
 import { GetServerSideProps } from "next";
 
-// Redirect the legacy /about/whitepaper path to the internal /whitepaper route.
+// Redirect the legacy /about/whitepaper path to the papers hub.
 export const getServerSideProps: GetServerSideProps = async () => {
   return {
     redirect: {
-      destination: "/whitepaper",
+      destination: "/papers",
       permanent: true,
     },
   };

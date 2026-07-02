@@ -1,10 +1,21 @@
 <!-- GENERATED — DO NOT EDIT. Synced from ecosystem-enterprise/papers/andamio-glossary.md.
      Edit the source there and re-run scripts/sync-papers.sh. -->
 
-# Andamio Glossary
+---
+title: Andamio Glossary
+type: glossary
+status: draft
+canonical: true
+owner: Ecosystem Enterprise
+circle: Ecosystem Enterprise
+description: 'Shared glossary for the Andamio Whitepapers: plain definitions of the terms used across the set.'
+reviewed: '2026-06-29'
+consented:
+target_meeting:
+review_due:
+---
 
-<!-- doc-status: draft -->
-> **Draft. Open for team review.** This is live on `main` so anyone can find it and comment. The language is not settled or consented yet, and it is not for external publication as written. To read it and leave feedback, run the `/whitepaper` skill. Review thread: #26.
+# Andamio Glossary
 
 Plain definitions of the terms used across the Andamio papers. Each entry is the short version; the mechanics behind them are the subject of Building on Andamio.
 
@@ -20,7 +31,7 @@ Plain definitions of the terms used across the Andamio papers. Each entry is the
 
 ## State
 
-**Local State.** Where work lives on Andamio. A Local State is an instance of one of the systems the protocol ships, owned by the Access Token holder who created it. Course and Project are the two systems available today.
+**Local State.** Where work lives on Andamio. A Local State is an instance of one of the systems the protocol ships, owned by the Access Token holder who created it. Course and Project are the two systems Andamio ships.
 
 **Course.** A Local State for learning. Its owner authorizes teachers, who Define Modules and Review the work students submit.
 
@@ -58,7 +69,9 @@ Plain definitions of the terms used across the Andamio papers. Each entry is the
 
 **Hash.** A short, one-way fingerprint of a piece of data (Andamio uses Blake2b). Andamio puts hashes on the public ledger instead of private data, so anyone can verify a match without seeing the data itself.
 
-**Prerequisite.** A credential required before someone can Commit to gated work. The requirement is enforced on-chain at Commit time, and it holds even across organizations: a credential one program issues can gate work in a program that never coordinated with it.
+**OpenBadges 3.0.** The 1EdTech standard for portable, verifiable digital credentials, aligned with W3C Verifiable Credentials. Andamio issues each credential in this format, its achievement, issuer, and on-chain anchor structured so the wider badge ecosystem can read it.
+
+**Prerequisite.** A credential required before someone can Commit to gated work. Within a single issuer's courses and pathways, the requirement is enforced on-chain at Commit time. Enforcing it across organizations, so a credential one program issues can gate work in a program that never coordinated with it, is not yet available.
 
 ## The loop
 
@@ -76,7 +89,7 @@ Plain definitions of the terms used across the Andamio papers. Each entry is the
 
 **Reward.** The funds a contributor receives on claiming a Project credential, paid from the Project's treasury rather than the contributor's own pocket.
 
-**Sponsored transactions.** An enterprise path in which an issuer covers all user-facing transaction costs, so the people they credential never hold ADA or manage a wallet. Built and exercised on preprod today, with mainnet activation still to come.
+**Sponsored transactions.** An enterprise path in which an issuer covers all user-facing transaction costs, so the people they credential never hold ADA or manage a wallet. Not yet available.
 
 **Andamio API.** The interface that turns Andamio's on-chain primitives into endpoints, so builders can create Courses and Projects and the applications around them without writing transactions themselves.
 
@@ -84,4 +97,4 @@ Plain definitions of the terms used across the Andamio papers. Each entry is the
 
 ---
 
-*The Andamio Light Paper explains why the system is built this way. Andamio Issuer covers what you can put to work today. Building on Andamio is how it works under the hood.*
+*Introducing Andamio explains why the system is built this way. Andamio Issuer covers what you can put to work. Building on Andamio is how it works under the hood.*

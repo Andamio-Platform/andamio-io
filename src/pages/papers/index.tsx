@@ -1,10 +1,10 @@
 import React from "react";
-import Head from "next/head";
 import Link from "next/link";
 import type { GetStaticProps } from "next";
+import Metatags from "~/components/site/metatags";
 import { nav, footer as footerData } from "~/ui/explore/content";
-import { color, font } from "~/ui/system/tokens";
-import { Page, Kicker, Display, Button, Footer, type RailItem } from "~/ui/system/kit";
+import { color } from "~/ui/system/tokens";
+import { Page, Kicker, Display, Button, Footer } from "~/ui/system/kit";
 import PaperArticle from "~/ui/whitepaper/PaperArticle";
 import { PAPERS, SUB_PAPERS } from "~/lib/papers";
 import { readPaperBody } from "~/lib/papers.server";
@@ -13,38 +13,33 @@ interface Props {
   body: string;
 }
 
-/** Rail = the four papers; the leader Light Paper is the active one on the hub. */
-const paperRail: RailItem[] = PAPERS.map((p) => ({
-  id: p.slug,
-  label: p.title.replace(/^Andamio\s+/, ""),
-  href: p.slug === "light-paper" ? "/whitepaper" : `/whitepaper/${p.slug}`,
-}));
-
 export const getStaticProps: GetStaticProps<Props> = async () => {
-  return { props: { body: readPaperBody("light-paper") } };
+  return { props: { body: readPaperBody("introducing-andamio") } };
 };
 
-export default function WhitepaperHub({ body }: Props) {
+export default function PapersHub({ body }: Props) {
   return (
     <>
-      <Head>
-        <title>Andamio Papers</title>
-        <meta
-          name="description"
-          content="The Andamio Papers — the Light Paper, the Issuer paper, Building on Andamio, and the glossary. What Andamio is and how it works."
-        />
-      </Head>
+      <Metatags
+        title="Papers"
+        description="The Andamio Papers — Introducing Andamio, the Issuer paper, Building on Andamio, and the glossary. What Andamio is and how it works."
+      />
 
-      <Page nav={{ items: nav.items, cta: nav.cta }} sections={paperRail} activeId="light-paper">
+      <Page nav={{ items: nav.items, cta: nav.cta }}>
         <main className="mx-auto max-w-3xl px-6 pb-24 pt-16 sm:px-10 sm:pt-24">
           <header>
             <Kicker>The Andamio Papers</Kicker>
+            {/* The resources introduction shares its headline with hero button 3's
+                payoff (story-flows storyboard, 2026-07-02): the exploring path and
+                the browsing path arrive at the same idea. */}
             <Display as="h1" size="lg" className="mt-4">
-              Read the papers
+              Write your own rules
             </Display>
             <p className="mt-5 text-lg leading-relaxed" style={{ color: color.inkMuted }}>
-              The single source for what Andamio is and how it works. The Light Paper leads. The
-              Issuer paper, Building on Andamio, and the glossary go deeper, each on its own page.
+              At the core of Andamio is one idea: you decide what a credential means, what earns
+              it, and who reviews it, inside the programs you run. These papers show how.
+              Introducing Andamio leads; the Issuer paper, Building on Andamio, and the glossary
+              go deeper, each on its own page.
             </p>
           </header>
 
@@ -55,7 +50,7 @@ export default function WhitepaperHub({ body }: Props) {
             {SUB_PAPERS.map((p) => (
               <Link
                 key={p.slug}
-                href={`/whitepaper/${p.slug}`}
+                href={`/papers/${p.slug}`}
                 className="group p-5 transition-colors"
                 style={{ border: `1px solid ${color.cell}` }}
               >
@@ -64,8 +59,8 @@ export default function WhitepaperHub({ body }: Props) {
                   {p.summary}
                 </span>
                 <span
-                  className="mt-3 inline-block text-[11px] uppercase tracking-[0.14em] opacity-0 transition-opacity group-hover:opacity-100"
-                  style={{ fontFamily: font.mono, color: color.blue }}
+                  className="mt-3 inline-block text-[12px] font-medium tracking-[-0.01em] opacity-0 transition-opacity group-hover:opacity-100"
+                  style={{ color: color.blue }}
                 >
                   Read →
                 </span>
@@ -79,7 +74,7 @@ export default function WhitepaperHub({ body }: Props) {
 
           <div className="mt-12 flex flex-wrap gap-3 border-t pt-8" style={{ borderColor: color.rule }}>
             {SUB_PAPERS.map((p) => (
-              <Button key={p.slug} variant="outline" href={`/whitepaper/${p.slug}`}>
+              <Button key={p.slug} variant="outline" href={`/papers/${p.slug}`}>
                 {p.title} →
               </Button>
             ))}

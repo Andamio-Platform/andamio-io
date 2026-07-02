@@ -11,10 +11,12 @@
  */
 export const EXTERNAL_LINKS = {
   docs: "https://docs.andamio.io/docs",
-  // The whitepaper now lives on the landing site itself (/whitepaper), derived
-  // from ecosystem-enterprise/papers/. Flipping this constant repoints every
+  // The Andamio Papers live on the landing site itself (/papers), derived from
+  // ecosystem-enterprise/papers/. Flipping this constant repoints every
   // reference (nav, footer, V2 sections, about) to the internal route.
-  docsWhitepaper: "/whitepaper",
+  // "Whitepaper" is banned from site copy and routes (James, 2026-07-02) — the
+  // formal Whitepaper is a separate future artifact on the roadmap.
+  papersHub: "/papers",
   docsGettingStarted: "https://docs.andamio.io/docs/guides/getting-started",
   apiReference: "https://dev.api.andamio.io/reference",
   app: "https://mainnet.app.andamio.io",

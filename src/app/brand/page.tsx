@@ -1,673 +1,552 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import { Button } from "~/components/ui/button";
-import { Card, CardContent } from "~/components/ui/card";
-import { Badge } from "~/components/ui/badge";
-import { Separator } from "~/components/ui/separator";
+/**
+ * /brand — the human-readable Andamio Brand Guide, rendered on the Warm Index
+ * design system itself (the page is its own proof). Canon lives in
+ * docs/design-system/andamio-brand-guide.md and src/ui/system/tokens.ts; this
+ * page renders it. Self-styled light, so the segment's dark ThemeProvider
+ * layout (kept for /brand/flyer + /brand/developers) doesn't affect it.
+ */
+
+import { useState } from "react";
+import { nav, footer as footerData, CREDENTIAL_BADGE_SRC, hero } from "~/ui/explore/content";
+import { color, font, typeScale, space } from "~/ui/system/tokens";
 import {
-    Download,
-    Moon,
-    Sun,
-    Palette,
-    Type,
-    ImageIcon,
-    ArrowDown,
-    Copy,
-    Check,
-    BookOpen,
-    Code,
-    ArrowRight,
-    Megaphone,
-    Heart,
-    Zap,
-    Shield,
-    Search,
-    Users,
-    Sparkles,
-    CheckCircle2,
-    X,
-} from "lucide-react";
-import Link from "next/link";
+  Page,
+  Section,
+  SectionHead,
+  Kicker,
+  Display,
+  Button,
+  Hairline,
+  SpecimenReveal,
+  Footer,
+} from "~/ui/system/kit";
 
-const brandColors = [
-    {
-        name: "Scaffold Orange",
-        lightHex: "#FF6B35",
-        darkHex: "#FF7A52",
-        lightRgb: "255, 107, 53",
-        darkRgb: "255, 122, 82",
-        usage: "Primary brand color, CTAs, highlights, and key interactive elements",
-        label: "Primary",
-    },
-    {
-        name: "Foundation Blue",
-        lightHex: "#004E89",
-        darkHex: "#3B82F6",
-        lightRgb: "0, 78, 137",
-        darkRgb: "59, 130, 246",
-        usage: "Headings, trust indicators, structural elements, and depth",
-        label: "Secondary",
-    },
-    {
-        name: "Background",
-        lightHex: "#FFFFFF",
-        darkHex: "#0F1419",
-        lightRgb: "255, 255, 255",
-        darkRgb: "15, 20, 25",
-        usage: "Primary backgrounds for light and dark modes",
-        label: "Background",
-    },
+const mono = { fontFamily: font.mono };
+const muted = { color: color.inkMuted };
+
+const neutrals = [
+  ["paper", "#FFFFFF", "Background"],
+  ["ink", "#0A0A0A", "Primary text · rules"],
+  ["inkMuted", "rgba(10,10,10,0.60)", "Body text"],
+  ["inkFaint", "rgba(10,10,10,0.45)", "Tertiary labels"],
+  ["inkGhost", "rgba(10,10,10,0.30)", "Faint meta"],
+  ["inkWatermark", "rgba(10,10,10,0.10)", "Oversized numerals"],
+  ["cell", "rgba(10,10,10,0.15)", "Inner dividers · edges"],
+  ["grid", "rgba(10,10,10,0.05)", "Structural grid"],
+] as const;
+
+const accents = [
+  ["orange", "#FF6B35", "Brand signal — sparing. Mark · the one primary CTA · live pulse · VERIFIED."],
+  ["blue", "#2F6BFF", "Wayfinding + data only — links, nav-active, the rail. Never a fill."],
+  ["coralTint", "rgba(255,107,74,0.055)", "Credential-plate background tint only. Never type."],
+] as const;
+
+const states = [
+  ["error", "#EC2929", "#FFFFFF", "Errors · destructive confirm"],
+  ["success", "#008149", "#FFFFFF", "Success · completion"],
+  ["warning", "#ED990E", "#0A0A0A", "Caution (ink foreground)"],
+  ["info", "#0F74C5", "#FFFFFF", "Neutral information"],
+] as const;
+
+const scale: [keyof typeof typeScale, string][] = [
+  ["hero", "Marketing hero"],
+  ["xl", "Section titles"],
+  ["lg", "Sub-heads"],
+  ["md", "Card titles"],
+  ["sm", "Leads"],
 ];
 
-
-const logos = [
-    {
-        baseName: "logo-with-typography",
-        src: "/logo-with-typography.png",
-        alt: "Andamio Logo Horizontal Light",
-        label: "Horizontal • Light Background",
-        bgClass: "bg-[#ffffff]",
-        isDark: false,
-    },
-    {
-        baseName: "logo-with-typography-dark",
-        src: "/logo-with-typography-dark.png",
-        alt: "Andamio Logo Horizontal Dark",
-        label: "Horizontal • Dark Background",
-        bgClass: "dark bg-background",
-        isDark: true,
-    },
-    {
-        baseName: "logo-with-typography-for-orange-bg",
-        src: "/logo-with-typography-for-orange-bg.svg",
-        alt: "Andamio Logo Horizontal Orange",
-        label: "Horizontal • Orange Background",
-        bgClass: "bg-[#FF6B35]",
-        isDark: true,
-        customButtonClass: "bg-white text-[#FF6B35] hover:bg-white/90 border-transparent shadow-sm",
-    },
-    {
-        baseName: "logo-with-typography-stacked",
-        src: "/logo-with-typography-stacked.png",
-        alt: "Andamio Logo Stacked Light",
-        label: "Stacked • Light Background",
-        bgClass: "bg-[#ffffff]",
-        isDark: false,
-    },
-    {
-        baseName: "logo-with-typography-stacked-dark",
-        src: "/logo-with-typography-stacked-dark.png",
-        alt: "Andamio Logo Stacked Dark",
-        label: "Stacked • Dark Background",
-        bgClass: "dark bg-background",
-        isDark: true,
-    },
-    {
-        baseName: "logo-with-typography-stacked-for-orange-bg",
-        src: "/logo-with-typography-stacked-for-orange-bg.svg",
-        alt: "Andamio Logo Stacked Orange",
-        label: "Stacked • Orange Background",
-        bgClass: "bg-[#FF6B35]",
-        isDark: true,
-        customButtonClass: "bg-white text-[#FF6B35] hover:bg-white/90 border-transparent shadow-sm",
-    },
+const spaceRoles: [string, string, string][] = [
+  ["sectionY", "py-16 sm:py-24", "Section content rhythm"],
+  ["headerTop", "pt-16 sm:pt-24", "Page-header top"],
+  ["cardPad", "p-6", "Card / panel interior"],
+  ["gapTight", "gap-2", "Label ↔ value · icon ↔ text"],
+  ["gap", "gap-4", "Default flex / grid gap"],
+  ["gapRow", "gap-y-10", "Between grid rows"],
+  ["rhythmTight", "mt-3", "Closely-related elements"],
+  ["rhythm", "mt-6", "Heading → body"],
+  ["rhythmGroup", "mt-12", "Block → block"],
 ];
 
-const weights = [
-    { weight: 300, label: "Light" },
-    { weight: 400, label: "Regular" },
-    { weight: 500, label: "Medium" },
-    { weight: 600, label: "Semibold" },
-    { weight: 700, label: "Bold" },
-    { weight: 800, label: "ExtraBold" },
-];
+/* ── small helpers ─────────────────────────────────────────────────── */
+function CopyHex({ value }: { value: string }) {
+  const [copied, setCopied] = useState(false);
+  return (
+    <button
+      type="button"
+      onClick={() => {
+        void navigator.clipboard?.writeText(value);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 1100);
+      }}
+      className="text-[11px] uppercase tracking-[0.1em] tabular-nums transition-colors hover:text-black"
+      style={{ ...mono, color: copied ? color.blue : color.inkFaint }}
+      title="Copy"
+    >
+      {copied ? "copied ✓" : value}
+    </button>
+  );
+}
 
-export default function BrandHub() {
-    const [isDark, setIsDark] = useState(false);
-    const [copiedHex, setCopiedHex] = useState<string | null>(null);
-    const [mounted, setMounted] = useState(false);
-
-    useEffect(() => {
-        setMounted(true);
-        const saved = localStorage.getItem("theme");
-        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-        setIsDark(saved === "dark" || (!saved && prefersDark));
-    }, []);
-
-    useEffect(() => {
-        if (mounted) {
-            document.documentElement.classList.toggle("dark", isDark);
-            localStorage.setItem("theme", isDark ? "dark" : "light");
-        }
-    }, [isDark, mounted]);
-
-    const copyToClipboard = async (hex: string) => {
-        await navigator.clipboard.writeText(hex);
-        setCopiedHex(hex);
-        setTimeout(() => setCopiedHex(null), 2000);
-    };
-
-    const scrollToSection = (id: string) => {
-        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-    };
-
-    if (!mounted) return null;
-
-    return (
-        <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
-            {/* Navigation */}
-            <nav className="fixed top-0 left-0 right-0 z-50 bg-card/90 backdrop-blur-xl border-b border-border">
-                <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-                    <Link href="/">
-                        <Image
-                            src="/logo-with-typography-dark.png"
-                            alt="Andamio"
-                            width={160}
-                            height={40}
-                            className="h-10 w-auto dark:block hidden"
-                        />
-                        <Image
-                            src="/logo-with-typography.png"
-                            alt="Andamio"
-                            width={160}
-                            height={40}
-                            className="h-10 w-auto dark:hidden block"
-                        />
-                    </Link>
-                    <div className="flex items-center gap-6">
-                        <div className="hidden md:flex items-center gap-6">
-                            {["logos", "colors", "typography"].map((section) => (
-                                <button
-                                    key={section}
-                                    onClick={() => scrollToSection(section)}
-                                    className="text-foreground/80 hover:text-primary transition-colors capitalize text-sm font-medium"
-                                >
-                                    {section}
-                                </button>
-                            ))}
-                        </div>
-                        <Button
-                            size="icon"
-                            onClick={() => setIsDark(!isDark)}
-                            className="bg-accent hover:bg-accent/80 text-accent-foreground"
-                        >
-                            {isDark ? <Sun className="size-5" /> : <Moon className="size-5" />}
-                        </Button>
-                    </div>
-                </div>
-            </nav>
-
-            {/* Hero Section */}
-            <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-card via-muted to-secondary">
-                <div className="absolute inset-0 opacity-30">
-                    <div className="absolute top-1/3 left-1/4 w-[600px] h-[600px] bg-primary rounded-full blur-[150px] animate-pulse" />
-                    <div className="absolute bottom-1/3 right-1/4 w-[500px] h-[500px] bg-secondary rounded-full blur-[150px] animate-pulse delay-1000" />
-                </div>
-
-                <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
-                    <h1 className="text-5xl md:text-7xl font-extrabold text-foreground mb-6 tracking-tight">
-                        The Framework for <span className="text-primary">Trusted Collaboration</span>
-                    </h1>
-                    <p className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-2xl mx-auto leading-relaxed">
-                        Visual assets and guidelines that scaffold the Andamio commitment to transparency and shared growth.
-                    </p>
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <Button
-                            size="lg"
-                            onClick={() => scrollToSection("logos")}
-                            className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/40 transition-all hover:shadow-xl hover:shadow-primary/50 py-2 px-5"
-                        >
-                            <Download className="mr-2" />
-                            Download Assets
-                        </Button>
-                        <Button
-                            size="lg"
-                            onClick={() => scrollToSection("colors")}
-                            className="border-border text-foreground hover:bg-accent hover:border-border bg-transparent py-2 px-5"
-                        >
-                            Explore Guidelines
-                            <ArrowDown className="ml-2" />
-                        </Button>
-                    </div>
-                </div>
-            </section>
-
-            <div className="px-20">
-                {/* Brand Story Section */}
-                <section id="story" className="py-24 md:py-32 bg-background">
-                    <div className="container mx-auto px-6">
-                        <div className="grid lg:grid-cols-2 gap-16 items-center">
-                            <div>
-                                <Badge variant="outline" className="mb-4 text-primary border-primary/30">
-                                    <BookOpen className="mr-2 size-4" />
-                                    Our Story
-                                </Badge>
-                                <h2 className="text-4xl md:text-5xl font-bold mb-6">Why "Andamio"?</h2>
-                                <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
-                                    <p>
-                                        <span className="text-primary font-semibold">Andamio</span> means "Scaffold" in Spanish. We chose this name because it perfectly embodies our mission: to provide the support structure for individuals and collaborators alike to learn, grow, and build meaningful things.
-                                    </p>
-                                    <p>
-                                        Just as a scaffold enables the construction of something greater than itself, our platform supports learners and builders as they scale new heights in the decentralized world.
-                                    </p>
-                                </div>
-                            </div>
-                            <div className="grid gap-6">
-                                <Card className="bg-primary/5 border-primary/20">
-                                    <CardContent className="p-6 flex gap-4">
-                                        <div className="shrink-0 w-12 h-12 rounded-lg bg-[#FF6B35] flex items-center justify-center text-white">
-                                            <Zap className="size-6" />
-                                        </div>
-                                        <div>
-                                            <h3 className="text-xl font-bold mb-2">Scaffold Orange</h3>
-                                            <p className="text-muted-foreground">
-                                                Represents action, energy, and the "under construction" nature of continuous learning. It's vibrant, visible, and dynamic.
-                                            </p>
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                                <Card className="bg-secondary/5 border-secondary/20">
-                                    <CardContent className="p-6 flex gap-4">
-                                        <div className="shrink-0 w-12 h-12 rounded-lg bg-[#004E89] flex items-center justify-center text-white">
-                                            <Shield className="size-6" />
-                                        </div>
-                                        <div>
-                                            <h3 className="text-xl font-bold mb-2">Foundation Blue</h3>
-                                            <p className="text-muted-foreground">
-                                                Represents the solid foundation, trust, and stability of the protocol. It provides the grounding that makes growth possible.
-                                            </p>
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                {/* Logos Section */}
-                <section id="logos" className="py-24 md:py-32">
-                    <div className="container mx-auto px-6">
-                        <div className="text-center mb-16">
-                            <Badge variant="outline" className="mb-4 text-primary border-primary/30">
-                                <ImageIcon className="mr-2 size-4" />
-                                Identity
-                            </Badge>
-                            <h2 className="text-4xl md:text-5xl font-bold mb-4">A Symbol of Trust</h2>
-                            <p className="text-muted-foreground text-lg max-w-xl mx-auto">
-                                Our logo represents the collective effort of individuals coming together. Use it to signal reliability and shared purpose.
-                            </p>
-                        </div>
-
-                        <div className="grid md:grid-cols-3 gap-8">
-                            {logos.map((logo) => (
-                                <Card
-                                    key={logo.src}
-                                    className={`overflow-hidden group hover:shadow-xl transition-all duration-300 ${logo.bgClass}`}
-                                >
-                                    <CardContent className="p-8 flex flex-col items-center justify-center min-h-[280px]">
-                                        <Image
-                                            src={logo.src}
-                                            alt={logo.alt}
-                                            width={400}
-                                            height={120}
-                                            className={`w-auto mb-6 group-hover:scale-105 transition-transform duration-300 ${logo.baseName.includes('stacked') ? 'max-h-60' : 'max-h-28'}`}
-
-                                        />
-                                        <Badge
-                                            variant="secondary"
-                                            className={logo.isDark ? "bg-secondary text-secondary-foreground" : ""}
-                                        >
-                                            {logo.label}
-                                        </Badge>
-                                        <div className="flex items-center gap-2 mt-6">
-                                            <a href={`/${logo.baseName}.png`} download className="inline-flex">
-                                                <Button size="sm" className={logo.customButtonClass || (logo.isDark ? "border-white/20 text-white hover:bg-white/10" : "border-[#e5e7eb] text-[#1a1a1a] hover:bg-[#f3f4f6] bg-white")}>
-                                                    <Download className="size-3 mr-1" />
-                                                    PNG
-                                                </Button>
-                                            </a>
-                                            <a href={`/${logo.baseName}.jpg`} download className="inline-flex">
-                                                <Button size="sm" className={logo.customButtonClass || (logo.isDark ? "border-white/20 text-white hover:bg-white/10" : "border-[#e5e7eb] text-[#1a1a1a] hover:bg-[#f3f4f6] bg-white")}>
-                                                    <Download className="size-3 mr-1" />
-                                                    JPG
-                                                </Button>
-                                            </a>
-                                            <a href={`/${logo.baseName}.svg`} download className="inline-flex">
-                                                <Button size="sm" className={logo.customButtonClass || (logo.isDark ? "border-white/20 text-white hover:bg-white/10" : "border-[#e5e7eb] text-[#1a1a1a] hover:bg-[#f3f4f6] bg-white")}>
-                                                    <Download className="size-3 mr-1" />
-                                                    SVG
-                                                </Button>
-                                            </a>
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-
-                <Separator />
-
-                {/* Colors Section */}
-                <section id="colors" className="py-24 md:py-32 bg-muted/50">
-                    <div className="container mx-auto px-6">
-                        <div className="text-center mb-16">
-                            <Badge variant="outline" className="mb-4 text-primary border-primary/30">
-                                <Palette className="mr-2 size-4" />
-                                Foundation
-                            </Badge>
-                            <h2 className="text-4xl md:text-5xl font-bold mb-4">Energy Meets Stability</h2>
-                            <p className="text-muted-foreground text-lg max-w-xl mx-auto">
-                                A palette that balances the dynamic energy of human collaboration (Orange) with the unwavering stability of trust (Blue).
-                            </p>
-                        </div>
-
-                        <div className="grid md:grid-cols-3 gap-6">
-                            {brandColors.map((color) => (
-                                <Card key={color.name} className="overflow-hidden group hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
-                                    <div className="flex h-44">
-                                        <div
-                                            className="flex-1 flex items-end p-4 relative"
-                                            style={{ backgroundColor: color.lightHex }}
-                                        >
-                                            <Badge className="text-xs font-semibold bg-background/95 text-foreground">
-                                                Light
-                                            </Badge>
-                                        </div>
-                                        <div
-                                            className="flex-1 flex items-end p-4 relative"
-                                            style={{ backgroundColor: color.darkHex }}
-                                        >
-                                            <Badge className="text-xs font-semibold bg-white/15 text-white">
-                                                Dark
-                                            </Badge>
-                                        </div>
-                                    </div>
-                                    <CardContent className="p-5">
-                                        <div className="flex items-center justify-between mb-2">
-                                            <h3 className="text-lg font-bold">{color.name}</h3>
-                                            <Badge variant="outline" className="text-xs">{color.label}</Badge>
-                                        </div>
-                                        <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
-                                            {color.usage}
-                                        </p>
-                                        <div className="space-y-2">
-                                            <button
-                                                onClick={() => copyToClipboard(isDark ? color.darkHex : color.lightHex)}
-                                                className="w-full flex items-center justify-between p-2.5 bg-muted rounded-lg text-sm hover:bg-muted/80 transition-colors group"
-                                            >
-                                                <span className="font-semibold text-muted-foreground">HEX</span>
-                                                <span className="font-mono font-semibold flex items-center gap-2">
-                                                    {color.lightHex} → {color.darkHex}
-                                                    {(copiedHex === color.lightHex || copiedHex === color.darkHex) ? (
-                                                        <Check className="size-4 text-green-500" />
-                                                    ) : (
-                                                        <Copy className="size-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-                                                    )}
-                                                </span>
-                                            </button>
-                                            <div className="flex items-center justify-between p-2.5 bg-muted rounded-lg text-sm">
-                                                <span className="font-semibold text-muted-foreground">RGB</span>
-                                                <span className="font-mono font-semibold text-xs">
-                                                    {color.lightRgb} → {color.darkRgb}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </CardContent>
-                                </Card>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-
-
-                {/* Typography Section */}
-                <section id="typography" className="py-24 md:py-32 bg-card text-card-foreground">
-                    <div className="container mx-auto px-6">
-                        <div className="text-center mb-16">
-                            <Badge variant="outline" className="mb-4 text-primary border-primary/30 bg-primary/10">
-                                <Type className="mr-2 size-4" />
-                                Clarity
-                            </Badge>
-                            <h2 className="text-4xl md:text-5xl font-bold mb-4">Inter: Designed for Transparency</h2>
-                            <p className="text-muted-foreground text-lg max-w-xl mx-auto">
-                                A typeface chosen for its clarity and openness, ensuring every message is understood without ambiguity.
-                            </p>
-                        </div>
-
-                        <div className="text-center mb-16">
-                            <div className="text-6xl md:text-8xl font-extrabold tracking-tight bg-gradient-to-b from-foreground to-foreground/60 bg-clip-text text-transparent mb-4">
-                                Aa Bb Cc
-                            </div>
-                            <p className="text-2xl font-light text-muted-foreground">Inter</p>
-                            <p className="text-muted-foreground/70">Designed for computer screens</p>
-                        </div>
-
-                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
-                            {weights.map((w) => (
-                                <div key={w.weight} className="text-center">
-                                    <div className="text-5xl mb-3 text-foreground" style={{ fontWeight: w.weight }}>
-                                        Aa
-                                    </div>
-                                    <p className="text-primary font-semibold text-sm uppercase tracking-wider">
-                                        {w.label} {w.weight}
-                                    </p>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-
-                {/* Voice & Tone Section */}
-                <section id="voice" className="py-24 md:py-32 bg-background border-t border-border">
-                    <div className="container mx-auto px-6">
-                        <div className="text-center mb-16">
-                            <Badge variant="outline" className="mb-4 text-primary border-primary/30">
-                                <Megaphone className="mr-2 size-4" />
-                                Voice & Tone
-                            </Badge>
-                            <h2 className="text-4xl md:text-5xl font-bold mb-4">Our Voice</h2>
-                            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-                                The Andamio brand voice is supportive, clear, bold, curious, and human. We balance approachability with technical credibility.
-                            </p>
-                        </div>
-
-                        {/* Voice Characteristics */}
-                        <div className="grid md:grid-cols-3 lg:grid-cols-5 gap-6 mb-24">
-                            <Card className="hover:border-primary/50 transition-colors">
-                                <CardContent className="p-6 text-center">
-                                    <Heart className="size-8 text-primary mx-auto mb-4" />
-                                    <h3 className="font-bold mb-2">Supportive</h3>
-                                    <p className="text-sm text-muted-foreground">We guide, never lecture. We help people grow with confidence.</p>
-                                </CardContent>
-                            </Card>
-                            <Card className="hover:border-primary/50 transition-colors">
-                                <CardContent className="p-6 text-center">
-                                    <Zap className="size-8 text-primary mx-auto mb-4" />
-                                    <h3 className="font-bold mb-2">Clear</h3>
-                                    <p className="text-sm text-muted-foreground">No jargon walls. We say complex things simply and directly.</p>
-                                </CardContent>
-                            </Card>
-                            <Card className="hover:border-primary/50 transition-colors">
-                                <CardContent className="p-6 text-center">
-                                    <Shield className="size-8 text-primary mx-auto mb-4" />
-                                    <h3 className="font-bold mb-2">Bold</h3>
-                                    <p className="text-sm text-muted-foreground">We believe in our mission and speak with conviction.</p>
-                                </CardContent>
-                            </Card>
-                            <Card className="hover:border-primary/50 transition-colors">
-                                <CardContent className="p-6 text-center">
-                                    <Search className="size-8 text-primary mx-auto mb-4" />
-                                    <h3 className="font-bold mb-2">Curious</h3>
-                                    <p className="text-sm text-muted-foreground">We ask questions, challenge assumptions, and invite others to.</p>
-                                </CardContent>
-                            </Card>
-                            <Card className="hover:border-primary/50 transition-colors">
-                                <CardContent className="p-6 text-center">
-                                    <Users className="size-8 text-primary mx-auto mb-4" />
-                                    <h3 className="font-bold mb-2">Human</h3>
-                                    <p className="text-sm text-muted-foreground">Not a faceless platform. We are builders helping builders.</p>
-                                </CardContent>
-                            </Card>
-                        </div>
-
-                        <div className="grid lg:grid-cols-2 gap-16 items-start">
-                            {/* Tone by Context */}
-                            <div>
-                                <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
-                                    <Sparkles className="size-5 text-primary" />
-                                    Tone by Context
-                                </h3>
-                                <div className="space-y-4">
-                                    {[
-                                        { ctx: "Marketing", tone: "Inspiring, visionary", ex: "The future of work starts here." },
-                                        { ctx: "Platform UI", tone: "Clear, action-oriented", ex: "Complete this task to unlock credential." },
-                                        { ctx: "Docs", tone: "Precise, helpful", ex: "Not sure where to start? Here’s an overview." },
-                                        { ctx: "Social", tone: "Conversational, playful", ex: "Web3 builders — it’s time to level up." },
-                                        { ctx: "Community", tone: "Warm, inclusive", ex: "Welcome! Feel free to introduce yourself." },
-                                    ].map((item) => (
-                                        <div key={item.ctx} className="p-4 bg-muted/30 rounded-lg border border-border">
-                                            <div className="flex justify-between items-center mb-1">
-                                                <span className="font-semibold text-sm uppercase text-primary tracking-wide">{item.ctx}</span>
-                                                <span className="text-xs text-muted-foreground font-medium">{item.tone}</span>
-                                            </div>
-                                            <p className="font-medium italic text-foreground/90">"{item.ex}"</p>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-
-                            {/* Dos & Donts */}
-                            <div>
-                                <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
-                                    <CheckCircle2 className="size-5 text-primary" />
-                                    Messaging Guidelines
-                                </h3>
-                                <div className="space-y-4">
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-lg">
-                                            <div className="flex items-center gap-2 mb-2 text-green-600 dark:text-green-400 font-bold text-sm uppercase">
-                                                <Check className="size-4" /> Do
-                                            </div>
-                                            <ul className="space-y-2 text-sm">
-                                                <li className="flex items-start gap-2"><span className="mt-1.5 size-1.5 rounded-full bg-green-500 shrink-0" /> Use "you" more than "we"</li>
-                                                <li className="flex items-start gap-2"><span className="mt-1.5 size-1.5 rounded-full bg-green-500 shrink-0" /> Focus on outcomes</li>
-                                                <li className="flex items-start gap-2"><span className="mt-1.5 size-1.5 rounded-full bg-green-500 shrink-0" /> Short, active sentences</li>
-                                                <li className="flex items-start gap-2"><span className="mt-1.5 size-1.5 rounded-full bg-green-500 shrink-0" /> Translate technical terms</li>
-                                            </ul>
-                                        </div>
-                                        <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-lg">
-                                            <div className="flex items-center gap-2 mb-2 text-red-600 dark:text-red-400 font-bold text-sm uppercase">
-                                                <X className="size-4" /> Don't
-                                            </div>
-                                            <ul className="space-y-2 text-sm">
-                                                <li className="flex items-start gap-2"><span className="mt-1.5 size-1.5 rounded-full bg-red-500 shrink-0" /> Talk only about ourselves</li>
-                                                <li className="flex items-start gap-2"><span className="mt-1.5 size-1.5 rounded-full bg-red-500 shrink-0" /> Overpromise or hype</li>
-                                                <li className="flex items-start gap-2"><span className="mt-1.5 size-1.5 rounded-full bg-red-500 shrink-0" /> Passive, formal phrases</li>
-                                                <li className="flex items-start gap-2"><span className="mt-1.5 size-1.5 rounded-full bg-red-500 shrink-0" /> Assume prior knowledge</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-
-                                    {/* Example Messages */}
-                                    <div className="mt-8">
-                                        <h4 className="font-bold mb-4">Core Messages</h4>
-                                        <div className="grid gap-3">
-                                            <div className="p-4 bg-card border border-border rounded-lg shadow-sm">
-                                                <span className="text-xs font-semibold text-muted-foreground uppercase">Tagline</span>
-                                                <p className="text-lg font-medium text-primary mt-1">“Scaffold your skills. Contribute with confidence.”</p>
-                                            </div>
-                                            <div className="p-4 bg-card border border-border rounded-lg shadow-sm">
-                                                <span className="text-xs font-semibold text-muted-foreground uppercase">Mission</span>
-                                                <p className="text-lg font-medium text-foreground mt-1">“Helping people learn, earn, and build in Web3.”</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                {/* Resources Section */}
-                <section className="py-24 md:py-32">
-                    <div className="container mx-auto px-6">
-                        <div className="text-center mb-16">
-                            <Badge variant="outline" className="mb-4 text-primary border-primary/30">
-                                <Users className="mr-2 size-4" />
-                                Community
-                            </Badge>
-                            <h2 className="text-4xl md:text-5xl font-bold mb-4">Resources for the Community</h2>
-                            <p className="text-muted-foreground text-lg max-w-xl mx-auto">
-                                Access the guides and assets that help us maintain a consistent and trustworthy voice.
-                            </p>
-                        </div>
-
-                        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                            <a href="/brand/flyer" target="_blank" className="group">
-                                <Card className="h-full overflow-hidden hover:shadow-xl hover:border-primary/50 transition-all duration-300 hover:-translate-y-2">
-                                    <CardContent className="p-8">
-                                        <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
-                                            <Download className="size-7 text-primary" />
-                                        </div>
-                                        <h3 className="text-2xl font-bold mb-3">Download Visual Guide</h3>
-                                        <p className="text-muted-foreground mb-6">
-                                            A concise, printable one-pager reference for core colors, rules, and typography.
-                                        </p>
-                                        <span className="inline-flex items-center gap-2 text-primary font-semibold group-hover:gap-3 transition-all">
-                                            View & Print Flyer <ArrowRight className="size-4" />
-                                        </span>
-                                    </CardContent>
-                                </Card>
-                            </a>
-
-                            <a href="/brand/developers" className="group">
-                                <Card className="h-full overflow-hidden hover:shadow-xl hover:border-primary/50 transition-all duration-300 hover:-translate-y-2">
-                                    <CardContent className="p-8">
-                                        <div className="w-14 h-14 rounded-xl bg-secondary/10 flex items-center justify-center mb-6 group-hover:bg-secondary/20 transition-colors">
-                                            <Code className="size-7 text-secondary" />
-                                        </div>
-                                        <h3 className="text-2xl font-bold mb-3">Developer Resources</h3>
-                                        <p className="text-muted-foreground mb-6">
-                                            CSS variables reference, color tokens, Tailwind classes, and implementation examples.
-                                        </p>
-                                        <span className="inline-flex items-center gap-2 text-secondary font-semibold group-hover:gap-3 transition-all">
-                                            View Developer Guide <ArrowRight className="size-4" />
-                                        </span>
-                                    </CardContent>
-                                </Card>
-                            </a>
-                        </div>
-                    </div>
-                </section>
-
-            </div>
-
-            <footer className="bg-card py-16 text-center border-t border-border">
-                <Image
-                    src="/logo-with-typography-dark.png"
-                    alt="Andamio"
-                    width={200}
-                    height={48}
-                    className="h-12 w-auto mx-auto mb-6 dark:block hidden"
-                />
-                <Image
-                    src="/logo-with-typography.png"
-                    alt="Andamio"
-                    width={200}
-                    height={48}
-                    className="h-12 w-auto mx-auto mb-6 dark:hidden block"
-                />
-                <p className="text-muted-foreground text-sm">
-                    © 2025 Andamio. Brand Hub v1.0
-                    <br />
-                    <a href="https://andamio.io" className="text-primary hover:underline">
-                        andamio.io
-                    </a>
-                </p>
-            </footer>
+function Swatch({
+  name,
+  value,
+  role,
+  fg,
+}: {
+  name: string;
+  value: string;
+  role: string;
+  fg?: string;
+}) {
+  return (
+    <div style={{ border: `1px solid ${color.cell}` }}>
+      <div className="flex h-24 items-end p-3" style={{ background: value }}>
+        {fg && (
+          <span className="text-lg font-semibold" style={{ color: fg }}>
+            Aa
+          </span>
+        )}
+      </div>
+      <div className="p-4">
+        <div className="flex items-baseline justify-between gap-2">
+          <span className="text-[13px] font-semibold tracking-[-0.01em]">{name}</span>
+          <CopyHex value={value} />
         </div>
-    );
+        <p className="mt-1.5 text-[13px] leading-snug" style={muted}>
+          {role}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function Rule({ ok, children }: { ok: boolean; children: React.ReactNode }) {
+  return (
+    <li className="flex gap-3 py-3" style={{ borderTop: `1px solid ${color.cell}` }}>
+      <span
+        aria-hidden
+        className="mt-0.5 inline-flex h-4 w-4 shrink-0 items-center justify-center text-[11px] font-bold"
+        style={{ color: ok ? color.blue : color.orange }}
+      >
+        {ok ? "✓" : "✕"}
+      </span>
+      <span className="text-[14px] leading-relaxed" style={muted}>
+        {children}
+      </span>
+    </li>
+  );
+}
+
+export default function BrandPage() {
+  return (
+    <Page nav={{ items: nav.items, cta: nav.cta }}>
+      {/* ── Overview ───────────────────────────────────────────── */}
+      <Section id="overview" bordered={false}>
+        <div className="flex items-center gap-4 pt-16 sm:pt-24">
+          <Kicker>Brand Guide</Kicker>
+          <Hairline />
+          <span className="text-[11px] uppercase tracking-[0.16em]" style={{ ...mono, color: color.inkGhost }}>
+            v1.0 · locked
+          </span>
+        </div>
+
+        <Display as="h1" size="xl" className="mt-10 max-w-[18ch]">
+          Andamio brand guidelines
+        </Display>
+        <p className="mt-6 max-w-2xl text-xl leading-relaxed" style={muted}>
+          How Andamio looks and sounds. These values are canonical — the
+          marketing site and the app both build from them.
+        </p>
+
+        <div className="mt-10 grid gap-px sm:grid-cols-3" style={{ background: color.cell }}>
+          {[
+            ["Restraint", "Orange marks one thing per view — the primary action or a verified state. Nothing else."],
+            ["Ink on paper", "Near-black on white carries the page. Blue is for links and wayfinding only."],
+            ["Deliberate motion", "Credentials resolve with a physical reveal, not a fade."],
+          ].map(([h, b]) => (
+            <div key={h} className="p-6" style={{ background: color.paper }}>
+              <h3 className="text-[15px] font-semibold tracking-[-0.01em]">{h}</h3>
+              <p className="mt-2 text-[14px] leading-relaxed" style={muted}>
+                {b}
+              </p>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      {/* ── Logo ───────────────────────────────────────────────── */}
+      <Section id="logo">
+        <SectionHead kicker="Logo" />
+        <div className="grid grid-cols-12 gap-y-10 py-16 sm:py-24">
+          <div className="col-span-12 lg:col-span-4 lg:pr-10">
+            <Display as="h2" size="md">
+              Mark + logotype
+            </Display>
+            <p className="mt-6 text-[15px] leading-relaxed" style={muted}>
+              Primary lockup: the mark with the ANDAMIO wordmark. The mark uses
+              the brand orange <code style={mono}>#FF6B35</code>, so the logo and
+              UI accent always match. Leave clear space of at least the
+              mark&apos;s height around it.
+            </p>
+            <ul className="mt-6">
+              <Rule ok>Use the lockup in nav (~22px) and footer (~30px).</Rule>
+              <Rule ok>On dark surfaces, use the dark / orange-bg variant.</Rule>
+              <Rule ok={false}>Don&apos;t recolor, stretch, or add effects.</Rule>
+              <Rule ok={false}>Don&apos;t split mark from wordmark in primary placements.</Rule>
+            </ul>
+          </div>
+          <div className="col-span-12 grid gap-px sm:grid-cols-2 lg:col-span-8" style={{ background: color.cell }}>
+            <div className="flex items-center justify-center p-10" style={{ background: color.paper }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/logo-with-typography.svg" alt="Andamio" className="h-auto w-[220px]" />
+            </div>
+            <div className="flex items-center justify-center p-10" style={{ background: color.ink }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/logo-with-typography-dark.svg" alt="Andamio (dark)" className="h-auto w-[220px]" />
+            </div>
+            <div className="flex items-center justify-center p-10 sm:col-span-2" style={{ background: color.paper }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/logo-with-typography-stacked.svg" alt="Andamio (stacked)" className="h-auto w-[150px]" />
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* ── Color ──────────────────────────────────────────────── */}
+      <Section id="color">
+        <SectionHead kicker="Color" />
+        <div className="py-16 sm:py-24">
+          <Display as="h2" size="md">
+            One ink, one paper, three accents, four states.
+          </Display>
+
+          <h3 className="mt-12 text-[12px] font-semibold uppercase tracking-[0.14em]" style={mono}>
+            Neutrals
+          </h3>
+          <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
+            {neutrals.map(([n, v, r]) => (
+              <Swatch key={n} name={n} value={v} role={r} />
+            ))}
+          </div>
+
+          <h3 className="mt-12 text-[12px] font-semibold uppercase tracking-[0.14em]" style={mono}>
+            Accents
+          </h3>
+          <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            {accents.map(([n, v, r]) => (
+              <Swatch key={n} name={n} value={v} role={r} fg={n === "blue" ? "#FFFFFF" : undefined} />
+            ))}
+          </div>
+
+          <h3 className="mt-12 text-[12px] font-semibold uppercase tracking-[0.14em]" style={mono}>
+            Semantic states <span style={{ color: color.inkFaint }}>· coexist with accents, never override them</span>
+          </h3>
+          <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
+            {states.map(([n, v, fg, r]) => (
+              <Swatch key={n} name={n} value={v} role={r} fg={fg} />
+            ))}
+          </div>
+        </div>
+      </Section>
+
+      {/* ── Accent discipline ──────────────────────────────────── */}
+      <Section id="discipline">
+        <SectionHead kicker="Accent discipline" />
+        <div className="grid grid-cols-12 gap-y-10 py-16 sm:py-24">
+          <div className="col-span-12 lg:col-span-5 lg:pr-12">
+            <Display as="h2" size="md">
+              Where each accent is allowed.
+            </Display>
+            <p className="mt-6 text-[15px] leading-relaxed" style={muted}>
+              Orange marks one action or state per view; blue is for links and
+              wayfinding. Used sparingly, the accents stay meaningful.
+            </p>
+            <ul className="mt-6">
+              <Rule ok>Orange: the mark, the one primary CTA, live, verified.</Rule>
+              <Rule ok>Blue: links, nav-active, the rail, data — only.</Rule>
+              <Rule ok={false}>Never orange headings, body, or a second CTA.</Rule>
+              <Rule ok={false}>Never blue as a button fill (the shadcn `secondary` trap).</Rule>
+            </ul>
+          </div>
+          <div className="col-span-12 lg:col-span-7">
+            <div className="grid gap-px sm:grid-cols-2" style={{ background: color.cell }}>
+              <div className="p-6" style={{ background: color.paper }}>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.14em]" style={{ ...mono, color: color.blue }}>
+                  Do
+                </p>
+                <div className="mt-6 flex flex-wrap items-center gap-3">
+                  <Button variant="primary">Get started →</Button>
+                  <Button variant="outline">Learn more</Button>
+                </div>
+                <p className="mt-6 text-[15px] leading-relaxed">
+                  Verifiable credentials,{" "}
+                  <a href="#" className="font-medium" style={{ color: color.blue }}>
+                    on Cardano
+                  </a>
+                  . One orange action; blue is the link.
+                </p>
+              </div>
+              <div className="p-6" style={{ background: color.paper }}>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.14em]" style={{ ...mono, color: color.orange }}>
+                  Don&apos;t
+                </p>
+                <div className="mt-6 flex flex-wrap items-center gap-3">
+                  <Button variant="primary">Get started →</Button>
+                  <span
+                    className="inline-flex items-center px-4 py-2 text-[12px] font-semibold uppercase tracking-[0.1em] text-white"
+                    style={{ background: color.blue }}
+                  >
+                    Sign up
+                  </span>
+                </div>
+                <p className="mt-6 text-[15px] leading-relaxed" style={{ color: color.orange }}>
+                  Orange headlines &amp; two CTAs — the brand signal goes mute.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* ── Typography ─────────────────────────────────────────── */}
+      <Section id="type">
+        <SectionHead kicker="Typography" />
+        <div className="py-16 sm:py-24">
+          <Display as="h2" size="md">
+            Two typefaces: Inter and JetBrains Mono.
+          </Display>
+
+          <div className="mt-12 grid grid-cols-12 gap-y-10">
+            <div className="col-span-12 lg:col-span-7 lg:pr-12">
+              {scale.map(([k, desc]) => (
+                <div key={k} className="py-4" style={{ borderTop: `1px solid ${color.cell}` }}>
+                  <div className="flex items-baseline justify-between gap-4">
+                    <span className="text-[11px] uppercase tracking-[0.14em]" style={{ ...mono, color: color.inkFaint }}>
+                      {k}
+                    </span>
+                    <span className="text-[11px] tabular-nums" style={{ ...mono, color: color.inkGhost }}>
+                      {typeScale[k]}
+                    </span>
+                  </div>
+                  <div
+                    className="mt-2 font-semibold"
+                    style={{ fontFamily: font.sans, fontSize: typeScale[k], letterSpacing: "-0.045em", lineHeight: 0.95 }}
+                  >
+                    {desc}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="col-span-12 lg:col-span-5">
+              <div className="p-6" style={{ border: `1px solid ${color.cell}` }}>
+                <p className="text-[11px] uppercase tracking-[0.14em]" style={{ ...mono, color: color.inkFaint }}>
+                  Inter — sans
+                </p>
+                <p className="mt-3 text-5xl font-semibold tracking-[-0.045em]" style={{ fontFamily: font.sans }}>
+                  Aa Bb Cc
+                </p>
+                <p className="mt-1 text-[13px]" style={muted}>
+                  Weights 400 · 500 · 600. Display at 600, tracking −0.045em.
+                </p>
+                <Hairline strong={false} />
+                <p className="mt-6 text-[11px] uppercase tracking-[0.14em]" style={{ ...mono, color: color.inkFaint }}>
+                  JetBrains Mono — labels &amp; data
+                </p>
+                <p className="mt-3 text-3xl font-semibold" style={mono}>
+                  Aa 0123 — //
+                </p>
+                <div className="mt-2">
+                  <Kicker>Kicker · sentence case · orange tile · never all-caps</Kicker>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* ── Spacing ────────────────────────────────────────────── */}
+      <Section id="spacing">
+        <SectionHead kicker="Spacing" />
+        <div className="py-16 sm:py-24">
+          <Display as="h2" size="md">
+            A 4px scale, used through roles.
+          </Display>
+          <p className="mt-6 max-w-2xl text-[15px] leading-relaxed" style={muted}>
+            Every margin, padding, and gap is a step on the scale, applied through
+            a named role. Same role, same step — on both surfaces.
+          </p>
+
+          <div className="mt-12 grid grid-cols-12 gap-y-10">
+            <div className="col-span-12 lg:col-span-5 lg:pr-12">
+              <h3 className="text-[12px] font-semibold uppercase tracking-[0.14em]" style={mono}>
+                Step scale · px
+              </h3>
+              <div className="mt-6">
+                {Object.entries(space.scale).map(([name, px]) => (
+                  <div key={name} className="flex items-center gap-4 py-3" style={{ borderTop: `1px solid ${color.cell}` }}>
+                    <span className="w-10 text-[12px]" style={{ ...mono, color: color.inkFaint }}>
+                      {name}
+                    </span>
+                    <span className="w-8 text-right text-[12px] tabular-nums" style={{ ...mono, color: color.inkGhost }}>
+                      {px}
+                    </span>
+                    <span className="h-3 shrink-0" style={{ width: px, background: color.ink }} />
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="col-span-12 lg:col-span-7">
+              <h3 className="text-[12px] font-semibold uppercase tracking-[0.14em]" style={mono}>
+                Roles
+              </h3>
+              <div className="mt-6">
+                {spaceRoles.map(([role, cls, usage]) => (
+                  <div
+                    key={role}
+                    className="grid grid-cols-12 items-baseline gap-3 py-3"
+                    style={{ borderTop: `1px solid ${color.cell}` }}
+                  >
+                    <span className="col-span-12 text-[13px] font-semibold tracking-[-0.01em] sm:col-span-4">
+                      {role}
+                    </span>
+                    <span className="col-span-6 text-[12px] sm:col-span-4" style={{ ...mono, color: color.blue }}>
+                      {cls}
+                    </span>
+                    <span className="col-span-6 text-[13px] sm:col-span-4" style={muted}>
+                      {usage}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* ── Motion ─────────────────────────────────────────────── */}
+      <Section id="motion">
+        <SectionHead kicker="Motion" live liveLabel="Live" />
+        <div className="grid grid-cols-12 gap-y-10 py-16 sm:py-24">
+          <div className="col-span-12 lg:col-span-4 lg:pr-10">
+            <Display as="h2" size="md">
+              Credentials resolve with motion.
+            </Display>
+            <p className="mt-6 text-[15px] leading-relaxed" style={muted}>
+              The signature gesture: a credential is withheld, then revealed by a
+              deliberate, physical motion. Scroll the frame to see it. Reuse the{" "}
+              <em>feel</em> — not the frame — for mint and verify moments in the app.
+            </p>
+          </div>
+          <div className="col-span-12 lg:col-span-8">
+            <SpecimenReveal src={CREDENTIAL_BADGE_SRC} alt={hero.badgeAlt} caption={hero.badgeCaption} />
+          </div>
+        </div>
+      </Section>
+
+      {/* ── Voice ──────────────────────────────────────────────── */}
+      <Section id="voice">
+        <SectionHead kicker="Voice" />
+        <div className="py-16 sm:py-24">
+          <Display as="h2" size="md" className="max-w-[20ch]">
+            Confident, plain, human.
+          </Display>
+          <div className="mt-10 grid gap-px sm:grid-cols-2 lg:grid-cols-3" style={{ background: color.cell }}>
+            {[
+              ["The promise", "Verifiable credentials that keep working after you issue them — a credentialing company that happens to use blockchain."],
+              ["Hero by surface", "Marketing leads with the issuer; the app leads with the learner. One hero per surface, never mixed."],
+              ["Restraint", "Say the one important thing and stop. No hype, no blockchain-maximalism."],
+            ].map(([h, b]) => (
+              <div key={h} className="p-6" style={{ background: color.paper }}>
+                <h3 className="text-[15px] font-semibold tracking-[-0.01em]">{h}</h3>
+                <p className="mt-2 text-[14px] leading-relaxed" style={muted}>
+                  {b}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Section>
+
+      {/* ── Components ─────────────────────────────────────────── */}
+      <Section id="components">
+        <SectionHead kicker="Components" />
+        <div className="py-16 sm:py-24">
+          <Display as="h2" size="md">
+            One primary action per view.
+          </Display>
+          <div className="mt-10 flex flex-wrap items-center gap-3">
+            <Button variant="primary">Primary</Button>
+            <Button variant="ink">Ink</Button>
+            <Button variant="outline">Outline</Button>
+            <Button variant="chip">Chip</Button>
+            <Button variant="disabled">Disabled</Button>
+          </div>
+          <p className="mt-6 max-w-2xl text-[14px] leading-relaxed" style={muted}>
+            One <strong>primary</strong> (orange) action per view; everything else
+            is ink, outline, or ghost. Blue is never a fill. Section-header rules
+            carry no trailing text. Build a shared <code style={mono}>PageHeader</code>
+            {" "}before broad use.
+          </p>
+        </div>
+      </Section>
+
+      {/* ── Accessibility ──────────────────────────────────────── */}
+      <Section id="access">
+        <SectionHead kicker="Accessibility" />
+        <div className="py-16 sm:py-24">
+          <Display as="h2" size="md">
+            Color contrast.
+          </Display>
+          <ul className="mt-8 max-w-3xl">
+            <Rule ok>Ink on paper ≈ 20:1. Blue links ≈ 4.5:1 — passes AA for body.</Rule>
+            <Rule ok={false}>Orange on white ≈ 3:1 — fails AA for small text. Use it as a fill with large bold labels, never small text.</Rule>
+            <Rule ok={false}>Warning amber needs an ink foreground, not white.</Rule>
+            <Rule ok>Never encode meaning in color alone — pair with an icon or label.</Rule>
+          </ul>
+        </div>
+      </Section>
+
+      {/* ── Assets ─────────────────────────────────────────────── */}
+      <Section id="assets" bordered={false}>
+        <SectionHead kicker="Assets" />
+        <div className="py-16 sm:py-24">
+          <Display as="h2" size="md">
+            Downloads &amp; references.
+          </Display>
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            <Button variant="primary" href="/logo-with-typography.svg">
+              Logo (light) ↓
+            </Button>
+            <Button variant="outline" href="/logo-with-typography-dark.svg">
+              Logo (dark) ↓
+            </Button>
+            <Button variant="outline" href="/logo-with-typography-stacked.svg">
+              Stacked ↓
+            </Button>
+            <Button variant="ink" href="/explore/system">
+              Living style guide →
+            </Button>
+          </div>
+          <p className="mt-6 max-w-2xl text-[13px] leading-relaxed" style={muted}>
+            Machine-readable tokens: <code style={mono}>src/ui/system/tokens.ts</code>.
+            Full written canon &amp; conformance checklist:{" "}
+            <code style={mono}>docs/design-system/andamio-brand-guide.md</code>.
+          </p>
+        </div>
+      </Section>
+
+      <Footer
+        tagline={footerData.tagline}
+        meta={footerData.meta}
+        copyright={footerData.copyright}
+        columns={footerData.columns}
+        backHref="/"
+        backLabel="← Back to home"
+        caption="Brand Guide"
+      />
+    </Page>
+  );
 }

@@ -1,14 +1,6 @@
-import { useTheme } from "next-themes";
-import Link from "next/link";
-import { useEffect } from "react";
-import { Button } from "~/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "~/components/ui/card";
+import React from "react";
+import { color } from "~/ui/system/tokens";
+import { Section, Kicker, Display } from "~/ui/system/kit";
 
 const proposals = [
   {
@@ -50,72 +42,62 @@ const proposals = [
 ];
 
 export default function Fund12() {
-  const { setTheme } = useTheme();
-
-  useEffect(() => {
-    setTheme("light");
-  }, [setTheme]);
-
   return (
     <>
-      <div className="">
-        <main className="isolate">
-          <div className="relative pt-14">
-            <div
-              className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
-              aria-hidden="true"
-            >
-              <div
-                className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
-                style={{
-                  clipPath:
-                    "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
-                }}
-              />
-            </div>
-            <div className="">
-              <div className="mx-auto max-w-7xl px-6 lg:px-8">
-                <div className="mx-auto max-w-3xl text-center">
-                  <h1 className="py-10 text-4xl font-bold tracking-tight text-foreground sm:text-6xl">
-                    Andamio, Build Trust.
-                  </h1>
+      {/* Header */}
+      <Section bordered={false}>
+        <div className="pb-12 pt-16 sm:pt-24">
+          <Kicker>Fund 12 · Project Catalyst</Kicker>
+          <Display as="h1" size="lg" className="mt-5">
+            Andamio, Build Trust.
+          </Display>
+          <p
+            className="mt-5 max-w-2xl text-lg leading-relaxed"
+            style={{ color: color.inkMuted }}
+          >
+            Proposals submitted to Project Catalyst.
+          </p>
+        </div>
+      </Section>
 
-                  <p className="mt-6 text-xl leading-8 text-muted-foreground"></p>
-                </div>
-                <div className="mt-16 flow-root sm:mt-24">
-                  <div className="-m-2 grid gap-4 p-2 md:grid-cols-2 lg:-m-4 lg:rounded-2xl lg:p-4">
-                    {proposals.map((proposal) => (
-                      <Card key={proposal.title}>
-                        <CardHeader>
-                          <CardTitle>{proposal.title}</CardTitle>
-                        </CardHeader>
-                        <CardContent>{proposal.description}</CardContent>
-                        <CardFooter>
-                          <Link href={proposal.link} target="_blank">
-                            <Button>Read more</Button>
-                          </Link>
-                        </CardFooter>
-                      </Card>
-                    ))}
-                  </div>
+      {/* Proposals */}
+      <Section bordered={false}>
+        <div className="py-16 sm:py-20">
+          <div
+            className="grid gap-px md:grid-cols-2"
+            style={{ background: color.cell }}
+          >
+            {proposals.map((proposal) => (
+              <div
+                key={proposal.title}
+                className="flex flex-col p-6"
+                style={{ background: color.paper }}
+              >
+                <h3 className="text-lg font-semibold leading-tight tracking-[-0.02em]">
+                  {proposal.title}
+                </h3>
+                <p
+                  className="mt-3 flex-1 text-sm leading-relaxed"
+                  style={{ color: color.inkMuted }}
+                >
+                  {proposal.description}
+                </p>
+                <div className="mt-5">
+                  <a
+                    href={proposal.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-[13px] font-semibold tracking-[-0.01em] transition-colors hover:underline"
+                    style={{ color: color.blue }}
+                  >
+                    Read more →
+                  </a>
                 </div>
               </div>
-            </div>
-            <div
-              className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
-              aria-hidden="true"
-            >
-              <div
-                className="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
-                style={{
-                  clipPath:
-                    "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
-                }}
-              />
-            </div>
+            ))}
           </div>
-        </main>
-      </div>
+        </div>
+      </Section>
     </>
   );
 }

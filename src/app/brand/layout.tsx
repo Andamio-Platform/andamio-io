@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "~/styles/globals.css";
 import { ThemeProvider } from "~/components/theme-provider";
+import { SITE_URL } from "~/lib/seo";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -9,6 +10,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "Andamio Brand Hub",
   description: "Official brand guidelines, assets, and resources for Andamio",
 };

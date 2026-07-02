@@ -1,22 +1,45 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+/* Design tokens source: ~/projects/andamio-design-system-test/colors_and_type.css
+   Apr 2026 update — Geist + JetBrains Mono + Instrument Serif; tighter radii (2–6px);
+   bold offset shadow system. Legacy Beckman/WorkSans/LibreFranklin/Inconsolata kept as aliases. */
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Sora:wght@400;500;600;700;800&family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Fraunces:opsz,wght@9..144,400..900&family=Instrument+Serif:ital,wght@0,400;1,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* V2 landing — full-height panels with plain, smooth scrolling. No scroll-snap:
+   proximity snapping fought the wheel across variable-height panels and felt
+   wonky. scroll-behavior smooths anchor jumps; scroll-padding clears the fixed nav. */
 @layer base {
   :root {
-    --radius: 0.625rem;
+    /* Sticky-nav clearance. Single source for anchor scroll offset AND the
+       full-viewport Section height (kit `screen` prop). See tokens.layout.navClearance. */
+    --nav-clear: 5rem;
+  }
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: var(--nav-clear);
+  }
+}
+
+@layer base {
+  :root {
+    /* Radii — tightened Apr 2026. Andamio is scaffolding; keep edges closer to 90°. */
+    --radius-sm: 2px;
+    --radius-md: 3px;
+    --radius: 4px;
+    --radius-lg: 6px;
     --background: oklch(1 0 0);
     --foreground: oklch(0.145 0 0);
     --card: oklch(1 0 0);
     --card-foreground: oklch(0.145 0 0);
     --popover: oklch(1 0 0);
     --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.669 0.199 38.581);
-    --primary-foreground: oklch(1 0 0);
-    --secondary: oklch(0.387 0.134 250.505);
-    --secondary-foreground: oklch(1 0 0);
+    /* Reclaimed brand — Scaffold Orange #FF6B35 + Foundation Blue #004E89 (see /brand). */
+    --primary: #FF6B35;
+    --primary-foreground: #ffffff;
+    --secondary: #004E89;
+    --secondary-foreground: #ffffff;
     --muted: oklch(0.985 0.002 106.423);
     --muted-foreground: oklch(0.478 0.029 255.508);
     --accent: oklch(0.988 0.008 79.439);
@@ -24,7 +47,7 @@
     --destructive: oklch(0.608 0.227 27.325);
     --border: oklch(0.922 0.003 106.423);
     --input: oklch(0.922 0.003 106.423);
-    --ring: oklch(0.669 0.199 38.581);
+    --ring: #FF6B35;
     --chart-1: oklch(0.719 0.140 38.581);
     --chart-2: oklch(0.605 0.155 250.505);
     --chart-3: oklch(0.627 0.106 181.764);
@@ -49,19 +72,53 @@
     --surface-subtle: oklch(0.97 0.004 106.423);
     --surface-dark: #0d1117;
     --surface-dark-elevated: #161b22;
+
+    /* Shadow system — bolder, tangible. Use sparingly. */
+    --shadow-sm: 0 1px 0 rgb(0 0 0 / 0.06), 0 2px 4px rgb(0 0 0 / 0.04);
+    --shadow-md: 0 2px 0 rgb(0 0 0 / 0.08), 0 8px 16px -4px rgb(0 0 0 / 0.12);
+    --shadow-lg: 0 4px 0 rgb(0 0 0 / 0.10), 0 16px 32px -8px rgb(0 0 0 / 0.18);
+    --shadow-press: inset 0 2px 0 rgb(0 0 0 / 0.12);
+
+    /* Typography families — Geist primary, IBM Plex Sans for long-form, JetBrains Mono for code.
+       Beckman/WorkSans/LibreFranklin/Inconsolata retained as legacy aliases. */
+    --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-display: "Sora", "Inter", ui-sans-serif, system-ui, sans-serif;
+    --font-serif: "Instrument Serif", "Iowan Old Style", "Times New Roman", serif;
+    --font-mono: "JetBrains Mono", "Inconsolata", ui-monospace, monospace;
+    --font-plex: "IBM Plex Sans", "Geist", system-ui, sans-serif;
+    --font-beckman: "Beckman", "Geist", ui-sans-serif, system-ui;
+    --font-libre: "LibreFranklin", "Geist", system-ui, sans-serif;
+
+    /* Semantic type roles */
+    --h1-size: clamp(3rem, 6vw + 1rem, 7.5rem);
+    --h1-leading: 1.02;
+    --h1-tracking: -0.035em;
+    --h2-size: clamp(1.875rem, 2.4vw + 1rem, 3rem);
+    --h2-leading: 1.08;
+    --h2-tracking: -0.025em;
+    --h3-size: 1.5rem;
+    --h3-leading: 1.25;
+    --h3-tracking: -0.015em;
+    --body-leading: 1.625;
+    --lead-size: 1.125rem;
+    --lead-leading: 1.6;
+    --eyebrow-size: 0.75rem;
+    --eyebrow-tracking: 0.18em;
   }
 
   .dark {
-    --background: oklch(0.188 0.013 257.128);
-    --foreground: oklch(0.922 0.003 106.423);
-    --card: oklch(0.241 0.018 257.128);
-    --card-foreground: oklch(0.922 0.003 106.423);
-    --popover: oklch(0.241 0.018 257.128);
-    --popover-foreground: oklch(0.922 0.003 106.423);
-    --primary: oklch(0.719 0.174 38.581);
-    --primary-foreground: oklch(0.188 0.013 257.128);
-    --secondary: oklch(0.605 0.155 250.505);
-    --secondary-foreground: oklch(1 0 0);
+    /* Foundation: brand dark background #0F1419. */
+    --background: oklch(0.171 0.012 250);
+    --foreground: oklch(0.945 0.004 106.423);
+    --card: oklch(0.213 0.015 250);
+    --card-foreground: oklch(0.945 0.004 106.423);
+    --popover: oklch(0.213 0.015 250);
+    --popover-foreground: oklch(0.945 0.004 106.423);
+    /* Reclaimed brand — brightened for dark surfaces. */
+    --primary: #FF7A52;
+    --primary-foreground: #0F1419;
+    --secondary: #3B82F6;
+    --secondary-foreground: #ffffff;
     --muted: oklch(0.241 0.018 257.128);
     --muted-foreground: oklch(0.717 0.014 257.128);
     --accent: oklch(0.338 0.024 257.128);
@@ -69,7 +126,7 @@
     --destructive: oklch(0.704 0.191 22.216);
     --border: oklch(0.338 0.024 257.128);
     --input: oklch(0.338 0.024 257.128);
-    --ring: oklch(0.719 0.174 38.581);
+    --ring: #FF7A52;
     --chart-1: oklch(0.719 0.140 38.581);
     --chart-2: oklch(0.605 0.155 250.505);
     --chart-3: oklch(0.696 0.090 181.764);
@@ -94,6 +151,116 @@
     --surface-subtle: oklch(0.215 0.015 257.128);
     --surface-dark: #0d1117;
     --surface-dark-elevated: #161b22;
+  }
+
+  /* Light "island" — re-asserts the light token values so a subtree can render
+     light inside a dark-based page (used to alternate section backgrounds on the
+     landing; see V2Landing). Mirrors the token set that .dark overrides. */
+  .light {
+    --background: oklch(1 0 0);
+    --foreground: oklch(0.145 0 0);
+    --card: oklch(1 0 0);
+    --card-foreground: oklch(0.145 0 0);
+    --popover: oklch(1 0 0);
+    --popover-foreground: oklch(0.145 0 0);
+    --primary: #FF6B35;
+    --primary-foreground: #ffffff;
+    --secondary: #004E89;
+    --secondary-foreground: #ffffff;
+    --muted: oklch(0.985 0.002 106.423);
+    --muted-foreground: oklch(0.478 0.029 255.508);
+    --accent: oklch(0.988 0.008 79.439);
+    --accent-foreground: oklch(0.145 0 0);
+    --destructive: oklch(0.608 0.227 27.325);
+    --border: oklch(0.922 0.003 106.423);
+    --input: oklch(0.922 0.003 106.423);
+    --ring: #FF6B35;
+    --sidebar: oklch(0.988 0.008 79.439);
+    --sidebar-foreground: oklch(0.145 0 0);
+    --sidebar-primary: oklch(0.669 0.199 38.581);
+    --sidebar-primary-foreground: oklch(1 0 0);
+    --sidebar-accent: oklch(1 0 0);
+    --sidebar-accent-foreground: oklch(0.145 0 0);
+    --sidebar-border: oklch(0.922 0.003 106.423);
+    --sidebar-ring: oklch(0.669 0.199 38.581);
+    --warning: hsl(30 90% 55%);
+    --warning-foreground: hsl(40 95% 95%);
+    --success: hsl(140 65% 30%);
+    --success-foreground: hsl(140 65% 90%);
+    --editor-blue: hsl(200 70% 35%);
+    --editor-green: hsl(140 65% 35%);
+    --editor-orange: hsl(15 80% 55%);
+    --editor-yellow: hsl(40 85% 45%);
+    --surface-subtle: oklch(0.97 0.004 106.423);
+  }
+}
+
+/* ── System design-system palette (src/ui/system) ─────────────────────────
+   The "Warm Index · Editorial rail" landing (AndamioLanding + kit.tsx) reads
+   its colors from tokens.ts, which now point at these CSS vars so the whole
+   design system flips with the global light/dark toggle (next-themes `.dark`).
+   The ink/paper neutrals are exposed BOTH as solids (--sys-ink) and as RGB
+   channel triplets (--sys-ink-rgb) so the many `rgb(... / alpha)` derivations
+   (muted/faint/ghost/watermark/cell/grid/hairline) invert from one source.
+   `--sys-on-ink` is the contrast pair for ink-emphasis surfaces (ink button,
+   emphasized API layer): white-on-ink in light, dark-on-ink in dark. The 3
+   accents follow the same discipline as light — orange sparing, blue for
+   wayfinding/data — just brightened for dark surfaces. */
+@layer base {
+  :root {
+    --sys-paper: #ffffff;
+    --sys-paper-rgb: 255 255 255;
+    --sys-ink: #0a0a0a;
+    --sys-ink-rgb: 10 10 10;
+    --sys-on-ink: #ffffff;
+    --sys-on-ink-rgb: 255 255 255;
+    /* Solid full-bleed editorial rule. Strong by design. */
+    --sys-rule: #0a0a0a;
+    --sys-orange: #ff6b35;
+    --sys-blue: #2f6bff;
+    --sys-coral-tint: rgb(255 107 74 / 0.055);
+  }
+
+  .dark {
+    /* Foundation dark paper #0F1419 (shared with the V2 --background). */
+    --sys-paper: #0f1419;
+    --sys-paper-rgb: 15 20 25;
+    --sys-ink: #ededed;
+    --sys-ink-rgb: 237 237 237;
+    --sys-on-ink: #0f1419;
+    --sys-on-ink-rgb: 15 20 25;
+    /* Softened rule: a full-strength white hairline edge-to-edge would glare;
+       this keeps the strong-divider character without blinding. */
+    --sys-rule: rgb(237 237 237 / 0.26);
+    --sys-orange: #ff7a52;
+    --sys-blue: #5b8bff;
+    --sys-coral-tint: rgb(255 122 82 / 0.1);
+  }
+
+  /* Nav dropdown card item — subtle theme-aware hover wash. */
+  .nav-card-item {
+    transition: background-color 0.15s ease;
+  }
+  .nav-card-item:hover {
+    background: rgb(var(--sys-ink-rgb) / 0.035);
+  }
+
+  /* Forced-light island — re-pins the system palette to its light values for a
+     subtree, so a widget renders light inside a dark page. Used for the badge
+     builder, the design's "specimen under glass" (mirrors the old .demo-light).
+     Both `.sys-light` and `.dark .sys-light` so it wins under the dark root. */
+  .sys-light,
+  .dark .sys-light {
+    --sys-paper: #ffffff;
+    --sys-paper-rgb: 255 255 255;
+    --sys-ink: #0a0a0a;
+    --sys-ink-rgb: 10 10 10;
+    --sys-on-ink: #ffffff;
+    --sys-on-ink-rgb: 255 255 255;
+    --sys-rule: #0a0a0a;
+    --sys-orange: #ff6b35;
+    --sys-blue: #2f6bff;
+    --sys-coral-tint: rgb(255 107 74 / 0.055);
   }
 }
 
@@ -213,4 +380,71 @@
 
 .visible {
   opacity: 1 !important; /* Set visible when the observer detects entry */
+}
+
+/* Credential Assay Station — the live readout values settle in (blur → sharp)
+   each time the derived hash changes, keyed by value in BadgeBuilderDemo. */
+@keyframes assaySettle {
+  from {
+    opacity: 0.3;
+    filter: blur(3px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+.assay-settle {
+  animation: assaySettle 320ms ease-out;
+}
+
+/* A single scan-line sweeps the specimen once when the badge re-renders. */
+@keyframes assayScan {
+  from {
+    transform: translateY(-120%);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.85;
+  }
+  to {
+    transform: translateY(120%);
+    opacity: 0;
+  }
+}
+
+.assay-scan {
+  animation: assayScan 700ms ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .assay-settle,
+  .assay-scan {
+    animation: none;
+  }
+}
+
+/* Light "island" — re-declares the theme tokens to their light values for a
+   subtree, so a widget can render light-on-dark while the rest of the page
+   stays dark. Apply to a container; everything inside resolves to light. */
+.demo-light {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --muted: oklch(0.965 0.003 106.423);
+  --muted-foreground: oklch(0.478 0.029 255.508);
+  --accent: oklch(0.97 0.004 106.423);
+  --accent-foreground: oklch(0.145 0 0);
+  --border: oklch(0.912 0.004 106.423);
+  --input: oklch(0.912 0.004 106.423);
+  --ring: #ff6b35;
+  --primary: #ff6b35;
+  --primary-foreground: #ffffff;
+  --secondary: #004e89;
+  --secondary-foreground: #ffffff;
+  color: var(--foreground);
 }

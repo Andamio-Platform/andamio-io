@@ -1,111 +1,80 @@
 import React from "react";
-import V2PageLayout from "~/ui/landing/V2Landing/V2PageLayout";
-
 import {
-  CheckBadgeIcon,
   AcademicCapIcon,
   ClipboardDocumentCheckIcon,
   BanknotesIcon,
 } from "@heroicons/react/24/outline";
+import { Section } from "~/ui/system/kit";
+import { color } from "~/ui/system/tokens";
+import {
+  UseCaseLayout,
+  CycleGrid,
+  StatGrid,
+  type Cycle,
+  type Stat,
+} from "~/ui/use-cases/chrome";
 
 export default function IntersectPage() {
   return (
-    <V2PageLayout
+    <UseCaseLayout
+      kicker="Use Case · Governance"
       title="Intersect — Maintainer Retainer Program"
       description="Governance treasury and contributor tracking for Cardano's open source ecosystem. Credential-gated onboarding, milestone-based payments, and full on-chain accountability."
+      caption="Use Cases · Governance"
     >
       {/* Overview */}
-      <section className="mb-16">
-        <div className="mx-auto grid max-w-4xl gap-12 lg:grid-cols-2">
-          <div className="space-y-4 text-muted-foreground">
-            <p>
-              Intersect is the member-based organization that coordinates
-              Cardano&rsquo;s open source committees and working groups.
-              Their Open Source Committee manages maintainers who build
-              critical infrastructure for the ecosystem.
-            </p>
-            <p>
-              The problem: how do you onboard, track, and pay 50+
-              maintainers across multiple committees — with full transparency
-              and zero payment disputes?
-            </p>
-          </div>
-          <div className="space-y-4 text-muted-foreground">
-            <p>
-              Andamio replaces invoice cycles, spreadsheet tracking, and
-              manual treasury execution with credential-gated access,
-              milestone-based smart contract escrow, and automatic fund
-              release on reviewer approval.
-            </p>
-            <p>
-              Every payment, every approval, every credential — recorded
-              permanently on-chain. No discretionary delays. No disputed
-              records.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Cycles Section */}
-      <section className="mx-auto grid gap-12 md:grid-cols-3">
-        {cycles.map((cycle, index) => (
-          <div
-            key={index}
-            className="rounded-xl border border-border bg-card p-6 shadow-sm transition-shadow duration-300 hover:shadow-lg"
-          >
-            <h2 className="mb-4 flex items-center gap-2 text-2xl font-semibold text-foreground">
-              <cycle.icon className="h-7 w-7 text-primary" /> {cycle.title}
-            </h2>
-            <p className="mb-4 text-sm text-muted-foreground">
-              {cycle.description}
-            </p>
-            <ul className="space-y-3">
-              {cycle.steps.map((step, stepIdx) => (
-                <li key={stepIdx} className="flex items-start gap-2">
-                  <CheckBadgeIcon
-                    className="h-5 w-5 flex-shrink-0 text-primary"
-                    aria-hidden="true"
-                  />
-                  <p className="text-sm text-muted-foreground">
-                    <span className="font-semibold text-foreground">{step.label}</span>{" "}
-                    {step.content}
-                  </p>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </section>
-
-      {/* Results */}
-      <section className="mt-16">
-        <h3 className="mb-8 text-center text-2xl font-bold text-foreground">
-          Pilot Results
-        </h3>
-        <div className="mx-auto grid max-w-3xl gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {results.map((result) => (
-            <div
-              key={result.label}
-              className="rounded-xl border border-border bg-card p-5 text-center"
-            >
-              <p className="text-2xl font-bold text-primary">{result.value}</p>
-              <p className="mt-1 text-sm text-muted-foreground">{result.label}</p>
+      <Section>
+        <div className="py-16 sm:py-20">
+          <div className="grid max-w-4xl gap-12 lg:grid-cols-2">
+            <div className="space-y-4 text-base leading-relaxed" style={{ color: color.inkMuted }}>
+              <p>
+                Intersect is the member-based organization that coordinates
+                Cardano&rsquo;s open source committees and working groups.
+                Their Open Source Committee manages maintainers who build
+                critical infrastructure for the ecosystem.
+              </p>
+              <p>
+                The problem: how do you onboard, track, and pay 50+
+                maintainers across multiple committees — with full transparency
+                and zero payment disputes?
+              </p>
             </div>
-          ))}
+            <div className="space-y-4 text-base leading-relaxed" style={{ color: color.inkMuted }}>
+              <p>
+                Andamio replaces invoice cycles, spreadsheet tracking, and
+                manual treasury execution with credential-gated access,
+                milestone-based smart contract escrow, and automatic fund
+                release on reviewer approval.
+              </p>
+              <p>
+                Every payment, every approval, every credential — recorded
+                permanently on-chain. No discretionary delays. No disputed
+                records.
+              </p>
+            </div>
+          </div>
         </div>
-      </section>
-    </V2PageLayout>
+      </Section>
+
+      <CycleGrid cycles={cycles} />
+
+      <StatGrid
+        heading="Pilot Results"
+        stats={results}
+        gridCls="sm:grid-cols-2 lg:grid-cols-4"
+      />
+    </UseCaseLayout>
   );
 }
 
-const results = [
+const results: Stat[] = [
   { value: "10", label: "Pilot maintainers" },
   { value: "20", label: "Milestones completed" },
   { value: "0", label: "Fund disputes" },
   { value: "30%", label: "Admin time reduced" },
 ];
 
-const cycles = [
+const cycles: Cycle[] = [
   {
     title: "Onboard",
     icon: AcademicCapIcon,

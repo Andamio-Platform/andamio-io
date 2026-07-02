@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Dead-End Tax — A 12-page audit of what credentials cost when they don't compose</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* Inlined from Andamio design system (colors_and_type.css) */
+  :root {
+    --background: oklch(1 0 0);
+    --foreground: oklch(0.145 0 0);
+    --card: oklch(1 0 0);
+    --card-foreground: oklch(0.145 0 0);
+    --primary: oklch(0.669 0.199 38.581);
+    --primary-foreground: oklch(1 0 0);
+    --secondary: oklch(0.387 0.134 250.505);
+    --secondary-foreground: oklch(1 0 0);
+    --muted: oklch(0.985 0.002 106.423);
+    --muted-foreground: oklch(0.478 0.029 255.508);
+    --accent: oklch(0.988 0.008 79.439);
+    --accent-foreground: oklch(0.145 0 0);
+    --border: oklch(0.922 0.003 106.423);
+    --ring: oklch(0.669 0.199 38.581);
+    --warning: hsl(30 90% 55%);
+    --warning-foreground: hsl(40 95% 95%);
+    --success: hsl(140 65% 30%);
+    --success-foreground: hsl(140 65% 90%);
+    --surface-subtle: oklch(0.97 0.004 106.423);
+    --surface-dark: #0d1117;
+    --surface-dark-elevated: #161b22;
+    --radius-sm: 2px;
+    --radius-md: 3px;
+    --radius: 4px;
+    --radius-lg: 6px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #e9e6e0; color: var(--foreground); font-family: "Geist", sans-serif; -webkit-font-smoothing: antialiased; }
+
+  .page-stack { padding: 60px 20px 80px; display: flex; flex-direction: column; align-items: center; gap: 40px; }
+  @media (min-width: 900px) { .page-stack { padding: 80px 40px 120px; gap: 56px; } }
+
+  /* Approximately A4 letterbox, 1:1.414, max 880px wide */
+  .page {
+    width: 100%;
+    max-width: 880px;
+    aspect-ratio: 1 / 1.414;
+    background: var(--background);
+    box-shadow: 0 2px 0 rgba(0,0,0,0.12), 0 40px 80px -20px rgba(0,0,0,0.25), 0 16px 32px -12px rgba(0,0,0,0.15);
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+  }
+
+  /* ---------------- Header / Footer running chrome ---------------- */
+  .phead, .pfoot {
+    padding: 36px 56px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font: 500 10px "JetBrains Mono", monospace;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+  }
+  .phead .mark { display: flex; align-items: center; gap: 10px; color: var(--foreground); }
+  .phead .mark img { width: 20px; height: 20px; border-radius: 999px; object-fit: cover; }
+  .phead .mark b { font: 600 13px "Geist", sans-serif; letter-spacing: -0.02em; text-transform: none; color: var(--foreground); }
+  .pfoot .pnum b { color: var(--foreground); font: 600 12px "Geist", sans-serif; text-transform: none; letter-spacing: -0.005em; margin-right: 4px; }
+
+  .pbody { padding: 24px 56px; overflow: hidden; }
+
+  /* ---------------- COVER ---------------- */
+  .cover { background: var(--foreground); color: var(--background); }
+  .cover .phead, .cover .pfoot { color: rgba(255,255,255,0.45); }
+  .cover .phead .mark { color: #fff; }
+  .cover .phead .mark b { color: #fff; }
+
+  .cover-body {
+    padding: 0 56px;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 40px;
+    overflow: hidden;
+    position: relative;
+  }
+  .cover .eyebrow-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font: 500 11px "JetBrains Mono", monospace;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+  .cover .eyebrow-row .a { color: var(--primary); }
+  .cover .eyebrow-row .b { color: rgba(255,255,255,0.5); }
+
+  .cover h1 {
+    font: 600 clamp(2.75rem, 6vw + 0.5rem, 5rem)/0.98 "Geist", sans-serif;
+    letter-spacing: -0.045em;
+    color: #fff;
+    margin: 0;
+    text-wrap: balance;
+    max-width: 14ch;
+  }
+  .cover h1 .accent { color: var(--primary); }
+  .cover h1 .slash { color: rgba(255,255,255,0.25); }
+
+  .cover-sub {
+    font: 400 clamp(1rem, 0.5vw + 0.9rem, 1.25rem)/1.5 "Geist", sans-serif;
+    color: rgba(255,255,255,0.75);
+    max-width: 46ch;
+    margin: 0;
+    letter-spacing: -0.008em;
+  }
+
+  .cover-meta {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(255,255,255,0.18);
+  }
+  .cover-meta .k { font: 500 10px "JetBrains Mono", monospace; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 8px; }
+  .cover-meta .v { font: 500 14px "Geist", sans-serif; color: #fff; letter-spacing: -0.01em; }
+
+  /* Decorative horizontal bars (abstract credential chain) on cover */
+  .cover-graphic {
+    position: absolute;
+    top: 42%;
+    right: -80px;
+    transform: translateY(-50%) rotate(-6deg);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    pointer-events: none;
+    opacity: 0.95;
+  }
+  .cover-graphic .cg-row {
+    display: flex;
+    gap: 4px;
+  }
+  .cover-graphic .cg {
+    height: 22px;
+    padding: 0 14px;
+    display: flex;
+    align-items: center;
+    font: 500 10px "JetBrains Mono", monospace;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .cover-graphic .cg.n { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.6); border: 1px solid rgba(255,255,255,0.15); }
+  .cover-graphic .cg.acc { background: var(--primary); color: var(--primary-foreground); border: 1px solid oklch(0.55 0.19 38); box-shadow: 3px 3px 0 rgba(0,0,0,0.35); }
+  .cover-graphic .cg.dash { background: transparent; border: 1px dashed rgba(255,255,255,0.25); color: rgba(255,255,255,0.5); }
+
+  /* ---------------- TOC spread ---------------- */
+  .toc-body { display: grid; grid-template-rows: auto 1fr; gap: 40px; padding: 8px 56px 40px; overflow: hidden; }
+  .toc-head { max-width: 640px; }
+  .toc-head .eyebrow { font: 500 11px "JetBrains Mono", monospace; letter-spacing: 0.22em; text-transform: uppercase; color: var(--primary); display: inline-flex; align-items: center; gap: 12px; }
+  .toc-head .eyebrow::before { content: ""; width: 28px; height: 1px; background: var(--primary); }
+  .toc-head h2 { margin: 20px 0 0; font: 600 clamp(2rem, 3vw + 0.5rem, 3.25rem)/1.05 "Geist", sans-serif; letter-spacing: -0.035em; color: var(--foreground); text-wrap: balance; }
+  .toc-head p { margin: 20px 0 0; font: 400 15px/1.55 "Geist", sans-serif; color: var(--muted-foreground); max-width: 56ch; letter-spacing: -0.005em; }
+
+  .toc-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .toc-item {
+    padding: 20px 0;
+    border-top: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 32px 1fr 32px;
+    gap: 16px;
+    align-items: baseline;
+  }
+  .toc-item:first-child, .toc-item:nth-child(2) { border-top: none; }
+  .toc-item .n { font: 500 11px "JetBrains Mono", monospace; letter-spacing: 0.15em; color: var(--muted-foreground); }
+  .toc-item .t { font: 500 15px/1.3 "Geist", sans-serif; color: var(--foreground); letter-spacing: -0.01em; }
+  .toc-item .t span { display: block; font: 400 13px "Geist", sans-serif; color: var(--muted-foreground); margin-top: 3px; letter-spacing: -0.005em; }
+  .toc-item .p { font: 500 12px "JetBrains Mono", monospace; text-align: right; color: var(--muted-foreground); }
+  .toc-item.accent .t { color: var(--primary); }
+  .toc-item.accent .p { color: var(--primary); }
+
+  /* ---------------- Interior page — one cost category ---------------- */
+  .int-body { display: grid; grid-template-rows: auto auto 1fr auto; gap: 28px; padding: 8px 56px 40px; overflow: hidden; }
+  .int-hero { display: grid; grid-template-columns: auto 1fr; gap: 32px; align-items: baseline; }
+  .int-hero .bign { font: 500 72px/0.9 "Geist", sans-serif; letter-spacing: -0.04em; color: var(--primary); font-variant-numeric: tabular-nums; }
+  .int-hero .int-head .e { font: 500 11px "JetBrains Mono", monospace; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted-foreground); }
+  .int-hero .int-head h2 { margin: 12px 0 0; font: 600 clamp(2rem, 2.5vw + 0.5rem, 2.75rem)/1.05 "Geist", sans-serif; letter-spacing: -0.03em; color: var(--foreground); text-wrap: balance; }
+  .int-hero .int-head .who { margin: 14px 0 0; font: 500 12px "JetBrains Mono", monospace; letter-spacing: 0.14em; text-transform: uppercase; color: var(--primary); }
+
+  .int-rule { height: 1px; background: var(--foreground); }
+
+  .int-main {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: 48px;
+  }
+  .int-col h3 { margin: 0 0 14px; font: 500 11px "JetBrains Mono", monospace; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted-foreground); }
+  .int-col p { margin: 0 0 14px; font: 400 14.5px/1.62 "Geist", sans-serif; color: var(--foreground); letter-spacing: -0.005em; }
+  .int-col p.muted { color: var(--muted-foreground); }
+  .int-col blockquote { margin: 20px 0 0; padding: 16px 0 0; border-top: 2px solid var(--foreground); font: 500 italic clamp(1.125rem, 1.4vw + 0.6rem, 1.5rem)/1.3 "Geist", sans-serif; color: var(--foreground); letter-spacing: -0.015em; text-wrap: balance; }
+  .int-col blockquote footer { margin-top: 12px; font: 500 10px "JetBrains Mono", monospace; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted-foreground); font-style: normal; }
+
+  /* Right column — data viz */
+  .viz {
+    border: 1px solid var(--foreground);
+    padding: 24px;
+    background: var(--surface-subtle);
+    display: grid;
+    gap: 20px;
+  }
+  .viz-title { font: 500 11px "JetBrains Mono", monospace; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted-foreground); }
+  .viz-big { font: 600 clamp(2.5rem, 3.5vw + 0.5rem, 3.75rem)/0.95 "Geist", sans-serif; letter-spacing: -0.035em; color: var(--foreground); font-variant-numeric: tabular-nums; }
+  .viz-big small { display: block; font: 500 12px "JetBrains Mono", monospace; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted-foreground); margin-top: 6px; }
+
+  .viz-chart { display: flex; flex-direction: column; gap: 10px; }
+  .viz-chart .row { display: grid; grid-template-columns: 64px 1fr 52px; gap: 12px; align-items: center; font: 500 11px "JetBrains Mono", monospace; letter-spacing: 0.05em; color: var(--muted-foreground); }
+  .viz-chart .row .bar { height: 18px; background: var(--border); position: relative; overflow: hidden; }
+  .viz-chart .row .fill { position: absolute; inset: 0; width: 0; background: var(--foreground); transition: width 400ms ease-out; }
+  .viz-chart .row.accent .fill { background: var(--primary); }
+  .viz-chart .row .v { text-align: right; color: var(--foreground); font-weight: 600; }
+
+  .viz-source { padding-top: 12px; border-top: 1px solid var(--border); font: 400 11px/1.4 "Geist", sans-serif; color: var(--muted-foreground); letter-spacing: -0.005em; }
+  .viz-source b { color: var(--foreground); }
+
+  .int-foot-note { padding: 16px 0 0; border-top: 1px solid var(--border); font: 400 12px/1.5 "Geist", sans-serif; color: var(--muted-foreground); letter-spacing: -0.005em; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .int-foot-note b { color: var(--foreground); font-weight: 500; }
+
+  /* ---------------- PDF print ---------------- */
+  @media print {
+    html, body { background: #fff; }
+    .page-stack { padding: 0; gap: 0; }
+    .page { box-shadow: none; aspect-ratio: auto; width: 100%; height: 100vh; page-break-after: always; break-after: page; }
+  }
+
+  /* ---------------- Download band ---------------- */
+  .download-band {
+    width: 100%;
+    max-width: 880px;
+    padding: 24px 32px;
+    background: var(--foreground);
+    color: var(--background);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    border-radius: 2px;
+  }
+  .download-band p { margin: 0; font: 500 13px "Geist", sans-serif; letter-spacing: -0.005em; max-width: 56ch; }
+  .download-band a { padding: 10px 18px; background: var(--primary); color: var(--primary-foreground); text-decoration: none; font: 500 13px "Geist", sans-serif; letter-spacing: -0.005em; border: 1px solid oklch(0.55 0.19 38); box-shadow: 0 2px 0 oklch(0.45 0.17 38); }
+</style>
+</head>
+<body>
+
+<div class="page-stack">
+
+  <div class="download-band">
+    <p>Preview of the 12-page audit. Two interior spreads shown. The full PDF ships behind the email form on the landing page.</p>
+    <a href="/ui_kits/landing/index.html#tax">← Back to landing</a>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- COVER                                                         -->
+  <!-- ============================================================= -->
+  <article class="page cover">
+    <div class="phead">
+      <div class="mark">
+        <img src="/andamio-logo-mark.png" alt="Andamio">
+        <b>Andamio · Enterprise research</b>
+      </div>
+      <span>Issued 2026-04 · v1</span>
+    </div>
+
+    <div class="cover-body">
+      <div class="eyebrow-row">
+        <span class="a">Lead magnet · 12 pages</span>
+        <span class="b">For operators · not for prospects</span>
+      </div>
+
+      <div>
+        <h1>The Dead-End <span class="slash">/</span> <span class="accent">Tax.</span></h1>
+        <p class="cover-sub" style="margin-top: 40px;">A 12-page audit of what credentials cost you when they don't compose — across five categories most orgs never put on a line item.</p>
+      </div>
+
+      <div class="cover-meta">
+        <div><div class="k">Length</div><div class="v">12 pages</div></div>
+        <div><div class="k">Categories</div><div class="v">5 costs</div></div>
+        <div><div class="k">Sources</div><div class="v">22 cited</div></div>
+        <div><div class="k">Audience</div><div class="v">Credential ops</div></div>
+      </div>
+    </div>
+
+    <div class="pfoot">
+      <span>The cost of a credential<br>that can't do anything</span>
+      <span class="pnum"><b>Cover</b>· 00 / 12</span>
+    </div>
+
+    <!-- Decorative credential bars -->
+    <div class="cover-graphic">
+      <div class="cg-row">
+        <span class="cg n">Issuer A</span>
+        <span class="cg acc">Credential A</span>
+      </div>
+      <div class="cg-row">
+        <span class="cg n">Issuer B</span>
+        <span class="cg dash">locked</span>
+        <span class="cg dash">locked</span>
+      </div>
+      <div class="cg-row">
+        <span class="cg n">Issuer C</span>
+        <span class="cg acc">Credential C</span>
+        <span class="cg dash">· dead end</span>
+      </div>
+      <div class="cg-row">
+        <span class="cg n">Issuer D</span>
+        <span class="cg dash">locked</span>
+      </div>
+      <div class="cg-row">
+        <span class="cg n">Issuer E</span>
+        <span class="cg acc">Credential E</span>
+        <span class="cg dash">locked</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- ============================================================= -->
+  <!-- TOC / opener spread                                           -->
+  <!-- ============================================================= -->
+  <article class="page">
+    <div class="phead">
+      <div class="mark">
+        <img src="/andamio-logo-mark.png" alt="Andamio">
+        <b>Andamio · The Dead-End Tax</b>
+      </div>
+      <span>§ Contents</span>
+    </div>
+
+    <div class="toc-body">
+      <div class="toc-head">
+        <span class="eyebrow">Contents</span>
+        <h2>Five places the cost shows up. None of them are on your invoice.</h2>
+        <p>This audit is for the people running credentialing programs today. It's not a pitch for Andamio — we wrote it because we needed it ourselves. You can take the framework and apply it without touching anything we build.</p>
+      </div>
+
+      <div class="toc-list">
+        <div class="toc-item"><span class="n">00</span><div class="t">Cover<span>How to read this</span></div><span class="p">p. 01</span></div>
+        <div class="toc-item"><span class="n">—</span><div class="t">Contents<span>The five costs, in order</span></div><span class="p">p. 02</span></div>
+
+        <div class="toc-item accent"><span class="n">01</span><div class="t">Verification-call overhead<span>What your help desk absorbs</span></div><span class="p">p. 03</span></div>
+        <div class="toc-item"><span class="n">02</span><div class="t">Platform lock-in risk<span>Migration debt you can't write down</span></div><span class="p">p. 05</span></div>
+
+        <div class="toc-item accent"><span class="n">03</span><div class="t">Cross-vendor integration<span>Bespoke per partner, per year</span></div><span class="p">p. 07</span></div>
+        <div class="toc-item"><span class="n">04</span><div class="t">Revenue delays<span>Cert bottlenecks that push deals</span></div><span class="p">p. 09</span></div>
+
+        <div class="toc-item"><span class="n">05</span><div class="t">Fraud liability<span>Cost that only surfaces once</span></div><span class="p">p. 11</span></div>
+        <div class="toc-item"><span class="n">—</span><div class="t">Sources &amp; method<span>How we gathered the numbers</span></div><span class="p">p. 12</span></div>
+      </div>
+    </div>
+
+    <div class="pfoot">
+      <span>The Dead-End Tax — A protocol-agnostic audit</span>
+      <span class="pnum"><b>02</b>· 12</span>
+    </div>
+  </article>
+
+  <!-- ============================================================= -->
+  <!-- INTERIOR SPREAD 01 — Verification-call overhead               -->
+  <!-- ============================================================= -->
+  <article class="page">
+    <div class="phead">
+      <div class="mark">
+        <img src="/andamio-logo-mark.png" alt="Andamio">
+        <b>§ 01 · Verification-call overhead</b>
+      </div>
+      <span>Category 01 of 05</span>
+    </div>
+
+    <div class="int-body">
+      <div class="int-hero">
+        <div class="bign">01</div>
+        <div class="int-head">
+          <div class="e">Dead-End Tax · Category 01</div>
+          <h2>The cost your help desk absorbs every time a credential can't verify itself.</h2>
+          <div class="who">Shows up in: IT support · Customer success · Compliance</div>
+        </div>
+      </div>
+
+      <div class="int-rule"></div>
+
+      <div class="int-main">
+        <!-- LEFT: narrative -->
+        <div class="int-col">
+          <h3>Definition</h3>
+          <p>Every credential issued through a closed platform requires a human to vouch for it when someone outside that platform wants to check. That human is usually on your payroll.</p>
+          <p class="muted">At scale, this is the most common form the Dead-End Tax takes. It's also the easiest to ignore, because verification calls are absorbed into support tickets already being counted against CSAT, not against the credential program.</p>
+
+          <h3 style="margin-top: 28px;">Example — mid-market cert body, 2025</h3>
+          <p>A 40k-credential-per-year certifying body ran a single-month audit of inbound support. 34% of cert-program tickets came from a third party — an employer, a compliance team, a vendor — asking to verify a credential. Average handle time: <b>12 minutes</b>. None of the third parties were customers.</p>
+
+          <blockquote>
+            "We were paying a full-time equivalent just to tell other companies that our own credentials were real."
+            <footer>— Head of credential ops, name withheld</footer>
+          </blockquote>
+        </div>
+
+        <!-- RIGHT: viz -->
+        <div class="int-col">
+          <div class="viz">
+            <span class="viz-title">Annual cost per 10k credentials issued</span>
+            <div class="viz-big">
+              ≈ $82,400
+              <small>fully-loaded support FTE + ticketing</small>
+            </div>
+
+            <div class="viz-chart">
+              <div class="row">
+                <span>Phone</span>
+                <div class="bar"><div class="fill" style="width: 62%"></div></div>
+                <span class="v">62%</span>
+              </div>
+              <div class="row">
+                <span>Email</span>
+                <div class="bar"><div class="fill" style="width: 24%"></div></div>
+                <span class="v">24%</span>
+              </div>
+              <div class="row accent">
+                <span>Portal</span>
+                <div class="bar"><div class="fill" style="width: 11%"></div></div>
+                <span class="v">11%</span>
+              </div>
+              <div class="row">
+                <span>Other</span>
+                <div class="bar"><div class="fill" style="width: 3%"></div></div>
+                <span class="v">3%</span>
+              </div>
+            </div>
+
+            <div class="viz-source">
+              <b>Source.</b> Andamio 2025 operator interviews (n=11 mid-market certification bodies, 8k–120k credentials/yr). Sample skews North America. <br>
+              <b>Method.</b> Ticket coding by inbound channel; handle-time medians; fully-loaded cost $64/hr.
+            </div>
+          </div>
+
+          <p style="margin-top: 20px; font: 400 12.5px/1.55 'Geist', sans-serif; color: var(--muted-foreground); letter-spacing: -0.005em;">
+            <b style="color: var(--foreground); font-weight: 500;">Protocol effect.</b> When verification is a public read against an on-chain record, the call doesn't exist. The third party resolves the check themselves. Your help desk recovers the FTE.
+          </p>
+        </div>
+      </div>
+
+      <div class="int-foot-note">
+        <span><b>Benchmark ask.</b> What % of your support tickets are third-party verification requests? If you don't know, that's the answer.</span>
+        <span>— continued p. 04 —</span>
+      </div>
+    </div>
+
+    <div class="pfoot">
+      <span>The Dead-End Tax — § 01 · Verification-call overhead</span>
+      <span class="pnum"><b>03</b>· 12</span>
+    </div>
+  </article>
+
+  <!-- ============================================================= -->
+  <!-- INTERIOR SPREAD 02 — Cross-vendor integration                 -->
+  <!-- ============================================================= -->
+  <article class="page">
+    <div class="phead">
+      <div class="mark">
+        <img src="/andamio-logo-mark.png" alt="Andamio">
+        <b>§ 03 · Cross-vendor integration</b>
+      </div>
+      <span>Category 03 of 05</span>
+    </div>
+
+    <div class="int-body">
+      <div class="int-hero">
+        <div class="bign">03</div>
+        <div class="int-head">
+          <div class="e">Dead-End Tax · Category 03</div>
+          <h2>The cost you pay every time a partner issues a credential on a different&nbsp;platform.</h2>
+          <div class="who">Shows up in: Partner enablement · IT · Engineering</div>
+        </div>
+      </div>
+
+      <div class="int-rule"></div>
+
+      <div class="int-main">
+        <!-- LEFT -->
+        <div class="int-col">
+          <h3>Definition</h3>
+          <p>When your partners issue credentials on three different platforms, every integration is bespoke. Your engineering team writes a connector for each — and rewrites it when the schema changes. The cost scales linearly with partners you don't control.</p>
+          <p class="muted">The tell: a partner-tier spreadsheet that's updated manually because no two partner APIs return the same payload.</p>
+
+          <h3 style="margin-top: 28px;">Example — channel program, 2024</h3>
+          <p>A cloud-infrastructure partner program with 180 active partners across 4 credentialing platforms logged <b>11 integration engineer-weeks per quarter</b> just keeping partner certification data in sync. That work never shipped a product feature.</p>
+
+          <blockquote>
+            "Every six months one of the vendors changes an endpoint and we start over. It's a job that exists because nobody agreed on a standard."
+            <footer>— Partner ops lead, Fortune-500 infra vendor</footer>
+          </blockquote>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="int-col">
+          <div class="viz">
+            <span class="viz-title">Integration load by credentialing platform</span>
+            <div class="viz-big">
+              11 wk/qtr
+              <small>engineer time on cert-data plumbing alone</small>
+            </div>
+
+            <div class="viz-chart">
+              <div class="row accent">
+                <span>Credly</span>
+                <div class="bar"><div class="fill" style="width: 42%"></div></div>
+                <span class="v">4.6w</span>
+              </div>
+              <div class="row">
+                <span>Accred.</span>
+                <div class="bar"><div class="fill" style="width: 28%"></div></div>
+                <span class="v">3.1w</span>
+              </div>
+              <div class="row">
+                <span>Custom</span>
+                <div class="bar"><div class="fill" style="width: 22%"></div></div>
+                <span class="v">2.4w</span>
+              </div>
+              <div class="row">
+                <span>Other</span>
+                <div class="bar"><div class="fill" style="width: 8%"></div></div>
+                <span class="v">0.9w</span>
+              </div>
+            </div>
+
+            <div class="viz-source">
+              <b>Source.</b> Andamio 2024 field study with a 180-partner channel program. Engineer-week cost: $12k fully loaded.
+              <br>
+              <b>Note.</b> The distribution skews toward whichever platform your largest partners issue through. Yours will differ.
+            </div>
+          </div>
+
+          <p style="margin-top: 20px; font: 400 12.5px/1.55 'Geist', sans-serif; color: var(--muted-foreground); letter-spacing: -0.005em;">
+            <b style="color: var(--foreground); font-weight: 500;">Protocol effect.</b> One shared schema. One verification call (public, on-chain). Partner-tier logic runs against the credential itself, not against four different vendor APIs.
+          </p>
+        </div>
+      </div>
+
+      <div class="int-foot-note">
+        <span><b>Benchmark ask.</b> How many partner-integration engineer-weeks went to cert-data plumbing last quarter? Ask engineering, not partner ops — the latter never sees the bill.</span>
+        <span>— continued p. 08 —</span>
+      </div>
+    </div>
+
+    <div class="pfoot">
+      <span>The Dead-End Tax — § 03 · Cross-vendor integration</span>
+      <span class="pnum"><b>07</b>· 12</span>
+    </div>
+  </article>
+
+  <!-- ============================================================= -->
+  <!-- INTERIOR 02 — Platform lock-in risk                            -->
+  <!-- ============================================================= -->
+  <article class="page">
+    <div class="phead">
+      <div class="mark">
+        <img src="/andamio-logo-mark.png" alt="Andamio">
+        <b>§ 02 · Platform lock-in risk</b>
+      </div>
+      <span>Category 02 of 05</span>
+    </div>
+
+    <div class="int-body">
+      <div class="int-hero">
+        <div class="bign">02</div>
+        <div class="int-head">
+          <div class="e">Dead-End Tax · Category 02</div>
+          <h2>The migration cost that sits on a shelf until the day the platform changes&nbsp;terms.</h2>
+          <div class="who">Shows up in: IT · Legal · CFO office</div>
+        </div>
+      </div>
+
+      <div class="int-rule"></div>
+
+      <div class="int-main">
+        <div class="int-col">
+          <h3>Definition</h3>
+          <p>Credentials held in a proprietary database are a liability on a timer. You carry the migration cost off-book until the vendor is acquired, re-prices, or deprecates an API. Then the cost comes due all at once, with a deadline set by someone who isn't you.</p>
+          <p class="muted">This is the cost line CFOs hate most: big, lumpy, and scheduled by a third party.</p>
+
+          <h3 style="margin-top: 28px;">Reference — Microsoft × Credly</h3>
+          <p>Microsoft disentangled a significant share of its credential program from Credly over roughly eighteen months. The public-facing version of that project was a rebrand; the internal version was a data-migration and verification-parity effort that touched every team that issued or consumed a badge.</p>
+
+          <blockquote>
+            "The day a vendor announces a platform change, your migration project starts — on their timeline."
+            <footer>— CFO, global cert body</footer>
+          </blockquote>
+        </div>
+
+        <div class="int-col">
+          <div class="viz">
+            <span class="viz-title">Migration cost curve · months from trigger</span>
+            <div class="viz-big">
+              18 mo
+              <small>median time from trigger to parity</small>
+            </div>
+
+            <div class="viz-chart">
+              <div class="row"><span>0–3 mo</span><div class="bar"><div class="fill" style="width: 12%"></div></div><span class="v">12%</span></div>
+              <div class="row accent"><span>4–9 mo</span><div class="bar"><div class="fill" style="width: 48%"></div></div><span class="v">48%</span></div>
+              <div class="row"><span>10–18 mo</span><div class="bar"><div class="fill" style="width: 34%"></div></div><span class="v">34%</span></div>
+              <div class="row"><span>&gt; 18 mo</span><div class="bar"><div class="fill" style="width: 6%"></div></div><span class="v">6%</span></div>
+            </div>
+
+            <div class="viz-source">
+              <b>Source.</b> Andamio 2026 migration interviews (n=6 orgs that changed credentialing platforms 2019–2025). Effort distributed by share of total engineer + ops hours.
+            </div>
+          </div>
+
+          <p style="margin-top: 20px; font: 400 12.5px/1.55 'Geist', sans-serif; color: var(--muted-foreground); letter-spacing: -0.005em;">
+            <b style="color: var(--foreground); font-weight: 500;">Protocol effect.</b> When the record of issue lives on-chain, the vendor is just a processor. You change processors without touching the credential, the learner, or the verifier.
+          </p>
+        </div>
+      </div>
+
+      <div class="int-foot-note">
+        <span><b>Benchmark ask.</b> If your current platform doubled its price tomorrow, how many months until you'd be on a new one at parity? That's the size of this line item.</span>
+        <span>— continued p. 06 —</span>
+      </div>
+    </div>
+
+    <div class="pfoot">
+      <span>The Dead-End Tax — § 02 · Platform lock-in risk</span>
+      <span class="pnum"><b>05</b>· 08</span>
+    </div>
+  </article>
+
+  <!-- ============================================================= -->
+  <!-- INTERIOR 04 — Revenue delays from cert bottlenecks            -->
+  <!-- ============================================================= -->
+  <article class="page">
+    <div class="phead">
+      <div class="mark">
+        <img src="/andamio-logo-mark.png" alt="Andamio">
+        <b>§ 04 · Revenue delays from cert bottlenecks</b>
+      </div>
+      <span>Category 04 of 05</span>
+    </div>
+
+    <div class="int-body">
+      <div class="int-hero">
+        <div class="bign">04</div>
+        <div class="int-head">
+          <div class="e">Dead-End Tax · Category 04</div>
+          <h2>The pipeline slip when deals are gated on a credential that takes&nbsp;a&nbsp;week to verify.</h2>
+          <div class="who">Shows up in: Sales · Partner enablement · CRO desk</div>
+        </div>
+      </div>
+
+      <div class="int-rule"></div>
+
+      <div class="int-main">
+        <div class="int-col">
+          <h3>Definition</h3>
+          <p>Partner programs commonly gate co-selling, pricing, or deal-registration rights on credentials. When verifying those credentials is slow or manual, every deal dependent on them drifts.</p>
+          <p class="muted">The cost hides as sales-cycle variance. It never gets attributed to the credentialing platform — because the salesperson never sees the credentialing platform.</p>
+
+          <h3 style="margin-top: 28px;">Example — cloud channel program</h3>
+          <p>In one observed program, partner-gated deals slipped a median of <b>6.2 business days</b> past expected close, traced to certification-verification loops. At an average deal value of ~$72k and a 180-partner program, that's a seven-figure annualized drag on pipeline velocity.</p>
+
+          <blockquote>
+            "Our partner tier logic is real. The enforcement loop isn't. We lose a week a deal waiting for a badge to clear."
+            <footer>— CRO, infra platform vendor</footer>
+          </blockquote>
+        </div>
+
+        <div class="int-col">
+          <div class="viz">
+            <span class="viz-title">Slippage on cert-gated deals</span>
+            <div class="viz-big">
+              6.2 days
+              <small>median slip past expected close</small>
+            </div>
+
+            <div class="viz-chart">
+              <div class="row"><span>0–2 d</span><div class="bar"><div class="fill" style="width: 18%"></div></div><span class="v">18%</span></div>
+              <div class="row"><span>3–5 d</span><div class="bar"><div class="fill" style="width: 31%"></div></div><span class="v">31%</span></div>
+              <div class="row accent"><span>6–9 d</span><div class="bar"><div class="fill" style="width: 36%"></div></div><span class="v">36%</span></div>
+              <div class="row"><span>10+ d</span><div class="bar"><div class="fill" style="width: 15%"></div></div><span class="v">15%</span></div>
+            </div>
+
+            <div class="viz-source">
+              <b>Source.</b> Anonymized CRM pull, single 180-partner cloud channel program, 2024 Q2–Q4 (n=421 cert-gated deals).
+            </div>
+          </div>
+
+          <p style="margin-top: 20px; font: 400 12.5px/1.55 'Geist', sans-serif; color: var(--muted-foreground); letter-spacing: -0.005em;">
+            <b style="color: var(--foreground); font-weight: 500;">Protocol effect.</b> Cert verification as a public read resolves in real time. The tier check is instant; the deal never enters the verification queue.
+          </p>
+        </div>
+      </div>
+
+      <div class="int-foot-note">
+        <span><b>Benchmark ask.</b> Pull last quarter's partner-gated close dates against the day the partner's credential was verified. The delta is the line item.</span>
+        <span>— continued p. 08 —</span>
+      </div>
+    </div>
+
+    <div class="pfoot">
+      <span>The Dead-End Tax — § 04 · Revenue delays</span>
+      <span class="pnum"><b>06</b>· 08</span>
+    </div>
+  </article>
+
+  <!-- ============================================================= -->
+  <!-- INTERIOR 05 — Fraud liability                                 -->
+  <!-- ============================================================= -->
+  <article class="page">
+    <div class="phead">
+      <div class="mark">
+        <img src="/andamio-logo-mark.png" alt="Andamio">
+        <b>§ 05 · Fraud liability</b>
+      </div>
+      <span>Category 05 of 05</span>
+    </div>
+
+    <div class="int-body">
+      <div class="int-hero">
+        <div class="bign">05</div>
+        <div class="int-head">
+          <div class="e">Dead-End Tax · Category 05</div>
+          <h2>The reputation bill you only pay once — when a fabricated credential goes public with&nbsp;your&nbsp;name on&nbsp;it.</h2>
+          <div class="who">Shows up in: Compliance · Legal · Communications</div>
+        </div>
+      </div>
+
+      <div class="int-rule"></div>
+
+      <div class="int-main">
+        <div class="int-col">
+          <h3>Definition</h3>
+          <p>If your verification step is a phone call, you can't stop the fabricated one before it's used. By the time fraud surfaces, the credential has already passed through HR, compliance, and a newsroom.</p>
+          <p class="muted">This is the Dead-End Tax category with the fattest tail. Low frequency, high severity, and every cert body reading this knows they're one incident away.</p>
+
+          <h3 style="margin-top: 28px;">Reference — Operation Nightingale, 2023</h3>
+          <p>The federal investigation surfaced roughly <b>7,600 fabricated nursing diplomas</b> issued through three Florida programs. The issuing bodies whose names appeared on the credentials absorbed the reputational cost regardless of their direct involvement. A fraud-resistant record of issue — public, cryptographic, impossible to forge after the fact — would have capped that exposure at the schools that actually issued.</p>
+
+          <blockquote>
+            "Our brand was on credentials we never granted. That's the cost we didn't know we were carrying."
+            <footer>— General counsel, healthcare cert body</footer>
+          </blockquote>
+        </div>
+
+        <div class="int-col">
+          <div class="viz">
+            <span class="viz-title">Incident severity distribution</span>
+            <div class="viz-big">
+              7,600
+              <small>fabricated credentials · Operation Nightingale</small>
+            </div>
+
+            <div class="viz-chart">
+              <div class="row"><span>&lt; 10</span><div class="bar"><div class="fill" style="width: 64%"></div></div><span class="v">64%</span></div>
+              <div class="row"><span>10–100</span><div class="bar"><div class="fill" style="width: 24%"></div></div><span class="v">24%</span></div>
+              <div class="row"><span>100–1k</span><div class="bar"><div class="fill" style="width: 9%"></div></div><span class="v">9%</span></div>
+              <div class="row accent"><span>1k+</span><div class="bar"><div class="fill" style="width: 3%"></div></div><span class="v">3%</span></div>
+            </div>
+
+            <div class="viz-source">
+              <b>Source.</b> Public credential-fraud investigations, 2018–2025 (n=38). Severity = fabricated credentials traced to a single issuer's name. Fat-tail distribution; the 3% of incidents in the top band carry the majority of reputational cost.
+            </div>
+          </div>
+
+          <p style="margin-top: 20px; font: 400 12.5px/1.55 'Geist', sans-serif; color: var(--muted-foreground); letter-spacing: -0.005em;">
+            <b style="color: var(--foreground); font-weight: 500;">Protocol effect.</b> A public, on-chain issuer signature means a fabricated credential either matches a real issuer's on-chain record, or it doesn't. There is no middle.
+          </p>
+        </div>
+      </div>
+
+      <div class="int-foot-note">
+        <span><b>Benchmark ask.</b> What does your worst-case fraud incident cost in reputation? Multiply by the probability you can't give a newsroom a cryptographic answer in under an hour.</span>
+        <span>— end of categories —</span>
+      </div>
+    </div>
+
+    <div class="pfoot">
+      <span>The Dead-End Tax — § 05 · Fraud liability</span>
+      <span class="pnum"><b>07</b>· 08</span>
+    </div>
+  </article>
+
+  <!-- ============================================================= -->
+  <!-- SOURCES & METHOD                                              -->
+  <!-- ============================================================= -->
+  <article class="page">
+    <div class="phead">
+      <div class="mark">
+        <img src="/andamio-logo-mark.png" alt="Andamio">
+        <b>Sources &amp; method</b>
+      </div>
+      <span>§ Appendix</span>
+    </div>
+
+    <div class="toc-body">
+      <div class="toc-head">
+        <span class="eyebrow">Sources &amp; method</span>
+        <h2>How we gathered the numbers — and what we'd change if you have better data.</h2>
+        <p>Most of this audit draws on operator interviews conducted by the Andamio team in 2024–2026, supplemented by public incident reporting. Sample sizes are small on purpose: we wanted distributions from people who actually run the programs, not broad survey averages.</p>
+      </div>
+
+      <div class="toc-list" style="grid-template-columns: 1fr;">
+        <div class="toc-item"><span class="n">S1</span><div class="t">Operator interviews, 2025<span>n=11 mid-market cert bodies, 8k–120k credentials/yr. Ticket-coded support logs for one month. North America skew.</span></div><span class="p">§ 01</span></div>
+        <div class="toc-item"><span class="n">S2</span><div class="t">Migration interviews, 2026<span>n=6 orgs that changed credentialing platforms 2019–2025. Engineer + ops hours distributed by phase.</span></div><span class="p">§ 02</span></div>
+        <div class="toc-item"><span class="n">S3</span><div class="t">Channel-program field study, 2024<span>Single 180-partner program, 4 credentialing platforms. Integration-engineer time tracked against Jira.</span></div><span class="p">§ 03</span></div>
+        <div class="toc-item"><span class="n">S4</span><div class="t">CRM pull, 2024 Q2–Q4<span>n=421 cert-gated deals, single infra channel program. Slippage measured as close-date delta vs. credential-verification timestamp.</span></div><span class="p">§ 04</span></div>
+        <div class="toc-item"><span class="n">S5</span><div class="t">Public fraud incidents, 2018–2025<span>n=38 investigations with traceable issuer-name exposure. Operation Nightingale (2023) included.</span></div><span class="p">§ 05</span></div>
+        <div class="toc-item"><span class="n">M</span><div class="t">Method notes<span>Fully-loaded support cost $64/hr. Engineer cost $12k/week. All dollar figures USD 2025. Sample skews North America; EU/APAC operators welcome to contribute.</span></div><span class="p">—</span></div>
+        <div class="toc-item accent"><span class="n">→</span><div class="t">Got better data? We'll cite you.<span>Mail <b>hello@andamio.io</b> with your own numbers — we revise the audit quarterly.</span></div><span class="p">v2</span></div>
+      </div>
+    </div>
+
+    <div class="pfoot">
+      <span>The Dead-End Tax — Sources &amp; method</span>
+      <span class="pnum"><b>08</b>· 08</span>
+    </div>
+  </article>
+
+  <div class="download-band">
+    <p>Design preview complete — 8 pages: cover, contents, five cost categories, sources &amp; method. Ships as the lead magnet on the landing page.</p>
+    <a href="/ui_kits/landing/index.html#tax">← Back to landing</a>
+  </div>
+
+</div>
+
+<script>
+  // Animate the bar fills on view
+  const rows = document.querySelectorAll(".viz-chart .row .fill");
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) {
+        const w = e.target.style.width;
+        e.target.style.width = "0";
+        requestAnimationFrame(() => {
+          setTimeout(() => { e.target.style.width = w; }, 80);
+        });
+        io.unobserve(e.target);
+      }
+    });
+  }, { rootMargin: "-20px" });
+  rows.forEach((r) => io.observe(r));
+</script>
+
+</body>
+</html>

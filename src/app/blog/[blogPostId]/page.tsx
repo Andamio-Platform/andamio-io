@@ -1,10 +1,18 @@
-// import { Metadata } from "next";
 import Markdoc from "@markdoc/markdoc";
 import Link from "next/link";
+import type { Metadata } from "next";
 import { getBlogPageContent } from "~/lib/blogposts";
-import { parseBlogMarkdocFrontmatter } from "~/utils/markdown";
+import { extractExcerpt, parseBlogMarkdocFrontmatter } from "~/utils/markdown";
 import { TransformedPageContent } from "~/utils/transformedPageContent";
 import SocialShareButton from "~/components/media/SocialShareButton";
+import { color, font } from "~/ui/system/tokens";
+import {
+  SITE_URL,
+  SITE_NAME,
+  DEFAULT_OG_IMAGE,
+  TWITTER_HANDLE,
+  absoluteUrl,
+} from "~/lib/seo";
 
 export type Props = {
   blogPostId: string;
@@ -13,94 +21,104 @@ export type Props = {
 function getFrontmatter(blogPostId: string) {
   const content = getBlogPageContent(blogPostId);
   const pageAST = Markdoc.parse(content);
-  const frontmatter = parseBlogMarkdocFrontmatter(pageAST);
-
-  return frontmatter;
+  return parseBlogMarkdocFrontmatter(pageAST);
 }
+
+export function generateMetadata({ params }: { params: Props }): Metadata {
+  const content = getBlogPageContent(params.blogPostId);
+  const data = parseBlogMarkdocFrontmatter(Markdoc.parse(content));
+
+  const title = data?.title ?? "Andamio Blog";
+  const description = data?.description ?? extractExcerpt(content);
+  const url = `${SITE_URL}/blog/${params.blogPostId}`;
+  const image = absoluteUrl(data?.image ?? DEFAULT_OG_IMAGE);
+
+  return {
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      type: "article",
+      url,
+      title,
+      description,
+      siteName: SITE_NAME,
+      images: [image],
+      publishedTime: data?.date,
+      authors: data?.author ? [data.author] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      site: TWITTER_HANDLE,
+      title,
+      description,
+      images: [image],
+    },
+  };
+}
+
 
 export default function Page({ params }: { params: Props }) {
   const content = getBlogPageContent(params.blogPostId);
   const data = getFrontmatter(params.blogPostId);
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: data?.title,
+    datePublished: data?.date,
+    author: data?.author
+      ? { "@type": "Person", name: data.author }
+      : undefined,
+    image: absoluteUrl(data?.image ?? DEFAULT_OG_IMAGE),
+    mainEntityOfPage: `${SITE_URL}/blog/${params.blogPostId}`,
+  };
+
   return (
-    <div className="mx-auto max-w-4xl px-6 py-20 lg:px-8">
-      {/* Header */}
-      <div className="relative mb-16">
-        {/* Angular accent lines */}
-        <div className="absolute -top-8 left-0 h-1 w-32 bg-gradient-to-r from-primary to-transparent shadow-lg shadow-primary/50"></div>
-        <div className="absolute -top-4 left-8 h-1 w-16 bg-gradient-to-r from-muted-foreground/60 to-transparent"></div>
+    <div className="mx-auto max-w-3xl px-6 pb-24 pt-16 sm:px-10 sm:pt-24">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      {/* Breadcrumb */}
+      <Link
+        href="/blog"
+        className="inline-flex items-center gap-1.5 text-[13px] font-semibold tracking-[-0.01em] transition-colors hover:text-black"
+        style={{ color: color.inkFaint }}
+      >
+        ← Back to Blog
+      </Link>
 
-        {/* Breadcrumb */}
-        <div className="mb-6">
-          <Link
-            href="/blog"
-            className="inline-flex items-center gap-2 text-sm font-medium text-primary transition-colors duration-200 hover:text-primary/80"
-          >
-            <svg
-              className="h-4 w-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-            Back to Blog
-          </Link>
+      {/* Meta + title */}
+      <header className="mt-8 border-b pb-8" style={{ borderColor: color.rule }}>
+        <div className="flex items-center gap-4 text-[12px] font-medium tracking-[-0.01em]" style={{ color: color.inkGhost }}>
+          {data?.date && <span className="tabular-nums">{data.date}</span>}
+          {data?.author && <span>by {data.author}</span>}
         </div>
+        <h1 className="mt-5 text-[clamp(2.2rem,5.5vw,4rem)] font-semibold leading-[1.0] tracking-[-0.03em]">
+          {data?.title}
+        </h1>
+      </header>
 
-        {/* Post Meta */}
-        <div className="mb-8">
-          <div className="mb-4 flex items-center gap-4 text-sm text-muted-foreground">
-            {data?.date && <span className="font-mono">{data.date}</span>}
-            {data?.author && <span>by {data.author}</span>}
-          </div>
-
-          {/* Title */}
-          <h1 className="text-4xl font-bold text-foreground lg:text-6xl">
-            {data?.title}
-          </h1>
-        </div>
-      </div>
-
-      {/* Article Content */}
-      <article className="relative">
-        {/* Content with styled prose */}
-        <div className="prose prose-lg max-w-none">
-          <TransformedPageContent content={content} />
-        </div>
+      {/* Article */}
+      <article
+        className="prose mt-10 max-w-none prose-headings:font-semibold prose-headings:tracking-[-0.02em] prose-headings:text-[#0A0A0A] prose-a:font-medium prose-a:text-[#2F6BFF] prose-a:no-underline hover:prose-a:underline prose-strong:text-[#0A0A0A] sm:prose-lg"
+        style={{ fontFamily: font.sans }}
+      >
+        <TransformedPageContent content={content} />
       </article>
 
-      {/* Footer Navigation */}
-      <div className="mt-16 border-t border-border pt-8">
-        <div className="flex items-center justify-between">
-          <Link
-            href="/blog"
-            className="inline-flex items-center gap-2 rounded-sm border border-border bg-muted/50 px-4 py-2 text-sm font-medium text-foreground transition-all duration-200 hover:border-border/80 hover:bg-muted"
-          >
-            <svg
-              className="h-4 w-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-            All Posts
-          </Link>
-
-          <div className="text-sm text-muted-foreground">
-            <SocialShareButton />
-          </div>
+      {/* Footer nav */}
+      <div className="mt-16 flex items-center justify-between border-t pt-8" style={{ borderColor: color.rule }}>
+        <Link
+          href="/blog"
+          className="inline-flex items-center gap-2 px-4 py-2 text-[13px] font-semibold tracking-[-0.01em] transition-colors hover:text-white"
+          style={{ border: `1px solid ${color.ink}`, color: color.ink }}
+        >
+          ← All Posts
+        </Link>
+        <div style={{ color: color.inkMuted }}>
+          <SocialShareButton />
         </div>
       </div>
     </div>

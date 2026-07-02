@@ -1,11 +1,22 @@
+import Head from "next/head";
 import Metatags from "~/components/site/metatags";
-import V2Landing from "~/ui/landing/V2Landing";
+import AndamioLanding from "~/ui/system/AndamioLanding";
+import { ORGANIZATION_JSON_LD } from "~/lib/seo";
 
 export default function Landing() {
   return (
     <>
       <Metatags />
-      <V2Landing />
+      <Head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(ORGANIZATION_JSON_LD),
+          }}
+          key="org-json-ld"
+        />
+      </Head>
+      <AndamioLanding />
     </>
   );
 }

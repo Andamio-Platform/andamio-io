@@ -5,13 +5,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { useTheme } from "next-themes";
-import { ThemeToggle } from "~/components/theme-toggle";
 import { EXTERNAL_LINKS } from "~/lib/external-links";
 
 const navItems = [
+  { label: "Issuer", href: "#issuer" },
+  { label: "API", href: "#andamio-api" },
+  { label: "Roadmap", href: "/roadmap" },
+  { label: "Whitepaper", href: "/whitepaper" },
   { label: "Docs", href: EXTERNAL_LINKS.docs },
-  { label: "API Reference", href: EXTERNAL_LINKS.apiReference },
-  { label: "Use Cases", href: "/use-cases" },
   { label: "Blog", href: "/blog" },
   { label: "About", href: "/about" },
 ];
@@ -45,7 +46,7 @@ export default function V2Navigation() {
           : "bg-gradient-to-b from-black/40 to-transparent"
       }`}
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-none px-5 sm:px-8 lg:px-14 2xl:px-20">
         <div className="flex h-16 items-center justify-between sm:h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
@@ -79,12 +80,11 @@ export default function V2Navigation() {
                 </Link>
               )
             )}
-            <ThemeToggle />
             <a
               href={EXTERNAL_LINKS.app}
               target="_blank"
               rel="noopener noreferrer"
-              className="ml-2 inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-sm transition-all hover:bg-primary/90 hover:shadow-md"
+              className="ml-2 inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-[background,transform] duration-150 hover:bg-primary/90 active:translate-y-px"
             >
               Get Started
               <svg
@@ -147,7 +147,7 @@ export default function V2Navigation() {
               href={EXTERNAL_LINKS.app}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-3 block rounded-md bg-primary px-4 py-3 text-center text-base font-semibold text-primary-foreground shadow-sm transition-all hover:bg-primary/90"
+              className="mt-3 block rounded-md bg-primary px-4 py-3 text-center text-base font-semibold text-primary-foreground transition-[background,transform] duration-150 hover:bg-primary/90 active:translate-y-px"
               onClick={() => setMobileMenuOpen(false)}
             >
               Get Started

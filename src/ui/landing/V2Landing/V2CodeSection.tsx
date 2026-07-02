@@ -4,7 +4,7 @@ import { EXTERNAL_LINKS } from "~/lib/external-links";
 export default function V2CodeSection() {
   return (
     <section className="bg-surface-dark py-24 sm:py-32">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-none px-5 sm:px-8 lg:px-14 2xl:px-20">
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <div>
             <h2 className="text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">

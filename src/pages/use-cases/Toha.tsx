@@ -1,102 +1,81 @@
 import React from "react";
-import V2PageLayout from "~/ui/landing/V2Landing/V2PageLayout";
-
 import {
-  CheckBadgeIcon,
   GlobeAltIcon,
   CurrencyDollarIcon,
   UserGroupIcon,
 } from "@heroicons/react/24/outline";
+import { Section, Display } from "~/ui/system/kit";
+import { color } from "~/ui/system/tokens";
+import { UseCaseLayout, CycleGrid, type Cycle } from "~/ui/use-cases/chrome";
 
 export default function TohaPage() {
   return (
-    <V2PageLayout
+    <UseCaseLayout
+      kicker="Use Case · Nature Finance"
       title="Toha Network — Nature Regeneration"
       description="Nature regeneration financing powered by verifiable credentials. Contributors earn MAHI tokens for verified environmental actions — no wallets, no blockchain knowledge required."
+      caption="Use Cases · Nature Finance"
     >
       {/* Overview */}
-      <section className="mb-16">
-        <div className="mx-auto grid max-w-4xl gap-12 lg:grid-cols-2">
-          <div className="space-y-4 text-muted-foreground">
-            <p>
-              Toha Network connects impact investors with land managers and
-              environmental contributors in New Zealand. Contributors take
-              real environmental actions — native planting, biodiversity
-              restoration — and earn MAHI tokens for verified outcomes.
-            </p>
-            <p>
-              The challenge: how do you build a transparent financing network
-              for environmental impact where contributors are non-technical
-              land managers, not crypto users?
-            </p>
-          </div>
-          <div className="space-y-4 text-muted-foreground">
-            <p>
-              Andamio powers the invisible infrastructure. Contributors sign
-              up with email. Credentials are issued for verified actions.
-              Investment flows through on-chain escrow. The blockchain is
-              completely invisible to users.
-            </p>
-            <p>
-              The words &ldquo;Cardano,&rdquo; &ldquo;blockchain,&rdquo; and
-              &ldquo;smart contract&rdquo; don&rsquo;t appear on the Toha
-              homepage. That&rsquo;s the point — Web2 UX, Web3 trust.
-            </p>
+      <Section>
+        <div className="py-16 sm:py-20">
+          <div className="grid max-w-4xl gap-12 lg:grid-cols-2">
+            <div className="space-y-4 text-base leading-relaxed" style={{ color: color.inkMuted }}>
+              <p>
+                Toha Network connects impact investors with land managers and
+                environmental contributors in New Zealand. Contributors take
+                real environmental actions — native planting, biodiversity
+                restoration — and earn MAHI tokens for verified outcomes.
+              </p>
+              <p>
+                The challenge: how do you build a transparent financing network
+                for environmental impact where contributors are non-technical
+                land managers, not crypto users?
+              </p>
+            </div>
+            <div className="space-y-4 text-base leading-relaxed" style={{ color: color.inkMuted }}>
+              <p>
+                Andamio powers the invisible infrastructure. Contributors sign
+                up with email. Credentials are issued for verified actions.
+                Investment flows through on-chain escrow. The blockchain is
+                completely invisible to users.
+              </p>
+              <p>
+                The words &ldquo;Cardano,&rdquo; &ldquo;blockchain,&rdquo; and
+                &ldquo;smart contract&rdquo; don&rsquo;t appear on the Toha
+                homepage. That&rsquo;s the point — Web2 UX, Web3 trust.
+              </p>
+            </div>
           </div>
         </div>
-      </section>
+      </Section>
 
-      {/* Cycles Section */}
-      <section className="mx-auto grid gap-12 md:grid-cols-3">
-        {cycles.map((cycle, index) => (
-          <div
-            key={index}
-            className="rounded-xl border border-border bg-card p-6 shadow-sm transition-shadow duration-300 hover:shadow-lg"
-          >
-            <h2 className="mb-4 flex items-center gap-2 text-2xl font-semibold text-foreground">
-              <cycle.icon className="h-7 w-7 text-primary" /> {cycle.title}
-            </h2>
-            <p className="mb-4 text-sm text-muted-foreground">
-              {cycle.description}
-            </p>
-            <ul className="space-y-3">
-              {cycle.steps.map((step, stepIdx) => (
-                <li key={stepIdx} className="flex items-start gap-2">
-                  <CheckBadgeIcon
-                    className="h-5 w-5 flex-shrink-0 text-primary"
-                    aria-hidden="true"
-                  />
-                  <p className="text-sm text-muted-foreground">
-                    <span className="font-semibold text-foreground">{step.label}</span>{" "}
-                    {step.content}
-                  </p>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </section>
+      <CycleGrid cycles={cycles} />
 
       {/* Backers */}
-      <section className="mt-16">
-        <h3 className="mb-8 text-center text-2xl font-bold text-foreground">
-          Institutional Backers
-        </h3>
-        <div className="mx-auto flex max-w-md justify-center gap-12">
-          {backers.map((backer) => (
-            <div key={backer} className="text-center">
-              <p className="font-semibold text-foreground">{backer}</p>
-            </div>
-          ))}
+      <Section>
+        <div className="py-16 sm:py-20">
+          <Display as="h3" size="sm" className="text-center">
+            Institutional Backers
+          </Display>
+          <div className="mx-auto mt-10 flex max-w-md flex-wrap justify-center gap-12">
+            {backers.map((backer) => (
+              <div key={backer} className="text-center">
+                <p className="text-lg font-semibold tracking-[-0.01em]" style={{ color: color.ink }}>
+                  {backer}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
-      </section>
-    </V2PageLayout>
+      </Section>
+    </UseCaseLayout>
   );
 }
 
 const backers = ["Air New Zealand", "Te Puni Kokiri"];
 
-const cycles = [
+const cycles: Cycle[] = [
   {
     title: "Act",
     icon: GlobeAltIcon,

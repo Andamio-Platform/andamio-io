@@ -1,24 +1,26 @@
 import React from "react";
 import Link from "next/link";
 import { EXTERNAL_LINKS } from "~/lib/external-links";
+import { primaryBtnClass } from "./_ui";
 
 const footerLinks = {
-  Build: [
+  "For buyers": [
+    { name: "Book a walkthrough", href: "mailto:hello@andamio.io?subject=Enterprise%20walkthrough%20request" },
+    { name: "Use cases", href: "/use-cases" },
+    { name: "Blog", href: "/blog" },
+    { name: "About", href: "/about" },
+  ],
+  "For builders": [
     { name: "Docs", href: EXTERNAL_LINKS.docs },
     { name: "API Reference", href: EXTERNAL_LINKS.apiReference },
     { name: "GitHub", href: EXTERNAL_LINKS.github },
-    { name: "Discord", href: EXTERNAL_LINKS.discord },
-  ],
-  Explore: [
-    { name: "Use Cases", href: "/use-cases" },
-    { name: "Blog", href: "/blog" },
-    { name: "About", href: "/about" },
     { name: "App", href: EXTERNAL_LINKS.app },
   ],
   Connect: [
     { name: "hello@andamio.io", href: "mailto:hello@andamio.io" },
     { name: "LinkedIn", href: EXTERNAL_LINKS.linkedin },
     { name: "Twitter", href: EXTERNAL_LINKS.twitter },
+    { name: "Discord", href: EXTERNAL_LINKS.discord },
   ],
   Legal: [
     { name: "Privacy", href: "/privacy-policy" },
@@ -29,54 +31,58 @@ const footerLinks = {
 export default function V2CTAFooter() {
   return (
     <section className="bg-surface-dark">
-      <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
-        <div className="grid gap-6 md:grid-cols-2 lg:gap-8">
-          <div className="rounded-xl border border-white/10 bg-white/[0.04] p-8 sm:p-10">
-            <h3 className="text-2xl font-bold leading-snug text-white sm:text-3xl">
-              Get your API key. Start issuing credentials today.
-            </h3>
-            <a
-              href={EXTERNAL_LINKS.docs}
-              className="mt-8 inline-flex items-center rounded-md bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
-            >
-              Read the Docs
-            </a>
-          </div>
+      <div className="mx-auto max-w-5xl px-4 py-24 text-center sm:px-6 sm:py-32 lg:px-8">
+        <p className="text-sm font-semibold text-primary">Andamio Issuer</p>
 
-          <div className="rounded-xl border border-white/10 bg-white/[0.04] p-8 sm:p-10">
-            <h3 className="text-2xl font-bold leading-snug text-white sm:text-3xl">
-              See how Intersect, Toha, and Syngenta use Andamio.
-            </h3>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link
-                href="/use-cases"
-                className="inline-flex items-center rounded-md bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
-              >
-                View Use Cases
-              </Link>
-              <a
-                href="mailto:hello@andamio.io"
-                className="inline-flex items-center rounded-md border border-white/20 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-white/10"
-              >
-                Talk to Us
-              </a>
-            </div>
-          </div>
+        <h3 className="mt-6 font-display text-4xl font-semibold leading-[1.02] tracking-[-0.035em] text-white sm:text-5xl lg:text-6xl">
+          Upgrade your credentials
+          <br />
+          <span className="text-primary">Issue ones that keep working</span>
+        </h3>
+        <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed tracking-[-0.005em] text-white/70 sm:text-xl">
+          Twenty minutes. We scope a pilot on one of your programs. We show you
+          the credentials working. No slides.
+        </p>
+        <div className="mt-10 flex flex-wrap justify-center gap-3">
+          <a
+            href="mailto:hello@andamio.io?subject=Enterprise%20walkthrough%20request"
+            className={primaryBtnClass}
+          >
+            Book a 20-minute walkthrough
+            <svg
+              aria-hidden
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              className="h-3.5 w-3.5"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M17 8l4 4m0 0l-4 4m4-4H3"
+              />
+            </svg>
+          </a>
         </div>
       </div>
 
       <div className="border-t border-white/10">
-        <div className="mx-auto flex max-w-7xl flex-col gap-10 px-6 py-12 md:flex-row md:items-start md:justify-between lg:px-8">
+        <div className="mx-auto flex max-w-none flex-col gap-10 px-6 py-12 md:flex-row md:items-start md:justify-between lg:px-8">
           <div className="shrink-0">
             <img
               className="mb-3 h-6 w-auto opacity-80"
               src="/logo-with-typography-dark.svg"
               alt="Andamio"
             />
-            <p className="max-w-xs text-sm text-white/60">
-              Open protocol for interoperable credentials.
+            <p className="max-w-xs text-sm leading-relaxed text-white/60">
+              Verifiable credentials that keep working after you issue them.
+              A credentialing company that happens to use blockchain.
             </p>
-            <p className="mt-6 text-xs text-white/40">
+            <p className="mt-5 text-[13px] text-white/45">
+              Live on Cardano mainnet · Audited by TxPipe
+            </p>
+            <p className="mt-4 text-[13px] text-white/40">
               © {new Date().getFullYear()} Andamio
             </p>
           </div>
@@ -84,7 +90,7 @@ export default function V2CTAFooter() {
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
             {Object.entries(footerLinks).map(([key, links]) => (
               <div key={key}>
-                <h3 className="mb-4 text-xs font-semibold uppercase tracking-[0.15em] text-white/50">
+                <h3 className="mb-4 text-[13px] font-semibold text-white/80">
                   {key}
                 </h3>
                 <ul className="space-y-2.5">

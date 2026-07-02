@@ -1,108 +1,94 @@
-import { Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { type BlogPost, getBlogPostData } from "~/lib/blogposts";
-import { Card } from "~/components/ui/card";
+import { color, containerCls, layout } from "~/ui/system/tokens";
+import { Kicker } from "~/ui/system/kit";
 
+/* Andamio Blog index — Warm Index design system (light, Inter, ink on paper,
+ * blue accents). Server component; styled with system tokens (no client
+ * components needed here). */
 export default async function BlogPage() {
   const blogPosts = await getBlogPostData();
-
-  const sortedBlogPosts = blogPosts.sort((a: BlogPost, b: BlogPost) => b.title.localeCompare(a.title));
+  const sortedBlogPosts = blogPosts.sort((a: BlogPost, b: BlogPost) =>
+    b.title.localeCompare(a.title),
+  );
 
   return (
-    <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
+    <div className={containerCls} style={{ maxWidth: layout.maxWidth }}>
       {/* Header */}
-      <div className="relative mb-16">
-        {/* Angular accent lines */}
-        <div className="absolute -top-8 left-0 h-1 w-32 bg-gradient-to-r from-primary to-transparent shadow-md shadow-primary/20"></div>
-        <div className="absolute -top-4 left-8 h-1 w-16 bg-gradient-to-r from-muted-foreground/40 to-transparent"></div>
-
-        <div className="mb-6 flex items-center gap-4">
-          <div className="h-1 w-12 bg-gradient-to-r from-primary to-transparent"></div>
-          <h1 className="text-4xl font-bold text-foreground lg:text-6xl">
-            Andamio Blog
-          </h1>
-        </div>
-        <p className="max-w-3xl text-xl text-muted-foreground">
-          Insights, updates, and stories from the Andamio ecosystem. Explore our journey building trust protocols for distributed work.
+      <header className="pb-12 pt-16 sm:pt-24">
+        <Kicker>The Andamio Journal</Kicker>
+        <h1
+          className="mt-4 text-[clamp(2.6rem,7vw,5rem)] font-semibold leading-[0.95] tracking-[-0.045em]"
+        >
+          Blog
+        </h1>
+        <p className="mt-5 max-w-2xl text-lg leading-relaxed" style={{ color: color.inkMuted }}>
+          Insights, updates, and stories from the Andamio ecosystem — building trust
+          infrastructure for distributed work.
         </p>
-      </div>
+      </header>
 
-      {/* Blog Posts Grid */}
-      <div className="grid gap-8 lg:grid-cols-2">
-        <Suspense fallback={
-          <div className="flex items-center justify-center py-20">
-            <div className="text-muted-foreground">Loading posts...</div>
-          </div>
-        }>
-          {sortedBlogPosts &&
-            sortedBlogPosts.map((blogPost: BlogPost) => (
-              <Card key={blogPost.title} className="group relative overflow-hidden border border-border bg-card shadow-lg transition-all duration-300 hover:border-primary/50 hover:shadow-xl">
-                <Link href={`/blog/${blogPost.title}`} className="block">
-                  {/* Featured Image */}
-                  {blogPost.frontmatter.image && (
-                    <div className="relative aspect-video overflow-hidden">
-                      <Image
-                        src={blogPost.frontmatter.image}
-                        height={400}
-                        width={800}
-                        alt={blogPost.frontmatter.title || blogPost.title}
-                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent"></div>
-                    </div>
+      {/* Posts */}
+      {sortedBlogPosts.length > 0 ? (
+        <div className="grid gap-6 py-14 sm:py-16 lg:grid-cols-2">
+          {sortedBlogPosts.map((blogPost: BlogPost) => (
+            <Link
+              key={blogPost.title}
+              href={`/blog/${blogPost.title}`}
+              className="group flex flex-col transition-colors"
+              style={{ border: `1px solid ${color.cell}` }}
+            >
+              {blogPost.frontmatter.image && (
+                <div className="relative aspect-video overflow-hidden border-b" style={{ borderColor: color.cell }}>
+                  <Image
+                    src={blogPost.frontmatter.image}
+                    height={400}
+                    width={800}
+                    alt={blogPost.frontmatter.title || blogPost.title}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                  />
+                </div>
+              )}
+              <div className="flex flex-1 flex-col p-6">
+                <div className="flex items-center gap-3">
+                  <span className="text-[11px] font-medium tracking-[-0.01em]" style={{ color: color.blue }}>
+                    Post
+                  </span>
+                  {blogPost.frontmatter.date && (
+                    <span className="text-[11px] font-medium tracking-[-0.01em] tabular-nums" style={{ color: color.inkGhost }}>
+                      {blogPost.frontmatter.date}
+                    </span>
                   )}
-
-                  {/* Content */}
-                  <div className="p-6">
-                    {/* Category/Type Badge */}
-                    <div className="mb-3">
-                      <span className="inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary border border-primary/30">
-                        Blog Post
-                      </span>
-                    </div>
-
-                    {/* Title */}
-                    <h2 className="mb-4 text-xl font-bold text-foreground transition-colors duration-200 group-hover:text-primary lg:text-2xl">
-                      {blogPost.frontmatter.title || blogPost.title}
-                    </h2>
-
-                    {/* Meta Information */}
-                    <div className="flex items-center justify-between text-sm text-muted-foreground">
-                      <div className="flex items-center gap-4">
-                        {blogPost.frontmatter.date && (
-                          <span className="font-mono">
-                            {blogPost.frontmatter.date}
-                          </span>
-                        )}
-                        {blogPost.frontmatter.author && (
-                          <span>
-                            by {blogPost.frontmatter.author}
-                          </span>
-                        )}
-                      </div>
-
-                      {/* Read More Arrow */}
-                      <div className="flex items-center gap-2 text-primary transition-colors duration-200 group-hover:text-primary/80">
-                        <span className="text-xs font-medium">Read More</span>
-                        <svg className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                        </svg>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              </Card>
-            ))}
-        </Suspense>
-      </div>
-
-      {/* Empty State */}
-      {sortedBlogPosts.length === 0 && (
-        <div className="flex flex-col items-center justify-center py-20 text-center">
-          <div className="mb-4 text-6xl opacity-20">📝</div>
-          <h3 className="mb-2 text-xl font-semibold text-foreground">No posts yet</h3>
-          <p className="text-muted-foreground">Check back soon for insights from the Andamio team.</p>
+                </div>
+                <h2 className="mt-3 text-xl font-semibold leading-tight tracking-[-0.02em] lg:text-2xl">
+                  {blogPost.frontmatter.title || blogPost.title}
+                </h2>
+                <div className="mt-auto flex items-center justify-between pt-6">
+                  {blogPost.frontmatter.author ? (
+                    <span className="text-sm" style={{ color: color.inkMuted }}>
+                      by {blogPost.frontmatter.author}
+                    </span>
+                  ) : (
+                    <span />
+                  )}
+                  <span
+                    className="inline-flex items-center gap-1.5 text-[12px] font-semibold tracking-[-0.01em] opacity-0 transition-opacity group-hover:opacity-100"
+                    style={{ color: color.blue }}
+                  >
+                    Read →
+                  </span>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      ) : (
+        <div className="flex flex-col items-center justify-center py-28 text-center">
+          <h3 className="text-xl font-semibold">No posts yet</h3>
+          <p className="mt-2" style={{ color: color.inkMuted }}>
+            Check back soon for insights from the Andamio team.
+          </p>
         </div>
       )}
     </div>

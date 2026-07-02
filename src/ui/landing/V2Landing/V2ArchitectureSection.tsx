@@ -1,47 +1,10 @@
 import React from "react";
+import { Kicker } from "./_ui";
 import { EXTERNAL_LINKS } from "~/lib/external-links";
 
-interface IntegrationPath {
-  kicker: string;
-  title: string;
-  description: string;
-  linkLabel: string;
-  linkHref: string;
-  external: boolean;
-}
-
-const integrationPaths: IntegrationPath[] = [
-  {
-    kicker: "For developers",
-    title: "Build with the API",
-    description:
-      "Add credentials, access control, and courses to your app via REST API.",
-    linkLabel: "Getting Started Guide",
-    linkHref: EXTERNAL_LINKS.docsGettingStarted,
-    external: false,
-  },
-  {
-    kicker: "For protocol engineers",
-    title: "Build on the Platform",
-    description:
-      "Work directly with Andamio smart contracts on Cardano. Full control.",
-    linkLabel: "View on GitHub",
-    linkHref: EXTERNAL_LINKS.github,
-    external: true,
-  },
-  {
-    kicker: "For the curious",
-    title: "See it in action",
-    description:
-      "Explore the Andamio App to see how credentials, courses, and projects work together.",
-    linkLabel: "Open the App",
-    linkHref: EXTERNAL_LINKS.app,
-    external: true,
-  },
-];
-
 interface StackLayer {
-  label: string;
+  labelKicker: string;
+  name: string;
   description: string;
   emphasis?: boolean;
   surface: string;
@@ -49,95 +12,107 @@ interface StackLayer {
 
 const stackLayers: StackLayer[] = [
   {
-    label: "Your app",
-    description: "You build this — your frontend, your experience, your users.",
+    labelKicker: "Your surface",
+    name: "What you already run",
+    description:
+      "Your LMS, CRM, or certification platform. Stays where it is.",
     surface: "bg-card",
   },
   {
-    label: "Andamio API",
-    description: "Credentials · Access Control · Courses · Treasury",
+    labelKicker: "Integration",
+    name: "Andamio API",
+    description:
+      "REST endpoints to issue, verify, and gate on credentials from your own stack.",
     emphasis: true,
-    surface: "bg-primary/10",
+    surface: "bg-primary",
   },
   {
-    label: "Andamio Platform",
+    labelKicker: "Protocol",
+    name: "Andamio smart contracts",
     description:
-      "Smart contracts, on-chain state, credential registry (audited by TxPipe).",
+      "Audited by TxPipe. On-chain credential registry. The full transaction lifecycle, wrapped as an API.",
     surface: "bg-surface-subtle",
   },
   {
-    label: "Cardano blockchain",
-    description: "Settlement, permanence, interoperability.",
+    labelKicker: "Settlement",
+    name: "Cardano mainnet",
+    description:
+      "Permanence. Your credentials outlive every vendor, including us.",
     surface: "bg-card",
   },
 ];
 
 export default function V2ArchitectureSection() {
   return (
-    <section id="platform" className="py-24 sm:py-32">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="max-w-3xl">
-          <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-            Andamio is built on Cardano.
-            <br />
-            Your app is built on Andamio.
-          </h2>
-          <p className="mt-6 max-w-2xl text-lg text-muted-foreground">
-            Role-based access, credential gating, and contribution tracking — on
-            a layer you don&rsquo;t have to build yourself.
-          </p>
-        </div>
+    <section
+      id="api-architecture"
+      className="flex min-h-screen flex-col justify-center bg-surface-subtle py-20 sm:py-24"
+    >
+      <div className="mx-auto max-w-none px-5 sm:px-8 lg:px-14 2xl:px-20">
+        <div className="grid gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center lg:gap-24">
+          <div>
+            <Kicker>How it fits your stack</Kicker>
 
-        <div className="mt-16 grid gap-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-start lg:gap-20">
-          <div className="overflow-hidden rounded-2xl border border-border">
+            <h2 className="mt-4 font-display text-4xl font-semibold leading-[1.02] tracking-[-0.035em] text-foreground sm:text-5xl lg:text-6xl">
+              Build on the same machinery
+            </h2>
+            <p className="mt-7 max-w-lg text-lg leading-relaxed tracking-[-0.005em] text-muted-foreground">
+              The Issuer runs on the same machinery you can build on directly.
+              Andamio credentials are machine-readable. An app can check that
+              someone holds one, then act on it. Gate access, unlock the next
+              step, or drive what happens next.
+            </p>
+            <p className="mt-5 max-w-[48ch] text-base leading-relaxed text-muted-foreground">
+              Credentials are composable. One can gate another. The chain
+              enforces the prerequisite, not an app, so it holds across
+              organizations. Audited smart contracts on Cardano, called over
+              REST. Your stack never touches crypto.
+            </p>
+            <a
+              href={EXTERNAL_LINKS.apiReference}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-8 inline-flex items-center gap-1.5 text-sm font-medium text-primary underline-offset-4 hover:underline"
+            >
+              Read the API reference{" "}
+              <span aria-hidden className="transition-transform duration-150 hover:translate-x-1">→</span>
+            </a>
+          </div>
+
+          <div className="overflow-hidden rounded-xl border border-border bg-background shadow-lg">
             {stackLayers.map((layer, index) => (
               <div
-                key={layer.label}
+                key={layer.name}
                 className={`${layer.surface} ${
                   index > 0 ? "border-t border-border" : ""
-                } px-6 py-6 sm:px-8`}
+                } px-7 py-7 sm:px-8`}
               >
                 <p
-                  className={`text-xs font-semibold uppercase tracking-[0.18em] ${
-                    layer.emphasis ? "text-primary" : "text-muted-foreground"
+                  className={`text-[13px] font-semibold ${
+                    layer.emphasis
+                      ? "text-primary-foreground/85"
+                      : "text-muted-foreground"
                   }`}
                 >
-                  {layer.label}
+                  {layer.labelKicker}
                 </p>
-                <p className="mt-2 text-sm text-muted-foreground">
+                <p
+                  className={`mt-1.5 font-display text-[18px] font-semibold tracking-[-0.015em] ${
+                    layer.emphasis ? "text-primary-foreground" : "text-foreground"
+                  }`}
+                >
+                  {layer.name}
+                </p>
+                <p
+                  className={`mt-2 text-[14px] leading-relaxed tracking-[-0.005em] ${
+                    layer.emphasis ? "text-primary-foreground/85" : "text-muted-foreground"
+                  }`}
+                >
                   {layer.description}
                 </p>
               </div>
             ))}
           </div>
-
-          <ul className="space-y-8">
-            {integrationPaths.map((path) => (
-              <li
-                key={path.title}
-                className="border-l-2 border-border pl-6 transition-colors hover:border-primary"
-              >
-                <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
-                  {path.kicker}
-                </p>
-                <h3 className="mt-2 font-display text-xl font-semibold text-foreground">
-                  {path.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {path.description}
-                </p>
-                <a
-                  href={path.linkHref}
-                  {...(path.external
-                    ? { target: "_blank", rel: "noopener noreferrer" }
-                    : {})}
-                  className="mt-3 inline-block text-sm font-medium text-primary underline-offset-4 hover:underline"
-                >
-                  {path.linkLabel}
-                </a>
-              </li>
-            ))}
-          </ul>
         </div>
       </div>
     </section>

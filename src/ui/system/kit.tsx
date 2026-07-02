@@ -203,6 +203,8 @@ export type NavEntry = NavLink | NavMenu;
 export interface NavData {
   items: readonly NavEntry[];
   cta: { label: string; href: string };
+  /** Optional quieter second action (outline), rendered before the primary. */
+  secondaryCta?: { label: string; href: string };
 }
 
 /* ── Rich dropdown menu (click to open; card of items) ──────────────────── */
@@ -316,7 +318,7 @@ function NavDropdown({
   );
 }
 
-export function TopNav({ items, cta }: NavData) {
+export function TopNav({ items, cta, secondaryCta }: NavData) {
   const [open, setOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   return (
@@ -357,13 +359,21 @@ export function TopNav({ items, cta }: NavData) {
           </nav>
           {/* Theme toggle reads as a quiet page utility sitting with the nav. */}
           <ThemeToggle />
-          {/* Divider isolates the single primary action (Open the App) from the
-              nav links and the theme utility. */}
+          {/* Divider isolates the actions from the nav links and the theme
+              utility. Primary (ink) = the Issuer conversion; secondary
+              (outline) = the app path for developers / existing users. */}
           <span
             className="hidden h-5 w-px lg:block"
             style={{ background: color.cell }}
             aria-hidden
           />
+          {secondaryCta && (
+            <span className="hidden sm:block">
+              <Button href={secondaryCta.href} variant="outline">
+                {secondaryCta.label}
+              </Button>
+            </span>
+          )}
           <Button href={cta.href} variant="ink">
             {cta.label}
           </Button>
@@ -709,14 +719,17 @@ export function CardRow({
   items,
   size = "md",
   numbered = false,
+  cols = 3,
 }: {
   items: readonly { heading: string; body: string }[];
   size?: "sm" | "md";
   numbered?: boolean;
+  /** Cards per row at lg. Default 3; use 4 for four-step rows. */
+  cols?: 3 | 4;
 }) {
   const md = size === "md";
   const itemCls = md
-    ? "col-span-12 py-9 sm:col-span-6 sm:px-7 lg:col-span-4"
+    ? `col-span-12 py-9 sm:col-span-6 sm:px-7 ${cols === 4 ? "lg:col-span-3" : "lg:col-span-4"}`
     : "col-span-12 py-7 sm:col-span-4 sm:px-7 sm:first:pl-0";
   const headCls = md
     ? "text-2xl font-semibold leading-none tracking-[-0.03em]"

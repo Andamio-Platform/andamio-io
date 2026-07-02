@@ -59,7 +59,8 @@ export const nav = {
     { label: "Pricing", href: "/pricing" },
     { label: "About", href: "/about" },
   ],
-  cta: { label: "Open the App", href: EXTERNAL_LINKS.app },
+  cta: { label: "Book a walkthrough", href: EXTERNAL_LINKS.walkthroughMailto },
+  secondaryCta: { label: "Try the App", href: EXTERNAL_LINKS.app },
 } as const;
 
 export const hero = {
@@ -82,7 +83,7 @@ export const hero = {
 export const problem = {
   heading: "Badges don’t build trust",
   intro:
-    "The digital credential most organizations issue is a badge, and it falls short in three ways.",
+    "You have good reasons to issue badges, and your badges should do real work. Instead, you’re renting space in a vendor’s database, passing around pictures with nothing inside, and drowning in noise that hides the signal.",
   items: [
     {
       headline: "It’s a rental",
@@ -90,23 +91,52 @@ export const problem = {
     },
     {
       headline: "It’s a picture, not data",
-      body: "A badge can be shared on LinkedIn, but no system can act on it. It isn’t structured data, so the automated screening that gates hiring can’t read it. Harvard Business School found 88% of employers say that screening already rejects qualified people who don’t exactly match.",
+      body: "As marketing, badges work — people share them, and you shouldn’t lose that. But a picture is where it ends: no system can act on one, so the automated screening that gates hiring can’t read it. Harvard Business School found 88% of employers say that screening already rejects qualified people who don’t exactly match.",
     },
     {
-      headline: "It’s just a claim",
-      body: "A badge you can’t independently verify is taken on faith, no better than the résumé beside it. Peer-reviewed research found 72% of people embellish their résumés, and 31% fabricate outright.",
+      headline: "It’s just more noise",
+      body: "Badges are cheap to issue in bulk, so there’s no work behind them to check. One you can’t independently verify is taken on faith — no better than the résumé beside it. Peer-reviewed research found 72% of people embellish their résumés, and 31% fabricate outright.",
     },
   ],
 } as const;
 
 export const demo = {
-  kicker: "How it works",
   liveLabel: "Live",
   title: "Learn how an Andamio Credential Badge works",
-  inspirationCta: "Need inspiration? See ways to use it",
-  // Stand-in note shown in design-only iterations where the wired widget is
-  // represented as a framed specimen rather than re-built.
   note: "Type below — the rings encode the course_id and slt_hash that identify the credential.",
+} as const;
+
+/**
+ * The essential pattern — the work cycle that makes a credential signal.
+ * James (2026-07-02): the pattern itself must be defined on the landing page —
+ * you define what the credential means, people submit evidence, reviewers
+ * review it, and only then is the credential claimed. Issuer-voiced
+ * Commit/Review/Claim. The close carries the slow-to-move-fast paradox.
+ */
+export const pattern = {
+  heading: "One pattern behind every credential",
+  intro:
+    "You define what the credential means. People submit evidence. Reviewers review it. Only then is the credential claimed — no bulk mint, no shortcuts.",
+  steps: [
+    {
+      heading: "Define",
+      body: "You say what the credential certifies — the skills, the standards, the learning targets. You own the meaning.",
+    },
+    {
+      heading: "Evidence",
+      body: "Someone commits to the work and submits evidence. The evidence stays in your systems — private, yours.",
+    },
+    {
+      heading: "Review",
+      body: "A reviewer you\u2019ve authorized checks the work against your standards, and accepts it or sends it back with feedback.",
+    },
+    {
+      heading: "Claim",
+      body: "Only then does the credential exist. The earner claims it, and it carries what was done, who reviewed it, and what it proves.",
+    },
+  ],
+  close:
+    "A real human interaction, every time. Trust builds faster because you issue one at a time \u2014 slowing down to move fast.",
 } as const;
 
 /** StoryBrand "plan" beat — the three-step path that de-risks issuing. */
@@ -114,7 +144,7 @@ export const plan = {
   heading: "Issuing takes three steps",
   steps: [
     { title: "Define", body: "Say what the credential certifies. You own the meaning." },
-    { title: "Issue", body: "A few API calls, integrated in minutes. No wallets or keys for your team to hold." },
+    { title: "Issue", body: "Issued when work passes review — a few API calls, integrated in minutes. No wallets or keys for your team to hold." },
     { title: "Verify", body: "Anyone can check it. No one, not even you, can switch it off." },
   ],
 } as const;
@@ -140,7 +170,7 @@ export const products = {
       // in v1.1 (product-circle#82, Q3). When v1.1 lands, strengthen this to claim verifiable-anywhere
       // interop. Tracked: orch task "Flip OB3 claims to independently-verifiable on v1.1 signing release".
       blurb:
-        "Turn the courses you run into credentials you own — the full stack: Andamio’s on-chain protocol and OpenBadges 3.0, non-custodial, integrated with your systems.",
+        "Turn the courses you run into credentials you own — OpenBadges 3.0 on Andamio’s on-chain protocol, integrated with your systems.",
       cta: "Learn more",
       href: "#issuer-detail",
     },
@@ -162,7 +192,7 @@ export const issuer = {
   // The transformation tagline under the product title (candidate #11).
   lead: "From badges to building blocks.",
   intro:
-    "A credential is only as good as the trust people put in it. Andamio turns the badges you already issue into credentials you control, on the courses you already run: everything a blockchain guarantees, and none of the blockchain to learn.",
+    "A credential is only as good as the work behind it. Andamio issues credentials one at a time, each backed by work someone did and someone qualified reviewed — on the courses you already run. Everything a blockchain guarantees, and none of the blockchain to learn.",
   decisionsHeading: "A new kind of credential",
   // The three-pronged array, matching the Andamio Issuer paper: Composable +
   // Programmable fold into "useful"; Private + Portable fold into "yours".
@@ -190,7 +220,7 @@ export const ecosystem = {
   items: [
     {
       title: "Portable",
-      body: "Andamio Credential Badges are owned by earners and verifiable anywhere. This means that other project teams, organizations, clubs, or coalitions can decide to make them useful in new ways.",
+      body: "Andamio Credential Badges are owned by earners and verifiable anywhere — each one travels with the person who earned it, not from them. Other project teams, organizations, clubs, or coalitions can decide to make them useful in new ways.",
       cta: { label: "Build with the API", href: EXTERNAL_LINKS.apiReference, variant: "primary" },
     },
     {
@@ -207,12 +237,9 @@ export const ecosystem = {
 } as const;
 
 export const api = {
-  zoneTitle: "Andamio API",
-  zoneBlurb:
-    "Build your own apps on Andamio — across courses and projects — with the protocol as REST endpoints. Issue, verify, and gate on credentials from your own stack.",
   heading: "Issue, verify, and gate",
   lead:
-    "Andamio is made for developers to build on — courses, projects, and the credentials between them, all over plain REST. Audited smart contracts on Cardano, wrapped as an API. Your stack never touches crypto.",
+    "The Andamio API backs all of it — courses, projects, and the credentials between them, all over plain REST. Audited smart contracts on Cardano, wrapped as an API. Your stack never touches crypto.",
   // Verb-first capabilities — each maps to real API surface (see openapi).
   capabilities: [
     {
@@ -230,8 +257,6 @@ export const api = {
     },
   ],
   apiRefCta: "Read the API reference",
-  galleryCta: "See what’s built on Andamio",
-  galleryHref: "/showcase",
   // A real call — list the credentials a holder owns (the "gate" request).
   // Path, header, and response shape are the live v2 API (api.andamio.io).
   snippet: {
@@ -277,7 +302,7 @@ export const developers = {
   hero: {
     eyebrow: "For developers",
     headline: "Build on Andamio.",
-    sub: "Andamio is a protocol made to be built upon. Issue, verify, and gate on credentials from your own stack — you query plain REST, and Cardano validators enforce the rules underneath. Your stack never touches crypto.",
+    sub: "Andamio is a protocol made to be built upon. Every credential on it is backed by real, reviewed work, and your apps can act on that — you query plain REST, and Cardano validators enforce the rules underneath.",
     primaryCta: { label: "Read the docs", href: EXTERNAL_LINKS.docs },
     secondaryCta: { label: "API reference", href: EXTERNAL_LINKS.apiReference },
   },
@@ -290,7 +315,7 @@ export const developers = {
       },
       {
         heading: "The Andamio API",
-        body: "REST endpoints that wrap those primitives. You query for data and for ready-to-sign transactions; the blockchain enforces the rules. Nothing to build from scratch.",
+        body: "The how behind everything you build here: REST endpoints that wrap those primitives. You query for data and for ready-to-sign transactions; the blockchain enforces the rules. Nothing to build from scratch.",
       },
     ],
   },
@@ -352,7 +377,7 @@ export const developers = {
  */
 export const cli = {
   hero: {
-    eyebrow: "Developer tool",
+    eyebrow: "For developers",
     headline: "The Andamio CLI.",
     sub: "Interact with the Andamio Protocol from your terminal — build, sign, and submit transactions, author courses and projects, and authenticate with your wallet. It's the source of truth for what an Andamio transaction looks like.",
     primaryCta: { label: "Install", href: EXTERNAL_LINKS.cliReleases },
@@ -396,7 +421,7 @@ export const cli = {
  */
 export const bot = {
   hero: {
-    eyebrow: "Product",
+    eyebrow: "For communities",
     headline: "Credential-gate your Discord.",
     sub: "AndamioBot reads each member's on-chain Andamio credentials and grants Discord roles based on what they hold. No wallet handling — for you or your members. Login is delegated to the hosted Andamio app; the bot never touches a wallet, seed, or key.",
     primaryCta: { label: "Get the template", href: EXTERNAL_LINKS.botRepo },
@@ -434,7 +459,7 @@ export const bot = {
 
 /** StoryBrand "avoid failure" beat — the stakes, one line before the close. */
 export const stakes = {
-  line: "Trust is expensive to earn and cheap to lose. A credential you don't control is a promise you can't keep.",
+  line: "Trust is expensive to earn and cheap to lose. Bulk badges are noise — a credential only counts when there’s work behind it.",
 } as const;
 
 export const closing = {
@@ -461,7 +486,7 @@ export const pricing = {
   hero: {
     kicker: "Pricing",
     headline: "Two products, priced separately.",
-    sub: "Andamio Issuer is a managed credential layer for organizations, sold as an annual contract. The Andamio API is self-serve access to the protocol for developers. They share protocol internals — neither depends on the other.",
+    sub: "Andamio Issuer is a managed credential layer for organizations, sold as an annual contract. The Andamio API is the developer product: self-serve access to build on the protocol. They share protocol internals — neither depends on the other.",
   },
   issuer: {
     audience: "For organizations",
@@ -489,7 +514,7 @@ export const pricing = {
   api: {
     audience: "For developers",
     title: "Andamio API",
-    lead: "Programmatic access to the protocol as REST endpoints. Self-serve via Stripe, monthly.",
+    lead: "Everything you need to build on Andamio: the protocol as REST endpoints. Self-serve via Stripe, monthly.",
     tiers: [
       { name: "Free", price: "$0", priceNote: "", limits: "15K req/mo · 500 req/day · 1 API key", muted: true },
       { name: "Starter", price: "$29", priceNote: "/ mo", limits: "75K req/mo · 2,500 req/day · 2 API keys" },

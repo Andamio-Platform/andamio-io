@@ -38,7 +38,7 @@ const pageFooter = (
 export default function AndamioIssuer() {
   return (
     // No editorial rail — this is a focused funnel page, not the indexed story.
-    <Page nav={{ items: nav.items, cta: nav.cta }} sections={null} footer={pageFooter}>
+    <Page nav={{ items: nav.items, cta: nav.cta, secondaryCta: nav.secondaryCta }} sections={null} footer={pageFooter}>
       {/* ── Hero — the product. Back-link to the overview keeps the funnel
              two-way; the title + transformation lead + guide intro set it up. */}
       <Section id="top" bordered={false} screen>

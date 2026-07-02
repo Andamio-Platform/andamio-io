@@ -37,7 +37,7 @@ const pageFooter = (
 
 export default function AndamioDevelopers() {
   return (
-    <Page nav={{ items: nav.items, cta: nav.cta }} sections={null} footer={pageFooter}>
+    <Page nav={{ items: nav.items, cta: nav.cta, secondaryCta: nav.secondaryCta }} sections={null} footer={pageFooter}>
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
       <Section id="top" bordered={false}>
         <div className="pt-16 sm:pt-24">

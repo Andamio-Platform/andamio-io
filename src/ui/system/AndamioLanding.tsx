@@ -23,6 +23,7 @@ import {
   nav,
   hero,
   problem,
+  pattern,
   products,
   issuer,
   ecosystem,
@@ -57,7 +58,7 @@ const mono = { fontFamily: font.mono };
 
 export default function AndamioLanding() {
   return (
-    <Page nav={{ items: nav.items, cta: nav.cta }} footer={pageFooter}>
+    <Page nav={{ items: nav.items, cta: nav.cta, secondaryCta: nav.secondaryCta }} footer={pageFooter}>
       {/* ── 1 · Character — Hero. Full-bleed type, badge withheld. Lead section
              carries no bottom rule: it flows into the first section's header. */}
       <Section id="top" bordered={false} screen>
@@ -129,6 +130,28 @@ export default function AndamioLanding() {
         <div className="border-t pt-7" style={{ borderColor: color.rule }}>
           <p className="max-w-3xl text-lg font-medium leading-snug tracking-[-0.01em] sm:text-xl" style={{ color: color.inkMuted }}>
             {stakes.line}
+          </p>
+        </div>
+      </Section>
+
+      {/* ── The pattern — the work cycle that turns badges into signal. The
+             rescue beat: the problem close says a credential only counts when
+             there's work behind it; this section IS the work. ── */}
+      <Section id="pattern" bordered={false} screen>
+        <div className="grid grid-cols-12 gap-y-6 border-t pt-14 pb-10" style={{ borderColor: color.rule }}>
+          <div className="col-span-12 lg:col-span-4 lg:pr-10">
+            <Display as="h2" size="lg" style={{ lineHeight: 0.95 }}>
+              {pattern.heading}
+            </Display>
+          </div>
+          <p className="col-span-12 self-end text-xl leading-snug tracking-[-0.015em] lg:col-span-7 lg:col-start-6" style={{ color: "rgb(var(--sys-ink-rgb) / 0.7)" }}>
+            {pattern.intro}
+          </p>
+        </div>
+        <CardRow items={pattern.steps} size="md" numbered cols={4} />
+        <div className="border-t pt-7 pb-14" style={{ borderColor: color.rule }}>
+          <p className="max-w-3xl text-lg font-medium leading-snug tracking-[-0.01em] sm:text-xl" style={{ color: color.inkMuted }}>
+            {pattern.close}
           </p>
         </div>
       </Section>

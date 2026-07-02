@@ -31,7 +31,7 @@ const pageFooter = (
 
 export default function AndamioPricing() {
   return (
-    <Page nav={{ items: nav.items, cta: nav.cta }} sections={null} footer={pageFooter}>
+    <Page nav={{ items: nav.items, cta: nav.cta, secondaryCta: nav.secondaryCta }} sections={null} footer={pageFooter}>
       {/* ── Hero — set the two-products frame up front. ─────────────────── */}
       <Section id="top" bordered={false}>
         <div className="pb-16 pt-16 sm:pb-24 sm:pt-24">

@@ -14,38 +14,53 @@ status: proposed | researching | verified | shortlisted | rejected | adopted | s
 summary: One factual sentence
 use_case: The Andamio problem this may solve
 audience: issuer | developer | both
-source_url: Canonical issuer or maintainer URL
-secondary_url: Optional independent or developer-oriented source
-license: SPDX identifier, proprietary, or unknown
-access_model: free | freemium | paid | open-source
+license: SPDX identifier, proprietary, not-applicable, or unknown
+source_availability: open-source | source-available | closed-source | not-applicable | unknown
+pricing_model: free | freemium | paid | custom | not-applicable | unknown
 free_scope: Limits of free access, or not-applicable
 version_or_commit: Version, release, or commit checked
 verified_on: YYYY-MM-DD
+freshness:
+  category_window_days: 30
+  phase: research | shortlist
+  phase_window_days: 45
+  checked_as_of: YYYY-MM-DD
+citations:
+  - claim: One material, falsifiable claim
+    url: Exact supporting page
+    source_type: primary | secondary
+    checked_on: YYYY-MM-DD
+    result: supports | partially-supports | contradicts | inaccessible
 scores: { relevance: 0, evidence: 0, quality: 0, fit: 0, cost: 0, risk: 0 }
 total_score: 0
 decision: Short rationale, including exclusions
 ```
 
-Use `unknown` rather than inference. For a design pattern without a version, record the page revision date or `not-published`.
+Use `unknown` rather than inference. For a design pattern without a version, record the page revision date or `not-published`. Research status follows `proposed → researching → verified → shortlisted → adopted`; use `rejected` for an evaluated exclusion and `superseded` only for an adopted record with a named successor. Regression from `verified` or `shortlisted` to `researching` is required when evidence expires or a material claim changes.
 
 ## Verification and citations
 
-1. Start with the **issuer-primary source**: official documentation, product page, repository, release, standard, or original research.
-2. Add a **developer-secondary source** when implementation behavior, interoperability, adoption, or limitations need corroboration.
-3. Cite the exact page supporting each material claim; do not cite a homepage when a license, pricing, release, or feature page exists.
-4. Record `verified_on` on every verification pass and `version_or_commit` for mutable software.
-5. Quote sparingly. Separate source facts from Andamio recommendations.
-6. For repositories, verify owner, archival state, latest release or commit activity, license file, and relevant documentation.
-7. For commercial services, verify current pricing and free-tier limits from official pricing documentation.
+1. Start with a **primary source**: official documentation, product page, repository, release, standard, or original research.
+2. Add a **secondary source** when implementation behavior, interoperability, adoption, or limitations need corroboration.
+3. Give every material claim its own citation entry. Reusing one URL is allowed, but each entry must state the claim, exact URL, source type, check date, and result.
+4. A claim is verified only when a current citation result is `supports`; `partially-supports` requires narrowing the claim, while `contradicts` or `inaccessible` blocks verification.
+5. Record `verified_on` on every verification pass and `version_or_commit` for mutable software.
+6. Quote sparingly. Separate source facts from Andamio recommendations.
+7. For repositories, verify owner, archival state, latest release or commit activity, license file, and relevant documentation.
+8. For commercial services, verify current pricing and free-tier limits from official pricing documentation.
 
-## Access-model terminology
+## Source and pricing terminology
 
-- **Free:** usable for the stated scope without payment; may still be proprietary.
-- **Freemium:** a no-cost tier exists but material features, volume, or usage require payment.
-- **Open source:** source is available under a recognized license granting use, modification, and redistribution. Public source without a license is not open source.
-- **Paid:** the evaluated use requires payment.
+- **Source availability:** `open-source` requires a recognized license granting use, modification, and redistribution; `source-available` exposes code without all those rights; `closed-source` does not expose implementation source.
+- **Pricing:** `free` requires no payment for the evaluated scope; `freemium` has a limited no-cost tier; `paid` requires payment; `custom` requires a quote.
 
-Record both `license` and `access_model`; these are independent properties.
+Record `license`, `source_availability`, and `pricing_model` independently. A product may be both open source and paid, or closed source and free.
+
+## Freshness policy
+
+Every record declares category and phase freshness metadata. Default category windows are `github-ai: 30 days`, `ui-ux: 180 days`, and `other: 90 days`. Phase windows are `research: 180 days` and `shortlist: 45 days`. The effective window is the smaller of the category and phase windows, measured inclusively from each citation's `checked_on` through `freshness.checked_as_of`.
+
+An artifact may set a stricter window but never a looser one without an adopted decision. `verified_on` is the date the whole record passed; it does not replace claim-level `checked_on`.
 
 ## Inclusion and exclusion gates
 
@@ -53,7 +68,7 @@ A candidate is eligible only when:
 
 - its use case maps to an identified issuer-primary or developer-secondary need;
 - material claims have current, accessible primary citations;
-- ownership, maintenance state, license, pricing/access model, and security implications are known;
+- ownership, maintenance state, license, source availability, pricing model, and security implications are known;
 - adoption does not conflict with the canonical `src/ui/system` boundary;
 - accessibility, privacy, performance, and operational risks are acceptable or mitigable.
 
@@ -80,8 +95,17 @@ Before a research gate:
 2. Confirm every required schema field is present and every status is allowed.
 3. Check each relative Markdown link resolves from its containing file.
 4. Request each external citation and flag redirects, authentication walls, and non-success responses for manual review.
-5. Check duplicate `id` values and duplicate canonical `source_url` values.
-6. Confirm every `verified_on` is a valid date and refresh records older than the phase's stated freshness window.
+5. Check duplicate `id` values and duplicate normalized claims within a record.
+6. Confirm `verified_on`, `checked_as_of`, and every citation `checked_on` are valid dates.
 7. Recalculate score totals from the six dimensions.
+
+Immediately before shortlist scoring, enforce freshness mechanically for every candidate:
+
+1. Set `freshness.phase` to `shortlist`, `phase_window_days` to 45, and `checked_as_of` to the shortlist's `as_of` date.
+2. Resolve the category window (`github-ai=30`, `ui-ux=180`, `other=90`) and compute `effective_window_days = min(category_window_days, 45)`.
+3. For every material citation, calculate `age_days = checked_as_of - checked_on`; fail negative ages or `age_days > effective_window_days`.
+4. Fail any citation whose URL is unreachable or whose result is not `supports`.
+5. Move every failed candidate to `researching`; exclude it from candidate count, ranking, and scoring until reverified.
+6. Record total, passed, stale, unreachable, and unsupported counts in the shortlist.
 
 Mechanical success does not replace claim review; record both automated and manual verification in the phase artifact.

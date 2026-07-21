@@ -2,4 +2,6 @@
 
 Record durable choices that affect scope, architecture, product priority, design-system policy, dependencies, or phase gates.
 
-Use one dated Markdown file per decision with status, context, options considered, evidence, decision, consequences, and superseded decisions. Decision statuses are `proposed`, `adopted`, `rejected`, or `superseded`. Never rewrite an adopted decision to reverse it; add a successor and cross-link both records.
+Use one dated Markdown file per decision with status, context, options considered, evidence, decision, consequences, and superseded decisions.
+
+Lifecycle: `proposed → adopted` or `rejected`; an adopted decision may become `superseded` only through a cross-linked successor. Adoption requires an owner, approval date, and rationale. Decisions are cross-cutting: any downstream audit, requirement, brief, or implementation that depends on a material choice must wait until that decision is `adopted`. Never rewrite an adopted decision to reverse it.

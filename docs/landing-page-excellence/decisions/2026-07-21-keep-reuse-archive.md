@@ -9,7 +9,7 @@
 
 ## Context
 
-The repository contains several complete or partial landing experiences. Phase 1 needs one implementation authority so audits and later requirements do not accidentally revive legacy composition or split ownership. Current production route inspection shows `src/ui/system` powering `/`, `/issuer`, and `/show-me`, while the canonical badge builder already imports a low-level SVG-generation core from V2.
+The repository contains several complete or partial landing experiences. Phase 1 needs one implementation authority so audits and later requirements do not accidentally revive legacy composition or split ownership. Current source and localhost route inspection shows `src/ui/system` powering `/`, `/issuer`, and `/show-me`, while the canonical badge builder already imports a low-level SVG-generation core from V2.
 
 ## Options considered
 

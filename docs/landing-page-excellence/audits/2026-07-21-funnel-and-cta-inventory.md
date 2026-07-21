@@ -31,8 +31,8 @@ Current `mailto:` launch and outbound navigation stop at L3. L4 requires an owne
 ## CTA inventory conventions
 
 - IDs below are stable analytics-contract candidates; copy may change without changing an ID.
-- **Enabled** means actionable navigation; **internal** changes UI state; **disabled** has no destination; **utility** is navigational but not a conversion.
-- `cta_clicked` fires only after an enabled navigation activation. Internal state controls use their named state event. Disabled controls emit nothing.
+- **Enabled** means conversion-oriented navigation; **internal** changes UI state; **disabled** has no destination; **utility** is non-conversion navigation.
+- `cta_clicked` fires after an enabled or utility navigation activation. Internal state controls use their named state event. Disabled controls emit nothing.
 - Destinations are literal values from source, including encoded mailto subjects.
 
 ## Canonical navigation
@@ -147,7 +147,7 @@ The issuer chapter rail also exposes **01 · How you can use it**, **02 · How i
 - `show_me_step_viewed`: after the requested path/chapter becomes visible; `path`, `step_id`, `step_index`.
 - `show_me_completed`: once per session when an enabled terminal exit is activated; `path`, `destination`, `cta_id`.
 - `issuer_demo_step_selected`: after Define/Issue/Verify becomes active; `step`.
-- `issuer_demo_action_completed`: after the illustrative local state confirms `build`, `illustrative_issue`, or `illustrative_verify`; never claim backend success.
+- `issuer_demo_action_completed`: after the illustrative local state renders its confirmation; properties `action_id`, `action`, and `step`. Allowed predicates are `action_id=issuer.demo_issue_credential` with `action=illustrative_issue`, or `action_id=issuer.demo_verify_action` with `action=illustrative_verify`. There is no separate builder-completion event. Never claim backend success.
 - `walkthrough_intent_started`: on activation of the exact walkthrough mailto; `cta_id`, `source`. This is L3 only.
 - `issuer_app_opened`: on issuer/app outbound activation; `cta_id`, `source`.
 - `developer_resource_opened`: on developer-resource activation; `resource_id`, `cta_id`, `source`.
@@ -164,6 +164,13 @@ Do not collect badge inputs, credential or wallet addresses, email content, or f
 - Raw clicks may repeat. KPI numerators deduplicate to one qualifying event per `session_id + KPI + audience`; L4 also deduplicates by non-sensitive `conversion_id`.
 - A CTA trigger is user activation, not visibility. A state event fires only after the state is rendered. A completion trigger requires owned success confirmation; navigation, mail-client launch, and optimistic UI are not completion.
 - Bot, synthetic, employee/test, duplicate conversion, and rejected/failed submission traffic is excluded from conversion KPIs and reported separately.
+
+## KPI audience predicates
+
+- **Issuer-designated homepage L1+ IDs:** `nav.issuer`, `nav.start_issuing`, `home.hero_show_me`, `home.issuer_learn_more`, `home.issuer_walkthrough`, `home.ecosystem_pattern`, `footer.buyer_walkthrough`, and `footer.buyer_use_cases`.
+- **Developer-designated homepage L1+ IDs:** `nav.dev_build`, `nav.dev_docs`, `nav.dev_api`, `nav.dev_template`, `nav.dev_cli`, `home.developer_build`, `home.developer_docs`, `home.ecosystem_api`, `footer.builder_docs`, `footer.builder_api`, and `footer.builder_github`.
+- A path-selection numerator requires an activation event whose `cta_id` is in the relevant allowlist. Events without a listed ID, passive section views, disabled controls, utility links, and community-only actions do not qualify.
+- `show.door_issuer` qualifies for issuer selection and `show.door_builder` qualifies for developer selection through `audience_path_selected`; curious/community doors are reported separately.
 
 ## KPI formulas and proposed thresholds
 

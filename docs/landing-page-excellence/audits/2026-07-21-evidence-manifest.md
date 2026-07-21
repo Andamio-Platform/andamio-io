@@ -25,7 +25,7 @@ Captured with `node --version; yarn --version; git --version`:
 | Evidence | Exact method or command | Runs | Result | Durable report location |
 |---|---|---:|---|---|
 | Clean production build | `yarn build` | 1 supplied successful run | Passed on 2026-07-21; `/` 1.66 kB page, 160 kB first-load JS, 125 kB shared | Console output only; no retained report path was supplied |
-| Local runtime sample | Browser performance tooling against `http://localhost:3000/` | Run count not captured | FCP/LCP 296 ms, CLS 0, encoded HTML 5.7 KB, one 50 ms long task | No exported trace/report location was supplied |
+| Local runtime diagnostic | Unspecified browser performance tooling against `http://localhost:3000/` | Run count not captured | Supplied values: FCP/LCP 296 ms, CLS 0, encoded HTML 5.7 KB, one 50 ms long task; context only, not a reproducible baseline | No exported trace/report location was supplied; values are excluded from gates and comparisons |
 | Source commit | `git rev-parse HEAD` before documentation work | 1 | `0890cc35a233f81efa2c33310b9b0f8c70fc7cb5` | Git object database |
 | Critical tracked assets | `git ls-files public \| rg "(^|/)(andamio\\.png|andamio-credential-badge\\.svg|andamio-logo\\.svg|logo-with-typography[^/]*\\.svg)$"` | 1 | All referenced PNG/badge/wordmark assets listed as tracked | Git index; command output only |
 | Route GET status | `curl.exe -sS -o NUL -w "%{http_code}" --max-time 10 "http://localhost:3000<path>"` for `/`, `/issuer`, `/show-me`, `/developers` | 1 final batch plus an earlier supplied successful batch | Earlier batch 200; final batch 500 during `.next` interference | Console output only |

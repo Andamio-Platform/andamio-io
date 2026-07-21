@@ -23,20 +23,20 @@ Proposed release-gate profile, pending an isolated baseline run:
 - Proposed first-load JavaScript ceilings from `next build`: `/` **≤160 kB**, `/issuer` **≤175 kB**, `/show-me` **≤180 kB**, and shared first-load JavaScript **≤125 kB**. Only `/` and shared values are measured today; `/issuer` and `/show-me` ceilings are provisional budgets, not measured baselines.
 - After the first isolated route report, ratify or tighten the proposed ceilings. Any increase requires bundle evidence and an adopted exception; a tooling-corrupted `.next` run is invalid evidence.
 
-## Measured facts
+## Build measurements and unreproducible runtime diagnostics
 
 | Metric | Result | Evidence class | Interpretation |
 |---|---:|---|---|
-| Local FCP | 296 ms | local unthrottled development measurement | Diagnostic only |
-| Local LCP | 296 ms | local unthrottled development measurement | Diagnostic only |
-| Local CLS | 0 | local unthrottled development measurement | Diagnostic only |
-| Encoded HTML | 5.7 KB | local development transfer | Diagnostic only |
-| Long tasks | one at 50 ms | local development trace | Diagnostic only |
+| Local FCP | 296 ms | supplied, unreproducible local diagnostic | Context only; not a baseline |
+| Local LCP | 296 ms | supplied, unreproducible local diagnostic | Context only; not a baseline |
+| Local CLS | 0 | supplied, unreproducible local diagnostic | Context only; not a baseline |
+| Encoded HTML | 5.7 KB | supplied, unreproducible local diagnostic | Context only; not a baseline |
+| Long tasks | one at 50 ms | supplied, unreproducible local diagnostic | Context only; not a baseline |
 | `/` page size | 1.66 kB | successful production build report | Build artifact metric |
 | `/` first-load JS | 160 kB | successful production build report | Baseline budget input |
 | Shared first-load JS | 125 kB | successful production build report | Broad shared cost |
 
-**These runtime numbers are non-representative.** Localhost, an unthrottled desktop, development mode, warm machine state, and absence of production network/CDN conditions make them unsuitable for claiming Lighthouse or Core Web Vitals success.
+**The runtime diagnostics are not Phase 1 baseline measurements.** Browser/version, exact tooling, cache state, run count, and retained reports were not captured. They are preserved only as historical context and cannot be used for comparison, gating, Lighthouse, or Core Web Vitals claims. A new isolated run under the profile above establishes the first reproducible runtime baseline.
 
 ## Source-inspection findings
 

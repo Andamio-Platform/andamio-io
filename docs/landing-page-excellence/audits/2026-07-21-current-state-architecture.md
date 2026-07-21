@@ -11,7 +11,7 @@
 ## Evidence classes
 
 - **Supplied measured fact:** a clean `yarn build` completed successfully on 2026-07-21. Its production report listed `/` at 1.66 kB page size, 160 kB first-load JS, and 125 kB shared first-load JS.
-- **Verification limitation:** a later rebuild attempt could not open `.next/trace` (`EPERM`) while the local development process owned the build directory; no second build result was obtained.
+- **Verification limitation:** a later rebuild attempt could not open `.next/trace` (`EPERM`) because build and development tooling concurrently shared `.next`. The resulting route 500s were tooling interference, not application failures; no isolated second build result was obtained.
 - **Measured fact:** localhost returned HTTP 200 for `/`, `/issuer`, `/show-me`, and `/developers` on 2026-07-21.
 - **Source inspection:** `src/pages/index.tsx` composes `src/ui/system/AndamioLanding.tsx`; `/issuer` composes `src/ui/system/AndamioIssuer.tsx`; `/show-me` composes `src/ui/system/StoryFork.tsx`.
 - **Source inspection:** canonical pages use `src/ui/system/kit.tsx`, `src/ui/system/tokens.ts`, `src/ui/explore/content.ts`, global CSS, Pages Router metadata, and `_app.tsx`.
@@ -21,17 +21,19 @@
 
 | ID | Disposition | Path/surface | Evidence and constraint |
 |---|---|---|---|
+| ARCH-00 | KEEP | `/`, `src/pages/index.tsx`, `src/ui/system/AndamioLanding.tsx` | Canonical landing route and composition. |
 | ARCH-01 | KEEP | `src/pages/show-me.tsx` and `src/ui/system/StoryFork.tsx` | The canonical hero links to `/show-me`; keep as the guided story fork. |
 | ARCH-02 | KEEP | `src/pages/issuer.tsx`, `src/ui/system/AndamioIssuer.tsx`, `src/ui/system/HowItWorks.tsx`, `src/ui/system/BadgeBuilder.tsx` | Canonical issuer conversion route, including HowItWorks and BadgeBuilder. |
-| ARCH-03 | KEEP | `src/ui/system/AndamioLanding.tsx`, `kit.tsx`, `tokens.ts` | Current production composition and design-system authority. |
+| ARCH-03 | KEEP | `src/ui/system/kit.tsx`, `src/ui/system/tokens.ts` | Current canonical component and token authority. |
 | ARCH-04 | REUSE-ONLY | `src/ui/landing/V2Landing/badge/*` | The canonical BadgeBuilder imports the V2 badge-generation core. Reuse this shared core only; do not revive V2 page composition. |
-| ARCH-05 | ARCHIVE/reference-only | V2 walkthrough and `V2WalkthroughSection.tsx` | Not canonical; no extension without a later adopted decision. |
-| ARCH-06 | ARCHIVE/reference-only | V2 verifier shell (`V2VerifierDemo.tsx` and verifier demo data) | Illustrative legacy shell, not the canonical verifier experience. |
+| ARCH-05 | ARCHIVE/reference-only | `src/ui/landing/V2Landing/V2WalkthroughSection.tsx`, `src/ui/landing/V2Landing/walkthrough-data.ts`, `src/ui/landing/V2Landing/step-demos.tsx`, `src/ui/landing/V2Landing/DEMOS.md` | Not canonical; no extension without a later adopted decision. |
+| ARCH-06 | ARCHIVE/reference-only | `src/ui/landing/V2Landing/V2VerifierDemo.tsx`, `src/ui/landing/V2Landing/verifier-demo-data.ts` | Illustrative legacy shell/data, not the canonical verifier experience. |
 | ARCH-07 | ARCHIVE/reference-only | `src/ui/landing/V2Landing/index.tsx` and V2 page sections | Legacy landing stack. |
 | ARCH-08 | ARCHIVE/reference-only | `src/ui/landing/ModernLanding/*` | Legacy landing stack. |
 | ARCH-09 | ARCHIVE/reference-only | `src/ui/landing/SB7PageLanding.tsx` | Legacy landing implementation. |
 
 The durable scope decision is recorded in [`../decisions/2026-07-21-keep-reuse-archive.md`](../decisions/2026-07-21-keep-reuse-archive.md).
+Commands, timestamps, tool versions, viewport, and report-retention limits are recorded in [`2026-07-21-evidence-manifest.md`](2026-07-21-evidence-manifest.md).
 
 ## Findings
 
@@ -71,5 +73,5 @@ The durable scope decision is recorded in [`../decisions/2026-07-21-keep-reuse-a
 
 - Production deployment parity, CDN behavior, and field traffic were not inspected.
 - No bundle analyzer was run; module-level contributors to the 160 kB first-load JS remain unknown.
-- A final 2026-07-21 localhost HEAD recheck returned HTTP 500 for `/`, `/issuer`, `/show-me`, and `/developers`, while `/sitemap.xml` and the named image assets returned 200. The running development environment was therefore not stable enough to reconfirm page-route status; this does not erase the earlier 200 observations or establish a production defect.
+- A final 2026-07-21 localhost recheck returned HTTP 500 for `/`, `/issuer`, `/show-me`, and `/developers` after concurrent build/dev tooling shared and mutated `.next`; `/sitemap.xml` and named image assets still returned 200. These 500s are attributable to tooling interference, not application failure, and cannot serve as route-health evidence.
 - No application source was changed in this phase.

@@ -23,8 +23,10 @@ Adopt option 3.
 
 ### KEEP
 
+- Canonical `/`: `src/pages/index.tsx` and `src/ui/system/AndamioLanding.tsx`.
 - `/show-me`: `src/pages/show-me.tsx` and the canonical `src/ui/system/StoryFork.tsx` experience.
 - Canonical `/issuer`: `src/pages/issuer.tsx`, `src/ui/system/AndamioIssuer.tsx`, `src/ui/system/HowItWorks.tsx`, and `src/ui/system/BadgeBuilder.tsx`.
+- Canonical component/token authority: `src/ui/system/kit.tsx` and `src/ui/system/tokens.ts`.
 - The HowItWorks + BadgeBuilder pairing remains the authoritative issuer demonstration.
 
 ### REUSE
@@ -36,9 +38,10 @@ Adopt option 3.
 
 The following must not be extended, wired into canonical routes, or used as implementation authority unless a later adopted decision explicitly approves it:
 
-- V2 walkthrough, including `V2WalkthroughSection.tsx` and walkthrough data.
-- V2 verifier shell, including `V2VerifierDemo.tsx` and verifier demo data.
-- V2 landing composition and sections under `src/ui/landing/V2Landing`, except the shared badge core above.
+- V2 walkthrough: `src/ui/landing/V2Landing/V2WalkthroughSection.tsx` and `src/ui/landing/V2Landing/walkthrough-data.ts`.
+- V2 walkthrough demo registry/reference: `src/ui/landing/V2Landing/step-demos.tsx` and `src/ui/landing/V2Landing/DEMOS.md`.
+- V2 verifier shell/data: `src/ui/landing/V2Landing/V2VerifierDemo.tsx` and `src/ui/landing/V2Landing/verifier-demo-data.ts`.
+- V2 landing composition and sections rooted at `src/ui/landing/V2Landing/index.tsx`, except only `src/ui/landing/V2Landing/badge/*` as allowed above.
 - `src/ui/landing/ModernLanding/*`.
 - `src/ui/landing/SB7PageLanding.tsx`.
 

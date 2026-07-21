@@ -62,7 +62,8 @@
 
 - `REQ-A11Y-05`: WCAG 2.2 AA across `/`, `/show-me`, and `/issuer`, with documented exceptions only through an adopted decision.
 - `REQ-RESP-02`: verify representative widths 320, 375, 768, 1024, and ≥1440 CSS px in light/dark themes.
-- `REQ-A11Y-06`: focus indicators meet WCAG 2.2 focus appearance requirements and are never obscured by the sticky header.
+- `REQ-A11Y-06`: meet WCAG 2.2 AA **2.4.7 Focus Visible** and **2.4.11 Focus Not Obscured (Minimum)**; focused controls are not entirely hidden by the sticky header or other content.
+- `REQ-A11Y-08` (proposed enhanced target): meet WCAG 2.2 AAA **2.4.13 Focus Appearance**. This is intentionally stronger than the AA conformance target and must not be described as an AA requirement.
 - `REQ-A11Y-07`: touch targets, contrast, names/roles/values, error states, and status announcements receive manual and automated checks.
 
 ## Explicitly unverified

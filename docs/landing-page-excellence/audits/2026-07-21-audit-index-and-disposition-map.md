@@ -14,7 +14,8 @@
 3. [`2026-07-21-performance-baseline.md`](2026-07-21-performance-baseline.md) — build/local measurements, non-representative caveat, and performance risks.
 4. [`2026-07-21-accessibility-responsive-baseline.md`](2026-07-21-accessibility-responsive-baseline.md) — WCAG, keyboard, motion, landmark, tabs, and responsive baseline.
 5. [`2026-07-21-seo-analytics-testing-baseline.md`](2026-07-21-seo-analytics-testing-baseline.md) — crawl/metadata, measurement, and quality-gate baseline.
-6. [`../decisions/2026-07-21-keep-reuse-archive.md`](../decisions/2026-07-21-keep-reuse-archive.md) — adopted implementation boundary.
+6. [`2026-07-21-evidence-manifest.md`](2026-07-21-evidence-manifest.md) — commands, versions, run counts, environment, and evidence limitations.
+7. [`../decisions/2026-07-21-keep-reuse-archive.md`](../decisions/2026-07-21-keep-reuse-archive.md) — adopted implementation boundary.
 
 ## Evidence legend
 
@@ -28,7 +29,7 @@
 
 | Finding | Priority | Evidence | Disposition / seed |
 |---|---|---|---|
-| Supplied tracked-asset absence claim conflicts with Git `HEAD` and localhost 200s | P0 evidence integrity / release blocker | Supplied + measured | Verify exact production artifact (`REQ-ASSET-01`); confirmed deployment absence remains P0 |
+| Critical hero, social, and wordmark assets are tracked and returned 200 locally | Resolved source-tree check; production deployment remains unverified | Measured | Verify the deployed artifact during release (`REQ-ASSET-01`) |
 | Missing `/show-me` sitemap entry | P1 | Source | Decide index policy and implement (`REQ-SEO-01`) |
 | No analytics | P1 | Source | Approve privacy/event contract first (`REQ-AN-01`) |
 | No automated test suite or CI quality gate | P1 | Source | Establish release gates (`REQ-TEST-01`, `REQ-TEST-02`) |
@@ -52,7 +53,7 @@
 
 ## Phase 2 requirement seeds
 
-- `REQ-ASSET-01`: reconcile the supplied absence claim with Git/deployment evidence; the production artifact contains every referenced critical asset and returns the correct MIME/body, with no required image broken.
+- `REQ-ASSET-01`: verify that the production artifact contains every referenced critical asset and returns the correct MIME/body, with no required image broken.
 - `REQ-CONV-01..03`: preserve issuer-primary hierarchy, define conversion success, and provide story continuation/recovery.
 - `REQ-A11Y-01..07`: WCAG 2.2 AA, semantic structure, tabs, keyboard completion, motion, focus, and manual/automated validation.
 - `REQ-RESP-01..02`: 320 px no overflow, 400% zoom reflow, and representative viewport/theme coverage.
@@ -65,12 +66,15 @@
 ## Quality targets
 
 - WCAG 2.2 AA.
-- Lighthouse scores ≥90.
+- Median Lighthouse Performance, Accessibility, Best Practices, and SEO scores ≥90 across three cold mobile-profile runs for `/`, `/issuer`, and `/show-me`.
+- First-load JavaScript budgets: `/` ≤160 kB, `/issuer` ≤175 kB, `/show-me` ≤180 kB, shared ≤125 kB; provisional route budgets must be ratified after isolated measurement.
 - Field p75 LCP ≤2.5 s, INP ≤200 ms, CLS ≤0.1.
 - No horizontal overflow at 320 CSS px.
 - Complete keyboard operation and an equivalent reduced-motion experience.
 - No broken required links.
+- Every indexable canonical route has unique metadata, canonical URL, valid structured data where applicable, and an intentional sitemap policy.
+- Proposed conversion hypotheses and qualification rules live in the funnel audit; they remain non-gating until a privacy-approved 28-day baseline exists.
 
 ## Current limitations
 
-Local performance measurements are unthrottled development observations and are explicitly non-representative. Desktop hierarchy was observed, but the browser disconnected before mobile, keyboard, and full-route browser testing. A final localhost HEAD recheck returned 500 for page routes while sitemap and critical assets returned 200, so that running dev-server state was inconclusive. No production deployment, field CWV, outbound-link sweep, analytics property, Search Console, screen reader, or CI platform was verified.
+Local performance measurements are unthrottled development observations and are explicitly non-representative. Desktop hierarchy was observed, but the browser disconnected before mobile, keyboard, and full-route browser testing. A final localhost recheck returned 500 after concurrent build and development tooling mutated the shared `.next` directory; this was tooling interference, not application route-health evidence. No production deployment, field CWV, outbound-link sweep, analytics property, Search Console, screen reader, or CI platform was verified.

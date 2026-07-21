@@ -7,14 +7,21 @@
 - **Viewport/network:** desktop local; no CPU or network throttling
 - **Owner:** Landing Excellence Program
 
-## Quality targets
+## Quality floor
 
-- Lighthouse performance score: **90+**
-- Field p75 LCP: **≤2.5 s**
-- Field p75 INP: **≤200 ms**
-- Field p75 CLS: **≤0.1**
-- No horizontal overflow at **320 px**
-- No broken internal or required external links
+Adopted outcome targets:
+
+- Field p75 LCP: **≤2.5 s**.
+- Field p75 INP: **≤200 ms**.
+- Field p75 CLS: **≤0.1**.
+- No horizontal overflow at **320 px** and no broken required links.
+
+Proposed release-gate profile, pending an isolated baseline run:
+
+- Run Lighthouse against production-mode `/`, `/show-me`, and `/issuer` with a clean build, cold navigation, Lighthouse mobile defaults/simulated throttling, and no extensions. Run each route **3 times** and gate on the median; retain all JSON and HTML reports.
+- Require median Lighthouse Performance, Accessibility, Best Practices, and SEO scores **≥90** on every canonical route. This does not replace field CWV.
+- Proposed first-load JavaScript ceilings from `next build`: `/` **≤160 kB**, `/issuer` **≤175 kB**, `/show-me` **≤180 kB**, and shared first-load JavaScript **≤125 kB**. Only `/` and shared values are measured today; `/issuer` and `/show-me` ceilings are provisional budgets, not measured baselines.
+- After the first isolated route report, ratify or tighten the proposed ceilings. Any increase requires bundle evidence and an adopted exception; a tooling-corrupted `.next` run is invalid evidence.
 
 ## Measured facts
 
@@ -60,15 +67,11 @@
 - **Risk:** unnecessary global JavaScript/CSS and inconsistent notifications.
 - **Requirement seed:** `REQ-ARCH-02` — select one global notification system.
 
-## P0 asset evidence discrepancy
+## Asset verification
 
-The supplied Phase 1 evidence says the tracked `public` directory lacks referenced `public/andamio.png`, `public/andamio-credential-badge.svg`, and logo SVGs. A fresh inspection of canonical commit `0890cc35a233f81efa2c33310b9b0f8c70fc7cb5` contradicts that assertion:
+`git ls-files` proves `public/andamio.png`, `public/andamio-credential-badge.svg`, `public/andamio-logo.svg`, and the referenced `public/logo-with-typography*.svg` files are tracked. Local HTTP HEAD probes returned 200 with image MIME types. There is no Phase 1 broken-asset finding and no asset P0. The earlier absence claim came from an ignore-aware `Glob`, which was not filesystem or Git-index evidence.
 
-- Git `HEAD` tracks each named asset.
-- Direct Git object checks succeeded.
-- localhost returned HTTP 200 for each asset.
-
-Disposition: **P0 evidence-integrity discrepancy and release blocker, not a current broken-asset finding.** Recheck the exact deployment artifact and production URLs before release. If any required production asset is absent or returns a non-image fallback, treat that deployment issue as P0. Do not use cache behavior to explain the current 200 responses without response-body/cache-header evidence.
+Production asset responses and social-card rendering remain unverified release checks, not observed defects.
 
 ## Unknown or unverified
 

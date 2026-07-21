@@ -630,7 +630,9 @@ export const closing = {
     "At its core, Andamio is built on one idea: you should be able to write the rules. You say what a credential means, who reviews the work, and what it unlocks in your organization or the apps you are building.",
     "In an internet where anyone can claim anything, Andamio is scaffolding for people to be able to trust each other. We build in the open, and the conversation is happening now. Come get involved.",
   ],
-  // CTA is the community door, not a sales call (James, 2026-07-02).
+  // Secondary community door. Primary close CTA is issuer.walkthroughCta →
+  // EXTERNAL_LINKS.walkthroughMailto (Concept A / UX-03). Copy-only / CTA
+  // hierarchy — brand guide §11.1.
   cta: "Join us on Discord",
 } as const;
 

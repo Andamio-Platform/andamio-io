@@ -221,10 +221,17 @@ export default function AndamioLanding() {
                 </p>
               ))}
             </div>
+            {/* Closing CTA hierarchy (Concept A / UX-03): walkthrough primary,
+                Discord secondary — copy-only / CTA hierarchy per brand guide §11.1. */}
             <div className="mt-10">
-              <Button variant="ink" href={EXTERNAL_LINKS.discord}>
-                {closing.cta} <span aria-hidden>→</span>
-              </Button>
+              <ButtonRow>
+                <Button variant="primary" href={EXTERNAL_LINKS.walkthroughMailto}>
+                  {issuer.walkthroughCta} <span aria-hidden>→</span>
+                </Button>
+                <Button variant="outline" href={EXTERNAL_LINKS.discord}>
+                  {closing.cta} <span aria-hidden>→</span>
+                </Button>
+              </ButtonRow>
             </div>
           </div>
         </div>

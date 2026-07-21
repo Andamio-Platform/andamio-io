@@ -410,9 +410,22 @@ export function Page({
     >
       <LogoWash />
       <div className="relative z-10">
+        {/* First focusable: skip past chrome to the main landmark (A11Y-01). */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:px-4 focus:py-2 focus:text-[13px] focus:font-semibold focus:tracking-[-0.01em] focus:outline-none focus:ring-2"
+          style={{
+            background: color.ink,
+            color: color.onInk,
+            // ring color via box-shadow so it stays on-brand without a utility
+            boxShadow: `0 0 0 2px ${color.paper}, 0 0 0 4px ${color.orange}`,
+          }}
+        >
+          Skip to content
+        </a>
         {/* TopNav spans the full viewport so its bottom border is edge-to-edge. */}
         <TopNav {...nav} />
-        {children}
+        <main id="main-content">{children}</main>
         {footer}
       </div>
     </div>

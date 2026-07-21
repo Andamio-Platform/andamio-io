@@ -12,6 +12,8 @@ import { SITE_URL } from "~/lib/seo";
 const STATIC_ROUTES = [
   "",
   "/issuer",
+  // StoryFork (/show-me) is indexable per SEO-01 decision for this program.
+  "/show-me",
   "/developers",
   "/cli",
   "/bot",

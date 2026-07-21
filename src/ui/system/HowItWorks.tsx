@@ -15,7 +15,7 @@
  * Issue + Verify are illustrative (no live API); Define is the wired builder.
  */
 
-import React from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import BadgeBuilder, { BadgeInfoFooter, GETTING_STARTED } from "./BadgeBuilder";
 import { buildBadgeSvg, PALETTES, withInterior } from "~/ui/landing/V2Landing/badge";
 import { color, font } from "./tokens";
@@ -32,6 +32,13 @@ const REAL_ADDR = `${GETTING_STARTED.params.courseId}.${GETTING_STARTED.params.s
 
 type Step = { title: string; body: string };
 
+/** React 18 types omit `inert`; set/remove the HTML attribute via the DOM. */
+function setInert(el: HTMLElement | null, inert: boolean) {
+  if (!el) return;
+  if (inert) el.setAttribute("inert", "");
+  else el.removeAttribute("inert");
+}
+
 export default function HowItWorks({
   heading,
   steps,
@@ -41,16 +48,61 @@ export default function HowItWorks({
   steps: readonly Step[];
   demo: { title: string; note: string; liveLabel: string };
 }) {
-  const [active, setActive] = React.useState(0);
+  const [active, setActive] = useState(0);
+  const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
+  const paneRefs = useRef<Array<HTMLDivElement | null>>([]);
 
   // Build the static Getting Started badge once — shared by Issue + Verify.
   // Real on-chain params + the real badge's Pine Gold palette, so it is the
   // same artifact the landing hero presents (fig. 1).
-  const [badgeSvg, setBadgeSvg] = React.useState("");
-  React.useEffect(() => {
+  const [badgeSvg, setBadgeSvg] = useState("");
+  useEffect(() => {
     const palette = withInterior(PALETTES[GETTING_STARTED.paletteIndex]!, "light");
     setBadgeSvg(buildBadgeSvg(GETTING_STARTED.params, palette, { idSuffix: "hiw" }));
   }, []);
+
+  // Keep inactive panes out of the a11y/tab order while preserving the
+  // visibility layout trick that sizes the card to the tallest pane.
+  useEffect(() => {
+    paneRefs.current.forEach((el, i) => setInert(el, i !== active));
+  }, [active, steps.length]);
+
+  const selectTab = useCallback(
+    (index: number, focus = false) => {
+      const next = Math.max(0, Math.min(steps.length - 1, index));
+      setActive(next);
+      if (focus) tabRefs.current[next]?.focus();
+    },
+    [steps.length],
+  );
+
+  const onTabKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLButtonElement>, index: number) => {
+      const last = steps.length - 1;
+      let next: number | null = null;
+      switch (e.key) {
+        case "ArrowRight":
+          next = index === last ? 0 : index + 1;
+          break;
+        case "ArrowLeft":
+          next = index === 0 ? last : index - 1;
+          break;
+        case "Home":
+          next = 0;
+          break;
+        case "End":
+          next = last;
+          break;
+        default:
+          return;
+      }
+      e.preventDefault();
+      selectTab(next, true);
+    },
+    [selectTab, steps.length],
+  );
+
+  const tablistLabel = heading || "Issuing steps";
 
   return (
     <>
@@ -88,16 +140,29 @@ export default function HowItWorks({
             </span>
           </div>
 
-          {/* Tabs — the three steps, inside the card below the header */}
-          <div className="grid grid-cols-3 gap-px border-b" style={{ background: color.cell, borderColor: color.rule }}>
+          {/* Tabs — WAI-ARIA tablist (A11Y-02); Left/Right/Home/End move selection. */}
+          <div
+            role="tablist"
+            aria-label={tablistLabel}
+            className="grid grid-cols-3 gap-px border-b"
+            style={{ background: color.cell, borderColor: color.rule }}
+          >
             {steps.map((s, i) => {
               const on = i === active;
               return (
                 <button
                   key={s.title}
+                  ref={(el) => {
+                    tabRefs.current[i] = el;
+                  }}
                   type="button"
-                  onClick={() => setActive(i)}
+                  role="tab"
+                  id={`hiw-tab-${i}`}
+                  aria-controls={`hiw-panel-${i}`}
                   aria-selected={on}
+                  tabIndex={on ? 0 : -1}
+                  onClick={() => selectTab(i)}
+                  onKeyDown={(e) => onTabKeyDown(e, i)}
                   className="flex items-baseline gap-2 px-3 py-3 text-left transition-colors sm:gap-3 sm:px-5 sm:py-4"
                   style={{
                     background: color.paper,
@@ -126,19 +191,30 @@ export default function HowItWorks({
             {steps[active]?.body}
           </p>
 
-          {/* Panes — all three stacked in one grid cell so the card height is
-              fixed to the tallest (Define). Only the active pane is visible; the
-              others hold their space (visibility, not display) to set the height. */}
+          {/* Panes — stacked in one grid cell so height = tallest (Define).
+              Visibility (not display) preserves layout; inert + aria-hidden
+              keep inactive panes out of the a11y tree / tab order. */}
           <div className="grid [&>*]:col-start-1 [&>*]:row-start-1">
-            <div className={`h-full ${active === 0 ? "" : "invisible"}`} aria-hidden={active !== 0}>
-              <BadgeBuilder chrome={false} />
-            </div>
-            <div className={`h-full ${active === 1 ? "" : "invisible"}`} aria-hidden={active !== 1}>
-              <IssueDemo svg={badgeSvg} />
-            </div>
-            <div className={`h-full ${active === 2 ? "" : "invisible"}`} aria-hidden={active !== 2}>
-              <VerifyDemo svg={badgeSvg} />
-            </div>
+            {steps.map((s, i) => {
+              const on = i === active;
+              return (
+                <div
+                  key={s.title}
+                  ref={(el) => {
+                    paneRefs.current[i] = el;
+                  }}
+                  role="tabpanel"
+                  id={`hiw-panel-${i}`}
+                  aria-labelledby={`hiw-tab-${i}`}
+                  aria-hidden={!on}
+                  className={`h-full ${on ? "" : "invisible"}`}
+                >
+                  {i === 0 && <BadgeBuilder chrome={false} />}
+                  {i === 1 && <IssueDemo svg={badgeSvg} />}
+                  {i === 2 && <VerifyDemo svg={badgeSvg} />}
+                </div>
+              );
+            })}
           </div>
 
           {/* Shared footer — the ring-anatomy chips + address, on every tab. */}

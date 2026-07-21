@@ -2,13 +2,28 @@
 
 Operational index for researching, specifying, and improving the Andamio landing experience.
 
+## Status (2026-07-21)
+
+| Area | Lifecycle status | Notes |
+|---|---|---|
+| Research (GitHub AI + UI/UX) | shortlisted | 75 repos + 87 sites; shortlists + [adoption-matrix](research/shortlists/adoption-matrix.md) |
+| Audits | triaged | Baseline complete; disposition seeds mapped to requirements |
+| Decisions | adopted | [keep/reuse/archive](decisions/2026-07-21-keep-reuse-archive.md), [Concept A](decisions/2026-07-21-concept-direction.md) |
+| Requirements | in-review | Package ready; not yet approved for code |
+| Agent briefs | draft | Orchestrator sequence defined; ready after prototype approval |
+| Implementation planning | planned | Strategy, component map, WBS, verification, rollout |
+
+**Next gate: prototype approval** (ux-strategy → conversion-copy → ui-design comps). No canonical application source changes ship until that gate passes and requirements are `approved`.
+
 ## Product priority
 
 Use **issuer-primary / developer-secondary** framing. The landing page should first help credential issuers understand the outcome and next action, then give developers a clear path to implementation details.
 
+**Adopted concept:** Concept A — issuer-led proof narrative with progressive developer depth. Demo scope: keep `/show-me` and `/issuer` HowItWorks + BadgeBuilder; archive V2 walkthrough as authority.
+
 ## Canonical implementation
 
-> **Warning:** `src/ui/system` is the canonical UI and landing-page implementation. Legacy stacks such as `src/ui/landing`, including `ModernLanding` and `V2Landing`, and experimental pages under `src/ui/explore` are references only. Do not treat them as authorities or extend them without an explicit decision record.
+> **Warning:** `src/ui/system` is the canonical UI and landing-page implementation. Legacy stacks such as `src/ui/landing`, including `ModernLanding` and `V2Landing`, and experimental pages under `src/ui/explore` are references only. Do not treat them as authorities or extend them without an explicit decision record. Exception: `src/ui/explore/content.ts` is **canonical copy** imported by production pages.
 
 Canonical code files:
 
@@ -29,11 +44,12 @@ This list is intentionally scoped to known landing dependencies, not exhaustive.
 2. [Decisions](decisions/README.md) — cross-cutting approvals.
 3. [GitHub and AI resources](research/github-ai-resources/README.md)
 4. [UI/UX resources](research/ui-ux-resources/README.md)
-5. [Research shortlists](research/shortlists/README.md)
+5. [Research shortlists](research/shortlists/README.md) — including [adoption-matrix](research/shortlists/adoption-matrix.md) and [rejected-and-cautions](research/shortlists/rejected-and-cautions.md)
 6. [Audits](audits/README.md)
-7. [Requirements](requirements/README.md)
-8. [Agent briefs](agent-briefs/README.md)
-9. [Implementation](implementation/README.md)
+7. [Design strategy](implementation/2026-07-21-design-strategy.md)
+8. [Requirements](requirements/README.md)
+9. [Agent briefs](agent-briefs/README.md)
+10. [Implementation](implementation/README.md)
 
 ## Artifact lifecycles
 
@@ -53,9 +69,10 @@ Every transition records a date, owner, and evidence or reason. No artifact skip
 1. **Research gate:** normalized records pass citation, license, source-availability, pricing, freshness, and link checks.
 2. **Shortlist gate:** candidates pass inclusion gates and the scoring rubric; exclusions are explained.
 3. **Audit gate:** findings cite current canonical code and reproducible evidence.
-4. **Requirements gate:** issuer-primary outcomes, developer-secondary paths, accessibility, performance, SEO, and acceptance criteria are explicit.
+4. **Requirements gate:** issuer-primary outcomes, developer-secondary paths, accessibility, performance, SEO, and acceptance criteria are explicit. *(package in-review — awaiting prototype + approval)*
 5. **Brief gate:** each task has scope, dependencies, constraints, verification, and out-of-scope boundaries.
-6. **Implementation gate:** changes target canonical files, pass project checks, and include evidence.
+6. **Prototype approval gate (current):** Concept A comps/copy accepted by owner before implementation briefs become `ready`.
+7. **Implementation gate:** changes target canonical files, pass project checks, and include evidence.
 
 **Decision approval is cross-cutting, not a final phase.** Before an audit, requirement, brief, or implementation step depends on a material choice about scope, architecture, product priority, design policy, dependency, or gate exception, its decision must be `adopted`. A superseded or merely proposed decision cannot authorize downstream work.
 

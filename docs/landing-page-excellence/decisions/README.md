@@ -12,3 +12,4 @@ Lifecycle: `proposed → adopted` or `rejected`; an adopted decision may become 
 |---|---|
 | [2026-07-21-keep-reuse-archive.md](2026-07-21-keep-reuse-archive.md) | adopted |
 | [2026-07-21-concept-direction.md](2026-07-21-concept-direction.md) | adopted — Concept A |
+| [2026-07-21-prototype-approval.md](2026-07-21-prototype-approval.md) | adopted — Concept A structural P0/P1 |

@@ -1,8 +1,9 @@
 # Work Breakdown — Phased Tasks
 
 - **as_of:** `2026-07-21`
-- **Status:** planned
-- **Next gate:** prototype approval (after ux/copy/ui-design)
+- **Status:** in progress — Phase 2 structural started
+- **Next gate:** Phase 1 comps / remaining Phase 2 keyboard + motion; Phase 5 release
+- **Prototype approval:** [../decisions/2026-07-21-prototype-approval.md](../decisions/2026-07-21-prototype-approval.md) (`adopted`)
 
 ## Phase 0 — Docs complete (this package)
 
@@ -11,7 +12,7 @@
 - [x] Adoption matrix + rejected patterns
 - [x] Design strategy + Concept A decision
 - [x] Requirements + agent briefs + implementation planning
-- [ ] **Gate:** prototype approval recorded
+- [x] **Gate:** prototype approval recorded
 
 ## Phase 1 — Strategy and prototype (no production code required)
 
@@ -21,25 +22,28 @@
 | Copy deck + claim register | conversion-copy | CNT | Review signed |
 | Desktop/mobile comps | ui-design | VIS | Prototype approval accept/reject |
 
+> Note: Concept A prototype approval for **structural** P0/P1 landed ahead of full comps (see decision). Isolated shell: `/explore/concept-a`.
+
 ## Phase 2 — Structural quality (can start on approved P0s post-prototype)
 
-| Task | Owner brief | Reqs |
-|---|---|---|
-| Main landmark + skip link | accessibility / frontend | A11Y-01 |
-| HowItWorks tabs pattern | accessibility / frontend | A11Y-02, MOT-03 |
-| Keyboard funnel pass | accessibility / qa | A11Y-03 |
-| Reduced-motion equivalents | motion / accessibility | MOT-02, A11Y-04 |
-| Link registry convergence | frontend / seo | UX-07, TECH-02 |
+| Task | Owner brief | Reqs | Status |
+|---|---|---|---|
+| Main landmark + skip link | accessibility / frontend | A11Y-01 | **done** — `Page` in `kit.tsx` |
+| HowItWorks tabs pattern | accessibility / frontend | A11Y-02, MOT-03 | **done** (tabs a11y); MOT-03 still open if needed |
+| Keyboard funnel pass | accessibility / qa | A11Y-03 | pending |
+| Reduced-motion equivalents | motion / accessibility | MOT-02, A11Y-04 | pending |
+| Link registry convergence | frontend / seo | UX-07, TECH-02 | pending |
+| `/show-me` sitemap (SEO-01 slice) | seo / frontend | SEO-01 | **done** — `STATIC_ROUTES` |
 
 ## Phase 3 — Concept A surface
 
-| Task | Owner brief | Reqs |
-|---|---|---|
-| Hero budget + brand-first polish | frontend + ui-design | UX-02, VIS-02 |
-| CTA hierarchy / closing Discord demotion if needed | frontend + copy | UX-03, CNT-04 |
-| `/show-me` continuation QA | frontend + qa | UX-05 |
-| Issuer demo copy truth | copy + frontend | CNT-02 |
-| Motion intentional set | motion | MOT-01 |
+| Task | Owner brief | Reqs | Status |
+|---|---|---|---|
+| Hero budget + brand-first polish | frontend + ui-design | UX-02, VIS-02 | pending |
+| CTA hierarchy / closing Discord demotion if needed | frontend + copy | UX-03, CNT-04 | **done** (closing CTA hierarchy on `AndamioLanding`) |
+| `/show-me` continuation QA | frontend + qa | UX-05 | pending |
+| Issuer demo copy truth | copy + frontend | CNT-02 | pending |
+| Motion intentional set | motion | MOT-01 | pending |
 
 ## Phase 4 — Perf / SEO / measure
 

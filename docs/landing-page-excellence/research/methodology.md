@@ -97,7 +97,12 @@ Before a research gate:
 4. Request each external citation and flag redirects, authentication walls, and non-success responses for manual review.
 5. Check duplicate `id` values and duplicate normalized claims within a record.
 6. Confirm `verified_on`, `checked_as_of`, and every citation `checked_on` are valid dates.
-7. Recalculate score totals from the six dimensions.
+7. Set `freshness.phase` to `research`, `phase_window_days` to 180, and `checked_as_of` to the research-gate date.
+8. Resolve the category window (`github-ai=30`, `ui-ux=180`, `other=90`) and compute `effective_window_days = min(category_window_days, 180)`.
+9. For every material citation, calculate whole calendar days as `age_days = checked_as_of - checked_on`.
+10. Apply the exact freshness rule: a record passes only when every material citation has `0 <= age_days <= effective_window_days`; one negative or over-window age fails the whole record and returns it to `researching`.
+11. A failed record may pass only after explicit reverification: re-open the cited source, reassess the claim, and update `checked_on` and `result` to the actual recheck outcome. Advancing only the date without rechecking is invalid.
+12. Recalculate score totals from the six dimensions.
 
 Immediately before shortlist scoring, enforce freshness mechanically for every candidate:
 

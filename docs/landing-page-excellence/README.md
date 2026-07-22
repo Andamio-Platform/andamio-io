@@ -2,7 +2,7 @@
 
 Operational index for researching, specifying, and improving the Andamio landing experience.
 
-## Status (2026-07-21)
+## Status (2026-07-22)
 
 | Area | Lifecycle status | Notes |
 |---|---|---|
@@ -10,10 +10,13 @@ Operational index for researching, specifying, and improving the Andamio landing
 | Audits | triaged | Baseline complete; disposition seeds mapped to requirements |
 | Decisions | adopted | [keep/reuse/archive](decisions/2026-07-21-keep-reuse-archive.md), [Concept A](decisions/2026-07-21-concept-direction.md) |
 | Requirements | in-review | Package ready; not yet approved for code |
-| Agent briefs | draft | Orchestrator sequence defined; ready after prototype approval |
-| Implementation planning | planned | Strategy, component map, WBS, verification, rollout |
+| Agent briefs | draft | Orchestrator sequence defined; activate only under a future implementation plan |
+| Implementation planning | planned | Strategy, WBS, verification, rollout — backlog only |
+| Design / production coding | **frozen** | No further UI/design implementation in this program phase |
 
-**Next gate: prototype approval** (ux-strategy → conversion-copy → ui-design comps). No canonical application source changes ship until that gate passes and requirements are `approved`.
+**Program phase complete for documentation.** See [recommendations and next steps](implementation/2026-07-22-recommendations-and-next-steps.md).
+
+**Next gate (later):** write a separate **implementation plan** from this package. Do not resume landing design or production UI work until that plan is approved and requirements are `approved`.
 
 ## Product priority
 
@@ -49,7 +52,8 @@ This list is intentionally scoped to known landing dependencies, not exhaustive.
 7. [Design strategy](implementation/2026-07-21-design-strategy.md)
 8. [Requirements](requirements/README.md)
 9. [Agent briefs](agent-briefs/README.md)
-10. [Implementation](implementation/README.md)
+10. [Recommendations and next steps](implementation/2026-07-22-recommendations-and-next-steps.md) ← start here for the later plan
+11. [Implementation planning docs](implementation/README.md)
 
 ## Artifact lifecycles
 
@@ -69,9 +73,9 @@ Every transition records a date, owner, and evidence or reason. No artifact skip
 1. **Research gate:** normalized records pass citation, license, source-availability, pricing, freshness, and link checks.
 2. **Shortlist gate:** candidates pass inclusion gates and the scoring rubric; exclusions are explained.
 3. **Audit gate:** findings cite current canonical code and reproducible evidence.
-4. **Requirements gate:** issuer-primary outcomes, developer-secondary paths, accessibility, performance, SEO, and acceptance criteria are explicit. *(package in-review — awaiting prototype + approval)*
+4. **Requirements gate:** issuer-primary outcomes, developer-secondary paths, accessibility, performance, SEO, and acceptance criteria are explicit. *(package in-review — approve before coding resumes)*
 5. **Brief gate:** each task has scope, dependencies, constraints, verification, and out-of-scope boundaries.
-6. **Prototype approval gate (current):** Concept A comps/copy accepted by owner before implementation briefs become `ready`.
+6. **Implementation-plan gate (current):** a separate implementation plan is written from [recommendations](implementation/2026-07-22-recommendations-and-next-steps.md) and approved. Design/coding remain frozen until then.
 7. **Implementation gate:** changes target canonical files, pass project checks, and include evidence.
 
 **Decision approval is cross-cutting, not a final phase.** Before an audit, requirement, brief, or implementation step depends on a material choice about scope, architecture, product priority, design policy, dependency, or gate exception, its decision must be `adopted`. A superseded or merely proposed decision cannot authorize downstream work.

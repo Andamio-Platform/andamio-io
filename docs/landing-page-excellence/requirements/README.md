@@ -2,7 +2,7 @@
 
 Translate verified research and audit findings into testable outcomes for the Andamio landing funnel.
 
-- **Package status:** `in-review` → ready for prototype approval gate (not yet `approved` for code changes)
+- **Package status:** `in-review` → approve before any future coding plan; not yet `approved` for code changes
 - **as_of:** `2026-07-21`
 - **Product frame:** issuer-primary / developer-secondary
 - **Adopted decisions:** [keep/reuse/archive](../decisions/2026-07-21-keep-reuse-archive.md), [Concept A](../decisions/2026-07-21-concept-direction.md)
@@ -25,11 +25,11 @@ Translate verified research and audit findings into testable outcomes for the An
 
 Each requirement includes: **ID**, **priority** (`P0`/`P1`/`P2`), **rationale**, **acceptance test**, **dependencies**, **source**.
 
-Priority: `P0` blocks prototype/release; `P1` required before funnel release; `P2` scheduled improvement.
+Priority: `P0` blocks release; `P1` required before funnel release; `P2` scheduled improvement.
 
 ## Lifecycle
 
-`draft → in-review → approved → implemented → verified`. `approved` requires acceptance criteria and applicable decisions adopted; code work waits for prototype approval + ready briefs.
+`draft → in-review → approved → implemented → verified`. `approved` requires acceptance criteria and applicable decisions adopted; code work waits for a separate implementation plan + ready briefs.
 
 ## Canonical routes
 

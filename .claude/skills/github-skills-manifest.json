@@ -1,0 +1,378 @@
+{
+  "as_of": "2026-07-22",
+  "notes": "Selected from docs/landing-page-excellence/research/github-ai-resources/installable-skills-and-rules.md. Prefer landing-relevant skills; exclude Azure SDK bulk trees.",
+  "groups": [
+    {
+      "repo": "obra/superpowers",
+      "commit": "d884ae04edebef577e82ff7c4e143debd0bbec99",
+      "decision": "evaluate",
+      "license": "MIT",
+      "skills": [
+        {
+          "path": "skills/brainstorming",
+          "dest": "obra-brainstorming"
+        },
+        {
+          "path": "skills/dispatching-parallel-agents",
+          "dest": "obra-dispatching-parallel-agents"
+        },
+        {
+          "path": "skills/executing-plans",
+          "dest": "obra-executing-plans"
+        },
+        {
+          "path": "skills/finishing-a-development-branch",
+          "dest": "obra-finishing-a-development-branch"
+        },
+        {
+          "path": "skills/receiving-code-review",
+          "dest": "obra-receiving-code-review"
+        },
+        {
+          "path": "skills/requesting-code-review",
+          "dest": "obra-requesting-code-review"
+        },
+        {
+          "path": "skills/subagent-driven-development",
+          "dest": "obra-subagent-driven-development"
+        },
+        {
+          "path": "skills/systematic-debugging",
+          "dest": "obra-systematic-debugging"
+        },
+        {
+          "path": "skills/test-driven-development",
+          "dest": "obra-test-driven-development"
+        },
+        {
+          "path": "skills/using-git-worktrees",
+          "dest": "obra-using-git-worktrees"
+        },
+        {
+          "path": "skills/using-superpowers",
+          "dest": "obra-using-superpowers"
+        },
+        {
+          "path": "skills/verification-before-completion",
+          "dest": "obra-verification-before-completion"
+        },
+        {
+          "path": "skills/writing-plans",
+          "dest": "obra-writing-plans"
+        },
+        {
+          "path": "skills/writing-skills",
+          "dest": "obra-writing-skills"
+        }
+      ]
+    },
+    {
+      "repo": "anthropics/skills",
+      "commit": null,
+      "decision": "reference-only",
+      "license": "see upstream (catalog rejected SPDX missing; useful design skills)",
+      "skills": [
+        {
+          "path": "skills/frontend-design",
+          "dest": "anthropic-frontend-design"
+        },
+        {
+          "path": "skills/brand-guidelines",
+          "dest": "anthropic-brand-guidelines"
+        },
+        {
+          "path": "skills/theme-factory",
+          "dest": "anthropic-theme-factory"
+        },
+        {
+          "path": "skills/webapp-testing",
+          "dest": "anthropic-webapp-testing"
+        },
+        {
+          "path": "skills/web-artifacts-builder",
+          "dest": "anthropic-web-artifacts-builder"
+        },
+        {
+          "path": "skills/skill-creator",
+          "dest": "anthropic-skill-creator"
+        },
+        {
+          "path": "skills/doc-coauthoring",
+          "dest": "anthropic-doc-coauthoring"
+        },
+        {
+          "path": "skills/mcp-builder",
+          "dest": "anthropic-mcp-builder"
+        }
+      ]
+    },
+    {
+      "repo": "microsoft/skills",
+      "commit": "64eb93e18e2f2810c2fbfa5783c59ad288eeea80",
+      "decision": "reference-only",
+      "license": "MIT",
+      "skills": [
+        {
+          "path": ".github/skills/frontend-design-review",
+          "dest": "ms-frontend-design-review"
+        },
+        {
+          "path": ".github/skills/skill-creator",
+          "dest": "ms-skill-creator"
+        },
+        {
+          "path": ".github/skills/github-issue-creator",
+          "dest": "ms-github-issue-creator"
+        },
+        {
+          "path": ".github/skills/mcp-builder",
+          "dest": "ms-mcp-builder"
+        },
+        {
+          "path": ".github/skills/continual-learning",
+          "dest": "ms-continual-learning"
+        }
+      ]
+    },
+    {
+      "repo": "affaan-m/ECC",
+      "commit": "5deee34c93395045b985e3baf91550e5f1ab7204",
+      "decision": "reference-only",
+      "license": "MIT",
+      "skills": [
+        {
+          "path": ".agents/skills/frontend-patterns",
+          "dest": "ecc-frontend-patterns"
+        },
+        {
+          "path": ".agents/skills/e2e-testing",
+          "dest": "ecc-e2e-testing"
+        },
+        {
+          "path": ".agents/skills/brand-voice",
+          "dest": "ecc-brand-voice"
+        },
+        {
+          "path": ".agents/skills/brand-discovery",
+          "dest": "ecc-brand-discovery"
+        },
+        {
+          "path": ".agents/skills/verification-loop",
+          "dest": "ecc-verification-loop"
+        },
+        {
+          "path": ".agents/skills/coding-standards",
+          "dest": "ecc-coding-standards"
+        },
+        {
+          "path": ".agents/skills/nextjs-turbopack",
+          "dest": "ecc-nextjs-turbopack"
+        },
+        {
+          "path": ".agents/skills/security-review",
+          "dest": "ecc-security-review"
+        },
+        {
+          "path": ".agents/skills/tdd-workflow",
+          "dest": "ecc-tdd-workflow"
+        },
+        {
+          "path": ".agents/skills/api-design",
+          "dest": "ecc-api-design"
+        }
+      ]
+    },
+    {
+      "repo": "trailofbits/skills",
+      "commit": "cfe5d7b1619e47fb5b38b7e2561dad7e5f1e89af",
+      "decision": "reference-only",
+      "license": "CC-BY-SA-4.0",
+      "skills": [
+        {
+          "path": "plugins/ask-questions-if-underspecified/skills/ask-questions-if-underspecified",
+          "dest": "tob-ask-questions-if-underspecified"
+        },
+        {
+          "path": "plugins/differential-review/skills/differential-review",
+          "dest": "tob-differential-review"
+        },
+        {
+          "path": "plugins/insecure-defaults/skills/insecure-defaults",
+          "dest": "tob-insecure-defaults"
+        },
+        {
+          "path": "plugins/skill-improver/skills/skill-improver",
+          "dest": "tob-skill-improver"
+        },
+        {
+          "path": "plugins/supply-chain-risk-auditor/skills/supply-chain-risk-auditor",
+          "dest": "tob-supply-chain-risk-auditor"
+        }
+      ]
+    },
+    {
+      "repo": "alirezarezvani/claude-skills",
+      "commit": "aa8d778811a557a2c28ccadda4cf3d0bd028a4cc",
+      "decision": "reference-only",
+      "license": "MIT",
+      "skills": [
+        {
+          "path": "engineering-team/a11y-audit/skills/a11y-audit",
+          "dest": "arz-a11y-audit"
+        },
+        {
+          "path": "engineering-team/skills/senior-frontend",
+          "dest": "arz-senior-frontend"
+        },
+        {
+          "path": "engineering/skills/performance-profiler",
+          "dest": "arz-performance-profiler"
+        },
+        {
+          "path": "product-team/skills/landing-page-generator",
+          "dest": "arz-landing-page-generator"
+        },
+        {
+          "path": "marketing/landing/skills/landing",
+          "dest": "arz-landing"
+        },
+        {
+          "path": "marketing-skill/skills/seo-audit",
+          "dest": "arz-seo-audit"
+        },
+        {
+          "path": "markdown-html/skills/design-system",
+          "dest": "arz-design-system"
+        },
+        {
+          "path": "product-team/skills/ui-design-system",
+          "dest": "arz-ui-design-system"
+        },
+        {
+          "path": "marketing-skill/skills/copywriting",
+          "dest": "arz-copywriting"
+        },
+        {
+          "path": "product-team/skills/ux-researcher-designer",
+          "dest": "arz-ux-researcher-designer"
+        },
+        {
+          "path": ".gemini/skills/copy-editing",
+          "dest": "arz-copy-editing"
+        },
+        {
+          "path": ".gemini/skills/content-strategist",
+          "dest": "arz-content-strategist"
+        },
+        {
+          "path": ".gemini/skills/programmatic-seo",
+          "dest": "arz-programmatic-seo"
+        },
+        {
+          "path": ".gemini/skills/brand-guidelines",
+          "dest": "arz-brand-guidelines"
+        },
+        {
+          "path": ".gemini/skills/seo-auditor",
+          "dest": "arz-seo-auditor"
+        }
+      ]
+    },
+    {
+      "repo": "github/awesome-copilot",
+      "commit": "ecf0f5a9f4b014d2e0f5e3c1cec55b4e7792ed8a",
+      "decision": "reference-only",
+      "license": "MIT",
+      "skills": [
+        {
+          "path": "skills/anti-ui-slop",
+          "dest": "ghcp-anti-ui-slop"
+        },
+        {
+          "path": "skills/web-design-reviewer",
+          "dest": "ghcp-web-design-reviewer"
+        },
+        {
+          "path": "skills/webapp-testing",
+          "dest": "ghcp-webapp-testing"
+        },
+        {
+          "path": "skills/premium-frontend-ui",
+          "dest": "ghcp-premium-frontend-ui"
+        },
+        {
+          "path": "skills/gsap-framer-scroll-animation",
+          "dest": "ghcp-gsap-framer-scroll-animation"
+        },
+        {
+          "path": "skills/penpot-uiux-design",
+          "dest": "ghcp-penpot-uiux-design"
+        },
+        {
+          "path": "skills/playwright-explore-website",
+          "dest": "ghcp-playwright-explore-website"
+        },
+        {
+          "path": "skills/playwright-generate-test",
+          "dest": "ghcp-playwright-generate-test"
+        },
+        {
+          "path": "skills/create-implementation-plan",
+          "dest": "ghcp-create-implementation-plan"
+        },
+        {
+          "path": "skills/ui-screenshots",
+          "dest": "ghcp-ui-screenshots"
+        },
+        {
+          "path": "skills/chrome-devtools",
+          "dest": "ghcp-chrome-devtools"
+        },
+        {
+          "path": "skills/security-review",
+          "dest": "ghcp-security-review"
+        }
+      ]
+    },
+    {
+      "repo": "davila7/claude-code-templates",
+      "commit": "b87f5c0c11467d74f74c49657d1517d01b3a3a0e",
+      "decision": "reference-only",
+      "license": "MIT",
+      "skills": [
+        {
+          "path": "cli-tool/components/skills/creative-design/frontend-design",
+          "dest": "davila-frontend-design"
+        },
+        {
+          "path": "cli-tool/components/skills/creative-design/accessibility-auditor",
+          "dest": "davila-accessibility-auditor"
+        },
+        {
+          "path": "cli-tool/components/skills/creative-design/web-design-guidelines",
+          "dest": "davila-web-design-guidelines"
+        },
+        {
+          "path": "cli-tool/components/skills/development/webapp-testing",
+          "dest": "davila-webapp-testing"
+        },
+        {
+          "path": "cli-tool/components/skills/development/accessibility",
+          "dest": "davila-accessibility"
+        },
+        {
+          "path": "cli-tool/components/skills/business-marketing/seo-audit",
+          "dest": "davila-seo-audit"
+        },
+        {
+          "path": "cli-tool/components/skills/business-marketing/programmatic-seo",
+          "dest": "davila-programmatic-seo"
+        },
+        {
+          "path": "cli-tool/components/skills/business-marketing/brand-guidelines-anthropic",
+          "dest": "davila-brand-guidelines"
+        }
+      ]
+    }
+  ]
+}

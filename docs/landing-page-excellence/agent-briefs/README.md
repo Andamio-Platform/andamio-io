@@ -1,6 +1,7 @@
 # Agent Briefs — Orchestrator Sequence
 
-- **Package status:** `draft` → becomes `ready` after prototype approval + requirements `approved`
+- **Package status:** `draft` → becomes `ready` only under a future approved implementation plan + requirements `approved`
+- **Freeze:** do not run implementation briefs until that plan exists
 - **as_of:** `2026-07-21`
 - **Frame:** issuer-primary / developer-secondary · Concept A · Warm Index
 
@@ -16,8 +17,8 @@ Read first: [shared-context.md](shared-context.md), [../requirements/README.md](
 | 1 | [research.md](research.md) | shortlists current | gaps/escalations |
 | 2 | [ux-strategy.md](ux-strategy.md) | Concept A, AUD/UX reqs | wireframes / section jobs |
 | 3 | [conversion-copy.md](conversion-copy.md) | UX strategy draft | copy deck |
-| 4 | [ui-design.md](ui-design.md) | UX + copy + VIS | **prototype approval gate** |
-| 5 | [frontend-implementation.md](frontend-implementation.md) | prototype approved | code in canonical files |
+| 4 | [ui-design.md](ui-design.md) | UX + copy + VIS | design comps (docs/images only until plan) |
+| 5 | [frontend-implementation.md](frontend-implementation.md) | future implementation plan | code in canonical files |
 | 6a | [motion.md](motion.md) | UI design + MOT | motion PR (can parallel 5) |
 | 6b | [accessibility.md](accessibility.md) | A11Y P0s | a11y PR (parallel) |
 | 6c | [performance.md](performance.md) | PERF baselines | perf PR (parallel) |
@@ -41,4 +42,4 @@ Parallelism: after step 5 starts, 6a–6d may run on separate change sets if the
 
 ## Lifecycle
 
-`draft → ready → in-progress → completed`. Do not start implementation briefs until prototype approval is recorded under [../implementation/](../implementation/).
+`draft → ready → in-progress → completed`. Do not start implementation briefs until a separate implementation plan is approved. See [../implementation/2026-07-22-recommendations-and-next-steps.md](../implementation/2026-07-22-recommendations-and-next-steps.md).

@@ -1,4 +1,5 @@
 import "~/styles/globals.css";
+import "~/styles/proof-badge.css";
 import { type Session } from "next-auth";
 import { type AppType } from "next/app";
 import { Toaster } from "react-hot-toast";
@@ -11,7 +12,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
   pageProps: { ...pageProps },
 }) => {
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
       <Metatags />
       <Toaster position="top-right" />
       <div className="min-h-screen bg-background text-foreground">

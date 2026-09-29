@@ -1,7 +1,8 @@
 /* Design tokens source: ~/projects/andamio-design-system-test/colors_and_type.css
    Apr 2026 update — Geist + JetBrains Mono + Instrument Serif; tighter radii (2–6px);
    bold offset shadow system. Legacy Beckman/WorkSans/LibreFranklin/Inconsolata kept as aliases. */
-@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Sora:wght@400;500;600;700;800&family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Fraunces:opsz,wght@9..144,400..900&family=Instrument+Serif:ital,wght@0,400;1,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Montserrat:wght@600&display=swap");
+/* Archivo + Spline remain embedded in Proof Rings SVG FONT_FACE (badge core). */
 
 @tailwind base;
 @tailwind components;
@@ -36,9 +37,9 @@
     --popover: oklch(1 0 0);
     --popover-foreground: oklch(0.145 0 0);
     /* Reclaimed brand — Scaffold Orange #FF6B35 + Foundation Blue #004E89 (see /brand). */
-    --primary: #FF6B35;
+    --primary: #ff6b35;
     --primary-foreground: #ffffff;
-    --secondary: #004E89;
+    --secondary: #004e89;
     --secondary-foreground: #ffffff;
     --muted: oklch(0.985 0.002 106.423);
     --muted-foreground: oklch(0.478 0.029 255.508);
@@ -47,8 +48,8 @@
     --destructive: oklch(0.608 0.227 27.325);
     --border: oklch(0.922 0.003 106.423);
     --input: oklch(0.922 0.003 106.423);
-    --ring: #FF6B35;
-    --chart-1: oklch(0.719 0.140 38.581);
+    --ring: #ff6b35;
+    --chart-1: oklch(0.719 0.14 38.581);
     --chart-2: oklch(0.605 0.155 250.505);
     --chart-3: oklch(0.627 0.106 181.764);
     --chart-4: oklch(0.669 0.199 38.581);
@@ -76,14 +77,16 @@
     /* Shadow system — bolder, tangible. Use sparingly. */
     --shadow-sm: 0 1px 0 rgb(0 0 0 / 0.06), 0 2px 4px rgb(0 0 0 / 0.04);
     --shadow-md: 0 2px 0 rgb(0 0 0 / 0.08), 0 8px 16px -4px rgb(0 0 0 / 0.12);
-    --shadow-lg: 0 4px 0 rgb(0 0 0 / 0.10), 0 16px 32px -8px rgb(0 0 0 / 0.18);
+    --shadow-lg: 0 4px 0 rgb(0 0 0 / 0.1), 0 16px 32px -8px rgb(0 0 0 / 0.18);
     --shadow-press: inset 0 2px 0 rgb(0 0 0 / 0.12);
 
     /* Typography families — Geist primary, IBM Plex Sans for long-form, JetBrains Mono for code.
        Beckman/WorkSans/LibreFranklin/Inconsolata retained as legacy aliases. */
-    --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-sans:
+      "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
     --font-display: "Sora", "Inter", ui-sans-serif, system-ui, sans-serif;
-    --font-serif: "Instrument Serif", "Iowan Old Style", "Times New Roman", serif;
+    --font-serif:
+      "Instrument Serif", "Iowan Old Style", "Times New Roman", serif;
     --font-mono: "JetBrains Mono", "Inconsolata", ui-monospace, monospace;
     --font-plex: "IBM Plex Sans", "Geist", system-ui, sans-serif;
     --font-beckman: "Beckman", "Geist", ui-sans-serif, system-ui;
@@ -115,9 +118,9 @@
     --popover: oklch(0.213 0.015 250);
     --popover-foreground: oklch(0.945 0.004 106.423);
     /* Reclaimed brand — brightened for dark surfaces. */
-    --primary: #FF7A52;
-    --primary-foreground: #0F1419;
-    --secondary: #3B82F6;
+    --primary: #ff7a52;
+    --primary-foreground: #0f1419;
+    --secondary: #3b82f6;
     --secondary-foreground: #ffffff;
     --muted: oklch(0.241 0.018 257.128);
     --muted-foreground: oklch(0.717 0.014 257.128);
@@ -126,10 +129,10 @@
     --destructive: oklch(0.704 0.191 22.216);
     --border: oklch(0.338 0.024 257.128);
     --input: oklch(0.338 0.024 257.128);
-    --ring: #FF7A52;
-    --chart-1: oklch(0.719 0.140 38.581);
+    --ring: #ff7a52;
+    --chart-1: oklch(0.719 0.14 38.581);
     --chart-2: oklch(0.605 0.155 250.505);
-    --chart-3: oklch(0.696 0.090 181.764);
+    --chart-3: oklch(0.696 0.09 181.764);
     --chart-4: oklch(0.719 0.174 38.581);
     --chart-5: oklch(0.605 0.155 250.505);
     --sidebar: oklch(0.241 0.018 257.128);
@@ -163,9 +166,9 @@
     --card-foreground: oklch(0.145 0 0);
     --popover: oklch(1 0 0);
     --popover-foreground: oklch(0.145 0 0);
-    --primary: #FF6B35;
+    --primary: #ff6b35;
     --primary-foreground: #ffffff;
-    --secondary: #004E89;
+    --secondary: #004e89;
     --secondary-foreground: #ffffff;
     --muted: oklch(0.985 0.002 106.423);
     --muted-foreground: oklch(0.478 0.029 255.508);
@@ -174,7 +177,7 @@
     --destructive: oklch(0.608 0.227 27.325);
     --border: oklch(0.922 0.003 106.423);
     --input: oklch(0.922 0.003 106.423);
-    --ring: #FF6B35;
+    --ring: #ff6b35;
     --sidebar: oklch(0.988 0.008 79.439);
     --sidebar-foreground: oklch(0.145 0 0);
     --sidebar-primary: oklch(0.669 0.199 38.581);
@@ -219,6 +222,10 @@
     --sys-orange: #ff6b35;
     --sys-blue: #2f6bff;
     --sys-coral-tint: rgb(255 107 74 / 0.055);
+    --sys-shadow-control:
+      0 1px 2px rgb(0 0 0 / 0.06), 0 4px 14px rgb(0 0 0 / 0.08);
+    --sys-shadow-specimen:
+      0 2px 4px rgb(0 0 0 / 0.06), 0 16px 40px rgb(0 0 0 / 0.12);
   }
 
   .dark {
@@ -235,6 +242,11 @@
     --sys-orange: #ff7a52;
     --sys-blue: #5b8bff;
     --sys-coral-tint: rgb(255 122 82 / 0.1);
+    /* Deeper ink surfaces stay quiet — shadows stay black-based, never neon. */
+    --sys-shadow-control:
+      0 1px 2px rgb(0 0 0 / 0.35), 0 6px 20px rgb(0 0 0 / 0.4);
+    --sys-shadow-specimen:
+      0 2px 6px rgb(0 0 0 / 0.35), 0 20px 48px rgb(0 0 0 / 0.45);
   }
 
   /* Nav dropdown card item — subtle theme-aware hover wash. */
@@ -270,6 +282,7 @@
   }
   body {
     @apply bg-background font-sans leading-relaxed text-foreground;
+    overflow-x: hidden;
   }
   h1,
   h2 {
@@ -423,6 +436,518 @@
   .assay-scan {
     animation: none;
   }
+}
+
+/* ── Funnel motion systems (Warm Index) ─────────────────────────────── */
+/* Page motion background: soft scaffold beams + joints (blur = soft edge).
+   Transform + opacity only (ui-ux-pro-max). MOT-01 budget: 2 drift layers +
+   1 opacity breath — no particles / WebGL (MOT-05). */
+@keyframes sys-scaffold-drift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  40% {
+    transform: translate3d(2.8%, -2%, 0) scale(1.035);
+  }
+  70% {
+    transform: translate3d(-2.2%, 2.4%, 0) scale(1.02);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes sys-scaffold-drift-alt {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(-7deg) scale(1.03);
+  }
+  50% {
+    transform: translate3d(-3.2%, 2.4%, 0) rotate(-4.5deg) scale(1);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotate(-7deg) scale(1.03);
+  }
+}
+
+@keyframes sys-ambient-breathe {
+  0%,
+  100% {
+    opacity: 0.78;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.sys-scaffold-drift {
+  animation: sys-scaffold-drift 36s ease-in-out infinite;
+  will-change: transform;
+}
+
+.sys-scaffold-drift-alt {
+  animation: sys-scaffold-drift-alt 52s ease-in-out infinite;
+  will-change: transform;
+}
+
+.sys-ambient-breathe {
+  animation: sys-ambient-breathe 16s ease-in-out infinite;
+}
+
+.sys-scaffold-blur {
+  filter: blur(36px);
+}
+
+.sys-scaffold-blur-deep {
+  filter: blur(56px);
+}
+
+.sys-ambient-static {
+  transform: none;
+  animation: none !important;
+  opacity: 0.9;
+}
+
+/* Legacy class names kept for pause/reduced-motion hooks */
+.sys-ambient-drift {
+  animation: sys-scaffold-drift 36s ease-in-out infinite;
+  will-change: transform;
+}
+
+.sys-ambient-drift-alt {
+  animation: sys-scaffold-drift-alt 52s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Hero credential spotlight — free badge + soft scaffold aura (no card) */
+.credential-spotlight {
+  min-height: min(70svh, 36rem);
+  isolation: isolate;
+}
+
+.credential-aura {
+  display: grid;
+  place-items: center;
+}
+
+.credential-aura-core,
+.credential-aura-ring,
+.credential-aura-beam {
+  grid-area: 1 / 1;
+  border-radius: 50%;
+}
+
+.credential-aura-core {
+  width: min(88%, 28rem);
+  height: min(88%, 28rem);
+  background: radial-gradient(
+    circle at 50% 48%,
+    rgb(255 107 53 / 0.22) 0%,
+    rgb(23 90 114 / 0.28) 32%,
+    rgb(47 107 255 / 0.1) 55%,
+    transparent 72%
+  );
+  filter: blur(28px);
+  opacity: 0.95;
+}
+
+.credential-aura-ring {
+  width: min(100%, 34rem);
+  height: min(100%, 34rem);
+  background: conic-gradient(
+    from 0deg,
+    rgb(23 90 114 / 0) 0deg,
+    rgb(23 90 114 / 0.35) 70deg,
+    rgb(255 107 53 / 0.28) 140deg,
+    rgb(63 169 184 / 0.3) 220deg,
+    rgb(47 107 255 / 0.22) 300deg,
+    rgb(23 90 114 / 0) 360deg
+  );
+  filter: blur(40px);
+  opacity: 0.7;
+  mask-image: radial-gradient(
+    circle,
+    transparent 38%,
+    #000 52%,
+    transparent 72%
+  );
+  -webkit-mask-image: radial-gradient(
+    circle,
+    transparent 38%,
+    #000 52%,
+    transparent 72%
+  );
+}
+
+.credential-aura-beam {
+  width: min(70%, 22rem);
+  height: min(70%, 22rem);
+  filter: blur(48px);
+  opacity: 0.55;
+}
+
+.credential-aura-beam-a {
+  background: linear-gradient(
+    105deg,
+    transparent 20%,
+    rgb(23 90 114 / 0.45) 50%,
+    transparent 80%
+  );
+}
+
+.credential-aura-beam-b {
+  background: linear-gradient(
+    -20deg,
+    transparent 25%,
+    rgb(255 107 53 / 0.28) 50%,
+    transparent 75%
+  );
+}
+
+/* Drop-shadow is on .badge-svg-rings only — not here. Filter + transform on SVG
+   text re-rasters glyphs (flicker). Float still runs on this wrapper. */
+
+@keyframes credential-aura-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.06);
+    opacity: 1;
+  }
+}
+
+@keyframes credential-aura-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes credential-aura-sway {
+  0%,
+  100% {
+    transform: rotate(-8deg) scale(1);
+  }
+  50% {
+    transform: rotate(10deg) scale(1.08);
+  }
+}
+
+@keyframes credential-badge-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.credential-spotlight-live .credential-aura-core {
+  animation: credential-aura-breathe 10s ease-in-out infinite;
+}
+
+.credential-spotlight-live .credential-aura-ring {
+  animation: credential-aura-spin 48s linear infinite;
+}
+
+.credential-spotlight-live .credential-aura-beam-a {
+  animation: credential-aura-sway 18s ease-in-out infinite;
+}
+
+.credential-spotlight-live .credential-aura-beam-b {
+  animation: credential-aura-sway 24s ease-in-out infinite reverse;
+}
+
+.credential-spotlight-live .credential-badge-pop {
+  animation: credential-badge-float 8s ease-in-out infinite;
+  will-change: transform;
+}
+
+.credential-spotlight-live .badge-svg-rings,
+.specimen-stage-live .badge-svg-rings {
+  filter: drop-shadow(0 18px 40px rgb(0 0 0 / 0.45))
+    drop-shadow(0 4px 12px rgb(23 90 114 / 0.35));
+}
+
+/* Legacy specimen hooks — keep selectors for pause/reduce until fully retired */
+.specimen-stage-live .animated-proof-badge {
+  animation: credential-badge-float 8s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes badge-spin-cw {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes badge-spin-ccw {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes badge-core-breath {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.98;
+    transform: scale(1.004);
+  }
+}
+
+@keyframes sys-verified-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.55;
+    transform: scale(0.92);
+  }
+}
+
+.sys-verified-pulse {
+  animation: sys-verified-pulse 2.8s ease-in-out infinite;
+}
+
+.animated-proof-badge.is-animated .badge-ring-outer {
+  transform-box: view-box;
+  transform-origin: center;
+  animation: badge-spin-cw 110s linear infinite;
+}
+
+.animated-proof-badge.is-animated .badge-ring-inner {
+  transform-box: view-box;
+  transform-origin: center;
+  animation: badge-spin-ccw 75s linear infinite;
+}
+
+/*
+ * Dual-layer paint (AnimatedProofBadge): rings SVG spins; labels SVG is static.
+ * CSS transforms on a sibling <g> inside one SVG re-rasterize <text> every frame.
+ * Keep core titles on the labels layer with no transform / no filter.
+ */
+.animated-proof-badge.is-animated .badge-svg-rings .badge-core {
+  visibility: hidden;
+}
+
+.animated-proof-badge.is-animated .badge-svg-labels .badge-field,
+.animated-proof-badge.is-animated .badge-svg-labels .badge-ring-outer,
+.animated-proof-badge.is-animated .badge-svg-labels .badge-ring-inner,
+.animated-proof-badge.is-animated .badge-svg-labels .badge-start,
+.animated-proof-badge.is-animated .badge-svg-labels .badge-start-south {
+  visibility: hidden;
+}
+
+.animated-proof-badge.is-animated .badge-svg-labels .badge-ring-outer,
+.animated-proof-badge.is-animated .badge-svg-labels .badge-ring-inner,
+.animated-proof-badge.is-animated .badge-svg-labels .badge-start,
+.animated-proof-badge.is-animated .badge-svg-labels .badge-start-south {
+  animation: none !important;
+  transform: none !important;
+}
+
+.animated-proof-badge.is-animated .badge-core {
+  transform: none;
+  animation: none;
+}
+
+.animated-proof-badge.is-animated .badge-svg-labels text {
+  text-rendering: geometricPrecision;
+}
+
+.animated-proof-badge.is-animated .badge-start,
+.animated-proof-badge.is-animated .badge-start-south {
+  transform-box: view-box;
+  transform-origin: 512px 512px;
+  animation: badge-spin-cw 110s linear infinite;
+}
+
+/* Soft Warm Index glow on the specimen (orange + scaffold blue), not purple neon */
+.animated-proof-badge.is-animated .badge-svg-rings {
+  filter: drop-shadow(0 0 18px rgb(255 107 53 / 0.18))
+    drop-shadow(0 0 28px rgb(23 90 114 / 0.22));
+}
+
+.animated-proof-badge.is-focus-outer .badge-ring-outer {
+  filter: brightness(1.15);
+}
+.animated-proof-badge.is-focus-outer .badge-ring-inner,
+.animated-proof-badge.is-focus-outer .badge-core {
+  opacity: 0.35;
+}
+
+.animated-proof-badge.is-focus-inner .badge-ring-inner {
+  filter: brightness(1.15);
+}
+.animated-proof-badge.is-focus-inner .badge-ring-outer,
+.animated-proof-badge.is-focus-inner .badge-core {
+  opacity: 0.35;
+}
+
+.animated-proof-badge.is-focus-core .badge-core {
+  filter: brightness(1.06);
+}
+.animated-proof-badge.is-focus-core .badge-ring-outer,
+.animated-proof-badge.is-focus-core .badge-ring-inner {
+  opacity: 0.4;
+}
+
+/* Per-field focus — lift the named group, dim the rest of the core */
+.animated-proof-badge.is-focus-brand .badge-brand,
+.animated-proof-badge.is-focus-course .badge-course,
+.animated-proof-badge.is-focus-module .badge-module,
+.animated-proof-badge.is-focus-earner .badge-earner,
+.animated-proof-badge.is-focus-did .badge-did,
+.animated-proof-badge.is-focus-issued .badge-issued,
+.animated-proof-badge.is-focus-network .badge-network,
+.animated-proof-badge.is-focus-skills .badge-skills,
+.animated-proof-badge.is-focus-course-id .badge-course-id,
+.animated-proof-badge.is-focus-slt-hash .badge-slt-hash,
+.animated-proof-badge.is-focus-qr .badge-qr {
+  filter: brightness(1.12);
+}
+
+.animated-proof-badge.is-focus-brand .badge-core > :not(.badge-brand),
+.animated-proof-badge.is-focus-course .badge-core > :not(.badge-course),
+.animated-proof-badge.is-focus-module .badge-core > :not(.badge-module),
+.animated-proof-badge.is-focus-earner
+  .badge-core
+  > :not(.badge-earner):not(.badge-earner-pattern),
+.animated-proof-badge.is-focus-did .badge-core > :not(.badge-did),
+.animated-proof-badge.is-focus-issued .badge-core > :not(.badge-issued),
+.animated-proof-badge.is-focus-network .badge-core > :not(.badge-network),
+.animated-proof-badge.is-focus-skills .badge-core > :not(.badge-skills),
+.animated-proof-badge.is-focus-course-id .badge-core > :not(.badge-course-id),
+.animated-proof-badge.is-focus-slt-hash .badge-core > :not(.badge-slt-hash),
+.animated-proof-badge.is-focus-qr .badge-core > :not(.badge-qr) {
+  opacity: 0.32;
+}
+
+.animated-proof-badge.is-focus-brand .badge-ring-outer,
+.animated-proof-badge.is-focus-brand .badge-ring-inner,
+.animated-proof-badge.is-focus-course .badge-ring-outer,
+.animated-proof-badge.is-focus-course .badge-ring-inner,
+.animated-proof-badge.is-focus-module .badge-ring-outer,
+.animated-proof-badge.is-focus-module .badge-ring-inner,
+.animated-proof-badge.is-focus-earner .badge-ring-outer,
+.animated-proof-badge.is-focus-earner .badge-ring-inner,
+.animated-proof-badge.is-focus-did .badge-ring-outer,
+.animated-proof-badge.is-focus-did .badge-ring-inner,
+.animated-proof-badge.is-focus-issued .badge-ring-outer,
+.animated-proof-badge.is-focus-issued .badge-ring-inner,
+.animated-proof-badge.is-focus-network .badge-ring-outer,
+.animated-proof-badge.is-focus-network .badge-ring-inner,
+.animated-proof-badge.is-focus-skills .badge-ring-outer,
+.animated-proof-badge.is-focus-skills .badge-ring-inner,
+.animated-proof-badge.is-focus-course-id .badge-ring-outer,
+.animated-proof-badge.is-focus-course-id .badge-ring-inner,
+.animated-proof-badge.is-focus-slt-hash .badge-ring-outer,
+.animated-proof-badge.is-focus-slt-hash .badge-ring-inner,
+.animated-proof-badge.is-focus-qr .badge-ring-outer,
+.animated-proof-badge.is-focus-qr .badge-ring-inner {
+  opacity: 0.4;
+}
+
+.sys-control-press:active:not([aria-disabled]) {
+  transform: translateY(1px);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.12) !important;
+}
+
+.sys-control-press:hover:not([aria-disabled]) {
+  filter: brightness(1.02);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sys-scaffold-drift,
+  .sys-scaffold-drift-alt,
+  .sys-ambient-drift,
+  .sys-ambient-drift-alt,
+  .sys-ambient-breathe,
+  .sys-verified-pulse,
+  .credential-spotlight-live .credential-aura-core,
+  .credential-spotlight-live .credential-aura-ring,
+  .credential-spotlight-live .credential-aura-beam-a,
+  .credential-spotlight-live .credential-aura-beam-b,
+  .credential-spotlight-live .credential-badge-pop,
+  .specimen-stage-live .animated-proof-badge,
+  .animated-proof-badge.is-animated .badge-ring-outer,
+  .animated-proof-badge.is-animated .badge-ring-inner,
+  .animated-proof-badge.is-animated .badge-start,
+  .animated-proof-badge.is-animated .badge-start-south {
+    animation: none !important;
+  }
+
+  .sys-control-press:active:not([aria-disabled]) {
+    transform: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .sys-scaffold-drift,
+  .sys-ambient-drift {
+    animation-duration: 40s;
+  }
+  .sys-scaffold-drift-alt,
+  .sys-ambient-drift-alt {
+    animation-duration: 56s;
+  }
+  .sys-scaffold-blur {
+    filter: blur(42px);
+  }
+  .sys-scaffold-blur-deep {
+    filter: blur(64px);
+  }
+  .animated-proof-badge.is-animated .badge-ring-outer {
+    animation-duration: 160s;
+  }
+  .animated-proof-badge.is-animated .badge-ring-inner {
+    animation-duration: 120s;
+  }
+  .credential-spotlight-live .credential-badge-pop,
+  .specimen-stage-live .animated-proof-badge {
+    animation-duration: 9s;
+  }
+  .credential-aura-core {
+    filter: blur(32px);
+  }
+  .credential-aura-ring {
+    filter: blur(48px);
+  }
+}
+
+/* Pause when the tab is hidden */
+html.is-page-hidden .animated-proof-badge .badge-ring-outer,
+html.is-page-hidden .animated-proof-badge .badge-ring-inner,
+html.is-page-hidden .sys-scaffold-drift,
+html.is-page-hidden .sys-scaffold-drift-alt,
+html.is-page-hidden .sys-ambient-drift,
+html.is-page-hidden .sys-ambient-drift-alt,
+html.is-page-hidden .sys-ambient-breathe,
+html.is-page-hidden .sys-verified-pulse,
+html.is-page-hidden .credential-spotlight-live .credential-aura-core,
+html.is-page-hidden .credential-spotlight-live .credential-aura-ring,
+html.is-page-hidden .credential-spotlight-live .credential-aura-beam-a,
+html.is-page-hidden .credential-spotlight-live .credential-aura-beam-b,
+html.is-page-hidden .credential-spotlight-live .credential-badge-pop,
+html.is-page-hidden .specimen-stage-live .animated-proof-badge {
+  animation-play-state: paused !important;
 }
 
 /* Light "island" — re-declares the theme tokens to their light values for a

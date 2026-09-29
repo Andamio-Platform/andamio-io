@@ -10,14 +10,17 @@
 
 export const EXTERNAL_LINKS = {
   docs: "https://docs.andamio.io/docs",
-  apiReference: "https://api.andamio.io/reference",
+  // Canonical API reference host (TECH-02 / UX-07 convergence with src/lib/external-links.ts).
+  apiReference: "https://dev.api.andamio.io/reference",
   app: "https://mainnet.app.andamio.io",
   issuerApp: "https://issuer.andamio.io",
   github: "https://github.com/Andamio-Platform",
   cliRepo: "https://github.com/Andamio-Platform/andamio-cli",
-  cliReleases: "https://github.com/Andamio-Platform/andamio-cli/releases/latest",
+  cliReleases:
+    "https://github.com/Andamio-Platform/andamio-cli/releases/latest",
   botRepo: "https://github.com/Andamio-Platform/andamio-bot",
-  botQuickstart: "https://github.com/Andamio-Platform/andamio-bot/blob/main/docs/QUICKSTART.md",
+  botQuickstart:
+    "https://github.com/Andamio-Platform/andamio-bot/blob/main/docs/QUICKSTART.md",
   devRepo: "https://github.com/Andamio-Platform/andamio-dev",
   appTemplate: "https://github.com/Andamio-Platform/andamio-app-template",
   discord: "https://discord.gg/JKgckZGtf",
@@ -42,19 +45,47 @@ export const nav = {
       // The developer hub: the build-on overview + the two dev tools + reference.
       label: "Developers",
       items: [
-        { name: "Build on Andamio", desc: "The protocol, as REST endpoints.", href: "/developers" },
-        { name: "Docs", desc: "Guides and protocol.", href: EXTERNAL_LINKS.docs },
-        { name: "API Reference", desc: "Interactive endpoint docs.", href: EXTERNAL_LINKS.apiReference },
-        { name: "Reference app", desc: "Build from the app template.", href: EXTERNAL_LINKS.appTemplate },
-        { name: "Andamio CLI", desc: "Drive the protocol from your terminal.", href: "/cli" },
-        { name: "Andamio Discord Bot", desc: "Credential-gate your Discord.", href: "/bot" },
+        {
+          name: "Build on Andamio",
+          desc: "The protocol, as REST endpoints.",
+          href: "/developers",
+        },
+        {
+          name: "Docs",
+          desc: "Guides and protocol.",
+          href: EXTERNAL_LINKS.docs,
+        },
+        {
+          name: "API Reference",
+          desc: "Interactive endpoint docs.",
+          href: EXTERNAL_LINKS.apiReference,
+        },
+        {
+          name: "Reference app",
+          desc: "Build from the app template.",
+          href: EXTERNAL_LINKS.appTemplate,
+        },
+        {
+          name: "Andamio CLI",
+          desc: "Drive the protocol from your terminal.",
+          href: "/cli",
+        },
+        {
+          name: "Andamio Discord Bot",
+          desc: "Credential-gate your Discord.",
+          href: "/bot",
+        },
       ],
     },
     {
       label: "Resources",
       items: [
         { name: "Overview", desc: "Introducing Andamio.", href: "/papers" },
-        { name: "Use cases", desc: "How teams put Andamio to work.", href: "/use-cases" },
+        {
+          name: "Use cases",
+          desc: "How teams put Andamio to work.",
+          href: "/use-cases",
+        },
       ],
     },
     { label: "Pricing", href: "/pricing" },
@@ -76,6 +107,9 @@ export const hero = {
   // retired to git history.
   headlineLead: "This is an Andamio",
   headlineAccent: "credential badge.",
+  // Short support line for the credential-first hero (UX-02 budget).
+  supportLine:
+    "Not a picture in someone else's database — a credential you can read, own, and verify.",
   // The manifesto — the fourth-wall move, straight talk (James's wording, 2026-07-02).
   manifesto: [
     "It is a new kind of digital credential, built on a unique set of principles that we believe will change how people build trust on the internet.",
@@ -85,9 +119,36 @@ export const hero = {
   // full-screen flow (the fork moved off the hero into its own route, 2026-07-02).
   showMeCta: { label: "Show me", href: "/show-me" },
   badgeAlt:
-    "An Andamio credential badge, Getting Started with Andamio. Its rings encode the course it came from, and what it certifies.",
+    "A live Andamio credential badge for About Andamio Issuer, anchored on Cardano mainnet. Its course ID and SLT hash are real and verifiable.",
   badgeCaption:
-    "A real credential, issued on Andamio. The rings encode where it came from and what it certifies.",
+    "A real, verifiable, on-chain credential. The course ID and SLT hash are the Cardano record — copy them, open the course on Andamioscan, or scan to verify.",
+} as const;
+
+/** Concise “ordinary badges fail” beats — felt, not attack ads. */
+export const ordinaryFail = {
+  title: "Most digital badges are rented pictures.",
+  lead: "They look finished. They rarely travel, prove, or outlive the vendor.",
+  items: [
+    {
+      heading: "Rental",
+      text: "If the platform goes away, the badge goes with it. Ownership was never yours.",
+    },
+    {
+      heading: "Picture",
+      text: "Software cannot act on a JPEG. A credential should be useful, not only decorative.",
+    },
+    {
+      heading: "Noise",
+      text: "Without proof of work and review inside, badges become wallpaper.",
+    },
+  ],
+} as const;
+
+/** How-path teaser toward /issuer#how-it-works */
+export const howTeaser = {
+  title: "See the credential take shape.",
+  body: "Define targets, walk an illustrative issue and verify — then continue to the real product when you are ready.",
+  cta: { label: "See how it works", href: "/issuer#how-it-works" },
 } as const;
 
 /**
@@ -102,11 +163,11 @@ export const hero = {
  * leads.
  */
 export const storyFork = {
-  bridge: "Which of these sounds like you?",
+  bridge: "When you are ready — which path fits what you need?",
   statements: [
-    { key: "issuer", label: "I already issue digital credentials. I'm not satisfied with them." },
-    { key: "builder", label: "I am a developer, and I want to learn how to build on Andamio." },
-    { key: "curious", label: "What do you mean by “a unique set of principles”?" },
+    { key: "issuer", label: "I need to issue better credentials." },
+    { key: "builder", label: "I want to build with this." },
+    { key: "curious", label: "I want the principles / story." },
   ],
   // Journey 1 — a three-chapter mini-tour in the promised order (use → built →
   // matters). Chapter one is the panel's opening; the four-layer stack (James's
@@ -144,7 +205,8 @@ export const storyFork = {
           body: "After approval, the learner claims a credential that carries what was done, who reviewed it, and what it proves.",
         },
       ],
-      close: "Your team gets a login, your badges keep their reach, and nothing new lands on your learners.",
+      close:
+        "Your team gets a login, your badges keep their reach, and nothing new lands on your learners.",
       cta: { label: "Look inside one", href: "/issuer" },
       advance: "How it's built",
     },
@@ -195,16 +257,19 @@ export const storyFork = {
           body: "Badges are cheap to issue in bulk, so there’s no work behind them to check. One you can’t independently verify is taken on faith — no better than the résumé beside it. Peer-reviewed research found 72% of people embellish their résumés, and 31% fabricate outright.",
         },
       ],
-      close: "Trust is expensive to earn and cheap to lose. Bulk badges are noise — a credential only counts when there’s work behind it.",
+      close:
+        "Trust is expensive to earn and cheap to lose. Bulk badges are noise — a credential only counts when there’s work behind it.",
       question: "So, which is true about you?",
     },
     choices: [
       {
-        label: "Don't show me the blockchain. I just need to issue better credentials.",
+        label:
+          "Don't show me the blockchain. I just need to issue better credentials.",
         href: "/issuer",
       },
       {
-        label: "I'm comfortable with the blockchain. I want to integrate and build.",
+        label:
+          "I'm comfortable with the blockchain. I want to integrate and build.",
         href: "/developers",
       },
       {
@@ -223,14 +288,21 @@ export const storyFork = {
     ],
   },
   builder: {
-    heading: "You can use Andamio to build applications where credentials do the work.",
+    heading:
+      "You can use Andamio to build applications where credentials do the work.",
     // Claim softened (James, 2026-07-02): API builders still do wallet
     // integrations — what's abstracted is the transaction building. The real
     // pitch is new primitives, ready for the unimagined.
     body: "Every credential, course, and access rule on Andamio is reachable through one API. Transaction building is abstracted into a clean set of endpoints, so the hardest blockchain work is already done; your users bring a wallet, and the primitives are ready for things we haven't imagined yet. Which door is yours?",
     choices: [
-      { label: "I'm adding credentials to something that already exists.", href: EXTERNAL_LINKS.docs },
-      { label: "I'm building something new on the protocol.", href: "/developers" },
+      {
+        label: "I'm adding credentials to something that already exists.",
+        href: EXTERNAL_LINKS.docs,
+      },
+      {
+        label: "I'm building something new on the protocol.",
+        href: "/developers",
+      },
       { label: "Neither. I run a community.", href: "/bot" },
     ],
   },
@@ -258,7 +330,8 @@ export const storyFork = {
       {
         before: "A digital credential should",
         term: "carry proof",
-        after: ": other people should be able to verify it, and trust that its holder really earned it.",
+        after:
+          ": other people should be able to verify it, and trust that its holder really earned it.",
       },
     ],
     close: "If setting the rules sounds like the fun part, keep going.",
@@ -276,9 +349,9 @@ export const storyFork = {
 // villains + the stakes close). Prose history in git.
 
 export const demo = {
-  liveLabel: "Live",
+  liveLabel: "Demo",
   title: "Learn how an Andamio Credential Badge works",
-  note: "Type below — the rings encode the course_id and slt_hash that identify the credential.",
+  note: "Illustrative walkthrough — Issue and Verify are local UI, not live API success. Type below to see how rings encode course_id and slt_hash.",
 } as const;
 
 /**
@@ -303,9 +376,18 @@ export const demo = {
 export const plan = {
   heading: "Issuing takes three steps",
   steps: [
-    { title: "Define", body: "Say what the credential certifies. You own the meaning." },
-    { title: "Issue", body: "Someone submits evidence, a reviewer you've authorized approves it, and only then is the credential claimed — a few API calls, integrated in minutes." },
-    { title: "Verify", body: "Anyone can check it. No one, not even you, can switch it off." },
+    {
+      title: "Define",
+      body: "Say what the credential certifies. You own the meaning.",
+    },
+    {
+      title: "Issue",
+      body: "Someone submits evidence, a reviewer you've authorized approves it, and only then is the credential claimed — a few API calls, integrated in minutes.",
+    },
+    {
+      title: "Verify",
+      body: "Anyone can check it. No one, not even you, can switch it off.",
+    },
   ],
 } as const;
 
@@ -346,7 +428,10 @@ export const issuer = {
   decisions: [
     { heading: "Permanent", text: "It outlives whoever issued it." },
     { heading: "Useful", text: "Software can act on it, not just look at it." },
-    { heading: "Yours", text: "You define what it means. The earner keeps it." },
+    {
+      heading: "Yours",
+      text: "You define what it means. The earner keeps it.",
+    },
     { heading: "Proof", text: "The work and its review travel inside it." },
   ],
   reportCta: "Get the report",
@@ -362,13 +447,16 @@ export const issuer = {
 } as const;
 
 export const ecosystem = {
-  lead:
-    "A credential badge means something in your world first, then it goes further than you do.",
+  lead: "A credential badge means something in your world first, then it goes further than you do.",
   items: [
     {
       title: "Portable",
       body: "Andamio Credential Badges are owned by earners and verifiable anywhere — each one travels with the person who earned it, not from them. Other project teams, organizations, clubs, or coalitions can decide to make them useful in new ways.",
-      cta: { label: "Build with the API", href: EXTERNAL_LINKS.apiReference, variant: "primary" },
+      cta: {
+        label: "Build with the API",
+        href: EXTERNAL_LINKS.apiReference,
+        variant: "primary",
+      },
     },
     {
       title: "Agent ready",
@@ -383,20 +471,27 @@ export const ecosystem = {
       body: "Andamio doesn't track how your badges are shared or viewed. That analytics layer is yours: keep the one you have, or build your own. What the protocol records are the interactions behind each credential — defined, evidenced, reviewed, claimed. Nothing more.",
       // Points at the /issuer demo — the pattern's home since the standalone
       // landing section folded into the story flow (2026-07-02).
-      cta: { label: "See the pattern", href: "/issuer#how-it-works", variant: "outline" },
+      cta: {
+        label: "See the pattern",
+        href: "/issuer#how-it-works",
+        variant: "outline",
+      },
     },
     {
       title: "Community",
       body: "Andamio is built in the open, with the people using it. Join the conversation, help shape the roadmap, and build alongside other teams.",
-      cta: { label: "Join the Discord", href: EXTERNAL_LINKS.discord, variant: "outline" },
+      cta: {
+        label: "Join the Discord",
+        href: EXTERNAL_LINKS.discord,
+        variant: "outline",
+      },
     },
   ],
 } as const;
 
 export const api = {
   heading: "Issue, verify, and gate",
-  lead:
-    "The Andamio API backs all of it — courses, projects, and the credentials between them, all over plain REST. Audited smart contracts on Cardano, wrapped as an API — the transaction building is done for you.",
+  lead: "The Andamio API backs all of it — courses, projects, and the credentials between them, all over plain REST. Audited smart contracts on Cardano, wrapped as an API — the transaction building is done for you.",
   // Verb-first capabilities — each maps to real API surface (see openapi).
   capabilities: [
     {
@@ -520,10 +615,26 @@ export const developers = {
   resourcesHeading: "Everything you need",
   resources: [
     { name: "Docs", desc: "Guides and protocol", href: EXTERNAL_LINKS.docs },
-    { name: "API Reference", desc: "Generated from the spec", href: EXTERNAL_LINKS.apiReference },
-    { name: "The app", desc: "Runs on the same API you build on", href: EXTERNAL_LINKS.app },
-    { name: "andamio-dev", desc: "The agent knowledge layer", href: "https://github.com/Andamio-Platform/andamio-dev" },
-    { name: "andamio-cli", desc: "The full transaction lifecycle", href: "https://github.com/Andamio-Platform/andamio-cli" },
+    {
+      name: "API Reference",
+      desc: "Generated from the spec",
+      href: EXTERNAL_LINKS.apiReference,
+    },
+    {
+      name: "The app",
+      desc: "Runs on the same API you build on",
+      href: EXTERNAL_LINKS.app,
+    },
+    {
+      name: "andamio-dev",
+      desc: "The agent knowledge layer",
+      href: "https://github.com/Andamio-Platform/andamio-dev",
+    },
+    {
+      name: "andamio-cli",
+      desc: "The full transaction lifecycle",
+      href: "https://github.com/Andamio-Platform/andamio-cli",
+    },
     { name: "GitHub", desc: "All the source", href: EXTERNAL_LINKS.github },
   ],
   cta: { label: "Read the docs", href: EXTERNAL_LINKS.docs },
@@ -546,8 +657,14 @@ export const cli = {
     heading: "Install",
     note: "macOS, Linux, and Windows — via Homebrew, a prebuilt release binary, or Go.",
     snippets: [
-      { label: "Homebrew (macOS)", code: "brew install Andamio-Platform/tap/andamio-cli" },
-      { label: "Go", code: "go install github.com/Andamio-Platform/andamio-cli/cmd/andamio@latest" },
+      {
+        label: "Homebrew (macOS)",
+        code: "brew install Andamio-Platform/tap/andamio-cli",
+      },
+      {
+        label: "Go",
+        code: "go install github.com/Andamio-Platform/andamio-cli/cmd/andamio@latest",
+      },
     ],
     verify: "andamio --version",
   },
@@ -662,16 +779,62 @@ export const pricing = {
     meteringNote:
       "Defining credentials is free. You draw down an allocation only when a credential is actually earned, and top up if you exceed it.",
     levers: [
-      { name: "Users", text: "Each learner, counted once when they first join." },
-      { name: "Badges", text: "Credentials actually earned, counted on real issuance." },
-      { name: "Courses", text: "A set of linked credentials that create a learning pathway." },
+      {
+        name: "Users",
+        text: "Each learner, counted once when they first join.",
+      },
+      {
+        name: "Badges",
+        text: "Credentials actually earned, counted on real issuance.",
+      },
+      {
+        name: "Courses",
+        text: "A set of linked credentials that create a learning pathway.",
+      },
     ],
     tiers: [
-      { name: "Pilot", price: "Soon", priceNote: "self-serve", users: "—", badges: "—", courses: "—", muted: true },
-      { name: "Starter", price: "Soon", priceNote: "self-serve", users: "—", badges: "—", courses: "—", muted: true },
-      { name: "Growth", price: "$12,000", priceNote: "/ year", users: "250", badges: "1,250", courses: "3" },
-      { name: "Scale", price: "$30,000", priceNote: "/ year", users: "1,000", badges: "5,000", courses: "5" },
-      { name: "Custom", price: "Contact us", priceNote: "", users: "—", badges: "—", courses: "—" },
+      {
+        name: "Pilot",
+        price: "Soon",
+        priceNote: "self-serve",
+        users: "—",
+        badges: "—",
+        courses: "—",
+        muted: true,
+      },
+      {
+        name: "Starter",
+        price: "Soon",
+        priceNote: "self-serve",
+        users: "—",
+        badges: "—",
+        courses: "—",
+        muted: true,
+      },
+      {
+        name: "Growth",
+        price: "$12,000",
+        priceNote: "/ year",
+        users: "250",
+        badges: "1,250",
+        courses: "3",
+      },
+      {
+        name: "Scale",
+        price: "$30,000",
+        priceNote: "/ year",
+        users: "1,000",
+        badges: "5,000",
+        courses: "5",
+      },
+      {
+        name: "Custom",
+        price: "Contact us",
+        priceNote: "",
+        users: "—",
+        badges: "—",
+        courses: "—",
+      },
     ],
     footnote:
       "Every lever tops up. Badges are a starting allocation, not a cap. Pilot and Starter self-serve tiers arrive with the in-app billing motion.",
@@ -682,10 +845,31 @@ export const pricing = {
     title: "Andamio API",
     lead: "Everything you need to build on Andamio: the protocol as REST endpoints. Self-serve via Stripe, monthly.",
     tiers: [
-      { name: "Free", price: "$0", priceNote: "", limits: "15K req/mo · 500 req/day · 1 API key", muted: true },
-      { name: "Starter", price: "$29", priceNote: "/ mo", limits: "75K req/mo · 2,500 req/day · 2 API keys" },
-      { name: "Growth", price: "$129", priceNote: "/ mo", limits: "750K req/mo · 25,000 req/day · 5 API keys" },
-      { name: "Enterprise", price: "Custom", priceNote: "", limits: "Custom quota · priority support" },
+      {
+        name: "Free",
+        price: "$0",
+        priceNote: "",
+        limits: "15K req/mo · 500 req/day · 1 API key",
+        muted: true,
+      },
+      {
+        name: "Starter",
+        price: "$29",
+        priceNote: "/ mo",
+        limits: "75K req/mo · 2,500 req/day · 2 API keys",
+      },
+      {
+        name: "Growth",
+        price: "$129",
+        priceNote: "/ mo",
+        limits: "750K req/mo · 25,000 req/day · 5 API keys",
+      },
+      {
+        name: "Enterprise",
+        price: "Custom",
+        priceNote: "",
+        limits: "Custom quota · priority support",
+      },
     ],
     footnote:
       "Subscribe in the app after connecting your wallet. Usage is billed to you, the developer, not your end users.",

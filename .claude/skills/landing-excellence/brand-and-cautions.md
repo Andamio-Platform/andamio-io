@@ -1,33 +1,33 @@
-# Warm Index + rejected patterns
+# Proof instrument brand + rejected patterns
 
-Brand canon: `docs/design-system/andamio-brand-guide.md`  
-Tokens: `src/ui/system/tokens.ts`, `kit.tsx`  
-Cautions: `docs/landing-page-excellence/research/shortlists/rejected-and-cautions.md`
+Direction: `docs/landing-page-excellence/decisions/2026-09-30-proof-instrument-dark.md` (supersedes Warm Index)  
+Tokens: `src/ui/system/tokens.ts`, `kit.tsx`, `src/ui/system/instrument/*`  
+Badge: `src/ui/system/proof-badge/*`, `src/styles/proof-badge.css`
 
 ## Brand DNA (marketing)
 
-- Surface: ink on paper (light editorial), not dark-mode-first marketing
-- Orange `#FF6B35` — primary CTA / accent sparingly (**one orange primary per view**)
-- Blue `#2F6BFF` — wayfinding / data only, not primary CTA
+- Surface: dark only, in the badge palette — deep navy page, raised navy surfaces, cream text
+- Cyan explains (links, data, focus); orange acts (**one orange primary per view**)
 - Type: Inter + JetBrains Mono
-- Geometry: square corners; editorial rail optional on desktop
+- Geometry: square corners; structure from ticks, arcs and monospace readouts
+- Every decorative mark encodes something real (hash, date, count)
+- Only the hero badge moves continuously; everything else is scroll, hover or interaction
 - Brand test: if the first viewport could belong to another brand after removing nav, branding is too weak
 
 ## Rejected by default
 
 | Pattern | Safer alternative |
 |---|---|
-| Neon dark SaaS, purple glow, glass orbs | Light editorial; Warm Index tokens |
+| Neon, purple glow, glass orbs, gradient text | Badge palette; cyan/orange from the rings only |
+| Three-icon feature grids, stat strips | `ProofCard`, `Readout`, `OrbitSteps` |
 | Wholesale Launch UI / Magic UI / Aceternity look | Steal section jobs only; restyle every pixel |
-| Heavy Three.js / WebGL hero | SVG/static specimen + Motion; 3D needs adopted exception |
-| V2 / ModernLanding / SB7 as authority | Canonical `src/ui/system` |
-| Claim inflation (demo = live mint/verify) | Label illustrative; L4 only from owned confirmation |
-| Unbounded Google Fonts growth | Bound Inter + JetBrains Mono; evaluate Fontsource |
-| Analytics on badge/wallet/email/free text | Event IDs + non-sensitive enums after privacy approval |
-| Unknown-license agent skills | Verified MIT/Apache from shortlist; local fallback |
+| Heavy Three.js / WebGL hero | Live CSS/SVG badge |
+| Claim inflation (demo = live mint/verify) | Label illustrative |
+| Unbounded Google Fonts growth | Bound Inter + JetBrains Mono |
+| Analytics on badge/wallet/email/free text | Umami enum events only |
+| Adoption numbers for partners that have not published them | Public facts only |
 
 ## Soft cautions (gated)
 
 - ≤ **1–2** evaluated micro-interactions from Magic UI / React Bits; must pass reduced-motion + Lighthouse
-- Storybook only if kit review cost is justified
 - Credly/Accredible: journey insight only — differentiate ownership/proof; no clone

@@ -7,6 +7,8 @@
 **Scope:** Homepage first; then the complete marketing route ecosystem  
 **Implementation status:** Documentation only. Do not implement UI from this file until a separate implementation plan is approved.
 
+> **Superseded in part (2026-09-30).** [decisions/2026-09-30-proof-instrument-dark.md](docs/landing-page-excellence/decisions/2026-09-30-proof-instrument-dark.md) replaces the Warm Index light surface with a fully dark site in the live badge palette, deletes `V2Landing` (the badge core now lives in `src/ui/system/proof-badge/`), allows FC Barcelona as a named partner, and adopts Umami for analytics. Where §§1.3, 4.1, 9.1, 9.2, 10.1, 11.1, 18.3 and 19.2 say "light editorial lead", "dark-mode-first rejected", "Warm Index ink/paper", "2–5 motions", or name `V2Landing/badge` or `/andamio-credential-badge.svg`, the decision wins. For the current site map and how to edit it, read [docs/SITE.md](docs/SITE.md).
+
 ---
 
 ## 0. How to use this document

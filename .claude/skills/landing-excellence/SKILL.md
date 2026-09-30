@@ -2,7 +2,7 @@
 name: landing-excellence
 description: >-
   Guides Andamio landing work using the Landing Page Excellence program:
-  issuer-primary Concept A narrative, Warm Index brand, canonical src/ui/system
+  issuer-primary Concept A narrative, dark proof-instrument brand, canonical src/ui/system
   stack, requirements IDs, tool adoption matrix, and research catalogs. Use when
   planning or changing the homepage, /show-me, /issuer, landing UX/copy/a11y/perf/SEO,
   writing an implementation plan from docs/landing-page-excellence, or choosing
@@ -23,10 +23,13 @@ trigger: <landing-excellence>
 |---|---|
 | Audience | Credential **issuers primary**; developers **secondary** (not equal in hero) |
 | Concept | **Concept A** — issuer-led proof; progressive developer depth |
-| Brand | **Warm Index** — ink/paper; orange `#FF6B35` sparingly; blue `#2F6BFF` wayfinding only; Inter + JetBrains Mono; square geometry |
-| Canonical code | `src/ui/system/*` + copy in `src/ui/explore/content.ts` |
-| Demos | KEEP `/show-me` + `/issuer` HowItWorks/BadgeBuilder; ARCHIVE V2 walkthrough as authority; REUSE V2 `badge/*` core only |
-| Claims | HowItWorks Issue/Verify and BadgeBuilder are **illustrative**, not live API success |
+| Brand | **Proof instrument (dark only)**: badge palette; deep navy, cream text, cyan explains, orange acts (one per view); Inter + JetBrains Mono; square geometry; ticks/arcs/readouts |
+| Canonical code | `src/ui/system/*` + `proof-badge/*` + `instrument/*`; copy in `src/ui/explore/content.ts` |
+| Demos | KEEP `/show-me` + `/issuer` HowItWorks/BadgeBuilder; V2 and other legacy landing trees are deleted |
+| Lifecycles | Earner / Organization / Developer, one per audience page |
+| Adoption | Invisible (sponsored txs) and visible (own wallet) are both valid |
+| Claims | HowItWorks Issue/Verify and BadgeBuilder are **illustrative**, not live API success; partner facts public only |
+| Analytics | Umami, env-gated, enum funnel events only |
 
 Superseding any lock requires an **adopted decision** under `docs/landing-page-excellence/decisions/`.
 
@@ -42,7 +45,6 @@ Superseding any lock requires an **adopted decision** under `docs/landing-page-e
 
 - App v2 product UI (use brand guide + app handoff; not this funnel program)
 - Blog CMS content unrelated to the marketing funnel
-- Deleting archived `src/ui/landing/*` trees without a dedicated cleanup decision
 
 ## Workflow
 
@@ -84,7 +86,7 @@ Landing Excellence:
 2. Map each change to requirement IDs + acceptance tests
 3. Prefer agent brief sequence in `agent-briefs/README.md`
 4. Quality tools from [tools.md](tools.md); isolate Lighthouse (no concurrent `yarn build` + `yarn next` corruption of `.next`)
-5. No analytics until privacy/event contract (TECH-01)
+5. Analytics only through the Umami `track()` helper (TECH-01 resolved 2026-09-30)
 
 ### Mode: verify
 
@@ -94,9 +96,10 @@ Landing Excellence:
 
 ## Hard non-goals
 
-- Revive `ModernLanding` / `V2Landing` / SB7 as homepage authority
+- Recreate a second landing stack (V2/ModernLanding/SB7 are deleted)
 - Equal issuer/developer hero
-- Neon/dark SaaS / purple-glow / wholesale Aceternity·Magic UI themes
+- Neon / purple-glow / glass / gradient-text / wholesale Aceternity·Magic UI themes
+- A light theme or theme toggle
 - Heavy Three.js/WebGL hero by default
 - Analytics capturing badge/wallet/email/free text
 - Claiming real mint/verify from illustrative demos
@@ -106,7 +109,7 @@ Landing Excellence:
 
 **P0:** A11Y structure + keyboard funnel; CNT-02 demo truth; UX-07/TECH-02 link registry  
 **P1:** Hero budget; CTA hierarchy; `/show-me` QA; SEO identity; fonts/SVG/Lighthouse; motion + reduced-motion; privacy before analytics  
-**P2:** ≤2 evaluated micro-interactions restyled to Warm Index; optional Storybook
+**P2:** ≤2 evaluated micro-interactions restyled to the proof-instrument kit; optional Storybook
 
 Full table: `implementation/2026-07-22-recommendations-and-next-steps.md`
 
@@ -122,7 +125,7 @@ They do **not** override these product locks. Refresh: `python .claude/skills/sy
 |---|---|
 | [canonical.md](canonical.md) | File ownership, KEEP/REUSE/ARCHIVE |
 | [concept-a.md](concept-a.md) | Section jobs, CTA ladder, demo scope |
-| [brand-and-cautions.md](brand-and-cautions.md) | Warm Index rules + rejected patterns |
+| [brand-and-cautions.md](brand-and-cautions.md) | Proof-instrument rules + rejected patterns |
 | [tools.md](tools.md) | Adopt / evaluate / reference-only matrix |
 | [requirements-map.md](requirements-map.md) | ID prefixes → requirement files |
 
@@ -132,4 +135,4 @@ They do **not** override these product locks. Refresh: `python .claude/skills/sy
 2. Brand guide `docs/design-system/andamio-brand-guide.md` + `src/ui/system/tokens.ts` / `kit.tsx`
 3. Requirements package (once `approved`)
 4. Shortlists / catalogs (recommend only)
-5. Legacy `src/ui/landing/*` (reference only, except V2 badge core)
+5. Site handbook `docs/SITE.md` (sitemap, journeys, where to edit)

@@ -1,15 +1,15 @@
 # 04 — Visual and Brand
 
 - **Status:** in-review
-- **Authority:** `src/ui/system/tokens.ts`, `kit.tsx`, Warm Index rules
+- **Authority:** `src/ui/system/tokens.ts`, `kit.tsx`, proof-instrument rules (decision 2026-09-30-proof-instrument-dark supersedes Warm Index)
 
-## VIS-01 — Warm Index accent discipline
+## VIS-01 — Accent discipline (badge palette)
 
 | Field | Value |
 |---|---|
 | Priority | P0 |
 | Rationale | Orange is brand signal; overuse becomes generic SaaS |
-| Acceptance test | Orange limited to brand mark, primary CTA, live/VERIFIED signals; blue only for wayfinding/links/data; no purple-glow or neon kit defaults on funnel routes |
+| Acceptance test | On the dark navy surface, orange is limited to the primary CTA and live states (one orange action per view); cyan is for links, data and focus; no purple, neon, glass or gradient text on any route |
 | Dependencies | Concept A |
 | Source | design-system handoff; ui-ux shortlist; rejected-and-cautions |
 
@@ -39,17 +39,17 @@
 |---|---|
 | Priority | P1 |
 | Rationale | System DNA uses Inter + JetBrains Mono and square geometry |
-| Acceptance test | Funnel routes do not introduce rounded-full pill clusters or alternate display fonts as brand defaults; type comes from bounded Warm Index families |
+| Acceptance test | Funnel routes do not introduce rounded-full pill clusters or alternate display fonts as brand defaults; type comes from bounded Inter + JetBrains Mono |
 | Dependencies | PERF font bounding |
 | Source | tokens/Warm Index |
 
-## VIS-05 — Contrast for orange/blue on paper
+## VIS-05 — Contrast for cyan/orange on dark navy
 
 | Field | Value |
 |---|---|
 | Priority | P1 |
 | Rationale | Brand accents risk AA contrast failures |
-| Acceptance test | WebAIM (or equivalent) passes for text/icon uses of orange and blue on paper/ink contexts used in CTAs and links; failures remediated or documented via decision |
+| Acceptance test | WebAIM (or equivalent) AA passes for cream body text, cyan links and orange CTA text on the navy page and raised surfaces; failures remediated or documented via decision |
 | Dependencies | A11Y contrast |
 | Source | ui-ux shortlist WebAIM; a11y audit seeds |
 

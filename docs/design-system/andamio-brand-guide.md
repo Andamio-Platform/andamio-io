@@ -4,6 +4,11 @@
 **Canon for:** every Andamio surface — marketing (`landing-page-and-blog`),
 App v2 (`andamio-app-v2`), docs, demos.
 
+> **Marketing site override (2026-09-30):** the marketing site is dark only, in
+> the live badge palette (deep navy, cream text, cyan explains, orange acts).
+> See `docs/landing-page-excellence/decisions/2026-09-30-proof-instrument-dark.md`.
+> The paper/ink surface values below still apply to App v2 and docs.
+
 > **⟢ For Monday review (v1.1 draft, sculpt freely):** two additions, both
 > derived from a component audit of the marketing kit + App v2.
 > 1. **§7** — seven new component contracts now present in the marketing kit but

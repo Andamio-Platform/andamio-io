@@ -25,11 +25,12 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { AnimatePresence, motion } from "motion/react";
 import { X } from "lucide-react";
-import { storyFork } from "~/ui/explore/content";
+import { lifecycles, storyFork } from "~/ui/explore/content";
 import { color, font, motion as motionTok } from "./tokens";
 import { Button, ButtonRow, Brand, Display, LogoWash } from "./kit";
 import { readIntent, persistIntent } from "./funnel-intent";
 import { directionalSlide, useMotionGate } from "./motion";
+import { OrbitSteps } from "./instrument";
 
 type PathKey = (typeof storyFork.statements)[number]["key"];
 
@@ -428,6 +429,17 @@ export default function StoryFork() {
                                   {v.name}
                                 </strong>{" "}
                                 {v.body}
+                                {"source" in v ? (
+                                  <a
+                                    href={v.source.href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="mt-1 block text-[12px] underline-offset-4 hover:underline"
+                                    style={{ ...mono, color: color.cyan }}
+                                  >
+                                    Source: {v.source.label} ↗
+                                  </a>
+                                ) : null}
                               </p>
                             </li>
                           ))}
@@ -491,6 +503,11 @@ export default function StoryFork() {
                   <ScreenHeading
                     heading={storyFork.cardano.heading}
                     body={storyFork.cardano.body}
+                  />
+                  <OrbitSteps
+                    className="mt-8 max-w-[520px]"
+                    label={`${lifecycles.earner.label} lifecycle`}
+                    steps={lifecycles.earner.steps}
                   />
                   <div className="mt-10">
                     <ButtonRow>

@@ -152,6 +152,138 @@ export const howTeaser = {
 } as const;
 
 /**
+ * The three lifecycles, one per audience. Home shows all three as sub-tabs;
+ * /show-me uses the earner's, /issuer the organization's, /developers the
+ * developer's. Steps map to real protocol actions.
+ */
+export const lifecycles = {
+  earner: {
+    label: "Earner",
+    audience: "For the person who earns the credential",
+    steps: [
+      { id: "enroll", label: "Enroll", detail: "Join a course. Your Access Token is your identity across every Andamio course." },
+      { id: "submit", label: "Submit evidence", detail: "Show the work each learning target asks for." },
+      { id: "review", label: "Get reviewed", detail: "An authorized reviewer accepts it, or asks for another pass." },
+      { id: "claim", label: "Claim", detail: "Claim a credential that records what was done and who reviewed it." },
+      { id: "carry", label: "Carry it anywhere", detail: "It stays yours. Anyone can verify it on Cardano without calling the issuer." },
+    ],
+  },
+  organization: {
+    label: "Organization",
+    audience: "For the team that adopts and integrates Andamio",
+    steps: [
+      { id: "define", label: "Define", detail: "Write the skills, the standards and how people prove them." },
+      { id: "review", label: "Review", detail: "Your reviewers accept evidence against those standards." },
+      { id: "issue", label: "Issue", detail: "Accepted work becomes a credential under your issuer identity." },
+      { id: "verify", label: "Verify", detail: "Anyone checks it on-chain, from your systems or theirs." },
+    ],
+  },
+  developer: {
+    label: "Developer",
+    audience: "For the builder working with the API and protocol",
+    steps: [
+      { id: "commit", label: "Commit", detail: "A user commits to a task or course module through your app." },
+      { id: "review", label: "Review", detail: "Assessors accept or refuse the submission on-chain." },
+      { id: "claim", label: "Claim", detail: "The user claims the credential; your app builds the transaction through the API." },
+      { id: "gate", label: "Gate on it", detail: "Unlock roles, access or rewards when a wallet holds the credential." },
+    ],
+  },
+} as const;
+export type LifecycleKey = keyof typeof lifecycles;
+
+/** Two valid ways to adopt Andamio — shown side by side on home and /issuer. */
+export const adoptionModes = {
+  title: "Two ways to adopt",
+  lead: "How visible the blockchain is to your people is your call.",
+  modes: [
+    {
+      name: "Invisible",
+      rows: [
+        { k: "wallets", v: "Created for each user at sign-in" },
+        { k: "fees", v: "Sponsored by the organization" },
+        { k: "user sees", v: "Your product and your sign-in" },
+        { k: "example", v: "Barça Fan Lab — fans sign in with BarçaID" },
+      ],
+      href: "/use-cases/FanEngagement",
+    },
+    {
+      name: "Visible",
+      rows: [
+        { k: "wallets", v: "Earners connect their own Cardano wallet" },
+        { k: "fees", v: "Paid by the wallet holder" },
+        { k: "user sees", v: "Their wallet, their credential, on-chain" },
+        { k: "example", v: "Contributor programs, Andamio app" },
+      ],
+      href: "/use-cases",
+    },
+  ],
+} as const;
+
+/** Partner marks under the hero; each opens the use case it proves. */
+export const proofRail = [
+  { name: "Intersect", src: "/customer/intersect/intersect-logo.png", href: "/use-cases/Intersect", caption: "Governance" },
+  { name: "Syngenta", src: "/customer/syngenta/syngenta-logo.jpg", href: "/use-cases/Syngenta", caption: "Agronomy" },
+  { name: "Toha", href: "/use-cases/Toha", caption: "Contributors" },
+  { name: "Project Catalyst", href: "/use-cases/DecentralizedInnovation", caption: "Funding" },
+  { name: "FC Barcelona", src: "/customer/fcbarcelona/fcbarcelona-logo.webp", href: "/use-cases/FanEngagement", caption: "Fan Lab" },
+] as const;
+
+/** The independent contract audit (public report on docs.andamio.io). */
+export const audit = {
+  kicker: "Independent audit",
+  title: "Protocol V2 contracts audited by TxPipe",
+  body: "Access-token and global-state validators, reviewed for token theft, protocol halting, datum malformation and double satisfaction. Six findings; five resolved, one acknowledged by design.",
+  footer: "TxPipe · completed 31 Dec 2025 · read the report →",
+  href: "https://docs.andamio.io/docs/security-audit",
+} as const;
+
+/** Problem section: a PDF certificate next to a credential, field by field. */
+export const problemCompare = {
+  pdf: {
+    label: "PDF certificate",
+    rows: [
+      { k: "issuer", v: "A logo in the corner" },
+      { k: "evidence", v: "None attached" },
+      { k: "reviewer", v: "Unknown" },
+      { k: "verify", v: "Email the issuer and wait" },
+      { k: "lives in", v: "A vendor's database" },
+    ],
+  },
+  badge: {
+    label: "Andamio credential",
+    rows: [
+      { k: "issuer", v: "did:web:credentials.andamio.io" },
+      { k: "evidence", v: "Learning targets, hashed into the badge" },
+      { k: "reviewer", v: "Recorded with the claim" },
+      { k: "verify", v: "Anyone, on-chain, any time" },
+      { k: "lives in", v: "The earner's wallet" },
+    ],
+  },
+} as const;
+
+/** /issuer: what stays in the organization's hands. */
+export const issuerControls = {
+  title: "What your organization controls",
+  lead: "Andamio runs the protocol. The meaning, the people and the data stay with you.",
+  rows: [
+    { k: "issuer identity", v: "Your organization, named as issuer on every credential" },
+    { k: "meaning", v: "Your skills and learning targets, hashed into each badge (SLT hash)" },
+    { k: "standard", v: "Open Badges 3.0 credential, anchored on Cardano" },
+    { k: "reviewers", v: "Only people you authorize can accept evidence" },
+    { k: "revocation", v: "None by design: a claimed credential can't be switched off, even by you" },
+    { k: "analytics", v: "Yours. The protocol records define, evidence, review and claim only" },
+  ],
+} as const;
+
+/** The closing quote: the Cardano Foundation's public launch post. */
+export const partnerQuote = {
+  text: "FC Barcelona has just launched Barça Fan Lab, developed with @Andamio_teams using Cardano. Fans will be able to learn about Barça's history and values, take part in community activities, and gain verifiable digital credentials…",
+  name: "Cardano Foundation",
+  role: "on X, 25 Sep 2026",
+  href: "https://x.com/Cardano_CF",
+} as const;
+
+/**
  * The story fork — the hero's three doors (story-flows storyboard, 2026-07-02).
  * Three buttons, three registers: a statement of situation (the issuer), a
  * statement of intent (the builder), and a question (the curious one — it
@@ -251,10 +383,12 @@ export const storyFork = {
         {
           name: "It’s a picture, not data.",
           body: "As marketing, badges work — people share them, and you shouldn’t lose that. But a picture is where it ends: no system can act on one, so the automated screening that gates hiring can’t read it. Harvard Business School found 88% of employers say that screening already rejects qualified people who don’t exactly match.",
+          source: { label: "Fuller et al., Hidden Workers, HBS & Accenture (2021)", href: "https://www.hbs.edu/ris/Publication%20Files/hiddenworkers09032021%5FFuller%5Fwhite%5Fpaper%5F33a2047f-41dd-47b1-9a8d-bd08cf3bfa94.pdf" },
         },
         {
           name: "It’s just more noise.",
           body: "Badges are cheap to issue in bulk, so there’s no work behind them to check. One you can’t independently verify is taken on faith — no better than the résumé beside it. Peer-reviewed research found 72% of people embellish their résumés, and 31% fabricate outright.",
+          source: { label: "Henle, Dineen & Duffy, Journal of Business and Psychology (2017)", href: "https://link.springer.com/article/10.1007/s10869-017-9527-4" },
         },
       ],
       close:
@@ -293,7 +427,7 @@ export const storyFork = {
     // Claim softened (James, 2026-07-02): API builders still do wallet
     // integrations — what's abstracted is the transaction building. The real
     // pitch is new primitives, ready for the unimagined.
-    body: "Every credential, course, and access rule on Andamio is reachable through one API. Transaction building is abstracted into a clean set of endpoints, so the hardest blockchain work is already done; your users bring a wallet, and the primitives are ready for things we haven't imagined yet. Which door is yours?",
+    body: "Every credential, course, and access rule on Andamio is reachable through one API. Transaction building is abstracted into a clean set of endpoints, so the hardest blockchain work is already done; your users bring a wallet or you sponsor one for them, and the primitives are ready for things we haven't imagined yet. Which door is yours?",
     choices: [
       {
         label: "I'm adding credentials to something that already exists.",
@@ -404,7 +538,7 @@ export const developersCta = {
   // Claim softened (James, 2026-07-02): builders' users still hold a wallet;
   // the abstraction is the transaction building, and the pitch is the
   // primitives — ready for things we haven't imagined yet.
-  body: "Every credential, course, and access rule on Andamio is reachable through one API. Transaction building is abstracted into a clean set of endpoints, so the hardest blockchain work is already done, and your users bring their own wallet. Andamio API delivers a new set of primitives and leaves the creative parts to you.",
+  body: "Every credential, course, and access rule on Andamio is reachable through one API. Transaction building is abstracted into a clean set of endpoints, so the hardest blockchain work is already done. Your users can connect their own wallet, or you create wallets and sponsor transactions so they never see one. Andamio API delivers a new set of primitives and leaves the creative parts to you.",
   ctas: [
     { label: "Build on Andamio", href: "/developers", variant: "ink" },
     { label: "Docs", href: EXTERNAL_LINKS.docs, variant: "outline" },
@@ -417,7 +551,7 @@ export const issuer = {
   lead: "From badges to building blocks.",
   // Opens on the both/and (the walk memo): the hero keeps marketing + analytics.
   intro:
-    "Keep the signal, tune out the noise, and make every credential yours. Andamio Issuer is a lightweight API that integrates with your existing systems in minutes. You keep your existing infrastructure, and get everything a blockchain guarantees, with none of the blockchain to learn.",
+    "Keep the signal, tune out the noise, and make every credential yours. Andamio Issuer is a lightweight API that integrates with your existing systems in minutes. You keep your existing infrastructure, get everything a blockchain guarantees, and decide how visible the blockchain is to your people.",
   decisionsHeading: "A new kind of credential",
   // The four-pronged array (fourth pillar "Proof" added 2026-07-02, James):
   // Composable + Programmable fold into "useful"; Private + Portable fold into
@@ -434,7 +568,6 @@ export const issuer = {
     },
     { heading: "Proof", text: "The work and its review travel inside it." },
   ],
-  reportCta: "Get the report",
   walkthroughCta: "Book a 20-minute walkthrough",
   // Landing teaser → the dedicated /issuer page (demo + full product funnel).
   learnMoreCta: "See how Andamio Issuer works",
@@ -461,7 +594,7 @@ export const ecosystem = {
     {
       title: "Agent ready",
       body: "Credential Badges can be issued to agents that prove their capabilities, taking the guess-work out of agent delegation and access control.",
-      cta: { label: "Coming soon", variant: "disabled" },
+      status: "In research",
     },
     {
       // Analytics ownership (the walk memo): we don't do surveillance analytics;

@@ -23,6 +23,7 @@ import { credentialFromBuilder, ProofRingBadge } from "./proof-badge";
 import { color, font } from "./tokens";
 import { ClaimFence } from "./ClaimFence";
 import { LayoutMark } from "./motion";
+import { useNearViewport } from "./useNearViewport";
 
 const mono = { fontFamily: font.mono };
 const sans = { fontFamily: font.sans };
@@ -65,24 +66,6 @@ const BadgeBuilder = dynamic(() => import("./BadgeBuilder"), {
   loading: PaneSkeleton,
 });
 
-/** True once `ref` comes within `margin` of the viewport; never flips back. */
-function useNearViewport(ref: React.RefObject<HTMLElement>, margin = "600px") {
-  const [near, setNear] = useState(false);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el || near) return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((e) => e.isIntersecting)) setNear(true);
-      },
-      { rootMargin: margin },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, [ref, margin, near]);
-  return near;
-}
-
 /** React 18 types omit `inert`; set/remove the HTML attribute via the DOM. */
 function setInert(el: HTMLElement | null, inert: boolean) {
   if (!el) return;
@@ -94,12 +77,25 @@ export default function HowItWorks({
   heading,
   steps,
   demo,
+  active: controlled,
+  onActiveChange,
 }: {
   heading: string;
   steps: readonly Step[];
   demo: { title: string; note: string; liveLabel: string };
+  /** Controlled pane index (e.g. synced to an OrbitSteps lifecycle). */
+  active?: number;
+  onActiveChange?: (index: number) => void;
 }) {
-  const [active, setActive] = useState(0);
+  const [own, setOwn] = useState(0);
+  const active = controlled ?? own;
+  const setActive = useCallback(
+    (i: number) => {
+      if (controlled === undefined) setOwn(i);
+      onActiveChange?.(i);
+    },
+    [controlled, onActiveChange],
+  );
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const paneRefs = useRef<Array<HTMLDivElement | null>>([]);
   const panesRef = useRef<HTMLDivElement>(null);
@@ -117,7 +113,7 @@ export default function HowItWorks({
       setActive(next);
       if (focus) tabRefs.current[next]?.focus();
     },
-    [steps.length],
+    [steps.length, setActive],
   );
 
   const onTabKeyDown = useCallback(
@@ -151,11 +147,13 @@ export default function HowItWorks({
   return (
     <>
       {/* Section heading */}
-      <div className="border-t pt-8" style={{ borderColor: color.rule }}>
-        <span className="text-2xl font-semibold tracking-[-0.03em] sm:text-3xl">
-          {heading}
-        </span>
-      </div>
+      {heading ? (
+        <div className="border-t pt-8" style={{ borderColor: color.rule }}>
+          <span className="text-2xl font-semibold tracking-[-0.03em] sm:text-3xl">
+            {heading}
+          </span>
+        </div>
+      ) : null}
 
       {/* The demo card — header, then tabs, then the active pane, all inside one
           bordered card. Theme-aware (follows the app's light/dark). ────────── */}

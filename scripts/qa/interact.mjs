@@ -51,11 +51,11 @@ try {
     check(`DOM text contains "${s}"`, text.includes(s));
   }
   check("issued text drops seconds", !text.includes("00:00:00Z"));
-  const issuedAttr = await page.locator(".pb-face time").getAttribute("datetime");
+  const issuedAttr = await page.locator("#top .pb-face time").getAttribute("datetime");
   check("issued datetime keeps the full timestamp", issuedAttr === "2026-07-01T00:00:00Z", issuedAttr ?? "");
   const bars = await page.evaluate(() => ({
-    outer: document.querySelectorAll(".pb-ring-a line").length,
-    inner: document.querySelectorAll(".pb-ring-b line").length,
+    outer: document.querySelectorAll("#top .pb-ring-a line").length,
+    inner: document.querySelectorAll("#top .pb-ring-b line").length,
   }));
   check("outer ring has one bar per course-id bit", bars.outer === 56 * 4, String(bars.outer));
   check("inner ring has hash bars plus phrase separators", bars.inner === 64 * 4 + 10, String(bars.inner));
@@ -72,50 +72,50 @@ try {
       };
     });
   // Hover SLT hash → only the inner ring's highlight shows; the outer ring dims.
-  const hashBtn = page.locator(".pb-face .pb-mono .pb-copy").last();
+  const hashBtn = page.locator("#top .pb-face .pb-mono .pb-copy").last();
   await hashBtn.hover();
   await page.waitForTimeout(350);
   const hl = await ringFilter();
   check("hover hash highlights only the inner ring", hl.hl === "hash" && hl.hlInner === 1 && hl.hlOuter === 0 && hl.outer < 0.5 && hl.inner === 1, JSON.stringify(hl));
-  await page.locator(".pb-root").screenshot({ path: out("hover-hash.png") });
+  await page.locator("#top .pb-root").screenshot({ path: out("hover-hash.png") });
 
   await hashBtn.click();
   await page.waitForTimeout(150);
   const clip = await page.evaluate(() => navigator.clipboard.readText());
   check("click hash copies full 64-char hash", clip === "e9b5343186f83ed804a9fd87293a7378e3b237743b76d56da73b111d855631db", clip);
-  check("Copied chip visible", (await page.locator(".pb-face .pb-copied").count()) === 1);
+  check("Copied chip visible", (await page.locator("#top .pb-face .pb-copied").count()) === 1);
   const live = await page.evaluate(() => document.querySelector(".pb-root [aria-live]").textContent);
   check("aria-live announces copy", live === "SLT hash copied", live);
-  await page.locator(".pb-root").screenshot({ path: out("copied-hash.png") });
+  await page.locator("#top .pb-root").screenshot({ path: out("copied-hash.png") });
   await page.waitForTimeout(1800);
-  check("Copied chip clears", (await page.locator(".pb-face .pb-copied").count()) === 0);
+  check("Copied chip clears", (await page.locator("#top .pb-face .pb-copied").count()) === 0);
 
   // Course ID: copy icon copies; the text is an Andamioscan link.
-  await page.locator(".pb-face .pb-mono .pb-icon-btn").first().click();
+  await page.locator("#top .pb-face .pb-mono .pb-icon-btn").first().click();
   await page.waitForTimeout(150);
   const clip2 = await page.evaluate(() => navigator.clipboard.readText());
   check("course ID icon copies full id", clip2 === "ae192632aabe00ed2042eaef596bc15f3887fa32e75e8f9b8fa516df", clip2);
-  const href = await page.locator(".pb-face .pb-mono .pb-link").first().getAttribute("href");
+  const href = await page.locator("#top .pb-face .pb-mono .pb-link").first().getAttribute("href");
   check("course ID links to Andamioscan", href === "https://andamioscan.io/courses/ae192632aabe00ed2042eaef596bc15f3887fa32e75e8f9b8fa516df", href ?? "");
 
-  await page.locator(".pb-face .pb-value .pb-copy").first().click();
+  await page.locator("#top .pb-face .pb-value .pb-copy").first().click();
   await page.waitForTimeout(150);
   check("DID copies", (await page.evaluate(() => navigator.clipboard.readText())) === "did:web:credentials.andamio.io");
 
-  const courseBtn = page.locator(".pb-face .pb-mono .pb-link, .pb-face .pb-mono .pb-copy").first();
+  const courseBtn = page.locator("#top .pb-face .pb-mono .pb-link, #top .pb-face .pb-mono .pb-copy").first();
   await courseBtn.hover();
   await page.waitForTimeout(350);
   const courseHl = await ringFilter();
   check("hover course id highlights only the outer ring", courseHl.hl === "courseId" && courseHl.hlOuter === 1 && courseHl.hlInner === 0 && courseHl.inner < 0.5 && courseHl.outer === 1, JSON.stringify(courseHl));
-  const claim = await page.locator(".pb-verify").getAttribute("href");
+  const claim = await page.locator("#top .pb-verify").getAttribute("href");
   check(
     "verify button opens the claim page",
     claim === "https://andamioscan.io/view/credential-claims/1d46be10006cd97fe6c157d8667db5f7bb0701f7a69f9ead331b59142f004505",
     claim ?? "",
   );
-  check("verified chip is gone", (await page.locator(".pb-verified").count()) === 0);
+  check("verified chip is gone", (await page.locator("#top .pb-verified").count()) === 0);
 
-  const qrHref = await page.locator(".pb-qr").getAttribute("href");
+  const qrHref = await page.locator("#top .pb-qr").getAttribute("href");
   check("QR links to verify URL", qrHref?.startsWith("https://credentials.andamio.io/badges/ae1926") ?? false, qrHref ?? "");
 
   // Seamless loop: the rotation keyframe ends where it starts (mod 360).
@@ -149,7 +149,7 @@ try {
   const mp = await mctx.newPage();
   await mp.goto(base, { waitUntil: "networkidle", timeout: 120000 });
   await mp.addStyleTag({ content: "nextjs-portal{display:none!important}" });
-  await mp.locator(".pb-frame").scrollIntoViewIfNeeded();
+  await mp.locator("#top .pb-frame").scrollIntoViewIfNeeded();
   await mp.waitForTimeout(2200);
   const m = await mp.evaluate(() => {
     const f = document.querySelector(".pb-frame").getBoundingClientRect();
@@ -158,7 +158,7 @@ try {
   check("mobile badge width ≥ 350", m.w >= 350, `${m.w}px`);
   check("no identifier strip", !m.readout);
   check("no horizontal overflow", m.docW <= 375, `scrollWidth ${m.docW}`);
-  await mp.locator(".pb-frame").screenshot({ path: out("mobile-frame.png") });
+  await mp.locator("#top .pb-frame").screenshot({ path: out("mobile-frame.png") });
   await mctx.close();
 } finally {
   await browser.close();

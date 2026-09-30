@@ -1,21 +1,19 @@
 "use client";
 
 /**
- * AndamioIssuer — the /issuer product page. The dedicated Issuer funnel that
- * the landing (story-first) sends people onward to. Carries the full Issuer
- * messaging + the how-it-works demo, both moved off the landing on 2026-07-01
- * so the landing can stay the story and this page can go deep.
+ * AndamioIssuer — the /issuer product page.
  *
  * SECTION ORDER:
- *   Hero      → the product: title + transformation lead + the guide's intro
- *   Decisions → "A new kind of credential" (Permanent · Useful · Yours · Proof)
- *   How it works → the three steps as clickable tabs (Define · Issue · Verify)
- *   Closing   → the walkthrough CTA
- *
- * Built entirely from the ./kit design system; no raw styling beyond layout.
+ *   Hero        → title, transformation lead, intro
+ *   How it works → the organization lifecycle (OrbitSteps) driving the
+ *                  Define · Issue · Verify builder panes
+ *   Controls    → what your organization controls (Readout)
+ *   Principles  → Permanent · Useful · Yours · Proof
+ *   Adoption    → invisible vs visible blockchain
+ *   Closing     → walkthrough CTA band
  */
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import {
   nav,
@@ -24,15 +22,25 @@ import {
   issuer,
   storyFork,
   footer,
+  lifecycles,
+  adoptionModes,
+  issuerControls,
   EXTERNAL_LINKS,
 } from "~/ui/explore/content";
 import { color, font } from "./tokens";
 import { Page, Section, Display, Button, ButtonRow, Footer } from "./kit";
 import HowItWorks from "./HowItWorks";
-import { ClaimFence } from "./ClaimFence";
+import { ArcHeading, CtaBand, OrbitSteps, Readout } from "./instrument";
+import { AdoptionModes } from "./AdoptionModes";
 
 const muted = { color: color.inkMuted };
 const mono = { fontFamily: font.mono };
+const SECTION_COUNT = 4;
+
+/** Organization lifecycle step → builder pane (Review happens inside Issue). */
+const STEP_TO_PANE = [0, 1, 1, 2] as const;
+/** Builder pane → organization lifecycle step. */
+const PANE_TO_STEP = [0, 2, 3] as const;
 
 const pageFooter = (
   <Footer
@@ -46,79 +54,94 @@ const pageFooter = (
 );
 
 export default function AndamioIssuer() {
+  const [step, setStep] = useState(0);
+  const org = lifecycles.organization;
+
   return (
-    // No editorial rail — this is a focused funnel page, not the indexed story.
     <Page
       nav={{ items: nav.items, cta: nav.cta, secondaryCta: nav.secondaryCta }}
       footer={pageFooter}
     >
-      {/* ── Hero — the product. Back-link to the overview keeps the funnel
-             two-way; the title + transformation lead + guide intro set it up. */}
-      <Section id="top" bordered={false} screen>
-        <div className="pt-16 sm:pt-24">
-          <Link
-            href="/#issuer"
-            className="inline-flex items-center text-[13px] font-medium tracking-[-0.01em] transition-colors hover:[color:var(--sys-ink)]"
-            style={{ color: color.inkMuted }}
-          >
-            {issuer.page.overviewCta}
-          </Link>
-          <Display as="h1" size="xl" className="mt-8 max-w-[16ch]">
-            {issuer.title}
-          </Display>
-          <p
-            className="mt-5 text-2xl leading-snug tracking-[-0.01em] sm:text-3xl"
-            style={{ color: color.orange }}
-          >
-            {issuer.lead}
-          </p>
-          <p
-            className="mt-8 max-w-2xl text-lg leading-relaxed"
-            style={{ color: "rgb(var(--sys-ink-rgb) / 0.7)" }}
-          >
-            {issuer.intro}
-          </p>
-          <div className="mb-16 mt-12 sm:mb-24">
-            <ButtonRow>
-              <Button variant="ink" href={EXTERNAL_LINKS.walkthroughMailto}>
-                {issuer.walkthroughCta} <span aria-hidden>→</span>
-              </Button>
-              <Button variant="disabled">
-                {issuer.reportCta}{" "}
-                <span className="text-[10px]" style={mono}>
-                  soon
-                </span>
-              </Button>
-            </ButtonRow>
-            <div className="mt-4">
-              <ClaimFence>
-                Walkthrough mailto expresses intent — it is not a confirmed
-                booking.
-              </ClaimFence>
+      <Section id="top" bordered={false}>
+        <div className="grid gap-8 pb-12 pt-16 sm:pt-24 lg:grid-cols-12">
+          <div className="lg:col-span-7">
+            <Link
+              href="/#issuer"
+              className="inline-flex items-center text-[13px] font-medium tracking-[-0.01em] transition-colors hover:[color:var(--sys-ink)]"
+              style={muted}
+            >
+              {issuer.page.overviewCta}
+            </Link>
+            <Display as="h1" size="xl" className="mt-8 max-w-[16ch]">
+              {issuer.title}
+            </Display>
+            <p className="mt-5 text-2xl leading-snug tracking-[-0.01em] sm:text-3xl" style={muted}>
+              {issuer.lead}
+            </p>
+          </div>
+          <div className="self-end lg:col-span-5 lg:pl-8">
+            <p className="text-lg leading-relaxed" style={muted}>
+              {issuer.intro}
+            </p>
+            <div className="mt-8">
+              <ButtonRow>
+                <Button variant="primary" href="#how-it-works">
+                  Try the builder <span aria-hidden>↓</span>
+                </Button>
+                <Button variant="outline" href={EXTERNAL_LINKS.walkthroughMailto}>
+                  {issuer.walkthroughCta}
+                </Button>
+              </ButtonRow>
             </div>
           </div>
         </div>
       </Section>
 
-      {/* ── Solution — the four assumptions as full sentences (Permanent ·
-             Useful · Yours · Proof). The old card row read as deprecated
-             (James, 2026-07-02): same cards as the landing teaser, old idiom.
-             Now the numbered-list treatment, single-sourced from the story
-             flow's assumptions — one place to sculpt the canon. ── */}
+      <Section id="how-it-works" bordered={false}>
+        <div className="border-t pb-16 pt-14" style={{ borderColor: color.rule }}>
+          <ArcHeading index={1} total={SECTION_COUNT} kicker={org.audience} title={plan.heading} />
+          <p className="mb-10 mt-4 max-w-2xl text-lg leading-relaxed" style={muted}>
+            {issuer.page.demoLead}
+          </p>
+          <OrbitSteps
+            label="Organization lifecycle"
+            steps={org.steps}
+            active={step}
+            onActiveChange={setStep}
+            className="mb-12"
+          />
+          <HowItWorks
+            heading=""
+            steps={plan.steps}
+            demo={demo}
+            active={STEP_TO_PANE[step]}
+            onActiveChange={(pane) => setStep(PANE_TO_STEP[pane] ?? 0)}
+          />
+        </div>
+      </Section>
+
+      <Section id="controls" bordered={false}>
+        <div className="grid gap-10 border-t py-16 lg:grid-cols-12" style={{ borderColor: color.rule }}>
+          <div className="lg:col-span-5">
+            <ArcHeading index={2} total={SECTION_COUNT} kicker="Ownership" title={issuerControls.title} />
+            <p className="mt-4 text-[15px] leading-relaxed" style={muted}>
+              {issuerControls.lead}
+            </p>
+          </div>
+          <div className="lg:col-span-7">
+            <Readout title="Issuer controls" rows={issuerControls.rows} />
+          </div>
+        </div>
+      </Section>
+
       <Section id="decisions" bordered={false}>
         <div className="border-t pt-14" style={{ borderColor: color.rule }}>
-          <span className="text-2xl font-semibold tracking-[-0.03em] sm:text-3xl">
-            {issuer.decisionsHeading}
-          </span>
+          <ArcHeading index={3} total={SECTION_COUNT} kicker="Principles" title={issuer.decisionsHeading} />
         </div>
-
-        <ol className="mt-10 space-y-6 pb-8">
+        <ol className="mt-10 space-y-6 pb-16">
           {storyFork.curious.assumptions.map((a, i) => (
             <li key={a.term} className="flex gap-6">
-              <span
-                className="pt-1.5 text-[12px] tabular-nums tracking-[0.1em]"
-                style={{ ...mono, color: color.inkFaint }}
-              >
+              <span className="pt-1.5 text-[12px] tabular-nums tracking-[0.1em]" style={{ ...mono, color: color.inkFaint }}>
                 {`0${i + 1}`}
               </span>
               <p className="text-lg leading-relaxed sm:text-xl" style={muted}>
@@ -133,41 +156,22 @@ export default function AndamioIssuer() {
         </ol>
       </Section>
 
-      {/* ── How it works — the three-tab demo (moved here off the landing). ── */}
-      <Section id="how-it-works" bordered={false}>
-        <div
-          className="border-t pb-16 pt-14"
-          style={{ borderColor: color.rule }}
-        >
-          <p className="mb-10 max-w-2xl text-lg leading-relaxed" style={muted}>
-            {issuer.page.demoLead}
-          </p>
-          <HowItWorks heading={plan.heading} steps={plan.steps} demo={demo} />
-        </div>
-      </Section>
-
-      {/* ── Closing — the walkthrough CTA. ──────────────────────────────── */}
-      <Section id="closing" bordered={false} screen>
-        <div className="grid grid-cols-12 py-24 sm:py-32">
-          <div className="col-span-12 lg:col-span-9">
-            <Display as="h2" size="xl">
-              Ready to own the credentials you issue?
-            </Display>
-            <p
-              className="mt-8 max-w-lg text-lg leading-relaxed"
-              style={{ color: "rgb(var(--sys-ink-rgb) / 0.65)" }}
-            >
-              Twenty minutes, we&apos;ll scope a pilot on one of your programs.
-              No slides.
-            </p>
-            <div className="mt-10">
-              <Button variant="ink" href={EXTERNAL_LINKS.walkthroughMailto}>
-                {issuer.walkthroughCta} <span aria-hidden>→</span>
-              </Button>
-            </div>
+      <Section id="adoption" bordered={false}>
+        <div className="border-t py-16" style={{ borderColor: color.rule }}>
+          <ArcHeading index={4} total={SECTION_COUNT} kicker="Adoption" title={adoptionModes.lead} />
+          <div className="mt-10">
+            <AdoptionModes data={adoptionModes} />
           </div>
         </div>
       </Section>
+
+      <CtaBand
+        id="closing"
+        title="Ready to own the credentials you issue?"
+        body="Twenty minutes: we scope a pilot on one of your programs. No slides."
+        primary={{ label: issuer.walkthroughCta, href: EXTERNAL_LINKS.walkthroughMailto }}
+        secondary={{ label: "Start issuing", href: EXTERNAL_LINKS.issuerApp }}
+      />
     </Page>
   );
 }

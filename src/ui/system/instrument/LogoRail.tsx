@@ -3,7 +3,8 @@ import { color, font } from "../tokens";
 
 export interface RailLogo {
   name: string;
-  src: string;
+  /** Omit to render the name as a wordmark (no logo file on hand). */
+  src?: string;
   /** The use case this partner proves; every logo links to one. */
   href: string;
   /** Short mono caption under the mark, e.g. "Governance". */
@@ -34,18 +35,25 @@ export function LogoRail({
               href={l.href}
               className="group flex h-full flex-col items-center justify-between gap-4 px-4 py-6 transition-colors hover:bg-white/[0.03] focus:outline-none focus-visible:[box-shadow:inset_0_0_0_1.5px_var(--sys-cyan)]"
             >
-              <span
-                className="flex h-14 min-w-[112px] items-center justify-center px-3"
-                style={{ background: color.ink }}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={l.src}
-                  alt={l.name}
-                  loading="lazy"
-                  style={{ height: l.height ?? 32, width: "auto" }}
-                  className="max-w-[128px] object-contain mix-blend-multiply transition-[filter] duration-200 [filter:grayscale(1)_contrast(1.1)] group-hover:[filter:none] group-focus-visible:[filter:none]"
-                />
+              <span className="flex h-14 items-center justify-center">
+                {l.src ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={l.src}
+                    alt={l.name}
+                    loading="lazy"
+                    width={l.height ?? 48}
+                    height={l.height ?? 48}
+                    className="object-contain opacity-80 transition-[filter,opacity] duration-200 [filter:grayscale(1)] group-hover:opacity-100 group-hover:[filter:none] group-focus-visible:opacity-100 group-focus-visible:[filter:none]"
+                  />
+                ) : (
+                  <span
+                    className="whitespace-nowrap text-[16px] font-semibold tracking-[-0.02em] transition-colors group-hover:[color:var(--sys-ink)]"
+                    style={{ color: color.inkMuted }}
+                  >
+                    {l.name}
+                  </span>
+                )}
               </span>
               <span
                 className="text-[11px] transition-colors group-hover:[color:var(--sys-cyan)]"

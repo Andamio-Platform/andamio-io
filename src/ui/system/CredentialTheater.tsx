@@ -6,7 +6,7 @@
  */
 
 import React, { useEffect, useState } from "react";
-import { hero, EXTERNAL_LINKS } from "~/ui/explore/content";
+import { hero, EXTERNAL_LINKS, lifecycles, type LifecycleKey } from "~/ui/explore/content";
 import { color, font, space } from "./tokens";
 import {
   BADGE_FIELD_NOTES,
@@ -16,6 +16,7 @@ import { DEFAULT_CREDENTIAL, ProofRingBadge } from "./proof-badge";
 import { type FieldArc } from "./proof-badge/geometry";
 import { Button, ButtonRow, Display } from "./kit";
 import { ClaimFence } from "./ClaimFence";
+import { OrbitSteps } from "./instrument";
 import { persistIntent, readIntent } from "./funnel-intent";
 import {
   FadeSwap,
@@ -47,14 +48,6 @@ const INSPECTOR_ZONES: { id: Exclude<RingFocus, null>; label: string }[] = [
   { id: "qr", label: "Verify QR" },
   { id: "core", label: "Meaning" },
 ];
-
-const LIFECYCLE = [
-  { id: "define", label: "Define" },
-  { id: "evidence", label: "Evidence" },
-  { id: "review", label: "Review" },
-  { id: "claim", label: "Claim" },
-  { id: "verify", label: "Verify" },
-] as const;
 
 const INTENTS = [
   {
@@ -174,7 +167,7 @@ function RingInspector({
             style={{ color: color.inkMuted }}
           >
             Select a field to see what it encodes. Short IDs on the face copy as
-            full hex; the QR is illustrative — not a live chain verify.
+            full hex; the QR opens this credential's public record.
           </p>
         )}
       </div>
@@ -182,84 +175,53 @@ function RingInspector({
   );
 }
 
-function LifecycleRibbon({
-  step,
-  onStep,
-}: {
-  step: number;
-  onStep: (i: number) => void;
-}) {
+const LIFECYCLE_KEYS = ["earner", "organization", "developer"] as const satisfies readonly LifecycleKey[];
+
+function LifecycleTabs() {
+  const [who, setWho] = useState<LifecycleKey>("earner");
+  const [step, setStep] = useState(0);
+  const cycle = lifecycles[who];
   return (
     <div>
-      <p
-        className="text-[11px] font-medium tracking-[0.14em]"
-        style={{ color: color.inkFaint, fontFamily: font.mono }}
-      >
-        LIFECYCLE
-      </p>
-      <ol className="mt-4 flex flex-wrap gap-2">
-        {LIFECYCLE.map((s, i) => {
-          const active = i === step;
+      <div role="tablist" aria-label="Whose lifecycle" className={`flex flex-wrap ${space.gapTight}`}>
+        {LIFECYCLE_KEYS.map((key) => {
+          const on = key === who;
           return (
-            <li key={s.id}>
-              <button
-                type="button"
-                onClick={() => onStep(i)}
-                className="sys-control-press relative px-3 py-2 text-[12px] font-semibold tracking-[-0.01em] transition-[transform,box-shadow,background] duration-200"
-                style={{
-                  border: `1px solid ${active ? "rgb(255 107 53 / 0.45)" : "rgb(var(--sys-ink-rgb) / 0.14)"}`,
-                  color: active ? color.ink : color.inkFaint,
-                  background: active
-                    ? "rgb(255 107 53 / 0.1)"
-                    : "rgb(var(--sys-ink-rgb) / 0.03)",
-                  boxShadow: active
-                    ? color.controlShadow
-                    : "inset 0 1px 0 rgb(var(--sys-ink-rgb) / 0.04)",
-                }}
-                aria-current={active ? "step" : undefined}
-              >
-                {active && (
-                  <LayoutMark
-                    layoutId="theater-lifecycle-step"
-                    className="pointer-events-none absolute inset-0"
-                    style={{
-                      border: "1px solid rgb(255 107 53 / 0.45)",
-                      background: "rgb(255 107 53 / 0.08)",
-                    }}
-                  />
-                )}
-                <span className="relative z-[1]">
-                  <span
-                    style={{ fontFamily: font.mono, color: color.inkGhost }}
-                    className="mr-2"
-                  >
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  {s.label}
-                </span>
-              </button>
-            </li>
+            <button
+              key={key}
+              type="button"
+              role="tab"
+              aria-selected={on}
+              onClick={() => {
+                setWho(key);
+                setStep(0);
+              }}
+              className="border px-3 py-1.5 text-[12px] font-semibold tracking-[-0.01em] transition-colors focus:outline-none focus-visible:[box-shadow:inset_0_0_0_1.5px_var(--sys-cyan)]"
+              style={{
+                borderColor: on ? color.cyan : color.cell,
+                color: on ? color.ink : color.inkFaint,
+                background: on ? "rgb(63 217 232 / 0.08)" : "transparent",
+              }}
+            >
+              {lifecycles[key].label}
+            </button>
           );
         })}
-      </ol>
-      <p
-        className="mt-4 text-[14px] leading-relaxed"
-        style={{ color: color.inkMuted }}
-      >
-        {
-          [
-            "An issuer writes skills, standards, and how people prove them.",
-            "A learner commits and submits evidence.",
-            "An authorized reviewer accepts — or asks for another pass.",
-            "The learner claims a credential that carries what was done and who reviewed it.",
-            "Anyone can verify the credential without calling a private database.",
-          ][step]
-        }
+      </div>
+      <p className="mt-3 text-[13px]" style={{ color: color.inkMuted }}>
+        {cycle.audience}
       </p>
+      <OrbitSteps
+        key={who}
+        className="mt-6"
+        label={`${cycle.label} lifecycle`}
+        steps={cycle.steps}
+        active={step}
+        onActiveChange={setStep}
+      />
     </div>
   );
 }
-
 export function IntentContinue({
   onChoose,
 }: {
@@ -277,8 +239,7 @@ export function IntentContinue({
         className="mt-3 text-[15px] leading-relaxed"
         style={{ color: color.inkMuted }}
       >
-        When you are ready, choose what you want next — in product language, not
-        a persona quiz.
+        When you are ready, choose what you want next.
       </p>
       <div className={`mt-6 flex flex-col ${space.gapButtons}`}>
         {INTENTS.map((intent) => (
@@ -361,7 +322,6 @@ export function PathModule({ intent }: { intent: string | null }) {
 export default function CredentialTheater() {
   const reduce = useMotionGate();
   const [focus, setFocus] = useState<RingFocus>(null);
-  const [step, setStep] = useState(0);
   const [layer, setLayer] = useState<"inspect" | "lifecycle" | "intent">(
     "inspect",
   );
@@ -371,20 +331,11 @@ export default function CredentialTheater() {
     setIntent(readIntent());
   }, []);
 
-  useEffect(() => {
-    if (reduce) return;
-    const id = window.setInterval(() => {
-      setStep((s) => (s + 1) % LIFECYCLE.length);
-    }, 4200);
-    return () => window.clearInterval(id);
-  }, [reduce]);
-
   return (
     <div className="grid grid-cols-12 items-start gap-y-10 pb-10 pt-6 sm:pt-10 lg:gap-x-12">
       <div className="col-span-12 lg:col-span-5 lg:pt-4">
         <Display as="h1" size="xl">
-          {hero.headlineLead}{" "}
-          <span style={{ color: color.orange }}>{hero.headlineAccent}</span>
+          {hero.headlineLead} {hero.headlineAccent}
         </Display>
         <p
           className="mt-6 max-w-[42ch] text-lg leading-relaxed sm:text-xl"
@@ -503,7 +454,7 @@ export default function CredentialTheater() {
               <RingInspector focus={focus} onFocus={setFocus} />
             )}
             {layer === "lifecycle" && (
-              <LifecycleRibbon step={step} onStep={setStep} />
+              <LifecycleTabs />
             )}
             {layer === "intent" && (
               <IntentContinue
@@ -515,8 +466,8 @@ export default function CredentialTheater() {
           </div>
           <div className="lg:col-span-5">
             <ClaimFence>
-              Teaching surface on a real Cardano specimen. Field focus and the
-              verify QR are presentational — not a live mint or on-chain lookup.
+              A real credential on Cardano mainnet. Field focus is a teaching
+              overlay; the QR and IDs point at its public record. Nothing here mints.
             </ClaimFence>
           </div>
         </FadeSwap>

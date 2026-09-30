@@ -1,9 +1,9 @@
 "use client";
 
 /**
- * AndamioLanding — credential-first funnel homepage.
- * Interactive Proof Rings theater + no-click scroll path that teaches
- * differentiation without hard-sell. Canonical kit + content only.
+ * AndamioLanding — credential-first funnel homepage (Concept A).
+ * Hero theater → proof rail → problem → issuer → developers → ecosystem →
+ * closing. Copy lives in ~/ui/explore/content.
  */
 
 import React, { useEffect } from "react";
@@ -18,18 +18,23 @@ import {
   EXTERNAL_LINKS,
   ordinaryFail,
   howTeaser,
+  proofRail,
+  audit,
+  problemCompare,
+  adoptionModes,
+  partnerQuote,
 } from "~/ui/explore/content";
-import { color } from "./tokens";
+import { color, font } from "./tokens";
+import { Page, Section, Button, ButtonRow, Footer } from "./kit";
 import {
-  Page,
-  Section,
-  Display,
-  Button,
-  ButtonRow,
-  Footer,
-  CardRow,
-} from "./kit";
-import { Stagger, StaggerItem } from "./motion";
+  ArcHeading,
+  CtaBand,
+  LogoRail,
+  MiniBadge,
+  ProofCard,
+  Readout,
+} from "./instrument";
+import { AdoptionModes } from "./AdoptionModes";
 
 const pageFooter = (
   <Footer
@@ -41,8 +46,9 @@ const pageFooter = (
 );
 
 const muted = { color: color.inkMuted };
+const SECTION_COUNT = 4;
 
-/** Pause ambient / badge wheels when the tab is hidden. */
+/** Pause the hero badge when the tab is hidden. */
 function useVisibilityPause() {
   useEffect(() => {
     const sync = () => {
@@ -57,6 +63,27 @@ function useVisibilityPause() {
   }, []);
 }
 
+/** A flat drawing of the PDF certificate everyone already has. */
+function PdfCertificate() {
+  return (
+    <div
+      aria-hidden
+      className="relative mx-auto flex aspect-[1.414/1] w-full max-w-[300px] flex-col items-center justify-center border-[6px] border-double p-5 text-center"
+      style={{ background: "rgb(var(--sys-ink-rgb) / 0.9)", borderColor: "rgb(11 18 27 / 0.35)", color: color.onInk }}
+    >
+      <p className="text-[9px] uppercase tracking-[0.3em] opacity-60">Certificate</p>
+      <p className="mt-1 text-[15px] font-semibold tracking-[-0.01em]">of Completion</p>
+      <div className="mt-3 h-px w-3/4 opacity-30" style={{ background: color.onInk }} />
+      <p className="mt-3 text-[10px] opacity-60">This certifies that</p>
+      <p className="text-[12px] font-semibold">Jordan Smith</p>
+      <div className="mt-4 flex w-full items-end justify-between px-2 text-[8px] opacity-50">
+        <span className="border-t px-2 pt-1" style={{ borderColor: color.onInk }}>signature</span>
+        <span className="flex h-8 w-8 items-center justify-center rounded-full border" style={{ borderColor: color.onInk }}>seal</span>
+      </div>
+    </div>
+  );
+}
+
 export default function AndamioLanding() {
   useVisibilityPause();
 
@@ -65,83 +92,99 @@ export default function AndamioLanding() {
       nav={{ items: nav.items, cta: nav.cta, secondaryCta: nav.secondaryCta }}
       footer={pageFooter}
     >
-      {/* 1 · Product presence — interactive credential */}
+      {/* Hero — the credential itself */}
       <Section id="top" bordered={false} screen>
         <CredentialTheater />
       </Section>
 
-      {/* 2 · Why ordinary badges fail — felt, not attack ads */}
-      <Section id="problem" bordered={false}>
-        <div
-          className="border-t py-16 sm:py-24"
-          style={{ borderColor: color.rule }}
-        >
-          <Display as="h2" size="lg" className="max-w-3xl">
-            {ordinaryFail.title}
-          </Display>
-          <p
-            className="mt-4 max-w-[52ch] text-lg leading-relaxed"
-            style={muted}
+      {/* Proof rail — partners in production + the audit */}
+      <Section id="proof" bordered={false}>
+        <div className="grid gap-6 border-t py-12 lg:grid-cols-[1fr_320px]" style={{ borderColor: color.rule }}>
+          <div>
+            <p className="mb-4 text-[12px]" style={{ fontFamily: font.mono, color: color.inkFaint }}>
+              In production with
+            </p>
+            <LogoRail logos={proofRail} />
+          </div>
+          <ProofCard
+            kicker={audit.kicker}
+            title={audit.title}
+            footer={audit.footer}
+            href={audit.href}
           >
-            {ordinaryFail.lead}
-          </p>
-          <Stagger
-            className="mt-12 grid grid-cols-1 gap-10 border-t pt-10 sm:grid-cols-3"
-            style={{ borderColor: color.rule }}
-          >
-            {ordinaryFail.items.map((it) => (
-              <StaggerItem key={it.heading}>
-                <p className="text-[14px] font-semibold tracking-[-0.01em]">
-                  {it.heading}
-                </p>
-                <p className="mt-4 text-[15px] leading-relaxed" style={muted}>
-                  {it.text}
-                </p>
-              </StaggerItem>
-            ))}
-          </Stagger>
+            {audit.body}
+          </ProofCard>
         </div>
       </Section>
 
-      {/* 3 · Four properties — tied to the credential */}
+      {/* 01 · Problem — a PDF next to a credential, field by field */}
+      <Section id="problem" bordered={false}>
+        <div className="border-t py-16 sm:py-24" style={{ borderColor: color.rule }}>
+          <ArcHeading index={1} total={SECTION_COUNT} kicker="The problem" title={ordinaryFail.title} />
+          <p className="mt-4 max-w-[52ch] text-lg leading-relaxed" style={muted}>
+            {ordinaryFail.lead}
+          </p>
+          <div className="mt-12 grid gap-6 lg:grid-cols-2">
+            {[
+              { side: problemCompare.pdf, art: <PdfCertificate /> },
+              {
+                side: problemCompare.badge,
+                art: <MiniBadge size={200} className="mx-auto" label="The Andamio credential shown in the hero" />,
+              },
+            ].map(({ side, art }) => (
+              <ProofCard key={side.label} bodyClassName="p-0">
+                <p
+                  className="px-6 pt-5 text-[11px] uppercase tracking-[0.14em]"
+                  style={{ fontFamily: font.mono, color: color.inkFaint }}
+                >
+                  {side.label}
+                </p>
+                <div className="flex min-h-[250px] items-center justify-center px-6 py-8">{art}</div>
+                <Readout rows={side.rows} className="border-x-0 border-b-0" />
+              </ProofCard>
+            ))}
+          </div>
+        </div>
+      </Section>
+
+      {/* 02 · Issuer — properties, adoption modes, the path to /issuer */}
       <Section id="issuer" bordered={false}>
         <div
           id="issuer-detail"
-          className="grid scroll-mt-24 grid-cols-12 gap-y-8 border-t pb-12 pt-14"
+          className="grid scroll-mt-24 gap-8 border-t pb-12 pt-16 lg:grid-cols-12"
           style={{ borderColor: color.rule }}
         >
-          <div className="col-span-12 lg:col-span-7">
-            <Display as="h2" size="xl">
-              {issuer.title}
-            </Display>
-            <p
-              className="mt-3 text-xl leading-snug tracking-[-0.01em] sm:text-2xl"
-              style={{ color: color.inkMuted }}
-            >
-              {issuer.lead}
-            </p>
+          <div className="lg:col-span-7">
+            <ArcHeading index={2} total={SECTION_COUNT} kicker={issuer.lead} title={issuer.title} />
           </div>
-          <p
-            className="col-span-12 self-end text-lg leading-relaxed lg:col-span-5 lg:pl-8"
-            style={{ color: "rgb(var(--sys-ink-rgb) / 0.65)" }}
-          >
+          <p className="self-end text-lg leading-relaxed lg:col-span-5 lg:pl-8" style={muted}>
             {issuer.intro}
           </p>
         </div>
 
-        <CardRow
-          items={issuer.decisions.map((d) => ({
-            heading: d.heading,
-            body: d.text,
-          }))}
-          size="sm"
-          cols={4}
-        />
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {issuer.decisions.map((d, i) => (
+            <ProofCard
+              key={d.heading}
+              kicker={`Property ${String(i + 1).padStart(2, "0")}`}
+              title={d.heading}
+            >
+              {d.text}
+            </ProofCard>
+          ))}
+        </div>
 
-        <div className="border-t py-10" style={{ borderColor: color.rule }}>
+        <div className="mt-16">
+          <AdoptionModes data={adoptionModes} />
+        </div>
+
+        <div className="mt-12 border-t py-10" style={{ borderColor: color.rule }}>
+          <p className="mb-6 max-w-[60ch] text-[15px] leading-relaxed" style={muted}>
+            {howTeaser.body}
+          </p>
           <ButtonRow>
-            <Button variant="ink" href="/issuer">
-              {issuer.learnMoreCta} <span aria-hidden>→</span>
+            <Button variant="primary" href={howTeaser.cta.href}>
+              {howTeaser.cta.label} <span aria-hidden>→</span>
             </Button>
             <Button variant="outline" href={EXTERNAL_LINKS.walkthroughMailto}>
               {issuer.walkthroughCta}
@@ -150,147 +193,72 @@ export default function AndamioLanding() {
         </div>
       </Section>
 
-      {/* 4 · How path teaser */}
-      <Section id="how" bordered={false}>
-        <div
-          className="grid grid-cols-12 gap-y-8 border-t py-16 sm:py-20"
-          style={{ borderColor: color.rule }}
-        >
-          <div className="col-span-12 lg:col-span-7">
-            <Display as="h2" size="lg">
-              {howTeaser.title}
-            </Display>
-            <p
-              className="mt-4 max-w-[52ch] text-lg leading-relaxed"
-              style={muted}
-            >
-              {howTeaser.body}
-            </p>
-          </div>
-          <div className="col-span-12 self-end lg:col-span-5 lg:pl-8">
-            <Button variant="primary" href={howTeaser.cta.href}>
-              {howTeaser.cta.label} <span aria-hidden>→</span>
-            </Button>
-          </div>
-        </div>
-      </Section>
-
-      {/* 5 · Developers — secondary depth */}
+      {/* 03 · Developers — secondary depth */}
       <Section id="developers" bordered={false}>
-        <div
-          className="grid grid-cols-12 gap-y-8 border-t pb-10 pt-14"
-          style={{ borderColor: color.rule }}
-        >
-          <div className="col-span-12 lg:col-span-7">
-            <Display as="h2" size="xl">
-              {developersCta.title}
-            </Display>
-            <p
-              className="mt-3 text-xl leading-snug tracking-[-0.01em] sm:text-2xl"
-              style={{ color: color.inkMuted }}
-            >
-              {developersCta.lead}
-            </p>
+        <div className="grid gap-8 border-t pb-12 pt-16 lg:grid-cols-12" style={{ borderColor: color.rule }}>
+          <div className="lg:col-span-7">
+            <ArcHeading index={3} total={SECTION_COUNT} kicker={developersCta.lead} title={developersCta.title} />
           </div>
-          <p
-            className="col-span-12 self-end text-lg leading-relaxed lg:col-span-5 lg:pl-8"
-            style={{ color: "rgb(var(--sys-ink-rgb) / 0.65)" }}
-          >
+          <p className="self-end text-lg leading-relaxed lg:col-span-5 lg:pl-8" style={muted}>
             {developersCta.body}
           </p>
         </div>
-
-        <div className="border-t py-10" style={{ borderColor: color.rule }}>
-          <ButtonRow>
-            {developersCta.ctas.map((c) => (
-              <Button key={c.label} variant={c.variant} href={c.href}>
-                {c.label} <span aria-hidden>→</span>
-              </Button>
-            ))}
-          </ButtonRow>
+        <div className="grid gap-4 pb-16 sm:grid-cols-2 lg:grid-cols-4">
+          <ProofCard kicker="API" title="Build on Andamio" footer="REST · X-API-Key" href="/developers">
+            Courses, projects and credentials as endpoints. Transactions come back ready to sign.
+          </ProofCard>
+          <ProofCard kicker="Docs" title="Guides and protocol" footer="docs.andamio.io" href={EXTERNAL_LINKS.docs}>
+            How the protocol works, from Access Tokens to claims.
+          </ProofCard>
+          <ProofCard kicker="CLI" title="Andamio CLI" footer="open source · GitHub" href="/cli">
+            Drive the protocol from your terminal and scripts.
+          </ProofCard>
+          <ProofCard kicker="Bot" title="Discord bot" footer="open source · GitHub" href="/bot">
+            Give Discord roles to people who hold a credential.
+          </ProofCard>
         </div>
       </Section>
 
-      {/* 6 · Ecosystem honesty */}
+      {/* 04 · Ecosystem */}
       <Section id="ecosystem" bordered={false}>
-        <div className="py-20 sm:py-28">
-          <Display
-            as="h2"
-            size="lg"
-            className="max-w-4xl"
-            style={{ lineHeight: 1.12 }}
-          >
-            {ecosystem.lead}
-          </Display>
-
-          <Stagger
-            className="mt-16 grid grid-cols-1 gap-x-12 gap-y-12 border-t pt-12 sm:grid-cols-2 lg:grid-cols-4"
-            style={{ borderColor: color.rule }}
-          >
+        <div className="border-t py-16 sm:py-24" style={{ borderColor: color.rule }}>
+          <ArcHeading index={4} total={SECTION_COUNT} kicker="Ecosystem" title={ecosystem.lead} />
+          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {ecosystem.items.map((it) => (
-              <StaggerItem key={it.title} className="flex flex-col">
-                <p className="text-[14px] font-semibold tracking-[-0.01em]">
-                  {it.title}
-                </p>
-                <p className="mt-6 text-[15px] leading-relaxed" style={muted}>
-                  {it.body}
-                </p>
-                <div className="mt-auto pt-10">
-                  <Button
-                    variant={it.cta.variant}
-                    href={"href" in it.cta ? it.cta.href : undefined}
-                  >
-                    {it.cta.label}
-                    {it.cta.variant !== "disabled" && (
-                      <span aria-hidden> →</span>
-                    )}
-                  </Button>
-                </div>
-              </StaggerItem>
+              <ProofCard
+                key={it.title}
+                title={it.title}
+                href={"cta" in it ? it.cta.href : undefined}
+                footer={
+                  "cta" in it ? (
+                    <span style={{ color: color.cyan }}>{it.cta.label} →</span>
+                  ) : (
+                    <span className="inline-flex items-center gap-2">
+                      <span className="h-1.5 w-1.5 rounded-full" style={{ background: color.inkFaint }} />
+                      {it.status}
+                    </span>
+                  )
+                }
+              >
+                {it.body}
+              </ProofCard>
             ))}
-          </Stagger>
+          </div>
         </div>
       </Section>
 
-      {/* 7 · Close — walkthrough primary */}
-      <Section id="closing" bordered={false}>
-        <div className="grid grid-cols-12 gap-y-12 py-20 sm:py-28 lg:gap-x-12">
-          <div className="col-span-12 lg:col-span-7">
-            <Display as="h2" size="xl">
-              <span className="block">{closing.headlineLine1}</span>
-              <span className="mt-6 block sm:mt-8">
-                {closing.headlineLine2}
-              </span>
-            </Display>
-          </div>
-          <div className="col-span-12 self-end lg:col-span-5">
-            <div className="space-y-4">
-              {closing.body.map((p) => (
-                <p
-                  key={p}
-                  className="text-lg leading-relaxed"
-                  style={{ color: "rgb(var(--sys-ink-rgb) / 0.65)" }}
-                >
-                  {p}
-                </p>
-              ))}
-            </div>
-            <div className="mt-10">
-              <ButtonRow>
-                <Button
-                  variant="primary"
-                  href={EXTERNAL_LINKS.walkthroughMailto}
-                >
-                  {issuer.walkthroughCta} <span aria-hidden>→</span>
-                </Button>
-                <Button variant="outline" href={EXTERNAL_LINKS.discord}>
-                  {closing.cta} <span aria-hidden>→</span>
-                </Button>
-              </ButtonRow>
-            </div>
-          </div>
-        </div>
-      </Section>
+      <CtaBand
+        id="closing"
+        title={
+          <>
+            {closing.headlineLine1} <span style={{ color: color.inkMuted }}>{closing.headlineLine2}</span>
+          </>
+        }
+        body={closing.body[0]}
+        primary={{ label: issuer.walkthroughCta, href: EXTERNAL_LINKS.walkthroughMailto }}
+        secondary={{ label: closing.cta, href: EXTERNAL_LINKS.discord }}
+        quote={partnerQuote}
+      />
     </Page>
   );
 }

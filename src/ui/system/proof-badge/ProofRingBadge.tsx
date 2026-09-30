@@ -33,7 +33,14 @@ import {
   ExternalGlyph,
   SkillGlyph,
 } from "./icons";
-import { Particles, RingA, RingB, RingFixtures, TickScan } from "./ProofRings";
+import {
+  Particles,
+  RingA,
+  RingB,
+  RingFixtures,
+  RingHighlights,
+  TickScan,
+} from "./ProofRings";
 
 const PLATE_SRC = "/images/landing/proof-badge-plate.webp";
 const COPIED_MS = 1600;
@@ -420,6 +427,7 @@ export function ProofRingBadge({
           <RingA courseId={c.courseId} />
           {animated && <TickScan />}
           <RingFixtures />
+          <RingHighlights />
 
           <div className="pb-face">
             <p
@@ -594,12 +602,14 @@ export function ProofRingBadge({
 
             <p
               className="pb-at pb-panel-label pb-field"
+              data-arc="courseId"
               style={field(at(f.courseIdPanel.x + 8, f.courseIdPanel.labelY))}
             >
               Course ID
             </p>
             <div
               className="pb-at pb-mono pb-field"
+              data-arc="courseId"
               style={field(at(f.courseIdPanel.x + 8, f.courseIdPanel.valueY))}
             >
               {c.courseUrl ? (
@@ -625,12 +635,14 @@ export function ProofRingBadge({
 
             <p
               className="pb-at pb-panel-label pb-field"
+              data-arc="hash"
               style={field(at(f.hashPanel.x - 29, f.hashPanel.labelY))}
             >
               SLT hash
             </p>
             <div
               className="pb-at pb-mono pb-field"
+              data-arc="hash"
               style={field(at(f.hashPanel.x - 2, f.hashPanel.valueY))}
             >
               {c.hashUrl ? (
@@ -673,74 +685,6 @@ export function ProofRingBadge({
           <p ref={liveRef} className="pb-sr" aria-live="polite" />
         </div>
       </div>
-      <IdentifierStrip credential={c} hooks={hooks} />
     </div>
-  );
-}
-
-/**
- * Small containers only (see .pb-readout): the same identifiers at a
- * readable size, since the in-face values shrink with the artwork.
- */
-function IdentifierStrip({
-  credential: c,
-  hooks,
-}: {
-  credential: ProofCredential;
-  hooks: FieldHooks;
-}) {
-  const courseId = middleTruncate(c.courseId, 10, 8);
-  const hash = middleTruncate(c.sltHash, 10, 8);
-  return (
-    <dl className="pb-readout pb-on-dark" aria-label="Credential identifiers">
-      <div>
-        <dt>Course ID</dt>
-        <dd>
-          {c.courseUrl ? (
-            <LinkedCopyValue
-              value={c.courseId}
-              display={courseId}
-              label="course ID"
-              href={c.courseUrl}
-              arc="courseId"
-              hooks={hooks}
-            />
-          ) : (
-            <CopyValue
-              value={c.courseId}
-              display={courseId}
-              label="course ID"
-              arc="courseId"
-              hooks={hooks}
-            />
-          )}
-        </dd>
-      </div>
-      <div>
-        <dt>SLT hash</dt>
-        <dd>
-          <CopyValue
-            value={c.sltHash}
-            display={hash}
-            label="SLT hash"
-            arc="hash"
-            hooks={hooks}
-          />
-        </dd>
-      </div>
-      <div>
-        <dt>Issuer DID</dt>
-        <dd>
-          <CopyValue
-            value={c.issuerDid}
-            display={breakAfterColons(c.issuerDid)}
-            label="issuer DID"
-            arc="did"
-            hooks={hooks}
-            className="pb-wrap"
-          />
-        </dd>
-      </div>
-    </dl>
   );
 }

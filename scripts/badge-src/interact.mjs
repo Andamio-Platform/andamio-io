@@ -58,17 +58,22 @@ try {
   check("inner ring has hash bars plus phrase separators", bars.inner === 64 * 4 + 10, String(bars.inner));
 
   const ringFilter = () =>
-    page.evaluate(() => ({
-      hl: document.querySelector(".pb-root").dataset.hl ?? "",
-      outer: getComputedStyle(document.querySelector(".pb-ring-a")).filter,
-      inner: getComputedStyle(document.querySelector(".pb-ring-b")).filter,
-    }));
-  // Hover SLT hash → the whole inner ring glows, the outer ring does not.
+    page.evaluate(() => {
+      const op = (sel) => Number(getComputedStyle(document.querySelector(sel)).opacity);
+      return {
+        hl: document.querySelector(".pb-root").dataset.hl ?? "",
+        hlOuter: op(".pb-hl-a"),
+        hlInner: op(".pb-hl-b"),
+        outer: op(".pb-ring-a"),
+        inner: op(".pb-ring-b"),
+      };
+    });
+  // Hover SLT hash → only the inner ring's highlight shows; the outer ring dims.
   const hashBtn = page.locator(".pb-face .pb-mono .pb-copy").last();
   await hashBtn.hover();
   await page.waitForTimeout(350);
   const hl = await ringFilter();
-  check("hover hash glows only the inner ring", hl.hl === "hash" && hl.inner !== "none" && hl.outer === "none", JSON.stringify(hl));
+  check("hover hash highlights only the inner ring", hl.hl === "hash" && hl.hlInner === 1 && hl.hlOuter === 0 && hl.outer < 0.5 && hl.inner === 1, JSON.stringify(hl));
   await page.locator(".pb-root").screenshot({ path: out("hover-hash.png") });
 
   await hashBtn.click();
@@ -98,7 +103,7 @@ try {
   await courseBtn.hover();
   await page.waitForTimeout(350);
   const courseHl = await ringFilter();
-  check("hover course id glows only the outer ring", courseHl.hl === "courseId" && courseHl.outer !== "none" && courseHl.inner === "none", JSON.stringify(courseHl));
+  check("hover course id highlights only the outer ring", courseHl.hl === "courseId" && courseHl.hlOuter === 1 && courseHl.hlInner === 0 && courseHl.inner < 0.5 && courseHl.outer === 1, JSON.stringify(courseHl));
   const claim = await page.locator(".pb-verify").getAttribute("href");
   check(
     "verify button opens the claim page",
@@ -136,7 +141,7 @@ try {
   check("reduced motion: rings static", ra === 0, `${ra} animations`);
   await rctx.close();
 
-  // Mobile readout.
+  // Mobile: badge fills the column, no identifier strip underneath.
   const mctx = await browser.newContext({ viewport: { width: 375, height: 812 }, deviceScaleFactor: 2 });
   const mp = await mctx.newPage();
   await mp.goto(base, { waitUntil: "networkidle", timeout: 120000 });
@@ -145,11 +150,10 @@ try {
   await mp.waitForTimeout(2200);
   const m = await mp.evaluate(() => {
     const f = document.querySelector(".pb-frame").getBoundingClientRect();
-    const r = document.querySelector(".pb-readout");
-    return { w: Math.round(f.width), readout: getComputedStyle(r).display, docW: document.documentElement.scrollWidth };
+    return { w: Math.round(f.width), readout: Boolean(document.querySelector(".pb-readout")), docW: document.documentElement.scrollWidth };
   });
   check("mobile badge width ≥ 350", m.w >= 350, `${m.w}px`);
-  check("mobile readout visible", m.readout === "block");
+  check("no identifier strip", !m.readout);
   check("no horizontal overflow", m.docW <= 375, `scrollWidth ${m.docW}`);
   await mp.locator(".pb-frame").screenshot({ path: out("mobile-frame.png") });
   await mctx.close();

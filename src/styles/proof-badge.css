@@ -34,80 +34,6 @@
   isolation: isolate;
 }
 
-/* Readable identifiers under the badge once the artwork type gets too small. */
-.pb-readout {
-  --u: 1px;
-  display: none;
-  margin: 12px 16px 0;
-  padding: 10px 14px;
-  border: 1px solid rgb(63 217 232 / 0.28);
-  border-radius: 12px;
-  background: linear-gradient(
-    180deg,
-    rgb(20 42 57 / 0.92),
-    rgb(11 18 27 / 0.92)
-  );
-  font-family: "Inter", system-ui, sans-serif;
-}
-
-.pb-readout > div {
-  display: grid;
-  grid-template-columns: 5.5rem minmax(0, 1fr);
-  align-items: center;
-  gap: 8px;
-  padding: 6px 0;
-}
-
-.pb-readout > div + div {
-  border-top: 1px solid rgb(63 217 232 / 0.12);
-}
-
-.pb-readout dt {
-  font-family: "JetBrains Mono", ui-monospace, monospace;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--pb-panel-label);
-}
-
-.pb-readout dd {
-  margin: 0;
-  min-width: 0;
-  font-family: "JetBrains Mono", ui-monospace, monospace;
-  font-size: 13px;
-  color: var(--pb-panel-value);
-}
-
-.pb-readout .pb-copy,
-.pb-readout .pb-link {
-  min-height: 32px;
-  max-width: 100%;
-}
-
-.pb-readout .pb-copy.pb-wrap > span:first-child {
-  text-align: left;
-  word-break: break-word;
-}
-
-.pb-readout .pb-icon-btn {
-  min-width: 32px;
-  min-height: 32px;
-  align-items: center;
-  justify-content: center;
-}
-
-.pb-readout .pb-icon {
-  width: 15px;
-  height: 15px;
-}
-
-@container pb (max-width: 560px) {
-  .pb-readout {
-    display: block;
-  }
-}
-
 .pb-stage {
   --u: calc(100cqw / 1024);
   position: absolute;
@@ -165,7 +91,6 @@
 .pb-ring {
   will-change: transform;
   transform-origin: 50% 50%;
-  transition: filter 260ms ease;
 }
 
 .pb-glow {
@@ -269,11 +194,69 @@
   opacity: 1;
 }
 
-.pb-root[data-hl="courseId"] .pb-ring-a,
-.pb-root[data-hl="hash"] .pb-ring-b {
-  filter: brightness(1.35) drop-shadow(0 0 8px var(--pb-cyan))
-    drop-shadow(0 0 14px var(--pb-orange));
-  transition: filter 260ms ease;
+/* Ring focus: a static band on the owning ring, everything else steps back. */
+.pb-hl {
+  opacity: 0;
+  transition: opacity 240ms ease;
+}
+
+.pb-hl-link {
+  stroke: var(--pb-cyan-hot);
+  stroke-width: 2;
+  stroke-dasharray: 3 4;
+}
+
+.pb-hl-dot {
+  fill: var(--pb-cyan-hot);
+}
+
+.pb-hl-pulse {
+  opacity: 0;
+}
+
+.pb-root[data-hl="courseId"] .pb-hl-a,
+.pb-root[data-hl="hash"] .pb-hl-b {
+  opacity: 1;
+}
+
+.pb-root[data-hl="courseId"] .pb-hl-a .pb-hl-pulse,
+.pb-root[data-hl="hash"] .pb-hl-b .pb-hl-pulse {
+  animation: pb-hl-pulse 1.4s cubic-bezier(0.45, 0.05, 0.3, 1) both;
+}
+
+@keyframes pb-hl-pulse {
+  from {
+    opacity: 1;
+    transform: rotate(0deg);
+  }
+  85% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    transform: rotate(360deg);
+  }
+}
+
+.pb-ring,
+.pb-particles,
+.pb-scan,
+.pb-marker,
+.pb-arc,
+.pb-face .pb-field {
+  transition: opacity 240ms ease;
+}
+
+.pb-root[data-hl="courseId"] .pb-ring-b,
+.pb-root[data-hl="hash"] .pb-ring-a {
+  opacity: 0.3;
+}
+
+.pb-root[data-hl="courseId"] .pb-face .pb-field:not([data-arc="courseId"]),
+.pb-root[data-hl="hash"] .pb-face .pb-field:not([data-arc="hash"]),
+.pb-root[data-hl="courseId"] :is(.pb-particles, .pb-scan, .pb-marker),
+.pb-root[data-hl="hash"] :is(.pb-particles, .pb-scan, .pb-marker) {
+  opacity: 0.35;
 }
 
 /* ----------------------------------------------------------------- face -- */

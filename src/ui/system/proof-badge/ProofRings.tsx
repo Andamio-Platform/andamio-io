@@ -364,6 +364,65 @@ export const RingA = memo(function RingA({ courseId }: { courseId: string }) {
   );
 });
 
+/** Panel centres (badge px) that the highlight connectors start from. */
+const HL_TARGETS = {
+  a: { panel: { x: 363, y: 791 }, r0: RING.a.band.from, r1: RING.a.band.to },
+  b: { panel: { x: 667, y: 791 }, r0: RING.b.band.from, r1: RING.b.band.to },
+} as const;
+
+const HL_PULSE =
+  "conic-gradient(from 90deg, transparent 0deg, transparent 300deg, color-mix(in srgb, var(--pb-cyan-hot) 70%, transparent) 352deg, #fff 359deg, transparent 360deg)";
+
+function RingHighlight({ ring }: { ring: "a" | "b" }) {
+  const t = HL_TARGETS[ring];
+  const deg =
+    (Math.atan2(t.panel.y - CENTER, t.panel.x - CENTER) * 180) / Math.PI;
+  const from = polar(346, deg);
+  const to = polar(t.r0 - 2, deg);
+  return (
+    <div className={`pb-layer pb-hl pb-hl-${ring}`} aria-hidden>
+      <Annulus
+        r0={t.r0}
+        r1={t.r1}
+        background="color-mix(in srgb, var(--pb-cyan) 22%, transparent)"
+      />
+      <Annulus
+        r0={t.r0 - 1}
+        r1={t.r0 + 1}
+        background="var(--pb-cyan-hot)"
+      />
+      <Annulus
+        r0={t.r1 - 1}
+        r1={t.r1 + 1}
+        background="var(--pb-cyan-hot)"
+      />
+      <div className="pb-layer pb-hl-pulse">
+        <Annulus r0={t.r0} r1={t.r1} background={HL_PULSE} />
+      </div>
+      <svg className="pb-svg" viewBox="0 0 1024 1024">
+        <line
+          x1={from.x}
+          y1={from.y}
+          x2={to.x}
+          y2={to.y}
+          className="pb-hl-link"
+        />
+        <circle cx={to.x} cy={to.y} r={4} className="pb-hl-dot" />
+      </svg>
+    </div>
+  );
+}
+
+/** Static focus layers: one per ring, shown by `data-hl` on `.pb-root`. */
+export function RingHighlights() {
+  return (
+    <>
+      <RingHighlight ring="b" />
+      <RingHighlight ring="a" />
+    </>
+  );
+}
+
 /** A short bright arc sweeping the tick track, independent of the spin. */
 export function TickScan() {
   const a = RING.a;

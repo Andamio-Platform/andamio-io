@@ -6,8 +6,8 @@
  * differentiation without hard-sell. Canonical kit + content only.
  */
 
-import React, { useEffect, Suspense } from "react";
-import dynamic from "next/dynamic";
+import React, { useEffect } from "react";
+import CredentialTheater from "./CredentialTheater";
 import {
   nav,
   developersCta,
@@ -18,8 +18,6 @@ import {
   EXTERNAL_LINKS,
   ordinaryFail,
   howTeaser,
-  hero,
-  CREDENTIAL_BADGE_SRC,
 } from "~/ui/explore/content";
 import { color } from "./tokens";
 import {
@@ -30,43 +28,8 @@ import {
   ButtonRow,
   Footer,
   CardRow,
-  ArtifactPlate,
 } from "./kit";
 import { Stagger, StaggerItem } from "./motion";
-
-const CredentialTheater = dynamic(() => import("./CredentialTheater"), {
-  ssr: false,
-  loading: () => (
-    <div className="grid grid-cols-12 items-start gap-y-10 pb-10 pt-6 sm:pt-10 lg:gap-x-12">
-      <div className="col-span-12 lg:col-span-5 lg:pt-4">
-        <Display as="h1" size="xl">
-          {hero.headlineLead}{" "}
-          <span style={{ color: color.orange }}>{hero.headlineAccent}</span>
-        </Display>
-        <p
-          className="mt-6 max-w-[42ch] text-lg leading-relaxed sm:text-xl"
-          style={{ color: color.inkMuted }}
-        >
-          {hero.supportLine}
-        </p>
-        <div className="mt-10">
-          <Button variant="primary" href={hero.showMeCta.href}>
-            {hero.showMeCta.label} <span aria-hidden>→</span>
-          </Button>
-        </div>
-      </div>
-      <div className="col-span-12 lg:col-span-7">
-        <ArtifactPlate
-          src={CREDENTIAL_BADGE_SRC}
-          alt={hero.badgeAlt}
-          caption={hero.badgeCaption}
-          figLabel="fig. 1"
-          imgStyle={{ maxHeight: "min(calc(100svh - 26rem), 28rem)" }}
-        />
-      </div>
-    </div>
-  ),
-});
 
 const pageFooter = (
   <Footer
@@ -102,11 +65,9 @@ export default function AndamioLanding() {
       nav={{ items: nav.items, cta: nav.cta, secondaryCta: nav.secondaryCta }}
       footer={pageFooter}
     >
-      {/* 1 · Product presence — interactive credential (deferred client chunk) */}
+      {/* 1 · Product presence — interactive credential */}
       <Section id="top" bordered={false} screen>
-        <Suspense fallback={null}>
-          <CredentialTheater />
-        </Suspense>
+        <CredentialTheater />
       </Section>
 
       {/* 2 · Why ordinary badges fail — felt, not attack ads */}

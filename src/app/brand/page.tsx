@@ -39,7 +39,7 @@ const neutrals = [
 
 const accents = [
   ["orange", "#FF6B35", "Brand signal — sparing. Mark · the one primary CTA · live pulse · VERIFIED."],
-  ["blue", "#2F6BFF", "Wayfinding + data only — links, nav-active, the rail. Never a fill."],
+  ["blue", "var(--sys-cyan)", "Wayfinding + data only — links, nav-active, the rail. Never a fill."],
   ["coralTint", "rgba(255,107,74,0.055)", "Credential-plate background tint only. Never type."],
 ] as const;
 
@@ -81,8 +81,8 @@ function CopyHex({ value }: { value: string }) {
         setCopied(true);
         setTimeout(() => setCopied(false), 1100);
       }}
-      className="text-[11px] uppercase tracking-[0.1em] tabular-nums transition-colors hover:text-black"
-      style={{ ...mono, color: copied ? color.blue : color.inkFaint }}
+      className="text-[11px] uppercase tracking-[0.1em] tabular-nums transition-colors hover:text-foreground"
+      style={{ ...mono, color: copied ? color.cyan : color.inkFaint }}
       title="Copy"
     >
       {copied ? "copied ✓" : value}
@@ -129,7 +129,7 @@ function Rule({ ok, children }: { ok: boolean; children: React.ReactNode }) {
       <span
         aria-hidden
         className="mt-0.5 inline-flex h-4 w-4 shrink-0 items-center justify-center text-[11px] font-bold"
-        style={{ color: ok ? color.blue : color.orange }}
+        style={{ color: ok ? color.cyan : color.orange }}
       >
         {ok ? "✓" : "✕"}
       </span>
@@ -274,7 +274,7 @@ export default function BrandPage() {
           <div className="col-span-12 lg:col-span-7">
             <div className="grid gap-px sm:grid-cols-2" style={{ background: color.cell }}>
               <div className="p-6" style={{ background: color.paper }}>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.14em]" style={{ ...mono, color: color.blue }}>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.14em]" style={{ ...mono, color: color.cyan }}>
                   Do
                 </p>
                 <div className="mt-6 flex flex-wrap items-center gap-3">
@@ -283,7 +283,7 @@ export default function BrandPage() {
                 </div>
                 <p className="mt-6 text-[15px] leading-relaxed">
                   Verifiable credentials,{" "}
-                  <a href="#" className="font-medium" style={{ color: color.blue }}>
+                  <a href="#" className="font-medium" style={{ color: color.cyan }}>
                     on Cardano
                   </a>
                   . One orange action; blue is the link.
@@ -297,7 +297,7 @@ export default function BrandPage() {
                   <Button variant="primary">Get started →</Button>
                   <span
                     className="inline-flex items-center px-4 py-2 text-[12px] font-semibold uppercase tracking-[0.1em] text-white"
-                    style={{ background: color.blue }}
+                    style={{ background: color.cyan }}
                   >
                     Sign up
                   </span>
@@ -412,7 +412,7 @@ export default function BrandPage() {
                     <span className="col-span-12 text-[13px] font-semibold tracking-[-0.01em] sm:col-span-4">
                       {role}
                     </span>
-                    <span className="col-span-6 text-[12px] sm:col-span-4" style={{ ...mono, color: color.blue }}>
+                    <span className="col-span-6 text-[12px] sm:col-span-4" style={{ ...mono, color: color.cyan }}>
                       {cls}
                     </span>
                     <span className="col-span-6 text-[13px] sm:col-span-4" style={muted}>

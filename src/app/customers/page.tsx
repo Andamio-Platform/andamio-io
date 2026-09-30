@@ -99,7 +99,7 @@ export default function CustomersPage() {
                   <div className="flex items-center gap-3">
                     <span
                       className="text-[11px] font-medium tracking-[-0.01em]"
-                      style={{ color: color.blue }}
+                      style={{ color: color.cyan }}
                     >
                       Customer
                     </span>
@@ -128,7 +128,7 @@ export default function CustomersPage() {
                     <span />
                     <span
                       className="inline-flex items-center gap-1.5 text-[12px] font-semibold tracking-[-0.01em] opacity-0 transition-opacity group-hover:opacity-100"
-                      style={{ color: color.blue }}
+                      style={{ color: color.cyan }}
                     >
                       Read →
                     </span>

@@ -22,6 +22,7 @@ import {
   NumberWatermark,
   Display,
 } from "~/ui/system/kit";
+import { InstrumentSpecimens } from "~/ui/system/instrument/Specimens";
 import { hero, CREDENTIAL_BADGE_SRC } from "~/ui/explore/content";
 
 /**
@@ -66,15 +67,16 @@ const swatches: { name: string; value: string; role: string }[] = [
   { name: "rule", value: color.rule, role: "Section dividers" },
   { name: "cell", value: color.cell, role: "Sub-dividers" },
   { name: "grid", value: color.grid, role: "Faint 12-col field" },
-  { name: "orange", value: color.orange, role: "BRAND signal — sparing" },
-  { name: "blue", value: color.blue, role: "Wayfinding + data" },
+  { name: "orange", value: color.orange, role: "Acts: one primary CTA per view" },
+  { name: "surface", value: color.surface, role: "Raised navy: cards, readouts" },
+  { name: "cyan", value: color.cyan, role: "Explains: links, data, focus" },
   { name: "coralTint", value: color.coralTint, role: "Specimen plate tint" },
 ];
 
 const principles = [
   "Type is Inter semibold (600) for display — tight tracking, ~0.92 leading. JetBrains Mono only for labels, numbers, and readouts. Never a serif.",
-  "Orange is the brand signal, used sparingly: brand mark, the single primary CTA, the live pulse, the VERIFIED stamp. Nowhere else.",
-  "Blue is secondary — wayfinding and data only. Coral is a tint for the one specimen plate.",
+  "Color comes from the Proof Ring badge: deep navy page, raised navy surfaces, cream text. Cyan explains (links, data, focus); orange acts (one primary action per view, live states).",
+  "Every mark encodes something real: ticks count, arcs trace a lifecycle, corner ticks frame evidence. No gradient text, no glass cards, no three-icon grids.",
   "Structure: a faint fixed 12-column grid, a 1320px measure, generous vertical rhythm with full-width ink hairline rules.",
   "The lead / hero section carries no bottom rule — it flows into the first section's header, never closing with a heavy divider.",
   "Section-header rules carry no trailing meta text. The rule runs clean to the edge of the measure — no faint labels floating on it.",
@@ -99,12 +101,12 @@ export default function SystemPage() {
           </span>
         </div>
         <h1 className="mt-8 text-4xl font-semibold tracking-[-0.03em] sm:text-5xl">
-          The Warm Index system
+          The Proof instrument system
         </h1>
         <p className="mt-4 max-w-2xl text-lg" style={{ color: color.inkMuted }}>
           The tokens and components behind the chosen landing direction. Every
           piece below is the real, live thing — not a screenshot.{" "}
-          <Link href="/" className="font-medium underline-offset-2 hover:underline" style={{ color: color.blue }}>
+          <Link href="/" className="font-medium underline-offset-2 hover:underline" style={{ color: color.cyan }}>
             See it composed into the full page →
           </Link>
         </p>
@@ -115,7 +117,7 @@ export default function SystemPage() {
         <ol className="space-y-3">
           {principles.map((p, i) => (
             <li key={i} className="grid grid-cols-[28px_1fr] gap-3 text-[15px] leading-relaxed">
-              <span className="tabular-nums" style={{ fontFamily: MONO, color: color.blue }}>
+              <span className="tabular-nums" style={{ fontFamily: MONO, color: color.cyan }}>
                 0{i + 1}
               </span>
               <span style={{ color: color.inkMuted }}>{p}</span>
@@ -146,7 +148,7 @@ export default function SystemPage() {
           {(
             [
               ["Orange", accentPolicy.orange, color.orange],
-              ["Blue", accentPolicy.blue, color.blue],
+              ["Cyan", accentPolicy.cyan, color.cyan],
               ["Coral", accentPolicy.coral, color.orange],
             ] as const
           ).map(([k, v, c]) => (
@@ -219,7 +221,7 @@ export default function SystemPage() {
                 </span>
                 <span
                   className="inline-block h-px"
-                  style={{ width: isActive ? 24 : 8, background: isActive ? color.blue : "rgba(10,10,10,0.22)" }}
+                  style={{ width: isActive ? 24 : 8, background: isActive ? color.cyan : "rgba(10,10,10,0.22)" }}
                 />
               </span>
             );
@@ -288,6 +290,10 @@ export default function SystemPage() {
             </div>
           ))}
         </dl>
+      </Block>
+
+      <Block n="08" title="Instrument kit">
+        <InstrumentSpecimens />
       </Block>
 
       <footer className="border-t py-10 text-center" style={{ borderColor: color.rule }}>

@@ -88,7 +88,7 @@ export default function Fund12() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 text-[13px] font-semibold tracking-[-0.01em] transition-colors hover:underline"
-                    style={{ color: color.blue }}
+                    style={{ color: color.cyan }}
                   >
                     Read more →
                   </a>

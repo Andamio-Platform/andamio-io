@@ -273,7 +273,7 @@ export default function PrivacyPolicyPage() {
                   <a
                     href="mailto:dpo@andamio.io"
                     className="transition-colors hover:underline"
-                    style={{ color: color.blue }}
+                    style={{ color: color.cyan }}
                   >
                     dpo@andamio.io
                   </a>
@@ -306,7 +306,7 @@ export default function PrivacyPolicyPage() {
                 <a
                   href="mailto:support@andamio.io"
                   className="transition-colors hover:underline"
-                  style={{ color: color.blue }}
+                  style={{ color: color.cyan }}
                 >
                   support@andamio.io
                 </a>

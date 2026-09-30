@@ -118,7 +118,7 @@ export default function UseCasesIndex() {
                     </p>
                     <span
                       className="mt-4 inline-block text-[13px] font-semibold tracking-[-0.01em] opacity-0 transition-opacity group-hover:opacity-100"
-                      style={{ color: color.blue }}
+                      style={{ color: color.cyan }}
                     >
                       View →
                     </span>

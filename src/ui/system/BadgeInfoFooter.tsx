@@ -13,7 +13,7 @@ function InfoChip({ label, body }: { label: string; body: string }) {
   return (
     <Popover>
       <PopoverTrigger
-        className="inline-flex items-center gap-1.5 border px-3 py-1.5 text-[12px] font-medium tracking-[-0.01em] transition-colors hover:bg-black/[0.03] focus:outline-none focus-visible:[box-shadow:inset_0_0_0_1.5px_#2F6BFF]"
+        className="inline-flex items-center gap-1.5 border px-3 py-1.5 text-[12px] font-medium tracking-[-0.01em] transition-colors hover:bg-white/[0.03] focus:outline-none focus-visible:[box-shadow:inset_0_0_0_1.5px_var(--sys-cyan)]"
         style={{ borderColor: color.rule, color: color.ink }}
       >
         {label}

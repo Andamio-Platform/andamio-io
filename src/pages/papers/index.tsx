@@ -60,7 +60,7 @@ export default function PapersHub({ body }: Props) {
                 </span>
                 <span
                   className="mt-3 inline-block text-[12px] font-medium tracking-[-0.01em] opacity-0 transition-opacity group-hover:opacity-100"
-                  style={{ color: color.blue }}
+                  style={{ color: color.cyan }}
                 >
                   Read →
                 </span>

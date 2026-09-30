@@ -128,7 +128,7 @@ export default function RoadmapTrack({ product }: { product: Roadmap }) {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="mt-2 inline-block text-xs font-medium transition-colors hover:underline"
-                    style={{ color: color.blue, fontFamily: font.mono }}
+                    style={{ color: color.cyan, fontFamily: font.mono }}
                   >
                     {epic.link.label} →
                   </a>

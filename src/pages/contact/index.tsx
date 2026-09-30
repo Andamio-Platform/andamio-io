@@ -70,7 +70,7 @@ export default function ContactPage() {
                     <a
                       href={channel.href}
                       className="text-lg font-semibold tracking-[-0.01em] transition-colors hover:underline"
-                      style={{ color: color.blue }}
+                      style={{ color: color.cyan }}
                     >
                       {channel.value}
                     </a>

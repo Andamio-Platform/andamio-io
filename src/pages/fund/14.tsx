@@ -169,7 +169,7 @@ const ProposalCard: React.FC<ProposalCardProps> = ({ proposal }) => (
         style={{
           borderColor: color.cell,
           color:
-            proposal.status === "completed" ? color.blue : color.inkMuted,
+            proposal.status === "completed" ? color.cyan : color.inkMuted,
         }}
       >
         {proposal.status}
@@ -191,9 +191,9 @@ const ProposalCard: React.FC<ProposalCardProps> = ({ proposal }) => (
             className="mt-0.5 inline-flex h-4 w-4 shrink-0 items-center justify-center text-[10px]"
             style={{
               border: `1px solid ${
-                deliverable.completed ? color.blue : color.cell
+                deliverable.completed ? color.cyan : color.cell
               }`,
-              background: deliverable.completed ? color.blue : "transparent",
+              background: deliverable.completed ? color.cyan : "transparent",
               color: "#fff",
             }}
           >
@@ -212,7 +212,7 @@ const ProposalCard: React.FC<ProposalCardProps> = ({ proposal }) => (
         target="_blank"
         rel="noopener noreferrer"
         className="inline-flex items-center gap-2 text-[13px] font-semibold tracking-[-0.01em] transition-colors hover:underline"
-        style={{ color: color.blue }}
+        style={{ color: color.cyan }}
       >
         View Proposal →
       </a>

@@ -41,7 +41,7 @@ export default function WhitepaperPage({ slug, title, summary, body }: Props) {
         <main className="mx-auto max-w-3xl px-6 pb-24 pt-16 sm:px-10 sm:pt-24">
           <Link
             href="/papers"
-            className="inline-flex items-center gap-1.5 text-[13px] font-semibold tracking-[-0.01em] transition-colors hover:text-black"
+            className="inline-flex items-center gap-1.5 text-[13px] font-semibold tracking-[-0.01em] transition-colors hover:text-foreground"
             style={{ color: color.inkFaint }}
           >
             ← All papers

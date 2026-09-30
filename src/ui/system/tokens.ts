@@ -1,90 +1,81 @@
 /**
- * Andamio Landing — Design Tokens
+ * Andamio Landing — Design Tokens (Proof instrument, dark only)
  * =================================================================
- * The single source of truth for the design language extracted from
- * iteration 22 ("Warm Index · Editorial rail"). Every component in
- * ./kit.tsx reads from here; nothing hard-codes a hex or a size.
+ * The single source of truth for the site's design language. Every component
+ * in ./kit.tsx and ./instrument/ reads from here; nothing hard-codes a hex or
+ * a size. Decision: docs/landing-page-excellence/decisions/
+ * 2026-09-30-proof-instrument-dark.md.
  *
- * THE RULES THIS SYSTEM ENCODES (the decisions we converged on):
+ * THE RULES THIS SYSTEM ENCODES:
  *
- *  1. Type is Inter semibold (600) for display — the refined "12 cut":
- *     tight tracking (~-0.045em), leading ~0.92. JetBrains Mono ONLY for
- *     small labels, section numbers, and data readouts. Never a serif.
- *  2. Color discipline — a 3-color theme on ink/paper neutrals:
- *       • ORANGE is the Andamio brand signal, used SPARINGLY. Allowed on:
- *         the brand mark, the single primary CTA, the live pulse, and the
- *         VERIFIED stamp. NEVER on kickers, numerals, headings, or body.
- *       • BLUE is secondary — wayfinding + data only (the rail, links).
- *       • CORAL is a tint, used in exactly one zone (the specimen plate).
- *  3. Structure — a faint fixed 12-column grid, a 1320px measure, generous
- *     vertical rhythm with full-width ink hairline rules between sections.
- *       • Spacing is ROLE-DRIVEN on a 4px grid (see `space`): one role → one
- *         step, never eyeballed. Canonical steps (px): 4·8·12·16·24·32·40·48·
- *         64·96. The off-rhythm strays (20·28·56·80) migrate to the nearest role.
- *       • The LEAD / hero section carries NO bottom rule — it flows into the
- *         first section's header rather than closing with a heavy divider.
- *       • Section-header rules (kicker · [LIVE] · rule) carry NO trailing meta
- *         text. A faint mono label floating on the rule reads as illegible
- *         decoration; the rule runs clean to the edge of the measure.
- *  4. Hero is full-bleed type with the credential WITHHELD; it is revealed
- *     by a sideways scroll into a museum-specimen frame.
- *  5. Wayfinding is an editorial margin rail (de-chromed) — not app furniture.
+ *  1. Type is Inter semibold (600) for display: tight tracking (~-0.045em),
+ *     leading ~0.92. JetBrains Mono ONLY for labels, section numbers and data
+ *     readouts. Never a serif.
+ *  2. Color comes from the Proof Ring badge: deep navy page, raised navy
+ *     surfaces, cream text.
+ *       • CYAN explains: links, data, readouts, focus.
+ *       • ORANGE acts: the one primary action per view, live states, the
+ *         VERIFIED stamp. Never kickers, numerals, headings or body.
+ *  3. Every mark encodes something real. Tick rules count, arcs trace a
+ *     lifecycle, corner ticks frame evidence. No gradient text, no glass
+ *     cards, no three-icon grids.
+ *  4. Structure: a 1320px measure, role-driven spacing on a 4px grid (see
+ *     `space`), hairline rules between sections.
+ *  5. Motion: only the hero badge moves continuously. Everything else is
+ *     user-driven or a one-time reveal, gated by `useMotionGate`.
  */
 
 /* ── Color ──────────────────────────────────────────────────────────────
- * Values resolve to CSS vars defined in globals.css (`--sys-*`), so the whole
- * design system flips with the global light/dark toggle (next-themes `.dark`).
- * The ink/paper neutrals derive their alpha tints from a single channel triplet
- * (`--sys-ink-rgb` / `--sys-paper-rgb`) so muted/faint/ghost/etc invert from one
- * source. Editing a hex here does nothing — change the var in globals.css. */
+ * Values resolve to CSS vars defined in globals.css (`--sys-*`). Neutrals
+ * derive their alpha tints from one channel triplet (`--sys-ink-rgb`).
+ * Editing a hex here does nothing — change the var in globals.css. */
 export const color = {
   paper: "var(--sys-paper)",
+  /** Raised navy: cards, panels, readouts. */
+  surface: "var(--sys-surface)",
   ink: "var(--sys-ink)",
   /** Body / secondary text on paper. */
-  inkMuted: "rgb(var(--sys-ink-rgb) / 0.60)",
-  inkFaint: "rgb(var(--sys-ink-rgb) / 0.45)",
-  inkGhost: "rgb(var(--sys-ink-rgb) / 0.30)",
+  inkMuted: "rgb(var(--sys-ink-rgb) / 0.66)",
+  inkFaint: "rgb(var(--sys-ink-rgb) / 0.50)",
+  inkGhost: "rgb(var(--sys-ink-rgb) / 0.32)",
   /** Big tabular watermark numerals. */
-  inkWatermark: "rgb(var(--sys-ink-rgb) / 0.10)",
+  inkWatermark: "rgb(var(--sys-ink-rgb) / 0.08)",
 
-  /** Solid ink rule between full-bleed sections (softened in dark). */
+  /** Rule between full-bleed sections. */
   rule: "var(--sys-rule)",
   /** Inner cell / sub-divider. */
-  cell: "rgb(var(--sys-ink-rgb) / 0.15)",
-  /** Faint fixed grid field. */
+  cell: "rgb(var(--sys-ink-rgb) / 0.14)",
+  /** Faint grid field. */
   grid: "rgb(var(--sys-ink-rgb) / 0.05)",
   /** Hairline panel edge. */
   hairline: "rgb(var(--sys-ink-rgb) / 0.10)",
 
-  /** Contrast pair for ink-emphasis surfaces (ink button, emphasized layer). */
+  /** Text on orange or cream fills. */
   onInk: "var(--sys-on-ink)",
 
-  /** Brand signal — sparing. Brand mark · primary CTA · live · verified. */
+  /** Acts — one primary CTA per view, live states, VERIFIED. */
   orange: "var(--sys-orange)",
-  /** Secondary — wayfinding + data only. */
-  blue: "var(--sys-blue)",
-  /** Tertiary tint — the specimen plate only. */
+  /** Explains — links, data, readouts, focus. */
+  cyan: "var(--sys-cyan)",
+  /** Warm tint for the one specimen plate. */
   coralTint: "var(--sys-coral-tint)",
-  /** Opaque artifact-plate fill: paper nudged toward ink — slightly darker
-   *  than the page in light mode, slightly lighter in dark mode. */
-  plate: "color-mix(in srgb, var(--sys-paper) 95%, var(--sys-ink))",
-  /** Soft lift for floating cards (artifact plate, demo container). Black-based
-   *  so it stays a shadow (not a glow) in dark mode. */
-  cardShadow: "0 1px 2px rgb(0 0 0 / 0.06), 0 8px 24px rgb(0 0 0 / 0.10)",
-  /** Control elevation — buttons / chips (Warm Index depth, not neon glow). */
+  /** Opaque artifact-plate fill. */
+  plate: "var(--sys-surface)",
+  /** Soft lift for floating cards. */
+  cardShadow: "0 1px 2px rgb(0 0 0 / 0.3), 0 8px 24px rgb(0 0 0 / 0.35)",
+  /** Control elevation — buttons / chips. */
   controlShadow: "var(--sys-shadow-control)",
   /** Specimen plate elevation. */
   specimenShadow: "var(--sys-shadow-specimen)",
 } as const;
 
-/** Where each accent is allowed — enforced by convention + reviewed in /explore/system. */
+/** Where each accent is allowed. */
 export const accentPolicy = {
   orange:
-    "Brand mark, the single primary CTA, the live pulse dot, the VERIFIED stamp. Nothing else.",
-  blue: "Wayfinding (editorial rail) and data readouts/links. Never a heading or body color.",
+    "The single primary CTA per view, live states, the VERIFIED stamp, the brand mark. Nothing else.",
+  cyan: "Links, data readouts, focus rings, lifecycle marks. Never a heading or body color.",
   coral: "A background tint for the one specimen plate. Never type.",
 } as const;
-
 /* ── Typography ─────────────────────────────────────────────────────── */
 export const font = {
   sans: "var(--font-inter), system-ui, -apple-system, sans-serif",

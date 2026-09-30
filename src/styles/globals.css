@@ -19,247 +19,74 @@
   }
 }
 
+/* ── Proof instrument palette (dark only) ─────────────────────────────────
+   Taken from the Proof Ring badge (src/ui/system/proof-badge/geometry.ts):
+   deep navy page, raised navy surfaces, cream text, cyan explains (links,
+   data, focus), orange acts (one primary action per view). See
+   docs/landing-page-excellence/decisions/2026-09-30-proof-instrument-dark.md. */
 @layer base {
   :root {
-    /* Radii — tightened Apr 2026. Andamio is scaffolding; keep edges closer to 90°. */
+    color-scheme: dark;
+
     --radius-sm: 2px;
     --radius-md: 3px;
     --radius: 4px;
     --radius-lg: 6px;
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    /* Reclaimed brand — Scaffold Orange #FF6B35 + Foundation Blue #004E89 (see /brand). */
-    --primary: #ff6b35;
-    --primary-foreground: #ffffff;
-    --secondary: #004e89;
-    --secondary-foreground: #ffffff;
-    --muted: oklch(0.985 0.002 106.423);
-    --muted-foreground: oklch(0.478 0.029 255.508);
-    --accent: oklch(0.988 0.008 79.439);
-    --accent-foreground: oklch(0.145 0 0);
-    --destructive: oklch(0.608 0.227 27.325);
-    --border: oklch(0.922 0.003 106.423);
-    --input: oklch(0.922 0.003 106.423);
-    --ring: #ff6b35;
-    --chart-1: oklch(0.719 0.14 38.581);
-    --chart-2: oklch(0.605 0.155 250.505);
-    --chart-3: oklch(0.627 0.106 181.764);
-    --chart-4: oklch(0.669 0.199 38.581);
-    --chart-5: oklch(0.387 0.134 250.505);
-    --sidebar: oklch(0.988 0.008 79.439);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.669 0.199 38.581);
-    --sidebar-primary-foreground: oklch(1 0 0);
-    --sidebar-accent: oklch(1 0 0);
-    --sidebar-accent-foreground: oklch(0.145 0 0);
-    --sidebar-border: oklch(0.922 0.003 106.423);
-    --sidebar-ring: oklch(0.669 0.199 38.581);
-    --warning: hsl(30 90% 55%);
-    --warning-foreground: hsl(40 95% 95%);
-    --success: hsl(140 65% 30%);
-    --success-foreground: hsl(140 65% 90%);
-    --editor-blue: hsl(200 70% 35%);
-    --editor-green: hsl(140 65% 35%);
-    --editor-orange: hsl(15 80% 55%);
-    --editor-yellow: hsl(40 85% 45%);
-    --surface-subtle: oklch(0.97 0.004 106.423);
-    --surface-dark: #0d1117;
-    --surface-dark-elevated: #161b22;
 
-    /* Shadow system — bolder, tangible. Use sparingly. */
-    --shadow-sm: 0 1px 0 rgb(0 0 0 / 0.06), 0 2px 4px rgb(0 0 0 / 0.04);
-    --shadow-md: 0 2px 0 rgb(0 0 0 / 0.08), 0 8px 16px -4px rgb(0 0 0 / 0.12);
-    --shadow-lg: 0 4px 0 rgb(0 0 0 / 0.1), 0 16px 32px -8px rgb(0 0 0 / 0.18);
-    --shadow-press: inset 0 2px 0 rgb(0 0 0 / 0.12);
+    /* System palette read by src/ui/system/tokens.ts. Neutrals also ship as RGB
+       triplets so alpha tints (muted, faint, cell, hairline) derive from one source. */
+    --sys-paper: #0b121b;
+    --sys-paper-rgb: 11 18 27;
+    --sys-surface: #122131;
+    --sys-surface-rgb: 18 33 49;
+    --sys-ink: #efe9dd;
+    --sys-ink-rgb: 239 233 221;
+    --sys-on-ink: #0b121b;
+    --sys-on-ink-rgb: 11 18 27;
+    --sys-rule: rgb(239 233 221 / 0.18);
+    --sys-orange: #f7a54a;
+    --sys-cyan: #3fd9e8;
+    --sys-coral-tint: rgb(247 165 74 / 0.08);
+    --sys-shadow-control: 0 1px 2px rgb(0 0 0 / 0.35), 0 6px 20px rgb(0 0 0 / 0.4);
+    --sys-shadow-specimen: 0 2px 6px rgb(0 0 0 / 0.35), 0 20px 48px rgb(0 0 0 / 0.45);
+
+    /* shadcn / Tailwind semantic colors, mapped onto the same palette. */
+    --background: var(--sys-paper);
+    --foreground: var(--sys-ink);
+    --card: var(--sys-surface);
+    --card-foreground: var(--sys-ink);
+    --popover: var(--sys-surface);
+    --popover-foreground: var(--sys-ink);
+    --primary: var(--sys-orange);
+    --primary-foreground: var(--sys-on-ink);
+    --secondary: var(--sys-cyan);
+    --secondary-foreground: var(--sys-on-ink);
+    --muted: #142a39;
+    --muted-foreground: rgb(239 233 221 / 0.62);
+    --accent: #1a3346;
+    --accent-foreground: var(--sys-ink);
+    --destructive: #f0735a;
+    --border: rgb(239 233 221 / 0.14);
+    --input: rgb(239 233 221 / 0.2);
+    --ring: var(--sys-cyan);
+    --success: #5ee2a0;
+    --success-foreground: var(--sys-on-ink);
+    --warning: #f7a54a;
+    --warning-foreground: var(--sys-on-ink);
+
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.35);
+    --shadow-md: 0 2px 6px rgb(0 0 0 / 0.35), 0 8px 16px -4px rgb(0 0 0 / 0.4);
+    --shadow-lg: 0 4px 10px rgb(0 0 0 / 0.4), 0 16px 32px -8px rgb(0 0 0 / 0.5);
 
     --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
     --font-mono: var(--font-jetbrains), ui-monospace, monospace;
-
-    /* Semantic type roles */
-    --h1-size: clamp(3rem, 6vw + 1rem, 7.5rem);
-    --h1-leading: 1.02;
-    --h1-tracking: -0.035em;
-    --h2-size: clamp(1.875rem, 2.4vw + 1rem, 3rem);
-    --h2-leading: 1.08;
-    --h2-tracking: -0.025em;
-    --h3-size: 1.5rem;
-    --h3-leading: 1.25;
-    --h3-tracking: -0.015em;
-    --body-leading: 1.625;
-    --lead-size: 1.125rem;
-    --lead-leading: 1.6;
-    --eyebrow-size: 0.75rem;
-    --eyebrow-tracking: 0.18em;
   }
 
-  .dark {
-    /* Foundation: brand dark background #0F1419. */
-    --background: oklch(0.171 0.012 250);
-    --foreground: oklch(0.945 0.004 106.423);
-    --card: oklch(0.213 0.015 250);
-    --card-foreground: oklch(0.945 0.004 106.423);
-    --popover: oklch(0.213 0.015 250);
-    --popover-foreground: oklch(0.945 0.004 106.423);
-    /* Reclaimed brand — brightened for dark surfaces. */
-    --primary: #ff7a52;
-    --primary-foreground: #0f1419;
-    --secondary: #3b82f6;
-    --secondary-foreground: #ffffff;
-    --muted: oklch(0.241 0.018 257.128);
-    --muted-foreground: oklch(0.717 0.014 257.128);
-    --accent: oklch(0.338 0.024 257.128);
-    --accent-foreground: oklch(0.922 0.003 106.423);
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(0.338 0.024 257.128);
-    --input: oklch(0.338 0.024 257.128);
-    --ring: #ff7a52;
-    --chart-1: oklch(0.719 0.14 38.581);
-    --chart-2: oklch(0.605 0.155 250.505);
-    --chart-3: oklch(0.696 0.09 181.764);
-    --chart-4: oklch(0.719 0.174 38.581);
-    --chart-5: oklch(0.605 0.155 250.505);
-    --sidebar: oklch(0.241 0.018 257.128);
-    --sidebar-foreground: oklch(0.922 0.003 106.423);
-    --sidebar-primary: oklch(0.719 0.174 38.581);
-    --sidebar-primary-foreground: oklch(0.188 0.013 257.128);
-    --sidebar-accent: oklch(0.338 0.024 257.128);
-    --sidebar-accent-foreground: oklch(0.922 0.003 106.423);
-    --sidebar-border: oklch(0.338 0.024 257.128);
-    --sidebar-ring: oklch(0.719 0.174 38.581);
-    --warning: hsl(10 64% 55%);
-    --warning-foreground: hsl(48 96% 89%);
-    --success: hsl(136 61% 67%);
-    --success-foreground: hsl(136 61% 15%);
-    --editor-blue: hsl(200 70% 45%);
-    --editor-green: hsl(140 65% 40%);
-    --editor-orange: hsl(15 70% 50%);
-    --editor-yellow: hsl(40 80% 50%);
-    --surface-subtle: oklch(0.215 0.015 257.128);
-    --surface-dark: #0d1117;
-    --surface-dark-elevated: #161b22;
-  }
-
-  /* Light "island" — re-asserts the light token values so a subtree can render
-     light inside a dark-based page (used to alternate section backgrounds on the
-     landing; see V2Landing). Mirrors the token set that .dark overrides. */
-  .light {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: #ff6b35;
-    --primary-foreground: #ffffff;
-    --secondary: #004e89;
-    --secondary-foreground: #ffffff;
-    --muted: oklch(0.985 0.002 106.423);
-    --muted-foreground: oklch(0.478 0.029 255.508);
-    --accent: oklch(0.988 0.008 79.439);
-    --accent-foreground: oklch(0.145 0 0);
-    --destructive: oklch(0.608 0.227 27.325);
-    --border: oklch(0.922 0.003 106.423);
-    --input: oklch(0.922 0.003 106.423);
-    --ring: #ff6b35;
-    --sidebar: oklch(0.988 0.008 79.439);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.669 0.199 38.581);
-    --sidebar-primary-foreground: oklch(1 0 0);
-    --sidebar-accent: oklch(1 0 0);
-    --sidebar-accent-foreground: oklch(0.145 0 0);
-    --sidebar-border: oklch(0.922 0.003 106.423);
-    --sidebar-ring: oklch(0.669 0.199 38.581);
-    --warning: hsl(30 90% 55%);
-    --warning-foreground: hsl(40 95% 95%);
-    --success: hsl(140 65% 30%);
-    --success-foreground: hsl(140 65% 90%);
-    --editor-blue: hsl(200 70% 35%);
-    --editor-green: hsl(140 65% 35%);
-    --editor-orange: hsl(15 80% 55%);
-    --editor-yellow: hsl(40 85% 45%);
-    --surface-subtle: oklch(0.97 0.004 106.423);
-  }
-}
-
-/* ── System design-system palette (src/ui/system) ─────────────────────────
-   The "Warm Index · Editorial rail" landing (AndamioLanding + kit.tsx) reads
-   its colors from tokens.ts, which now point at these CSS vars so the whole
-   design system flips with the global light/dark toggle (next-themes `.dark`).
-   The ink/paper neutrals are exposed BOTH as solids (--sys-ink) and as RGB
-   channel triplets (--sys-ink-rgb) so the many `rgb(... / alpha)` derivations
-   (muted/faint/ghost/watermark/cell/grid/hairline) invert from one source.
-   `--sys-on-ink` is the contrast pair for ink-emphasis surfaces (ink button,
-   emphasized API layer): white-on-ink in light, dark-on-ink in dark. The 3
-   accents follow the same discipline as light — orange sparing, blue for
-   wayfinding/data — just brightened for dark surfaces. */
-@layer base {
-  :root {
-    --sys-paper: #ffffff;
-    --sys-paper-rgb: 255 255 255;
-    --sys-ink: #0a0a0a;
-    --sys-ink-rgb: 10 10 10;
-    --sys-on-ink: #ffffff;
-    --sys-on-ink-rgb: 255 255 255;
-    /* Solid full-bleed editorial rule. Strong by design. */
-    --sys-rule: #0a0a0a;
-    --sys-orange: #ff6b35;
-    --sys-blue: #2f6bff;
-    --sys-coral-tint: rgb(255 107 74 / 0.055);
-    --sys-shadow-control:
-      0 1px 2px rgb(0 0 0 / 0.06), 0 4px 14px rgb(0 0 0 / 0.08);
-    --sys-shadow-specimen:
-      0 2px 4px rgb(0 0 0 / 0.06), 0 16px 40px rgb(0 0 0 / 0.12);
-  }
-
-  .dark {
-    /* Foundation dark paper #0F1419 (shared with the V2 --background). */
-    --sys-paper: #0f1419;
-    --sys-paper-rgb: 15 20 25;
-    --sys-ink: #ededed;
-    --sys-ink-rgb: 237 237 237;
-    --sys-on-ink: #0f1419;
-    --sys-on-ink-rgb: 15 20 25;
-    /* Softened rule: a full-strength white hairline edge-to-edge would glare;
-       this keeps the strong-divider character without blinding. */
-    --sys-rule: rgb(237 237 237 / 0.26);
-    --sys-orange: #ff7a52;
-    --sys-blue: #5b8bff;
-    --sys-coral-tint: rgb(255 122 82 / 0.1);
-    /* Deeper ink surfaces stay quiet — shadows stay black-based, never neon. */
-    --sys-shadow-control:
-      0 1px 2px rgb(0 0 0 / 0.35), 0 6px 20px rgb(0 0 0 / 0.4);
-    --sys-shadow-specimen:
-      0 2px 6px rgb(0 0 0 / 0.35), 0 20px 48px rgb(0 0 0 / 0.45);
-  }
-
-  /* Nav dropdown card item — subtle theme-aware hover wash. */
   .nav-card-item {
     transition: background-color 0.15s ease;
   }
   .nav-card-item:hover {
-    background: rgb(var(--sys-ink-rgb) / 0.035);
-  }
-
-  /* Forced-light island — re-pins the system palette to its light values for a
-     subtree, so a widget renders light inside a dark page. Used for the badge
-     builder, the design's "specimen under glass" (mirrors the old .demo-light).
-     Both `.sys-light` and `.dark .sys-light` so it wins under the dark root. */
-  .sys-light,
-  .dark .sys-light {
-    --sys-paper: #ffffff;
-    --sys-paper-rgb: 255 255 255;
-    --sys-ink: #0a0a0a;
-    --sys-ink-rgb: 10 10 10;
-    --sys-on-ink: #ffffff;
-    --sys-on-ink-rgb: 255 255 255;
-    --sys-rule: #0a0a0a;
-    --sys-orange: #ff6b35;
-    --sys-blue: #2f6bff;
-    --sys-coral-tint: rgb(255 107 74 / 0.055);
+    background: rgb(var(--sys-ink-rgb) / 0.05);
   }
 }
 
@@ -322,7 +149,7 @@
     circle at 50% 48%,
     rgb(255 107 53 / 0.22) 0%,
     rgb(23 90 114 / 0.28) 32%,
-    rgb(47 107 255 / 0.1) 55%,
+    rgb(63 217 232 / 0.1) 55%,
     transparent 72%
   );
   filter: blur(28px);
@@ -338,7 +165,7 @@
     rgb(23 90 114 / 0.35) 70deg,
     rgb(255 107 53 / 0.28) 140deg,
     rgb(63 169 184 / 0.3) 220deg,
-    rgb(47 107 255 / 0.22) 300deg,
+    rgb(63 217 232 / 0.22) 300deg,
     rgb(23 90 114 / 0) 360deg
   );
   filter: blur(40px);

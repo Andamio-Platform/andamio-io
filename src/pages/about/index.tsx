@@ -52,7 +52,7 @@ export default function AboutPage() {
             <a
               href={EXTERNAL_LINKS.papersHub}
               className="mt-6 inline-flex items-center gap-2 text-[13px] font-semibold tracking-[-0.01em] transition-colors hover:underline"
-              style={{ color: color.blue }}
+              style={{ color: color.cyan }}
             >
               Read the papers →
             </a>

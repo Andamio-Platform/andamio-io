@@ -71,7 +71,7 @@ export default function Page({ params }: { params: Props }) {
       {/* Breadcrumb */}
       <Link
         href="/customers"
-        className="inline-flex items-center gap-1.5 text-[13px] font-semibold tracking-[-0.01em] transition-colors hover:text-black"
+        className="inline-flex items-center gap-1.5 text-[13px] font-semibold tracking-[-0.01em] transition-colors hover:text-foreground"
         style={{ color: color.inkFaint }}
       >
         ← Back to Customers
@@ -102,7 +102,7 @@ export default function Page({ params }: { params: Props }) {
 
       {/* Article */}
       <article
-        className="prose mt-10 max-w-none prose-headings:font-semibold prose-headings:tracking-[-0.02em] prose-headings:text-[#0A0A0A] prose-a:font-medium prose-a:text-[#2F6BFF] prose-a:no-underline hover:prose-a:underline prose-strong:text-[#0A0A0A] sm:prose-lg"
+        className="prose mt-10 max-w-none prose-headings:font-semibold prose-headings:tracking-[-0.02em] prose-headings:text-[#0A0A0A] prose-a:font-medium prose-a:text-[var(--sys-cyan)] prose-a:no-underline hover:prose-a:underline prose-strong:text-[#0A0A0A] sm:prose-lg"
         style={{ fontFamily: font.sans }}
       >
         <TransformedPageContent content={content} />

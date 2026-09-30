@@ -27,7 +27,7 @@ import { LayoutMark } from "./motion";
 const mono = { fontFamily: font.mono };
 const sans = { fontFamily: font.sans };
 const NUMS = ["01", "02", "03"];
-const BLUE = "#2F6BFF"; // the system's data / confirmed accent
+const BLUE = "var(--sys-cyan)"; // the system's data / confirmed accent
 
 // The credential's FULL on-chain address (<course_id>.<slt_hash>). Rule
 // (James, 2026-07-02): never truncate a credential address — the whole point

@@ -109,7 +109,7 @@ export function CycleGrid({ cycles }: { cycles: Cycle[] }) {
                     <li key={stepIdx} className="flex items-start gap-2.5">
                       <CheckBadgeIcon
                         className="h-5 w-5 flex-shrink-0"
-                        style={{ color: color.blue }}
+                        style={{ color: color.cyan }}
                         aria-hidden="true"
                       />
                       <p className="text-sm leading-relaxed" style={{ color: color.inkMuted }}>

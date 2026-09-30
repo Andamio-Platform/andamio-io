@@ -244,7 +244,7 @@ export default function TermsAndConditionsPage() {
                 <a
                   href="mailto:legal@andamio.io"
                   className="transition-colors hover:underline"
-                  style={{ color: color.blue }}
+                  style={{ color: color.cyan }}
                 >
                   legal@andamio.io
                 </a>

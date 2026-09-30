@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 export default function BlogLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={fontVariables} suppressHydrationWarning>
+    <html lang="en" className={`dark ${fontVariables}`} suppressHydrationWarning>
       <body style={{ background: color.paper, color: color.ink, fontFamily: font.sans }}>
         <div className="relative min-h-screen antialiased">
           <LogoWash />

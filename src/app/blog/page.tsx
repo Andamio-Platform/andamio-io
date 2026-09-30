@@ -52,7 +52,7 @@ export default async function BlogPage() {
               )}
               <div className="flex flex-1 flex-col p-6">
                 <div className="flex items-center gap-3">
-                  <span className="text-[11px] font-medium tracking-[-0.01em]" style={{ color: color.blue }}>
+                  <span className="text-[11px] font-medium tracking-[-0.01em]" style={{ color: color.cyan }}>
                     Post
                   </span>
                   {blogPost.frontmatter.date && (
@@ -74,7 +74,7 @@ export default async function BlogPage() {
                   )}
                   <span
                     className="inline-flex items-center gap-1.5 text-[12px] font-semibold tracking-[-0.01em] opacity-0 transition-opacity group-hover:opacity-100"
-                    style={{ color: color.blue }}
+                    style={{ color: color.cyan }}
                   >
                     Read →
                   </span>

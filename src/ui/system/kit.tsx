@@ -3,16 +3,15 @@
 /**
  * Andamio Landing — Component Kit
  * =================================================================
- * The reusable building blocks of the "Warm Index · Editorial rail"
- * design language (iteration 22). Every component reads ./tokens.ts;
- * none hard-codes a hex or a size. Composed end-to-end in
- * ./AndamioLanding.tsx and documented at /explore/system.
+ * Page chrome and layout primitives (nav, footer, sections, buttons). Every
+ * component reads ./tokens.ts; none hard-codes a hex or a size. The
+ * proof-instrument marks (ticks, arcs, readouts, proof cards) live in
+ * ./instrument/.
  */
 
 import React, { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useScroll, useTransform } from "motion/react";
-import { ChevronDown, Menu, Moon, Sun, X } from "lucide-react";
-import { useTheme } from "next-themes";
+import { ChevronDown, Menu, X } from "lucide-react";
 import {
   color,
   font,
@@ -42,10 +41,8 @@ import {
  * on the deep scaffold blue — are blown up far past focus and wash the page
  * at near-threshold opacity. The composition mirrors the mark's own
  * geography, and the center column stays nearly clean so content sits on
- * paper. Fixed, non-interactive, no blend modes (predictable across themes);
- * each theme gets its own tuned stack because a tint that reads on warm
- * paper vanishes on ink, and vice versa. This is atmosphere, not structure —
- * section rules still do the structural work. */
+ * paper. Fixed, non-interactive, no blend modes. This is atmosphere, not
+ * structure — section rules still do the structural work. */
 const WASH = {
   coral: "232 93 61", // the pinwheel vermilion
   amber: "240 160 60", // the warm rounds
@@ -75,42 +72,25 @@ function washStack(a: {
 
 export function LogoWash() {
   // Static soft wash; the hero badge is the only continuous motion.
-  // Avoid competing hard edges; keep the mark’s color geography only.
   return (
-    <>
-      <div
-        aria-hidden
-        className="pointer-events-none fixed inset-0 z-0 dark:hidden"
-        style={{
-          backgroundImage: washStack({
-            coral: 0.08,
-            amber: 0.07,
-            teal: 0.07,
-            blue: 0.04,
-          }),
-          filter: "blur(40px)",
-          opacity: 0.85,
-        }}
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none fixed inset-0 z-0 hidden dark:block"
-        style={{
-          backgroundImage: washStack({
-            coral: 0.12,
-            amber: 0.1,
-            teal: 0.1,
-            blue: 0.1,
-          }),
-          filter: "blur(48px)",
-          opacity: 0.9,
-        }}
-      />
-    </>
+    <div
+      aria-hidden
+      className="pointer-events-none fixed inset-0 z-0"
+      style={{
+        backgroundImage: washStack({
+          coral: 0.07,
+          amber: 0.06,
+          teal: 0.1,
+          blue: 0.12,
+        }),
+        filter: "blur(48px)",
+        opacity: 0.9,
+      }}
+    />
   );
 }
 
-/* ── Brand mark (orange square + wordmark) ──────────────────────────── */
+/* ── Brand mark (logo + wordmark, reversed for the dark page) ────────── */
 export function Brand({
   href = "/",
   height = 22,
@@ -118,10 +98,6 @@ export function Brand({
   href?: string;
   height?: number;
 }) {
-  // Theme-aware wordmark: the ink logotype on light surfaces, the reversed one
-  // on dark. Swapped via the `.dark` selector (no JS, no hydration flash). The
-  // `.sys-light` island re-asserts light, so a Brand inside one would still want
-  // the light logo — Brand isn't used inside an island today, so this is moot.
   return (
     <a
       href={href}
@@ -130,46 +106,15 @@ export function Brand({
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src="/logo-with-typography.svg"
-        alt="Andamio"
-        style={{ height, width: "auto" }}
-        className="block select-none dark:hidden"
-        draggable={false}
-      />
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
         src="/logo-with-typography-dark.svg"
         alt="Andamio"
         style={{ height, width: "auto" }}
-        className="hidden select-none dark:block"
+        className="block select-none"
         draggable={false}
       />
     </a>
   );
 }
-
-/* ── Light/dark toggle (kit-styled: flat, ink-colored icon) ─────────────── */
-export function ThemeToggle() {
-  const { resolvedTheme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-
-  // Reserve the slot before mount to avoid an SSR/theme hydration mismatch.
-  if (!mounted) return <span className="inline-block h-9 w-9" aria-hidden />;
-  const isDark = resolvedTheme === "dark";
-  return (
-    <button
-      type="button"
-      onClick={() => setTheme(isDark ? "light" : "dark")}
-      aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
-      className="inline-flex h-9 w-9 items-center justify-center transition-opacity hover:opacity-60"
-      style={{ color: color.ink }}
-    >
-      {isDark ? <Sun size={18} /> : <Moon size={18} />}
-    </button>
-  );
-}
-
 /** A single card item inside a dropdown menu. */
 export interface NavMenuItem {
   name: string;
@@ -356,11 +301,8 @@ export function TopNav({ items, cta, secondaryCta }: NavData) {
               ),
             )}
           </nav>
-          {/* Theme toggle reads as a quiet page utility sitting with the nav. */}
-          <ThemeToggle />
-          {/* Divider isolates the actions from the nav links and the theme
-              utility. Primary (ink) = the Issuer conversion; secondary
-              (outline) = the app path for developers / existing users. */}
+          {/* Primary = the Issuer conversion; secondary (outline) = the app
+              path for developers / existing users. */}
           <span
             className="hidden h-5 w-px lg:block"
             style={{ background: color.cell }}

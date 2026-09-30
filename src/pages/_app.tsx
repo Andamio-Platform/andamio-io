@@ -13,7 +13,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
   pageProps: { ...pageProps },
 }) => {
   return (
-    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+    <ThemeProvider attribute="class" forcedTheme="dark" enableSystem={false}>
       <style dangerouslySetInnerHTML={{ __html: fontVariablesCss }} />
       <Metatags />
       <Toaster position="top-right" />

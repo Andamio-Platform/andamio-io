@@ -74,7 +74,7 @@ const sans = { fontFamily: font.sans };
 
 /* Square, hairline input. Blue inset on focus = the system's data/linking accent. */
 const inputCls =
-  "w-full border px-3 py-1.5 text-[14px] transition-shadow placeholder:text-black/30 focus:outline-none focus:[box-shadow:inset_0_0_0_1.5px_#2F6BFF]";
+  "w-full border px-3 py-1.5 text-[14px] transition-shadow placeholder:text-foreground/30 focus:outline-none focus:[box-shadow:inset_0_0_0_1.5px_var(--sys-cyan)]";
 const inputStyle: React.CSSProperties = {
   borderColor: color.cell,
   color: color.ink,
@@ -111,7 +111,7 @@ function MicroLabel({
   htmlFor?: string;
 }) {
   const style: React.CSSProperties = {
-    color: on ? color.blue : color.inkFaint,
+    color: on ? color.cyan : color.inkFaint,
   };
   const cls = `text-[11px] font-medium tracking-[-0.01em] transition-colors ${className}`;
   return As === "label" ? (
@@ -386,7 +386,7 @@ export default function BadgeBuilder({
                     type="button"
                     onClick={() => removeSlt(i)}
                     aria-label={`Remove learning target ${i + 1}`}
-                    className="shrink-0 border px-2.5 py-2 text-[13px] transition-colors hover:bg-black/[0.04]"
+                    className="shrink-0 border px-2.5 py-2 text-[13px] transition-colors hover:bg-white/[0.04]"
                     style={{ borderColor: color.cell, color: color.inkFaint }}
                   >
                     ✕
@@ -400,7 +400,7 @@ export default function BadgeBuilder({
               onFocus={() => focusZone("targets")}
               onBlur={blurZone}
               className="self-start text-[12px] font-semibold tracking-[-0.01em] transition-colors hover:opacity-70"
-              style={{ color: color.blue }}
+              style={{ color: color.cyan }}
             >
               + Add a learning target
             </button>
@@ -503,7 +503,7 @@ export default function BadgeBuilder({
             {/* Cool ambient halo that rises while an input is focused (blue = data link). */}
             <div
               aria-hidden
-              className={`pointer-events-none absolute inset-0 transition-opacity duration-500 [background:radial-gradient(circle_at_center,rgba(47,107,255,0.10),transparent_62%)] ${
+              className={`pointer-events-none absolute inset-0 transition-opacity duration-500 [background:radial-gradient(circle_at_center,rgb(63_217_232/0.10),transparent_62%)] ${
                 active ? "opacity-100" : "opacity-0"
               }`}
             />
@@ -518,13 +518,13 @@ export default function BadgeBuilder({
               />
               <div
                 aria-hidden
-                className={`pointer-events-none absolute inset-[3%] rounded-full shadow-[0_0_28px_4px_rgba(47,107,255,0.45)] ring-[5px] ring-[#2F6BFF]/40 blur-[3px] transition-opacity duration-300 ${
+                className={`pointer-events-none absolute inset-[3%] rounded-full shadow-[0_0_28px_4px_rgb(63_217_232/0.45)] ring-[5px] ring-[var(--sys-cyan)]/40 blur-[3px] transition-opacity duration-300 ${
                   active === "identity" ? "opacity-100" : "opacity-0"
                 }`}
               />
               <div
                 aria-hidden
-                className={`pointer-events-none absolute inset-[7%] rounded-full shadow-[0_0_28px_4px_rgba(47,107,255,0.45)] ring-[5px] ring-[#2F6BFF]/40 blur-[3px] transition-opacity duration-300 ${
+                className={`pointer-events-none absolute inset-[7%] rounded-full shadow-[0_0_28px_4px_rgb(63_217_232/0.45)] ring-[5px] ring-[var(--sys-cyan)]/40 blur-[3px] transition-opacity duration-300 ${
                   active === "targets" ? "opacity-100" : "opacity-0"
                 }`}
               />
@@ -532,7 +532,7 @@ export default function BadgeBuilder({
             <Dialog.Root>
               <Dialog.Trigger
                 type="button"
-                className="absolute bottom-3 left-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 border bg-white/90 px-2.5 py-1 text-[11px] font-semibold tracking-[-0.01em] backdrop-blur focus:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(47,107,255,0.55)]"
+                className="absolute bottom-3 left-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 border bg-background/90 px-2.5 py-1 text-[11px] font-semibold tracking-[-0.01em] backdrop-blur focus:outline-none focus-visible:[box-shadow:0_0_0_3px_rgb(63_217_232/0.55)]"
                 style={{ borderColor: color.rule, color: color.ink }}
               >
                 <ZoomIn className="h-3 w-3" /> Zoom in
@@ -554,7 +554,7 @@ export default function BadgeBuilder({
                     </Dialog.Title>
                     <Dialog.Close
                       aria-label="Close"
-                      className="shrink-0 border px-2.5 py-1 text-[13px] leading-none transition-colors hover:bg-black/[0.04] focus:outline-none focus-visible:[box-shadow:inset_0_0_0_1.5px_#2F6BFF]"
+                      className="shrink-0 border px-2.5 py-1 text-[13px] leading-none transition-colors hover:bg-white/[0.04] focus:outline-none focus-visible:[box-shadow:inset_0_0_0_1.5px_var(--sys-cyan)]"
                       style={{ borderColor: color.cell, color: color.inkFaint }}
                     >
                       ✕

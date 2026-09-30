@@ -19,6 +19,9 @@ mkdirSync(out, { recursive: true });
 const browser = await chromium.launch({ channel: process.env.PW_CHANNEL ?? "msedge" });
 for (const { w, h } of widths) {
   const page = await browser.newPage({ viewport: { width: w, height: h } });
+  page.on("response", (res) => {
+    if (res.status() === 404 && res.url().startsWith(base)) console.log(`404      ${res.url()}`);
+  });
   for (const route of routes) {
     await page.goto(base + route, { waitUntil: "load", timeout: 60000 });
     await page.waitForTimeout(1200);

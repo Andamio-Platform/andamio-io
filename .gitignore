@@ -8,10 +8,6 @@
 # testing
 /coverage
 
-# database
-/prisma/db.sqlite
-/prisma/db.sqlite-journal
-
 # next.js
 /.next/
 /.next-verify/
@@ -51,3 +47,5 @@ screenshots/
 # ProofRingBadge measurement artifacts (scripts/badge-src/extract.py regenerates source.png)
 scripts/badge-src/out/
 scripts/badge-src/source.png
+# Local agent scratch space
+.superpowers/

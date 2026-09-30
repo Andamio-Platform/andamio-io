@@ -10,10 +10,26 @@ function CornerTicks() {
   const style = { borderColor: color.inkGhost };
   return (
     <>
-      <span aria-hidden className={`${base} -left-px -top-px border-l border-t`} style={style} />
-      <span aria-hidden className={`${base} -right-px -top-px border-r border-t`} style={style} />
-      <span aria-hidden className={`${base} -bottom-px -left-px border-b border-l`} style={style} />
-      <span aria-hidden className={`${base} -bottom-px -right-px border-b border-r`} style={style} />
+      <span
+        aria-hidden
+        className={`${base} -left-px -top-px border-l border-t`}
+        style={style}
+      />
+      <span
+        aria-hidden
+        className={`${base} -right-px -top-px border-r border-t`}
+        style={style}
+      />
+      <span
+        aria-hidden
+        className={`${base} -bottom-px -left-px border-b border-l`}
+        style={style}
+      />
+      <span
+        aria-hidden
+        className={`${base} -bottom-px -right-px border-b border-r`}
+        style={style}
+      />
     </>
   );
 }
@@ -32,6 +48,7 @@ export function ProofCard({
   external = false,
   className = "",
   bodyClassName = "p-6",
+  bodyColor,
 }: {
   kicker?: string;
   title?: React.ReactNode;
@@ -43,6 +60,8 @@ export function ProofCard({
   external?: boolean;
   className?: string;
   bodyClassName?: string;
+  /** Summary color. Defaults to muted ink. */
+  bodyColor?: string;
 }) {
   const still = useMotionGate();
   const outline = still
@@ -52,7 +71,10 @@ export function ProofCard({
   const inner = (
     <>
       <CornerTicks />
-      <svg aria-hidden className="pointer-events-none absolute -left-px -top-px h-[calc(100%+2px)] w-[calc(100%+2px)] overflow-visible">
+      <svg
+        aria-hidden
+        className="pointer-events-none absolute -left-px -top-px h-[calc(100%+2px)] w-[calc(100%+2px)] overflow-visible"
+      >
         <rect
           width="100%"
           height="100%"
@@ -83,7 +105,7 @@ export function ProofCard({
         {children ? (
           <div
             className={`${(title ?? kicker) ? "mt-3" : ""} text-[14px] leading-relaxed`}
-            style={{ color: color.inkMuted }}
+            style={{ color: bodyColor ?? color.inkMuted }}
           >
             {children}
           </div>
@@ -92,7 +114,11 @@ export function ProofCard({
       {footer ? (
         <div
           className="relative border-t px-6 py-2.5 text-[11px]"
-          style={{ borderColor: color.hairline, fontFamily: font.mono, color: color.inkFaint }}
+          style={{
+            borderColor: color.hairline,
+            fontFamily: font.mono,
+            color: color.inkFaint,
+          }}
         >
           {footer}
         </div>

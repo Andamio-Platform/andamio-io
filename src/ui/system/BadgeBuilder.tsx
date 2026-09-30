@@ -12,7 +12,10 @@
 
 import React from "react";
 import { credentialFromBuilder, ProofRingBadge } from "./proof-badge";
-import { buildBadgeParams, type BadgeParams } from "./proof-badge/builder-params";
+import {
+  buildBadgeParams,
+  type BadgeParams,
+} from "./proof-badge/builder-params";
 import { GETTING_STARTED } from "./proof-badge/getting-started";
 import type { FieldArc } from "./proof-badge/geometry";
 import * as Dialog from "@radix-ui/react-dialog";
@@ -34,11 +37,9 @@ type ActiveZone =
 const ZONE_ARC: Partial<Record<Exclude<ActiveZone, null>, FieldArc>> = {
   identity: "courseId",
   targets: "hash",
-  did: "did",
   courseId: "courseId",
   sltHash: "hash",
 };
-
 
 const SAMPLE: {
   courseName: string;
@@ -53,6 +54,7 @@ function credentialFromBadge(
     did?: string;
     issuedAt?: string;
     skills?: string[];
+    mark?: string;
   },
 ) {
   return credentialFromBuilder({
@@ -66,7 +68,27 @@ function credentialFromBadge(
     issuedAt: face.issuedAt ?? params.issuedAt,
     skills: face.skills ?? params.skills?.map((s) => s.label),
     verifyUrl: params.verifyUrl,
+    mark: face.mark ?? params.mark,
   });
+}
+
+/** Pathname ends in .png. Query strings are fine; other types are not. */
+function isPngUrl(value: string): boolean {
+  const trimmed = value.trim();
+  if (!trimmed) return false;
+  try {
+    const url = new URL(trimmed, "https://andamio.local");
+    return url.pathname.toLowerCase().endsWith(".png");
+  } catch {
+    return false;
+  }
+}
+
+function isPngFile(file: File): boolean {
+  const nameOk = file.name.toLowerCase().endsWith(".png");
+  if (file.type === "image/png") return nameOk;
+  if (file.type === "") return nameOk;
+  return false;
 }
 
 const mono = { fontFamily: font.mono };
@@ -160,6 +182,11 @@ export default function BadgeBuilder({
   const [skillLabels, setSkillLabels] = React.useState(
     (GETTING_STARTED.params.skills ?? []).map((s) => s.label).join(", "),
   );
+  const [logoUrl, setLogoUrl] = React.useState("");
+  const [logoDraft, setLogoDraft] = React.useState("");
+  const [logoError, setLogoError] = React.useState("");
+  const logoObjectUrl = React.useRef<string | null>(null);
+  const logoFileRef = React.useRef<HTMLInputElement>(null);
   const [credential, setCredential] = React.useState(() =>
     credentialFromBadge(GETTING_STARTED.params, {
       earnerName: GETTING_STARTED.params.earnerName,
@@ -167,6 +194,18 @@ export default function BadgeBuilder({
       issuedAt: GETTING_STARTED.params.issuedAt,
       skills: (GETTING_STARTED.params.skills ?? []).map((s) => s.label),
     }),
+  );
+
+  const revokeLogoObjectUrl = () => {
+    if (!logoObjectUrl.current) return;
+    URL.revokeObjectURL(logoObjectUrl.current);
+    logoObjectUrl.current = null;
+  };
+  React.useEffect(
+    () => () => {
+      if (logoObjectUrl.current) URL.revokeObjectURL(logoObjectUrl.current);
+    },
+    [],
   );
 
   // Which ring the visitor is editing — drives the linked highlight across the
@@ -217,6 +256,7 @@ export default function BadgeBuilder({
         did: did.trim() || base.did,
         issuedAt: issuedAt.trim() || base.issuedAt,
         skills: skills.length ? skills : base.skills,
+        mark: logoUrl || undefined,
       };
       setCredential(
         credentialFromBadge(params, {
@@ -224,11 +264,21 @@ export default function BadgeBuilder({
           did: params.did,
           issuedAt: params.issuedAt,
           skills: params.skills?.map((s) => s.label),
+          mark: params.mark,
         }),
       );
     }, 150);
     return () => window.clearTimeout(t);
-  }, [courseName, moduleName, slts, earnerName, did, issuedAt, skillLabels]);
+  }, [
+    courseName,
+    moduleName,
+    slts,
+    earnerName,
+    did,
+    issuedAt,
+    skillLabels,
+    logoUrl,
+  ]);
 
   const updateSlt = (i: number, value: string) =>
     setSlts((prev) => prev.map((s, j) => (j === i ? value : s)));
@@ -239,6 +289,43 @@ export default function BadgeBuilder({
   const removeSlt = (i: number) => {
     focusZone("targets");
     setSlts((prev) => prev.filter((_, j) => j !== i));
+  };
+
+  const clearLogo = () => {
+    revokeLogoObjectUrl();
+    setLogoUrl("");
+    setLogoDraft("");
+    setLogoError("");
+    if (logoFileRef.current) logoFileRef.current.value = "";
+  };
+  const onLogoFile = (file: File | undefined) => {
+    if (!file) return;
+    if (!isPngFile(file)) {
+      setLogoError("PNG only.");
+      if (logoFileRef.current) logoFileRef.current.value = "";
+      return;
+    }
+    revokeLogoObjectUrl();
+    const url = URL.createObjectURL(file);
+    logoObjectUrl.current = url;
+    setLogoUrl(url);
+    setLogoDraft("");
+    setLogoError("");
+  };
+  const applyLogoUrl = (value: string) => {
+    const trimmed = value.trim();
+    if (!trimmed) {
+      setLogoError("");
+      return;
+    }
+    if (!isPngUrl(trimmed)) {
+      setLogoError("PNG only. The link must end in .png.");
+      return;
+    }
+    revokeLogoObjectUrl();
+    if (logoFileRef.current) logoFileRef.current.value = "";
+    setLogoUrl(trimmed);
+    setLogoError("");
   };
 
   return (
@@ -345,6 +432,64 @@ export default function BadgeBuilder({
               style={inputStyle}
               placeholder="e.g. Fix a Flat Tire"
             />
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <div className="flex items-center justify-between gap-2">
+              <MicroLabel as="label" htmlFor="bb-logo-file">
+                Logo (PNG)
+              </MicroLabel>
+              {logoUrl ? (
+                <button
+                  type="button"
+                  onClick={clearLogo}
+                  className="text-[12px] font-semibold tracking-[-0.01em] transition-colors hover:opacity-70"
+                  style={{ color: color.cyan }}
+                >
+                  Clear
+                </button>
+              ) : null}
+            </div>
+            <input
+              id="bb-logo-file"
+              ref={logoFileRef}
+              type="file"
+              accept="image/png,.png"
+              className={`${inputCls} file:mr-3 file:border-0 file:bg-transparent file:text-[13px] file:font-medium`}
+              style={inputStyle}
+              onChange={(e) => onLogoFile(e.target.files?.[0])}
+            />
+            <label htmlFor="bb-logo-url" className="sr-only">
+              Logo PNG URL
+            </label>
+            <input
+              id="bb-logo-url"
+              {...noAutofill}
+              type="url"
+              inputMode="url"
+              value={logoDraft}
+              onChange={(e) => {
+                setLogoDraft(e.target.value);
+                if (logoError) setLogoError("");
+              }}
+              onBlur={(e) => applyLogoUrl(e.currentTarget.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  applyLogoUrl(e.currentTarget.value);
+                }
+              }}
+              className={inputCls}
+              style={inputStyle}
+              placeholder="or paste a .png link"
+            />
+            <p
+              className="mt-0.5 text-[11px] leading-snug"
+              style={{ color: logoError ? color.orange : color.inkMuted }}
+            >
+              {logoError ||
+                "Shown on the badge in this browser only. Nothing is uploaded."}
+            </p>
           </div>
 
           <div className="flex flex-col gap-1">
@@ -518,13 +663,13 @@ export default function BadgeBuilder({
               />
               <div
                 aria-hidden
-                className={`pointer-events-none absolute inset-[3%] rounded-full shadow-[0_0_28px_4px_rgb(63_217_232/0.45)] ring-[5px] ring-[var(--sys-cyan)]/40 blur-[3px] transition-opacity duration-300 ${
+                className={`ring-[var(--sys-cyan)]/40 pointer-events-none absolute inset-[3%] rounded-full shadow-[0_0_28px_4px_rgb(63_217_232/0.45)] ring-[5px] blur-[3px] transition-opacity duration-300 ${
                   active === "identity" ? "opacity-100" : "opacity-0"
                 }`}
               />
               <div
                 aria-hidden
-                className={`pointer-events-none absolute inset-[7%] rounded-full shadow-[0_0_28px_4px_rgb(63_217_232/0.45)] ring-[5px] ring-[var(--sys-cyan)]/40 blur-[3px] transition-opacity duration-300 ${
+                className={`ring-[var(--sys-cyan)]/40 pointer-events-none absolute inset-[7%] rounded-full shadow-[0_0_28px_4px_rgb(63_217_232/0.45)] ring-[5px] blur-[3px] transition-opacity duration-300 ${
                   active === "targets" ? "opacity-100" : "opacity-0"
                 }`}
               />
@@ -532,7 +677,7 @@ export default function BadgeBuilder({
             <Dialog.Root>
               <Dialog.Trigger
                 type="button"
-                className="absolute bottom-3 left-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 border bg-background/90 px-2.5 py-1 text-[11px] font-semibold tracking-[-0.01em] backdrop-blur focus:outline-none focus-visible:[box-shadow:0_0_0_3px_rgb(63_217_232/0.55)]"
+                className="bg-background/90 absolute bottom-3 left-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 border px-2.5 py-1 text-[11px] font-semibold tracking-[-0.01em] backdrop-blur focus:outline-none focus-visible:[box-shadow:0_0_0_3px_rgb(63_217_232/0.55)]"
                 style={{ borderColor: color.rule, color: color.ink }}
               >
                 <ZoomIn className="h-3 w-3" /> Zoom in

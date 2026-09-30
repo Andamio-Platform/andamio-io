@@ -47,8 +47,10 @@
     --sys-orange: #f7a54a;
     --sys-cyan: #3fd9e8;
     --sys-coral-tint: rgb(247 165 74 / 0.08);
-    --sys-shadow-control: 0 1px 2px rgb(0 0 0 / 0.35), 0 6px 20px rgb(0 0 0 / 0.4);
-    --sys-shadow-specimen: 0 2px 6px rgb(0 0 0 / 0.35), 0 20px 48px rgb(0 0 0 / 0.45);
+    --sys-shadow-control:
+      0 1px 2px rgb(0 0 0 / 0.35), 0 6px 20px rgb(0 0 0 / 0.4);
+    --sys-shadow-specimen:
+      0 2px 6px rgb(0 0 0 / 0.35), 0 20px 48px rgb(0 0 0 / 0.45);
 
     /* shadcn / Tailwind semantic colors, mapped onto the same palette. */
     --background: var(--sys-paper);
@@ -78,7 +80,9 @@
     --shadow-md: 0 2px 6px rgb(0 0 0 / 0.35), 0 8px 16px -4px rgb(0 0 0 / 0.4);
     --shadow-lg: 0 4px 10px rgb(0 0 0 / 0.4), 0 16px 32px -8px rgb(0 0 0 / 0.5);
 
-    --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-sans:
+      var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+      sans-serif;
     --font-mono: var(--font-jetbrains), ui-monospace, monospace;
   }
 
@@ -108,6 +112,30 @@
   h6 {
     @apply font-sans;
   }
+}
+
+/* Long-form prose (papers, blog posts, customer stories) uses the typography
+   plugin, whose default ink is near-black. Retint it to cream so it stays
+   readable on the dark page. */
+.prose.longform {
+  --tw-prose-body: var(--sys-ink);
+  --tw-prose-headings: var(--sys-ink);
+  --tw-prose-lead: var(--sys-ink);
+  --tw-prose-links: var(--sys-cyan);
+  --tw-prose-bold: var(--sys-ink);
+  --tw-prose-counters: rgb(var(--sys-ink-rgb) / 0.82);
+  --tw-prose-bullets: rgb(var(--sys-ink-rgb) / 0.72);
+  --tw-prose-hr: var(--sys-rule);
+  --tw-prose-quotes: var(--sys-ink);
+  --tw-prose-quote-borders: var(--sys-cyan);
+  --tw-prose-captions: rgb(var(--sys-ink-rgb) / 0.82);
+  --tw-prose-kbd: var(--sys-ink);
+  --tw-prose-code: var(--sys-ink);
+  --tw-prose-pre-code: var(--sys-ink);
+  --tw-prose-pre-bg: var(--sys-surface);
+  --tw-prose-th-borders: var(--sys-rule);
+  --tw-prose-td-borders: rgb(var(--sys-ink-rgb) / 0.14);
+  color: var(--sys-ink);
 }
 
 .link {

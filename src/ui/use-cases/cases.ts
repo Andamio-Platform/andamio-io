@@ -57,7 +57,7 @@ export const CASES: readonly CaseStudy[] = [
     title: "Barça Fan Lab",
     summary:
       "FC Barcelona's fan learning platform, built with Andamio on Cardano. Fans sign in with BarçaID, work through program areas and earn verifiable credentials, without ever seeing the blockchain.",
-    logo: "/customer/fcbarcelona/fcbarcelona-logo.webp",
+    logo: "/customer/fcbarcelona/fcbarcelona-badge.png",
     theme: {
       cyan: "#4f7dff",
       cyanHot: "#c9d8ff",
@@ -131,7 +131,7 @@ export const CASES: readonly CaseStudy[] = [
     title: "Intersect: Maintainer Retainer Program",
     summary:
       "Onboarding, tracking and paying the maintainers behind Cardano's open source infrastructure, with credential-gated access and milestone escrow.",
-    logo: "/customer/intersect/intersect-logo.png",
+    logo: "/customer/intersect/intersect-badge.png",
     theme: { cyan: "#5b7cff", cyanHot: "#d3dcff" },
     badgeCourse: "Maintainer Onboarding",
     challenge: [
@@ -189,7 +189,7 @@ export const CASES: readonly CaseStudy[] = [
     title: "Syngenta: Certified Field Experts",
     summary:
       "Training agri-entrepreneurs in India on satellite applications and certifying them with credentials any cooperative, government or NGO can verify.",
-    logo: "/customer/syngenta/syngenta-logo.jpg",
+    logo: "/customer/syngenta/syngenta-badge.png",
     theme: { cyan: "#9fcf3a", cyanHot: "#e4f5bf", orange: "#f2b33d" },
     badgeCourse: "Certified Field Expert",
     challenge: [
@@ -243,16 +243,17 @@ export const CASES: readonly CaseStudy[] = [
     title: "Toha Network: Nature Regeneration",
     summary:
       "Financing environmental action in New Zealand: contributors earn credentials and MAHI tokens for verified planting and restoration, signing up with email.",
+    logo: "/customer/toha/toha-badge.png",
     theme: { cyan: "#4fd1a5", cyanHot: "#c8f5e4", orange: "#f2a64a" },
     badgeCourse: "Verified Restoration",
     adoption: "invisible",
     challenge: [
-      "Toha connects impact investors with land managers and environmental contributors. Contributors take real actions, such as native planting and biodiversity restoration.",
+      "Toha Network connects impact investors with land managers and environmental contributors. Contributors take real actions, such as native planting and biodiversity restoration.",
       "They are land managers, not crypto users, so the financing network has to feel like any other web product.",
     ],
     approach: [
       "Contributors sign up with email; a managed identity is created for them. Verified actions earn on-chain credentials and MAHI tokens, and investment flows through on-chain escrow.",
-      "The words Cardano, blockchain and smart contract don't appear on Toha's homepage. That is the point.",
+      "The words Cardano, blockchain and smart contract don't appear on Toha Network's homepage. That is the point.",
     ],
     cycleLabel: "Contributor lifecycle",
     cycle: [
@@ -296,6 +297,7 @@ export const CASES: readonly CaseStudy[] = [
     title: "Decentralized innovation funds: certified reviewers",
     summary:
       "A reviewer credential ladder for community funds like Project Catalyst: certify reviewers, build their reputation and raise the quality of funding decisions.",
+    logo: "/customer/project-catalyst/catalyst-badge.png",
     theme: { cyan: "#3fd9e8" },
     badgeCourse: "Proposal Reviewer L1",
     challenge: [
@@ -353,7 +355,7 @@ export const CASES: readonly CaseStudy[] = [
     title: "LeadGen DAO: certified lead generators",
     summary:
       "LeadGen DAO, created by ELK, trains and certifies lead generators and pays them for verified leads, so companies get quality pipeline without an agency.",
-    logo: "/customer/leadgen/leadgen-logo-icon.png",
+    logo: "/customer/leadgen/leadgen-badge.png",
     theme: { cyan: "#f7a54a", cyanHot: "#fcd48a", orange: "#3fd9e8" },
     badgeCourse: "Certified Lead Generator",
     challenge: [

@@ -35,7 +35,7 @@ On 25 Sep 2026 FC Barcelona launched Barça Fan Lab, built with Andamio on Carda
    - cyan explains (links, data, focus)
    - orange acts (primary CTA, live states), one orange action per view
    - Inter + JetBrains Mono, square geometry, no neon, no purple, no glass cards, no gradient text
-2. **Design rules.** Structure comes from ticks, arcs and monospace readouts. Every decorative mark encodes something real (a hash, a date, a count). Only the hero badge moves continuously; everything else is triggered by scroll, hover or interaction.
+2. **Design rules.** Structure comes from ticks, arcs and monospace readouts. Every decorative mark encodes something real (a hash, a date, a count). The Proof Ring badge moves continuously wherever it is shown, including MiniBadge. Other UI motion is triggered by scroll, hover, or interaction, and stays gated by `useMotionGate` and `prefers-reduced-motion`.
 3. **Legacy code.** V2Landing, ModernLanding, SB7 and their dead dependencies are deleted after the badge core and field notes move into `src/ui/system/proof-badge/`.
 4. **Partners.** FC Barcelona may be named, with its crest in the partner rail, using public facts only (Barça Fan Lab, BarçaID sign-in, automatic Cardano wallet with sponsored transactions, four program areas with the Web3 area labelled experimental, Catalyst Fund 13). No adoption numbers.
 5. **Three audience lifecycles.** Each page uses the one for its audience:

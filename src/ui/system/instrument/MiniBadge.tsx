@@ -11,15 +11,17 @@ import { useNearViewport } from "../useNearViewport";
 import { color } from "../tokens";
 
 /**
- * A small, still Proof Ring badge for grids and cards (use cases, the problem
- * section). It never animates — only the hero badge moves continuously — and
- * it is inert, so its copy buttons and QR stay out of the tab order. It mounts
- * only near the viewport so off-screen badges cost nothing at load.
+ * A small live Proof Ring badge for grids and cards. It uses the same
+ * continuous motion as the homepage hero (rings, particles, tick scan, and
+ * the one-time intro). It is inert, so its copy buttons and QR stay out of
+ * the tab order. It mounts only near the viewport; CSS pauses motion
+ * off-screen and under prefers-reduced-motion.
  */
 export function MiniBadge({
   brand,
   course,
   module,
+  mark,
   theme,
   size = 160,
   label,
@@ -28,6 +30,8 @@ export function MiniBadge({
   brand?: string;
   course?: string;
   module?: string;
+  /** Program logo drawn top-center on the open plate. */
+  mark?: string;
   theme?: ProofTheme;
   size?: number;
   /** Accessible description, e.g. "Sample credential: Intersect Governance". */
@@ -40,10 +44,11 @@ export function MiniBadge({
       brand: brand ?? DEFAULT_CREDENTIAL.brand,
       course: course ?? DEFAULT_CREDENTIAL.course,
       module: module ?? DEFAULT_CREDENTIAL.module,
+      mark,
       holderIsSample: true,
       theme: { ...DEFAULT_CREDENTIAL.theme, ...theme },
     }),
-    [brand, course, module, theme],
+    [brand, course, module, mark, theme],
   );
   const rootRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
@@ -61,7 +66,7 @@ export function MiniBadge({
     >
       {near ? (
         <div ref={innerRef} aria-hidden>
-          <ProofRingBadge credential={credential} animated={false} intro={false} />
+          <ProofRingBadge credential={credential} animated intro />
         </div>
       ) : (
         <div

@@ -23,6 +23,8 @@ export interface BadgeParams {
   issuedAt?: string;
   skills?: BadgeSkill[];
   verifyUrl?: string;
+  /** Program logo. Not hashed; preview only, never uploaded. */
+  mark?: string;
 }
 
 export interface BadgeInputs {

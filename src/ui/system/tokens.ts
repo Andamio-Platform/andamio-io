@@ -21,8 +21,9 @@
  *     cards, no three-icon grids.
  *  4. Structure: a 1320px measure, role-driven spacing on a 4px grid (see
  *     `space`), hairline rules between sections.
- *  5. Motion: only the hero badge moves continuously. Everything else is
- *     user-driven or a one-time reveal, gated by `useMotionGate`.
+ *  5. Motion: the Proof Ring badge moves continuously wherever it is shown,
+ *     including MiniBadge. Everything else is user-driven or a one-time
+ *     reveal, gated by `useMotionGate` and `prefers-reduced-motion`.
  */
 
 /* ── Color ──────────────────────────────────────────────────────────────

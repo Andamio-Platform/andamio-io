@@ -31,7 +31,12 @@ export function InstrumentSpecimens() {
 
       <div>
         {label("ArcHeading · arc fills index / total")}
-        <ArcHeading index={3} total={6} kicker="Andamio Issuer" title="Issue credentials that verify themselves." />
+        <ArcHeading
+          index={3}
+          total={6}
+          kicker="Andamio Issuer"
+          title="Issue credentials that verify themselves."
+        />
       </div>
 
       <div>
@@ -39,11 +44,31 @@ export function InstrumentSpecimens() {
         <OrbitSteps
           label="Earner lifecycle"
           steps={[
-            { id: "enroll", label: "Enroll", detail: "Join a course with an Access Token." },
-            { id: "submit", label: "Submit evidence", detail: "Show the work each learning target asks for." },
-            { id: "review", label: "Get reviewed", detail: "The organization's reviewers accept or return it." },
-            { id: "claim", label: "Claim", detail: "Mint the credential to your wallet." },
-            { id: "carry", label: "Carry it anywhere", detail: "Anyone can verify it on-chain, without calling us." },
+            {
+              id: "enroll",
+              label: "Enroll",
+              detail: "Join a course with an Access Token.",
+            },
+            {
+              id: "submit",
+              label: "Submit evidence",
+              detail: "Show the work each learning target asks for.",
+            },
+            {
+              id: "review",
+              label: "Get reviewed",
+              detail: "The organization's reviewers accept or return it.",
+            },
+            {
+              id: "claim",
+              label: "Claim",
+              detail: "Mint the credential to your wallet.",
+            },
+            {
+              id: "carry",
+              label: "Carry it anywhere",
+              detail: "Anyone can verify it on-chain, without calling us.",
+            },
           ]}
         />
       </div>
@@ -54,10 +79,22 @@ export function InstrumentSpecimens() {
           <Readout
             title="Credential identity"
             rows={[
-              { k: "course_id", v: GETTING_STARTED.params.courseId, copy: GETTING_STARTED.params.courseId },
-              { k: "slt_hash", v: GETTING_STARTED.params.sltHash, copy: GETTING_STARTED.params.sltHash },
+              {
+                k: "course_id",
+                v: GETTING_STARTED.params.courseId,
+                copy: GETTING_STARTED.params.courseId,
+              },
+              {
+                k: "slt_hash",
+                v: GETTING_STARTED.params.sltHash,
+                copy: GETTING_STARTED.params.sltHash,
+              },
               { k: "network", v: "Cardano mainnet" },
-              { k: "verify", v: "andamioscan.io", href: "https://andamioscan.io" },
+              {
+                k: "verify",
+                v: "andamioscan.io",
+                href: "https://andamioscan.io",
+              },
             ]}
           />
         </div>
@@ -76,9 +113,13 @@ export function InstrumentSpecimens() {
       </div>
 
       <div>
-        {label("MiniBadge · still, themed per partner")}
+        {label("MiniBadge · live, themed per partner")}
         <div className="flex flex-wrap items-end gap-8">
-          <MiniBadge size={140} brand="Intersect" course="Governance Fundamentals" />
+          <MiniBadge
+            size={140}
+            brand="Intersect"
+            course="Governance Fundamentals"
+          />
           <MiniBadge
             size={140}
             brand="Fan Lab"
@@ -93,9 +134,24 @@ export function InstrumentSpecimens() {
         {label("LogoRail · every mark links to its use case")}
         <LogoRail
           logos={[
-            { name: "Intersect", src: "/customer/intersect/intersect-logo.png", href: "/use-cases", caption: "Governance" },
-            { name: "Syngenta", src: "/customer/syngenta/syngenta-logo.jpg", href: "/use-cases", caption: "Agronomy" },
-            { name: "FC Barcelona", src: "/customer/fcbarcelona/fcbarcelona-logo.webp", href: "/use-cases", caption: "Fan engagement" },
+            {
+              name: "Intersect",
+              src: "/customer/intersect/intersect-logo.png",
+              href: "/use-cases",
+              caption: "Governance",
+            },
+            {
+              name: "Syngenta",
+              src: "/customer/syngenta/syngenta-logo.jpg",
+              href: "/use-cases",
+              caption: "Agronomy",
+            },
+            {
+              name: "FC Barcelona",
+              src: "/customer/fcbarcelona/fcbarcelona-logo.webp",
+              href: "/use-cases",
+              caption: "Fan engagement",
+            },
           ]}
         />
       </div>

@@ -12,8 +12,8 @@ export interface PaperMeta {
   file: string;
 }
 
-// Ordered registry. `introducing-andamio` leads and is rendered on the
-// /papers hub; the rest are their own /papers/<slug> pages.
+// Ordered registry. Every paper, including Introducing Andamio, has its own
+// /papers/<slug> page. The hub only lists them.
 // (Renamed from `light-paper` 2026-07-02, matching the ee source rename; the
 // old /whitepaper/* routes 301 to /papers/* in next.config.js — "whitepaper"
 // is banned from site routes and copy.)
@@ -44,8 +44,8 @@ export const PAPERS: PaperMeta[] = [
   },
 ];
 
-/** The papers that get their own sub-page (everything except the hub leader). */
-export const SUB_PAPERS = PAPERS.filter((p) => p.slug !== "introducing-andamio");
+/** Every paper has its own /papers/<slug> page. */
+export const SUB_PAPERS = PAPERS;
 
 export function paperBySlug(slug: string): PaperMeta | undefined {
   return PAPERS.find((p) => p.slug === slug);

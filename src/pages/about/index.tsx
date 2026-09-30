@@ -229,15 +229,12 @@ export default function AboutPage() {
             <Display as="h2" size="md" className="mt-5">
               Andamio founding team
             </Display>
-            <div
-              className="mt-12 grid gap-px sm:grid-cols-2 lg:grid-cols-4"
-              style={{ background: color.cell }}
-            >
+            <div className="mt-12 grid gap-px sm:grid-cols-2 lg:grid-cols-4">
               {TEAM.map((member) => (
                 <div
                   key={member.name}
-                  className="flex items-start gap-4 p-6"
-                  style={{ background: color.paper }}
+                  className="flex items-start gap-4 border p-6"
+                  style={{ background: color.paper, borderColor: color.cell }}
                 >
                   <div
                     className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full"

@@ -169,31 +169,6 @@
   fill: var(--pb-cyan-hot);
 }
 
-.pb-arc path {
-  fill: none;
-}
-
-.pb-arc-fill {
-  stroke: var(--pb-cyan);
-  opacity: 0;
-  transition: opacity 260ms ease;
-}
-
-.pb-arc-edge {
-  stroke: var(--pb-cyan-hot);
-  opacity: 0;
-  transition: opacity 260ms ease;
-  filter: drop-shadow(0 0 4px var(--pb-cyan));
-}
-
-.pb-root[data-hl="did"] .pb-arc-did .pb-arc-fill {
-  opacity: 0.2;
-}
-
-.pb-root[data-hl="did"] .pb-arc-did .pb-arc-edge {
-  opacity: 1;
-}
-
 /* Ring focus: a static band on the owning ring, everything else steps back. */
 .pb-hl {
   opacity: 0;
@@ -242,7 +217,6 @@
 .pb-particles,
 .pb-scan,
 .pb-marker,
-.pb-arc,
 .pb-face .pb-field {
   transition: opacity 240ms ease;
 }
@@ -296,6 +270,23 @@
   color: #1d3b52;
 }
 
+/* Top-center of the face. Transparent so a PNG's background is the plate. */
+.pb-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(var(--u) * 200);
+  height: calc(var(--u) * 140);
+  background: transparent;
+}
+
+.pb-mark img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
 .pb-title {
   font-weight: 600;
   color: var(--pb-ink);
@@ -345,6 +336,12 @@
   stroke-width: 1.6;
   stroke-linecap: round;
   stroke-linejoin: round;
+}
+
+.pb-cardano {
+  flex: none;
+  width: calc(var(--u) * 34);
+  height: calc(var(--u) * 34);
 }
 
 .pb-skill {
@@ -595,6 +592,12 @@
   }
 }
 
+@keyframes pb-scan-ccw {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
 @keyframes pb-glow-pulse {
   0%,
   100% {
@@ -672,6 +675,10 @@
   will-change: transform;
 }
 
+.pb-live .pb-scan.pb-scan-b {
+  animation-name: pb-scan-ccw;
+}
+
 .pb-scan {
   opacity: 0;
 }
@@ -723,7 +730,7 @@
 @property --pb-sweep {
   syntax: "<angle>";
   inherits: false;
-  initial-value: 360deg;
+  initial-value: 0deg;
 }
 
 @keyframes pb-draw {

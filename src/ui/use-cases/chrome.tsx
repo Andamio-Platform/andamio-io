@@ -120,6 +120,7 @@ export function CaseDetail({ study }: { study: CaseStudy }) {
           <MiniBadge
             brand={study.partner}
             course={study.badgeCourse}
+            mark={study.logo}
             theme={study.theme}
             size={220}
             label={`Sample credential: ${study.partner} ${study.badgeCourse}`}
@@ -214,12 +215,13 @@ export function CaseCard({ study }: { study: CaseStudy }) {
   return (
     <Link
       href={`/use-cases/${study.slug}`}
-      className="group flex h-full flex-col p-6 transition-colors hover:bg-white/[0.03] focus:outline-none focus-visible:[box-shadow:inset_0_0_0_1.5px_var(--sys-cyan)]"
-      style={{ background: color.paper }}
+      className="group flex h-full flex-col border p-6 transition-colors hover:bg-white/[0.03] focus:outline-none focus-visible:[box-shadow:inset_0_0_0_1.5px_var(--sys-cyan)]"
+      style={{ background: color.paper, borderColor: color.cell }}
     >
       <MiniBadge
         brand={study.partner}
         course={study.badgeCourse}
+        mark={study.logo}
         theme={study.theme}
         size={140}
         label={`Sample credential: ${study.partner} ${study.badgeCourse}`}

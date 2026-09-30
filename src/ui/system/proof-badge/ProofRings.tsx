@@ -2,7 +2,6 @@ import React, { memo, useMemo } from "react";
 import {
   arcPath,
   CENTER,
-  FIELD_ARCS,
   hueAt,
   MARKERS,
   PHRASE_FONT,
@@ -371,7 +370,7 @@ const HL_TARGETS = {
 } as const;
 
 const HL_PULSE =
-  "conic-gradient(from 90deg, transparent 0deg, transparent 300deg, color-mix(in srgb, var(--pb-cyan-hot) 70%, transparent) 352deg, #fff 359deg, transparent 360deg)";
+  "conic-gradient(from 90deg, transparent 0deg, transparent 300deg, color-mix(in srgb, var(--pb-cyan-hot) 45%, transparent) 352deg, var(--pb-cyan-hot) 359deg, transparent 360deg)";
 
 function RingHighlight({ ring }: { ring: "a" | "b" }) {
   const t = HL_TARGETS[ring];
@@ -384,18 +383,10 @@ function RingHighlight({ ring }: { ring: "a" | "b" }) {
       <Annulus
         r0={t.r0}
         r1={t.r1}
-        background="color-mix(in srgb, var(--pb-cyan) 22%, transparent)"
+        background="color-mix(in srgb, var(--pb-cyan) 12%, transparent)"
       />
-      <Annulus
-        r0={t.r0 - 1}
-        r1={t.r0 + 1}
-        background="var(--pb-cyan-hot)"
-      />
-      <Annulus
-        r0={t.r1 - 1}
-        r1={t.r1 + 1}
-        background="var(--pb-cyan-hot)"
-      />
+      <Annulus r0={t.r0 - 1} r1={t.r0 + 1} background="var(--pb-cyan-hot)" />
+      <Annulus r0={t.r1 - 1} r1={t.r1 + 1} background="var(--pb-cyan-hot)" />
       <div className="pb-layer pb-hl-pulse">
         <Annulus r0={t.r0} r1={t.r1} background={HL_PULSE} />
       </div>
@@ -423,15 +414,24 @@ export function RingHighlights() {
   );
 }
 
-/** A short bright arc sweeping the tick track, independent of the spin. */
+/** A short bright arc on each ring, independent of the spin. */
 export function TickScan() {
   const a = RING.a;
+  const b = RING.b;
   const bg =
     "conic-gradient(from 90deg, transparent 0deg, transparent 336deg, color-mix(in srgb, var(--pb-cyan-hot) 55%, transparent) 356deg, var(--pb-cyan-hot) 359deg, transparent 360deg)";
+  // Mirrored so the bright tip leads while this dash travels counter-clockwise.
+  const bgCcw =
+    "conic-gradient(from 90deg, transparent 0deg, var(--pb-cyan-hot) 1deg, color-mix(in srgb, var(--pb-cyan-hot) 55%, transparent) 4deg, transparent 24deg, transparent 360deg)";
   return (
-    <div className="pb-layer pb-scan" aria-hidden>
-      <Annulus r0={a.ticks - 7} r1={a.ticks + 7} background={bg} />
-    </div>
+    <>
+      <div className="pb-layer pb-scan" aria-hidden>
+        <Annulus r0={a.ticks - 7} r1={a.ticks + 7} background={bg} />
+      </div>
+      <div className="pb-layer pb-scan pb-scan-b" aria-hidden>
+        <Annulus r0={b.track - 7} r1={b.track + 7} background={bgCcw} />
+      </div>
+    </>
   );
 }
 
@@ -469,36 +469,12 @@ function Marker({
   );
 }
 
-/** Triangles and side markers (fixed), plus field-linked highlight arcs. */
+/** Triangles and side markers. They stay fixed; face fields do not light them. */
 export function RingFixtures() {
   const t = MARKERS.top;
   const b = MARKERS.bottom;
   return (
     <>
-      <svg className="pb-svg pb-layer" viewBox="0 0 1024 1024" aria-hidden>
-        {(["did"] as const).map((key) => {
-          const { from, to } = FIELD_ARCS[key];
-          return (
-            <g key={key} className={`pb-arc pb-arc-${key}`}>
-              <path
-                d={arcPath(RING.b.track, from, to)}
-                strokeWidth={RING.b.band.to - RING.b.band.from}
-                className="pb-arc-fill"
-              />
-              <path
-                d={arcPath(RING.b.outer, from, to)}
-                strokeWidth={3}
-                className="pb-arc-edge"
-              />
-              <path
-                d={arcPath(RING.b.inner, from, to)}
-                strokeWidth={2}
-                className="pb-arc-edge"
-              />
-            </g>
-          );
-        })}
-      </svg>
       <Marker side="top" box={{ x: 462, y: 0, w: 100, h: 66 }}>
         <polygon
           points={t.points}

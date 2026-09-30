@@ -24,7 +24,6 @@ const STATIC_ROUTES = [
   "/roadmap",
   "/papers",
   "/blog",
-  "/brand",
   "/privacy-policy",
   "/terms",
 ];

@@ -6,12 +6,14 @@
  */
 
 import React, { useEffect, useState } from "react";
-import { hero, EXTERNAL_LINKS, lifecycles, type LifecycleKey } from "~/ui/explore/content";
-import { color, font, space } from "./tokens";
 import {
-  BADGE_FIELD_NOTES,
-  type RingFocus,
-} from "./proof-badge/field-notes";
+  hero,
+  EXTERNAL_LINKS,
+  lifecycles,
+  type LifecycleKey,
+} from "~/ui/explore/content";
+import { color, font, space } from "./tokens";
+import { BADGE_FIELD_NOTES, type RingFocus } from "./proof-badge/field-notes";
 import { DEFAULT_CREDENTIAL, ProofRingBadge } from "./proof-badge";
 import { type FieldArc } from "./proof-badge/geometry";
 import { Button, ButtonRow, Display } from "./kit";
@@ -19,16 +21,11 @@ import { ClaimFence } from "./ClaimFence";
 import { OrbitSteps } from "./instrument";
 import { persistIntent, readIntent } from "./funnel-intent";
 import { track } from "~/lib/analytics";
-import {
-  FadeSwap,
-  LayoutMark,
-  useMotionGate,
-} from "./motion";
+import { FadeSwap, LayoutMark, useMotionGate } from "./motion";
 import { GETTING_STARTED } from "./proof-badge/getting-started";
 
 /** Inspector zones that have a matching highlight arc on the live badge. */
 const FOCUS_TO_ARC: Partial<Record<Exclude<RingFocus, null>, FieldArc>> = {
-  did: "did",
   courseId: "courseId",
   sltHash: "hash",
 };
@@ -176,7 +173,11 @@ function RingInspector({
   );
 }
 
-const LIFECYCLE_KEYS = ["earner", "organization", "developer"] as const satisfies readonly LifecycleKey[];
+const LIFECYCLE_KEYS = [
+  "earner",
+  "organization",
+  "developer",
+] as const satisfies readonly LifecycleKey[];
 
 function LifecycleTabs() {
   const [who, setWho] = useState<LifecycleKey>("earner");
@@ -184,7 +185,11 @@ function LifecycleTabs() {
   const cycle = lifecycles[who];
   return (
     <div>
-      <div role="tablist" aria-label="Whose lifecycle" className={`flex flex-wrap ${space.gapTight}`}>
+      <div
+        role="tablist"
+        aria-label="Whose lifecycle"
+        className={`flex flex-wrap ${space.gapTight}`}
+      >
         {LIFECYCLE_KEYS.map((key) => {
           const on = key === who;
           return (
@@ -455,9 +460,7 @@ export default function CredentialTheater() {
             {layer === "inspect" && (
               <RingInspector focus={focus} onFocus={setFocus} />
             )}
-            {layer === "lifecycle" && (
-              <LifecycleTabs />
-            )}
+            {layer === "lifecycle" && <LifecycleTabs />}
             {layer === "intent" && (
               <IntentContinue
                 onChoose={(key) => {
@@ -469,7 +472,8 @@ export default function CredentialTheater() {
           <div className="lg:col-span-5">
             <ClaimFence>
               A real credential on Cardano mainnet. Field focus is a teaching
-              overlay; the QR and IDs point at its public record. Nothing here mints.
+              overlay; the QR and IDs point at its public record. Nothing here
+              mints.
             </ClaimFence>
           </div>
         </FadeSwap>

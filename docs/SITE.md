@@ -35,8 +35,9 @@ Live routes, and only these, are in `src/app/sitemap.ts`.
 | `/roadmap` | Product releases, then Catalyst history |
 | `/community` | Discord, calendar, Funds 10–14 |
 | `/about` | Timeline, audit, team, `#contact` |
-| `/brand` | Logos, color, badge anatomy |
 | `/privacy-policy`, `/terms` | Legal |
+
+`/brand`, `/brand/developers`, and `/brand/flyer` stay in the repo for local development (`npm run dev`). A production build returns 404 for that tree.
 
 ### Redirects
 
@@ -118,7 +119,7 @@ Add a `CaseStudy` to `CASES`. Every outcome row is `result` (measured), `target`
 
 ## Proof and partners
 
-The rail under the hero is `proofRail` in `content.ts`. Each mark links to a use case. Toha and Project Catalyst have no logo file, so the rail prints their names.
+The rail under the hero is `proofRail` in `content.ts`. Each mark links to a use case. Toha Network uses the header icon from toha.network. Project Catalyst uses the header lockup from projectcatalyst.io.
 
 Barça Fan Lab, public facts only: launched 25 September 2026, built with Andamio on Cardano, BarçaID sign-in creates a wallet, transactions are sponsored, four program areas with Web3 labeled experimental, funded by Catalyst Fund 13. The quote is the Cardano Foundation post, not a named person at the club. The case says adoption is not disclosed.
 

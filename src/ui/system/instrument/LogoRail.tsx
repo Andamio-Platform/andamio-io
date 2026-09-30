@@ -10,6 +10,8 @@ export interface RailLogo {
   href: string;
   /** Short mono caption under the mark, e.g. "Governance". */
   caption: string;
+  /** Intrinsic width. Defaults to height so square marks stay square. */
+  width?: number;
   height?: number;
 }
 
@@ -31,7 +33,11 @@ export function LogoRail({
         style={{ borderColor: color.cell }}
       >
         {logos.map((l) => (
-          <li key={l.name} className="border-b border-r" style={{ borderColor: color.cell }}>
+          <li
+            key={l.name}
+            className="border-b border-r"
+            style={{ borderColor: color.cell }}
+          >
             <a
               href={l.href}
               onClick={() => track("proof-rail-click")}
@@ -44,9 +50,9 @@ export function LogoRail({
                     src={l.src}
                     alt={l.name}
                     loading="lazy"
-                    width={l.height ?? 48}
+                    width={l.width ?? l.height ?? 48}
                     height={l.height ?? 48}
-                    className="object-contain opacity-80 transition-[filter,opacity] duration-200 [filter:grayscale(1)] group-hover:opacity-100 group-hover:[filter:none] group-focus-visible:opacity-100 group-focus-visible:[filter:none]"
+                    className="h-12 w-auto max-w-full object-contain opacity-80 transition-[filter,opacity] duration-200 [filter:grayscale(1)] group-hover:opacity-100 group-hover:[filter:none] group-focus-visible:opacity-100 group-focus-visible:[filter:none]"
                   />
                 ) : (
                   <span

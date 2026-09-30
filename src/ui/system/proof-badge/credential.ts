@@ -31,6 +31,8 @@ export type ProofHolder = {
 
 export type ProofCredential = {
   brand: string;
+  /** Program logo at the top center of an open plate. Omit on the Andamio badge. */
+  mark?: string;
   course: string;
   module: string;
   holder: ProofHolder;
@@ -241,6 +243,8 @@ export type BuilderCredentialInput = {
   issuedAt?: string;
   skills?: string[];
   verifyUrl?: string;
+  /** Program logo URL. Omit to keep the Andamio plate and wordmark. */
+  mark?: string;
 };
 
 /** Getting Started and live builder edits, on the Proof Ring face. */
@@ -275,6 +279,7 @@ export function credentialFromBuilder(
     courseId: input.courseId,
     sltHash: input.sltHash,
     verifyUrl: input.verifyUrl ?? badgeVerifyUrl(input.courseId, input.sltHash),
+    mark: input.mark?.trim() || undefined,
   };
 }
 

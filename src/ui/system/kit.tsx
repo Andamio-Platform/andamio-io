@@ -251,6 +251,15 @@ function NavDropdown({
                 </a>
               );
             })}
+            {items.length % 2 === 1 && (
+              <span
+                aria-hidden
+                style={{
+                  borderTop: `1px solid ${color.cell}`,
+                  borderLeft: `1px solid ${color.cell}`,
+                }}
+              />
+            )}
           </div>
         </div>
       )}
@@ -466,7 +475,9 @@ export function Page({
         </a>
         {/* TopNav spans the full viewport so its bottom border is edge-to-edge. */}
         <TopNav {...nav} />
-        <main id="main-content" className="overflow-x-clip">{children}</main>
+        <main id="main-content" className="overflow-x-clip">
+          {children}
+        </main>
         {footer}
       </div>
     </div>

@@ -42,6 +42,7 @@ import {
 } from "./ProofRings";
 
 const PLATE_SRC = "/images/landing/proof-badge-plate.webp";
+const PLATE_OPEN_SRC = "/images/landing/proof-badge-plate-open.webp";
 const COPIED_MS = 1600;
 const INTRO_MS = 1900;
 
@@ -151,7 +152,8 @@ function CopyValue({
   value: string;
   display: React.ReactNode;
   label: string;
-  arc: FieldArc;
+  /** Set only when this value is encoded on a ring. */
+  arc?: FieldArc;
   hooks: FieldHooks;
   className?: string;
   style?: React.CSSProperties;
@@ -165,7 +167,7 @@ function CopyValue({
       title={value}
       aria-label={`Copy ${label}: ${value}`}
       onClick={() => void copy()}
-      {...highlightHandlers(arc, hooks.onHighlight)}
+      {...(arc ? highlightHandlers(arc, hooks.onHighlight) : {})}
     >
       <span>{display}</span>
       <CopyGlyph className="pb-icon" />
@@ -227,7 +229,8 @@ function LinkedCopyValue({
 
 // Code-split: the QR encoder stays out of first-load JS; the fixed-size box
 // renders empty until it arrives, so nothing shifts.
-const loadQrEncoder = () => import("@pjaudiomv/qrcode-svg").then((m) => m.default);
+const loadQrEncoder = () =>
+  import("@pjaudiomv/qrcode-svg").then((m) => m.default);
 
 const VerifyQr = memo(function VerifyQr({ url }: { url: string }) {
   const [markup, setMarkup] = useState("");
@@ -419,13 +422,14 @@ export function ProofRingBadge({
       <div
         ref={rootRef}
         className={classes}
-        style={introOn ? { ["--pb-spin-delay" as string]: "1.2s" } : undefined}
+        style={intro ? { ["--pb-spin-delay" as string]: "0.82s" } : undefined}
         role="group"
         aria-label={`Andamio credential: ${c.module}, ${c.course}. Earned by ${earnerName}. Anchored on ${c.network}.`}
       >
         <div className="pb-stage">
           <Image
-            src={PLATE_SRC}
+            key={c.mark ? PLATE_OPEN_SRC : PLATE_SRC}
+            src={c.mark ? PLATE_OPEN_SRC : PLATE_SRC}
             alt=""
             fill
             priority={priority}
@@ -441,15 +445,29 @@ export function ProofRingBadge({
           <RingHighlights />
 
           <div className="pb-face">
-            <p
-              className="pb-at pb-at-start pb-wordmark pb-field"
-              style={field({
-                ...at(f.wordmark.x, f.wordmark.y),
-                fontSize: u(wordmarkSize),
-              })}
-            >
-              {c.brand.toUpperCase()}
-            </p>
+            {c.mark ? (
+              <span
+                className="pb-at pb-mark"
+                style={field({
+                  ...at(f.mark.x, f.mark.y),
+                  width: u(f.mark.w),
+                  height: u(f.mark.h),
+                })}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={c.mark} alt="" />
+              </span>
+            ) : (
+              <p
+                className="pb-at pb-at-start pb-wordmark pb-field"
+                style={field({
+                  ...at(f.wordmark.x, f.wordmark.y),
+                  fontSize: u(wordmarkSize),
+                })}
+              >
+                {c.brand.toUpperCase()}
+              </p>
+            )}
 
             <p
               className="pb-at pb-label pb-field"
@@ -537,7 +555,6 @@ export function ProofRingBadge({
                 value={c.issuerDid}
                 display={didWraps ? breakAfterColons(c.issuerDid) : c.issuerDid}
                 label="issuer DID"
-                arc="did"
                 hooks={hooks}
                 className={didWraps ? "pb-wrap" : ""}
               />
@@ -570,12 +587,12 @@ export function ProofRingBadge({
             <p
               className="pb-at pb-row pb-field"
               style={field({
-                ...at(f.network.x + 4, f.network.y),
+                ...at(f.network.x + 4, f.network.y + 6),
                 fontSize: u(f.network.size),
                 color: "var(--pb-body)",
               })}
             >
-              <CardanoGlyph className="pb-icon" />
+              <CardanoGlyph className="pb-cardano" />
               {c.network}
             </p>
 

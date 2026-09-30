@@ -77,20 +77,43 @@ export const nav = {
     {
       label: "Resources",
       items: [
-        { name: "Papers", desc: "What Andamio is, and how it works.", href: "/papers" },
-        { name: "Use cases", desc: "How teams put Andamio to work.", href: "/use-cases" },
+        {
+          name: "Papers",
+          desc: "What Andamio is, and how it works.",
+          href: "/papers",
+        },
+        {
+          name: "Use cases",
+          desc: "How teams put Andamio to work.",
+          href: "/use-cases",
+        },
         { name: "Blog", desc: "Notes from the build.", href: "/blog" },
-        { name: "Roadmap", desc: "What has shipped, and what is next.", href: "/roadmap" },
-        { name: "Community", desc: "Discord, calendar, and Catalyst.", href: "/community" },
+        {
+          name: "Roadmap",
+          desc: "What has shipped, and what is next.",
+          href: "/roadmap",
+        },
+        {
+          name: "Community",
+          desc: "Discord, calendar, and Catalyst.",
+          href: "/community",
+        },
       ],
     },
     { label: "Pricing", href: "/pricing" },
     {
       label: "About",
       items: [
-        { name: "About", desc: "The team, the timeline, the audit.", href: "/about" },
-        { name: "Contact", desc: "Email, Discord, and a walkthrough.", href: "/about#contact" },
-        { name: "Brand and press", desc: "Logos, color, and the badge.", href: "/brand" },
+        {
+          name: "About",
+          desc: "The team, the timeline, the audit.",
+          href: "/about",
+        },
+        {
+          name: "Contact",
+          desc: "Email, Discord, and a walkthrough.",
+          href: "/about#contact",
+        },
       ],
     },
   ],
@@ -294,11 +317,19 @@ export const proofRail = [
     href: "/use-cases/Syngenta",
     caption: "Agronomy",
   },
-  { name: "Toha", href: "/use-cases/Toha", caption: "Contributors" },
+  {
+    name: "Toha Network",
+    src: "/customer/toha/toha-logo.svg",
+    href: "/use-cases/Toha",
+    caption: "Contributors",
+  },
   {
     name: "Project Catalyst",
+    src: "/customer/project-catalyst/catalyst-logo.svg",
     href: "/use-cases/DecentralizedInnovation",
     caption: "Funding",
+    width: 220,
+    height: 80,
   },
   {
     name: "FC Barcelona",
@@ -1240,7 +1271,6 @@ export const footer = {
     About: [
       { name: "About", href: "/about" },
       { name: "Contact", href: "/about#contact" },
-      { name: "Brand and press", href: "/brand" },
       { name: "Discord", href: EXTERNAL_LINKS.discord },
       { name: "X", href: EXTERNAL_LINKS.twitter },
       { name: "Privacy", href: "/privacy-policy" },

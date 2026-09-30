@@ -40,14 +40,20 @@ export default function CustomersPage() {
         <h1 className="mt-4 text-[clamp(2.6rem,7vw,5rem)] font-semibold leading-[0.95] tracking-[-0.045em]">
           Customers
         </h1>
-        <p className="mt-5 max-w-2xl text-lg leading-relaxed" style={{ color: color.inkMuted }}>
-          Celebrating the global community of people building local states on Andamio. Teams
-          of all sizes — tech teams, collaborative teams, educational teams, institutions, and
-          more.
+        <p
+          className="mt-5 max-w-2xl text-lg leading-relaxed"
+          style={{ color: color.ink }}
+        >
+          Celebrating the global community of people building local states on
+          Andamio. Teams of all sizes — tech teams, collaborative teams,
+          educational teams, institutions, and more.
         </p>
-        <p className="mt-4 max-w-2xl text-lg leading-relaxed" style={{ color: color.inkMuted }}>
-          Discover their stories and how they are impacting lives in their distributed way of
-          work.
+        <p
+          className="mt-4 max-w-2xl text-lg leading-relaxed"
+          style={{ color: color.ink }}
+        >
+          Discover their stories and how they are impacting lives in their
+          distributed way of work.
         </p>
       </header>
 
@@ -57,7 +63,9 @@ export default function CustomersPage() {
           <Suspense
             fallback={
               <div className="flex items-center justify-center py-20">
-                <div style={{ color: color.inkMuted }}>Loading customers...</div>
+                <div style={{ color: color.inkMuted }}>
+                  Loading customers...
+                </div>
               </div>
             }
           >
@@ -85,7 +93,9 @@ export default function CustomersPage() {
                       <div className="absolute right-2 top-2 z-10">
                         <Image
                           src={customer.frontmatter.logo}
-                          alt={customer.frontmatter.title || customer.id + " logo"}
+                          alt={
+                            customer.frontmatter.title || customer.id + " logo"
+                          }
                           width={72}
                           height={72}
                           className="rounded object-contain p-1 shadow-md"
@@ -108,22 +118,23 @@ export default function CustomersPage() {
                     {customer.frontmatter.title || customer.id}
                   </h2>
                   {/* Tags */}
-                  {customer.frontmatter.tags && Array.isArray(customer.frontmatter.tags) && (
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {customer.frontmatter.tags.map((tag: string) => (
-                        <span
-                          key={tag}
-                          className="inline-block px-2 py-1 text-[11px] font-medium tracking-[-0.01em]"
-                          style={{
-                            color: color.inkMuted,
-                            border: `1px solid ${color.cell}`,
-                          }}
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  )}
+                  {customer.frontmatter.tags &&
+                    Array.isArray(customer.frontmatter.tags) && (
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {customer.frontmatter.tags.map((tag: string) => (
+                          <span
+                            key={tag}
+                            className="inline-block px-2 py-1 text-[11px] font-medium tracking-[-0.01em]"
+                            style={{
+                              color: color.inkMuted,
+                              border: `1px solid ${color.cell}`,
+                            }}
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                   <div className="mt-auto flex items-center justify-between pt-6">
                     <span />
                     <span

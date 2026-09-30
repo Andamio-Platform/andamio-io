@@ -57,7 +57,6 @@ export function generateMetadata({ params }: { params: Props }): Metadata {
   };
 }
 
-
 export default function Page({ params }: { params: Props }) {
   const content = getCustomerPageContent(params.customerId);
   const data = getFrontmatter(params.customerId);
@@ -72,13 +71,16 @@ export default function Page({ params }: { params: Props }) {
       <Link
         href="/customers"
         className="inline-flex items-center gap-1.5 text-[13px] font-semibold tracking-[-0.01em] transition-colors hover:text-foreground"
-        style={{ color: color.inkFaint }}
+        style={{ color: color.ink }}
       >
         ← Back to Customers
       </Link>
 
       {/* Meta + title */}
-      <header className="mt-8 border-b pb-8" style={{ borderColor: color.rule }}>
+      <header
+        className="mt-8 border-b pb-8"
+        style={{ borderColor: color.rule }}
+      >
         {Array.isArray(data?.tags) && data.tags.length > 0 && (
           <div className="flex flex-wrap gap-2">
             {data.tags.map((tag: string) => (
@@ -102,14 +104,17 @@ export default function Page({ params }: { params: Props }) {
 
       {/* Article */}
       <article
-        className="prose mt-10 max-w-none prose-headings:font-semibold prose-headings:tracking-[-0.02em] prose-headings:text-[#0A0A0A] prose-a:font-medium prose-a:text-[var(--sys-cyan)] prose-a:no-underline hover:prose-a:underline prose-strong:text-[#0A0A0A] sm:prose-lg"
+        className="longform prose mt-10 max-w-none sm:prose-lg prose-headings:font-semibold prose-headings:tracking-[-0.02em] prose-a:font-medium prose-a:text-[var(--sys-cyan)] prose-a:no-underline hover:prose-a:underline"
         style={{ fontFamily: font.sans }}
       >
         <TransformedPageContent content={content} />
       </article>
 
       {/* Footer nav */}
-      <div className="mt-16 flex items-center justify-between border-t pt-8" style={{ borderColor: color.rule }}>
+      <div
+        className="mt-16 flex items-center justify-between border-t pt-8"
+        style={{ borderColor: color.rule }}
+      >
         <Link
           href="/customers"
           className="inline-flex items-center gap-2 px-4 py-2 text-[13px] font-semibold tracking-[-0.01em] transition-colors hover:text-white"

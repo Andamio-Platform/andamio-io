@@ -58,11 +58,31 @@ export const DASH_SPANS: ReadonlyArray<readonly [number, number]> = [
  * sampled from the brightest pixels of each band.
  */
 export const HUE = {
-  rim: [1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0],
-  ticks: [1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0.73, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0],
-  dashes: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1],
-  edgeOuter: [1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-  edgeInner: [1, 1, 1, 1, 1, 1, 1, 1, 0.46, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1],
+  rim: [
+    1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
+  ],
+  ticks: [
+    1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1,
+    1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 1, 0.73, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
+  ],
+  dashes: [
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,
+  ],
+  edgeOuter: [
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+  ],
+  edgeInner: [
+    1, 1, 1, 1, 1, 1, 1, 1, 0.46, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
+    0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1,
+  ],
 } as const;
 
 export type HueBand = keyof typeof HUE;
@@ -94,6 +114,8 @@ export const MARKERS = {
  */
 export const FACE = {
   wordmark: { x: 473, y: 230.5, size: 45, maxW: 250 },
+  /** Top-center program logo. Used only when a mark is set. */
+  mark: { x: 512, y: 200, w: 200, h: 140 },
   courseLabel: { x: 512, y: 304 },
   course: { x: 512, y: 342, size: 29.5, maxW: 440 },
   moduleLabel: { x: 512, y: 386 },
@@ -107,7 +129,12 @@ export const FACE = {
   networkLabel: { x: 512, y: 601.5 },
   network: { x: 501, y: 625.5, size: 17 },
   skillsLabel: { x: 516, y: 662 },
-  skills: { iconY: 689, textY: 721.5, columns: [361, 458, 564, 672], span: [316, 710] },
+  skills: {
+    iconY: 689,
+    textY: 721.5,
+    columns: [361, 458, 564, 672],
+    span: [316, 710],
+  },
   courseIdPanel: { x: 355, labelY: 778.5, valueY: 804.5, width: 150 },
   hashPanel: { x: 669, labelY: 778.5, valueY: 804, width: 150 },
   qr: { x: 459, y: 766, size: 106 },
@@ -148,11 +175,11 @@ export const RING_COLORS = {
 } as const;
 
 /**
- * Ring-B arcs tied to the copyable fields (SVG degrees), highlighted while
- * the field is hovered or focused. They stay fixed in badge space.
+ * Ring arcs tied to face fields that are actually encoded on a ring
+ * (SVG degrees), highlighted while the field is hovered or focused.
+ * The issuer DID lives on the face only, so it has no arc.
  */
 export const FIELD_ARCS = {
-  did: { from: 160, to: 196 },
   courseId: { from: 124, to: 152 },
   hash: { from: 28, to: 56 },
 } as const;
@@ -165,7 +192,12 @@ export function polar(r: number, deg: number): { x: number; y: number } {
 }
 
 /** SVG arc path from `from` to `to` degrees (clockwise), or reversed. */
-export function arcPath(r: number, from: number, to: number, reverse = false): string {
+export function arcPath(
+  r: number,
+  from: number,
+  to: number,
+  reverse = false,
+): string {
   const a = polar(r, reverse ? to : from);
   const b = polar(r, reverse ? from : to);
   const large = Math.abs(to - from) > 180 ? 1 : 0;

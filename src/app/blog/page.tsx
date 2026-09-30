@@ -5,7 +5,9 @@ import { Kicker } from "~/ui/system/kit";
 import { ProofCard } from "~/ui/system/instrument";
 
 function byDateDesc(a: BlogPost, b: BlogPost): number {
-  const byDate = (b.frontmatter.date ?? "").localeCompare(a.frontmatter.date ?? "");
+  const byDate = (b.frontmatter.date ?? "").localeCompare(
+    a.frontmatter.date ?? "",
+  );
   return byDate || b.title.localeCompare(a.title);
 }
 
@@ -22,9 +24,12 @@ export default async function BlogPage() {
         <h1 className="mt-4 text-[clamp(2.6rem,7vw,5rem)] font-semibold leading-[0.95] tracking-[-0.045em]">
           Blog
         </h1>
-        <p className="mt-5 max-w-2xl text-lg leading-relaxed" style={{ color: color.inkMuted }}>
-          Notes from building credential infrastructure on Cardano: protocol, partners, and the
-          work in between.
+        <p
+          className="mt-5 max-w-2xl text-lg leading-relaxed"
+          style={{ color: color.ink }}
+        >
+          Notes from building credential infrastructure on Cardano: protocol,
+          partners, and the work in between.
         </p>
       </header>
 
@@ -37,13 +42,20 @@ export default async function BlogPage() {
               bodyClassName="p-0"
               footer={
                 <span className="flex items-center justify-between gap-4">
-                  <span>{blogPost.frontmatter.author ? `by ${blogPost.frontmatter.author}` : "Andamio"}</span>
+                  <span>
+                    {blogPost.frontmatter.author
+                      ? `by ${blogPost.frontmatter.author}`
+                      : "Andamio"}
+                  </span>
                   <span style={{ color: color.cyan }}>Read →</span>
                 </span>
               }
             >
               {blogPost.frontmatter.image ? (
-                <div className="relative aspect-video overflow-hidden border-b" style={{ borderColor: color.cell }}>
+                <div
+                  className="relative aspect-video overflow-hidden border-b"
+                  style={{ borderColor: color.cell }}
+                >
                   <Image
                     src={blogPost.frontmatter.image}
                     height={400}
@@ -55,12 +67,15 @@ export default async function BlogPage() {
               ) : null}
               <div className="p-6">
                 <p
-                  className="text-[11px] uppercase tracking-[0.16em] tabular-nums"
-                  style={{ fontFamily: font.mono, color: color.inkFaint }}
+                  className="text-[11px] uppercase tabular-nums tracking-[0.16em]"
+                  style={{ fontFamily: font.mono, color: color.ink }}
                 >
                   {blogPost.frontmatter.date ?? "Undated"}
                 </p>
-                <h2 className="mt-3 text-xl font-semibold leading-tight tracking-[-0.02em]" style={{ color: color.ink }}>
+                <h2
+                  className="mt-3 text-xl font-semibold leading-tight tracking-[-0.02em]"
+                  style={{ color: color.ink }}
+                >
                   {blogPost.frontmatter.title || blogPost.title}
                 </h2>
               </div>

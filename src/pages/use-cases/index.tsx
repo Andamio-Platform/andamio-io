@@ -67,10 +67,7 @@ export default function UseCasesIndex() {
               })}
             </div>
 
-            <div
-              className="mt-8 grid gap-px sm:grid-cols-2 lg:grid-cols-3"
-              style={{ background: color.cell }}
-            >
+            <div className="mt-8 grid gap-px sm:grid-cols-2 lg:grid-cols-3">
               {shown.map((c) => (
                 <CaseCard key={c.slug} study={c} />
               ))}

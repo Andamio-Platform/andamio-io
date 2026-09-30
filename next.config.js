@@ -23,11 +23,10 @@ const config = {
   async redirects() {
     return [
       // Papers naming purge (2026-07-02): "whitepaper" is banned from routes
-      // and copy. /whitepaper -> /papers; the old light-paper leader renders
-      // on the hub itself, so it lands there too.
+      // and copy. The old light-paper is Introducing Andamio, its own page.
       {
         source: "/whitepaper/light-paper",
-        destination: "/papers",
+        destination: "/papers/introducing-andamio",
         permanent: true,
       },
       {
@@ -59,16 +58,40 @@ const config = {
       // Orphaned pages folded into live routes (2026-09).
       { source: "/contact", destination: "/about#contact", permanent: true },
       { source: "/customers", destination: "/use-cases", permanent: true },
-      { source: "/customers/:path*", destination: "/use-cases", permanent: true },
+      {
+        source: "/customers/:path*",
+        destination: "/use-cases",
+        permanent: true,
+      },
       { source: "/explore/concept-a", destination: "/", permanent: true },
       { source: "/explore/system", destination: "/brand", permanent: true },
       { source: "/about/whitepaper", destination: "/papers", permanent: true },
-      { source: "/about/our-team", destination: "/about#team", permanent: true },
-      { source: "/about/our-technology", destination: "/about#technology", permanent: true },
+      {
+        source: "/about/our-team",
+        destination: "/about#team",
+        permanent: true,
+      },
+      {
+        source: "/about/our-technology",
+        destination: "/about#technology",
+        permanent: true,
+      },
       { source: "/summit", destination: "/community", permanent: true },
-      { source: "/calendar", destination: "/community#calendar", permanent: true },
-      { source: "/fund/12", destination: "/community#catalyst", permanent: true },
-      { source: "/fund/14", destination: "/community#catalyst", permanent: true },
+      {
+        source: "/calendar",
+        destination: "/community#calendar",
+        permanent: true,
+      },
+      {
+        source: "/fund/12",
+        destination: "/community#catalyst",
+        permanent: true,
+      },
+      {
+        source: "/fund/14",
+        destination: "/community#catalyst",
+        permanent: true,
+      },
     ];
   },
 };

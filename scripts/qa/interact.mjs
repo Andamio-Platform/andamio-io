@@ -4,11 +4,14 @@
 // motion stops under reduced motion.
 import { chromium } from "playwright";
 import { fileURLToPath } from "node:url";
+import { mkdirSync } from "node:fs";
 import path from "node:path";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const base = process.argv[2] ?? "http://localhost:3100";
-const out = (n) => path.join(here, "out", n);
+const outDir = path.join(here, "..", "..", "screenshots", "qa");
+mkdirSync(outDir, { recursive: true });
+const out = (n) => path.join(outDir, n);
 const browser = await chromium.launch({ channel: process.env.PW_CHANNEL ?? "msedge" });
 const results = [];
 const check = (name, ok, detail = "") => results.push(`${ok ? "PASS" : "FAIL"} ${name}${detail ? ` — ${detail}` : ""}`);

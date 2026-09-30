@@ -27,7 +27,7 @@ See `docs/landing-page-excellence/agent-briefs/README.md`. Shared truth: `agent-
 
 | Catalog | Count | Path |
 |---|---:|---|
-| GitHub AI resources | 75 | `docs/landing-page-excellence/research/github-ai-resources/` |
-| UI/UX websites/tools | 87 | `docs/landing-page-excellence/research/ui-ux-resources/` |
-| GitHub shortlist | 13 | `research/shortlists/github-ai-shortlist.md` |
-| UI/UX shortlist | 15 | `research/shortlists/ui-ux-shortlist.md` |
+| GitHub AI resources | 75 | `docs/archive/landing-page-excellence/research/github-ai-resources/` |
+| UI/UX websites/tools | 87 | `docs/archive/landing-page-excellence/research/ui-ux-resources/` |
+| GitHub shortlist | 13 | `docs/landing-page-excellence/research/shortlists/github-ai-shortlist.md` |
+| UI/UX shortlist | 15 | `docs/landing-page-excellence/research/shortlists/ui-ux-shortlist.md` |

@@ -65,5 +65,5 @@ This choice minimizes parallel architectures while retaining the one shared V2 c
 
 ## Related evidence
 
-- [`../audits/2026-07-21-current-state-architecture.md`](../audits/2026-07-21-current-state-architecture.md)
-- [`../audits/2026-07-21-audit-index-and-disposition-map.md`](../audits/2026-07-21-audit-index-and-disposition-map.md)
+- [`../audits/2026-07-21-current-state-architecture.md`](../../archive/landing-page-excellence/audits/2026-07-21-current-state-architecture.md)
+- [`../audits/2026-07-21-audit-index-and-disposition-map.md`](../../archive/landing-page-excellence/audits/2026-07-21-audit-index-and-disposition-map.md)

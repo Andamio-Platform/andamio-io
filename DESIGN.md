@@ -1144,7 +1144,7 @@ Stop and ask the owner if the design proposal:
 - `docs/landing-page-excellence/implementation/verification-matrix.md`
 - `docs/landing-page-excellence/implementation/rollout-and-rollback.md`
 - `docs/landing-page-excellence/requirements/01-audience-and-positioning.md` … `09-testing-acceptance.md`
-- `docs/landing-page-excellence/audits/2026-07-21-*.md`
+- `docs/archive/landing-page-excellence/audits/2026-07-21-*.md`
 - `docs/landing-page-excellence/research/shortlists/adoption-matrix.md`
 - `docs/landing-page-excellence/research/shortlists/rejected-and-cautions.md`
 - `docs/landing-page-excellence/research/shortlists/ui-ux-shortlist.md`

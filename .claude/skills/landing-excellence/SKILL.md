@@ -68,8 +68,8 @@ Landing Excellence:
 
 ### Mode: research / shortlist
 
-1. Methodology: `research/methodology.md`
-2. Catalogs: `research/github-ai-resources/`, `research/ui-ux-resources/`
+1. Current shortlists: `research/shortlists/`
+2. Methodology and full catalogs (archived July 2026 snapshots): `docs/archive/landing-page-excellence/research/`
 3. Apply [tools.md](tools.md) buckets: `adopt-now` | `evaluate` | `reference-only`
 4. Never treat a shortlist as authorization to ship code
 

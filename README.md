@@ -1,45 +1,67 @@
-# Andamio Platform
+# andamio.io
 
-### Commands to run
+Marketing site and blog for [Andamio](https://www.andamio.io), an open protocol for verifiable, portable credentials on Cardano. This repo is only the public website; the product app, API and docs live in other repositories under [Andamio-Platform](https://github.com/Andamio-Platform).
 
-- `build`: check lint and build Next JS project - use before deploy to GitHub and Vercel
-- `db:update`: format, push and generate the database - use after changing the database schema (prisma/schema.prisma)
-- `dev`: run the development server
-- `db:studio`: open the Prisma Studio - to view database tables and data
+Next.js 14 (pages router plus a small `app/` directory for blog, customers, brand, sitemap and robots), React 18, TypeScript, Tailwind and `motion/react`.
 
-### Folder structure
+## Commands
 
-The folder structure of this project is as follows:
-
-```
-.
-├── prisma # the database schema
-├── src # the main source code of the project
-│   ├── components # basic UI components
-│   ├── hooks # custom reusable hooks
-│   ├── lib # reusable functions and third party libraries
-│   ├── pages # the routing of every page
-│   ├── server # contains backend services including auth, DB and TRPC
-│   │   ├── api/root.ts # TRPC router, add if new routers are added
-│   │   ├── api/routers # database queries and mutations
-│   ├── styles # global styles and theme
-│   ├── types # global types
-│   ├── ui # main UI source codes, including business logic
-│   ├── utils # utility functions
-│   ├── env.js # environment variables
+```bash
+npm install
+npm run dev            # http://localhost:3000
+npm run build          # lint + typecheck + production build
+npm run start          # serve the production build
+npx tsc --noEmit       # typecheck only
+npm run next:lint      # lint only
 ```
 
-### Environment variables
+QA scripts (Playwright, Edge channel by default; set `PW_CHANNEL` to change). Run them against a running server:
+
+```bash
+node scripts/qa/interact.mjs http://127.0.0.1:3000     # proof badge behaviour
+node scripts/qa/nav-check.mjs http://127.0.0.1:3000    # top-menu routes render
+node scripts/qa/perf.mjs http://127.0.0.1:3000         # idle badge main-thread cost
+node scripts/qa/shoot-pages.mjs http://127.0.0.1:3000 label   # 1440 + 390 screenshots, overflow and 404s
+```
+
+Screenshots go to `screenshots/` (gitignored).
+
+## Folder map
 
 ```
-# Database URL
-DATABASE_URL="postgres://..."
-
-# Next Auth
-NEXTAUTH_SECRET=""
-NEXTAUTH_URL="http://localhost:3000"
-
-# Next Auth Discord Provider
-DISCORD_CLIENT_ID=""
-DISCORD_CLIENT_SECRET=""
+src/
+  pages/            routes: home, /issuer, /show-me, /developers, /cli, /bot, /pricing,
+                    /use-cases/*, /papers/*, /about, /roadmap, legal pages
+  app/              app-router routes: /blog, /customers, /brand, sitemap.ts, robots.ts
+  ui/system/        the live design system and page compositions
+    proof-badge/    the Proof Ring credential badge (hero and demos)
+    motion/         motion primitives, all gated by useMotionGate
+  components/       shared shell pieces (theme provider, metatags, toast, a few primitives)
+  lib/              external links, SEO helpers, blog / customer / paper loaders
+  content/papers/   Andamio Papers (markdown)
+  blog/, customers/ blog posts and customer stories (markdown)
+  styles/           globals.css, proof-badge.css, prose.css
+public/             images, logos, fonts served as-is
+scripts/qa/         Playwright QA scripts
+docs/               project docs (see below)
 ```
+
+## Docs map
+
+- `docs/landing-page-excellence/`: requirements, binding decisions (`decisions/`), agent briefs and the current tool shortlists.
+- `docs/design-system/`: brand guide and the credential badge concept images.
+- `docs/solutions/`: documented solutions to past problems.
+- `docs/backlog.md`: open follow-ups.
+- `docs/archive/`: superseded plans, audits, research and scripts, indexed in `docs/archive/README.md`.
+- `DESIGN.md`: the long-form design system reference; parts are superseded by `decisions/2026-09-30-proof-instrument-dark.md`.
+- `CONCEPTS.md`: domain vocabulary.
+- `CLAUDE.md` and `.claude/skills/`: agent instructions and vendored skills.
+
+## Environment variables
+
+None are required for local development. Optional:
+
+| Variable | Purpose |
+|---|---|
+| `NEXT_PUBLIC_UMAMI_URL` | Umami script host. Analytics load only when both Umami variables are set. |
+| `NEXT_PUBLIC_UMAMI_WEBSITE_ID` | Umami website id |

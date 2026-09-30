@@ -242,7 +242,7 @@ subtitle). Build it once; it's the duplication that bit this repo.
 - Components: `src/ui/system/kit.tsx`
 - Living style guide (rendered): `/explore/system`
 - Reference composition: `src/ui/system/AndamioLanding.tsx` → `/`
-- Decision history: `docs/brainstorms/2026-06-27-design-inspiration.md`
+- Decision history: `docs/archive/brainstorms/2026-06-27-design-inspiration.md`
 
 ---
 

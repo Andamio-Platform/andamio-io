@@ -43,10 +43,10 @@ This list is intentionally scoped to known landing dependencies, not exhaustive.
 
 ## Reading order
 
-1. [Research methodology](research/methodology.md)
+1. [Research methodology](../archive/landing-page-excellence/research/methodology.md)
 2. [Decisions](decisions/README.md) — cross-cutting approvals.
-3. [GitHub and AI resources](research/github-ai-resources/README.md)
-4. [UI/UX resources](research/ui-ux-resources/README.md)
+3. [GitHub and AI resources](../archive/landing-page-excellence/research/github-ai-resources/README.md)
+4. [UI/UX resources](../archive/landing-page-excellence/research/ui-ux-resources/README.md)
 5. [Research shortlists](research/shortlists/README.md) — including [adoption-matrix](research/shortlists/adoption-matrix.md) and [rejected-and-cautions](research/shortlists/rejected-and-cautions.md)
 6. [Audits](audits/README.md)
 7. [Design strategy](implementation/2026-07-21-design-strategy.md)

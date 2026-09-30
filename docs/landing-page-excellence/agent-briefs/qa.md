@@ -12,7 +12,7 @@
 
 ## Allowed files
 
-Test config/specs when added (e.g. `tests/**` or Playwright config), CI workflow additions for gates, evidence under `docs/landing-page-excellence/audits/` or `implementation/evidence/` if created. Read-only on product UI except bugfix PRs filed with owners.
+Test config/specs when added (e.g. `tests/**` or Playwright config), CI workflow additions for gates, evidence under `docs/archive/landing-page-excellence/audits/` or `implementation/evidence/` if created. Read-only on product UI except bugfix PRs filed with owners.
 
 ## Outputs
 

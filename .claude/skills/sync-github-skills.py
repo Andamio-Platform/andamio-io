@@ -154,7 +154,7 @@ def main() -> int:
         "",
         "## Manifest source",
         "",
-        "- Catalog: `docs/landing-page-excellence/research/github-ai-resources/installable-skills-and-rules.md`",
+        "- Catalog: `docs/archive/landing-page-excellence/research/github-ai-resources/installable-skills-and-rules.md`",
         "- Manifest: `.claude/skills/github-skills-manifest.json`",
         "",
         "## Installed skills",

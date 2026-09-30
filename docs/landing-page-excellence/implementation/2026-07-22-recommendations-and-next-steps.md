@@ -15,11 +15,11 @@ Already-landed structural commits on `dev` (`feat(landing): concept-a prototype 
 
 | Package | Path | Use later for |
 |---|---|---|
-| Research methodology | [../research/methodology.md](../research/methodology.md) | How to score and freshness-check tools |
-| GitHub AI catalog (75) | [../research/github-ai-resources/](../research/github-ai-resources/) | Agent skills, MCP, QA/eval tools |
-| UI/UX web catalog (87) | [../research/ui-ux-resources/](../research/ui-ux-resources/) | Free/animated components, inspiration, a11y/perf tools |
+| Research methodology | [../research/methodology.md](../../archive/landing-page-excellence/research/methodology.md) | How to score and freshness-check tools |
+| GitHub AI catalog (75) | [../research/github-ai-resources/](../../archive/landing-page-excellence/research/github-ai-resources/) | Agent skills, MCP, QA/eval tools |
+| UI/UX web catalog (87) | [../research/ui-ux-resources/](../../archive/landing-page-excellence/research/ui-ux-resources/) | Free/animated components, inspiration, a11y/perf tools |
 | Shortlists + adoption matrix | [../research/shortlists/](../research/shortlists/) | What to adopt / evaluate / reference |
-| Baseline audits | [../audits/](../audits/) | Current funnel, a11y/SEO/perf gaps |
+| Baseline audits | [../audits/](../../archive/landing-page-excellence/audits/) | Current funnel, a11y/SEO/perf gaps |
 | Concept A decision | [../decisions/2026-07-21-concept-direction.md](../decisions/2026-07-21-concept-direction.md) | Issuer-led narrative direction |
 | Keep/reuse/archive | [../decisions/2026-07-21-keep-reuse-archive.md](../decisions/2026-07-21-keep-reuse-archive.md) | Canonical vs legacy stacks |
 | Requirements 01–09 | [../requirements/](../requirements/) | Agent-testable acceptance criteria |
@@ -90,8 +90,8 @@ Ordered by impact before craft polish:
 
 1. [../decisions/2026-07-21-concept-direction.md](../decisions/2026-07-21-concept-direction.md)
 2. [../decisions/2026-07-21-keep-reuse-archive.md](../decisions/2026-07-21-keep-reuse-archive.md)
-3. [../audits/2026-07-21-audit-index-and-disposition-map.md](../audits/2026-07-21-audit-index-and-disposition-map.md)
-4. [../audits/2026-07-21-funnel-and-cta-inventory.md](../audits/2026-07-21-funnel-and-cta-inventory.md)
+3. [../audits/2026-07-21-audit-index-and-disposition-map.md](../../archive/landing-page-excellence/audits/2026-07-21-audit-index-and-disposition-map.md)
+4. [../audits/2026-07-21-funnel-and-cta-inventory.md](../../archive/landing-page-excellence/audits/2026-07-21-funnel-and-cta-inventory.md)
 5. [../requirements/README.md](../requirements/README.md)
 6. [../research/shortlists/adoption-matrix.md](../research/shortlists/adoption-matrix.md)
 7. [../research/shortlists/rejected-and-cautions.md](../research/shortlists/rejected-and-cautions.md)
@@ -116,8 +116,8 @@ When you create it, prefer:
 
 | Catalog | Accepted | Location |
 |---|---:|---|
-| GitHub AI resources | 75 | `research/github-ai-resources/` |
-| UI/UX websites/tools | 87 | `research/ui-ux-resources/` |
+| GitHub AI resources | 75 | `docs/archive/landing-page-excellence/research/github-ai-resources/` |
+| UI/UX websites/tools | 87 | `docs/archive/landing-page-excellence/research/ui-ux-resources/` |
 | GitHub shortlist | 13 | `research/shortlists/github-ai-shortlist.md` |
 | UI/UX shortlist | 15 | `research/shortlists/ui-ux-shortlist.md` |
 

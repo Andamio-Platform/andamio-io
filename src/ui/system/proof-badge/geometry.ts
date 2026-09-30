@@ -1,8 +1,9 @@
 /**
  * Measured geometry of the concept-40 Proof Ring artwork, in its native
- * 1024 x 1024 space. Source: scripts/badge-src/{measure,profile,sample_hue,
- * text_boxes}.py run against the PNG embedded in
- * andamio_badge_hybrid_editable.svg. Re-run those scripts before editing.
+ * 1024 x 1024 space. Source: docs/archive/scripts/badge-src/{measure,profile,
+ * sample_hue,text_boxes}.py run against the PNG embedded in
+ * andamio_badge_hybrid_editable.svg (kept outside the repo). Re-run those
+ * scripts before editing.
  */
 
 export const BADGE_SIZE = 1024;

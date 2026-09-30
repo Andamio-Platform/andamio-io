@@ -44,8 +44,8 @@ yarn.lock
 .pnp.loader.mjs
 # Local visual-review screenshots (scripts/screenshot.mjs)
 screenshots/
-# ProofRingBadge measurement artifacts (scripts/badge-src/extract.py regenerates source.png)
-scripts/badge-src/out/
-scripts/badge-src/source.png
+# ProofRingBadge measurement artifacts (extract.py regenerates source.png)
+docs/archive/scripts/badge-src/out/
+docs/archive/scripts/badge-src/source.png
 # Local agent scratch space
 .superpowers/

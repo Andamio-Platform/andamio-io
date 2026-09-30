@@ -23,7 +23,7 @@ The site is a hybrid Next.js app: marketing pages live in the **Pages Router**
 (`src/app/`). That means there are two metadata mechanisms, and the design
 goal of the 2026-07 SEO pass was to make each one correct while keeping a
 single source of truth so refinement stays cheap. Requirements:
-`docs/brainstorms/2026-07-02-seo-improvements-requirements.md`.
+`docs/archive/brainstorms/2026-07-02-seo-improvements-requirements.md`.
 
 ## The architecture
 

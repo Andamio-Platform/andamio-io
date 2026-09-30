@@ -7,13 +7,13 @@
 ## Inputs
 
 - [shared-context.md](shared-context.md)
-- [../research/methodology.md](../research/methodology.md)
+- [../research/methodology.md](../../archive/landing-page-excellence/research/methodology.md)
 - [../research/shortlists/](../research/shortlists/)
-- Audits under [../audits/](../audits/)
+- Audits under [../audits/](../../archive/landing-page-excellence/audits/)
 
 ## Allowed files
 
-`docs/landing-page-excellence/research/**`, `docs/landing-page-excellence/audits/**` (evidence only), shortlist updates. No `src/**`.
+`docs/landing-page-excellence/research/**`, `docs/archive/landing-page-excellence/audits/**` (evidence only), shortlist updates. No `src/**`.
 
 ## Outputs
 
@@ -31,7 +31,7 @@
 
 ```bash
 # Docs-only; optional catalog validators if present
-python docs/landing-page-excellence/research/github-ai-resources/validate_catalogs.py
+python docs/archive/landing-page-excellence/research/github-ai-resources/validate_catalogs.py
 ```
 
 ## Escalation

@@ -46,6 +46,17 @@ On 25 Sep 2026 FC Barcelona launched Barça Fan Lab, built with Andamio on Carda
 7. **Analytics (TECH-01).** Umami, self-hosted on GCP (Cloud Run + Cloud SQL Postgres). No cookies, no consent banner. The client loads only when `NEXT_PUBLIC_UMAMI_URL` and `NEXT_PUBLIC_UMAMI_WEBSITE_ID` are set. Events are enum funnel steps only.
 8. **Routes.** `/summit`, `/fund/*`, `/calendar` merge into `/community`; `/contact` folds into `/about#contact`; `/explore/system` merges into `/brand`; `/customers` and `/explore/concept-a` redirect.
 
+## Owner creative direction (folded in from `design-ai-instructions.md`)
+
+These owner priorities still hold under the dark direction:
+
+- **The badge is the protagonist.** Visitors can watch it resolve, inspect ring anatomy by hover and keyboard, follow the lifecycle, and lightly customize it and see it respond.
+- **Alive, not a brochure.** Motion teaches or sets hierarchy; no particle fields, confetti or meaningless loops. Organize motion into a few systems (badge, scroll reveal, teaching, control feedback), each with a reduced-motion equivalent.
+- **Open with the credential, not a persona quiz.** Offer intent choices in product language after exploration. Issuer conversion stays commercially primary.
+- **Honesty.** Illustrative demos read as illustrative. A mailto walkthrough is intent, not a booking. Coming soon stays coming soon. No tracking-based personalization.
+- **Accessibility and performance.** WCAG 2.2 AA, keyboard-operable inspection, 320px layouts, a complete static first paint before motion, heavy modules deferred.
+- **Success test.** Remove the logo and the page should still feel like a specific credential product.
+
 ## Consequences
 
 - The `landing-excellence` skill, `DESIGN.md`, the brand guide and VIS-01/VIS-05 are updated to point here.

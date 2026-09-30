@@ -54,6 +54,6 @@ Adopt **Concept A**.
 
 ## Related evidence
 
-- [../audits/2026-07-21-funnel-and-cta-inventory.md](../audits/2026-07-21-funnel-and-cta-inventory.md)
+- [../audits/2026-07-21-funnel-and-cta-inventory.md](../../archive/landing-page-excellence/audits/2026-07-21-funnel-and-cta-inventory.md)
 - [../decisions/2026-07-21-keep-reuse-archive.md](../decisions/2026-07-21-keep-reuse-archive.md)
 - [../research/shortlists/rejected-and-cautions.md](../research/shortlists/rejected-and-cautions.md)

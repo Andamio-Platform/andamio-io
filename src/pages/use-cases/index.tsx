@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import Metatags from "~/components/site/metatags";
 import { motion } from "motion/react";
-import { fadeIn as fadeInFactory, staggerContainer } from "~/ui/landing/V2Landing/motion-variants";
+import { staggerContainer, staggerItem } from "~/ui/system/motion/variants";
 import { nav, footer as footerData } from "~/ui/explore/content";
 import { color } from "~/ui/system/tokens";
 import { Page, Section, Kicker, Display, Footer } from "~/ui/system/kit";
@@ -59,8 +59,8 @@ const useCases = [
   },
 ];
 
-const containerVariants = staggerContainer();
-const cardVariants = fadeInFactory();
+const containerVariants = staggerContainer;
+const cardVariants = staggerItem;
 
 export default function UseCasesIndex() {
   return (

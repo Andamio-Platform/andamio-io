@@ -1,7 +1,25 @@
-// Copy for the badge annotations on the "How it works" demo and CredentialTheater.
-// Role-neutral, in the landing voice, within the no-cross-issuer-composability
-// guardrail (gating stays within your own pathways; cross-org value is
-// portability, never automatic enforcement).
+/**
+ * Copy for the badge inspector (CredentialTheater) and the builder info chips.
+ * Gating stays within an issuer's own pathways; cross-org value is portability,
+ * never automatic enforcement.
+ */
+
+export type RingFocus =
+  | "outer"
+  | "inner"
+  | "brand"
+  | "course"
+  | "module"
+  | "earner"
+  | "did"
+  | "issued"
+  | "network"
+  | "skills"
+  | "courseId"
+  | "sltHash"
+  | "qr"
+  | "core"
+  | null;
 
 export interface RingNote {
   label: string;
@@ -22,7 +40,7 @@ export const INNER_RING: RingNote = {
 };
 
 /** Field notes for the evolved Proof Ring inspector (all visible face fields). */
-export const BADGE_FIELD_NOTES: Record<string, RingNote> = {
+export const BADGE_FIELD_NOTES: Record<Exclude<RingFocus, null>, RingNote> = {
   outer: OUTER_RING,
   inner: INNER_RING,
   brand: {

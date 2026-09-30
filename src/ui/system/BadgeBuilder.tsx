@@ -1,11 +1,8 @@
 "use client";
 
 /**
- * BadgeBuilder — the interactive "build a credential" demo, rebuilt in the
- * Warm Index design language (kit.tsx + tokens.ts). It reuses the framework-free
- * Proof Rings core verbatim from ~/ui/landing/V2Landing/badge; only the UI is
- * re-skinned to the system (ink hairlines, mono micro-labels, the coral specimen
- * plate, blue as the data/linking accent, orange reserved for the live pulse).
+ * BadgeBuilder — the interactive "build a credential" demo on the live
+ * ProofRingBadge.
  *
  * Two wired zones: a control CONSOLE (inputs) and the SPECIMEN (the live badge).
  * Focusing an input lights the ring it controls, so input → ring reads as one
@@ -14,11 +11,11 @@
  */
 
 import React from "react";
+import { credentialFromBuilder, ProofRingBadge } from "./proof-badge";
 import {
   buildBadgeParams,
   type BadgeParams,
-} from "~/ui/landing/V2Landing/badge";
-import { credentialFromBuilder, ProofRingBadge } from "./proof-badge";
+} from "./proof-badge/builder-params";
 import type { FieldArc } from "./proof-badge/geometry";
 import {
   Popover,
@@ -32,7 +29,7 @@ import {
   INNER_RING,
   SHIFT,
   LEFT_WITH,
-} from "~/ui/landing/V2Landing/annotation-data";
+} from "./proof-badge/field-notes";
 import { color, font } from "./tokens";
 
 type ActiveZone =
@@ -73,8 +70,6 @@ export const GETTING_STARTED = {
     courseId: "ab5d9217bbbac409ffbe7c8c65d9b358932245079a7f8547a28bc755",
     sltHash: "1b37e6b411bc614e9da67943124219053eafa717793e5424f4a33765e42328a3",
     network: "mainnet",
-    courseIdShort: "AND-GS-2024-0001",
-    sltHashShort: "1b37e6b4…28a3",
     // Fictional but wired display fields (not on-chain for this demo specimen).
     earnerName: "Jordan Smith",
     did: "did:andamio:8f3a7c1e",

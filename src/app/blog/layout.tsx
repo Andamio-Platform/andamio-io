@@ -1,5 +1,5 @@
 import "~/styles/globals.css";
-import "./blog.css";
+import "~/styles/prose.css";
 import type { Metadata } from "next";
 import { TopNav, Footer, LogoWash } from "~/ui/system/kit";
 import { nav, footer as footerData } from "~/ui/explore/content";

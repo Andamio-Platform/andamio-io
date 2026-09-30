@@ -325,20 +325,6 @@
   letter-spacing: 0.02em;
 }
 
-.pb-sample {
-  display: inline-block;
-  margin-left: calc(var(--u) * 8);
-  padding: calc(var(--u) * 2) calc(var(--u) * 6);
-  border-radius: calc(var(--u) * 4);
-  font-size: calc(var(--u) * 9);
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  vertical-align: middle;
-  color: #6b7a88;
-  border: 1px solid rgb(107 122 136 / 0.45);
-}
-
 .pb-value {
   font-size: calc(var(--u) * 14.5);
   color: var(--pb-value);

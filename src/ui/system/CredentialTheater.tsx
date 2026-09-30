@@ -6,10 +6,12 @@
  */
 
 import React, { useEffect, useState } from "react";
-import { BADGE_FIELD_NOTES } from "~/ui/landing/V2Landing/annotation-data";
 import { hero, EXTERNAL_LINKS } from "~/ui/explore/content";
 import { color, font, space } from "./tokens";
-import { type RingFocus } from "./AnimatedProofBadge";
+import {
+  BADGE_FIELD_NOTES,
+  type RingFocus,
+} from "./proof-badge/field-notes";
 import { DEFAULT_CREDENTIAL, ProofRingBadge } from "./proof-badge";
 import { type FieldArc } from "./proof-badge/geometry";
 import { Button, ButtonRow, Display } from "./kit";

@@ -10,7 +10,14 @@
 
 import Image from "next/image";
 import QRCode from "@pjaudiomv/qrcode-svg";
-import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {
   DEFAULT_CREDENTIAL,
   middleTruncate,
@@ -21,18 +28,22 @@ import {
 import { BADGE_SIZE, FACE, GLYPH_EM, type FieldArc } from "./geometry";
 import {
   CalendarGlyph,
+  CardanoGlyph,
   CopyGlyph,
   ExternalGlyph,
-  LinkGlyph,
   SkillGlyph,
-  VerifiedGlyph,
 } from "./icons";
 import { Particles, RingA, RingB, RingFixtures, TickScan } from "./ProofRings";
 
 const PLATE_SRC = "/images/landing/proof-badge-plate.webp";
 const COPIED_MS = 1600;
 const INTRO_MS = 1900;
-const SETTLE_MS = 4200;
+
+/** `2026-07-01T00:30:00Z` → `2026-07-01 00:30`. Falls back to the raw value. */
+function formatIssued(iso: string): string {
+  const match = /^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2})/.exec(iso);
+  return match ? `${match[1]} ${match[2]}` : iso;
+}
 
 const u = (n: number) => `calc(var(--u) * ${n})`;
 const at = (x: number, y: number): React.CSSProperties => ({
@@ -43,7 +54,9 @@ const at = (x: number, y: number): React.CSSProperties => ({
 /** Shrinks a size so `text` fits `maxW` (badge px), assuming `em` per glyph. */
 function fitSize(text: string, base: number, maxW: number, em: number): number {
   const natural = text.length * em * base;
-  return natural > maxW ? Math.max(base * 0.62, maxW / (text.length * em)) : base;
+  return natural > maxW
+    ? Math.max(base * 0.62, maxW / (text.length * em))
+    : base;
 }
 
 /** `did:web:credentials.andamio.io` → break opportunities after each colon. */
@@ -89,7 +102,11 @@ type FieldHooks = {
   announce: (message: string) => void;
 };
 
-function useCopy(value: string, label: string, announce: FieldHooks["announce"]) {
+function useCopy(
+  value: string,
+  label: string,
+  announce: FieldHooks["announce"],
+) {
   const [copied, setCopied] = useState(false);
   const timer = useRef<number>();
   useEffect(() => () => window.clearTimeout(timer.current), []);
@@ -103,7 +120,10 @@ function useCopy(value: string, label: string, announce: FieldHooks["announce"])
   return { copied, copy };
 }
 
-function highlightHandlers(key: FieldArc, onHighlight: FieldHooks["onHighlight"]) {
+function highlightHandlers(
+  key: FieldArc,
+  onHighlight: FieldHooks["onHighlight"],
+) {
   return {
     onMouseEnter: () => onHighlight(key),
     onMouseLeave: () => onHighlight(null),
@@ -169,7 +189,10 @@ function LinkedCopyValue({
   const { copied, copy } = useCopy(value, label, hooks.announce);
   const hl = highlightHandlers(arc, hooks.onHighlight);
   return (
-    <span className={`pb-row pb-on-dark ${className ?? ""}`} style={{ position: "relative" }}>
+    <span
+      className={`pb-row pb-on-dark ${className ?? ""}`}
+      style={{ position: "relative" }}
+    >
       <a
         className="pb-link"
         href={href}
@@ -182,7 +205,13 @@ function LinkedCopyValue({
         <span>{display}</span>
         <ExternalGlyph className="pb-icon" />
       </a>
-      <button type="button" className="pb-icon-btn" aria-label={`Copy ${label}`} onClick={() => void copy()} {...hl}>
+      <button
+        type="button"
+        className="pb-icon-btn"
+        aria-label={`Copy ${label}`}
+        onClick={() => void copy()}
+        {...hl}
+      >
         <CopyGlyph className="pb-icon" />
       </button>
       {copied && <span className="pb-copied">Copied</span>}
@@ -223,7 +252,11 @@ const VerifyQr = memo(function VerifyQr({ url }: { url: string }) {
         ["--i" as string]: 11,
       }}
     >
-      <svg viewBox="0 0 256 256" aria-hidden dangerouslySetInnerHTML={{ __html: markup }} />
+      <svg
+        viewBox="0 0 256 256"
+        aria-hidden
+        dangerouslySetInnerHTML={{ __html: markup }}
+      />
     </a>
   );
 });
@@ -280,14 +313,16 @@ export function ProofRingBadge({
     if (liveRef.current) liveRef.current.textContent = message;
   }, []);
 
-  const hooks = useMemo(() => ({ onHighlight, announce }), [onHighlight, announce]);
+  const hooks = useMemo(
+    () => ({ onHighlight, announce }),
+    [onHighlight, announce],
+  );
 
   // Pause everything while off-screen; end the intro once it has been seen.
   useEffect(() => {
     const el = rootRef.current;
     if (!el) return;
     let introTimer: number | undefined;
-    let settleTimer: number | undefined;
     const io = new IntersectionObserver(
       ([entry]) => {
         if (!entry) return;
@@ -295,9 +330,6 @@ export function ProofRingBadge({
           delete el.dataset.offscreen;
           if (introTimer === undefined) {
             introTimer = window.setTimeout(() => setIntroOn(false), INTRO_MS);
-            settleTimer = window.setTimeout(() => {
-              el.dataset.settled = "";
-            }, SETTLE_MS);
           }
         } else {
           el.dataset.offscreen = "";
@@ -309,27 +341,51 @@ export function ProofRingBadge({
     return () => {
       io.disconnect();
       window.clearTimeout(introTimer);
-      window.clearTimeout(settleTimer);
     };
   }, []);
 
   const f = FACE;
   const earnerName = c.holder.displayName ?? c.holder.alias;
   const showAlias = Boolean(c.holder.displayName && c.holder.alias);
-  const courseSize = fitSize(c.course, f.course.size, f.course.maxW, GLYPH_EM.course);
-  const moduleSize = fitSize(c.module, f.module.size, f.module.maxW, GLYPH_EM.module);
-  const earnerSize = fitSize(earnerName, f.earner.size, f.earner.maxW, GLYPH_EM.earner);
+  const courseSize = fitSize(
+    c.course,
+    f.course.size,
+    f.course.maxW,
+    GLYPH_EM.course,
+  );
+  const moduleSize = fitSize(
+    c.module,
+    f.module.size,
+    f.module.maxW,
+    GLYPH_EM.module,
+  );
+  const earnerSize = fitSize(
+    earnerName,
+    f.earner.size,
+    f.earner.maxW,
+    GLYPH_EM.earner,
+  );
   const didWraps = c.issuerDid.length * GLYPH_EM.value * 14.5 > 180;
-  const wordmarkSize = fitSize(c.brand, f.wordmark.size, f.wordmark.maxW, GLYPH_EM.wordmark);
+  const wordmarkSize = fitSize(
+    c.brand,
+    f.wordmark.size,
+    f.wordmark.maxW,
+    GLYPH_EM.wordmark,
+  );
   const skills = c.skills.slice(0, 4);
   const skillX = (i: number) =>
     skills.length === 4
       ? (f.skills.columns[i] ?? 512)
-      : f.skills.span[0] + ((i + 0.5) * (f.skills.span[1] - f.skills.span[0])) / skills.length;
+      : f.skills.span[0] +
+        ((i + 0.5) * (f.skills.span[1] - f.skills.span[0])) / skills.length;
   const courseIdDisplay = middleTruncate(c.courseId);
   const hashDisplay = middleTruncate(c.sltHash);
 
-  const classes = ["pb-root", animated ? "pb-live" : "", introOn ? "pb-intro" : ""].join(" ");
+  const classes = [
+    "pb-root",
+    animated ? "pb-live" : "",
+    introOn ? "pb-intro" : "",
+  ].join(" ");
 
   let i = 0;
   const field = (extra?: React.CSSProperties): React.CSSProperties => ({
@@ -338,176 +394,286 @@ export function ProofRingBadge({
   });
 
   return (
-    <div className={`pb-frame ${className}`} style={{ ...themeStyle(c.theme), ...style }}>
     <div
-      ref={rootRef}
-      className={classes}
-      style={introOn ? { ["--pb-spin-delay" as string]: "1.2s" } : undefined}
-      role="group"
-      aria-label={`Andamio credential: ${c.module}, ${c.course}. Earned by ${earnerName}. Anchored on ${c.network}.`}
+      className={`pb-frame ${className}`}
+      style={{ ...themeStyle(c.theme), ...style }}
     >
-      <div className="pb-stage">
-        <Image
-          src={PLATE_SRC}
-          alt=""
-          fill
-          priority={priority}
-          sizes="(min-width: 1024px) 36rem, 92vw"
-          className="pb-plate"
-          draggable={false}
-        />
-        <Particles />
-        <RingB phrases={phrases} />
-        <RingA />
-        {animated && <TickScan />}
-        <RingFixtures />
+      <div
+        ref={rootRef}
+        className={classes}
+        style={introOn ? { ["--pb-spin-delay" as string]: "1.2s" } : undefined}
+        role="group"
+        aria-label={`Andamio credential: ${c.module}, ${c.course}. Earned by ${earnerName}. Anchored on ${c.network}.`}
+      >
+        <div className="pb-stage">
+          <Image
+            src={PLATE_SRC}
+            alt=""
+            fill
+            priority={priority}
+            sizes="(min-width: 1024px) 36rem, 92vw"
+            className="pb-plate"
+            draggable={false}
+          />
+          <Particles />
+          <RingB phrases={phrases} hash={c.sltHash} />
+          <RingA courseId={c.courseId} />
+          {animated && <TickScan />}
+          <RingFixtures />
 
-        <div className="pb-face">
-          <p
-            className="pb-at pb-at-start pb-wordmark pb-field"
-            style={field({ ...at(f.wordmark.x, f.wordmark.y), fontSize: u(wordmarkSize) })}
-          >
-            {c.brand.toUpperCase()}
-          </p>
-
-          <p className="pb-at pb-label pb-field" style={field(at(f.courseLabel.x, f.courseLabel.y))}>
-            Course
-          </p>
-          <h3
-            className="pb-at pb-title pb-field"
-            style={field({ ...at(f.course.x, f.course.y), fontSize: u(courseSize), maxWidth: u(f.course.maxW) })}
-            title={c.course}
-          >
-            {c.course}
-          </h3>
-
-          <p className="pb-at pb-label pb-field" style={field(at(f.moduleLabel.x, f.moduleLabel.y))}>
-            Module
-          </p>
-          <p
-            className="pb-at pb-module pb-field"
-            style={field({ ...at(f.module.x, f.module.y), fontSize: u(moduleSize), maxWidth: u(f.module.maxW) })}
-            title={c.module}
-          >
-            {c.module}
-          </p>
-
-          <p className="pb-at pb-label pb-label-accent pb-field" style={field(at(f.earnerLabel.x, f.earnerLabel.y))}>
-            Earner
-          </p>
-          <p
-            className="pb-at pb-earner pb-field"
-            style={field({ ...at(f.earner.x, f.earner.y - (showAlias ? 3 : 0)), fontSize: u(earnerSize), maxWidth: u(f.earner.maxW) })}
-          >
-            {earnerName}
-            {c.holderIsSample && <span className="pb-sr"> (sample holder)</span>}
-          </p>
-          {showAlias && (
-            <p className="pb-at pb-alias pb-field" style={field(at(f.earner.x, 511))} title="Access Token alias">
-              {c.holder.alias}
+          <div className="pb-face">
+            <p
+              className="pb-at pb-at-start pb-wordmark pb-field"
+              style={field({
+                ...at(f.wordmark.x, f.wordmark.y),
+                fontSize: u(wordmarkSize),
+              })}
+            >
+              {c.brand.toUpperCase()}
             </p>
-          )}
 
-          <p className="pb-at pb-label pb-field" style={field(at((f.didBox.x0 + f.didBox.x1) / 2, f.boxLabelY))}>
-            Issuer DID
-          </p>
-          <div
-            className="pb-at pb-value pb-field"
-            style={field({
-              ...at((f.didBox.x0 + f.didBox.x1) / 2, f.boxValueY + (didWraps ? 4 : 0)),
-              fontSize: u(didWraps ? 13 : 14.5),
-              maxWidth: u(206),
-            })}
-          >
-            <CopyValue
-              value={c.issuerDid}
-              display={didWraps ? breakAfterColons(c.issuerDid) : c.issuerDid}
-              label="issuer DID"
-              arc="did"
-              hooks={hooks}
-              className={didWraps ? "pb-wrap" : ""}
-            />
-          </div>
+            <p
+              className="pb-at pb-label pb-field"
+              style={field(at(f.courseLabel.x, f.courseLabel.y))}
+            >
+              Course
+            </p>
+            <h3
+              className="pb-at pb-title pb-field"
+              style={field({
+                ...at(f.course.x, f.course.y),
+                fontSize: u(courseSize),
+                maxWidth: u(f.course.maxW),
+              })}
+              title={c.course}
+            >
+              {c.course}
+            </h3>
 
-          <p className="pb-at pb-label pb-field" style={field(at((f.issuedBox.x0 + f.issuedBox.x1) / 2, f.boxLabelY))}>
-            Issued
-          </p>
-          <p className="pb-at pb-value pb-row pb-field" style={field(at((f.issuedBox.x0 + f.issuedBox.x1) / 2 + 2, f.boxValueY))}>
-            <time dateTime={c.issuedAt}>{c.issuedAt}</time>
-            <CalendarGlyph className="pb-icon" />
-          </p>
+            <p
+              className="pb-at pb-label pb-field"
+              style={field(at(f.moduleLabel.x, f.moduleLabel.y))}
+            >
+              Module
+            </p>
+            <p
+              className="pb-at pb-module pb-field"
+              style={field({
+                ...at(f.module.x, f.module.y),
+                fontSize: u(moduleSize),
+                maxWidth: u(f.module.maxW),
+              })}
+              title={c.module}
+            >
+              {c.module}
+            </p>
 
-          <p className="pb-at pb-label pb-field" style={field(at(f.networkLabel.x, f.networkLabel.y))}>
-            Network
-          </p>
-          <p className="pb-at pb-row pb-field" style={field({ ...at(f.network.x + 4, f.network.y), fontSize: u(f.network.size), color: "var(--pb-body)" })}>
-            <LinkGlyph className="pb-icon" />
-            {c.network}
-          </p>
-
-          {skills.length > 0 && (
-            <>
-              <p className="pb-at pb-label pb-label-accent pb-field" style={field(at(f.skillsLabel.x - 4, f.skillsLabel.y))}>
-                Skills
+            <p
+              className="pb-at pb-label pb-label-accent pb-field"
+              style={field(at(f.earnerLabel.x, f.earnerLabel.y))}
+            >
+              Earner
+            </p>
+            <p
+              className="pb-at pb-earner pb-field"
+              style={field({
+                ...at(f.earner.x, f.earner.y - (showAlias ? 3 : 0)),
+                fontSize: u(earnerSize),
+                maxWidth: u(f.earner.maxW),
+              })}
+            >
+              {earnerName}
+              {c.holderIsSample && (
+                <span className="pb-sr"> (sample holder)</span>
+              )}
+            </p>
+            {showAlias && (
+              <p
+                className="pb-at pb-alias pb-field"
+                style={field(at(f.earner.x, 511))}
+                title="Access Token alias"
+              >
+                {c.holder.alias}
               </p>
-              <ul style={{ margin: 0, padding: 0, listStyle: "none" }} aria-label="Skills">
-                {skills.map((s, k) => (
-                  <li key={s.label} className="pb-at pb-skill pb-field" style={field({ ...at(skillX(k), (f.skills.iconY + f.skills.textY) / 2 - 4.5), gap: u(10) })}>
-                    <SkillGlyph icon={s.icon} className="pb-skill-icon" />
-                    <span className="pb-skill-label">{s.label}</span>
-                  </li>
-                ))}
-              </ul>
-            </>
+            )}
+
+            <p
+              className="pb-at pb-label pb-field"
+              style={field(at((f.didBox.x0 + f.didBox.x1) / 2, f.boxLabelY))}
+            >
+              Issuer DID
+            </p>
+            <div
+              className="pb-at pb-value pb-field"
+              style={field({
+                ...at(
+                  (f.didBox.x0 + f.didBox.x1) / 2,
+                  f.boxValueY + (didWraps ? 4 : 0),
+                ),
+                fontSize: u(didWraps ? 13 : 14.5),
+                maxWidth: u(206),
+              })}
+            >
+              <CopyValue
+                value={c.issuerDid}
+                display={didWraps ? breakAfterColons(c.issuerDid) : c.issuerDid}
+                label="issuer DID"
+                arc="did"
+                hooks={hooks}
+                className={didWraps ? "pb-wrap" : ""}
+              />
+            </div>
+
+            <p
+              className="pb-at pb-label pb-field"
+              style={field(
+                at((f.issuedBox.x0 + f.issuedBox.x1) / 2, f.boxLabelY),
+              )}
+            >
+              Issued
+            </p>
+            <p
+              className="pb-at pb-value pb-row pb-field"
+              style={field(
+                at((f.issuedBox.x0 + f.issuedBox.x1) / 2 + 2, f.boxValueY),
+              )}
+            >
+              <time dateTime={c.issuedAt}>{formatIssued(c.issuedAt)}</time>
+              <CalendarGlyph className="pb-icon" />
+            </p>
+
+            <p
+              className="pb-at pb-label pb-field"
+              style={field(at(f.networkLabel.x, f.networkLabel.y))}
+            >
+              Network
+            </p>
+            <p
+              className="pb-at pb-row pb-field"
+              style={field({
+                ...at(f.network.x + 4, f.network.y),
+                fontSize: u(f.network.size),
+                color: "var(--pb-body)",
+              })}
+            >
+              <CardanoGlyph className="pb-icon" />
+              {c.network}
+            </p>
+
+            {skills.length > 0 && (
+              <>
+                <p
+                  className="pb-at pb-label pb-label-accent pb-field"
+                  style={field(at(f.skillsLabel.x - 4, f.skillsLabel.y))}
+                >
+                  Skills
+                </p>
+                <ul
+                  style={{ margin: 0, padding: 0, listStyle: "none" }}
+                  aria-label="Skills"
+                >
+                  {skills.map((s, k) => (
+                    <li
+                      key={s.label}
+                      className="pb-at pb-skill pb-field"
+                      style={field({
+                        ...at(
+                          skillX(k),
+                          (f.skills.iconY + f.skills.textY) / 2 - 4.5,
+                        ),
+                        gap: u(10),
+                      })}
+                    >
+                      <SkillGlyph icon={s.icon} className="pb-skill-icon" />
+                      <span className="pb-skill-label">{s.label}</span>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+
+            <p
+              className="pb-at pb-panel-label pb-field"
+              style={field(at(f.courseIdPanel.x + 8, f.courseIdPanel.labelY))}
+            >
+              Course ID
+            </p>
+            <div
+              className="pb-at pb-mono pb-field"
+              style={field(at(f.courseIdPanel.x + 8, f.courseIdPanel.valueY))}
+            >
+              {c.courseUrl ? (
+                <LinkedCopyValue
+                  value={c.courseId}
+                  display={courseIdDisplay}
+                  label="course ID"
+                  href={c.courseUrl}
+                  arc="courseId"
+                  hooks={hooks}
+                />
+              ) : (
+                <CopyValue
+                  value={c.courseId}
+                  display={courseIdDisplay}
+                  label="course ID"
+                  arc="courseId"
+                  hooks={hooks}
+                  className="pb-on-dark"
+                />
+              )}
+            </div>
+
+            <p
+              className="pb-at pb-panel-label pb-field"
+              style={field(at(f.hashPanel.x - 29, f.hashPanel.labelY))}
+            >
+              SLT hash
+            </p>
+            <div
+              className="pb-at pb-mono pb-field"
+              style={field(at(f.hashPanel.x - 2, f.hashPanel.valueY))}
+            >
+              {c.hashUrl ? (
+                <LinkedCopyValue
+                  value={c.sltHash}
+                  display={hashDisplay}
+                  label="SLT hash"
+                  href={c.hashUrl}
+                  arc="hash"
+                  hooks={hooks}
+                />
+              ) : (
+                <CopyValue
+                  value={c.sltHash}
+                  display={hashDisplay}
+                  label="SLT hash"
+                  arc="hash"
+                  hooks={hooks}
+                  className="pb-on-dark"
+                />
+              )}
+            </div>
+
+            <VerifyQr url={c.verifyUrl} />
+
+            <a
+              className="pb-at pb-verify pb-field"
+              href={c.claimUrl ?? c.verifyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={field(at(f.verifyTab.x, f.verifyTab.y))}
+            >
+              Verify credential
+            </a>
+          </div>
+
+          {phrases && (
+            <p className="pb-sr">Andamio credentials: {phrases.join(". ")}.</p>
           )}
-
-          <p className="pb-at pb-panel-label pb-field" style={field(at(f.courseIdPanel.x + 8, f.courseIdPanel.labelY))}>
-            Course ID
-          </p>
-          <div className="pb-at pb-mono pb-field" style={field(at(f.courseIdPanel.x + 8, f.courseIdPanel.valueY))}>
-            {c.courseUrl ? (
-              <LinkedCopyValue value={c.courseId} display={courseIdDisplay} label="course ID" href={c.courseUrl} arc="courseId" hooks={hooks} />
-            ) : (
-              <CopyValue value={c.courseId} display={courseIdDisplay} label="course ID" arc="courseId" hooks={hooks} className="pb-on-dark" />
-            )}
-          </div>
-
-          <p className="pb-at pb-panel-label pb-field" style={field(at(f.hashPanel.x - 29, f.hashPanel.labelY))}>
-            SLT hash
-          </p>
-          <div className="pb-at pb-mono pb-field" style={field(at(f.hashPanel.x - 2, f.hashPanel.valueY))}>
-            {c.hashUrl ? (
-              <LinkedCopyValue value={c.sltHash} display={hashDisplay} label="SLT hash" href={c.hashUrl} arc="hash" hooks={hooks} />
-            ) : (
-              <CopyValue value={c.sltHash} display={hashDisplay} label="SLT hash" arc="hash" hooks={hooks} className="pb-on-dark" />
-            )}
-          </div>
-
-          <VerifyQr url={c.verifyUrl} />
-
-          <a
-            className="pb-at pb-verify pb-field"
-            href={c.verifyUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={field(at(f.verifyTab.x, f.verifyTab.y))}
-          >
-            Verify credential
-          </a>
-          <p className="pb-at pb-at-start pb-verified pb-verified-pop" style={at(598, f.verifyTab.y)} title={`Verified on ${c.network}`}>
-            <VerifiedGlyph />
-            <span className="pb-verified-text">Verified</span>
-            <span className="pb-sr"> on {c.network}</span>
-          </p>
+          <p ref={liveRef} className="pb-sr" aria-live="polite" />
         </div>
-
-        {phrases && (
-          <p className="pb-sr">Andamio credentials: {phrases.join(". ")}.</p>
-        )}
-        <p ref={liveRef} className="pb-sr" aria-live="polite" />
       </div>
-    </div>
-    <IdentifierStrip credential={c} hooks={hooks} />
+      <IdentifierStrip credential={c} hooks={hooks} />
     </div>
   );
 }
@@ -516,7 +682,13 @@ export function ProofRingBadge({
  * Small containers only (see .pb-readout): the same identifiers at a
  * readable size, since the in-face values shrink with the artwork.
  */
-function IdentifierStrip({ credential: c, hooks }: { credential: ProofCredential; hooks: FieldHooks }) {
+function IdentifierStrip({
+  credential: c,
+  hooks,
+}: {
+  credential: ProofCredential;
+  hooks: FieldHooks;
+}) {
   const courseId = middleTruncate(c.courseId, 10, 8);
   const hash = middleTruncate(c.sltHash, 10, 8);
   return (
@@ -525,22 +697,48 @@ function IdentifierStrip({ credential: c, hooks }: { credential: ProofCredential
         <dt>Course ID</dt>
         <dd>
           {c.courseUrl ? (
-            <LinkedCopyValue value={c.courseId} display={courseId} label="course ID" href={c.courseUrl} arc="courseId" hooks={hooks} />
+            <LinkedCopyValue
+              value={c.courseId}
+              display={courseId}
+              label="course ID"
+              href={c.courseUrl}
+              arc="courseId"
+              hooks={hooks}
+            />
           ) : (
-            <CopyValue value={c.courseId} display={courseId} label="course ID" arc="courseId" hooks={hooks} />
+            <CopyValue
+              value={c.courseId}
+              display={courseId}
+              label="course ID"
+              arc="courseId"
+              hooks={hooks}
+            />
           )}
         </dd>
       </div>
       <div>
         <dt>SLT hash</dt>
         <dd>
-          <CopyValue value={c.sltHash} display={hash} label="SLT hash" arc="hash" hooks={hooks} />
+          <CopyValue
+            value={c.sltHash}
+            display={hash}
+            label="SLT hash"
+            arc="hash"
+            hooks={hooks}
+          />
         </dd>
       </div>
       <div>
         <dt>Issuer DID</dt>
         <dd>
-          <CopyValue value={c.issuerDid} display={breakAfterColons(c.issuerDid)} label="issuer DID" arc="did" hooks={hooks} className="pb-wrap" />
+          <CopyValue
+            value={c.issuerDid}
+            display={breakAfterColons(c.issuerDid)}
+            label="issuer DID"
+            arc="did"
+            hooks={hooks}
+            className="pb-wrap"
+          />
         </dd>
       </div>
     </dl>

@@ -1,10 +1,12 @@
 export { ProofRingBadge, type ProofRingBadgeProps } from "./ProofRingBadge";
 export {
   ANDAMIO_ISSUER_BADGE,
+  CLAIM_PAGE_URL,
   DEFAULT_CREDENTIAL,
   SAMPLE_SKILLS,
   SHOWCASE_PHRASES,
   badgeVerifyUrl,
+  credentialFromBuilder,
   fromOpenBadge,
   middleTruncate,
   themeFromAndamio,

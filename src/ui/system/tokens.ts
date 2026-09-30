@@ -71,11 +71,16 @@ export const color = {
   /** Soft lift for floating cards (artifact plate, demo container). Black-based
    *  so it stays a shadow (not a glow) in dark mode. */
   cardShadow: "0 1px 2px rgb(0 0 0 / 0.06), 0 8px 24px rgb(0 0 0 / 0.10)",
+  /** Control elevation — buttons / chips (Warm Index depth, not neon glow). */
+  controlShadow: "var(--sys-shadow-control)",
+  /** Specimen plate elevation. */
+  specimenShadow: "var(--sys-shadow-specimen)",
 } as const;
 
 /** Where each accent is allowed — enforced by convention + reviewed in /explore/system. */
 export const accentPolicy = {
-  orange: "Brand mark, the single primary CTA, the live pulse dot, the VERIFIED stamp. Nothing else.",
+  orange:
+    "Brand mark, the single primary CTA, the live pulse dot, the VERIFIED stamp. Nothing else.",
   blue: "Wayfinding (editorial rail) and data readouts/links. Never a heading or body color.",
   coral: "A background tint for the one specimen plate. Never type.",
 } as const;
@@ -124,14 +129,57 @@ export const layout = {
   navClearance: "5rem",
 } as const;
 
-/* ── Motion — the signature reveal ─────────────────────────────────── */
+/* ── Motion — Warm Index dense cinematic grammar ───────────────────── */
 export const motion = {
   /** useScroll offset for the specimen reveal section. */
   revealOffset: ["start end", "center center"] as [string, string],
   /** Badge slides in from the right; deterministic at progress 0 (SSR-safe). */
   badgeX: ["60%", "0%"] as [string, string],
-  badgeOpacity: { input: [0, 0.55] as [number, number], output: [0, 1] as [number, number] },
+  badgeOpacity: {
+    input: [0, 0.55] as [number, number],
+    output: [0, 1] as [number, number],
+  },
   frameWidth: ["44%", "100%"] as [string, string],
+
+  /** Shared easing — editorial ease-out. */
+  ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
+  duration: {
+    enter: 0.65,
+    enterFast: 0.45,
+    exit: 0.25,
+    press: 0.15,
+  },
+  stagger: {
+    children: 0.08,
+    delayChildren: 0.12,
+  },
+  spring: {
+    press: { type: "spring" as const, stiffness: 420, damping: 28 },
+    layout: { type: "spring" as const, stiffness: 400, damping: 30 },
+    soft: { type: "spring" as const, stiffness: 120, damping: 22 },
+  },
+  reveal: {
+    y: 28,
+    ySoft: 14,
+    viewport: { once: true, margin: "-10% 0px" as const },
+  },
+  press: {
+    hoverScale: 1.02,
+    tapScale: 0.98,
+  },
+  /** Scroll-linked theater specimen (parallax / depth). */
+  theater: {
+    scrollOffset: ["start end", "end start"] as [string, string],
+    y: [24, -24] as [number, number],
+    rotate: [-1.2, 1.2] as [number, number],
+    scale: [0.97, 1.02] as [number, number],
+  },
+  /** Continuous “alive” idle on the credential (Motion layer). */
+  alive: {
+    rotate: [-1.5, 1.5, -1.5] as [number, number, number],
+    scale: [1, 1.012, 1] as [number, number, number],
+    duration: 10,
+  },
 } as const;
 
 /* ── Prebuilt class fragments (Tailwind) ───────────────────────────── */

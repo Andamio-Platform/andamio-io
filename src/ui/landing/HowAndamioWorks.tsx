@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 type WordKey = "short" | "targeted" | "courses" | "complete" | "real" |
   "tasks" | "payments" | "instant" | "secure" | "professional" |

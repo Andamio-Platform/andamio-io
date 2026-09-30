@@ -44,19 +44,31 @@ try {
 
   // Text is real, selectable DOM text.
   const text = await page.evaluate(() => document.querySelector(".pb-root").innerText);
-  for (const s of ["Andamio Issuer", "About Andamio Issuer", "Jordan Smith", "did:web:", "2026-07-01T00:00:00Z", "Cardano mainnet", "ae1926", "e9b534"]) {
+  for (const s of ["Andamio Issuer", "About Andamio Issuer", "Jordan Smith", "did:web:", "2026-07-01 00:00", "Cardano mainnet", "ae1926", "e9b534"]) {
     check(`DOM text contains "${s}"`, text.includes(s));
   }
+  check("issued text drops seconds", !text.includes("00:00:00Z"));
+  const issuedAttr = await page.locator(".pb-face time").getAttribute("datetime");
+  check("issued datetime keeps the full timestamp", issuedAttr === "2026-07-01T00:00:00Z", issuedAttr ?? "");
+  const bars = await page.evaluate(() => ({
+    outer: document.querySelectorAll(".pb-ring-a line").length,
+    inner: document.querySelectorAll(".pb-ring-b line").length,
+  }));
+  check("outer ring has one bar per course-id bit", bars.outer === 56 * 4, String(bars.outer));
+  check("inner ring has hash bars plus phrase separators", bars.inner === 64 * 4 + 10, String(bars.inner));
 
-  // Hover SLT hash → hash arc lights up.
+  const ringFilter = () =>
+    page.evaluate(() => ({
+      hl: document.querySelector(".pb-root").dataset.hl ?? "",
+      outer: getComputedStyle(document.querySelector(".pb-ring-a")).filter,
+      inner: getComputedStyle(document.querySelector(".pb-ring-b")).filter,
+    }));
+  // Hover SLT hash → the whole inner ring glows, the outer ring does not.
   const hashBtn = page.locator(".pb-face .pb-mono .pb-copy").last();
   await hashBtn.hover();
   await page.waitForTimeout(350);
-  const hl = await page.evaluate(() => ({
-    attr: document.querySelector(".pb-root").dataset.hl,
-    op: getComputedStyle(document.querySelector(".pb-arc-hash .pb-arc-edge")).opacity,
-  }));
-  check("hover hash highlights hash arc", hl.attr === "hash" && Number(hl.op) > 0.9, JSON.stringify(hl));
+  const hl = await ringFilter();
+  check("hover hash glows only the inner ring", hl.hl === "hash" && hl.inner !== "none" && hl.outer === "none", JSON.stringify(hl));
   await page.locator(".pb-root").screenshot({ path: out("hover-hash.png") });
 
   await hashBtn.click();
@@ -81,6 +93,19 @@ try {
   await page.locator(".pb-face .pb-value .pb-copy").first().click();
   await page.waitForTimeout(150);
   check("DID copies", (await page.evaluate(() => navigator.clipboard.readText())) === "did:web:credentials.andamio.io");
+
+  const courseBtn = page.locator(".pb-face .pb-mono .pb-link, .pb-face .pb-mono .pb-copy").first();
+  await courseBtn.hover();
+  await page.waitForTimeout(350);
+  const courseHl = await ringFilter();
+  check("hover course id glows only the outer ring", courseHl.hl === "courseId" && courseHl.outer !== "none" && courseHl.inner === "none", JSON.stringify(courseHl));
+  const claim = await page.locator(".pb-verify").getAttribute("href");
+  check(
+    "verify button opens the claim page",
+    claim === "https://andamioscan.io/view/credential-claims/1d46be10006cd97fe6c157d8667db5f7bb0701f7a69f9ead331b59142f004505",
+    claim ?? "",
+  );
+  check("verified chip is gone", (await page.locator(".pb-verified").count()) === 0);
 
   const qrHref = await page.locator(".pb-qr").getAttribute("href");
   check("QR links to verify URL", qrHref?.startsWith("https://credentials.andamio.io/badges/ae1926") ?? false, qrHref ?? "");

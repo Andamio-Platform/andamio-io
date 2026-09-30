@@ -2,7 +2,6 @@ import React, { memo, useMemo } from "react";
 import {
   arcPath,
   CENTER,
-  DASH_SPANS,
   FIELD_ARCS,
   hueAt,
   MARKERS,
@@ -10,7 +9,6 @@ import {
   PHRASE_SLOTS,
   polar,
   RING,
-  type FieldArc,
   type HueBand,
 } from "./geometry";
 
@@ -72,43 +70,97 @@ function prng(seed: number) {
   };
 }
 
-function RingBArt() {
-  const dashes = useMemo(() => {
-    const out: React.ReactNode[] = [];
-    const { track, dash, dashPitchDeg } = RING.b;
-    for (const [from, to] of DASH_SPANS) {
-      for (let deg = from; deg <= to; deg += dashPitchDeg) {
-        const { x, y } = polar(track, deg);
-        const w = hueAt("dashes", deg);
-        out.push(
-          <rect
-            key={`d${deg.toFixed(1)}`}
-            x={-dash / 2}
-            y={-dash / 2}
-            width={dash}
-            height={dash}
-            rx={1}
-            transform={`translate(${x.toFixed(2)} ${y.toFixed(2)}) rotate(${deg.toFixed(1)})`}
-            style={{ fill: mix(w) }}
-          />,
-        );
-      }
-    }
-    const bd = RING.b.bottomDashes;
-    for (let deg = bd.from; deg <= bd.to; deg += bd.pitchDeg) {
-      const { x, y } = polar(RING.b.track - 7, deg);
+/** Valid bytes of a hex string. A non-hex pair is skipped, never invented. */
+function hexBytes(hex: string): number[] {
+  const bytes: number[] = [];
+  for (let i = 0; i + 1 < hex.length; i += 2) {
+    const pair = hex.slice(i, i + 2);
+    if (!/^[0-9a-fA-F]{2}$/.test(pair)) continue;
+    bytes.push(parseInt(pair, 16));
+  }
+  return bytes;
+}
+
+/** True when `deg` falls inside a showcase phrase window. */
+function inPhraseSlot(deg: number): boolean {
+  const norm = ((deg % 360) + 360) % 360;
+  return PHRASE_SLOTS.some(({ angle, arc }) => {
+    const delta = Math.abs(((norm - angle + 540) % 360) - 180);
+    return delta < arc / 2 + 2;
+  });
+}
+
+/**
+ * Decode-parity bars (badge-generator ringTicks): 8 radial bars per byte,
+ * tall when the bit is 1, short when it is 0. The first bit of each byte
+ * is slightly taller. Encoding starts at the top and reads clockwise.
+ * `span` places each bar; the default centers it on `radius`.
+ */
+function binaryBars(
+  hex: string,
+  radius: number,
+  band: HueBand,
+  span: (deg: number, len: number) => { innerR: number; outerR: number } = (
+    _deg,
+    len,
+  ) => ({
+    innerR: radius - len / 2,
+    outerR: radius + len / 2,
+  }),
+): React.ReactNode[] {
+  const bytes = hexBytes(hex);
+  if (bytes.length === 0) return [];
+  const group = 360 / bytes.length;
+  const lead = (group - 8) / 2;
+  const out: React.ReactNode[] = [];
+  bytes.forEach((value, index) => {
+    const start = -90 + index * group;
+    for (let bit = 0; bit < 8; bit++) {
+      const on = ((value >> (7 - bit)) & 1) === 1;
+      const head = bit === 0;
+      const deg = start + lead + (bit + 0.5);
+      const len = on ? (head ? 16 : 12) : head ? 7 : 4.5;
+      const { innerR, outerR } = span(deg, len);
+      const inner = polar(innerR, deg);
+      const outer = polar(outerR, deg);
       out.push(
-        <rect
-          key={`bd${deg.toFixed(1)}`}
-          x={-bd.h / 2}
-          y={-bd.w / 2}
-          width={bd.h}
-          height={bd.w}
-          transform={`translate(${x.toFixed(2)} ${y.toFixed(2)}) rotate(${deg.toFixed(1)})`}
-          style={{ fill: mix(1) }}
+        <line
+          key={`${index}-${bit}`}
+          x1={inner.x}
+          y1={inner.y}
+          x2={outer.x}
+          y2={outer.y}
+          strokeWidth={on ? (head ? 3.2 : 2.4) : 1.7}
+          strokeLinecap="round"
+          style={{
+            stroke: mix(hueAt(band, deg), on && head),
+            opacity: on ? 1 : 0.42,
+          }}
         />,
       );
     }
+  });
+  return out;
+}
+
+function RingBArt({ hash }: { hash: string }) {
+  const marks = useMemo(() => {
+    const out: React.ReactNode[] = binaryBars(
+      hash,
+      RING.b.track,
+      "dashes",
+      (deg, len) => {
+        // Phrase windows stay a clear lane. The bit is parked on the outer rim.
+        if (!inPhraseSlot(deg)) {
+          return {
+            innerR: RING.b.track - len / 2,
+            outerR: RING.b.track + len / 2,
+          };
+        }
+        const outerR = RING.b.outer - 0.5;
+        return { innerR: outerR - Math.min(len, 4.5), outerR };
+      },
+    );
     // Slot separators: a short bar either side of each phrase slot.
     for (const { angle, arc } of PHRASE_SLOTS) {
       for (const side of [-1, 1]) {
@@ -129,11 +181,11 @@ function RingBArt() {
       }
     }
     return out;
-  }, []);
+  }, [hash]);
 
   return (
     <svg className="pb-svg" viewBox="0 0 1024 1024" aria-hidden>
-      <g>{dashes}</g>
+      <g>{marks}</g>
     </svg>
   );
 }
@@ -234,33 +286,11 @@ function boxStyle({ x, y, w, h }: Box): React.CSSProperties {
   return { left: pct(x), top: pct(y), width: pct(w), height: pct(h) };
 }
 
-function RingAArt() {
-  const ticks = useMemo(() => {
-    const rnd = prng(0x0a1d);
-    const out: React.ReactNode[] = [];
-    for (let deg = 0; deg < 360; deg += RING.a.tickPitchDeg) {
-      const roll = rnd();
-      if (roll < 0.22) continue;
-      const hot = roll > 0.9;
-      const size = hot ? 8.5 : 4 + rnd() * 3.5;
-      const { x, y } = polar(RING.a.ticks, deg);
-      out.push(
-        <rect
-          key={deg}
-          x={-size / 2}
-          y={-size / 2}
-          width={size}
-          height={size}
-          transform={`translate(${x.toFixed(2)} ${y.toFixed(2)}) rotate(${deg})`}
-          style={{
-            fill: mix(hueAt("ticks", deg), hot),
-            opacity: hot ? 1 : 0.45 + rnd() * 0.5,
-          }}
-        />,
-      );
-    }
-    return out;
-  }, []);
+function RingAArt({ courseId }: { courseId: string }) {
+  const ticks = useMemo(
+    () => binaryBars(courseId, RING.a.ticks, "ticks"),
+    [courseId],
+  );
 
   return (
     <svg className="pb-svg" viewBox="0 0 1024 1024" aria-hidden>
@@ -280,8 +310,11 @@ const RING_A_GLOW = conic("rim", (w) => mix(w));
 /** Ring B: inner phrase/dash band. Counter-clockwise. */
 export const RingB = memo(function RingB({
   phrases,
+  hash,
 }: {
   phrases: readonly string[] | null;
+  /** SLT hash hex. Its bits are the inner-ring bars. */
+  hash: string;
 }) {
   const b = RING.b;
   return (
@@ -300,14 +333,14 @@ export const RingB = memo(function RingB({
         background={RING_B_EDGE_IN}
       />
       <Annulus r0={b.outer - 1} r1={b.outer + 1} background={RING_B_EDGE} />
-      <RingBArt />
+      <RingBArt hash={hash} />
       {phrases && <RingPhrases phrases={phrases} />}
     </div>
   );
 });
 
 /** Ring A: outer tick track and bright rim. Clockwise. */
-export const RingA = memo(function RingA() {
+export const RingA = memo(function RingA({ courseId }: { courseId: string }) {
   const a = RING.a;
   return (
     <div className="pb-layer pb-ring pb-ring-a">
@@ -326,7 +359,7 @@ export const RingA = memo(function RingA() {
         <Annulus r0={a.rim - 5} r1={a.rim + 5} background={RING_A_GLOW} />
       </div>
       <Annulus r0={a.rim - 1.4} r1={a.rim + 1.4} background={RING_A_RIM} />
-      <RingAArt />
+      <RingAArt courseId={courseId} />
     </div>
   );
 });
@@ -384,7 +417,7 @@ export function RingFixtures() {
   return (
     <>
       <svg className="pb-svg pb-layer" viewBox="0 0 1024 1024" aria-hidden>
-        {(Object.keys(FIELD_ARCS) as FieldArc[]).map((key) => {
+        {(["did"] as const).map((key) => {
           const { from, to } = FIELD_ARCS[key];
           return (
             <g key={key} className={`pb-arc pb-arc-${key}`}>

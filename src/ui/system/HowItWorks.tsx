@@ -17,8 +17,10 @@
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import BadgeBuilder, { BadgeInfoFooter, GETTING_STARTED } from "./BadgeBuilder";
-import { buildBadgeSvg, PALETTES, withInterior } from "~/ui/landing/V2Landing/badge";
+import { credentialFromBuilder, ProofRingBadge } from "./proof-badge";
 import { color, font } from "./tokens";
+import { ClaimFence } from "./ClaimFence";
+import { LayoutMark } from "./motion";
 
 const mono = { fontFamily: font.mono };
 const sans = { fontFamily: font.sans };
@@ -29,6 +31,19 @@ const BLUE = "#2F6BFF"; // the system's data / confirmed accent
 // (James, 2026-07-02): never truncate a credential address — the whole point
 // is that it can be validated, and a truncated address can't be.
 const REAL_ADDR = `${GETTING_STARTED.params.courseId}.${GETTING_STARTED.params.sltHash}`;
+
+const GETTING_STARTED_CREDENTIAL = credentialFromBuilder({
+  course: GETTING_STARTED.params.courseTitle,
+  module: GETTING_STARTED.params.moduleTitle,
+  courseId: GETTING_STARTED.params.courseId,
+  sltHash: GETTING_STARTED.params.sltHash,
+  network: GETTING_STARTED.params.network,
+  earnerName: GETTING_STARTED.params.earnerName,
+  issuerDid: GETTING_STARTED.params.did,
+  issuedAt: GETTING_STARTED.params.issuedAt,
+  skills: (GETTING_STARTED.params.skills ?? []).map((s) => s.label),
+  verifyUrl: GETTING_STARTED.params.verifyUrl,
+});
 
 type Step = { title: string; body: string };
 
@@ -51,15 +66,6 @@ export default function HowItWorks({
   const [active, setActive] = useState(0);
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const paneRefs = useRef<Array<HTMLDivElement | null>>([]);
-
-  // Build the static Getting Started badge once — shared by Issue + Verify.
-  // Real on-chain params + the real badge's Pine Gold palette, so it is the
-  // same artifact the landing hero presents (fig. 1).
-  const [badgeSvg, setBadgeSvg] = useState("");
-  useEffect(() => {
-    const palette = withInterior(PALETTES[GETTING_STARTED.paletteIndex]!, "light");
-    setBadgeSvg(buildBadgeSvg(GETTING_STARTED.params, palette, { idSuffix: "hiw" }));
-  }, []);
 
   // Keep inactive panes out of the a11y/tab order while preserving the
   // visibility layout trick that sizes the card to the tallest pane.
@@ -118,7 +124,11 @@ export default function HowItWorks({
       <div className="mt-10 pb-12 pt-8 sm:pb-16 sm:pt-10">
         <div
           className="m-0 border"
-          style={{ borderColor: color.rule, background: color.paper, boxShadow: color.cardShadow }}
+          style={{
+            borderColor: color.rule,
+            background: color.paper,
+            boxShadow: color.cardShadow,
+          }}
         >
           {/* Card header — constant across tabs */}
           <div
@@ -127,7 +137,12 @@ export default function HowItWorks({
           >
             <h2
               className="min-w-0 text-[19px] leading-tight sm:text-[22px]"
-              style={{ ...sans, fontWeight: 600, letterSpacing: "-0.02em", color: color.ink }}
+              style={{
+                ...sans,
+                fontWeight: 600,
+                letterSpacing: "-0.02em",
+                color: color.ink,
+              }}
             >
               {demo.title}
             </h2>
@@ -135,9 +150,18 @@ export default function HowItWorks({
               className="inline-flex shrink-0 items-center gap-2 pt-1 text-[11px] font-semibold tracking-[-0.01em]"
               style={{ color: color.inkFaint }}
             >
-              <span className="h-1.5 w-1.5 animate-pulse rounded-full" style={{ background: color.orange }} />
+              <span
+                className="h-1.5 w-1.5 rounded-full"
+                style={{ background: color.orange }}
+              />
               {demo.liveLabel}
             </span>
+          </div>
+          <div
+            className="border-b px-4 py-2"
+            style={{ borderColor: color.cell }}
+          >
+            <ClaimFence>{demo.note}</ClaimFence>
           </div>
 
           {/* Tabs — WAI-ARIA tablist (A11Y-02); Left/Right/Home/End move selection. */}
@@ -163,20 +187,27 @@ export default function HowItWorks({
                   tabIndex={on ? 0 : -1}
                   onClick={() => selectTab(i)}
                   onKeyDown={(e) => onTabKeyDown(e, i)}
-                  className="flex items-baseline gap-2 px-3 py-3 text-left transition-colors sm:gap-3 sm:px-5 sm:py-4"
+                  className="relative flex items-baseline gap-2 px-3 py-3 text-left transition-colors sm:gap-3 sm:px-5 sm:py-4"
                   style={{
                     background: color.paper,
-                    borderBottom: on ? `2px solid ${color.orange}` : "2px solid transparent",
+                    borderBottom: "2px solid transparent",
                   }}
                 >
+                  {on && (
+                    <LayoutMark
+                      layoutId="hiw-tab-underline"
+                      className="pointer-events-none absolute bottom-0 left-0 right-0 h-[2px]"
+                      style={{ background: color.orange }}
+                    />
+                  )}
                   <span
-                    className="text-xl font-semibold leading-none tabular-nums sm:text-2xl"
+                    className="relative z-[1] text-xl font-semibold tabular-nums leading-none sm:text-2xl"
                     style={{ color: on ? color.orange : color.inkWatermark }}
                   >
                     {NUMS[i]}
                   </span>
                   <span
-                    className="text-[14px] font-semibold tracking-[-0.02em] sm:text-[15px]"
+                    className="relative z-[1] text-[14px] font-semibold tracking-[-0.02em] sm:text-[15px]"
                     style={{ color: on ? color.ink : color.inkMuted }}
                   >
                     {s.title}
@@ -187,7 +218,10 @@ export default function HowItWorks({
           </div>
 
           {/* Active step caption */}
-          <p className="px-4 pt-4 text-[14px] leading-relaxed sm:px-5" style={{ color: color.inkMuted }}>
+          <p
+            className="px-4 pt-4 text-[14px] leading-relaxed sm:px-5"
+            style={{ color: color.inkMuted }}
+          >
             {steps[active]?.body}
           </p>
 
@@ -210,8 +244,8 @@ export default function HowItWorks({
                   className={`h-full ${on ? "" : "invisible"}`}
                 >
                   {i === 0 && <BadgeBuilder chrome={false} />}
-                  {i === 1 && <IssueDemo svg={badgeSvg} />}
-                  {i === 2 && <VerifyDemo svg={badgeSvg} />}
+                  {i === 1 && <IssueDemo />}
+                  {i === 2 && <VerifyDemo />}
                 </div>
               );
             })}
@@ -226,15 +260,14 @@ export default function HowItWorks({
 }
 
 /* ── The static badge, rendered from the generated SVG (non-editable). ─────── */
-function StaticBadge({ svg }: { svg: string }) {
+function StaticBadge() {
   return (
-    <div className="relative mx-auto aspect-square w-full max-w-[340px]">
-      {svg ? (
-        <div
-          className="absolute inset-0 [&_svg]:block [&_svg]:h-full [&_svg]:w-full"
-          dangerouslySetInnerHTML={{ __html: svg }}
-        />
-      ) : null}
+    <div className="relative mx-auto w-full max-w-[340px]">
+      <ProofRingBadge
+        credential={GETTING_STARTED_CREDENTIAL}
+        showcasePhrases={false}
+        intro={false}
+      />
     </div>
   );
 }
@@ -248,7 +281,7 @@ const runBtn =
   "mt-5 border px-4 py-2 text-[13px] font-semibold transition-opacity hover:opacity-70";
 
 /* ── 02 · Issue — example evidence → press Issue → the badge is minted. ────── */
-function IssueDemo({ svg }: { svg: string }) {
+function IssueDemo() {
   const [issued, setIssued] = React.useState(false);
   return (
     <Pane>
@@ -257,30 +290,52 @@ function IssueDemo({ svg }: { svg: string }) {
             the private / off-Andamio boundary is tangible (diploma vs. exam). */}
         <div>
           <div className="border" style={{ borderColor: color.cell }}>
-            <div className="flex items-center justify-between border-b px-3 py-2" style={{ borderColor: color.cell }}>
-              <span className="text-[12px] font-medium tracking-[-0.01em]" style={{ color: color.inkFaint }}>
+            <div
+              className="flex items-center justify-between border-b px-3 py-2"
+              style={{ borderColor: color.cell }}
+            >
+              <span
+                className="text-[12px] font-medium tracking-[-0.01em]"
+                style={{ color: color.inkFaint }}
+              >
                 Your system
               </span>
-              <span className="text-[11px] font-medium tracking-[-0.01em]" style={{ color: color.inkFaint }}>
+              <span
+                className="text-[11px] font-medium tracking-[-0.01em]"
+                style={{ color: color.inkFaint }}
+              >
                 private · not on Andamio
               </span>
             </div>
             <div className="p-4">
-              <p className="text-[12px] font-medium tracking-[-0.01em]" style={{ color: color.inkFaint }}>
+              <p
+                className="text-[12px] font-medium tracking-[-0.01em]"
+                style={{ color: color.inkFaint }}
+              >
                 Assignment commitment
               </p>
-              <p className="mt-2 text-[14px] font-semibold" style={{ color: color.ink }}>
+              <p
+                className="mt-2 text-[14px] font-semibold"
+                style={{ color: color.ink }}
+              >
                 Mint Access Token and Commit to Assignment — submitted evidence
               </p>
-              <ul className="mt-2 space-y-1.5 text-[13px]" style={{ color: color.inkMuted }}>
+              <ul
+                className="mt-2 space-y-1.5 text-[13px]"
+                style={{ color: color.inkMuted }}
+              >
                 <li>• Screenshot — Access Token minted in the app</li>
                 <li>• Link — the commitment transaction</li>
                 <li>• Note — "Committed to the module assignment."</li>
               </ul>
             </div>
           </div>
-          <p className="mt-3 text-[12px] leading-relaxed" style={{ color: color.inkFaint }}>
-            The evidence stays in your system, not on Andamio. Only the credential goes on-chain.
+          <p
+            className="mt-3 text-[12px] leading-relaxed"
+            style={{ color: color.inkFaint }}
+          >
+            The evidence stays in your system, not on Andamio. Only the
+            credential goes on-chain.
           </p>
           <button
             type="button"
@@ -294,19 +349,30 @@ function IssueDemo({ svg }: { svg: string }) {
 
         {/* Right — the badge, minted on issue */}
         <div>
-          <div className="transition-opacity duration-500" style={{ opacity: issued ? 1 : 0.15 }}>
-            <StaticBadge svg={svg} />
+          <div
+            className="transition-opacity duration-500"
+            style={{ opacity: issued ? 1 : 0.15 }}
+          >
+            <StaticBadge />
           </div>
-          <p className="mt-3 text-center text-[13px] font-semibold" style={{ color: issued ? BLUE : color.inkFaint }}>
-            {issued ? "Issued ✓" : "Awaiting issue"}
+          <p
+            className="mt-3 text-center text-[13px] font-semibold"
+            style={{ color: issued ? BLUE : color.inkFaint }}
+          >
+            {issued ? "Issued ✓ (illustrative)" : "Awaiting issue"}
           </p>
           {issued && (
-            <p
-              className="mx-auto mt-2 max-w-[340px] break-all text-center text-[11px] leading-relaxed"
-              style={{ ...mono, color: color.inkMuted }}
-            >
-              {REAL_ADDR}
-            </p>
+            <>
+              <p
+                className="mx-auto mt-2 max-w-[340px] break-all text-center text-[11px] leading-relaxed"
+                style={{ ...mono, color: color.inkMuted }}
+              >
+                {REAL_ADDR}
+              </p>
+              <div className="mt-3 flex justify-center">
+                <ClaimFence>Local UI state only — not a live mint.</ClaimFence>
+              </div>
+            </>
           )}
         </div>
       </div>
@@ -315,14 +381,17 @@ function IssueDemo({ svg }: { svg: string }) {
 }
 
 /* ── 03 · Verify — look up the credential address, verify on-chain. ───────── */
-function VerifyDemo({ svg }: { svg: string }) {
+function VerifyDemo() {
   const [verified, setVerified] = React.useState(false);
   return (
     <Pane>
       <div className="grid items-center gap-8 sm:grid-cols-2">
         {/* Left — verify (badge kept on the right to match Define + Issue) */}
         <div>
-          <label className="text-[12px] font-medium tracking-[-0.01em]" style={{ color: color.inkFaint }}>
+          <label
+            className="text-[12px] font-medium tracking-[-0.01em]"
+            style={{ color: color.inkFaint }}
+          >
             Credential address
           </label>
           {/* A div, not an <input> — the full address must be visible, and
@@ -330,7 +399,12 @@ function VerifyDemo({ svg }: { svg: string }) {
               address, an slt_hash, or a course_id). */}
           <div
             className="mt-2 w-full break-all border px-3 py-2 text-[12px] leading-relaxed"
-            style={{ ...mono, borderColor: color.cell, color: color.ink, background: color.paper }}
+            style={{
+              ...mono,
+              borderColor: color.cell,
+              color: color.ink,
+              background: color.paper,
+            }}
           >
             {REAL_ADDR}
           </div>
@@ -344,10 +418,21 @@ function VerifyDemo({ svg }: { svg: string }) {
           </button>
           {verified && (
             <>
-              <p className="mt-4 text-[13px] font-semibold" style={{ color: BLUE }}>
-                Verified on-chain ✓
+              <p
+                className="mt-4 text-[13px] font-semibold"
+                style={{ color: BLUE }}
+              >
+                Verified on-chain ✓ (illustrative)
               </p>
-              <dl className="mt-3 border-t pt-3 text-[13px]" style={{ borderColor: color.cell }}>
+              <div className="mt-2">
+                <ClaimFence>
+                  Simulated verify — not a live chain lookup.
+                </ClaimFence>
+              </div>
+              <dl
+                className="mt-3 border-t pt-3 text-[13px]"
+                style={{ borderColor: color.cell }}
+              >
                 {[
                   ["Course", GETTING_STARTED.courseName],
                   ["Module", GETTING_STARTED.moduleName],
@@ -355,12 +440,24 @@ function VerifyDemo({ svg }: { svg: string }) {
                 ].map(([k, v]) => (
                   <div key={k} className="flex justify-between py-1">
                     <dt style={{ color: color.inkMuted }}>{k}</dt>
-                    <dd style={k === "Holder" ? { ...mono, color: color.ink } : { color: color.ink }}>{v}</dd>
+                    <dd
+                      style={
+                        k === "Holder"
+                          ? { ...mono, color: color.ink }
+                          : { color: color.ink }
+                      }
+                    >
+                      {v}
+                    </dd>
                   </div>
                 ))}
               </dl>
-              <p className="mt-3 text-[12px] leading-relaxed" style={{ color: color.inkMuted }}>
-                The holder can sign to prove they own it, so your applications can gate access on this credential.
+              <p
+                className="mt-3 text-[12px] leading-relaxed"
+                style={{ color: color.inkMuted }}
+              >
+                The holder can sign to prove they own it, so your applications
+                can gate access on this credential.
               </p>
             </>
           )}
@@ -368,11 +465,15 @@ function VerifyDemo({ svg }: { svg: string }) {
 
         {/* Right — the badge + what the rings encode */}
         <div>
-          <StaticBadge svg={svg} />
-          <p className="mx-auto mt-4 max-w-[340px] text-center text-[12px] leading-relaxed" style={{ color: color.inkFaint }}>
+          <StaticBadge />
+          <p
+            className="mx-auto mt-4 max-w-[340px] text-center text-[12px] leading-relaxed"
+            style={{ color: color.inkFaint }}
+          >
             The rings encode the credential's identity: its{" "}
-            <span style={{ ...mono, color: color.inkMuted }}>course_id</span> and{" "}
-            <span style={{ ...mono, color: color.inkMuted }}>slt_hash</span>, the same address you verify.
+            <span style={{ ...mono, color: color.inkMuted }}>course_id</span>{" "}
+            and <span style={{ ...mono, color: color.inkMuted }}>slt_hash</span>
+            , the same address you verify.
           </p>
         </div>
       </div>

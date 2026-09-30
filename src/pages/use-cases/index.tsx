@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import Metatags from "~/components/site/metatags";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { fadeIn as fadeInFactory, staggerContainer } from "~/ui/landing/V2Landing/motion-variants";
 import { nav, footer as footerData } from "~/ui/explore/content";
 import { color } from "~/ui/system/tokens";

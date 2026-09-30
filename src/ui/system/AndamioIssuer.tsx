@@ -17,10 +17,19 @@
 
 import React from "react";
 import Link from "next/link";
-import { nav, demo, plan, issuer, storyFork, footer, EXTERNAL_LINKS } from "~/ui/explore/content";
+import {
+  nav,
+  demo,
+  plan,
+  issuer,
+  storyFork,
+  footer,
+  EXTERNAL_LINKS,
+} from "~/ui/explore/content";
 import { color, font } from "./tokens";
 import { Page, Section, Display, Button, ButtonRow, Footer } from "./kit";
 import HowItWorks from "./HowItWorks";
+import { ClaimFence } from "./ClaimFence";
 
 const muted = { color: color.inkMuted };
 const mono = { fontFamily: font.mono };
@@ -39,7 +48,10 @@ const pageFooter = (
 export default function AndamioIssuer() {
   return (
     // No editorial rail — this is a focused funnel page, not the indexed story.
-    <Page nav={{ items: nav.items, cta: nav.cta, secondaryCta: nav.secondaryCta }} footer={pageFooter}>
+    <Page
+      nav={{ items: nav.items, cta: nav.cta, secondaryCta: nav.secondaryCta }}
+      footer={pageFooter}
+    >
       {/* ── Hero — the product. Back-link to the overview keeps the funnel
              two-way; the title + transformation lead + guide intro set it up. */}
       <Section id="top" bordered={false} screen>
@@ -72,9 +84,18 @@ export default function AndamioIssuer() {
                 {issuer.walkthroughCta} <span aria-hidden>→</span>
               </Button>
               <Button variant="disabled">
-                {issuer.reportCta} <span className="text-[10px]" style={mono}>soon</span>
+                {issuer.reportCta}{" "}
+                <span className="text-[10px]" style={mono}>
+                  soon
+                </span>
               </Button>
             </ButtonRow>
+            <div className="mt-4">
+              <ClaimFence>
+                Walkthrough mailto expresses intent — it is not a confirmed
+                booking.
+              </ClaimFence>
+            </div>
           </div>
         </div>
       </Section>
@@ -114,7 +135,10 @@ export default function AndamioIssuer() {
 
       {/* ── How it works — the three-tab demo (moved here off the landing). ── */}
       <Section id="how-it-works" bordered={false}>
-        <div className="border-t pb-16 pt-14" style={{ borderColor: color.rule }}>
+        <div
+          className="border-t pb-16 pt-14"
+          style={{ borderColor: color.rule }}
+        >
           <p className="mb-10 max-w-2xl text-lg leading-relaxed" style={muted}>
             {issuer.page.demoLead}
           </p>
@@ -129,8 +153,12 @@ export default function AndamioIssuer() {
             <Display as="h2" size="xl">
               Ready to own the credentials you issue?
             </Display>
-            <p className="mt-8 max-w-lg text-lg leading-relaxed" style={{ color: "rgb(var(--sys-ink-rgb) / 0.65)" }}>
-              Twenty minutes, we&apos;ll scope a pilot on one of your programs. No slides.
+            <p
+              className="mt-8 max-w-lg text-lg leading-relaxed"
+              style={{ color: "rgb(var(--sys-ink-rgb) / 0.65)" }}
+            >
+              Twenty minutes, we&apos;ll scope a pilot on one of your programs.
+              No slides.
             </p>
             <div className="mt-10">
               <Button variant="ink" href={EXTERNAL_LINKS.walkthroughMailto}>

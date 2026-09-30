@@ -1,36 +1,27 @@
 "use client";
 
 /**
- * AndamioLanding — the chosen landing page (iteration 22), rebuilt entirely
- * from the design system in ./kit.tsx. Nothing here styles raw markup beyond
- * layout; every visual decision lives in the kit + tokens. This file is the
- * proof the system composes a real page, and the basis for the Round 3 final.
- *
- * SECTION ORDER — essentials only (James, 2026-07-02: "if I scroll the
- * landing page, I only see what's essential"). The story lives in the /story
- * flow ("Show me"); the scroll is the simple overview hitting the TWO PERSONAS
- * — Andamio Issuers and Andamio Developers — plus reach and the close. The
- * pattern and problem sections folded into the flow (issuer chapters 1 + 3):
- *   Hero       → the artifact + manifesto + "Show me" (→ /story)
- *   Issuer     → persona one (permanent · useful · yours · proof)
- *   Developers → persona two, a compact CTA (→ /developers)
- *   Ecosystem  → the reach (portable · agent ready · your data · community)
- *   Closing    → transformation + the walkthrough CTA
+ * AndamioLanding — credential-first funnel homepage.
+ * Interactive Proof Rings theater + no-click scroll path that teaches
+ * differentiation without hard-sell. Canonical kit + content only.
  */
 
-import React from "react";
+import React, { useEffect, Suspense } from "react";
+import dynamic from "next/dynamic";
 import {
   nav,
-  hero,
   developersCta,
   issuer,
   ecosystem,
   closing,
   footer,
   EXTERNAL_LINKS,
+  ordinaryFail,
+  howTeaser,
+  hero,
   CREDENTIAL_BADGE_SRC,
 } from "~/ui/explore/content";
-import { color, font } from "./tokens";
+import { color } from "./tokens";
 import {
   Page,
   Section,
@@ -41,6 +32,41 @@ import {
   CardRow,
   ArtifactPlate,
 } from "./kit";
+import { Stagger, StaggerItem } from "./motion";
+
+const CredentialTheater = dynamic(() => import("./CredentialTheater"), {
+  ssr: false,
+  loading: () => (
+    <div className="grid grid-cols-12 items-start gap-y-10 pb-10 pt-6 sm:pt-10 lg:gap-x-12">
+      <div className="col-span-12 lg:col-span-5 lg:pt-4">
+        <Display as="h1" size="xl">
+          {hero.headlineLead}{" "}
+          <span style={{ color: color.orange }}>{hero.headlineAccent}</span>
+        </Display>
+        <p
+          className="mt-6 max-w-[42ch] text-lg leading-relaxed sm:text-xl"
+          style={{ color: color.inkMuted }}
+        >
+          {hero.supportLine}
+        </p>
+        <div className="mt-10">
+          <Button variant="primary" href={hero.showMeCta.href}>
+            {hero.showMeCta.label} <span aria-hidden>→</span>
+          </Button>
+        </div>
+      </div>
+      <div className="col-span-12 lg:col-span-7">
+        <ArtifactPlate
+          src={CREDENTIAL_BADGE_SRC}
+          alt={hero.badgeAlt}
+          caption={hero.badgeCaption}
+          figLabel="fig. 1"
+          imgStyle={{ maxHeight: "min(calc(100svh - 26rem), 28rem)" }}
+        />
+      </div>
+    </div>
+  ),
+});
 
 const pageFooter = (
   <Footer
@@ -53,77 +79,100 @@ const pageFooter = (
 
 const muted = { color: color.inkMuted };
 
+/** Pause ambient / badge wheels when the tab is hidden. */
+function useVisibilityPause() {
+  useEffect(() => {
+    const sync = () => {
+      document.documentElement.classList.toggle(
+        "is-page-hidden",
+        document.visibilityState === "hidden",
+      );
+    };
+    sync();
+    document.addEventListener("visibilitychange", sync);
+    return () => document.removeEventListener("visibilitychange", sync);
+  }, []);
+}
+
 export default function AndamioLanding() {
+  useVisibilityPause();
+
   return (
-    <Page nav={{ items: nav.items, cta: nav.cta, secondaryCta: nav.secondaryCta }} footer={pageFooter}>
-      {/* ── 1 · Hero — the artifact + the manifesto + ONE door (v5, 2026-07-02).
-             The badge is the subject, the manifesto breaks the fourth wall,
-             and a single "Show me" CTA navigates to /show-me — the locked
-             full-screen flow where the visitor picks their door. The scroll
-             story below remains the no-click path. */}
+    <Page
+      nav={{ items: nav.items, cta: nav.cta, secondaryCta: nav.secondaryCta }}
+      footer={pageFooter}
+    >
+      {/* 1 · Product presence — interactive credential (deferred client chunk) */}
       <Section id="top" bordered={false} screen>
-        {/* Two-column hero (rail removed, full container width): text column
-            left, the artifact plate right, tops flush — the badge's plate
-            starts at the H1's first line. */}
-        <div className="grid grid-cols-12 items-start gap-y-12 pb-10 pt-8 sm:pt-12 lg:gap-x-12">
-          <div className="col-span-12 lg:col-span-6">
-            <Display as="h1" size="xl">
-              {hero.headlineLead}{" "}
-              <span style={{ color: color.orange }}>{hero.headlineAccent}</span>
-            </Display>
+        <Suspense fallback={null}>
+          <CredentialTheater />
+        </Suspense>
+      </Section>
 
-            <div className="mt-8 max-w-[58ch] space-y-4">
-              {hero.manifesto.map((p) => (
-                <p key={p} className="text-lg leading-relaxed sm:text-xl" style={muted}>
-                  {p}
+      {/* 2 · Why ordinary badges fail — felt, not attack ads */}
+      <Section id="problem" bordered={false}>
+        <div
+          className="border-t py-16 sm:py-24"
+          style={{ borderColor: color.rule }}
+        >
+          <Display as="h2" size="lg" className="max-w-3xl">
+            {ordinaryFail.title}
+          </Display>
+          <p
+            className="mt-4 max-w-[52ch] text-lg leading-relaxed"
+            style={muted}
+          >
+            {ordinaryFail.lead}
+          </p>
+          <Stagger
+            className="mt-12 grid grid-cols-1 gap-10 border-t pt-10 sm:grid-cols-3"
+            style={{ borderColor: color.rule }}
+          >
+            {ordinaryFail.items.map((it) => (
+              <StaggerItem key={it.heading}>
+                <p className="text-[14px] font-semibold tracking-[-0.01em]">
+                  {it.heading}
                 </p>
-              ))}
-            </div>
-
-            <div className="mt-12">
-              <Button variant="primary" href={hero.showMeCta.href}>
-                {hero.showMeCta.label} <span aria-hidden>→</span>
-              </Button>
-            </div>
-          </div>
-
-          {/* The subject itself — a real credential badge as a museum figure.
-              Height budget keeps the plate inside the fold on short screens. */}
-          <div className="col-span-12 lg:col-span-6">
-            <ArtifactPlate
-              src={CREDENTIAL_BADGE_SRC}
-              alt={hero.badgeAlt}
-              caption={hero.badgeCaption}
-              figLabel="fig. 1"
-              imgStyle={{ maxHeight: "min(calc(100svh - 26rem), 44rem)" }}
-            />
-          </div>
+                <p className="mt-4 text-[15px] leading-relaxed" style={muted}>
+                  {it.text}
+                </p>
+              </StaggerItem>
+            ))}
+          </Stagger>
         </div>
       </Section>
 
-      {/* ── Guide + Solution — the Issuer TEASER. The full product page (deep
-             messaging + the how-it-works demo) lives at /issuer; the landing
-             stays the story and funnels onward. The three decisions stay here
-             as a one-line array so the payoff still lands before the funnel. ── */}
-      <Section id="issuer" bordered={false} screen>
-        <div id="issuer-detail" className="grid scroll-mt-24 grid-cols-12 gap-y-8 border-t pt-14 pb-16 sm:pb-20" style={{ borderColor: color.rule }}>
+      {/* 3 · Four properties — tied to the credential */}
+      <Section id="issuer" bordered={false}>
+        <div
+          id="issuer-detail"
+          className="grid scroll-mt-24 grid-cols-12 gap-y-8 border-t pb-12 pt-14"
+          style={{ borderColor: color.rule }}
+        >
           <div className="col-span-12 lg:col-span-7">
             <Display as="h2" size="xl">
               {issuer.title}
             </Display>
-            <p className="mt-3 text-xl leading-snug tracking-[-0.01em] sm:text-2xl" style={{ color: color.inkMuted }}>
+            <p
+              className="mt-3 text-xl leading-snug tracking-[-0.01em] sm:text-2xl"
+              style={{ color: color.inkMuted }}
+            >
               {issuer.lead}
             </p>
           </div>
-          <p className="col-span-12 self-end text-lg leading-relaxed lg:col-span-5 lg:pl-8" style={{ color: "rgb(var(--sys-ink-rgb) / 0.65)" }}>
+          <p
+            className="col-span-12 self-end text-lg leading-relaxed lg:col-span-5 lg:pl-8"
+            style={{ color: "rgb(var(--sys-ink-rgb) / 0.65)" }}
+          >
             {issuer.intro}
           </p>
         </div>
 
-        {/* The four-pronged array, compressed to a single hairline row — the
-            deep card treatment now lives on /issuer. */}
         <CardRow
-          items={issuer.decisions.map((d) => ({ heading: d.heading, body: d.text }))}
+          items={issuer.decisions.map((d) => ({
+            heading: d.heading,
+            body: d.text,
+          }))}
           size="sm"
           cols={4}
         />
@@ -140,20 +189,52 @@ export default function AndamioLanding() {
         </div>
       </Section>
 
-      {/* ── Persona two — Andamio Developers. A compact CTA mirroring the
-             Issuer teaser's shape (title + lead left, body right, button row);
-             replaces the retired "one foundation, two products" section. ── */}
-      <Section id="developers" bordered={false} screen>
-        <div className="grid grid-cols-12 gap-y-8 border-t pt-14 pb-10" style={{ borderColor: color.rule }}>
+      {/* 4 · How path teaser */}
+      <Section id="how" bordered={false}>
+        <div
+          className="grid grid-cols-12 gap-y-8 border-t py-16 sm:py-20"
+          style={{ borderColor: color.rule }}
+        >
+          <div className="col-span-12 lg:col-span-7">
+            <Display as="h2" size="lg">
+              {howTeaser.title}
+            </Display>
+            <p
+              className="mt-4 max-w-[52ch] text-lg leading-relaxed"
+              style={muted}
+            >
+              {howTeaser.body}
+            </p>
+          </div>
+          <div className="col-span-12 self-end lg:col-span-5 lg:pl-8">
+            <Button variant="primary" href={howTeaser.cta.href}>
+              {howTeaser.cta.label} <span aria-hidden>→</span>
+            </Button>
+          </div>
+        </div>
+      </Section>
+
+      {/* 5 · Developers — secondary depth */}
+      <Section id="developers" bordered={false}>
+        <div
+          className="grid grid-cols-12 gap-y-8 border-t pb-10 pt-14"
+          style={{ borderColor: color.rule }}
+        >
           <div className="col-span-12 lg:col-span-7">
             <Display as="h2" size="xl">
               {developersCta.title}
             </Display>
-            <p className="mt-3 text-xl leading-snug tracking-[-0.01em] sm:text-2xl" style={{ color: color.inkMuted }}>
+            <p
+              className="mt-3 text-xl leading-snug tracking-[-0.01em] sm:text-2xl"
+              style={{ color: color.inkMuted }}
+            >
               {developersCta.lead}
             </p>
           </div>
-          <p className="col-span-12 self-end text-lg leading-relaxed lg:col-span-5 lg:pl-8" style={{ color: "rgb(var(--sys-ink-rgb) / 0.65)" }}>
+          <p
+            className="col-span-12 self-end text-lg leading-relaxed lg:col-span-5 lg:pl-8"
+            style={{ color: "rgb(var(--sys-ink-rgb) / 0.65)" }}
+          >
             {developersCta.body}
           </p>
         </div>
@@ -169,18 +250,24 @@ export default function AndamioLanding() {
         </div>
       </Section>
 
-      {/* ── Ecosystem ───────────────────────────────────────────── */}
-      <Section id="ecosystem" bordered={false} screen>
-        <div className="py-24 sm:py-32">
-          {/* Heading */}
-          <Display as="h2" size="lg" className="max-w-4xl" style={{ lineHeight: 1.12 }}>
+      {/* 6 · Ecosystem honesty */}
+      <Section id="ecosystem" bordered={false}>
+        <div className="py-20 sm:py-28">
+          <Display
+            as="h2"
+            size="lg"
+            className="max-w-4xl"
+            style={{ lineHeight: 1.12 }}
+          >
             {ecosystem.lead}
           </Display>
 
-          {/* Four cards — Portable · Agent ready · Your data · Community — each with its CTA */}
-          <div className="mt-16 grid grid-cols-1 gap-x-12 gap-y-12 border-t pt-12 sm:grid-cols-2 lg:grid-cols-4" style={{ borderColor: color.rule }}>
+          <Stagger
+            className="mt-16 grid grid-cols-1 gap-x-12 gap-y-12 border-t pt-12 sm:grid-cols-2 lg:grid-cols-4"
+            style={{ borderColor: color.rule }}
+          >
             {ecosystem.items.map((it) => (
-              <div key={it.title} className="flex flex-col">
+              <StaggerItem key={it.title} className="flex flex-col">
                 <p className="text-[14px] font-semibold tracking-[-0.01em]">
                   {it.title}
                 </p>
@@ -193,39 +280,46 @@ export default function AndamioLanding() {
                     href={"href" in it.cta ? it.cta.href : undefined}
                   >
                     {it.cta.label}
-                    {it.cta.variant !== "disabled" && <span aria-hidden> →</span>}
+                    {it.cta.variant !== "disabled" && (
+                      <span aria-hidden> →</span>
+                    )}
                   </Button>
                 </div>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </Section>
 
-      {/* ── Success — transformation + the walkthrough CTA. Two columns on
-             wide screens (heading left, body + button right); the two heading
-             sentences get breathing room between them (James, 2026-07-02). ── */}
-      <Section id="closing" bordered={false} screen>
-        <div className="grid grid-cols-12 gap-y-12 py-24 sm:py-32 lg:gap-x-12">
+      {/* 7 · Close — walkthrough primary */}
+      <Section id="closing" bordered={false}>
+        <div className="grid grid-cols-12 gap-y-12 py-20 sm:py-28 lg:gap-x-12">
           <div className="col-span-12 lg:col-span-7">
             <Display as="h2" size="xl">
               <span className="block">{closing.headlineLine1}</span>
-              <span className="mt-6 block sm:mt-8">{closing.headlineLine2}</span>
+              <span className="mt-6 block sm:mt-8">
+                {closing.headlineLine2}
+              </span>
             </Display>
           </div>
           <div className="col-span-12 self-end lg:col-span-5">
             <div className="space-y-4">
               {closing.body.map((p) => (
-                <p key={p} className="text-lg leading-relaxed" style={{ color: "rgb(var(--sys-ink-rgb) / 0.65)" }}>
+                <p
+                  key={p}
+                  className="text-lg leading-relaxed"
+                  style={{ color: "rgb(var(--sys-ink-rgb) / 0.65)" }}
+                >
                   {p}
                 </p>
               ))}
             </div>
-            {/* Closing CTA hierarchy (Concept A / UX-03): walkthrough primary,
-                Discord secondary — copy-only / CTA hierarchy per brand guide §11.1. */}
             <div className="mt-10">
               <ButtonRow>
-                <Button variant="primary" href={EXTERNAL_LINKS.walkthroughMailto}>
+                <Button
+                  variant="primary"
+                  href={EXTERNAL_LINKS.walkthroughMailto}
+                >
                   {issuer.walkthroughCta} <span aria-hidden>→</span>
                 </Button>
                 <Button variant="outline" href={EXTERNAL_LINKS.discord}>

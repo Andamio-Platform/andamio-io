@@ -23,6 +23,7 @@
     "@markdoc/markdoc": "^0.4.0",
     "@markdoc/next.js": "^0.3.7",
     "@octokit/core": "^6.0.1",
+    "@pjaudiomv/qrcode-svg": "^1.0.0",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-checkbox": "^1.0.4",
@@ -54,7 +55,6 @@
     "date-fns": "^3.6.0",
     "emoji-mart": "^5.6.0",
     "formidable": "^3.5.1",
-    "framer-motion": "^11.0.20",
     "fs": "^0.0.1-security",
     "gray-matter": "^4.0.3",
     "hast-util-to-html": "^9.0.3",
@@ -63,6 +63,7 @@
     "lowlight": "^3.1.0",
     "lucide-react": "^0.341.0",
     "mermaid": "^11.4.1",
+    "motion": "^12.42.2",
     "next": "^14.0.4",
     "next-auth": "^4.24.5",
     "next-themes": "^0.3.0",
@@ -107,7 +108,8 @@
     "prettier": "^3.1.0",
     "prettier-plugin-tailwindcss": "^0.5.7",
     "tailwindcss": "^3.3.5",
-    "typescript": "^5.1.6"
+    "typescript": "^5.1.6",
+    "vitest": "^4.1.10"
   },
   "ct3aMetadata": {
     "initVersion": "7.26.0"

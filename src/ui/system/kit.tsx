@@ -10,7 +10,7 @@
  */
 
 import React, { useEffect, useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { AnimatePresence, motion, useScroll, useTransform } from "motion/react";
 import { ChevronDown, Menu, Moon, Sun, X } from "lucide-react";
 import { useTheme } from "next-themes";
 import {
@@ -22,8 +22,16 @@ import {
   space,
   motion as motionTok,
   containerCls,
-  SECTIONS,
 } from "./tokens";
+import { AmbientBackground } from "./AmbientBackground";
+import {
+  Pressable,
+  Reveal,
+  ScrollProgress,
+  Stagger,
+  StaggerItem,
+  useMotionGate,
+} from "./motion";
 
 /* The faint fixed 12-column GridField is RETIRED (2026-07-02): a graph-paper
  * background is pok.tech's hero treatment (a direct competitor) — structure
@@ -46,7 +54,12 @@ const WASH = {
   blue: "23 90 114", // the scaffold lattice
 } as const;
 
-function washStack(a: { coral: number; amber: number; teal: number; blue: number }) {
+function washStack(a: {
+  coral: number;
+  amber: number;
+  teal: number;
+  blue: number;
+}) {
   return [
     // Corals live high in the mark.
     `radial-gradient(46% 36% at 10% 6%, rgb(${WASH.coral} / ${a.coral}), transparent 70%)`,
@@ -62,31 +75,60 @@ function washStack(a: { coral: number; amber: number; teal: number; blue: number
 }
 
 export function LogoWash() {
+  // Static soft wash — motion lives in AmbientBackground’s scaffold lattice.
+  // Avoid competing hard edges; keep the mark’s color geography only.
   return (
     <>
       <div
         aria-hidden
         className="pointer-events-none fixed inset-0 z-0 dark:hidden"
-        style={{ backgroundImage: washStack({ coral: 0.1, amber: 0.09, teal: 0.09, blue: 0.045 }) }}
+        style={{
+          backgroundImage: washStack({
+            coral: 0.08,
+            amber: 0.07,
+            teal: 0.07,
+            blue: 0.04,
+          }),
+          filter: "blur(40px)",
+          opacity: 0.85,
+        }}
       />
-      {/* Dark paper swallows tint, so the same hues run a step warmer/brighter. */}
       <div
         aria-hidden
         className="pointer-events-none fixed inset-0 z-0 hidden dark:block"
-        style={{ backgroundImage: washStack({ coral: 0.13, amber: 0.1, teal: 0.11, blue: 0.09 }) }}
+        style={{
+          backgroundImage: washStack({
+            coral: 0.12,
+            amber: 0.1,
+            teal: 0.1,
+            blue: 0.1,
+          }),
+          filter: "blur(48px)",
+          opacity: 0.9,
+        }}
       />
     </>
   );
 }
 
 /* ── Brand mark (orange square + wordmark) ──────────────────────────── */
-export function Brand({ href = "/", height = 22 }: { href?: string; height?: number }) {
+export function Brand({
+  href = "/",
+  height = 22,
+}: {
+  href?: string;
+  height?: number;
+}) {
   // Theme-aware wordmark: the ink logotype on light surfaces, the reversed one
   // on dark. Swapped via the `.dark` selector (no JS, no hydration flash). The
   // `.sys-light` island re-asserts light, so a Brand inside one would still want
   // the light logo — Brand isn't used inside an island today, so this is moot.
   return (
-    <a href={href} className="inline-flex items-center" aria-label="Andamio — home">
+    <a
+      href={href}
+      className="inline-flex items-center"
+      aria-label="Andamio — home"
+    >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src="/logo-with-typography.svg"
@@ -207,7 +249,7 @@ function NavDropdown({
       </button>
       {open && (
         <div
-          className="absolute left-0 top-[calc(100%+0.85rem)] z-50 w-[26rem] animate-in fade-in-0 slide-in-from-top-1 duration-150"
+          className="absolute left-0 top-[calc(100%+0.85rem)] z-50 w-[26rem] duration-150 animate-in fade-in-0 slide-in-from-top-1"
           style={{
             background: color.paper,
             border: `1px solid ${color.rule}`,
@@ -245,7 +287,11 @@ function NavDropdown({
                 borderLeft: i % 2 === 1 ? `1px solid ${color.cell}` : undefined,
               };
               return it.soon ? (
-                <span key={it.name} className="flex cursor-default flex-col p-4" style={cellStyle}>
+                <span
+                  key={it.name}
+                  className="flex cursor-default flex-col p-4"
+                  style={cellStyle}
+                >
                   {inner}
                 </span>
               ) : (
@@ -270,14 +316,20 @@ function NavDropdown({
 export function TopNav({ items, cta, secondaryCta }: NavData) {
   const [open, setOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const reduce = useMotionGate();
   return (
     <header
       className="sticky top-0 z-50 border-b backdrop-blur"
-      style={{ borderColor: color.rule, background: "rgb(var(--sys-paper-rgb) / 0.95)" }}
+      style={{
+        borderColor: color.rule,
+        background: "rgb(var(--sys-paper-rgb) / 0.95)",
+      }}
     >
       {/* Full-bleed row: the brand and CTAs anchor to the viewport edges
           (at the shared padX gutter) rather than the content measure. */}
-      <div className={`flex items-center justify-between gap-6 py-4 ${layout.padX}`}>
+      <div
+        className={`flex items-center justify-between gap-6 py-4 ${layout.padX}`}
+      >
         <Brand />
         <div className="flex items-center gap-5 sm:gap-6">
           <nav className="hidden items-center gap-7 lg:flex">
@@ -302,7 +354,7 @@ export function TopNav({ items, cta, secondaryCta }: NavData) {
                 >
                   {entry.label}
                 </a>
-              )
+              ),
             )}
           </nav>
           {/* Theme toggle reads as a quiet page utility sitting with the nav. */}
@@ -333,59 +385,101 @@ export function TopNav({ items, cta, secondaryCta }: NavData) {
             className="inline-flex h-9 w-9 items-center justify-center lg:hidden"
             style={{ color: color.ink }}
           >
-            {open ? <X size={20} /> : <Menu size={20} />}
+            {reduce ? (
+              open ? (
+                <X size={20} />
+              ) : (
+                <Menu size={20} />
+              )
+            ) : (
+              <span className="relative inline-flex h-5 w-5 items-center justify-center">
+                <motion.span
+                  className="absolute block h-[2px] w-5 origin-center"
+                  style={{ background: color.ink, top: 4 }}
+                  animate={open ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
+                  transition={motionTok.spring.press}
+                />
+                <motion.span
+                  className="absolute block h-[2px] w-5"
+                  style={{ background: color.ink, top: 9 }}
+                  animate={open ? { opacity: 0 } : { opacity: 1 }}
+                  transition={{ duration: motionTok.duration.press }}
+                />
+                <motion.span
+                  className="absolute block h-[2px] w-5 origin-center"
+                  style={{ background: color.ink, top: 14 }}
+                  animate={open ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
+                  transition={motionTok.spring.press}
+                />
+              </span>
+            )}
           </button>
         </div>
       </div>
-      {open && (
-        <div className="border-t lg:hidden" style={{ borderColor: color.rule, background: color.paper }}>
-          <nav className={`${containerCls} flex flex-col py-2`} style={{ maxWidth: layout.maxWidth }}>
-            {items.map((entry) =>
-              "items" in entry ? (
-                <div key={entry.label} className="py-2">
-                  <p
-                    className="py-1.5 text-[12px] font-medium tracking-[-0.01em]"
-                    style={{ color: color.inkFaint }}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            className="border-t lg:hidden"
+            style={{ borderColor: color.rule, background: color.paper }}
+            initial={reduce ? false : { opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={reduce ? undefined : { opacity: 0, y: -8 }}
+            transition={{
+              duration: motionTok.duration.enterFast,
+              ease: motionTok.ease,
+            }}
+          >
+            <nav
+              className={`${containerCls} flex flex-col py-2`}
+              style={{ maxWidth: layout.maxWidth }}
+            >
+              {items.map((entry) =>
+                "items" in entry ? (
+                  <div key={entry.label} className="py-2">
+                    <p
+                      className="py-1.5 text-[12px] font-medium tracking-[-0.01em]"
+                      style={{ color: color.inkFaint }}
+                    >
+                      {entry.label}
+                    </p>
+                    {entry.items.map((it) =>
+                      it.soon ? (
+                        <span
+                          key={it.name}
+                          className="block py-2 pl-3 text-[14px]"
+                          style={{ color: color.inkFaint }}
+                        >
+                          {it.name} <span className="text-[12px]">· soon</span>
+                        </span>
+                      ) : (
+                        <a
+                          key={it.name}
+                          href={it.href}
+                          onClick={() => setOpen(false)}
+                          className="block py-2 pl-3 text-[14px] transition-colors hover:[color:var(--sys-ink)]"
+                          style={{ color: color.inkMuted }}
+                        >
+                          {it.name}
+                        </a>
+                      ),
+                    )}
+                  </div>
+                ) : (
+                  <a
+                    key={entry.label}
+                    href={entry.href}
+                    onClick={() => setOpen(false)}
+                    className="py-2.5 text-[14px] font-medium tracking-[-0.01em] transition-colors hover:[color:var(--sys-ink)]"
+                    style={{ color: color.inkMuted }}
                   >
                     {entry.label}
-                  </p>
-                  {entry.items.map((it) =>
-                    it.soon ? (
-                      <span
-                        key={it.name}
-                        className="block py-2 pl-3 text-[14px]"
-                        style={{ color: color.inkFaint }}
-                      >
-                        {it.name} <span className="text-[12px]">· soon</span>
-                      </span>
-                    ) : (
-                      <a
-                        key={it.name}
-                        href={it.href}
-                        onClick={() => setOpen(false)}
-                        className="block py-2 pl-3 text-[14px] transition-colors hover:[color:var(--sys-ink)]"
-                        style={{ color: color.inkMuted }}
-                      >
-                        {it.name}
-                      </a>
-                    )
-                  )}
-                </div>
-              ) : (
-                <a
-                  key={entry.label}
-                  href={entry.href}
-                  onClick={() => setOpen(false)}
-                  className="py-2.5 text-[14px] font-medium tracking-[-0.01em] transition-colors hover:[color:var(--sys-ink)]"
-                  style={{ color: color.inkMuted }}
-                >
-                  {entry.label}
-                </a>
-              )
-            )}
-          </nav>
-        </div>
-      )}
+                  </a>
+                ),
+              )}
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }
@@ -406,9 +500,15 @@ export function Page({
   return (
     <div
       className="relative min-h-screen antialiased"
-      style={{ background: color.paper, color: color.ink, fontFamily: font.sans }}
+      style={{
+        background: color.paper,
+        color: color.ink,
+        fontFamily: font.sans,
+      }}
     >
+      <AmbientBackground />
       <LogoWash />
+      <ScrollProgress />
       <div className="relative z-10">
         {/* First focusable: skip past chrome to the main landmark (A11Y-01). */}
         <a
@@ -450,7 +550,9 @@ export function Section({
     // Subtract the sticky-nav clearance (--nav-clear, shared with html
     // scroll-padding-top) so content centers in the *visible* area, not behind
     // the fixed header.
-    screen ? "flex min-h-[calc(100svh_-_var(--nav-clear))] flex-col justify-center" : "",
+    screen
+      ? "flex min-h-[calc(100svh_-_var(--nav-clear))] flex-col justify-center"
+      : "",
   ]
     .filter(Boolean)
     .join(" ");
@@ -460,9 +562,13 @@ export function Section({
       className={cls || undefined}
       style={bordered ? { borderColor: color.rule } : undefined}
     >
-      <div className={`${containerCls} w-full`} style={{ maxWidth: layout.maxWidth }}>
+      <Reveal
+        soft
+        className={`${containerCls} w-full`}
+        style={{ maxWidth: layout.maxWidth }}
+      >
         {children}
-      </div>
+      </Reveal>
     </section>
   );
 }
@@ -484,7 +590,11 @@ export function Kicker({
       className={`flex items-center gap-2.5 text-[13px] font-semibold tracking-[-0.01em] ${className}`}
       style={{ color: color.inkMuted }}
     >
-      <span aria-hidden className="h-2 w-2 shrink-0" style={{ background: color.orange }} />
+      <span
+        aria-hidden
+        className="h-2 w-2 shrink-0"
+        style={{ background: color.orange }}
+      />
       <span>{children}</span>
     </p>
   );
@@ -548,20 +658,31 @@ export function Display({
   style?: React.CSSProperties;
   children: React.ReactNode;
 }) {
-  return React.createElement(
-    As,
-    {
-      className,
-      style: {
-        fontFamily: font.sans,
-        fontWeight: display.weight,
-        letterSpacing: display.tracking,
-        lineHeight: display.leading,
-        fontSize: typeScale[size],
-        ...style,
-      },
-    },
-    children,
+  const typeStyle: React.CSSProperties = {
+    fontFamily: font.sans,
+    fontWeight: display.weight,
+    letterSpacing: display.tracking,
+    lineHeight: display.leading,
+    fontSize: typeScale[size],
+    ...style,
+  };
+  const revealAs =
+    As === "h1" || As === "h2" || As === "h3" || As === "p" || As === "span"
+      ? As
+      : "div";
+
+  if (revealAs === "div" && As !== "div") {
+    return (
+      <Reveal className={className} style={typeStyle}>
+        {React.createElement(As, null, children)}
+      </Reveal>
+    );
+  }
+
+  return (
+    <Reveal as={revealAs} className={className} style={typeStyle}>
+      {children}
+    </Reveal>
   );
 }
 
@@ -570,7 +691,7 @@ type ButtonVariant = "primary" | "ink" | "outline" | "chip" | "disabled";
 // Button type follows the label system: Inter sentence case, no mono, no caps.
 // The square geometry + ink/orange fills carry the identity, not the type.
 const btnBase =
-  "inline-flex items-center justify-center gap-3 px-6 py-3 text-[13px] font-semibold tracking-[-0.01em] transition-colors";
+  "sys-control-press inline-flex items-center justify-center gap-3 px-6 py-3 text-[13px] font-semibold tracking-[-0.01em] transition-[colors,transform,box-shadow,opacity] duration-150";
 
 export function Button({
   variant = "outline",
@@ -589,32 +710,64 @@ export function Button({
   full?: boolean;
 }) {
   const styles: Record<ButtonVariant, React.CSSProperties> = {
-    primary: { background: color.orange, border: `1px solid ${color.orange}`, color: "#fff" },
-    ink: { background: color.ink, border: `1px solid ${color.ink}`, color: color.onInk },
-    outline: { border: `1px solid ${color.ink}`, color: color.ink },
-    chip: { border: `1px solid ${color.ink}`, color: color.inkFaint },
+    primary: {
+      background: color.orange,
+      border: `1px solid ${color.orange}`,
+      color: "#fff",
+      boxShadow: color.controlShadow,
+    },
+    ink: {
+      background: color.ink,
+      border: `1px solid ${color.ink}`,
+      color: color.onInk,
+      boxShadow: color.controlShadow,
+    },
+    outline: {
+      border: `1px solid ${color.ink}`,
+      color: color.ink,
+      boxShadow: color.controlShadow,
+      background: "transparent",
+    },
+    chip: {
+      border: `1px solid ${color.ink}`,
+      color: color.inkFaint,
+      boxShadow: color.controlShadow,
+      background: "transparent",
+    },
     disabled: { border: `1px solid ${color.cell}`, color: color.inkGhost },
   };
   const cls = `${btnBase} ${variant === "disabled" ? "cursor-not-allowed" : ""} ${full ? "w-full" : ""} ${className}`;
   const sty = styles[variant];
   if (variant !== "disabled" && !href && onClick) {
     return (
-      <button type="button" onClick={onClick} className={`${cls} hover:opacity-90`} style={sty}>
+      <Pressable
+        as="button"
+        type="button"
+        onClick={onClick}
+        className={`${cls} hover:opacity-90`}
+        style={sty}
+      >
         {children}
-      </button>
+      </Pressable>
     );
   }
   if (variant === "disabled" || !href) {
     return (
-      <span aria-disabled className={cls} style={sty}>
+      <Pressable as="span" aria-disabled className={cls} style={sty}>
         {children}
-      </span>
+      </Pressable>
     );
   }
   return (
-    <a href={href} className={`${cls} hover:opacity-90`} style={sty}>
+    <Pressable
+      as="a"
+      href={href}
+      onClick={onClick}
+      className={`${cls} hover:opacity-90`}
+      style={sty}
+    >
       {children}
-    </a>
+    </Pressable>
   );
 }
 
@@ -625,7 +778,9 @@ export function Button({
  */
 export function ButtonRow({ children }: { children: React.ReactNode }) {
   return (
-    <div className={`flex flex-col ${space.gapButtons} sm:flex-row sm:flex-wrap sm:items-stretch`}>
+    <div
+      className={`flex flex-col ${space.gapButtons} sm:flex-row sm:flex-wrap sm:items-stretch`}
+    >
       {children}
     </div>
   );
@@ -653,7 +808,10 @@ export function SectionIntro({
         {title}
       </Display>
       {lead && (
-        <p className="mt-3 text-lg leading-snug" style={{ color: color.inkMuted }}>
+        <p
+          className="mt-3 text-lg leading-snug"
+          style={{ color: color.inkMuted }}
+        >
           {lead}
         </p>
       )}
@@ -692,9 +850,12 @@ export function CardRow({
     ? "mt-3 text-[15px] leading-relaxed"
     : "mt-2.5 text-[14px] leading-relaxed";
   return (
-    <div className="grid grid-cols-12 border-t" style={{ borderColor: color.rule }}>
+    <Stagger
+      className="grid grid-cols-12 border-t"
+      style={{ borderColor: color.rule }}
+    >
       {items.map((it, i) => (
-        <div
+        <StaggerItem
           key={it.heading}
           className={itemCls}
           style={{ borderTop: i > 0 ? `1px solid ${color.cell}` : undefined }}
@@ -713,9 +874,9 @@ export function CardRow({
           <p className={bodyCls} style={{ color: color.inkMuted }}>
             {it.body}
           </p>
-        </div>
+        </StaggerItem>
       ))}
-    </div>
+    </Stagger>
   );
 }
 
@@ -738,7 +899,10 @@ export function TierCard({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col p-6" style={{ border: `1px solid ${color.cell}` }}>
+    <StaggerItem
+      className="flex flex-col p-6"
+      style={{ border: `1px solid ${color.cell}` }}
+    >
       <div className="flex items-baseline justify-between gap-2">
         <span className="text-[14px] font-semibold tracking-[-0.01em]">
           {name}
@@ -746,13 +910,16 @@ export function TierCard({
       </div>
       <div className="mt-4 flex items-baseline gap-1.5">
         <span
-          className="text-3xl font-semibold tracking-[-0.03em] tabular-nums"
+          className="text-3xl font-semibold tabular-nums tracking-[-0.03em]"
           style={{ color: dim ? color.inkMuted : color.ink }}
         >
           {price}
         </span>
         {priceNote && (
-          <span className="text-[13px]" style={{ fontFamily: font.mono, color: color.inkFaint }}>
+          <span
+            className="text-[13px]"
+            style={{ fontFamily: font.mono, color: color.inkFaint }}
+          >
             {priceNote}
           </span>
         )}
@@ -760,7 +927,7 @@ export function TierCard({
       <div className="mt-5 border-t pt-5" style={{ borderColor: color.cell }}>
         {children}
       </div>
-    </div>
+    </StaggerItem>
   );
 }
 
@@ -782,7 +949,10 @@ export function SpecimenReveal({
 }) {
   const ref = useRef<HTMLDivElement>(null);
   // offset mirrors tokens.motion.revealOffset; inline for framer's literal types.
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "center center"] });
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "center center"],
+  });
   const x = useTransform(scrollYProgress, [0, 1], motionTok.badgeX);
   const opacity = useTransform(
     scrollYProgress,
@@ -793,7 +963,10 @@ export function SpecimenReveal({
 
   return (
     <div ref={ref}>
-      <motion.figure style={{ width, border: `1px solid ${color.rule}` }} className="ml-auto">
+      <motion.figure
+        style={{ width, border: `1px solid ${color.rule}` }}
+        className="ml-auto"
+      >
         <div
           className="flex items-center justify-between border-b"
           style={{ borderColor: color.rule }}
@@ -805,26 +978,44 @@ export function SpecimenReveal({
             className="inline-flex items-center gap-2 border-l px-4 py-2 text-[11px] font-semibold tracking-[-0.01em]"
             style={{ color: color.orange, borderColor: color.rule }}
           >
-            <span className="h-1.5 w-1.5 rounded-full" style={{ background: color.orange }} />
+            <span
+              className="h-1.5 w-1.5 rounded-full"
+              style={{ background: color.orange }}
+            />
             Verified
           </span>
         </div>
-        <div className="overflow-hidden" style={{ background: color.coralTint }}>
+        <div
+          className="overflow-hidden"
+          style={{ background: color.coralTint }}
+        >
           <motion.div
             style={{ x, opacity }}
             className="flex items-center justify-center px-8 py-12 sm:px-12 sm:py-16"
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={src} alt={alt} width={520} height={520} className="w-full max-w-[360px]" />
+            <img
+              src={src}
+              alt={alt}
+              width={520}
+              height={520}
+              className="w-full max-w-[360px]"
+            />
           </motion.div>
         </div>
         <figcaption className="border-t" style={{ borderColor: color.rule }}>
-          <p className="px-4 py-4 text-[13px] leading-relaxed" style={{ color: color.inkMuted }}>
+          <p
+            className="px-4 py-4 text-[13px] leading-relaxed"
+            style={{ color: color.inkMuted }}
+          >
             {caption}
           </p>
-          <div className="flex items-center justify-between border-t" style={{ borderColor: color.cell }}>
+          <div
+            className="flex items-center justify-between border-t"
+            style={{ borderColor: color.cell }}
+          >
             <span
-              className="px-4 py-2 text-[11px] font-medium tracking-[-0.01em] tabular-nums"
+              className="px-4 py-2 text-[11px] font-medium tabular-nums tracking-[-0.01em]"
               style={{ color: color.inkFaint }}
             >
               {metaLabel}
@@ -864,7 +1055,10 @@ export function ArtifactPlate({
   return (
     <figure
       className={className}
-      style={{ border: `1px solid ${color.rule}`, boxShadow: color.cardShadow }}
+      style={{
+        border: `1px solid ${color.rule}`,
+        boxShadow: color.specimenShadow,
+      }}
     >
       {/* Opaque plate behind the artifact; the caption strip below stays
           transparent (page paper shows through). */}
@@ -883,7 +1077,10 @@ export function ArtifactPlate({
         />
       </div>
       <figcaption className="border-t" style={{ borderColor: color.rule }}>
-        <p className="px-4 py-3 text-[13px] leading-relaxed" style={{ color: color.inkMuted }}>
+        <p
+          className="px-4 py-3 text-[13px] leading-relaxed"
+          style={{ color: color.inkMuted }}
+        >
           <span
             className="text-[12px] font-medium tracking-[-0.01em]"
             style={{ color: color.inkFaint }}
@@ -924,7 +1121,7 @@ export function DataList({ rows }: { rows: [string, string][] }) {
 export function NumberWatermark({ children }: { children: React.ReactNode }) {
   return (
     <span
-      className="block leading-none tracking-[-0.05em] tabular-nums"
+      className="block tabular-nums leading-none tracking-[-0.05em]"
       style={{
         fontFamily: font.sans,
         fontWeight: display.weight,
@@ -953,14 +1150,18 @@ export function StackLayers({ layers }: { layers: readonly StackLayer[] }) {
           className="grid grid-cols-12 items-baseline gap-4 py-7 lg:px-10"
           style={{
             borderTop: i > 0 ? `1px solid ${color.cell}` : undefined,
-            ...(layer.emphasis ? { background: color.ink, color: color.onInk } : {}),
+            ...(layer.emphasis
+              ? { background: color.ink, color: color.onInk }
+              : {}),
           }}
         >
           <div className="col-span-12 sm:col-span-3">
             <span
               className="text-[12px] font-medium tracking-[-0.01em]"
               style={{
-                color: layer.emphasis ? "rgb(var(--sys-on-ink-rgb) / 0.85)" : color.inkFaint,
+                color: layer.emphasis
+                  ? "rgb(var(--sys-on-ink-rgb) / 0.85)"
+                  : color.inkFaint,
               }}
             >
               L{i} · {layer.labelKicker}
@@ -970,12 +1171,20 @@ export function StackLayers({ layers }: { layers: readonly StackLayer[] }) {
             <p className="flex items-center gap-3 text-lg font-semibold leading-tight tracking-[-0.03em]">
               {layer.name}
               {layer.emphasis && (
-                <span aria-hidden className="inline-block h-2 w-2" style={{ background: color.orange }} />
+                <span
+                  aria-hidden
+                  className="inline-block h-2 w-2"
+                  style={{ background: color.orange }}
+                />
               )}
             </p>
             <p
               className="mt-1.5 text-[14px] leading-relaxed"
-              style={{ color: layer.emphasis ? "rgb(var(--sys-on-ink-rgb) / 0.9)" : color.inkMuted }}
+              style={{
+                color: layer.emphasis
+                  ? "rgb(var(--sys-on-ink-rgb) / 0.9)"
+                  : color.inkMuted,
+              }}
             >
               {layer.description}
             </p>
@@ -1011,13 +1220,19 @@ export function Footer({
     // so the footer reads as its own zone in light and dark.
     <footer
       className="border-t"
-      style={{ borderColor: color.rule, background: "rgb(var(--sys-ink-rgb) / 0.03)" }}
+      style={{
+        borderColor: color.rule,
+        background: "rgb(var(--sys-ink-rgb) / 0.03)",
+      }}
     >
       <div className={containerCls} style={{ maxWidth: layout.maxWidth }}>
         <div className="grid grid-cols-12 gap-y-10 py-14">
           <div className="col-span-12 lg:col-span-4 lg:pr-10">
             <Brand height={30} />
-            <p className="mt-4 max-w-xs text-[13px] leading-relaxed" style={{ color: color.inkMuted }}>
+            <p
+              className="mt-4 max-w-xs text-[13px] leading-relaxed"
+              style={{ color: color.inkMuted }}
+            >
               {tagline}
             </p>
             <p

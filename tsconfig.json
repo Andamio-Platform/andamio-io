@@ -13,11 +13,7 @@
     "noUncheckedIndexedAccess": true,
     "checkJs": true,
     /* Bundled projects */
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "ES2022"
-    ],
+    "lib": ["dom", "dom.iterable", "ES2022"],
     "noEmit": true,
     "module": "ESNext",
     "moduleResolution": "Bundler",
@@ -31,12 +27,8 @@
     /* Path Aliases */
     "baseUrl": ".",
     "paths": {
-      "~/*": [
-        "./src/*"
-      ],
-      "react": [
-        "./node_modules/@types/react"
-      ]
+      "~/*": ["./src/*"],
+      "react": ["./node_modules/@types/react"]
     }
   },
   "include": [
@@ -48,11 +40,9 @@
     "**/*.js",
     ".next/types/**/*.ts"
   ],
-  "exclude": [
-    "node_modules"
-  ],
+  "exclude": ["node_modules"],
   "typedocOptions": {
     "entryPoints": ["src/server/api/routers/slt.ts"],
     "out": "docs"
-}
+  }
 }

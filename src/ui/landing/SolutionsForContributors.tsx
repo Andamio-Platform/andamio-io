@@ -1,7 +1,7 @@
 import React, { type FC } from "react";
 import Link from "next/link";
 import { Button } from "~/components/ui/button";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import {
   AcademicCapIcon,
   CreditCardIcon,

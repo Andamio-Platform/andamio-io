@@ -1,4 +1,4 @@
-import type { Variants } from "framer-motion";
+import type { Variants } from "motion/react";
 
 /** Fade-in from below. Default: y=20, duration=0.5 */
 export const fadeIn = (y = 20, duration = 0.5): Variants => ({

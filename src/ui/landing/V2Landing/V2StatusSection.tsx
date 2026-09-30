@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { EXTERNAL_LINKS } from "~/lib/external-links";
 import { staggerContainer, slideInRight } from "./motion-variants";
 

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "motion/react";
 import { fadeIn } from "./motion-variants";
 import { Kicker, primaryBtnSm } from "./_ui";
 import {

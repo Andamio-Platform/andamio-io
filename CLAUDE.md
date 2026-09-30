@@ -16,13 +16,13 @@
     </skill>
     <skill name="github-skills-index">
       <file>@.claude/skills/github-skills-index/SKILL.md</file>
-      <description>Index of 77 vendored GitHub agent skills from the landing excellence catalog</description>
+      <description>Index of 78 vendored GitHub agent skills from the landing excellence catalog</description>
       <trigger>Use <github-skills-index> to find or refresh vendored GitHub skills</trigger>
     </skill>
   </skills>
 
   Vendored GitHub skills live under `.claude/skills/` with prefixes
-  `obra-`, `anthropic-`, `ms-`, `ecc-`, `tob-`, `arz-`, `ghcp-`, `davila-`.
+  `obra-`, `anthropic-`, `ms-`, `ecc-`, `tob-`, `arz-`, `ghcp-`, `davila-`, `cds-`.
   Each includes `VENDOR.md` provenance. Authority for Andamio landing remains
   `landing-excellence` over conflicting vendor guidance. Refresh with
   `python .claude/skills/sync-github-skills.py`.

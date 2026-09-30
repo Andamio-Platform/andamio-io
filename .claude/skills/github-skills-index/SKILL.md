@@ -15,7 +15,7 @@ Project-owned skills stay authoritative for Andamio landing:
 Vendored skills are **evaluate/reference** unless a decision adopts them.
 When guidance conflicts, follow `landing-excellence` + Warm Index.
 
-**Installed count:** 77
+**Installed count:** 78
 
 Refresh:
 
@@ -55,6 +55,7 @@ python .claude/skills/sync-github-skills.py
 | `arz-seo-auditor` | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) | `.gemini/skills/seo-auditor` | `reference-only` |
 | `arz-ui-design-system` | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) | `product-team/skills/ui-design-system` | `reference-only` |
 | `arz-ux-researcher-designer` | [alirezarezvani/claude-skills](https://github.com/alirezarezvani/claude-skills) | `product-team/skills/ux-researcher-designer` | `reference-only` |
+| `cds-motion-framer` | [freshtechbro/claudedesignskills](https://github.com/freshtechbro/claudedesignskills) | `.claude/skills/motion-framer` | `reference-only` |
 | `davila-accessibility` | [davila7/claude-code-templates](https://github.com/davila7/claude-code-templates) | `cli-tool/components/skills/development/accessibility` | `reference-only` |
 | `davila-accessibility-auditor` | [davila7/claude-code-templates](https://github.com/davila7/claude-code-templates) | `cli-tool/components/skills/creative-design/accessibility-auditor` | `reference-only` |
 | `davila-brand-guidelines` | [davila7/claude-code-templates](https://github.com/davila7/claude-code-templates) | `cli-tool/components/skills/business-marketing/brand-guidelines-anthropic` | `reference-only` |

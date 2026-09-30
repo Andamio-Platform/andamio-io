@@ -1,6 +1,6 @@
 {
-  "as_of": "2026-07-22",
-  "notes": "Selected from docs/landing-page-excellence/research/github-ai-resources/installable-skills-and-rules.md. Prefer landing-relevant skills; exclude Azure SDK bulk trees.",
+  "as_of": "2026-07-24",
+  "notes": "Selected from docs/landing-page-excellence/research/github-ai-resources/installable-skills-and-rules.md. Prefer landing-relevant skills; exclude Azure SDK bulk trees. Added cds-motion-framer from freshtechbro/claudedesignskills.",
   "groups": [
     {
       "repo": "obra/superpowers",
@@ -371,6 +371,18 @@
         {
           "path": "cli-tool/components/skills/business-marketing/brand-guidelines-anthropic",
           "dest": "davila-brand-guidelines"
+        }
+      ]
+    },
+    {
+      "repo": "freshtechbro/claudedesignskills",
+      "commit": "1da73febff0c3e1dfefc07f8a5ef8f7d1dfdb6cd",
+      "decision": "reference-only",
+      "license": "MIT",
+      "skills": [
+        {
+          "path": ".claude/skills/motion-framer",
+          "dest": "cds-motion-framer"
         }
       ]
     }

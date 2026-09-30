@@ -6,7 +6,19 @@
  * renders, so real credentials from the backend can be passed straight in.
  */
 
-export type SkillIcon = "scaffold" | "warning" | "calculator" | "checklist" | "badge";
+/**
+ * Andamioscan credential-claim page the Verify button opens.
+ * Change this hash when a claim for the badge's own credential exists.
+ */
+export const CLAIM_PAGE_URL =
+  "https://andamioscan.io/view/credential-claims/1d46be10006cd97fe6c157d8667db5f7bb0701f7a69f9ead331b59142f004505";
+
+export type SkillIcon =
+  | "scaffold"
+  | "warning"
+  | "calculator"
+  | "checklist"
+  | "badge";
 
 export type ProofSkill = { label: string; icon: SkillIcon };
 
@@ -34,6 +46,11 @@ export type ProofCredential = {
   /** Blake2b hash of the module's Student Learning Targets (hex). */
   sltHash: string;
   verifyUrl: string;
+  /**
+   * On-chain claim page for the Verify button. When absent, the button
+   * opens `verifyUrl` instead of the homepage claim.
+   */
+  claimUrl?: string;
   /** Andamioscan (or other explorer) page for the course. */
   courseUrl?: string;
   /** Explorer page for the hash, when one exists. */
@@ -64,7 +81,11 @@ export type AndamioOpenBadge = {
   };
   evidence?: Array<{ id?: string; network?: string }>;
   "andamio:course"?: string;
-  "andamio:onChainAnchor"?: { network?: string; courseId?: string; sltHash?: string };
+  "andamio:onChainAnchor"?: {
+    network?: string;
+    courseId?: string;
+    sltHash?: string;
+  };
   "andamio:theme"?: Partial<Record<AndamioThemeKey, string>>;
 };
 
@@ -123,7 +144,8 @@ export function fromOpenBadge(
   extras: Pick<ProofCredential, "holder"> &
     Partial<Omit<ProofCredential, "holder">>,
 ): ProofCredential {
-  const issuer = typeof badge.issuer === "string" ? { id: badge.issuer } : badge.issuer;
+  const issuer =
+    typeof badge.issuer === "string" ? { id: badge.issuer } : badge.issuer;
   const anchor = badge["andamio:onChainAnchor"] ?? {};
   const courseId = anchor.courseId ?? "";
   const sltHash = anchor.sltHash ?? "";
@@ -203,8 +225,58 @@ export const DEFAULT_CREDENTIAL: ProofCredential = {
     holderIsSample: true,
     skills: SAMPLE_SKILLS,
   }),
+  claimUrl: CLAIM_PAGE_URL,
   theme: undefined,
 };
+
+/** Face fields the How it works builder already collects. */
+export type BuilderCredentialInput = {
+  course: string;
+  module: string;
+  courseId: string;
+  sltHash: string;
+  network?: string;
+  earnerName?: string;
+  issuerDid?: string;
+  issuedAt?: string;
+  skills?: string[];
+  verifyUrl?: string;
+};
+
+/** Getting Started and live builder edits, on the Proof Ring face. */
+export function credentialFromBuilder(
+  input: BuilderCredentialInput,
+): ProofCredential {
+  const networkKey = input.network ?? "mainnet";
+  const trimmedName = input.earnerName?.trim() ?? "";
+  const name = trimmedName.length > 0 ? trimmedName : "Jordan Smith";
+  const slug = name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "_")
+    .replace(/^_|_$/g, "");
+  const alias = slug.length > 0 ? slug : "earner";
+  const issuerDid = input.issuerDid?.trim() ?? "";
+  const issuedAt = input.issuedAt?.trim() ?? "";
+  const skills = (input.skills ?? [])
+    .map((label) => label.trim())
+    .filter(Boolean)
+    .slice(0, 4)
+    .map((label) => ({ label, icon: "badge" as const }));
+  return {
+    brand: "Andamio",
+    course: input.course,
+    module: input.module,
+    holder: { alias, displayName: name },
+    holderIsSample: true,
+    issuerDid: issuerDid.length > 0 ? issuerDid : "did:andamio:preview",
+    issuedAt,
+    network: CARDANO_NETWORKS[networkKey] ?? `Cardano ${networkKey}`,
+    skills,
+    courseId: input.courseId,
+    sltHash: input.sltHash,
+    verifyUrl: input.verifyUrl ?? badgeVerifyUrl(input.courseId, input.sltHash),
+  };
+}
 
 /**
  * Showcase-only ring phrases. Real credentials render without them. Copy

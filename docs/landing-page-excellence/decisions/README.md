@@ -13,3 +13,4 @@ Lifecycle: `proposed → adopted` or `rejected`; an adopted decision may become 
 | [2026-07-21-keep-reuse-archive.md](2026-07-21-keep-reuse-archive.md) | adopted |
 | [2026-07-21-concept-direction.md](2026-07-21-concept-direction.md) | adopted — Concept A |
 | [2026-07-21-prototype-approval.md](2026-07-21-prototype-approval.md) | adopted — Concept A structural P0/P1 |
+| [2026-07-24-dense-motion-override.md](2026-07-24-dense-motion-override.md) | adopted — dense Motion; overrides MOT-01 count |

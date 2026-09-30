@@ -14,11 +14,18 @@
 //
 // See ./README.md for the consumption guide.
 
-export { buildBadgeSvg, esc } from "./badge-generator";
-export type { BadgeParams, BuildOptions } from "./badge-generator";
+export { buildBadgeSvg, esc, shortHex } from "./badge-generator";
+export type { BadgeParams, BuildOptions, BadgeSkill } from "./badge-generator";
 
 export { buildBadgeParams, canonicalizeSlts } from "./badge-model";
 export type { BadgeInputs } from "./badge-model";
+
+export {
+  DEFAULT_PERIMETER,
+  DEFAULT_SKILLS,
+  networkLabel,
+  seedFromHex,
+} from "./badge-display";
 
 export {
   PALETTES,

@@ -19,17 +19,17 @@ const config = {
     },
     fontFamily: {
       sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
-      display: ["Sora", "Inter", "system-ui", "sans-serif"],
+      display: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
       mono: ["JetBrains Mono", "Inconsolata", "ui-monospace"],
-      serif: ["Instrument Serif", "ui-serif"],
-      plex: ["IBM Plex Sans", "Geist", "system-ui", "sans-serif"],
-      beckman: ["Beckman", "Geist", "ui-sans-serif", "system-ui"],
+      serif: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
+      plex: ["Inter", "system-ui", "sans-serif"],
+      beckman: ["Beckman", "Inter", "ui-sans-serif", "system-ui"],
       workSans: ["WorkSans"],
       libreFranklin: ["LibreFranklin"],
     },
     extend: {
       gridTemplateColumns: {
-        '16': 'repeat(16, minmax(0, 1fr))',
+        "16": "repeat(16, minmax(0, 1fr))",
       },
       colors: {
         border: "var(--border)",
@@ -119,7 +119,7 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
-        "glow": {
+        glow: {
           "0%": { opacity: "0.5" },
           "50%": { opacity: "0.8" },
           "100%": { opacity: "0.5" },
@@ -132,7 +132,7 @@ const config = {
       animation: {
         "accordion-down": "accordion-down 0.3s ease-out",
         "accordion-up": "accordion-up 0.3s ease-out",
-        "glow": "glow 2s ease-in-out infinite",
+        glow: "glow 2s ease-in-out infinite",
         "pulse-slow": "pulse-slow 3s ease-in-out infinite",
       },
     },

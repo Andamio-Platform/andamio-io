@@ -20,8 +20,19 @@ export const EXTERNAL_LINKS = {
   docsGettingStarted: "https://docs.andamio.io/docs/guides/getting-started",
   apiReference: "https://dev.api.andamio.io/reference",
   app: "https://mainnet.app.andamio.io",
+  issuerApp: "https://issuer.andamio.io",
   github: "https://github.com/Andamio-Platform",
+  cliRepo: "https://github.com/Andamio-Platform/andamio-cli",
+  cliReleases:
+    "https://github.com/Andamio-Platform/andamio-cli/releases/latest",
+  botRepo: "https://github.com/Andamio-Platform/andamio-bot",
+  botQuickstart:
+    "https://github.com/Andamio-Platform/andamio-bot/blob/main/docs/QUICKSTART.md",
+  devRepo: "https://github.com/Andamio-Platform/andamio-dev",
+  appTemplate: "https://github.com/Andamio-Platform/andamio-app-template",
   discord: "https://discord.gg/JKgckZGtf",
   linkedin: "https://www.linkedin.com/company/andamio-teams",
   twitter: "https://x.com/andamio_teams",
+  walkthroughMailto:
+    "mailto:hello@andamio.io?subject=Enterprise%20walkthrough%20request",
 } as const;

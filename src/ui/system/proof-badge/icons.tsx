@@ -65,6 +65,17 @@ export function CalendarGlyph({ className }: IconProps) {
   );
 }
 
+/** Cardano mark: ring with the inner node, stroked like the other face icons. */
+export function CardanoGlyph({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden>
+      <circle cx="12" cy="12" r="9" />
+      <circle cx="12" cy="12" r="4.2" />
+      <circle cx="12" cy="12" r="1.15" style={{ fill: "currentColor", stroke: "none" }} />
+    </svg>
+  );
+}
+
 export function LinkGlyph({ className }: IconProps) {
   return (
     <svg viewBox="0 0 24 24" className={className} aria-hidden>

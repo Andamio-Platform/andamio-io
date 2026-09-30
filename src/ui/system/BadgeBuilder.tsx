@@ -15,14 +15,16 @@
 
 import React from "react";
 import {
-  buildBadgeSvg,
   buildBadgeParams,
-  PALETTES,
-  withInterior,
   type BadgeParams,
-  type InteriorStyle,
 } from "~/ui/landing/V2Landing/badge";
-import { Popover, PopoverContent, PopoverTrigger } from "~/components/ui/popover";
+import { credentialFromBuilder, ProofRingBadge } from "./proof-badge";
+import type { FieldArc } from "./proof-badge/geometry";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "~/components/ui/popover";
 import * as Dialog from "@radix-ui/react-dialog";
 import { ZoomIn } from "lucide-react";
 import {
@@ -33,7 +35,24 @@ import {
 } from "~/ui/landing/V2Landing/annotation-data";
 import { color, font } from "./tokens";
 
-type ActiveZone = "identity" | "targets" | null;
+type ActiveZone =
+  | "identity"
+  | "targets"
+  | "earner"
+  | "did"
+  | "issued"
+  | "skills"
+  | "courseId"
+  | "sltHash"
+  | null;
+
+const ZONE_ARC: Partial<Record<Exclude<ActiveZone, null>, FieldArc>> = {
+  identity: "courseId",
+  targets: "hash",
+  did: "did",
+  courseId: "courseId",
+  sltHash: "hash",
+};
 
 /**
  * The demo's starting point is the REAL "Getting Started with Andamio"
@@ -50,16 +69,56 @@ export const GETTING_STARTED = {
   params: {
     courseTitle: "Getting Started with Andamio",
     moduleTitle: "Mint Access Token and Commit to Assignment",
+    // Real on-chain hashes (mainnet). Face shorts derive from these; clipboard uses full hex.
     courseId: "ab5d9217bbbac409ffbe7c8c65d9b358932245079a7f8547a28bc755",
     sltHash: "1b37e6b411bc614e9da67943124219053eafa717793e5424f4a33765e42328a3",
     network: "mainnet",
+    courseIdShort: "AND-GS-2024-0001",
+    sltHashShort: "1b37e6b4…28a3",
+    // Fictional but wired display fields (not on-chain for this demo specimen).
+    earnerName: "Jordan Smith",
+    did: "did:andamio:8f3a7c1e",
+    issuedAt: "2025-06-03T10:30:00Z",
+    skills: [
+      { id: "s1", label: "Access Token" },
+      { id: "s2", label: "Commit" },
+      { id: "s3", label: "Evidence" },
+      { id: "s4", label: "Review" },
+    ],
+    verifyUrl: "https://credentials.andamio.io/verify/demo/getting-started",
   } satisfies BadgeParams,
   /** Pine Gold — the palette the real badge was generated with. */
   paletteIndex: 3,
 } as const;
 
-const SAMPLE: { courseName: string; moduleName: string; slts: readonly string[] } =
-  GETTING_STARTED;
+const SAMPLE: {
+  courseName: string;
+  moduleName: string;
+  slts: readonly string[];
+} = GETTING_STARTED;
+
+function credentialFromBadge(
+  params: BadgeParams,
+  face: {
+    earnerName?: string;
+    did?: string;
+    issuedAt?: string;
+    skills?: string[];
+  },
+) {
+  return credentialFromBuilder({
+    course: params.courseTitle,
+    module: params.moduleTitle,
+    courseId: params.courseId,
+    sltHash: params.sltHash,
+    network: params.network,
+    earnerName: face.earnerName ?? params.earnerName,
+    issuerDid: face.did ?? params.did,
+    issuedAt: face.issuedAt ?? params.issuedAt,
+    skills: face.skills ?? params.skills?.map((s) => s.label),
+    verifyUrl: params.verifyUrl,
+  });
+}
 
 const mono = { fontFamily: font.mono };
 const sans = { fontFamily: font.sans };
@@ -67,7 +126,12 @@ const sans = { fontFamily: font.sans };
 /* Square, hairline input. Blue inset on focus = the system's data/linking accent. */
 const inputCls =
   "w-full border px-3 py-1.5 text-[14px] transition-shadow placeholder:text-black/30 focus:outline-none focus:[box-shadow:inset_0_0_0_1.5px_#2F6BFF]";
-const inputStyle: React.CSSProperties = { borderColor: color.cell, color: color.ink, background: color.paper, ...sans };
+const inputStyle: React.CSSProperties = {
+  borderColor: color.cell,
+  color: color.ink,
+  background: color.paper,
+  ...sans,
+};
 
 /* These are plain content fields, not credentials. Tell the browser and the
    major password managers (1Password, LastPass, Dashlane) to keep their hands
@@ -137,7 +201,10 @@ function InfoChip({ label, body }: { label: string; body: string }) {
       >
         {/* Kicker header + hairline, then body — matches the section's
             editorial idiom (square card, ink rule, system type). */}
-        <div className="border-b px-3.5 py-2" style={{ borderColor: color.cell }}>
+        <div
+          className="border-b px-3.5 py-2"
+          style={{ borderColor: color.cell }}
+        >
           <span
             className="text-[11px] font-semibold tracking-[-0.01em]"
             style={{ color: color.inkFaint }}
@@ -173,7 +240,10 @@ export function BadgeInfoFooter({ className = "" }: { className?: string }) {
       </div>
       <p className="text-[11px]" style={{ color: color.inkMuted }}>
         Identified by{" "}
-        <span className="whitespace-nowrap" style={{ ...mono, color: color.ink }}>
+        <span
+          className="whitespace-nowrap"
+          style={{ ...mono, color: color.ink }}
+        >
           &lt;course_id&gt;.&lt;slt_hash&gt;
         </span>
         <span style={{ color: color.inkGhost }}> · illustrative only</span>
@@ -202,19 +272,29 @@ export default function BadgeBuilder({
   liveLabel = "Live preview",
   chrome = true,
 }: BadgeBuilderProps = {}) {
-  // Unique, SVG-id-safe suffix per instance so inline badges never collide.
-  const idSuffix = React.useId().replace(/:/g, "");
-
   const [courseName, setCourseName] = React.useState(SAMPLE.courseName);
   const [moduleName, setModuleName] = React.useState(SAMPLE.moduleName);
   const [slts, setSlts] = React.useState<string[]>([...SAMPLE.slts]);
-  const [paletteIndex, setPaletteIndex] = React.useState<number>(GETTING_STARTED.paletteIndex);
-  const [interior, setInterior] = React.useState<InteriorStyle>("light");
-  const [svg, setSvg] = React.useState("");
-  // A second copy of the badge for the zoom modal, built with a distinct
-  // id-suffix so its SVG element ids never collide with the inline badge.
-  const [modalSvg, setModalSvg] = React.useState("");
-  const [scanKey, setScanKey] = React.useState(0);
+  const [earnerName, setEarnerName] = React.useState(
+    GETTING_STARTED.params.earnerName ?? "Jordan Smith",
+  );
+  const [did, setDid] = React.useState(
+    GETTING_STARTED.params.did ?? "did:andamio:8f3a7c1e9b2d4a60",
+  );
+  const [issuedAt, setIssuedAt] = React.useState(
+    GETTING_STARTED.params.issuedAt ?? "2025-06-03T10:30:00Z",
+  );
+  const [skillLabels, setSkillLabels] = React.useState(
+    (GETTING_STARTED.params.skills ?? []).map((s) => s.label).join(", "),
+  );
+  const [credential, setCredential] = React.useState(() =>
+    credentialFromBadge(GETTING_STARTED.params, {
+      earnerName: GETTING_STARTED.params.earnerName,
+      did: GETTING_STARTED.params.did,
+      issuedAt: GETTING_STARTED.params.issuedAt,
+      skills: (GETTING_STARTED.params.skills ?? []).map((s) => s.label),
+    }),
+  );
 
   // Which ring the visitor is editing — drives the linked highlight across the
   // console label and the specimen ring.
@@ -241,24 +321,41 @@ export default function BadgeBuilder({
   React.useEffect(() => {
     const myReq = ++reqRef.current;
     const t = window.setTimeout(async () => {
-      // Pristine inputs = the real Getting Started credential (real on-chain
-      // hashes, mainnet). Any text edit switches to the derived preview.
+      // Pristine course/module/SLTs = real Getting Started hashes (mainnet).
+      // Face fields (earner, DID, …) always overlay from the console.
       const pristine =
         courseName === GETTING_STARTED.courseName &&
         moduleName === GETTING_STARTED.moduleName &&
         slts.length === GETTING_STARTED.slts.length &&
         slts.every((s, i) => s === GETTING_STARTED.slts[i]);
-      const params = pristine
+      const base = pristine
         ? GETTING_STARTED.params
         : await buildBadgeParams({ courseName, moduleName, slts });
-      if (myReq !== reqRef.current) return; // a newer change superseded this one
-      const palette = withInterior(PALETTES[paletteIndex] ?? PALETTES[0]!, interior);
-      setSvg(buildBadgeSvg(params, palette, { idSuffix }));
-      setModalSvg(buildBadgeSvg(params, palette, { idSuffix: `${idSuffix}z` }));
-      setScanKey((k) => k + 1);
+      if (myReq !== reqRef.current) return;
+      const skills = skillLabels
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean)
+        .slice(0, 4)
+        .map((label, i) => ({ id: `s${i + 1}`, label }));
+      const params: BadgeParams = {
+        ...base,
+        earnerName: earnerName.trim() || base.earnerName,
+        did: did.trim() || base.did,
+        issuedAt: issuedAt.trim() || base.issuedAt,
+        skills: skills.length ? skills : base.skills,
+      };
+      setCredential(
+        credentialFromBadge(params, {
+          earnerName: params.earnerName,
+          did: params.did,
+          issuedAt: params.issuedAt,
+          skills: params.skills?.map((s) => s.label),
+        }),
+      );
     }, 150);
     return () => window.clearTimeout(t);
-  }, [courseName, moduleName, slts, paletteIndex, interior, idSuffix]);
+  }, [courseName, moduleName, slts, earnerName, did, issuedAt, skillLabels]);
 
   const updateSlt = (i: number, value: string) =>
     setSlts((prev) => prev.map((s, j) => (j === i ? value : s)));
@@ -274,7 +371,11 @@ export default function BadgeBuilder({
   return (
     <figure
       className={chrome ? `m-0 border ${className}` : `m-0 ${className}`}
-      style={chrome ? { borderColor: color.rule, background: color.paper } : undefined}
+      style={
+        chrome
+          ? { borderColor: color.rule, background: color.paper }
+          : undefined
+      }
     >
       {/* ── Frame header: the section title lives here (inside the box) + a live
              pulse. Omitted when chrome=false — the host card provides it. ──── */}
@@ -286,12 +387,20 @@ export default function BadgeBuilder({
           <div className="min-w-0">
             <h2
               className="text-[19px] leading-tight sm:text-[22px]"
-              style={{ ...sans, fontWeight: 600, letterSpacing: "-0.02em", color: color.ink }}
+              style={{
+                ...sans,
+                fontWeight: 600,
+                letterSpacing: "-0.02em",
+                color: color.ink,
+              }}
             >
               {title}
             </h2>
             {note && (
-              <p className="mt-0.5 text-[12px] leading-snug" style={{ color: color.inkMuted }}>
+              <p
+                className="mt-0.5 text-[12px] leading-snug"
+                style={{ color: color.inkMuted }}
+              >
                 {note}
               </p>
             )}
@@ -300,7 +409,10 @@ export default function BadgeBuilder({
             className="inline-flex shrink-0 items-center gap-2 pt-1 text-[11px] font-semibold tracking-[-0.01em]"
             style={{ color: color.inkFaint }}
           >
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full" style={{ background: color.orange }} />
+            <span
+              className="h-1.5 w-1.5 animate-pulse rounded-full"
+              style={{ background: color.orange }}
+            />
             {liveLabel}
           </span>
         </div>
@@ -314,7 +426,11 @@ export default function BadgeBuilder({
           style={{ borderColor: color.cell }}
         >
           <div className="flex flex-col gap-1">
-            <MicroLabel as="label" htmlFor="bb-course" on={active === "identity"}>
+            <MicroLabel
+              as="label"
+              htmlFor="bb-course"
+              on={active === "identity"}
+            >
               Course name
             </MicroLabel>
             <input
@@ -329,13 +445,20 @@ export default function BadgeBuilder({
               placeholder="e.g. Bike Repair Basics"
             />
             {/* What a course is + the ownership rule, in one quiet line. */}
-            <p className="mt-0.5 text-[11px] leading-snug" style={{ color: color.inkMuted }}>
+            <p
+              className="mt-0.5 text-[11px] leading-snug"
+              style={{ color: color.inkMuted }}
+            >
               A course is yours — only its owner can issue credentials on it.
             </p>
           </div>
 
           <div className="flex flex-col gap-1">
-            <MicroLabel as="label" htmlFor="bb-module" on={active === "identity"}>
+            <MicroLabel
+              as="label"
+              htmlFor="bb-module"
+              on={active === "identity"}
+            >
               Credential name
             </MicroLabel>
             <input
@@ -353,14 +476,22 @@ export default function BadgeBuilder({
 
           <div className="flex flex-col gap-1">
             <div className="flex items-center justify-between">
-              <MicroLabel on={active === "targets"}>Learning targets</MicroLabel>
-              <span className="text-[10px] tabular-nums" style={{ ...mono, color: color.inkFaint }}>
+              <MicroLabel on={active === "targets"}>
+                Learning targets
+              </MicroLabel>
+              <span
+                className="text-[10px] tabular-nums"
+                style={{ ...mono, color: color.inkFaint }}
+              >
                 {slts.length.toString().padStart(2, "0")}
               </span>
             </div>
             <div
               className="flex max-h-[34vh] flex-col gap-1 overflow-y-auto border p-1 [scrollbar-width:thin]"
-              style={{ borderColor: color.cell, background: "rgba(10,10,10,0.015)" }}
+              style={{
+                borderColor: color.cell,
+                background: "rgba(10,10,10,0.015)",
+              }}
             >
               {slts.map((slt, i) => (
                 <div key={i} className="flex items-center gap-2">
@@ -402,60 +533,84 @@ export default function BadgeBuilder({
             </button>
           </div>
 
-          {/* Palette + interior */}
-          <div className="flex flex-wrap items-end gap-x-8 gap-y-3.5">
-            <div className="flex flex-col gap-1">
-              <MicroLabel>Color</MicroLabel>
-              <div className="flex flex-wrap gap-2">
-                {PALETTES.map((p, i) => {
-                  const selected = i === paletteIndex;
-                  return (
-                    <button
-                      key={p.slug ?? p.name}
-                      type="button"
-                      onClick={() => setPaletteIndex(i)}
-                      aria-pressed={selected}
-                      title={p.name}
-                      className="flex h-7 w-7 items-center justify-center border transition-transform hover:scale-105"
-                      style={{
-                        borderColor: selected ? color.ink : color.cell,
-                        transform: selected ? "scale(1.1)" : undefined,
-                      }}
-                    >
-                      <span
-                        className="h-4 w-4 rounded-full"
-                        style={{ background: `linear-gradient(135deg, ${p.prim} 0 50%, ${p.sec} 50% 100%)` }}
-                        aria-hidden
-                      />
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
+          <div className="flex flex-col gap-1">
+            <MicroLabel as="label" htmlFor="bb-earner" on={active === "earner"}>
+              Earner
+            </MicroLabel>
+            <input
+              id="bb-earner"
+              {...noAutofill}
+              value={earnerName}
+              onChange={(e) => setEarnerName(e.target.value)}
+              onFocus={() => focusZone("earner")}
+              onBlur={blurZone}
+              className={inputCls}
+              style={inputStyle}
+              placeholder="e.g. Jordan Smith"
+            />
+          </div>
 
+          <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
             <div className="flex flex-col gap-1">
-              <MicroLabel>Interior</MicroLabel>
-              <div className="inline-flex w-fit border p-0.5" style={{ borderColor: color.cell }}>
-                {(["light", "inverted"] as const).map((style) => {
-                  const selected = interior === style;
-                  return (
-                    <button
-                      key={style}
-                      type="button"
-                      onClick={() => setInterior(style)}
-                      aria-pressed={selected}
-                      className="px-3 py-1.5 text-[12px] font-semibold tracking-[-0.01em] transition-colors"
-                      style={{
-                        background: selected ? "rgba(10,10,10,0.06)" : "transparent",
-                        color: selected ? color.ink : color.inkFaint,
-                      }}
-                    >
-                      {style === "light" ? "Light" : "Inverted"}
-                    </button>
-                  );
-                })}
-              </div>
+              <MicroLabel as="label" htmlFor="bb-did" on={active === "did"}>
+                DID
+              </MicroLabel>
+              <input
+                id="bb-did"
+                {...noAutofill}
+                value={did}
+                onChange={(e) => setDid(e.target.value)}
+                onFocus={() => focusZone("did")}
+                onBlur={blurZone}
+                className={inputCls}
+                style={{ ...inputStyle, ...mono, fontSize: 12 }}
+                placeholder="did:andamio:…"
+              />
             </div>
+            <div className="flex flex-col gap-1">
+              <MicroLabel
+                as="label"
+                htmlFor="bb-issued"
+                on={active === "issued"}
+              >
+                Issued
+              </MicroLabel>
+              <input
+                id="bb-issued"
+                {...noAutofill}
+                value={issuedAt}
+                onChange={(e) => setIssuedAt(e.target.value)}
+                onFocus={() => focusZone("issued")}
+                onBlur={blurZone}
+                className={inputCls}
+                style={{ ...inputStyle, ...mono, fontSize: 12 }}
+                placeholder="2025-06-03T10:30:00Z"
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <MicroLabel as="label" htmlFor="bb-skills" on={active === "skills"}>
+              Skills
+            </MicroLabel>
+            <input
+              id="bb-skills"
+              {...noAutofill}
+              value={skillLabels}
+              onChange={(e) => setSkillLabels(e.target.value)}
+              onFocus={() => focusZone("skills")}
+              onBlur={blurZone}
+              className={inputCls}
+              style={inputStyle}
+              placeholder="Access Token, Commit, Evidence, Review"
+            />
+            <p
+              className="mt-0.5 text-[11px] leading-snug"
+              style={{ color: color.inkMuted }}
+            >
+              Up to four labels, comma-separated. Marks on the face stay
+              generic.
+            </p>
           </div>
         </div>
 
@@ -480,60 +635,41 @@ export default function BadgeBuilder({
               }`}
             />
 
-            {/* The badge is a zoom trigger — click opens it large for close
-                inspection (radix Dialog: Esc / click-outside / focus trap). */}
+            <div className="relative aspect-square w-[min(100cqw,100cqh,340px)]">
+              <ProofRingBadge
+                credential={credential}
+                highlight={active ? (ZONE_ARC[active] ?? null) : null}
+                showcasePhrases={false}
+                intro={false}
+                className="h-full w-full drop-shadow-[0_18px_44px_rgba(0,0,0,0.28)]"
+              />
+              <div
+                aria-hidden
+                className={`pointer-events-none absolute inset-[3%] rounded-full shadow-[0_0_28px_4px_rgba(47,107,255,0.45)] ring-[5px] ring-[#2F6BFF]/40 blur-[3px] transition-opacity duration-300 ${
+                  active === "identity" ? "opacity-100" : "opacity-0"
+                }`}
+              />
+              <div
+                aria-hidden
+                className={`pointer-events-none absolute inset-[7%] rounded-full shadow-[0_0_28px_4px_rgba(47,107,255,0.45)] ring-[5px] ring-[#2F6BFF]/40 blur-[3px] transition-opacity duration-300 ${
+                  active === "targets" ? "opacity-100" : "opacity-0"
+                }`}
+              />
+            </div>
             <Dialog.Root>
-              <Dialog.Trigger asChild>
-                <button
-                  type="button"
-                  aria-label="Zoom in on the badge"
-                  className="group relative block aspect-square w-[min(100cqw,100cqh,340px)] cursor-zoom-in rounded-full focus:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(47,107,255,0.55)]"
-                >
-                  <div className="relative aspect-square h-full w-full overflow-hidden rounded-full ring-1 ring-black/10 shadow-[0_18px_44px_-22px_rgba(0,0,0,0.4)]">
-                    <div
-                      className="absolute inset-[-1%] [&_svg]:block [&_svg]:h-full [&_svg]:w-full"
-                      dangerouslySetInnerHTML={{ __html: svg }}
-                      role="img"
-                      aria-label={`Preview badge for ${moduleName || "your credential"}`}
-                    />
-                    {/* one-shot scan line on each re-render */}
-                    <div
-                      key={scanKey}
-                      aria-hidden
-                      className="assay-scan pointer-events-none absolute inset-x-0 top-0 h-1/3 bg-[linear-gradient(to_bottom,transparent,rgba(255,255,255,0.14),transparent)]"
-                    />
-                    {/* Linked ring highlights (blue): outer = course identity, inner = targets.
-                        Soft, blurred halos — no crisp line, so they read as a glow over the
-                        band rather than a second hairline competing with the badge artwork. */}
-                    <div
-                      aria-hidden
-                      className={`pointer-events-none absolute inset-[3%] rounded-full blur-[3px] ring-[5px] ring-[#2F6BFF]/40 shadow-[0_0_28px_4px_rgba(47,107,255,0.45)] transition-opacity duration-300 ${
-                        active === "identity" ? "opacity-100" : "opacity-0"
-                      }`}
-                    />
-                    <div
-                      aria-hidden
-                      className={`pointer-events-none absolute inset-[7%] rounded-full blur-[3px] ring-[5px] ring-[#2F6BFF]/40 shadow-[0_0_28px_4px_rgba(47,107,255,0.45)] transition-opacity duration-300 ${
-                        active === "targets" ? "opacity-100" : "opacity-0"
-                      }`}
-                    />
-                  </div>
-                  {/* hover / focus affordance — overlaid, no layout impact */}
-                  <span
-                    aria-hidden
-                    className="pointer-events-none absolute bottom-[7%] left-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 border bg-white/90 px-2.5 py-1 text-[11px] font-semibold tracking-[-0.01em] opacity-0 backdrop-blur transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100"
-                    style={{ borderColor: color.rule, color: color.ink }}
-                  >
-                    <ZoomIn className="h-3 w-3" /> Zoom in
-                  </span>
-                </button>
+              <Dialog.Trigger
+                type="button"
+                className="absolute bottom-3 left-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 border bg-white/90 px-2.5 py-1 text-[11px] font-semibold tracking-[-0.01em] backdrop-blur focus:outline-none focus-visible:[box-shadow:0_0_0_3px_rgba(47,107,255,0.55)]"
+                style={{ borderColor: color.rule, color: color.ink }}
+              >
+                <ZoomIn className="h-3 w-3" /> Zoom in
               </Dialog.Trigger>
 
               <Dialog.Portal>
-                <Dialog.Overlay className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=closed]:animate-out data-[state=closed]:fade-out-0" />
+                <Dialog.Overlay className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
                 <Dialog.Content
                   aria-describedby={undefined}
-                  className="fixed left-1/2 top-1/2 z-50 w-[min(94vw,760px)] -translate-x-1/2 -translate-y-1/2 border outline-none data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%]"
+                  className="fixed left-1/2 top-1/2 z-50 w-[min(94vw,760px)] -translate-x-1/2 -translate-y-1/2 border outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]"
                   style={{ borderColor: color.rule, background: color.paper }}
                 >
                   <div
@@ -551,23 +687,29 @@ export default function BadgeBuilder({
                       ✕
                     </Dialog.Close>
                   </div>
-                  <div className="flex items-center justify-center p-6 sm:p-10" style={{ background: color.coralTint }}>
-                    <div className="relative aspect-square w-[min(78vh,82vw,560px)]">
-                      <div className="relative aspect-square h-full w-full overflow-hidden rounded-full ring-1 ring-black/10 shadow-[0_24px_60px_-24px_rgba(0,0,0,0.45)]">
-                        <div
-                          className="absolute inset-[-1%] [&_svg]:block [&_svg]:h-full [&_svg]:w-full"
-                          dangerouslySetInnerHTML={{ __html: modalSvg }}
-                          role="img"
-                          aria-label={`Badge for ${moduleName || "your credential"}`}
-                        />
-                      </div>
+                  <div
+                    className="flex items-center justify-center p-6 sm:p-10"
+                    style={{ background: color.coralTint }}
+                  >
+                    <div className="w-[min(78vh,82vw,560px)]">
+                      <ProofRingBadge
+                        credential={credential}
+                        showcasePhrases={false}
+                        intro={false}
+                        className="drop-shadow-[0_24px_60px_rgba(0,0,0,0.35)]"
+                      />
                     </div>
                   </div>
-                  <p className="border-t px-4 py-2.5 text-[11px]" style={{ borderColor: color.cell, color: color.inkMuted }}>
+                  <p
+                    className="border-t px-4 py-2.5 text-[11px]"
+                    style={{ borderColor: color.cell, color: color.inkMuted }}
+                  >
                     The rings encode the{" "}
-                    <span style={{ ...mono, color: color.ink }}>course_id</span> and{" "}
-                    <span style={{ ...mono, color: color.ink }}>slt_hash</span>. Press{" "}
-                    <span style={mono}>Esc</span> or click outside to close.
+                    <span style={{ ...mono, color: color.ink }}>course_id</span>{" "}
+                    and{" "}
+                    <span style={{ ...mono, color: color.ink }}>slt_hash</span>.
+                    Press <span style={mono}>Esc</span> or click outside to
+                    close.
                   </p>
                 </Dialog.Content>
               </Dialog.Portal>

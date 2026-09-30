@@ -3,10 +3,8 @@ import { type Epic, type Roadmap } from "~/roadmap";
 import { color, font } from "./tokens";
 
 /**
- * A product release timeline, styled to the Warm Index design system.
- * Light, ink-on-paper, Inter + JetBrains Mono. Status is carried by the node
- * dot (orange = in progress / the brand "active" signal, used sparingly; ink =
- * shipped; outline = planned/proposed); badges stay mono + neutral.
+ * A product release timeline in the proof-instrument system. Status is the
+ * node: ink = shipped, cyan = in progress, outline = planned or proposed.
  */
 
 function sortByDate(a: Epic, b: Epic): number {
@@ -30,7 +28,7 @@ interface NodeStyle {
 }
 const statusMeta: Record<Epic["status"], NodeStyle> = {
   complete: { dot: { background: color.ink, borderColor: color.ink }, label: "Shipped" },
-  inProgress: { dot: { background: color.orange, borderColor: color.orange }, label: "In progress" },
+  inProgress: { dot: { background: color.cyan, borderColor: color.cyan }, label: "In progress" },
   planned: { dot: { background: color.paper, borderColor: color.inkFaint }, label: "Planned" },
   proposed: { dot: { background: color.paper, borderColor: color.cell }, label: "Proposed" },
 };
@@ -114,7 +112,7 @@ export default function RoadmapTrack({ product }: { product: Roadmap }) {
                     </span>
                   )}
                   {showBadge && (
-                    <Badge accent={epic.status === "inProgress" ? color.orange : undefined}>
+                    <Badge accent={epic.status === "inProgress" ? color.cyan : undefined}>
                       {meta.label}
                     </Badge>
                   )}

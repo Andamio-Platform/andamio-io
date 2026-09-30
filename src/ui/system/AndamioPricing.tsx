@@ -12,7 +12,7 @@
 
 import React from "react";
 import { nav, pricing, footer, EXTERNAL_LINKS } from "~/ui/explore/content";
-import { color } from "./tokens";
+import { color, font } from "./tokens";
 import {
   Page,
   Section,
@@ -20,10 +20,10 @@ import {
   Button,
   Footer,
   SectionIntro,
-  TierCard,
   Kicker,
 } from "./kit";
 import { Stagger, StaggerItem } from "./motion";
+import { ProofCard } from "./instrument";
 
 const muted = { color: color.inkMuted };
 
@@ -37,6 +37,38 @@ const pageFooter = (
     backLabel="← Back to Andamio"
   />
 );
+
+function PriceCard({
+  name,
+  price,
+  priceNote,
+  dim = false,
+  children,
+}: {
+  name: string;
+  price: string;
+  priceNote?: string;
+  dim?: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <ProofCard kicker={name} className={`w-full ${dim ? "opacity-60" : ""}`}>
+      <p className="-mt-1 flex items-baseline gap-1.5">
+        <span className="text-[26px] font-semibold tabular-nums tracking-[-0.03em]" style={{ color: color.ink }}>
+          {price}
+        </span>
+        {priceNote ? (
+          <span className="text-[12px]" style={{ fontFamily: font.mono, color: color.inkFaint }}>
+            {priceNote}
+          </span>
+        ) : null}
+      </p>
+      <div className="mt-5 border-t pt-4" style={{ borderColor: color.cell }}>
+        {children}
+      </div>
+    </ProofCard>
+  );
+}
 
 export default function AndamioPricing() {
   return (
@@ -105,12 +137,11 @@ export default function AndamioPricing() {
 
           {/* Tier cards. */}
           <Stagger
-            className="mt-10 grid grid-cols-1 gap-px sm:grid-cols-2 lg:grid-cols-5"
-            style={{ background: color.cell }}
+            className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5"
           >
             {pricing.issuer.tiers.map((t) => (
-              <TierCard
-                key={t.name}
+              <StaggerItem key={t.name} className="flex">
+              <PriceCard
                 name={t.name}
                 price={t.price}
                 priceNote={t.priceNote}
@@ -131,7 +162,8 @@ export default function AndamioPricing() {
                     </div>
                   ))}
                 </dl>
-              </TierCard>
+              </PriceCard>
+              </StaggerItem>
             ))}
           </Stagger>
 
@@ -142,7 +174,7 @@ export default function AndamioPricing() {
             {pricing.issuer.footnote}
           </p>
           <div className="mt-8">
-            <Button variant="ink" href={EXTERNAL_LINKS.walkthroughMailto}>
+            <Button variant="primary" href={EXTERNAL_LINKS.walkthroughMailto}>
               {pricing.issuer.cta.label} <span aria-hidden>→</span>
             </Button>
           </div>
@@ -162,12 +194,11 @@ export default function AndamioPricing() {
           />
 
           <Stagger
-            className="mt-10 grid grid-cols-1 gap-px sm:grid-cols-2 lg:grid-cols-4"
-            style={{ background: color.cell }}
+            className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
           >
             {pricing.api.tiers.map((t) => (
-              <TierCard
-                key={t.name}
+              <StaggerItem key={t.name} className="flex">
+              <PriceCard
                 name={t.name}
                 price={t.price}
                 priceNote={t.priceNote}
@@ -176,7 +207,8 @@ export default function AndamioPricing() {
                 <p className="text-[13px] leading-relaxed" style={muted}>
                   {t.limits}
                 </p>
-              </TierCard>
+              </PriceCard>
+              </StaggerItem>
             ))}
           </Stagger>
 
@@ -190,6 +222,28 @@ export default function AndamioPricing() {
             <Button variant="outline" href={EXTERNAL_LINKS.app}>
               {pricing.api.cta.label} <span aria-hidden>→</span>
             </Button>
+          </div>
+        </div>
+      </Section>
+
+      {/* ── FAQ (also emitted as FAQPage JSON-LD by the page). ───────────── */}
+      <Section id="faq" bordered={false}>
+        <div className="border-t pb-20 pt-14" style={{ borderColor: color.rule }}>
+          <SectionIntro title="Questions" />
+          <div className="mt-8 max-w-3xl border-t" style={{ borderColor: color.cell }}>
+            {pricing.faq.map((f) => (
+              <details key={f.q} className="group border-b py-5" style={{ borderColor: color.cell }}>
+                <summary className="flex cursor-pointer list-none items-baseline justify-between gap-6 text-[16px] font-semibold tracking-[-0.01em] focus:outline-none focus-visible:underline [&::-webkit-details-marker]:hidden">
+                  <span>{f.q}</span>
+                  <span aria-hidden className="shrink-0 text-[14px] transition-transform group-open:rotate-45" style={{ color: color.cyan }}>
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 max-w-2xl text-[15px] leading-relaxed" style={muted}>
+                  {f.a}
+                </p>
+              </details>
+            ))}
           </div>
         </div>
       </Section>

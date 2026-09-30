@@ -3,6 +3,7 @@ import { getBlogPostData } from "~/lib/blogposts";
 import { getCustomerPages } from "~/lib/customers";
 import { SUB_PAPERS } from "~/lib/papers";
 import { SITE_URL } from "~/lib/seo";
+import { CASES } from "~/ui/use-cases/cases";
 
 /**
  * Static marketing routes. Blog posts, customer pages, and papers are derived
@@ -19,13 +20,6 @@ const STATIC_ROUTES = [
   "/bot",
   "/pricing",
   "/use-cases",
-  "/use-cases/CatalystReviewers",
-  "/use-cases/DecentralizedInnovation",
-  "/use-cases/FanEngagement",
-  "/use-cases/Intersect",
-  "/use-cases/LeadGenerator",
-  "/use-cases/Syngenta",
-  "/use-cases/Toha",
   "/about",
   "/about/our-team",
   "/about/our-technology",
@@ -55,6 +49,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     url: `${SITE_URL}${route}`,
   }));
 
+  const caseEntries: MetadataRoute.Sitemap = CASES.map((c) => ({
+    url: `${SITE_URL}/use-cases/${c.slug}`,
+  }));
+
   const posts = await getBlogPostData();
   const blogEntries: MetadataRoute.Sitemap = posts
     .filter((post) => !post.frontmatter.redirectTo)
@@ -74,5 +72,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     url: `${SITE_URL}/papers/${paper.slug}`,
   }));
 
-  return [...staticEntries, ...blogEntries, ...customerEntries, ...paperEntries];
+  return [...staticEntries, ...caseEntries, ...blogEntries, ...customerEntries, ...paperEntries];
 }

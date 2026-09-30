@@ -13,7 +13,7 @@ const slug = (s: string) =>
 
 const LEGEND = [
   { label: "Shipped", dot: { background: color.ink, borderColor: color.ink } },
-  { label: "In progress", dot: { background: color.orange, borderColor: color.orange } },
+  { label: "In progress", dot: { background: color.cyan, borderColor: color.cyan } },
   { label: "Planned", dot: { background: color.paper, borderColor: color.inkFaint } },
 ];
 

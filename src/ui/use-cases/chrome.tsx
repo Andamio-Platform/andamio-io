@@ -1,243 +1,251 @@
 "use client";
 
 /**
- * Use-Cases — local chrome for the "Warm Index" system.
- * =================================================================
- * Wraps the shared system kit (Page · Section · Kicker · Display ·
- * Footer) into the repeating shapes used across the /use-cases route:
- * a page layout, the three-up "cycle" grid, a stat grid, and the
- * click-to-zoom flywheel figure. Reads only ./system/tokens — no
- * global theme classes.
+ * Use cases — the page layout and the one detail template every case uses:
+ * header with the partner's MiniBadge, challenge / approach, the OrbitSteps
+ * cycle, an outcomes Readout (each row labeled result, target or fact), an
+ * optional quote, and the closing CtaBand.
  */
 
-import React, { useEffect, useState } from "react";
-import Head from "next/head";
+import React from "react";
+import Metatags from "~/components/site/metatags";
 import Image from "next/image";
-import { CheckBadgeIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
 import { nav, footer as footerData } from "~/ui/explore/content";
+import { EXTERNAL_LINKS } from "~/lib/external-links";
 import { color, font } from "~/ui/system/tokens";
 import { Page, Section, Kicker, Display, Footer } from "~/ui/system/kit";
+import {
+  CtaBand,
+  MiniBadge,
+  OrbitSteps,
+  Readout,
+} from "~/ui/system/instrument";
+import { type CaseStudy, type OutcomeKind } from "./cases";
 
-/* ── Page layout ─────────────────────────────────────────────────────── */
 export function UseCaseLayout({
-  kicker = "Use Case",
   title,
   description,
-  caption = "Use Cases",
   children,
 }: {
-  kicker?: string;
   title: string;
   description?: string;
-  caption?: string;
   children: React.ReactNode;
 }) {
   return (
     <>
-      <Head>
-        <title>{`${title} — Andamio`}</title>
-        {description && <meta name="description" content={description} />}
-      </Head>
+      <Metatags title={title} description={description} />
 
       <Page nav={{ items: nav.items, cta: nav.cta }}>
-        {/* Header */}
-        <Section bordered={false}>
-          <div className="pb-12 pt-16 sm:pt-24">
-            <Kicker>{kicker}</Kicker>
-            <Display as="h1" size="lg" className="mt-5">
-              {title}
-            </Display>
-            {description && (
-              <p
-                className="mt-5 max-w-3xl text-lg leading-relaxed"
-                style={{ color: color.inkMuted }}
-              >
-                {description}
-              </p>
-            )}
-          </div>
-        </Section>
-
         {children}
-
         <Footer
           tagline={footerData.tagline}
           meta={footerData.meta}
           copyright={footerData.copyright}
           columns={footerData.columns}
-          backHref="/"
-          backLabel="← Back to home"
-          caption={caption}
+          backHref="/use-cases"
+          backLabel="← All use cases"
+          caption="Use cases"
         />
       </Page>
     </>
   );
 }
 
-/* ── Cycle grid (three-up flywheel stages) ──────────────────────────── */
-export interface CycleStep {
-  label: string;
-  content: string;
-}
-export interface Cycle {
+const KIND_LABEL: Record<OutcomeKind, string> = {
+  result: "result",
+  target: "target",
+  fact: "public fact",
+};
+
+function Prose({
+  title,
+  paragraphs,
+}: {
   title: string;
-  icon: React.ElementType;
-  description: string;
-  steps: CycleStep[];
-}
-
-export function CycleGrid({ cycles }: { cycles: Cycle[] }) {
+  paragraphs: readonly string[];
+}) {
   return (
-    <Section>
-      <div className="py-16 sm:py-20">
-        <div className="grid gap-px md:grid-cols-3" style={{ background: color.cell }}>
-          {cycles.map((cycle, index) => {
-            const Icon = cycle.icon;
-            return (
-              <div key={index} className="p-6 sm:p-8" style={{ background: color.paper }}>
-                <h2
-                  className="mb-4 flex items-center gap-2.5 text-2xl font-semibold tracking-[-0.02em]"
-                  style={{ color: color.ink, fontFamily: font.sans }}
-                >
-                  <Icon className="h-7 w-7" aria-hidden="true" /> {cycle.title}
-                </h2>
-                <p className="mb-5 text-sm leading-relaxed" style={{ color: color.inkMuted }}>
-                  {cycle.description}
-                </p>
-                <ul className="space-y-3">
-                  {cycle.steps.map((step, stepIdx) => (
-                    <li key={stepIdx} className="flex items-start gap-2.5">
-                      <CheckBadgeIcon
-                        className="h-5 w-5 flex-shrink-0"
-                        style={{ color: color.cyan }}
-                        aria-hidden="true"
-                      />
-                      <p className="text-sm leading-relaxed" style={{ color: color.inkMuted }}>
-                        <span className="font-semibold" style={{ color: color.ink }}>
-                          {step.label}
-                        </span>{" "}
-                        {step.content}
-                      </p>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            );
-          })}
-        </div>
+    <div>
+      <p
+        className="text-[11px] uppercase tracking-[0.18em]"
+        style={{ color: color.inkFaint, fontFamily: font.mono }}
+      >
+        {title}
+      </p>
+      <div className="mt-4 space-y-4">
+        {paragraphs.map((p) => (
+          <p
+            key={p}
+            className="text-[16px] leading-relaxed"
+            style={{ color: color.inkMuted }}
+          >
+            {p}
+          </p>
+        ))}
       </div>
-    </Section>
+    </div>
   );
 }
 
-/* ── Stat grid (metrics / results) ──────────────────────────────────── */
-export interface Stat {
-  value: string;
-  label: string;
-}
-
-export function StatGrid({
-  heading,
-  stats,
-  gridCls = "sm:grid-cols-3",
-}: {
-  heading: string;
-  stats: Stat[];
-  gridCls?: string;
-}) {
+export function CaseDetail({ study }: { study: CaseStudy }) {
   return (
-    <Section>
-      <div className="py-16 sm:py-20">
-        <Display as="h3" size="sm" className="text-center">
-          {heading}
-        </Display>
-        <div
-          className={`mx-auto mt-10 grid max-w-3xl gap-px ${gridCls}`}
-          style={{ background: color.cell }}
-        >
-          {stats.map((stat) => (
-            <div key={stat.label} className="p-6 text-center" style={{ background: color.paper }}>
+    <UseCaseLayout title={study.title} description={study.summary}>
+      <Section bordered={false}>
+        <div className="grid gap-10 pb-14 pt-16 sm:pt-24 lg:grid-cols-[1fr_auto] lg:items-center">
+          <div>
+            <Kicker>
+              {study.sector} · {study.partner}
+            </Kicker>
+            <Display as="h1" size="lg" className="mt-5">
+              {study.title}
+            </Display>
+            <p
+              className="mt-5 max-w-3xl text-lg leading-relaxed"
+              style={{ color: color.inkMuted }}
+            >
+              {study.summary}
+            </p>
+            {study.adoption ? (
               <p
-                className="text-3xl font-semibold tabular-nums tracking-[-0.03em]"
-                style={{ color: color.ink, fontFamily: font.sans }}
+                className="mt-5 text-[13px]"
+                style={{ fontFamily: font.mono, color: color.cyan }}
               >
-                {stat.value}
+                {study.adoption === "invisible"
+                  ? "Invisible blockchain"
+                  : "Visible blockchain"}
               </p>
-              <p className="mt-1.5 text-sm" style={{ color: color.inkMuted }}>
-                {stat.label}
-              </p>
-            </div>
-          ))}
+            ) : null}
+          </div>
+          <MiniBadge
+            brand={study.partner}
+            course={study.badgeCourse}
+            theme={study.theme}
+            size={220}
+            label={`Sample credential: ${study.partner} ${study.badgeCourse}`}
+            className="mx-auto"
+          />
         </div>
-      </div>
-    </Section>
+      </Section>
+
+      <Section>
+        <div className="grid gap-12 py-16 sm:py-20 md:grid-cols-2">
+          <Prose title="The challenge" paragraphs={study.challenge} />
+          <Prose title="How Andamio fits" paragraphs={study.approach} />
+        </div>
+      </Section>
+
+      <Section>
+        <div className="py-16 sm:py-20">
+          <Display as="h2" size="sm">
+            {study.cycleLabel}
+          </Display>
+          <OrbitSteps
+            steps={study.cycle}
+            label={study.cycleLabel}
+            className="mt-8"
+          />
+        </div>
+      </Section>
+
+      <Section>
+        <div className="grid gap-10 py-16 sm:py-20 lg:grid-cols-[1.1fr_1fr]">
+          <div>
+            <Readout
+              title="Outcomes"
+              rows={study.outcomes.map((o) => ({
+                k: o.k,
+                v: o.v,
+                note: KIND_LABEL[o.kind],
+              }))}
+            />
+            {study.outcomesNote ? (
+              <p className="mt-4 text-[13px]" style={{ color: color.inkFaint }}>
+                {study.outcomesNote}
+              </p>
+            ) : null}
+          </div>
+          <div className="flex flex-col gap-6">
+            {study.logo ? (
+              <Image
+                src={study.logo}
+                alt={`${study.partner} logo`}
+                width={72}
+                height={72}
+                className="h-[72px] w-[72px] object-contain"
+              />
+            ) : null}
+            {study.links?.length ? (
+              <ul className="space-y-2">
+                {study.links.map((l) => (
+                  <li key={l.href}>
+                    <a
+                      href={l.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[15px] underline-offset-4 hover:underline"
+                      style={{ color: color.cyan }}
+                    >
+                      {l.label} ↗
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+          </div>
+        </div>
+      </Section>
+
+      <CtaBand
+        title="Run a program like this."
+        body="A 20-minute walkthrough of how credentials, escrow and review would work for your people."
+        primary={{
+          label: "Book a walkthrough",
+          href: EXTERNAL_LINKS.walkthroughMailto,
+        }}
+        secondary={{ label: "All use cases", href: "/use-cases" }}
+        quote={study.quote}
+      />
+    </UseCaseLayout>
   );
 }
 
-/* ── Flywheel figure (click to zoom) ────────────────────────────────── */
-export function Flywheel({
-  src,
-  alt,
-  heading,
-  description,
-  zoomAlt,
-}: {
-  src: string;
-  alt: string;
-  heading: string;
-  description: string;
-  zoomAlt?: string;
-}) {
-  const [isFullscreen, setIsFullscreen] = useState(false);
-
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape" && isFullscreen) {
-        setIsFullscreen(false);
-      }
-    };
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [isFullscreen]);
-
+export function CaseCard({ study }: { study: CaseStudy }) {
   return (
-    <Section>
-      <div className="py-16 text-center sm:py-24">
-        <Display as="h3" size="sm" className="mx-auto">
-          {heading}
-        </Display>
-        <p
-          className="mx-auto mb-12 mt-4 max-w-2xl text-base leading-relaxed"
-          style={{ color: color.inkMuted }}
-        >
-          {description}
-        </p>
-        <div className="flex w-full items-center justify-center">
-          <Image
-            src={src}
-            alt={alt}
-            width={800}
-            height={800}
-            className="w-3/4 max-w-xs cursor-pointer transition-opacity hover:opacity-90 sm:max-w-md md:max-w-lg lg:max-w-xl"
-            onClick={() => setIsFullscreen(true)}
-          />
-        </div>
-      </div>
-
-      {isFullscreen && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/75"
-          onClick={() => setIsFullscreen(false)}
-        >
-          <Image
-            src={src}
-            alt={zoomAlt ?? alt}
-            width={1000}
-            height={1000}
-            className="max-h-full max-w-full bg-white"
-          />
-        </div>
-      )}
-    </Section>
+    <Link
+      href={`/use-cases/${study.slug}`}
+      className="group flex h-full flex-col p-6 transition-colors hover:bg-white/[0.03] focus:outline-none focus-visible:[box-shadow:inset_0_0_0_1.5px_var(--sys-cyan)]"
+      style={{ background: color.paper }}
+    >
+      <MiniBadge
+        brand={study.partner}
+        course={study.badgeCourse}
+        theme={study.theme}
+        size={140}
+        label={`Sample credential: ${study.partner} ${study.badgeCourse}`}
+        className="mx-auto"
+      />
+      <p
+        className="mt-6 text-[11px] uppercase tracking-[0.18em]"
+        style={{ color: color.inkFaint, fontFamily: font.mono }}
+      >
+        {study.sector}
+      </p>
+      <h2
+        className="mt-2 text-xl font-semibold tracking-[-0.02em]"
+        style={{ color: color.ink }}
+      >
+        {study.title}
+      </h2>
+      <p
+        className="mt-3 flex-1 text-sm leading-relaxed"
+        style={{ color: color.inkMuted }}
+      >
+        {study.summary}
+      </p>
+      <span className="mt-5 text-sm font-medium" style={{ color: color.cyan }}>
+        Read the case →
+      </span>
+    </Link>
   );
 }

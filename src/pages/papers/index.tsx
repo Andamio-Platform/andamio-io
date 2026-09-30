@@ -1,12 +1,12 @@
 import React from "react";
-import Link from "next/link";
 import type { GetStaticProps } from "next";
 import Metatags from "~/components/site/metatags";
 import { nav, footer as footerData } from "~/ui/explore/content";
 import { color } from "~/ui/system/tokens";
 import { Page, Kicker, Display, Button, Footer } from "~/ui/system/kit";
 import PaperArticle from "~/ui/whitepaper/PaperArticle";
-import { PAPERS, SUB_PAPERS } from "~/lib/papers";
+import { ProofCard } from "~/ui/system/instrument";
+import { SUB_PAPERS } from "~/lib/papers";
 import { readPaperBody } from "~/lib/papers.server";
 
 interface Props {
@@ -35,11 +35,15 @@ export default function PapersHub({ body }: Props) {
             <Display as="h1" size="lg" className="mt-4">
               Write your own rules
             </Display>
-            <p className="mt-5 text-lg leading-relaxed" style={{ color: color.inkMuted }}>
-              At the core of Andamio is one idea: you decide what a credential means, what earns
-              it, and who reviews it, inside the programs you run. These papers show how.
-              Introducing Andamio leads; the Issuer paper, Building on Andamio, and the glossary
-              go deeper, each on its own page.
+            <p
+              className="mt-5 text-lg leading-relaxed"
+              style={{ color: color.inkMuted }}
+            >
+              At the core of Andamio is one idea: you decide what a credential
+              means, what earns it, and who reviews it, inside the programs you
+              run. These papers show how. Introducing Andamio leads; the Issuer
+              paper, Building on Andamio, and the glossary go deeper, each on
+              its own page.
             </p>
           </header>
 
@@ -47,32 +51,31 @@ export default function PapersHub({ body }: Props) {
             className="mt-12 grid gap-3 border-t pt-8 sm:grid-cols-2"
             style={{ borderColor: color.rule }}
           >
-            {SUB_PAPERS.map((p) => (
-              <Link
+            {SUB_PAPERS.map((p, i) => (
+              <ProofCard
                 key={p.slug}
                 href={`/papers/${p.slug}`}
-                className="group p-5 transition-colors"
-                style={{ border: `1px solid ${color.cell}` }}
+                kicker={`Paper ${String(i + 2).padStart(2, "0")}`}
+                title={p.title}
+                footer={<span style={{ color: color.cyan }}>Read →</span>}
+                bodyClassName="p-5"
               >
-                <span className="text-lg font-semibold tracking-[-0.01em]">{p.title}</span>
-                <span className="mt-1.5 block text-[14px] leading-relaxed" style={{ color: color.inkMuted }}>
-                  {p.summary}
-                </span>
-                <span
-                  className="mt-3 inline-block text-[12px] font-medium tracking-[-0.01em] opacity-0 transition-opacity group-hover:opacity-100"
-                  style={{ color: color.cyan }}
-                >
-                  Read →
-                </span>
-              </Link>
+                {p.summary}
+              </ProofCard>
             ))}
           </nav>
 
-          <div className="mt-16 border-t pt-12" style={{ borderColor: color.rule }}>
+          <div
+            className="mt-16 border-t pt-12"
+            style={{ borderColor: color.rule }}
+          >
             <PaperArticle body={body} />
           </div>
 
-          <div className="mt-12 flex flex-wrap gap-3 border-t pt-8" style={{ borderColor: color.rule }}>
+          <div
+            className="mt-12 flex flex-wrap gap-3 border-t pt-8"
+            style={{ borderColor: color.rule }}
+          >
             {SUB_PAPERS.map((p) => (
               <Button key={p.slug} variant="outline" href={`/papers/${p.slug}`}>
                 {p.title} →

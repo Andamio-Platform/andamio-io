@@ -35,3 +35,15 @@ export const ORGANIZATION_JSON_LD = {
   logo: absoluteUrl("/andamio.png"),
   sameAs: ["https://x.com/AndamioPlatform"],
 } as const;
+
+export function faqJsonLd(items: readonly { q: string; a: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  };
+}

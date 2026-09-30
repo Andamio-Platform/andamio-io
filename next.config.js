@@ -40,6 +40,22 @@ const config = {
         destination: "/papers/:slug",
         permanent: true,
       },
+      // Use cases consolidated into one template (2026-09).
+      {
+        source: "/use-cases/FanEngagement",
+        destination: "/use-cases/BarcaFanLab",
+        permanent: true,
+      },
+      {
+        source: "/use-cases/CatalystReviewers",
+        destination: "/use-cases/DecentralizedInnovation",
+        permanent: true,
+      },
+      {
+        source: "/use-cases/LeadGenerator",
+        destination: "/use-cases/LeadGenDAO",
+        permanent: true,
+      },
     ];
   },
 };

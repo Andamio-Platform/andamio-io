@@ -1,93 +1,77 @@
-import Link from "next/link";
 import Image from "next/image";
 import { type BlogPost, getBlogPostData } from "~/lib/blogposts";
-import { color, containerCls, layout } from "~/ui/system/tokens";
+import { color, containerCls, font, layout } from "~/ui/system/tokens";
 import { Kicker } from "~/ui/system/kit";
+import { ProofCard } from "~/ui/system/instrument";
 
-/* Andamio Blog index — Warm Index design system (light, Inter, ink on paper,
- * blue accents). Server component; styled with system tokens (no client
- * components needed here). */
+function byDateDesc(a: BlogPost, b: BlogPost): number {
+  const byDate = (b.frontmatter.date ?? "").localeCompare(a.frontmatter.date ?? "");
+  return byDate || b.title.localeCompare(a.title);
+}
+
 export default async function BlogPage() {
   const blogPosts = await getBlogPostData();
-  const sortedBlogPosts = blogPosts.sort((a: BlogPost, b: BlogPost) =>
-    b.title.localeCompare(a.title),
-  );
+  const sortedBlogPosts = blogPosts
+    .filter((post) => !post.frontmatter.redirectTo)
+    .sort(byDateDesc);
 
   return (
     <div className={containerCls} style={{ maxWidth: layout.maxWidth }}>
-      {/* Header */}
       <header className="pb-12 pt-16 sm:pt-24">
         <Kicker>The Andamio Journal</Kicker>
-        <h1
-          className="mt-4 text-[clamp(2.6rem,7vw,5rem)] font-semibold leading-[0.95] tracking-[-0.045em]"
-        >
+        <h1 className="mt-4 text-[clamp(2.6rem,7vw,5rem)] font-semibold leading-[0.95] tracking-[-0.045em]">
           Blog
         </h1>
         <p className="mt-5 max-w-2xl text-lg leading-relaxed" style={{ color: color.inkMuted }}>
-          Insights, updates, and stories from the Andamio ecosystem — building trust
-          infrastructure for distributed work.
+          Notes from building credential infrastructure on Cardano: protocol, partners, and the
+          work in between.
         </p>
       </header>
 
-      {/* Posts */}
       {sortedBlogPosts.length > 0 ? (
-        <div className="grid gap-6 py-14 sm:py-16 lg:grid-cols-2">
-          {sortedBlogPosts.map((blogPost: BlogPost) => (
-            <Link
+        <div className="grid gap-4 py-14 sm:grid-cols-2 sm:py-16">
+          {sortedBlogPosts.map((blogPost) => (
+            <ProofCard
               key={blogPost.title}
               href={`/blog/${blogPost.title}`}
-              className="group flex flex-col transition-colors"
-              style={{ border: `1px solid ${color.cell}` }}
+              bodyClassName="p-0"
+              footer={
+                <span className="flex items-center justify-between gap-4">
+                  <span>{blogPost.frontmatter.author ? `by ${blogPost.frontmatter.author}` : "Andamio"}</span>
+                  <span style={{ color: color.cyan }}>Read →</span>
+                </span>
+              }
             >
-              {blogPost.frontmatter.image && (
+              {blogPost.frontmatter.image ? (
                 <div className="relative aspect-video overflow-hidden border-b" style={{ borderColor: color.cell }}>
                   <Image
                     src={blogPost.frontmatter.image}
                     height={400}
                     width={800}
-                    alt={blogPost.frontmatter.title || blogPost.title}
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                    alt=""
+                    className="h-full w-full object-cover"
                   />
                 </div>
-              )}
-              <div className="flex flex-1 flex-col p-6">
-                <div className="flex items-center gap-3">
-                  <span className="text-[11px] font-medium tracking-[-0.01em]" style={{ color: color.cyan }}>
-                    Post
-                  </span>
-                  {blogPost.frontmatter.date && (
-                    <span className="text-[11px] font-medium tracking-[-0.01em] tabular-nums" style={{ color: color.inkGhost }}>
-                      {blogPost.frontmatter.date}
-                    </span>
-                  )}
-                </div>
-                <h2 className="mt-3 text-xl font-semibold leading-tight tracking-[-0.02em] lg:text-2xl">
+              ) : null}
+              <div className="p-6">
+                <p
+                  className="text-[11px] uppercase tracking-[0.16em] tabular-nums"
+                  style={{ fontFamily: font.mono, color: color.inkFaint }}
+                >
+                  {blogPost.frontmatter.date ?? "Undated"}
+                </p>
+                <h2 className="mt-3 text-xl font-semibold leading-tight tracking-[-0.02em]" style={{ color: color.ink }}>
                   {blogPost.frontmatter.title || blogPost.title}
                 </h2>
-                <div className="mt-auto flex items-center justify-between pt-6">
-                  {blogPost.frontmatter.author ? (
-                    <span className="text-sm" style={{ color: color.inkMuted }}>
-                      by {blogPost.frontmatter.author}
-                    </span>
-                  ) : (
-                    <span />
-                  )}
-                  <span
-                    className="inline-flex items-center gap-1.5 text-[12px] font-semibold tracking-[-0.01em] opacity-0 transition-opacity group-hover:opacity-100"
-                    style={{ color: color.cyan }}
-                  >
-                    Read →
-                  </span>
-                </div>
               </div>
-            </Link>
+            </ProofCard>
           ))}
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center py-28 text-center">
-          <h3 className="text-xl font-semibold">No posts yet</h3>
+          <h2 className="text-xl font-semibold">No posts yet</h2>
           <p className="mt-2" style={{ color: color.inkMuted }}>
-            Check back soon for insights from the Andamio team.
+            Check back soon for notes from the Andamio team.
           </p>
         </div>
       )}

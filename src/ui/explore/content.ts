@@ -161,31 +161,89 @@ export const lifecycles = {
     label: "Earner",
     audience: "For the person who earns the credential",
     steps: [
-      { id: "enroll", label: "Enroll", detail: "Join a course. Your Access Token is your identity across every Andamio course." },
-      { id: "submit", label: "Submit evidence", detail: "Show the work each learning target asks for." },
-      { id: "review", label: "Get reviewed", detail: "An authorized reviewer accepts it, or asks for another pass." },
-      { id: "claim", label: "Claim", detail: "Claim a credential that records what was done and who reviewed it." },
-      { id: "carry", label: "Carry it anywhere", detail: "It stays yours. Anyone can verify it on Cardano without calling the issuer." },
+      {
+        id: "enroll",
+        label: "Enroll",
+        detail:
+          "Join a course. Your Access Token is your identity across every Andamio course.",
+      },
+      {
+        id: "submit",
+        label: "Submit evidence",
+        detail: "Show the work each learning target asks for.",
+      },
+      {
+        id: "review",
+        label: "Get reviewed",
+        detail: "An authorized reviewer accepts it, or asks for another pass.",
+      },
+      {
+        id: "claim",
+        label: "Claim",
+        detail:
+          "Claim a credential that records what was done and who reviewed it.",
+      },
+      {
+        id: "carry",
+        label: "Carry it anywhere",
+        detail:
+          "It stays yours. Anyone can verify it on Cardano without calling the issuer.",
+      },
     ],
   },
   organization: {
     label: "Organization",
     audience: "For the team that adopts and integrates Andamio",
     steps: [
-      { id: "define", label: "Define", detail: "Write the skills, the standards and how people prove them." },
-      { id: "review", label: "Review", detail: "Your reviewers accept evidence against those standards." },
-      { id: "issue", label: "Issue", detail: "Accepted work becomes a credential under your issuer identity." },
-      { id: "verify", label: "Verify", detail: "Anyone checks it on-chain, from your systems or theirs." },
+      {
+        id: "define",
+        label: "Define",
+        detail: "Write the skills, the standards and how people prove them.",
+      },
+      {
+        id: "review",
+        label: "Review",
+        detail: "Your reviewers accept evidence against those standards.",
+      },
+      {
+        id: "issue",
+        label: "Issue",
+        detail:
+          "Accepted work becomes a credential under your issuer identity.",
+      },
+      {
+        id: "verify",
+        label: "Verify",
+        detail: "Anyone checks it on-chain, from your systems or theirs.",
+      },
     ],
   },
   developer: {
     label: "Developer",
     audience: "For the builder working with the API and protocol",
     steps: [
-      { id: "commit", label: "Commit", detail: "A user commits to a task or course module through your app." },
-      { id: "review", label: "Review", detail: "Assessors accept or refuse the submission on-chain." },
-      { id: "claim", label: "Claim", detail: "The user claims the credential; your app builds the transaction through the API." },
-      { id: "gate", label: "Gate on it", detail: "Unlock roles, access or rewards when a wallet holds the credential." },
+      {
+        id: "commit",
+        label: "Commit",
+        detail: "A user commits to a task or course module through your app.",
+      },
+      {
+        id: "review",
+        label: "Review",
+        detail: "Assessors accept or refuse the submission on-chain.",
+      },
+      {
+        id: "claim",
+        label: "Claim",
+        detail:
+          "The user claims the credential; your app builds the transaction through the API.",
+      },
+      {
+        id: "gate",
+        label: "Gate on it",
+        detail:
+          "Unlock roles, access or rewards when a wallet holds the credential.",
+      },
     ],
   },
 } as const;
@@ -204,7 +262,7 @@ export const adoptionModes = {
         { k: "user sees", v: "Your product and your sign-in" },
         { k: "example", v: "Barça Fan Lab — fans sign in with BarçaID" },
       ],
-      href: "/use-cases/FanEngagement",
+      href: "/use-cases/BarcaFanLab",
     },
     {
       name: "Visible",
@@ -221,11 +279,30 @@ export const adoptionModes = {
 
 /** Partner marks under the hero; each opens the use case it proves. */
 export const proofRail = [
-  { name: "Intersect", src: "/customer/intersect/intersect-logo.png", href: "/use-cases/Intersect", caption: "Governance" },
-  { name: "Syngenta", src: "/customer/syngenta/syngenta-logo.jpg", href: "/use-cases/Syngenta", caption: "Agronomy" },
+  {
+    name: "Intersect",
+    src: "/customer/intersect/intersect-logo.png",
+    href: "/use-cases/Intersect",
+    caption: "Governance",
+  },
+  {
+    name: "Syngenta",
+    src: "/customer/syngenta/syngenta-logo.jpg",
+    href: "/use-cases/Syngenta",
+    caption: "Agronomy",
+  },
   { name: "Toha", href: "/use-cases/Toha", caption: "Contributors" },
-  { name: "Project Catalyst", href: "/use-cases/DecentralizedInnovation", caption: "Funding" },
-  { name: "FC Barcelona", src: "/customer/fcbarcelona/fcbarcelona-logo.webp", href: "/use-cases/FanEngagement", caption: "Fan Lab" },
+  {
+    name: "Project Catalyst",
+    href: "/use-cases/DecentralizedInnovation",
+    caption: "Funding",
+  },
+  {
+    name: "FC Barcelona",
+    src: "/customer/fcbarcelona/fcbarcelona-logo.webp",
+    href: "/use-cases/BarcaFanLab",
+    caption: "Fan Lab",
+  },
 ] as const;
 
 /** The independent contract audit (public report on docs.andamio.io). */
@@ -266,12 +343,24 @@ export const issuerControls = {
   title: "What your organization controls",
   lead: "Andamio runs the protocol. The meaning, the people and the data stay with you.",
   rows: [
-    { k: "issuer identity", v: "Your organization, named as issuer on every credential" },
-    { k: "meaning", v: "Your skills and learning targets, hashed into each badge (SLT hash)" },
+    {
+      k: "issuer identity",
+      v: "Your organization, named as issuer on every credential",
+    },
+    {
+      k: "meaning",
+      v: "Your skills and learning targets, hashed into each badge (SLT hash)",
+    },
     { k: "standard", v: "Open Badges 3.0 credential, anchored on Cardano" },
     { k: "reviewers", v: "Only people you authorize can accept evidence" },
-    { k: "revocation", v: "None by design: a claimed credential can't be switched off, even by you" },
-    { k: "analytics", v: "Yours. The protocol records define, evidence, review and claim only" },
+    {
+      k: "revocation",
+      v: "None by design: a claimed credential can't be switched off, even by you",
+    },
+    {
+      k: "analytics",
+      v: "Yours. The protocol records define, evidence, review and claim only",
+    },
   ],
 } as const;
 
@@ -383,12 +472,19 @@ export const storyFork = {
         {
           name: "It’s a picture, not data.",
           body: "As marketing, badges work — people share them, and you shouldn’t lose that. But a picture is where it ends: no system can act on one, so the automated screening that gates hiring can’t read it. Harvard Business School found 88% of employers say that screening already rejects qualified people who don’t exactly match.",
-          source: { label: "Fuller et al., Hidden Workers, HBS & Accenture (2021)", href: "https://www.hbs.edu/ris/Publication%20Files/hiddenworkers09032021%5FFuller%5Fwhite%5Fpaper%5F33a2047f-41dd-47b1-9a8d-bd08cf3bfa94.pdf" },
+          source: {
+            label: "Fuller et al., Hidden Workers, HBS & Accenture (2021)",
+            href: "https://www.hbs.edu/ris/Publication%20Files/hiddenworkers09032021%5FFuller%5Fwhite%5Fpaper%5F33a2047f-41dd-47b1-9a8d-bd08cf3bfa94.pdf",
+          },
         },
         {
           name: "It’s just more noise.",
           body: "Badges are cheap to issue in bulk, so there’s no work behind them to check. One you can’t independently verify is taken on faith — no better than the résumé beside it. Peer-reviewed research found 72% of people embellish their résumés, and 31% fabricate outright.",
-          source: { label: "Henle, Dineen & Duffy, Journal of Business and Psychology (2017)", href: "https://link.springer.com/article/10.1007/s10869-017-9527-4" },
+          source: {
+            label:
+              "Henle, Dineen & Duffy, Journal of Business and Psychology (2017)",
+            href: "https://link.springer.com/article/10.1007/s10869-017-9527-4",
+          },
         },
       ],
       close:
@@ -650,7 +746,7 @@ export const api = {
   snippet: {
     label: "Gate by credential",
     request:
-      'curl https://api.andamio.io/api/v2/course/student/credentials/list \\\n  -H "X-API-Key: $ANDAMIO_KEY"',
+      'curl -X POST https://api.andamio.io/api/v2/course/student/credentials/list \\\n  -H "X-API-Key: $ANDAMIO_KEY" \\\n  -H "Authorization: Bearer $USER_JWT"',
     response: `{
   "data": [
     {
@@ -666,6 +762,41 @@ export const api = {
     }
   ]
 }`,
+  },
+  // The public Verify endpoints (api.andamio.io/openapi/swagger.public.json):
+  // prove a wallet holds an Access Token, get a JWT checkable offline via JWKS.
+  // Values are the spec's own examples.
+  verify: {
+    heading: "Verify a holder",
+    lead: "Two calls prove that a wallet holds an Andamio Access Token. The result is a signed JWT you can check offline against the public JWKS.",
+    steps: [
+      {
+        label: "1 · Start a session",
+        request: `curl -X POST https://api.andamio.io/api/v2/verify/session \\
+  -H "X-API-Key: $ANDAMIO_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{"alias": "alice"}'`,
+        response: `{
+  "session_id": "550e8400-e29b-41d4-a716-446655440000",
+  "nonce": "Sign this message to verify Andamio Access Token ownership: a1b2c3d4...",
+  "expires_at": "2026-03-10T12:05:00Z"
+}`,
+      },
+      {
+        label: "2 · Complete with the CIP-30 signature",
+        request: `curl -X POST https://api.andamio.io/api/v2/verify/complete \\
+  -H "X-API-Key: $ANDAMIO_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{"session_id": "550e8400-...", "signature": { ...CIP-30 signData result... }}'`,
+        response: `{
+  "verified": true,
+  "alias": "alice",
+  "wallet_address": "addr1qx2fxv2umyhttkxyxp8x0dlpdt3k6cwng5pxj3jhsydzer3jcu5d8ps7zex2k2xt3uqxgjqnnj83ws8lhrn648jjxtwq2ytjqp",
+  "attestation_jwt": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9..."
+}`,
+      },
+    ],
+    note: "Example values from the public OpenAPI spec. Sessions expire after five minutes; failures return session_expired, invalid_signature or wallet_not_holder.",
   },
   // Real top-level resource groups (projects is first-class — the differentiator).
   resourcesLabel: "Resources",
@@ -795,6 +926,20 @@ export const cli = {
         code: "brew install Andamio-Platform/tap/andamio-cli",
       },
       {
+        label: "Windows (PowerShell)",
+        code: `$v = "1.1.2"   # latest release
+$dir = "$env:LOCALAPPDATA\\andamio"
+Invoke-WebRequest "https://github.com/Andamio-Platform/andamio-cli/releases/download/v$v/andamio_$($v)_windows_amd64.zip" -OutFile andamio.zip
+Expand-Archive andamio.zip -DestinationPath $dir -Force
+[Environment]::SetEnvironmentVariable("Path", "$([Environment]::GetEnvironmentVariable('Path','User'));$dir", "User")`,
+      },
+      {
+        label: "Linux / release binary",
+        code: `VERSION=1.1.2
+curl -sLO "https://github.com/Andamio-Platform/andamio-cli/releases/download/v\${VERSION}/andamio_\${VERSION}_linux_amd64.tar.gz"
+tar xzf "andamio_\${VERSION}_linux_amd64.tar.gz" && sudo mv andamio /usr/local/bin/`,
+      },
+      {
         label: "Go",
         code: "go install github.com/Andamio-Platform/andamio-cli/cmd/andamio@latest",
       },
@@ -859,7 +1004,34 @@ export const bot = {
     { name: "/credentials", desc: "See the credentials you've earned." },
     { name: "/available", desc: "See what this server gates on, held or not." },
     { name: "/check", desc: "Re-read credentials live and refresh roles." },
+    {
+      name: "/progress",
+      desc: "Your progress per course: accepted, claimed, in progress, not started.",
+    },
+    {
+      name: "/preview",
+      desc: "Preview a course's modules and lessons, before connecting.",
+    },
+    { name: "/logout", desc: "Unlink your Discord account from your alias." },
     { name: "/faq", desc: "A get-started guide, always available." },
+    {
+      name: "/deny · /allow · /denials",
+      desc: "Moderators with Manage Roles can withhold a gated role from a member, and lift it.",
+    },
+  ],
+  // An illustration of the /login → /check flow in Discord's layout. Replace
+  // with a real capture when one exists (docs/backlog.md).
+  flow: [
+    { who: "member", text: "/login" },
+    {
+      who: "bot",
+      text: "Connect your Andamio account: open the hosted login link. Only you can see this.",
+    },
+    { who: "member", text: "/check" },
+    {
+      who: "bot",
+      text: "You hold 2 of 3 gated credentials. Granted: @Contributor, @Reviewer. Still needed for @Maintainer: Maintainer Onboarding.",
+    },
   ],
   noWallet:
     "What you don't need: no wallet, no ADA, no signing, no Cardano knowledge, and no Andamio account to deploy. It's a template — run it against your own Discord server with no code changes.",
@@ -971,7 +1143,7 @@ export const pricing = {
     ],
     footnote:
       "Every lever tops up. Badges are a starting allocation, not a cap. Pilot and Starter self-serve tiers arrive with the in-app billing motion.",
-    cta: { label: "Join the waitlist" },
+    cta: { label: "Book a walkthrough" },
   },
   api: {
     audience: "For developers",
@@ -1008,6 +1180,33 @@ export const pricing = {
       "Subscribe in the app after connecting your wallet. Usage is billed to you, the developer, not your end users.",
     cta: { label: "Open the app" },
   },
+  // Rendered on the page and as FAQPage JSON-LD; keep answers plain text.
+  faq: [
+    {
+      q: "Are Andamio Issuer and the Andamio API the same product?",
+      a: "No. They are priced and sold separately. Issuer is managed credentials for organizations, billed annually. The API is self-serve protocol access for developers, billed monthly. A tier name that appears in both means different things.",
+    },
+    {
+      q: "What counts as a badge?",
+      a: "A credential someone actually earns. Defining credentials is free; your allocation is drawn down only on real issuance.",
+    },
+    {
+      q: "What happens if we go over our allocation?",
+      a: "You top up. Every lever (users, badges, courses) is a starting allocation, not a cap.",
+    },
+    {
+      q: "Do our learners need a crypto wallet?",
+      a: "Not necessarily. You choose how visible the blockchain is. In the invisible mode, as in Barça Fan Lab, people sign in with an account they already have, a wallet is created for them and transactions are sponsored.",
+    },
+    {
+      q: "Who pays for API usage?",
+      a: "You, the developer. Subscribe in the app after connecting your wallet; your end users are never billed.",
+    },
+    {
+      q: "When do the Pilot and Starter tiers arrive?",
+      a: "With the in-app billing for Issuer. Until then, book a walkthrough and we will size a plan with you.",
+    },
+  ],
 } as const;
 
 export const footer = {

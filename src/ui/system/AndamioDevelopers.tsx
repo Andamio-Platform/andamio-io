@@ -34,6 +34,7 @@ import {
   Kicker,
 } from "./kit";
 import { Stagger, StaggerItem } from "./motion";
+import { ProofCard } from "./instrument";
 
 const mono = { fontFamily: font.mono };
 const muted = { color: color.inkMuted };
@@ -202,6 +203,65 @@ export default function AndamioDevelopers() {
               {api.authNote}
             </p>
           </div>
+        </div>
+      </Section>
+
+      {/* ── Verify: the two real calls as a terminal ─────────────────────── */}
+      <Section id="verify" bordered={false}>
+        <div
+          className="border-t pb-16 pt-14"
+          style={{ borderColor: color.rule }}
+        >
+          <SectionIntro title={api.verify.heading} lead={api.verify.lead} />
+          <ProofCard
+            className="mt-8"
+            bodyClassName="p-0"
+            footer={api.verify.note}
+          >
+            <div
+              className="flex items-center gap-2 border-b px-5 py-2.5"
+              style={{ borderColor: color.cell }}
+            >
+              <span className="h-2 w-2" style={{ background: color.cyan }} />
+              <span
+                className="text-[12px]"
+                style={{ ...mono, color: color.inkFaint }}
+              >
+                terminal · api.andamio.io
+              </span>
+            </div>
+            {api.verify.steps.map((s, i) => (
+              <div
+                key={s.label}
+                className={i ? "border-t" : ""}
+                style={{ borderColor: color.cell }}
+              >
+                <p
+                  className="px-5 pt-4 text-[11px] uppercase tracking-[0.16em]"
+                  style={{ ...mono, color: color.cyan }}
+                >
+                  {s.label}
+                </p>
+                <pre
+                  className="overflow-x-auto px-5 py-3 text-[12.5px] leading-relaxed"
+                  style={mono}
+                >
+                  <code>
+                    <span aria-hidden style={{ color: color.inkFaint }}>
+                      ${" "}
+                    </span>
+                    {s.request}
+                  </code>
+                </pre>
+                <pre
+                  className="overflow-x-auto px-5 pb-5 text-[12px] leading-relaxed"
+                  style={{ ...mono, color: color.inkMuted }}
+                >
+                  <code>{s.response}</code>
+                </pre>
+              </div>
+            ))}
+          </ProofCard>
         </div>
       </Section>
 

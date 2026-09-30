@@ -22,7 +22,7 @@ import {
   LayoutMark,
   useMotionGate,
 } from "./motion";
-import { GETTING_STARTED } from "./BadgeBuilder";
+import { GETTING_STARTED } from "./proof-badge/getting-started";
 
 /** Inspector zones that have a matching highlight arc on the live badge. */
 const FOCUS_TO_ARC: Partial<Record<Exclude<RingFocus, null>, FieldArc>> = {
@@ -414,7 +414,7 @@ export default function CredentialTheater() {
 
       <div className="col-span-12 lg:col-span-7">
         <figure
-          className="credential-spotlight credential-spotlight-live group relative flex flex-col items-center justify-center"
+          className="credential-spotlight group relative flex flex-col items-center justify-center"
           aria-label={hero.badgeAlt}
         >
           {/* Soft scaffold bloom behind the badge — no card, no hard edges */}

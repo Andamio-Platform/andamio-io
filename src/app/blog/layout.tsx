@@ -5,6 +5,7 @@ import { TopNav, Footer, LogoWash } from "~/ui/system/kit";
 import { nav, footer as footerData } from "~/ui/explore/content";
 import { color, font } from "~/ui/system/tokens";
 import { SITE_URL } from "~/lib/seo";
+import { fontVariables } from "~/styles/fonts";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
 
 export default function BlogLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={fontVariables} suppressHydrationWarning>
       <body style={{ background: color.paper, color: color.ink, fontFamily: font.sans }}>
         <div className="relative min-h-screen antialiased">
           <LogoWash />

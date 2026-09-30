@@ -111,7 +111,7 @@ function Swatch({
         )}
       </div>
       <div className="p-4">
-        <div className="flex items-baseline justify-between gap-2">
+        <div className="flex flex-wrap items-baseline justify-between gap-x-2 gap-y-1">
           <span className="text-[13px] font-semibold tracking-[-0.01em]">{name}</span>
           <CopyHex value={value} />
         </div>

@@ -27,9 +27,8 @@ import { AnimatePresence, motion } from "motion/react";
 import { X } from "lucide-react";
 import { storyFork } from "~/ui/explore/content";
 import { color, font, motion as motionTok } from "./tokens";
-import { Button, ButtonRow, Brand, Display } from "./kit";
+import { Button, ButtonRow, Brand, Display, LogoWash } from "./kit";
 import { readIntent, persistIntent } from "./funnel-intent";
-import { AmbientBackground } from "./AmbientBackground";
 import { directionalSlide, useMotionGate } from "./motion";
 
 type PathKey = (typeof storyFork.statements)[number]["key"];
@@ -170,7 +169,7 @@ export default function StoryFork() {
       className="relative flex h-[100svh] w-full flex-col overflow-hidden px-6 sm:px-10"
       style={{ background: color.paper, color: color.ink }}
     >
-      <AmbientBackground />
+      <LogoWash />
       {/* Frame chrome: brand home-link left; esc keycap + ✕ right. */}
       <a
         href="#show-me-main"

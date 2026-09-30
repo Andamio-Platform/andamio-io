@@ -87,8 +87,8 @@ export const accentPolicy = {
 
 /* ── Typography ─────────────────────────────────────────────────────── */
 export const font = {
-  sans: "'Inter', system-ui, -apple-system, sans-serif",
-  mono: "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace",
+  sans: "var(--font-inter), system-ui, -apple-system, sans-serif",
+  mono: "var(--font-jetbrains), ui-monospace, SFMono-Regular, Menlo, monospace",
 } as const;
 
 /** Display weight + metrics — the "12 cut". */

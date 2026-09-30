@@ -12,24 +12,12 @@
 
 import React from "react";
 import { credentialFromBuilder, ProofRingBadge } from "./proof-badge";
-import {
-  buildBadgeParams,
-  type BadgeParams,
-} from "./proof-badge/builder-params";
+import { buildBadgeParams, type BadgeParams } from "./proof-badge/builder-params";
+import { GETTING_STARTED } from "./proof-badge/getting-started";
 import type { FieldArc } from "./proof-badge/geometry";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "~/components/ui/popover";
 import * as Dialog from "@radix-ui/react-dialog";
 import { ZoomIn } from "lucide-react";
-import {
-  OUTER_RING,
-  INNER_RING,
-  SHIFT,
-  LEFT_WITH,
-} from "./proof-badge/field-notes";
+import { BadgeInfoFooter } from "./BadgeInfoFooter";
 import { color, font } from "./tokens";
 
 type ActiveZone =
@@ -51,40 +39,6 @@ const ZONE_ARC: Partial<Record<Exclude<ActiveZone, null>, FieldArc>> = {
   sltHash: "hash",
 };
 
-/**
- * The demo's starting point is the REAL "Getting Started with Andamio"
- * credential — the same badge presented on the landing hero (fig. 1). Pristine
- * inputs render the real on-chain identity (courseId/sltHash below, mainnet);
- * the first edit flips the badge to a derived preview, so "your inputs become
- * the rings" stays honest. Starting SLT lines are editable display copy only —
- * the pristine rings come from the real hashes, never from hashing these lines.
- */
-export const GETTING_STARTED = {
-  courseName: "Getting Started with Andamio",
-  moduleName: "Mint Access Token and Commit to Assignment",
-  slts: ["I can mint my Access Token", "I can commit to an assignment"],
-  params: {
-    courseTitle: "Getting Started with Andamio",
-    moduleTitle: "Mint Access Token and Commit to Assignment",
-    // Real on-chain hashes (mainnet). Face shorts derive from these; clipboard uses full hex.
-    courseId: "ab5d9217bbbac409ffbe7c8c65d9b358932245079a7f8547a28bc755",
-    sltHash: "1b37e6b411bc614e9da67943124219053eafa717793e5424f4a33765e42328a3",
-    network: "mainnet",
-    // Fictional but wired display fields (not on-chain for this demo specimen).
-    earnerName: "Jordan Smith",
-    did: "did:andamio:8f3a7c1e",
-    issuedAt: "2025-06-03T10:30:00Z",
-    skills: [
-      { id: "s1", label: "Access Token" },
-      { id: "s2", label: "Commit" },
-      { id: "s3", label: "Evidence" },
-      { id: "s4", label: "Review" },
-    ],
-    verifyUrl: "https://credentials.andamio.io/verify/demo/getting-started",
-  } satisfies BadgeParams,
-  /** Pine Gold — the palette the real badge was generated with. */
-  paletteIndex: 3,
-} as const;
 
 const SAMPLE: {
   courseName: string;
@@ -168,82 +122,6 @@ function MicroLabel({
     <span className={cls} style={style}>
       {children}
     </span>
-  );
-}
-
-/* Info circle: a compact label + "i" that opens its explanation. */
-function InfoChip({ label, body }: { label: string; body: string }) {
-  return (
-    <Popover>
-      <PopoverTrigger
-        className="inline-flex items-center gap-1.5 border px-3 py-1.5 text-[12px] font-medium tracking-[-0.01em] transition-colors hover:bg-black/[0.03] focus:outline-none focus-visible:[box-shadow:inset_0_0_0_1.5px_#2F6BFF]"
-        style={{ borderColor: color.rule, color: color.ink }}
-      >
-        {label}
-        <span
-          aria-hidden
-          className="inline-flex h-3.5 w-3.5 items-center justify-center rounded-full border text-[9px]"
-          style={{ borderColor: color.cell, color: color.inkFaint }}
-        >
-          i
-        </span>
-      </PopoverTrigger>
-      <PopoverContent
-        align="center"
-        sideOffset={8}
-        className="w-72 overflow-hidden rounded-none border p-0 shadow-[0_18px_44px_-20px_rgba(0,0,0,0.45)]"
-        style={{ borderColor: color.rule, background: color.paper }}
-      >
-        {/* Kicker header + hairline, then body — matches the section's
-            editorial idiom (square card, ink rule, system type). */}
-        <div
-          className="border-b px-3.5 py-2"
-          style={{ borderColor: color.cell }}
-        >
-          <span
-            className="text-[11px] font-semibold tracking-[-0.01em]"
-            style={{ color: color.inkFaint }}
-          >
-            {label}
-          </span>
-        </div>
-        <p
-          className="px-3.5 py-3 text-[13px] leading-relaxed"
-          style={{ ...sans, color: color.inkMuted }}
-        >
-          {body}
-        </p>
-      </PopoverContent>
-    </Popover>
-  );
-}
-
-/* The card's info footer — ring-anatomy chips + the address footnote. Shared by
-   the standalone builder (chrome) and the how-it-works tabs, so every card has
-   the same footer. */
-export function BadgeInfoFooter({ className = "" }: { className?: string }) {
-  return (
-    <div
-      className={`flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-t px-4 py-2.5 ${className}`}
-      style={{ borderColor: color.rule }}
-    >
-      <div className="flex flex-wrap items-center gap-2">
-        <InfoChip label="Course identity" body={OUTER_RING.body} />
-        <InfoChip label="Learning targets" body={INNER_RING.body} />
-        <InfoChip label="What changes" body={SHIFT.body} />
-        <InfoChip label="What you keep" body={LEFT_WITH.body} />
-      </div>
-      <p className="text-[11px]" style={{ color: color.inkMuted }}>
-        Identified by{" "}
-        <span
-          className="whitespace-nowrap"
-          style={{ ...mono, color: color.ink }}
-        >
-          &lt;course_id&gt;.&lt;slt_hash&gt;
-        </span>
-        <span style={{ color: color.inkGhost }}> · illustrative only</span>
-      </p>
-    </div>
   );
 }
 

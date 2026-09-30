@@ -16,7 +16,9 @@
  */
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import BadgeBuilder, { BadgeInfoFooter, GETTING_STARTED } from "./BadgeBuilder";
+import dynamic from "next/dynamic";
+import { BadgeInfoFooter } from "./BadgeInfoFooter";
+import { GETTING_STARTED } from "./proof-badge/getting-started";
 import { credentialFromBuilder, ProofRingBadge } from "./proof-badge";
 import { color, font } from "./tokens";
 import { ClaimFence } from "./ClaimFence";
@@ -47,6 +49,40 @@ const GETTING_STARTED_CREDENTIAL = credentialFromBuilder({
 
 type Step = { title: string; body: string };
 
+/** Same footprint as the tallest pane (Define), so mounting the demos never shifts the page. */
+function PaneSkeleton() {
+  return (
+    <div
+      aria-hidden
+      className="min-h-[1180px] border-y sm:min-h-[1080px] lg:min-h-[620px]"
+      style={{ borderColor: color.cell }}
+    />
+  );
+}
+
+const BadgeBuilder = dynamic(() => import("./BadgeBuilder"), {
+  ssr: false,
+  loading: PaneSkeleton,
+});
+
+/** True once `ref` comes within `margin` of the viewport; never flips back. */
+function useNearViewport(ref: React.RefObject<HTMLElement>, margin = "600px") {
+  const [near, setNear] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || near) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) setNear(true);
+      },
+      { rootMargin: margin },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [ref, margin, near]);
+  return near;
+}
+
 /** React 18 types omit `inert`; set/remove the HTML attribute via the DOM. */
 function setInert(el: HTMLElement | null, inert: boolean) {
   if (!el) return;
@@ -66,12 +102,14 @@ export default function HowItWorks({
   const [active, setActive] = useState(0);
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const paneRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const panesRef = useRef<HTMLDivElement>(null);
+  const panesNear = useNearViewport(panesRef);
 
   // Keep inactive panes out of the a11y/tab order while preserving the
   // visibility layout trick that sizes the card to the tallest pane.
   useEffect(() => {
     paneRefs.current.forEach((el, i) => setInert(el, i !== active));
-  }, [active, steps.length]);
+  }, [active, steps.length, panesNear]);
 
   const selectTab = useCallback(
     (index: number, focus = false) => {
@@ -228,8 +266,9 @@ export default function HowItWorks({
           {/* Panes — stacked in one grid cell so height = tallest (Define).
               Visibility (not display) preserves layout; inert + aria-hidden
               keep inactive panes out of the a11y tree / tab order. */}
-          <div className="grid [&>*]:col-start-1 [&>*]:row-start-1">
-            {steps.map((s, i) => {
+          <div ref={panesRef} className="grid [&>*]:col-start-1 [&>*]:row-start-1">
+            {!panesNear && <PaneSkeleton />}
+            {panesNear && steps.map((s, i) => {
               const on = i === active;
               return (
                 <div

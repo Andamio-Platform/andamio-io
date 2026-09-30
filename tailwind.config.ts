@@ -18,14 +18,8 @@ const config = {
       },
     },
     fontFamily: {
-      sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
-      display: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
-      mono: ["JetBrains Mono", "Inconsolata", "ui-monospace"],
-      serif: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
-      plex: ["Inter", "system-ui", "sans-serif"],
-      beckman: ["Beckman", "Inter", "ui-sans-serif", "system-ui"],
-      workSans: ["WorkSans"],
-      libreFranklin: ["LibreFranklin"],
+      sans: ["var(--font-inter)", "ui-sans-serif", "system-ui", "sans-serif"],
+      mono: ["var(--font-jetbrains)", "ui-monospace", "monospace"],
     },
     extend: {
       gridTemplateColumns: {

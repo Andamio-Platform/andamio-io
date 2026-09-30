@@ -6,6 +6,7 @@ import { Toaster } from "react-hot-toast";
 import { Toaster as UiToaster } from "~/components/ui/toaster";
 import Metatags from "~/components/site/metatags";
 import { ThemeProvider } from "~/components/theme-provider";
+import { fontVariablesCss } from "~/styles/fonts";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -13,6 +14,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+      <style dangerouslySetInnerHTML={{ __html: fontVariablesCss }} />
       <Metatags />
       <Toaster position="top-right" />
       <div className="min-h-screen bg-background text-foreground">

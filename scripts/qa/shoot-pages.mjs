@@ -24,6 +24,14 @@ for (const { w, h } of widths) {
   });
   for (const route of routes) {
     await page.goto(base + route, { waitUntil: "load", timeout: 60000 });
+    // Scroll through once so reveal-on-scroll sections and lazy demos mount.
+    await page.evaluate(async () => {
+      for (let y = 0; y < document.body.scrollHeight; y += window.innerHeight / 2) {
+        window.scrollTo(0, y);
+        await new Promise((r) => setTimeout(r, 120));
+      }
+      window.scrollTo(0, 0);
+    });
     await page.waitForTimeout(1200);
     const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth);
     const name = (route === "/" ? "home" : route.slice(1).replace(/\//g, "_")) + `-${w}`;

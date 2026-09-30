@@ -9,7 +9,6 @@
  */
 
 import Image from "next/image";
-import QRCode from "@pjaudiomv/qrcode-svg";
 import React, {
   memo,
   useCallback,
@@ -226,24 +225,36 @@ function LinkedCopyValue({
   );
 }
 
+// Code-split: the QR encoder stays out of first-load JS; the fixed-size box
+// renders empty until it arrives, so nothing shifts.
+const loadQrEncoder = () => import("@pjaudiomv/qrcode-svg").then((m) => m.default);
+
 const VerifyQr = memo(function VerifyQr({ url }: { url: string }) {
-  const markup = useMemo(
-    () =>
-      new QRCode({
-        content: url,
-        padding: 0,
-        width: 256,
-        height: 256,
-        ecl: "L",
-        join: true,
-        container: "none",
-        color: "#0b121b",
-        background: "#ffffff",
-        pretty: false,
-        xmlDeclaration: false,
-      }).svg(),
-    [url],
-  );
+  const [markup, setMarkup] = useState("");
+  useEffect(() => {
+    let live = true;
+    void loadQrEncoder().then((QRCode) => {
+      if (!live) return;
+      setMarkup(
+        new QRCode({
+          content: url,
+          padding: 0,
+          width: 256,
+          height: 256,
+          ecl: "L",
+          join: true,
+          container: "none",
+          color: "#0b121b",
+          background: "#ffffff",
+          pretty: false,
+          xmlDeclaration: false,
+        }).svg(),
+      );
+    });
+    return () => {
+      live = false;
+    };
+  }, [url]);
   const q = FACE.qr;
   return (
     <a

@@ -15,10 +15,10 @@ const badgeVariants = cva(
         destructive:
           "border-transparent bg-destructive text-destructive-foreground shadow hover:bg-destructive/80",
         outline: "text-foreground",
-        complete: "bg-green-800 text-green-100 shadow font-beckman",
-        inProgress: "bg-orange-800 text-orange-100 shadow font-beckman",
-        planned: "bg-blue-800 text-blue-100 shadow font-beckman",
-        proposed: "bg-purple-800 text-purple-100 shadow font-beckman",
+        complete: "bg-green-800 text-green-100 shadow",
+        inProgress: "bg-orange-800 text-orange-100 shadow",
+        planned: "bg-blue-800 text-blue-100 shadow",
+        proposed: "bg-purple-800 text-purple-100 shadow",
       },
     },
     defaultVariants: {

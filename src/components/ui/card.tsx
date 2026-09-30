@@ -9,7 +9,7 @@ const cardVariants = cva("", {
       default:
         "rounded-sm border-foreground bg-card text-card-foreground shadow",
       course:
-        "border border-foreground bg-background text-foreground hover:bg-secondary hover:text-secondary-foreground rounded-sm font-libreFranklin",
+        "border border-foreground bg-background text-foreground hover:bg-secondary hover:text-secondary-foreground rounded-sm",
       module:
         "flex flex-row justify-between rounded-sm bg-primary text-primary-foreground hover:secondary-foreground",
       slt: "px-3 py-1 flex flex-row items-center gap-10 bg-background my-3 rounded-sm",

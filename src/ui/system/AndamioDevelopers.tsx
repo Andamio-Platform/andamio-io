@@ -91,7 +91,7 @@ export default function AndamioDevelopers() {
              Reuses the `api` content that used to live on the landing. ─────── */}
       <Section id="in-practice" bordered={false}>
         <div
-          className="grid grid-cols-12 gap-x-10 gap-y-12 border-t pb-16 pt-14"
+          className="grid grid-cols-12 gap-y-12 border-t pb-16 pt-14 lg:gap-x-10"
           style={{ borderColor: color.rule }}
         >
           {/* Left — what you can do */}

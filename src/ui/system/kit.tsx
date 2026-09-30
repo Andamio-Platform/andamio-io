@@ -23,7 +23,6 @@ import {
   motion as motionTok,
   containerCls,
 } from "./tokens";
-import { AmbientBackground } from "./AmbientBackground";
 import {
   Pressable,
   Reveal,
@@ -75,7 +74,7 @@ function washStack(a: {
 }
 
 export function LogoWash() {
-  // Static soft wash — motion lives in AmbientBackground’s scaffold lattice.
+  // Static soft wash; the hero badge is the only continuous motion.
   // Avoid competing hard edges; keep the mark’s color geography only.
   return (
     <>
@@ -506,7 +505,6 @@ export function Page({
         fontFamily: font.sans,
       }}
     >
-      <AmbientBackground />
       <LogoWash />
       <ScrollProgress />
       <div className="relative z-10">
@@ -525,7 +523,7 @@ export function Page({
         </a>
         {/* TopNav spans the full viewport so its bottom border is edge-to-edge. */}
         <TopNav {...nav} />
-        <main id="main-content">{children}</main>
+        <main id="main-content" className="overflow-x-clip">{children}</main>
         {footer}
       </div>
     </div>

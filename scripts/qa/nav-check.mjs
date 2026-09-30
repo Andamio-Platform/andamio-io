@@ -25,8 +25,12 @@ for (const route of routes) {
   });
   const title = await page.title();
   const err = await page.locator("text=Unhandled Runtime Error").count();
-  const badge =
-    route === "/issuer" ? await page.locator(".pb-root").count() : "";
+  let badge = "";
+  if (route === "/issuer") {
+    await page.locator("#how-it-works").scrollIntoViewIfNeeded();
+    await page.waitForTimeout(2500);
+    badge = await page.locator(".pb-root").count();
+  }
   console.log(
     `${res?.status() ?? "?"} ${route} title="${title}" errors=${err}${badge === "" ? "" : ` badges=${badge}`}`,
   );

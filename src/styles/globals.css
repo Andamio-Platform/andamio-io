@@ -1,8 +1,4 @@
-/* Design tokens source: ~/projects/andamio-design-system-test/colors_and_type.css
-   Apr 2026 update — Geist + JetBrains Mono + Instrument Serif; tighter radii (2–6px);
-   bold offset shadow system. Legacy Beckman/WorkSans/LibreFranklin/Inconsolata kept as aliases. */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Montserrat:wght@600&display=swap");
-/* Archivo + Spline remain embedded in Proof Rings SVG FONT_FACE (badge core). */
+/* Fonts load through next/font (src/styles/fonts.ts) as --font-inter / --font-jetbrains. */
 
 @tailwind base;
 @tailwind components;
@@ -80,17 +76,8 @@
     --shadow-lg: 0 4px 0 rgb(0 0 0 / 0.1), 0 16px 32px -8px rgb(0 0 0 / 0.18);
     --shadow-press: inset 0 2px 0 rgb(0 0 0 / 0.12);
 
-    /* Typography families — Geist primary, IBM Plex Sans for long-form, JetBrains Mono for code.
-       Beckman/WorkSans/LibreFranklin/Inconsolata retained as legacy aliases. */
-    --font-sans:
-      "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-    --font-display: "Sora", "Inter", ui-sans-serif, system-ui, sans-serif;
-    --font-serif:
-      "Instrument Serif", "Iowan Old Style", "Times New Roman", serif;
-    --font-mono: "JetBrains Mono", "Inconsolata", ui-monospace, monospace;
-    --font-plex: "IBM Plex Sans", "Geist", system-ui, sans-serif;
-    --font-beckman: "Beckman", "Geist", ui-sans-serif, system-ui;
-    --font-libre: "LibreFranklin", "Geist", system-ui, sans-serif;
+    --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-mono: var(--font-jetbrains), ui-monospace, monospace;
 
     /* Semantic type roles */
     --h1-size: clamp(3rem, 6vw + 1rem, 7.5rem);
@@ -286,7 +273,7 @@
   }
   h1,
   h2 {
-    @apply font-display tracking-tight;
+    @apply font-sans tracking-tight;
   }
   h3,
   h4,
@@ -294,36 +281,6 @@
   h6 {
     @apply font-sans;
   }
-}
-
-/* Custom Fonts */
-@font-face {
-  font-family: "Beckman";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url(/fonts/bennBeckmanMedium.woff2) format("woff2");
-}
-
-@font-face {
-  font-family: "WorkSans";
-  font-weight: 100 900;
-  font-display: swap;
-  src: url(/fonts/WorkSans-VariableFont_wght.ttf) format("truetype");
-}
-
-@font-face {
-  font-family: "LibreFranklin";
-  font-weight: 100 900;
-  font-display: swap;
-  src: url(/fonts/LibreFranklin-VariableFont_wght.ttf) format("truetype");
-}
-
-@font-face {
-  font-family: "Inconsolata";
-  font-weight: 100 900;
-  font-display: swap;
-  src: url(/fonts/Inconsolata-VariableFont_wght.ttf) format("truetype");
 }
 
 .link {
@@ -338,75 +295,6 @@
 
 .visible {
   opacity: 1 !important; /* Set visible when the observer detects entry */
-}
-
-/* ── Funnel motion systems (Warm Index) ─────────────────────────────── */
-/* Page motion background: soft scaffold beams + joints (blur = soft edge).
-   Transform + opacity only (ui-ux-pro-max). MOT-01 budget: 2 drift layers +
-   1 opacity breath — no particles / WebGL (MOT-05). */
-@keyframes sys-scaffold-drift {
-  0% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  40% {
-    transform: translate3d(2.8%, -2%, 0) scale(1.035);
-  }
-  70% {
-    transform: translate3d(-2.2%, 2.4%, 0) scale(1.02);
-  }
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-}
-
-@keyframes sys-scaffold-drift-alt {
-  0% {
-    transform: translate3d(0, 0, 0) rotate(-7deg) scale(1.03);
-  }
-  50% {
-    transform: translate3d(-3.2%, 2.4%, 0) rotate(-4.5deg) scale(1);
-  }
-  100% {
-    transform: translate3d(0, 0, 0) rotate(-7deg) scale(1.03);
-  }
-}
-
-@keyframes sys-ambient-breathe {
-  0%,
-  100% {
-    opacity: 0.78;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
-.sys-scaffold-drift {
-  animation: sys-scaffold-drift 36s ease-in-out infinite;
-  will-change: transform;
-}
-
-.sys-scaffold-drift-alt {
-  animation: sys-scaffold-drift-alt 52s ease-in-out infinite;
-  will-change: transform;
-}
-
-.sys-ambient-breathe {
-  animation: sys-ambient-breathe 16s ease-in-out infinite;
-}
-
-.sys-scaffold-blur {
-  filter: blur(36px);
-}
-
-.sys-scaffold-blur-deep {
-  filter: blur(56px);
-}
-
-.sys-ambient-static {
-  transform: none;
-  animation: none !important;
-  opacity: 0.9;
 }
 
 /* Hero credential spotlight — free badge + soft scaffold aura (no card) */
@@ -494,53 +382,6 @@
   );
 }
 
-@keyframes credential-aura-breathe {
-  0%,
-  100% {
-    transform: scale(1);
-    opacity: 0.9;
-  }
-  50% {
-    transform: scale(1.06);
-    opacity: 1;
-  }
-}
-
-@keyframes credential-aura-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes credential-aura-sway {
-  0%,
-  100% {
-    transform: rotate(-8deg) scale(1);
-  }
-  50% {
-    transform: rotate(10deg) scale(1.08);
-  }
-}
-
-.credential-spotlight-live .credential-aura-core {
-  animation: credential-aura-breathe 10s ease-in-out infinite;
-}
-
-.credential-spotlight-live .credential-aura-ring {
-  animation: credential-aura-spin 48s linear infinite;
-}
-
-.credential-spotlight-live .credential-aura-beam-a {
-  animation: credential-aura-sway 18s ease-in-out infinite;
-}
-
-.credential-spotlight-live .credential-aura-beam-b {
-  animation: credential-aura-sway 24s ease-in-out infinite reverse;
-}
-
 .sys-control-press:active:not([aria-disabled]) {
   transform: translateY(1px);
   box-shadow: 0 1px 2px rgb(0 0 0 / 0.12) !important;
@@ -551,34 +392,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .sys-scaffold-drift,
-  .sys-scaffold-drift-alt,
-  .sys-ambient-breathe,
-  .credential-spotlight-live .credential-aura-core,
-  .credential-spotlight-live .credential-aura-ring,
-  .credential-spotlight-live .credential-aura-beam-a,
-  .credential-spotlight-live .credential-aura-beam-b {
-    animation: none !important;
-  }
-
   .sys-control-press:active:not([aria-disabled]) {
     transform: none;
   }
 }
 
 @media (max-width: 640px) {
-  .sys-scaffold-drift {
-    animation-duration: 40s;
-  }
-  .sys-scaffold-drift-alt {
-    animation-duration: 56s;
-  }
-  .sys-scaffold-blur {
-    filter: blur(42px);
-  }
-  .sys-scaffold-blur-deep {
-    filter: blur(64px);
-  }
   .credential-aura-core {
     filter: blur(32px);
   }
@@ -586,15 +405,3 @@
     filter: blur(48px);
   }
 }
-
-/* Pause when the tab is hidden */
-html.is-page-hidden .sys-scaffold-drift,
-html.is-page-hidden .sys-scaffold-drift-alt,
-html.is-page-hidden .sys-ambient-breathe,
-html.is-page-hidden .credential-spotlight-live .credential-aura-core,
-html.is-page-hidden .credential-spotlight-live .credential-aura-ring,
-html.is-page-hidden .credential-spotlight-live .credential-aura-beam-a,
-html.is-page-hidden .credential-spotlight-live .credential-aura-beam-b {
-  animation-play-state: paused !important;
-}
-

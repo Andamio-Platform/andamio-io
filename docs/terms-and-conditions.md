@@ -1,1 +1,0 @@
-https://www.notion.so/andamio/Creating-Terms-and-Conditions-for-Andamio-Platform-2c2773307d9a4691b573a9ca88b22308

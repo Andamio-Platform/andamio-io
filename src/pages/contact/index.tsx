@@ -15,7 +15,7 @@ const channels = [
   },
   {
     label: "X",
-    value: "@AndamioPlatform",
+    value: "@Andamio_teams",
     href: EXTERNAL_LINKS.twitter,
     cta: "Follow →",
   },

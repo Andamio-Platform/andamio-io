@@ -36,12 +36,15 @@ function asDate(value: string | undefined): Date | undefined {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const built = new Date();
   const staticEntries: MetadataRoute.Sitemap = STATIC_ROUTES.map((route) => ({
     url: `${SITE_URL}${route}`,
+    lastModified: built,
   }));
 
   const caseEntries: MetadataRoute.Sitemap = CASES.map((c) => ({
     url: `${SITE_URL}/use-cases/${c.slug}`,
+    lastModified: built,
   }));
 
   const posts = await getBlogPostData();
@@ -54,6 +57,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const paperEntries: MetadataRoute.Sitemap = SUB_PAPERS.map((paper) => ({
     url: `${SITE_URL}/papers/${paper.slug}`,
+    lastModified: built,
   }));
 
   return [...staticEntries, ...caseEntries, ...blogEntries, ...paperEntries];

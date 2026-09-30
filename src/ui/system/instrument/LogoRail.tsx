@@ -1,5 +1,6 @@
 import React from "react";
 import { color, font } from "../tokens";
+import { track } from "~/lib/analytics";
 
 export interface RailLogo {
   name: string;
@@ -33,6 +34,7 @@ export function LogoRail({
           <li key={l.name} className="border-b border-r" style={{ borderColor: color.cell }}>
             <a
               href={l.href}
+              onClick={() => track("proof-rail-click")}
               className="group flex h-full flex-col items-center justify-between gap-4 px-4 py-6 transition-colors hover:bg-white/[0.03] focus:outline-none focus-visible:[box-shadow:inset_0_0_0_1.5px_var(--sys-cyan)]"
             >
               <span className="flex h-14 items-center justify-center">

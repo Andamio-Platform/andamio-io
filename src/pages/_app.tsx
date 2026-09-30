@@ -5,6 +5,7 @@ import { type AppType } from "next/app";
 import { Toaster } from "react-hot-toast";
 import { Toaster as UiToaster } from "~/components/ui/toaster";
 import Metatags from "~/components/site/metatags";
+import { Analytics } from "~/components/site/Analytics";
 import { ThemeProvider } from "~/components/theme-provider";
 import { fontVariablesCss } from "~/styles/fonts";
 
@@ -16,6 +17,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
     <ThemeProvider attribute="class" forcedTheme="dark" enableSystem={false}>
       <style dangerouslySetInnerHTML={{ __html: fontVariablesCss }} />
       <Metatags />
+      <Analytics />
       <Toaster position="top-right" />
       <div className="min-h-screen bg-background text-foreground">
         <Component {...pageProps} />

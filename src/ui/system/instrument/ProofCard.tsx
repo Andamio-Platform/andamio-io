@@ -3,6 +3,7 @@
 import React from "react";
 import { color, font } from "../tokens";
 import { useMotionGate } from "../motion";
+import { trackHref } from "~/lib/analytics";
 
 function CornerTicks() {
   const base = "pointer-events-none absolute h-2.5 w-2.5";
@@ -106,6 +107,7 @@ export function ProofCard({
     return (
       <a
         href={href}
+        onClick={() => trackHref(href)}
         className={`${frame} focus:outline-none`}
         style={frameStyle}
         {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}

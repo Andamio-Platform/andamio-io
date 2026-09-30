@@ -7,6 +7,7 @@
  */
 
 import React, { useEffect } from "react";
+import { track } from "~/lib/analytics";
 import CredentialTheater from "./CredentialTheater";
 import {
   nav,
@@ -183,7 +184,7 @@ export default function AndamioLanding() {
             {howTeaser.body}
           </p>
           <ButtonRow>
-            <Button variant="primary" href={howTeaser.cta.href}>
+            <Button variant="primary" href={howTeaser.cta.href} onClick={() => track("look-inside")}>
               {howTeaser.cta.label} <span aria-hidden>→</span>
             </Button>
             <Button variant="outline" href={EXTERNAL_LINKS.walkthroughMailto}>

@@ -20,7 +20,7 @@ export const DEFAULT_DESCRIPTION =
  */
 export const DEFAULT_OG_IMAGE = "/andamio.png";
 
-export const TWITTER_HANDLE = "@AndamioPlatform";
+export const TWITTER_HANDLE = "@Andamio_teams";
 
 export function absoluteUrl(pathOrUrl: string): string {
   if (pathOrUrl.startsWith("http")) return pathOrUrl;
@@ -33,8 +33,59 @@ export const ORGANIZATION_JSON_LD = {
   name: SITE_NAME,
   url: SITE_URL,
   logo: absoluteUrl("/andamio.png"),
-  sameAs: ["https://x.com/AndamioPlatform"],
+  sameAs: ["https://x.com/andamio_teams"],
 } as const;
+
+/** 1200×630 share image for a page title. Rendered by `app/og/route.tsx`. */
+export function ogImagePath(title?: string): string {
+  return `/og?title=${encodeURIComponent(title?.trim() || SITE_NAME)}`;
+}
+
+export function articleJsonLd(article: { title: string; description: string; path: string }) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: article.title,
+    description: article.description,
+    mainEntityOfPage: absoluteUrl(article.path),
+    author: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+    publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+  };
+}
+
+export function softwareAppJsonLd(app: { name: string; description: string; path: string }) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: app.name,
+    description: app.description,
+    applicationCategory: "DeveloperApplication",
+    operatingSystem: "Windows, macOS, Linux",
+    url: absoluteUrl(app.path),
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  };
+}
+
+export function productOffersJsonLd(
+  product: { name: string; description: string },
+  offers: readonly { name: string; price: string; unit: string }[],
+) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.description,
+    brand: { "@type": "Brand", name: SITE_NAME },
+    offers: offers.map((offer) => ({
+      "@type": "Offer",
+      name: offer.name,
+      price: offer.price,
+      priceCurrency: "USD",
+      url: absoluteUrl("/pricing"),
+      description: offer.unit,
+    })),
+  };
+}
 
 export function faqJsonLd(items: readonly { q: string; a: string }[]) {
   return {

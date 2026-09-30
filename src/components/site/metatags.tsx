@@ -8,6 +8,7 @@ import {
   DEFAULT_OG_IMAGE,
   TWITTER_HANDLE,
   absoluteUrl,
+  ogImagePath,
 } from "~/lib/seo";
 
 /**
@@ -31,7 +32,7 @@ export default function Metatags({
   const path = (router.asPath ?? "/").split(/[?#]/)[0] ?? "/";
   const canonical = path === "/" ? SITE_URL : `${SITE_URL}${path}`;
   const fullTitle = title ? `${title} — ${SITE_NAME}` : DEFAULT_TITLE;
-  const imageUrl = absoluteUrl(image);
+  const imageUrl = absoluteUrl(image === DEFAULT_OG_IMAGE ? ogImagePath(title) : image);
 
   return (
     <Head>
@@ -56,6 +57,8 @@ export default function Metatags({
         key="og:description"
       />
       <meta property="og:image" content={imageUrl} key="og:image" />
+      <meta property="og:image:width" content="1200" key="og:image:width" />
+      <meta property="og:image:height" content="630" key="og:image:height" />
 
       <meta
         name="twitter:card"

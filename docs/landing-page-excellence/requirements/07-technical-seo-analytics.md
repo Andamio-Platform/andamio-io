@@ -53,6 +53,8 @@
 | Dependencies | legal/privacy owner |
 | Source | funnel event contract; SEO ANALYTICS-F01 |
 
+Decided 30 Sep 2026: Umami, self-hosted on GCP. The script loads only when `NEXT_PUBLIC_UMAMI_URL` and `NEXT_PUBLIC_UMAMI_WEBSITE_ID` are set, and events are the funnel enum in `src/lib/analytics.ts`. Deploy steps are in `docs/backlog.md`.
+
 ## TECH-02 — Link registry and host ownership
 
 | Field | Value |

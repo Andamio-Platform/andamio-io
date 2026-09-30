@@ -22,6 +22,7 @@ import {
   motion as motionTok,
   containerCls,
 } from "./tokens";
+import { trackHref } from "~/lib/analytics";
 import {
   Pressable,
   Reveal,
@@ -702,7 +703,10 @@ export function Button({
     <Pressable
       as="a"
       href={href}
-      onClick={onClick}
+      onClick={() => {
+        trackHref(href);
+        onClick?.();
+      }}
       className={`${cls} hover:opacity-90`}
       style={sty}
     >

@@ -18,6 +18,7 @@ import { Button, ButtonRow, Display } from "./kit";
 import { ClaimFence } from "./ClaimFence";
 import { OrbitSteps } from "./instrument";
 import { persistIntent, readIntent } from "./funnel-intent";
+import { track } from "~/lib/analytics";
 import {
   FadeSwap,
   LayoutMark,
@@ -195,6 +196,7 @@ function LifecycleTabs() {
               onClick={() => {
                 setWho(key);
                 setStep(0);
+                track("lifecycle-tab");
               }}
               className="border px-3 py-1.5 text-[12px] font-semibold tracking-[-0.01em] transition-colors focus:outline-none focus-visible:[box-shadow:inset_0_0_0_1.5px_var(--sys-cyan)]"
               style={{

@@ -2,6 +2,8 @@ import React from "react";
 import Link from "next/link";
 import type { GetStaticPaths, GetStaticProps } from "next";
 import Metatags from "~/components/site/metatags";
+import JsonLd from "~/components/site/JsonLd";
+import { articleJsonLd } from "~/lib/seo";
 import { nav, footer as footerData } from "~/ui/explore/content";
 import { color } from "~/ui/system/tokens";
 import { Page, Kicker, Footer } from "~/ui/system/kit";
@@ -35,7 +37,8 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
 export default function WhitepaperPage({ slug, title, summary, body }: Props) {
   return (
     <>
-      <Metatags title={title} description={summary} />
+      <Metatags title={title} description={summary} ogType="article" />
+      <JsonLd id="article" data={articleJsonLd({ title, description: summary, path: `/papers/${slug}` })} />
 
       <Page nav={{ items: nav.items, cta: nav.cta }}>
         <main className="mx-auto max-w-3xl px-6 pb-24 pt-16 sm:px-10 sm:pt-24">

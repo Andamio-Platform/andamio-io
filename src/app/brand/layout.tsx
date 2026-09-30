@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "~/styles/globals.css";
 import { ThemeProvider } from "~/components/theme-provider";
 import { SITE_URL } from "~/lib/seo";
+import { Analytics } from "~/components/site/Analytics";
 import { fontVariables } from "~/styles/fonts";
 
 export const metadata: Metadata = {
@@ -19,6 +20,7 @@ export default function RootLayout({
     <html lang="en" className={`dark ${fontVariables}`} suppressHydrationWarning>
       <body className="font-sans antialiased">
         <ThemeProvider attribute="class" forcedTheme="dark" enableSystem={false}>
+          <Analytics />
           {children}
         </ThemeProvider>
       </body>

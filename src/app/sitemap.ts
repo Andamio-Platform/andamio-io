@@ -1,6 +1,5 @@
 import type { MetadataRoute } from "next";
 import { getBlogPostData } from "~/lib/blogposts";
-import { getCustomerPages } from "~/lib/customers";
 import { SUB_PAPERS } from "~/lib/papers";
 import { SITE_URL } from "~/lib/seo";
 import { CASES } from "~/ui/use-cases/cases";
@@ -21,19 +20,11 @@ const STATIC_ROUTES = [
   "/pricing",
   "/use-cases",
   "/about",
-  "/about/our-team",
-  "/about/our-technology",
-  "/about/whitepaper",
-  "/contact",
+  "/community",
   "/roadmap",
-  "/calendar",
   "/papers",
   "/blog",
-  "/customers",
   "/brand",
-  "/fund/12",
-  "/fund/14",
-  "/summit",
   "/privacy-policy",
   "/terms",
 ];
@@ -61,16 +52,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: asDate(post.frontmatter.date),
     }));
 
-  const customerEntries: MetadataRoute.Sitemap = getCustomerPages()
-    .filter((page) => !page.frontmatter?.redirectTo)
-    .map((page) => ({
-      url: `${SITE_URL}/customers/${page.id}`,
-      lastModified: asDate(page.frontmatter?.date),
-    }));
-
   const paperEntries: MetadataRoute.Sitemap = SUB_PAPERS.map((paper) => ({
     url: `${SITE_URL}/papers/${paper.slug}`,
   }));
 
-  return [...staticEntries, ...caseEntries, ...blogEntries, ...customerEntries, ...paperEntries];
+  return [...staticEntries, ...caseEntries, ...blogEntries, ...paperEntries];
 }

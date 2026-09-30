@@ -30,9 +30,6 @@ export const EXTERNAL_LINKS = {
     "mailto:hello@andamio.io?subject=Enterprise%20walkthrough%20request",
 } as const;
 
-/** The real credential SVG used in the live hero. Lives in /public. */
-export const CREDENTIAL_BADGE_SRC = "/andamio-credential-badge.svg";
-
 export const nav = {
   brand: "Andamio",
   // Nav maps onto the two audiences: Issuer (organizations) + Developers (the
@@ -80,16 +77,22 @@ export const nav = {
     {
       label: "Resources",
       items: [
-        { name: "Overview", desc: "Introducing Andamio.", href: "/papers" },
-        {
-          name: "Use cases",
-          desc: "How teams put Andamio to work.",
-          href: "/use-cases",
-        },
+        { name: "Papers", desc: "What Andamio is, and how it works.", href: "/papers" },
+        { name: "Use cases", desc: "How teams put Andamio to work.", href: "/use-cases" },
+        { name: "Blog", desc: "Notes from the build.", href: "/blog" },
+        { name: "Roadmap", desc: "What has shipped, and what is next.", href: "/roadmap" },
+        { name: "Community", desc: "Discord, calendar, and Catalyst.", href: "/community" },
       ],
     },
     { label: "Pricing", href: "/pricing" },
-    { label: "About", href: "/about" },
+    {
+      label: "About",
+      items: [
+        { name: "About", desc: "The team, the timeline, the audit.", href: "/about" },
+        { name: "Contact", desc: "Email, Discord, and a walkthrough.", href: "/about#contact" },
+        { name: "Brand and press", desc: "Logos, color, and the badge.", href: "/brand" },
+      ],
+    },
   ],
   cta: { label: "Start issuing credentials", href: EXTERNAL_LINKS.issuerApp },
   secondaryCta: { label: "Try the App", href: EXTERNAL_LINKS.app },
@@ -1215,26 +1218,31 @@ export const footer = {
   meta: "Live on Cardano mainnet · Audited by TxPipe",
   copyright: "© 2026 Andamio",
   columns: {
-    "For buyers": [
-      { name: "Book a walkthrough", href: EXTERNAL_LINKS.walkthroughMailto },
+    Product: [
+      { name: "Issuer", href: "/issuer" },
+      { name: "Pricing", href: "/pricing" },
       { name: "Use cases", href: "/use-cases" },
-      { name: "Roadmap", href: "/roadmap" },
-      { name: "Blog", href: "/blog" },
-      { name: "About", href: "/about" },
+      { name: "Book a walkthrough", href: EXTERNAL_LINKS.walkthroughMailto },
     ],
-    "For builders": [
+    Developers: [
+      { name: "Build on Andamio", href: "/developers" },
+      { name: "CLI", href: "/cli" },
+      { name: "Discord bot", href: "/bot" },
       { name: "Docs", href: EXTERNAL_LINKS.docs },
       { name: "API Reference", href: EXTERNAL_LINKS.apiReference },
-      { name: "GitHub", href: EXTERNAL_LINKS.github },
-      { name: "App", href: EXTERNAL_LINKS.app },
     ],
-    Connect: [
-      { name: "hello@andamio.io", href: "mailto:hello@andamio.io" },
-      { name: "LinkedIn", href: EXTERNAL_LINKS.linkedin },
-      { name: "Twitter", href: EXTERNAL_LINKS.twitter },
+    Resources: [
+      { name: "Papers", href: "/papers" },
+      { name: "Blog", href: "/blog" },
+      { name: "Roadmap", href: "/roadmap" },
+      { name: "Community", href: "/community" },
+    ],
+    About: [
+      { name: "About", href: "/about" },
+      { name: "Contact", href: "/about#contact" },
+      { name: "Brand and press", href: "/brand" },
       { name: "Discord", href: EXTERNAL_LINKS.discord },
-    ],
-    Legal: [
+      { name: "X", href: EXTERNAL_LINKS.twitter },
       { name: "Privacy", href: "/privacy-policy" },
       { name: "Terms", href: "/terms" },
     ],

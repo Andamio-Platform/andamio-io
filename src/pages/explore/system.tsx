@@ -16,14 +16,14 @@ import {
   Kicker,
   Button,
   ButtonRow,
-  SpecimenReveal,
   DataList,
   StackLayers,
   NumberWatermark,
   Display,
 } from "~/ui/system/kit";
 import { InstrumentSpecimens } from "~/ui/system/instrument/Specimens";
-import { hero, CREDENTIAL_BADGE_SRC } from "~/ui/explore/content";
+import { hero } from "~/ui/explore/content";
+import { MiniBadge } from "~/ui/system/instrument";
 
 /**
  * Living style guide for the Andamio Landing design system.
@@ -235,7 +235,7 @@ export default function SystemPage() {
           The signature interaction. The credential slides in sideways on scroll into a museum-specimen frame. Scroll to animate.
         </p>
         <div className="mt-8 max-w-xl">
-          <SpecimenReveal src={CREDENTIAL_BADGE_SRC} alt={hero.badgeAlt} caption={hero.badgeCaption} />
+          <MiniBadge size={220} label={hero.badgeAlt} />
         </div>
       </Block>
 

@@ -5,7 +5,7 @@
  * Layers: presence → anatomy → lifecycle → intent (progressive, not simultaneous).
  */
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   hero,
   EXTERNAL_LINKS,
@@ -17,8 +17,7 @@ import { BADGE_FIELD_NOTES, type RingFocus } from "./proof-badge/field-notes";
 import { DEFAULT_CREDENTIAL, ProofRingBadge } from "./proof-badge";
 import { type FieldArc } from "./proof-badge/geometry";
 import { Button, ButtonRow, Display } from "./kit";
-import { ClaimFence } from "./ClaimFence";
-import { OrbitSteps } from "./instrument";
+import { OrbitSteps, TickRule } from "./instrument";
 import { persistIntent, readIntent } from "./funnel-intent";
 import { track } from "~/lib/analytics";
 import { FadeSwap, LayoutMark, useMotionGate } from "./motion";
@@ -268,6 +267,83 @@ export function IntentContinue({
   );
 }
 
+type TeachLayer = "inspect" | "lifecycle" | "intent";
+
+const LINE_HOLD_MS = 8000;
+
+const LAYER_STORY: Record<TeachLayer, readonly string[]> = {
+  inspect: [
+    "It looks like a badge. The interesting part is what refuses to stay a picture.",
+    "If the printer of this badge vanished tomorrow, what would you still be able to trust?",
+    "Someone earned this. Someone stood behind it. The marks between them are the question.",
+    "A ring on a certificate is a strange place to keep a promise. What promise is it keeping?",
+    "Open one field. Then ask what else you would put in a credential, once software can read it.",
+  ],
+  lifecycle: [
+    "Before a credential is allowed to exist, someone has to go first. Who?",
+    "What if the person who earns it keeps it, and the organization that defined it cannot take it back?",
+    "Work, then a witness, then the record. What breaks if you reverse that order?",
+    "Three kinds of people need this, and not for the same reason. Which one is sitting with you?",
+    "Follow one role all the way around. The last question is usually: what should this unlock?",
+  ],
+  intent: [
+    "You are already checking work by hand. Asking around. Trusting a story. What if that left a record?",
+    "Maybe you are tired of renting trust from a database you do not own.",
+    "Maybe you build things, and you have been waiting for proof your software can act on.",
+    "Andamio is scaffolding. The point is what stays standing after we step out of the way.",
+    "We have not heard your version yet. The useful part starts when you tell us what you would ask this credential to do.",
+  ],
+};
+
+const LAYER_LABEL: Record<TeachLayer, string> = {
+  inspect: "Anatomy",
+  lifecycle: "Lifecycle",
+  intent: "Your path",
+};
+
+function LayerStory({
+  layer,
+  line,
+  reduce,
+  onPause,
+}: {
+  layer: TeachLayer;
+  line: number;
+  reduce: boolean;
+  onPause: (paused: boolean) => void;
+}) {
+  const lines = LAYER_STORY[layer];
+  const shown = reduce ? 0 : line % lines.length;
+  const indexLabel = `${String(shown + 1).padStart(2, "0")} / ${String(lines.length).padStart(2, "0")}`;
+
+  return (
+    <div
+      className="border px-4 py-4"
+      style={{ borderColor: color.cell, background: color.surface }}
+      onPointerEnter={() => onPause(true)}
+      onPointerLeave={() => onPause(false)}
+      onPointerCancel={() => onPause(false)}
+    >
+      <p
+        className="text-[11px] uppercase tracking-[0.14em]"
+        style={{ fontFamily: font.mono, color: color.inkFaint }}
+      >
+        {LAYER_LABEL[layer]}
+        <span className="ml-3 tabular-nums">{indexLabel}</span>
+      </p>
+      <TickRule className="mt-3" count={lines.length} active={shown} />
+      <FadeSwap swapKey={`${layer}-${shown}`}>
+        <p
+          className="mt-4 min-h-[6.5rem] text-[15px] leading-relaxed"
+          style={{ color: color.inkMuted }}
+        >
+          {lines[shown]}
+        </p>
+      </FadeSwap>
+    </div>
+  );
+}
+
 export function PathModule({ intent }: { intent: string | null }) {
   if (!intent) return null;
 
@@ -329,14 +405,40 @@ export function PathModule({ intent }: { intent: string | null }) {
 export default function CredentialTheater() {
   const reduce = useMotionGate();
   const [focus, setFocus] = useState<RingFocus>(null);
-  const [layer, setLayer] = useState<"inspect" | "lifecycle" | "intent">(
-    "inspect",
-  );
+  const [layer, setLayer] = useState<TeachLayer>("inspect");
   const [intent, setIntent] = useState<string | null>(null);
+  const [line, setLine] = useState(0);
+  const [storyPaused, setStoryPaused] = useState(false);
+  const storyGeneration = useRef(0);
 
   useEffect(() => {
     setIntent(readIntent());
   }, []);
+
+  useEffect(() => {
+    storyGeneration.current += 1;
+    setLine(0);
+    return () => {
+      storyGeneration.current += 1;
+    };
+  }, [layer, reduce]);
+
+  useEffect(() => {
+    if (reduce || storyPaused) return;
+    const generation = storyGeneration.current;
+    const id = window.setInterval(() => {
+      setLine((current) => {
+        if (storyGeneration.current !== generation) return current;
+        return (current + 1) % LAYER_STORY[layer].length;
+      });
+    }, LINE_HOLD_MS);
+    return () => window.clearInterval(id);
+  }, [reduce, storyPaused, layer]);
+
+  function openLayer(next: TeachLayer) {
+    setLayer(next);
+    setLine(0);
+  }
 
   return (
     <div className="grid grid-cols-12 items-start gap-y-10 pb-10 pt-6 sm:pt-10 lg:gap-x-12">
@@ -358,7 +460,7 @@ export default function CredentialTheater() {
             <Button
               variant="outline"
               onClick={() => {
-                setLayer("inspect");
+                openLayer("inspect");
                 document
                   .getElementById("credential-teach")
                   ?.scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
@@ -412,9 +514,9 @@ export default function CredentialTheater() {
         <div className={`mb-8 flex flex-wrap ${space.gapButtons}`}>
           {(
             [
-              { id: "inspect" as const, label: "Anatomy" },
-              { id: "lifecycle" as const, label: "Lifecycle" },
-              { id: "intent" as const, label: "Your path" },
+              { id: "inspect" as const, label: LAYER_LABEL.inspect },
+              { id: "lifecycle" as const, label: LAYER_LABEL.lifecycle },
+              { id: "intent" as const, label: LAYER_LABEL.intent },
             ] as const
           ).map((tab) => {
             const active = layer === tab.id;
@@ -422,7 +524,7 @@ export default function CredentialTheater() {
               <button
                 key={tab.id}
                 type="button"
-                onClick={() => setLayer(tab.id)}
+                onClick={() => openLayer(tab.id)}
                 className="sys-control-press relative px-4 py-2.5 text-[13px] font-semibold tracking-[-0.01em] transition-[transform,box-shadow,background] duration-200"
                 style={{
                   border: `1px solid ${active ? "rgb(var(--sys-ink-rgb) / 0.28)" : "rgb(var(--sys-ink-rgb) / 0.12)"}`,
@@ -470,11 +572,12 @@ export default function CredentialTheater() {
             )}
           </div>
           <div className="lg:col-span-5">
-            <ClaimFence>
-              A real credential on Cardano mainnet. Field focus is a teaching
-              overlay; the QR and IDs point at its public record. Nothing here
-              mints.
-            </ClaimFence>
+            <LayerStory
+              layer={layer}
+              line={line}
+              reduce={reduce}
+              onPause={setStoryPaused}
+            />
           </div>
         </FadeSwap>
 

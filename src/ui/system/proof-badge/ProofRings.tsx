@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from "react";
+import React, { memo, useEffect, useMemo, useRef, useState } from "react";
 import {
   arcPath,
   CENTER,
@@ -191,11 +191,61 @@ function RingBArt({ hash }: { hash: string }) {
 
 const PHRASE_HOLD_S = 6;
 
+/** CSS rotate degrees (clockwise). `none` is rest, which matches the slot flips. */
+function ringRotation(el: Element): number {
+  const transform = getComputedStyle(el).transform;
+  if (!transform || transform === "none") return 0;
+  const match = /matrix(?:3d)?\(([^)]+)\)/.exec(transform);
+  const captured = match?.[1];
+  if (!captured) return 0;
+  const parts = captured.split(",");
+  const a = Number(parts[0]);
+  const b = Number(parts[1]);
+  if (!Number.isFinite(a) || !Number.isFinite(b)) return 0;
+  return (Math.atan2(b, a) * 180) / Math.PI;
+}
+
+/** Lower half of the badge: SVG angle 0 is right, 90 is down. */
+function inLowerHalf(deg: number): boolean {
+  const n = ((deg % 360) + 360) % 360;
+  return n > 0 && n < 180;
+}
+
 /**
  * Five slots on ring B; each cycles its share of the phrase list with one
- * shared opacity keyframe (see .pb-phrase). Pure CSS, no timers.
+ * shared opacity keyframe (see .pb-phrase). The slots ride the spinning ring.
+ * Each phrase flips when its on-screen angle enters the lower half, so the
+ * letters stay readable for the whole turn.
  */
 function RingPhrases({ phrases }: { phrases: readonly string[] }) {
+  const rootRef = useRef<HTMLDivElement>(null);
+  const flipsRef = useRef(PHRASE_SLOTS.map((slot) => slot.flip));
+  const [flips, setFlips] = useState(() =>
+    PHRASE_SLOTS.map((slot) => slot.flip),
+  );
+  useEffect(() => {
+    const ring = rootRef.current?.parentElement;
+    if (!ring) return;
+    let frame = 0;
+    const tick = () => {
+      frame = requestAnimationFrame(tick);
+      const badge = ring.closest(".pb-root");
+      if (!badge?.classList.contains("pb-live")) return;
+      if (badge.hasAttribute("data-offscreen")) return;
+      const rotation = ringRotation(ring);
+      let changed = false;
+      const next = PHRASE_SLOTS.map((slot, i) => {
+        const flip = inLowerHalf(slot.angle + rotation);
+        if (flip !== flipsRef.current[i]) changed = true;
+        return flip;
+      });
+      if (!changed) return;
+      flipsRef.current = next;
+      setFlips(next);
+    };
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, []);
   const slots = PHRASE_SLOTS.length;
   const perSlot = Math.max(1, Math.ceil(phrases.length / slots));
   const cycle = perSlot * PHRASE_HOLD_S;
@@ -206,10 +256,12 @@ function RingPhrases({ phrases }: { phrases: readonly string[] }) {
   // repainting the whole rotating ring.
   return (
     <div
+      ref={rootRef}
       className="pb-phrases"
       style={{ ["--pb-phrase-cycle" as string]: `${cycle}s` }}
     >
-      {PHRASE_SLOTS.map(({ angle, flip, arc }, s) => {
+      {PHRASE_SLOTS.map(({ angle, arc }, s) => {
+        const flip = flips[s] ?? false;
         const d = arcPath(
           baseline(flip),
           angle - arc / 2,

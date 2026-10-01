@@ -44,9 +44,9 @@
     --sys-on-ink: #0b121b;
     --sys-on-ink-rgb: 11 18 27;
     --sys-rule: rgb(239 233 221 / 0.18);
-    --sys-orange: #f7a54a;
+    --sys-orange: #ff6b35;
     --sys-cyan: #3fd9e8;
-    --sys-coral-tint: rgb(247 165 74 / 0.08);
+    --sys-coral-tint: rgb(255 107 53 / 0.08);
     --sys-shadow-control:
       0 1px 2px rgb(0 0 0 / 0.35), 0 6px 20px rgb(0 0 0 / 0.4);
     --sys-shadow-specimen:
@@ -73,7 +73,7 @@
     --ring: var(--sys-cyan);
     --success: #5ee2a0;
     --success-foreground: var(--sys-on-ink);
-    --warning: #f7a54a;
+    --warning: #ed990e;
     --warning-foreground: var(--sys-on-ink);
 
     --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.35);

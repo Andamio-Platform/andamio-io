@@ -91,7 +91,7 @@ Say which mode a partner uses only when they have said so in public. Syngenta, I
 Dark only. Tokens are the `--sys-*` variables in `src/styles/globals.css` and the `color` map in `src/ui/system/tokens.ts`.
 
 - Paper `#0b121b`, surface `#122131`, ink `#efe9dd`.
-- Orange `#f7a54a` is the one primary action on a view. It is not used on headings.
+- Orange `#ff6b35` is the one primary action on a view, and the hero accent “credential badge.”
 - Cyan `#3fd9e8` is for links, data, and focus.
 - No gradient text, no glass, no three-icon grids.
 

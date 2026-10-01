@@ -21,13 +21,40 @@ export function GET(request: Request) {
           padding: "72px",
         }}
       >
-        <div style={{ display: "flex", flexDirection: "column", maxWidth: 760 }}>
-          <div style={{ fontSize: 22, letterSpacing: 3, color: "#3fd9e8" }}>ANDAMIO</div>
-          <div style={{ fontSize: 68, fontWeight: 600, lineHeight: 1.05, marginTop: 28 }}>{title}</div>
+        <div
+          style={{ display: "flex", flexDirection: "column", maxWidth: 760 }}
+        >
+          <div style={{ fontSize: 22, letterSpacing: 3, color: "#3fd9e8" }}>
+            ANDAMIO
+          </div>
+          <div
+            style={{
+              fontSize: 68,
+              fontWeight: 600,
+              lineHeight: 1.05,
+              marginTop: 28,
+            }}
+          >
+            {title}
+          </div>
         </div>
         <svg width="300" height="300" viewBox="0 0 300 300">
-          <circle cx="150" cy="150" r="128" fill="none" stroke="#3fd9e8" strokeWidth="10" />
-          <circle cx="150" cy="150" r="92" fill="none" stroke="#f7a54a" strokeWidth="8" />
+          <circle
+            cx="150"
+            cy="150"
+            r="128"
+            fill="none"
+            stroke="#3fd9e8"
+            strokeWidth="10"
+          />
+          <circle
+            cx="150"
+            cy="150"
+            r="92"
+            fill="none"
+            stroke="#ff6b35"
+            strokeWidth="8"
+          />
           <circle cx="150" cy="150" r="16" fill="#efe9dd" />
         </svg>
       </div>

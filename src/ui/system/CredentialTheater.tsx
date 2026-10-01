@@ -444,7 +444,8 @@ export default function CredentialTheater() {
     <div className="grid grid-cols-12 items-start gap-y-10 pb-10 pt-6 sm:pt-10 lg:gap-x-12">
       <div className="col-span-12 lg:col-span-5 lg:pt-4">
         <Display as="h1" size="xl">
-          {hero.headlineLead} {hero.headlineAccent}
+          {hero.headlineLead}{" "}
+          <span style={{ color: color.orange }}>{hero.headlineAccent}</span>
         </Display>
         <p
           className="mt-6 max-w-[42ch] text-lg leading-relaxed sm:text-xl"

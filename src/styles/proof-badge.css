@@ -7,8 +7,8 @@
 .pb-frame {
   --pb-cyan: #3fd9e8;
   --pb-cyan-hot: #c4fbfb;
-  --pb-orange: #f7a54a;
-  --pb-orange-hot: #fcd48a;
+  --pb-orange: #ff6b35;
+  --pb-orange-hot: #ffb59a;
   --pb-band-cool: #142a39;
   --pb-band-warm: #2a1a20;
   --pb-deep: #0b121b;
@@ -459,7 +459,7 @@
 .pb-icon-btn:focus-visible,
 .pb-qr:focus-visible,
 .pb-verify:focus-visible {
-  box-shadow: 0 0 0 calc(var(--u) * 2) #f7a54a;
+  box-shadow: 0 0 0 calc(var(--u) * 2) #ff6b35;
 }
 
 .pb-icon-btn {

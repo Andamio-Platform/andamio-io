@@ -356,7 +356,7 @@ export const CASES: readonly CaseStudy[] = [
     summary:
       "LeadGen DAO, created by ELK, trains and certifies lead generators and pays them for verified leads, so companies get quality pipeline without an agency.",
     logo: "/customer/leadgen/leadgen-badge.png",
-    theme: { cyan: "#f7a54a", cyanHot: "#fcd48a", orange: "#3fd9e8" },
+    theme: { cyan: "#ff6b35", cyanHot: "#ffb59a", orange: "#3fd9e8" },
     badgeCourse: "Certified Lead Generator",
     challenge: [
       "Building a sales pipeline usually means an in-house team or an agency that works behind closed doors: expensive, inconsistent and hard to see into.",

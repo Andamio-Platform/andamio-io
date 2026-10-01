@@ -167,8 +167,8 @@ export const INK = {
 export const RING_COLORS = {
   cyan: "#3fd9e8",
   cyanHot: "#c4fbfb",
-  orange: "#f7a54a",
-  orangeHot: "#fcd48a",
+  orange: "#ff6b35",
+  orangeHot: "#ffb59a",
   bandCool: "#142a39",
   bandWarm: "#2a1a20",
   deep: "#0b121b",

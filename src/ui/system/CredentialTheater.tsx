@@ -458,17 +458,6 @@ export default function CredentialTheater() {
             <Button variant="primary" href={hero.showMeCta.href}>
               {hero.showMeCta.label} <span aria-hidden>→</span>
             </Button>
-            <Button
-              variant="outline"
-              onClick={() => {
-                openLayer("inspect");
-                document
-                  .getElementById("credential-teach")
-                  ?.scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
-              }}
-            >
-              Look inside
-            </Button>
           </ButtonRow>
         </div>
       </div>

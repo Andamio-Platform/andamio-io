@@ -37,8 +37,6 @@ Live routes, and only these, are in `src/app/sitemap.ts`.
 | `/about` | Timeline, audit, team, `#contact` |
 | `/privacy-policy`, `/terms` | Legal |
 
-`/brand`, `/brand/developers`, and `/brand/flyer` stay in the repo for local development (`npm run dev`). A production build returns 404 for that tree.
-
 ### Redirects
 
 Permanent, in `next.config.js`.
@@ -48,7 +46,7 @@ Permanent, in `next.config.js`.
 | `/contact` | `/about#contact` |
 | `/customers` and `/customers/*` | `/use-cases` |
 | `/explore/concept-a` | `/` |
-| `/explore/system` | `/brand` |
+| `/explore/system` | `/` |
 | `/about/whitepaper` | `/papers` |
 | `/about/our-team` | `/about#team` |
 | `/about/our-technology` | `/about#technology` |
@@ -67,7 +65,7 @@ Defined together in `src/ui/explore/content.ts`.
 - **Issuer** and **Pricing** are top-level.
 - **Developers:** Build on Andamio, Docs, API reference, the app template, CLI, Discord bot.
 - **Resources:** Papers, Use cases, Blog, Roadmap, Community.
-- **About:** About, Contact (`/about#contact`), Brand and press.
+- **About:** About, Contact (`/about#contact`).
 - The nav call to action is **Start issuing credentials** (`issuer.andamio.io`).
 - The footer repeats Product, Developers, Resources, and About, and adds Discord, X, Privacy, and Terms.
 

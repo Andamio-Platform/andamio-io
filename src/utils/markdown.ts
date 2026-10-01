@@ -12,9 +12,11 @@ export interface BlogPostMetadata {
 
 export const parseBlogMarkdocFrontmatter = (ast: Node) => {
   try {
-    return ast.attributes.frontmatter
-      ? (JSON.parse(ast.attributes.frontmatter) as BlogPostMetadata)
-      : undefined;
+    const frontmatter: unknown = ast.attributes.frontmatter;
+    if (typeof frontmatter !== "string" || frontmatter.length === 0) {
+      return undefined;
+    }
+    return JSON.parse(frontmatter) as BlogPostMetadata;
   } catch (error) {
     console.error('Error parsing JSON frontmatter:', error);
     return undefined;

@@ -1,10 +1,8 @@
 import React from "react";
 import Metatags from "~/components/site/metatags";
 import { nav, footer as footerData, EXTERNAL_LINKS } from "~/ui/explore/content";
-import { color, font } from "~/ui/system/tokens";
+import { color } from "~/ui/system/tokens";
 import { Page, Section, Kicker, Display, Button, Footer } from "~/ui/system/kit";
-
-const mono = { fontFamily: font.mono };
 
 const channels = [
   {

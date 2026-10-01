@@ -2,7 +2,7 @@
 
 Marketing site and blog for [Andamio](https://www.andamio.io), an open protocol for verifiable, portable credentials on Cardano. This repo is only the public website; the product app, API and docs live in other repositories under [Andamio-Platform](https://github.com/Andamio-Platform).
 
-Next.js 14 (pages router plus a small `app/` directory for blog, customers, brand, sitemap and robots), React 18, TypeScript, Tailwind and `motion/react`.
+Next.js 14 (pages router plus a small `app/` directory for blog, customers, sitemap and robots), React 18, TypeScript, Tailwind and `motion/react`.
 
 ## Commands
 
@@ -32,7 +32,7 @@ Screenshots go to `screenshots/` (gitignored).
 src/
   pages/            routes: home, /issuer, /show-me, /developers, /cli, /bot, /pricing,
                     /use-cases/*, /papers/*, /about, /roadmap, legal pages
-  app/              app-router routes: /blog, /customers, /brand, sitemap.ts, robots.ts
+  app/              app-router routes: /blog, /customers, sitemap.ts, robots.ts
   ui/system/        the live design system and page compositions
     proof-badge/    the Proof Ring credential badge (hero and demos)
     motion/         motion primitives, all gated by useMotionGate

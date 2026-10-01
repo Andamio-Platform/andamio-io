@@ -1,4 +1,4 @@
-import { GetServerSideProps } from "next";
+import { type GetServerSideProps } from "next";
 
 // Redirect to consolidated about page
 export const getServerSideProps: GetServerSideProps = async () => {

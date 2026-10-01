@@ -36,7 +36,7 @@ export function Pressable({
   const tag: "a" | "button" | "span" =
     as ?? (href ? "a" : onClick ? "button" : "span");
 
-  if (reduce || disabled || ariaDisabled === true || ariaDisabled === "true") {
+  if (reduce || disabled === true || ariaDisabled === true || ariaDisabled === "true") {
     if (tag === "a" && href) {
       return (
         <a href={href} onClick={onClick} className={className} style={style}>

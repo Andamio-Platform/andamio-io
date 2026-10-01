@@ -28,7 +28,7 @@ export default function CustomersPage() {
     const id = file.replace(/\.md$/, "");
     const content = fs.readFileSync(path.join(customersDir, file), "utf-8");
     const pageAST = Markdoc.parse(content);
-    const frontmatter = parseBlogMarkdocFrontmatter(pageAST) || {};
+    const frontmatter = parseBlogMarkdocFrontmatter(pageAST) ?? {};
     return { id, frontmatter };
   });
 
@@ -85,7 +85,11 @@ export default function CustomersPage() {
                       src={customer.frontmatter.image}
                       height={400}
                       width={800}
-                      alt={customer.frontmatter.title || customer.id}
+                      alt={
+                        customer.frontmatter.title
+                          ? customer.frontmatter.title
+                          : customer.id
+                      }
                       className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                     />
                     {/* Customer Logo at top right */}
@@ -94,7 +98,9 @@ export default function CustomersPage() {
                         <Image
                           src={customer.frontmatter.logo}
                           alt={
-                            customer.frontmatter.title || customer.id + " logo"
+                            customer.frontmatter.title
+                              ? customer.frontmatter.title
+                              : customer.id + " logo"
                           }
                           width={72}
                           height={72}
@@ -115,7 +121,9 @@ export default function CustomersPage() {
                     </span>
                   </div>
                   <h2 className="mt-3 text-xl font-semibold leading-tight tracking-[-0.02em] lg:text-2xl">
-                    {customer.frontmatter.title || customer.id}
+                    {customer.frontmatter.title
+                      ? customer.frontmatter.title
+                      : customer.id}
                   </h2>
                   {/* Tags */}
                   {customer.frontmatter.tags &&

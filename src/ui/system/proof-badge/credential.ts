@@ -266,6 +266,7 @@ export function credentialFromBuilder(
     .filter(Boolean)
     .slice(0, 4)
     .map((label) => ({ label, icon: "badge" as const }));
+  const mark = input.mark?.trim();
   return {
     brand: "Andamio",
     course: input.course,
@@ -279,7 +280,7 @@ export function credentialFromBuilder(
     courseId: input.courseId,
     sltHash: input.sltHash,
     verifyUrl: input.verifyUrl ?? badgeVerifyUrl(input.courseId, input.sltHash),
-    mark: input.mark?.trim() || undefined,
+    mark: mark ? mark : undefined,
   };
 }
 

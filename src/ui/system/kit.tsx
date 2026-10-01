@@ -1229,7 +1229,7 @@ export function Footer({
             ))}
           </div>
         </div>
-        {(backHref || caption) && (
+        {(backHref ? backHref : caption) && (
           <div
             className="flex flex-col items-start justify-between gap-3 border-t py-5 sm:flex-row sm:items-center"
             style={{ borderColor: color.rule }}

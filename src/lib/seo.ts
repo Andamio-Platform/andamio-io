@@ -38,7 +38,9 @@ export const ORGANIZATION_JSON_LD = {
 
 /** 1200×630 share image for a page title. Rendered by `app/og/route.tsx`. */
 export function ogImagePath(title?: string): string {
-  return `/og?title=${encodeURIComponent(title?.trim() || SITE_NAME)}`;
+  const trimmed = title?.trim();
+  const label = trimmed ? trimmed : SITE_NAME;
+  return `/og?title=${encodeURIComponent(label)}`;
 }
 
 export function articleJsonLd(article: { title: string; description: string; path: string }) {

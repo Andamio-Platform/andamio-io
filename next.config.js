@@ -64,7 +64,7 @@ const config = {
         permanent: true,
       },
       { source: "/explore/concept-a", destination: "/", permanent: true },
-      { source: "/explore/system", destination: "/brand", permanent: true },
+      { source: "/explore/system", destination: "/", permanent: true },
       { source: "/about/whitepaper", destination: "/papers", permanent: true },
       {
         source: "/about/our-team",

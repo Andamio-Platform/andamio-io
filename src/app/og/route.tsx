@@ -1,7 +1,5 @@
 import { ImageResponse } from "next/og";
 
-export const runtime = "edge";
-
 /** Share card, 1200×630. A title plus the two proof rings, in the site palette. */
 export function GET(request: Request) {
   const raw = new URL(request.url).searchParams.get("title") ?? "Andamio";

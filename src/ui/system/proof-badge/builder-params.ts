@@ -74,10 +74,12 @@ export async function buildBadgeParams(
     sha256Hex(courseName, 28),
     sha256Hex(canonicalizeSlts(inputs.slts), 32),
   ]);
-  const earnerName = inputs.earnerName?.trim() || "Preview earner";
-  const did =
-    inputs.did?.trim() ||
-    `did:andamio:${courseId.slice(0, 8)}${sltHash.slice(0, 8)}`;
+  const trimmedEarner = inputs.earnerName?.trim();
+  const earnerName = trimmedEarner ? trimmedEarner : "Preview earner";
+  const trimmedDid = inputs.did?.trim();
+  const did = trimmedDid
+    ? trimmedDid
+    : `did:andamio:${courseId.slice(0, 8)}${sltHash.slice(0, 8)}`;
   return {
     courseTitle: courseName || "Your Course",
     moduleTitle: moduleName || "Your Credential",

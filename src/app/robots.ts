@@ -7,9 +7,8 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        // /debug is developer tooling. /explore and /brand are internal
-        // references (brand is also 404 outside local dev). None of them
-        // should appear in search results.
+        // /debug is developer tooling. /explore is an internal reference.
+        // /brand was removed; keep it disallowed so old URLs stay out of search.
         disallow: ["/debug", "/explore", "/brand"],
       },
     ],

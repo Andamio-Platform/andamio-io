@@ -1,4 +1,4 @@
-import { GetServerSideProps } from "next";
+import { type GetServerSideProps } from "next";
 
 // Redirect the legacy /about/whitepaper path to the papers hub.
 export const getServerSideProps: GetServerSideProps = async () => {

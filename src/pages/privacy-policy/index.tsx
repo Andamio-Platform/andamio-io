@@ -53,7 +53,7 @@ export default function PrivacyPolicyPage() {
         description="Our commitment to protecting your privacy and personal data."
       />
 
-      <Page nav={{ items: nav.items, cta: nav.cta }}>
+      <Page nav={{ items: nav.items }}>
         {/* Header */}
         <Section bordered={false}>
           <div className="pb-12 pt-16 sm:pt-24">
@@ -73,14 +73,14 @@ export default function PrivacyPolicyPage() {
         {/* Body */}
         <Section bordered={false}>
           <div className="max-w-3xl py-16 sm:py-20">
-            <div
-              className="p-6"
-              style={{ border: `1px solid ${color.cell}` }}
-            >
+            <div className="p-6" style={{ border: `1px solid ${color.cell}` }}>
               <p className="text-lg" style={{ color: color.ink }}>
                 <strong style={{ fontWeight: 600 }}>Version 1.0.0</strong>
               </p>
-              <p className="mt-2 text-[13px] font-medium tracking-[-0.01em]" style={{ color: color.inkFaint }}>
+              <p
+                className="mt-2 text-[13px] font-medium tracking-[-0.01em]"
+                style={{ color: color.inkFaint }}
+              >
                 Last updated: {new Date().toLocaleDateString()}
               </p>
             </div>
@@ -125,8 +125,8 @@ export default function PrivacyPolicyPage() {
 
             <H3>Usage Data</H3>
             <P>
-              We may collect information on how the service is accessed and used,
-              including:
+              We may collect information on how the service is accessed and
+              used, including:
             </P>
             <UL>
               <li>IP address</li>
@@ -139,7 +139,9 @@ export default function PrivacyPolicyPage() {
 
             <H3>To Provide and Maintain Our Service</H3>
             <UL>
-              <li>To manage user accounts and provide access to our platform</li>
+              <li>
+                To manage user accounts and provide access to our platform
+              </li>
               <li>To process transactions and send confirmations</li>
               <li>To provide customer support</li>
             </UL>
@@ -201,10 +203,10 @@ export default function PrivacyPolicyPage() {
 
             <H2>5. Data Security</H2>
             <P>
-              We implement reasonable security measures to protect your data from
-              unauthorized access, use, alteration, and disclosure. However, no
-              method of transmission over the Internet or electronic storage is
-              100% secure, and we cannot guarantee absolute security.
+              We implement reasonable security measures to protect your data
+              from unauthorized access, use, alteration, and disclosure.
+              However, no method of transmission over the Internet or electronic
+              storage is 100% secure, and we cannot guarantee absolute security.
             </P>
 
             <H2>6. Data Retention</H2>
@@ -235,9 +237,9 @@ export default function PrivacyPolicyPage() {
             <H3>Objection and Restriction</H3>
             <P>
               You have the right to object to the processing of your personal
-              data and to request the restriction of processing. You can withdraw
-              consent at any time, without affecting the lawfulness of processing
-              based on consent before its withdrawal.
+              data and to request the restriction of processing. You can
+              withdraw consent at any time, without affecting the lawfulness of
+              processing based on consent before its withdrawal.
             </P>
 
             <H2>8. Children&apos;s Privacy</H2>
@@ -259,7 +261,10 @@ export default function PrivacyPolicyPage() {
               className="mt-6 p-4"
               style={{ border: `1px solid ${color.cell}` }}
             >
-              <ul className="space-y-2 leading-relaxed" style={{ color: color.inkMuted }}>
+              <ul
+                className="space-y-2 leading-relaxed"
+                style={{ color: color.inkMuted }}
+              >
                 <li>
                   <strong style={{ color: color.ink, fontWeight: 600 }}>
                     Data Protection Officer:
@@ -292,8 +297,8 @@ export default function PrivacyPolicyPage() {
 
             <H2>11. Contact Us</H2>
             <P>
-              If you have any questions about this Privacy Policy, please contact
-              us at:
+              If you have any questions about this Privacy Policy, please
+              contact us at:
             </P>
             <div
               className="mt-4 p-4"

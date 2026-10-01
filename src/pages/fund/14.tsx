@@ -92,7 +92,7 @@ const FundProposals: React.FC = () => {
   );
 
   return (
-    <Page nav={{ items: nav.items, cta: nav.cta }}>
+    <Page nav={{ items: nav.items }}>
       <Metatags
         title="Project Catalyst Proposals"
         description="Proposals that Andamio has submitted to Project Catalyst. Explore reasoning, progress, and impact."
@@ -134,7 +134,10 @@ const FundProposals: React.FC = () => {
                   ...(techProposals ?? []),
                   ...(adoptionProposals ?? []),
                 ].map((proposal, idx) => (
-                  <ProposalCard proposal={proposal} key={proposal.title + idx} />
+                  <ProposalCard
+                    proposal={proposal}
+                    key={proposal.title + idx}
+                  />
                 ));
               })}
           </div>
@@ -168,8 +171,7 @@ const ProposalCard: React.FC<ProposalCardProps> = ({ proposal }) => (
         className="shrink-0 border px-2.5 py-1 text-[11px] font-semibold tracking-[-0.01em]"
         style={{
           borderColor: color.cell,
-          color:
-            proposal.status === "completed" ? color.cyan : color.inkMuted,
+          color: proposal.status === "completed" ? color.cyan : color.inkMuted,
         }}
       >
         {proposal.status}

@@ -14,14 +14,28 @@ export const metadata: Metadata = {
   alternates: { canonical: "/customers" },
 };
 
-export default function CustomersLayout({ children }: { children: React.ReactNode }) {
+export default function CustomersLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang="en" className={`dark ${fontVariables}`} suppressHydrationWarning>
-      <body style={{ background: color.paper, color: color.ink, fontFamily: font.sans }}>
+    <html
+      lang="en"
+      className={`dark ${fontVariables}`}
+      suppressHydrationWarning
+    >
+      <body
+        style={{
+          background: color.paper,
+          color: color.ink,
+          fontFamily: font.sans,
+        }}
+      >
         <div className="relative min-h-screen antialiased">
           <LogoWash />
           <div className="relative z-10">
-            <TopNav items={nav.items} cta={nav.cta} />
+            <TopNav items={nav.items} />
             <main>{children}</main>
             <Footer
               tagline={footerData.tagline}

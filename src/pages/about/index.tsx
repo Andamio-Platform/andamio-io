@@ -115,7 +115,7 @@ export default function AboutPage() {
         description="Andamio is a credentialing company on Cardano: the team, the history from Project Catalyst to mainnet, the TxPipe audit, and how to reach us."
       />
 
-      <Page nav={{ items: nav.items, cta: nav.cta }}>
+      <Page nav={{ items: nav.items }}>
         <Section bordered={false}>
           <div className="pb-12 pt-16 sm:pt-24">
             <Kicker>About</Kicker>

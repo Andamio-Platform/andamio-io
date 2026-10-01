@@ -3,10 +3,19 @@ import Metatags from "~/components/site/metatags";
 import { nav, footer as footerData } from "~/ui/explore/content";
 import { EXTERNAL_LINKS } from "~/lib/external-links";
 import { color, font } from "~/ui/system/tokens";
-import { Page, Section, Kicker, Display, Button, Footer } from "~/ui/system/kit";
+import {
+  Page,
+  Section,
+  Kicker,
+  Display,
+  Button,
+  Footer,
+} from "~/ui/system/kit";
 import { roadmap } from "~/roadmap";
 
-const catalyst = roadmap.find((track) => track.category === "Catalyst Proposals");
+const catalyst = roadmap.find(
+  (track) => track.category === "Catalyst Proposals",
+);
 
 const FUND_14 = {
   name: "F14: On-chain task and contributor verification",
@@ -22,16 +31,19 @@ export default function CommunityPage() {
         title="Community"
         description="The Andamio Discord, the public events calendar, and the Project Catalyst funds that built the protocol."
       />
-      <Page nav={{ items: nav.items, cta: nav.cta }}>
+      <Page nav={{ items: nav.items }}>
         <Section bordered={false}>
           <div className="pb-12 pt-16 sm:pt-24">
             <Kicker>Community</Kicker>
             <Display as="h1" size="lg" className="mt-5">
               Where the work happens
             </Display>
-            <p className="mt-5 max-w-2xl text-lg leading-relaxed" style={{ color: color.inkMuted }}>
-              Talk with the team on Discord, join an open session, or read the Catalyst proposals
-              that funded the protocol.
+            <p
+              className="mt-5 max-w-2xl text-lg leading-relaxed"
+              style={{ color: color.inkMuted }}
+            >
+              Talk with the team on Discord, join an open session, or read the
+              Catalyst proposals that funded the protocol.
             </p>
           </div>
         </Section>
@@ -43,9 +55,12 @@ export default function CommunityPage() {
               <Display as="h2" size="md" className="mt-5">
                 Andamio Discord
               </Display>
-              <p className="mt-4 max-w-xl text-[16px] leading-relaxed" style={{ color: color.inkMuted }}>
-                The public server is open. Questions about issuing, building, or a partnership
-                belong here as much as they do in email.
+              <p
+                className="mt-4 max-w-xl text-[16px] leading-relaxed"
+                style={{ color: color.inkMuted }}
+              >
+                The public server is open. Questions about issuing, building, or
+                a partnership belong here as much as they do in email.
               </p>
             </div>
             <Button variant="primary" href={EXTERNAL_LINKS.discord}>
@@ -60,7 +75,10 @@ export default function CommunityPage() {
             <Display as="h2" size="md" className="mt-5">
               Open sessions
             </Display>
-            <p className="mt-4 max-w-2xl text-[16px] leading-relaxed" style={{ color: color.inkMuted }}>
+            <p
+              className="mt-4 max-w-2xl text-[16px] leading-relaxed"
+              style={{ color: color.inkMuted }}
+            >
               Working groups and community events, shared with Gimbalabs.
             </p>
             <div className="mt-8 border" style={{ borderColor: color.cell }}>
@@ -81,11 +99,17 @@ export default function CommunityPage() {
             <Display as="h2" size="md" className="mt-5">
               Funds 10 to 14
             </Display>
-            <p className="mt-4 max-w-2xl text-[16px] leading-relaxed" style={{ color: color.inkMuted }}>
-              Andamio was funded in public rounds. Each line is a proposal, not a claim about how
-              the vote went.
+            <p
+              className="mt-4 max-w-2xl text-[16px] leading-relaxed"
+              style={{ color: color.inkMuted }}
+            >
+              Andamio was funded in public rounds. Each line is a proposal, not
+              a claim about how the vote went.
             </p>
-            <ol className="mt-10 max-w-3xl border-l" style={{ borderColor: color.cell }}>
+            <ol
+              className="mt-10 max-w-3xl border-l"
+              style={{ borderColor: color.cell }}
+            >
               {(catalyst?.epics ?? []).map((epic) => (
                 <li key={epic.name} className="relative pb-8 pl-8">
                   <span
@@ -93,15 +117,24 @@ export default function CommunityPage() {
                     className="absolute -left-[5px] top-1.5 h-[9px] w-[9px] rounded-full border"
                     style={{ borderColor: color.cyan, background: color.paper }}
                   />
-                  <p className="text-[12px] tabular-nums" style={{ fontFamily: font.mono, color: color.inkFaint }}>
+                  <p
+                    className="text-[12px] tabular-nums"
+                    style={{ fontFamily: font.mono, color: color.inkFaint }}
+                  >
                     {epic.years[0]}
                     {epic.quarter ? ` Q${epic.quarter}` : ""}
                     {epic.status === "inProgress" ? " · in progress" : ""}
                   </p>
-                  <p className="mt-1 text-[16px] font-semibold" style={{ color: color.ink }}>
+                  <p
+                    className="mt-1 text-[16px] font-semibold"
+                    style={{ color: color.ink }}
+                  >
                     {epic.name}
                   </p>
-                  <p className="mt-1 text-[15px] leading-relaxed" style={{ color: color.inkMuted }}>
+                  <p
+                    className="mt-1 text-[15px] leading-relaxed"
+                    style={{ color: color.inkMuted }}
+                  >
                     {epic.description}
                   </p>
                   {epic.link ? (
@@ -123,13 +156,22 @@ export default function CommunityPage() {
                   className="absolute -left-[5px] top-1.5 h-[9px] w-[9px] rounded-full border"
                   style={{ borderColor: color.cyan, background: color.paper }}
                 />
-                <p className="text-[12px] tabular-nums" style={{ fontFamily: font.mono, color: color.inkFaint }}>
+                <p
+                  className="text-[12px] tabular-nums"
+                  style={{ fontFamily: font.mono, color: color.inkFaint }}
+                >
                   2025 · proposal
                 </p>
-                <p className="mt-1 text-[16px] font-semibold" style={{ color: color.ink }}>
+                <p
+                  className="mt-1 text-[16px] font-semibold"
+                  style={{ color: color.ink }}
+                >
                   {FUND_14.name}
                 </p>
-                <p className="mt-1 text-[15px] leading-relaxed" style={{ color: color.inkMuted }}>
+                <p
+                  className="mt-1 text-[15px] leading-relaxed"
+                  style={{ color: color.inkMuted }}
+                >
                   {FUND_14.description}
                 </p>
                 <a

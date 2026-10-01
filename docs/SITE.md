@@ -66,7 +66,7 @@ Defined together in `src/ui/explore/content.ts`.
 - **Developers:** Build on Andamio, Docs, API reference, the app template, CLI, Discord bot.
 - **Resources:** Papers, Use cases, Blog, Roadmap, Community.
 - **About:** About, Contact (`/about#contact`).
-- The nav call to action is **Start issuing credentials** (`issuer.andamio.io`).
+- The nav has no filled call to action. **Try the App** (`mainnet.app.andamio.io`) is an outline button on pages that pass it. Issuing starts from the closing button on `/issuer`.
 - The footer repeats Product, Developers, Resources, and About, and adds Discord, X, Privacy, and Terms.
 
 ## Journeys

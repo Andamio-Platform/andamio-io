@@ -36,7 +36,7 @@ export function UseCaseLayout({
     <>
       <Metatags title={title} description={description} />
 
-      <Page nav={{ items: nav.items, cta: nav.cta }}>
+      <Page nav={{ items: nav.items }}>
         {children}
         <Footer
           tagline={footerData.tagline}

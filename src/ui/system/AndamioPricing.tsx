@@ -54,11 +54,17 @@ function PriceCard({
   return (
     <ProofCard kicker={name} className={`w-full ${dim ? "opacity-60" : ""}`}>
       <p className="-mt-1 flex items-baseline gap-1.5">
-        <span className="text-[26px] font-semibold tabular-nums tracking-[-0.03em]" style={{ color: color.ink }}>
+        <span
+          className="text-[26px] font-semibold tabular-nums tracking-[-0.03em]"
+          style={{ color: color.ink }}
+        >
           {price}
         </span>
         {priceNote ? (
-          <span className="text-[12px]" style={{ fontFamily: font.mono, color: color.inkFaint }}>
+          <span
+            className="text-[12px]"
+            style={{ fontFamily: font.mono, color: color.inkFaint }}
+          >
             {priceNote}
           </span>
         ) : null}
@@ -73,7 +79,7 @@ function PriceCard({
 export default function AndamioPricing() {
   return (
     <Page
-      nav={{ items: nav.items, cta: nav.cta, secondaryCta: nav.secondaryCta }}
+      nav={{ items: nav.items, secondaryCta: nav.secondaryCta }}
       footer={pageFooter}
     >
       {/* ── Hero — set the two-products frame up front. ─────────────────── */}
@@ -136,33 +142,31 @@ export default function AndamioPricing() {
           </div>
 
           {/* Tier cards. */}
-          <Stagger
-            className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5"
-          >
+          <Stagger className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
             {pricing.issuer.tiers.map((t) => (
               <StaggerItem key={t.name} className="flex">
-              <PriceCard
-                name={t.name}
-                price={t.price}
-                priceNote={t.priceNote}
-                dim={"muted" in t && t.muted}
-              >
-                <dl className="space-y-2.5 text-[13px]">
-                  {[
-                    ["Users", t.users],
-                    ["Badges", t.badges],
-                    ["Courses", t.courses],
-                  ].map(([k, v]) => (
-                    <div
-                      key={k}
-                      className="flex items-baseline justify-between gap-3"
-                    >
-                      <dt style={{ color: color.inkFaint }}>{k}</dt>
-                      <dd className="font-medium tabular-nums">{v}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </PriceCard>
+                <PriceCard
+                  name={t.name}
+                  price={t.price}
+                  priceNote={t.priceNote}
+                  dim={"muted" in t && t.muted}
+                >
+                  <dl className="space-y-2.5 text-[13px]">
+                    {[
+                      ["Users", t.users],
+                      ["Badges", t.badges],
+                      ["Courses", t.courses],
+                    ].map(([k, v]) => (
+                      <div
+                        key={k}
+                        className="flex items-baseline justify-between gap-3"
+                      >
+                        <dt style={{ color: color.inkFaint }}>{k}</dt>
+                        <dd className="font-medium tabular-nums">{v}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </PriceCard>
               </StaggerItem>
             ))}
           </Stagger>
@@ -193,21 +197,19 @@ export default function AndamioPricing() {
             lead={pricing.api.lead}
           />
 
-          <Stagger
-            className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
-          >
+          <Stagger className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {pricing.api.tiers.map((t) => (
               <StaggerItem key={t.name} className="flex">
-              <PriceCard
-                name={t.name}
-                price={t.price}
-                priceNote={t.priceNote}
-                dim={"muted" in t && t.muted}
-              >
-                <p className="text-[13px] leading-relaxed" style={muted}>
-                  {t.limits}
-                </p>
-              </PriceCard>
+                <PriceCard
+                  name={t.name}
+                  price={t.price}
+                  priceNote={t.priceNote}
+                  dim={"muted" in t && t.muted}
+                >
+                  <p className="text-[13px] leading-relaxed" style={muted}>
+                    {t.limits}
+                  </p>
+                </PriceCard>
               </StaggerItem>
             ))}
           </Stagger>
@@ -228,18 +230,35 @@ export default function AndamioPricing() {
 
       {/* ── FAQ (also emitted as FAQPage JSON-LD by the page). ───────────── */}
       <Section id="faq" bordered={false}>
-        <div className="border-t pb-20 pt-14" style={{ borderColor: color.rule }}>
+        <div
+          className="border-t pb-20 pt-14"
+          style={{ borderColor: color.rule }}
+        >
           <SectionIntro title="Questions" />
-          <div className="mt-8 max-w-3xl border-t" style={{ borderColor: color.cell }}>
+          <div
+            className="mt-8 max-w-3xl border-t"
+            style={{ borderColor: color.cell }}
+          >
             {pricing.faq.map((f) => (
-              <details key={f.q} className="group border-b py-5" style={{ borderColor: color.cell }}>
+              <details
+                key={f.q}
+                className="group border-b py-5"
+                style={{ borderColor: color.cell }}
+              >
                 <summary className="flex cursor-pointer list-none items-baseline justify-between gap-6 text-[16px] font-semibold tracking-[-0.01em] focus:outline-none focus-visible:underline [&::-webkit-details-marker]:hidden">
                   <span>{f.q}</span>
-                  <span aria-hidden className="shrink-0 text-[14px] transition-transform group-open:rotate-45" style={{ color: color.cyan }}>
+                  <span
+                    aria-hidden
+                    className="shrink-0 text-[14px] transition-transform group-open:rotate-45"
+                    style={{ color: color.cyan }}
+                  >
                     +
                   </span>
                 </summary>
-                <p className="mt-3 max-w-2xl text-[15px] leading-relaxed" style={muted}>
+                <p
+                  className="mt-3 max-w-2xl text-[15px] leading-relaxed"
+                  style={muted}
+                >
                   {f.a}
                 </p>
               </details>

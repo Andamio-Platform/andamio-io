@@ -52,7 +52,7 @@ export default function WhitepaperPage({ slug, title, summary, body }: Props) {
         })}
       />
 
-      <Page nav={{ items: nav.items, cta: nav.cta }}>
+      <Page nav={{ items: nav.items }}>
         <main className="mx-auto max-w-3xl px-6 pb-24 pt-16 sm:px-10 sm:pt-24">
           <Link
             href="/papers"

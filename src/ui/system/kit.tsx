@@ -138,8 +138,12 @@ export type NavEntry = NavLink | NavMenu;
 
 export interface NavData {
   items: readonly NavEntry[];
-  cta: { label: string; href: string };
-  /** Optional quieter second action (outline), rendered before the primary. */
+  /**
+   * Optional filled nav action. The header no longer uses one: the hero's
+   * "Show me" is the primary, and issuing lives on /issuer.
+   */
+  cta?: { label: string; href: string };
+  /** Optional quieter action (outline), e.g. "Try the App". */
   secondaryCta?: { label: string; href: string };
 }
 
@@ -267,7 +271,7 @@ function NavDropdown({
   );
 }
 
-export function TopNav({ items, cta, secondaryCta }: NavData) {
+export function TopNav({ items, secondaryCta }: NavData) {
   const [open, setOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const reduce = useMotionGate();
@@ -311,23 +315,22 @@ export function TopNav({ items, cta, secondaryCta }: NavData) {
               ),
             )}
           </nav>
-          {/* Primary = the Issuer conversion; secondary (outline) = the app
-              path for developers / existing users. */}
-          <span
-            className="hidden h-5 w-px lg:block"
-            style={{ background: color.cell }}
-            aria-hidden
-          />
+          {/* Outline only. The hero's "Show me" is the primary; this is the
+              app path for developers and existing users. */}
           {secondaryCta && (
-            <span className="hidden sm:block">
-              <Button href={secondaryCta.href} variant="outline">
-                {secondaryCta.label}
-              </Button>
-            </span>
+            <>
+              <span
+                className="hidden h-5 w-px lg:block"
+                style={{ background: color.cell }}
+                aria-hidden
+              />
+              <span className="hidden sm:block">
+                <Button href={secondaryCta.href} variant="outline">
+                  {secondaryCta.label}
+                </Button>
+              </span>
+            </>
           )}
-          <Button href={cta.href} variant="ink">
-            {cta.label}
-          </Button>
           <button
             type="button"
             onClick={() => setOpen((o) => !o)}

@@ -39,7 +39,7 @@ const pageFooter = (
 export default function AndamioBot() {
   return (
     <Page
-      nav={{ items: nav.items, cta: nav.cta, secondaryCta: nav.secondaryCta }}
+      nav={{ items: nav.items, secondaryCta: nav.secondaryCta }}
       footer={pageFooter}
     >
       {/* ── Hero ─────────────────────────────────────────────────────────── */}

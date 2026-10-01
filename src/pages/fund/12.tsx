@@ -12,7 +12,7 @@ export default function Page12() {
         description="Andamio proposals submitted to Project Catalyst Fund 12."
       />
 
-      <Page nav={{ items: nav.items, cta: nav.cta }}>
+      <Page nav={{ items: nav.items }}>
         <Fund12 />
 
         <Footer

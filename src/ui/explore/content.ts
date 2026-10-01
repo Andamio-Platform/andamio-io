@@ -117,7 +117,6 @@ export const nav = {
       ],
     },
   ],
-  cta: { label: "Start issuing credentials", href: EXTERNAL_LINKS.issuerApp },
   secondaryCta: { label: "Try the App", href: EXTERNAL_LINKS.app },
 } as const;
 
@@ -615,7 +614,7 @@ export const storyFork = {
 export const demo = {
   liveLabel: "Demo",
   title: "Learn how an Andamio Credential Badge works",
-  note: "Illustrative walkthrough — Issue and Verify are local UI, not live API success. Type below to see how rings encode course_id and slt_hash.",
+  note: "Illustrative walkthrough — Review, Issue, and Verify are local UI, not live API success. Type below to see how rings encode course_id and slt_hash.",
 } as const;
 
 /**
@@ -630,23 +629,21 @@ export const demo = {
 // chapter 1 (storyFork.issuer.use.steps) and in the /issuer demo. Prose
 // history in git.
 
-/** StoryBrand "plan" beat — the three-step path that de-risks issuing. */
-/**
- * The /issuer demo's three tabs. Vocabulary aligned to the canonical pattern
- * (define → evidence → review → claim, 2026-07-02 audit): the Issue tab
- * compresses evidence + review + claim into one demo beat, so its copy names
- * all three. A full four-tab restructure is the deeper option if wanted.
- */
+/** /issuer demo tabs — the organization lifecycle, one pane each. */
 export const plan = {
-  heading: "Issuing takes three steps",
+  heading: "Define, review, issue, verify",
   steps: [
     {
       title: "Define",
       body: "Say what the credential certifies. You own the meaning.",
     },
     {
+      title: "Review",
+      body: "Someone submits evidence. A reviewer you've authorized accepts it, or sends it back.",
+    },
+    {
       title: "Issue",
-      body: "Someone submits evidence, a reviewer you've authorized approves it, and only then is the credential claimed — a few API calls, integrated in minutes.",
+      body: "Accepted work is claimed as a credential under your issuer identity — a few API calls, integrated in minutes.",
     },
     {
       title: "Verify",
@@ -704,8 +701,7 @@ export const issuer = {
   // /issuer page-level framing.
   page: {
     overviewCta: "← Andamio overview",
-    demoLead:
-      "Three steps to a credential your organization controls. Try each one.",
+    demoLead: "Define, review, issue, then verify. Try each one.",
   },
 } as const;
 

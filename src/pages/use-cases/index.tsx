@@ -22,7 +22,7 @@ export default function UseCasesIndex() {
         description="How FC Barcelona, Intersect, Syngenta, Toha Network and LeadGen DAO use Andamio to issue verifiable credentials and run contribution programs."
       />
 
-      <Page nav={{ items: nav.items, cta: nav.cta }}>
+      <Page nav={{ items: nav.items }}>
         <Section bordered={false}>
           <div className="pb-10 pt-16 sm:pt-24">
             <Kicker>Use cases</Kicker>

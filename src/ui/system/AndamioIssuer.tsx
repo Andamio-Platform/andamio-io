@@ -6,7 +6,7 @@
  * SECTION ORDER:
  *   Hero        → title, transformation lead, intro
  *   How it works → the organization lifecycle (OrbitSteps) driving the
- *                  Define · Issue · Verify builder panes
+ *                  Define · Review · Issue · Verify builder panes
  *   Controls    → what your organization controls (Readout)
  *   Principles  → Permanent · Useful · Yours · Proof
  *   Adoption    → invisible vs visible blockchain
@@ -37,11 +37,6 @@ const muted = { color: color.inkMuted };
 const mono = { fontFamily: font.mono };
 const SECTION_COUNT = 4;
 
-/** Organization lifecycle step → builder pane (Review happens inside Issue). */
-const STEP_TO_PANE = [0, 1, 1, 2] as const;
-/** Builder pane → organization lifecycle step. */
-const PANE_TO_STEP = [0, 2, 3] as const;
-
 const pageFooter = (
   <Footer
     tagline={footer.tagline}
@@ -59,7 +54,7 @@ export default function AndamioIssuer() {
 
   return (
     <Page
-      nav={{ items: nav.items, cta: nav.cta, secondaryCta: nav.secondaryCta }}
+      nav={{ items: nav.items, secondaryCta: nav.secondaryCta }}
       footer={pageFooter}
     >
       <Section id="top" bordered={false}>
@@ -75,7 +70,10 @@ export default function AndamioIssuer() {
             <Display as="h1" size="xl" className="mt-8 max-w-[16ch]">
               {issuer.title}
             </Display>
-            <p className="mt-5 text-2xl leading-snug tracking-[-0.01em] sm:text-3xl" style={muted}>
+            <p
+              className="mt-5 text-2xl leading-snug tracking-[-0.01em] sm:text-3xl"
+              style={muted}
+            >
               {issuer.lead}
             </p>
           </div>
@@ -88,7 +86,10 @@ export default function AndamioIssuer() {
                 <Button variant="primary" href="#how-it-works">
                   Try the builder <span aria-hidden>↓</span>
                 </Button>
-                <Button variant="outline" href={EXTERNAL_LINKS.walkthroughMailto}>
+                <Button
+                  variant="outline"
+                  href={EXTERNAL_LINKS.walkthroughMailto}
+                >
                   {issuer.walkthroughCta}
                 </Button>
               </ButtonRow>
@@ -98,9 +99,20 @@ export default function AndamioIssuer() {
       </Section>
 
       <Section id="how-it-works" bordered={false}>
-        <div className="border-t pb-16 pt-14" style={{ borderColor: color.rule }}>
-          <ArcHeading index={1} total={SECTION_COUNT} kicker={org.audience} title={plan.heading} />
-          <p className="mb-10 mt-4 max-w-2xl text-lg leading-relaxed" style={muted}>
+        <div
+          className="border-t pb-16 pt-14"
+          style={{ borderColor: color.rule }}
+        >
+          <ArcHeading
+            index={1}
+            total={SECTION_COUNT}
+            kicker={org.audience}
+            title={plan.heading}
+          />
+          <p
+            className="mb-10 mt-4 max-w-2xl text-lg leading-relaxed"
+            style={muted}
+          >
             {issuer.page.demoLead}
           </p>
           <OrbitSteps
@@ -114,16 +126,24 @@ export default function AndamioIssuer() {
             heading=""
             steps={plan.steps}
             demo={demo}
-            active={STEP_TO_PANE[step]}
-            onActiveChange={(pane) => setStep(PANE_TO_STEP[pane] ?? 0)}
+            active={step}
+            onActiveChange={setStep}
           />
         </div>
       </Section>
 
       <Section id="controls" bordered={false}>
-        <div className="grid gap-10 border-t py-16 lg:grid-cols-12" style={{ borderColor: color.rule }}>
+        <div
+          className="grid gap-10 border-t py-16 lg:grid-cols-12"
+          style={{ borderColor: color.rule }}
+        >
           <div className="lg:col-span-5">
-            <ArcHeading index={2} total={SECTION_COUNT} kicker="Ownership" title={issuerControls.title} />
+            <ArcHeading
+              index={2}
+              total={SECTION_COUNT}
+              kicker="Ownership"
+              title={issuerControls.title}
+            />
             <p className="mt-4 text-[15px] leading-relaxed" style={muted}>
               {issuerControls.lead}
             </p>
@@ -136,12 +156,20 @@ export default function AndamioIssuer() {
 
       <Section id="decisions" bordered={false}>
         <div className="border-t pt-14" style={{ borderColor: color.rule }}>
-          <ArcHeading index={3} total={SECTION_COUNT} kicker="Principles" title={issuer.decisionsHeading} />
+          <ArcHeading
+            index={3}
+            total={SECTION_COUNT}
+            kicker="Principles"
+            title={issuer.decisionsHeading}
+          />
         </div>
         <ol className="mt-10 space-y-6 pb-16">
           {storyFork.curious.assumptions.map((a, i) => (
             <li key={a.term} className="flex gap-6">
-              <span className="pt-1.5 text-[12px] tabular-nums tracking-[0.1em]" style={{ ...mono, color: color.inkFaint }}>
+              <span
+                className="pt-1.5 text-[12px] tabular-nums tracking-[0.1em]"
+                style={{ ...mono, color: color.inkFaint }}
+              >
                 {`0${i + 1}`}
               </span>
               <p className="text-lg leading-relaxed sm:text-xl" style={muted}>
@@ -158,7 +186,12 @@ export default function AndamioIssuer() {
 
       <Section id="adoption" bordered={false}>
         <div className="border-t py-16" style={{ borderColor: color.rule }}>
-          <ArcHeading index={4} total={SECTION_COUNT} kicker="Adoption" title={adoptionModes.lead} />
+          <ArcHeading
+            index={4}
+            total={SECTION_COUNT}
+            kicker="Adoption"
+            title={adoptionModes.lead}
+          />
           <div className="mt-10">
             <AdoptionModes data={adoptionModes} />
           </div>
@@ -169,7 +202,10 @@ export default function AndamioIssuer() {
         id="closing"
         title="Ready to own the credentials you issue?"
         body="Twenty minutes: we scope a pilot on one of your programs. No slides."
-        primary={{ label: issuer.walkthroughCta, href: EXTERNAL_LINKS.walkthroughMailto }}
+        primary={{
+          label: issuer.walkthroughCta,
+          href: EXTERNAL_LINKS.walkthroughMailto,
+        }}
         secondary={{ label: "Start issuing", href: EXTERNAL_LINKS.issuerApp }}
       />
     </Page>

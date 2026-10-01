@@ -6,7 +6,7 @@ export default function IssuerPage() {
     <>
       <Metatags
         title="Andamio Issuer"
-        description="Turn the courses you run into credentials you own — permanent, useful, and yours. See how issuing a credential works in three steps."
+        description="Turn the courses you run into credentials you own — permanent, useful, and yours. See how issuing a credential works: define, review, issue, verify."
       />
       <AndamioIssuer />
     </>

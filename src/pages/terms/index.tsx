@@ -28,7 +28,10 @@ function H3({ children }: { children: React.ReactNode }) {
 
 function P({ children }: { children: React.ReactNode }) {
   return (
-    <p className="mb-6 text-[16px] leading-relaxed" style={{ color: color.inkMuted }}>
+    <p
+      className="mb-6 text-[16px] leading-relaxed"
+      style={{ color: color.inkMuted }}
+    >
       {children}
     </p>
   );
@@ -69,7 +72,7 @@ export default function TermsAndConditionsPage() {
         description="The terms and conditions governing your use of Andamio's services."
       />
 
-      <Page nav={{ items: nav.items, cta: nav.cta }}>
+      <Page nav={{ items: nav.items }}>
         {/* Header */}
         <Section bordered={false}>
           <div className="pb-12 pt-16 sm:pt-24">
@@ -81,7 +84,8 @@ export default function TermsAndConditionsPage() {
               className="mt-5 max-w-2xl text-lg leading-relaxed"
               style={{ color: color.inkMuted }}
             >
-              The terms and conditions governing your use of Andamio&apos;s services.
+              The terms and conditions governing your use of Andamio&apos;s
+              services.
             </p>
           </div>
         </Section>
@@ -100,23 +104,26 @@ export default function TermsAndConditionsPage() {
 
             <H2>1. Introduction</H2>
             <P>
-              Welcome to Andamio, a trust protocol for distributed work that enables
-              organizations to create educational materials, manage contributions,
-              and build trust networks. These Terms and Conditions (&quot;Terms&quot;) govern
-              your use of our services. By accessing or using Andamio, you agree to
-              be bound by these Terms. If you do not agree to these Terms, you may
-              not use the services.
+              Welcome to Andamio, a trust protocol for distributed work that
+              enables organizations to create educational materials, manage
+              contributions, and build trust networks. These Terms and
+              Conditions (&quot;Terms&quot;) govern your use of our services. By
+              accessing or using Andamio, you agree to be bound by these Terms.
+              If you do not agree to these Terms, you may not use the services.
             </P>
 
             <H2>2. Company Information</H2>
             <InfoBox>
-              <ul className="space-y-2 text-[16px]" style={{ color: color.inkMuted }}>
+              <ul
+                className="space-y-2 text-[16px]"
+                style={{ color: color.inkMuted }}
+              >
                 <li>
                   <Strong>Company Name:</Strong> Andamio
                 </li>
                 <li>
-                  <Strong>Registered Address:</Strong> 2232 Dell Range BLVD., Suite
-                  245 Cheyenne, WY 82009
+                  <Strong>Registered Address:</Strong> 2232 Dell Range BLVD.,
+                  Suite 245 Cheyenne, WY 82009
                 </li>
                 <li>
                   <Strong>Jurisdiction:</Strong> Wyoming, USA
@@ -146,9 +153,10 @@ export default function TermsAndConditionsPage() {
 
             <H3>Account Registration</H3>
             <P>
-              To use certain features of Andamio, you must register for an account.
-              You agree to provide accurate, current, and complete information and
-              to update such information as necessary to maintain its accuracy.
+              To use certain features of Andamio, you must register for an
+              account. You agree to provide accurate, current, and complete
+              information and to update such information as necessary to
+              maintain its accuracy.
             </P>
 
             <H2>4. Service Description</H2>
@@ -185,53 +193,56 @@ export default function TermsAndConditionsPage() {
             <H2>6. Intellectual Property</H2>
             <P>
               The Andamio platform and its original content, features, and
-              functionality are owned by Andamio and are protected by intellectual
-              property laws. Users retain ownership of content they create, while
-              granting Andamio necessary licenses to operate the platform.
+              functionality are owned by Andamio and are protected by
+              intellectual property laws. Users retain ownership of content they
+              create, while granting Andamio necessary licenses to operate the
+              platform.
             </P>
 
             <H2>7. Blockchain and Cryptocurrency</H2>
             <P>
-              Andamio utilizes blockchain technology for credential verification and
-              trust protocols. Users acknowledge:
+              Andamio utilizes blockchain technology for credential verification
+              and trust protocols. Users acknowledge:
             </P>
             <UL>
               <li>Blockchain transactions are irreversible</li>
               <li>Credential data recorded on-chain is permanent and public</li>
-              <li>Users are responsible for managing their own cryptographic keys</li>
+              <li>
+                Users are responsible for managing their own cryptographic keys
+              </li>
               <li>Network fees may apply to blockchain transactions</li>
             </UL>
 
             <H2>8. Limitation of Liability</H2>
             <P>
-              To the fullest extent permitted by law, Andamio shall not be liable
-              for any indirect, incidental, special, consequential, or punitive
-              damages, including without limitation, loss of profits, data, use,
-              goodwill, or other intangible losses.
+              To the fullest extent permitted by law, Andamio shall not be
+              liable for any indirect, incidental, special, consequential, or
+              punitive damages, including without limitation, loss of profits,
+              data, use, goodwill, or other intangible losses.
             </P>
 
             <H2>9. Termination</H2>
             <P>
               We may terminate or suspend your account and access to the service
-              immediately, without prior notice, for any reason, including but not
-              limited to a breach of these Terms. Upon termination, your right to
-              use the service will cease immediately.
+              immediately, without prior notice, for any reason, including but
+              not limited to a breach of these Terms. Upon termination, your
+              right to use the service will cease immediately.
             </P>
 
             <H2>10. Governing Law</H2>
             <P>
-              These Terms shall be interpreted and governed by the laws of the State
-              of Wyoming, United States, without regard to its conflict of law
-              provisions.
+              These Terms shall be interpreted and governed by the laws of the
+              State of Wyoming, United States, without regard to its conflict of
+              law provisions.
             </P>
 
             <H2>11. Changes to Terms</H2>
             <P>
-              We reserve the right to modify these Terms at any time. We will notify
-              users of any material changes by posting the new Terms on this page
-              and updating the &quot;Last updated&quot; date. Your continued use of the
-              service after any such changes constitutes your acceptance of the new
-              Terms.
+              We reserve the right to modify these Terms at any time. We will
+              notify users of any material changes by posting the new Terms on
+              this page and updating the &quot;Last updated&quot; date. Your
+              continued use of the service after any such changes constitutes
+              your acceptance of the new Terms.
             </P>
 
             <H2>12. Contact Information</H2>

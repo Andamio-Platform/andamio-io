@@ -1,8 +1,19 @@
 import React from "react";
 import Metatags from "~/components/site/metatags";
-import { nav, footer as footerData, EXTERNAL_LINKS } from "~/ui/explore/content";
+import {
+  nav,
+  footer as footerData,
+  EXTERNAL_LINKS,
+} from "~/ui/explore/content";
 import { color } from "~/ui/system/tokens";
-import { Page, Section, Kicker, Display, Button, Footer } from "~/ui/system/kit";
+import {
+  Page,
+  Section,
+  Kicker,
+  Display,
+  Button,
+  Footer,
+} from "~/ui/system/kit";
 
 const channels = [
   {
@@ -33,7 +44,7 @@ export default function ContactPage() {
         description="Get in touch with the Andamio team."
       />
 
-      <Page nav={{ items: nav.items, cta: nav.cta }}>
+      <Page nav={{ items: nav.items }}>
         {/* Header */}
         <Section bordered={false}>
           <div className="pb-12 pt-16 sm:pt-24">

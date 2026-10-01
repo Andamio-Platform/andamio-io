@@ -2,7 +2,14 @@ import React, { useEffect } from "react";
 import Metatags from "~/components/site/metatags";
 import { nav, footer as footerData } from "~/ui/explore/content";
 import { color, font } from "~/ui/system/tokens";
-import { Page, Section, Kicker, Display, Button, Footer } from "~/ui/system/kit";
+import {
+  Page,
+  Section,
+  Kicker,
+  Display,
+  Button,
+  Footer,
+} from "~/ui/system/kit";
 
 const mono = { fontFamily: font.mono };
 
@@ -59,7 +66,7 @@ export default function SummitPage() {
         description="The benefits of voting for Andamio in Project Catalyst Fund 13."
       />
 
-      <Page nav={{ items: nav.items, cta: nav.cta }}>
+      <Page nav={{ items: nav.items }}>
         {/* Header */}
         <Section bordered={false}>
           <div className="pb-12 pt-16 sm:pt-24">
@@ -132,7 +139,10 @@ export default function SummitPage() {
             >
               © 2024 Andamio. All rights reserved.
             </p>
-            <p className="mt-1 text-[11px]" style={{ ...mono, color: color.inkGhost }}>
+            <p
+              className="mt-1 text-[11px]"
+              style={{ ...mono, color: color.inkGhost }}
+            >
               Built for the Cardano Summit 2024.
             </p>
           </div>

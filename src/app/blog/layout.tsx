@@ -13,19 +13,35 @@ export const metadata: Metadata = {
   title: { default: "Andamio Blog", template: "%s — Andamio" },
   description: "Insights, updates, and stories from the Andamio ecosystem",
   alternates: { canonical: "/blog" },
-  openGraph: { images: [{ url: ogImagePath("Blog"), width: 1200, height: 630 }] },
+  openGraph: {
+    images: [{ url: ogImagePath("Blog"), width: 1200, height: 630 }],
+  },
   twitter: { card: "summary_large_image", site: "@Andamio_teams" },
 };
 
-export default function BlogLayout({ children }: { children: React.ReactNode }) {
+export default function BlogLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang="en" className={`dark ${fontVariables}`} suppressHydrationWarning>
-      <body style={{ background: color.paper, color: color.ink, fontFamily: font.sans }}>
+    <html
+      lang="en"
+      className={`dark ${fontVariables}`}
+      suppressHydrationWarning
+    >
+      <body
+        style={{
+          background: color.paper,
+          color: color.ink,
+          fontFamily: font.sans,
+        }}
+      >
         <div className="relative min-h-screen antialiased">
           <LogoWash />
           <div className="relative z-10">
             <Analytics />
-        <TopNav items={nav.items} cta={nav.cta} />
+            <TopNav items={nav.items} />
             <main>{children}</main>
             <Footer
               tagline={footerData.tagline}

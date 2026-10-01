@@ -14,7 +14,7 @@ export default function PapersHub() {
         description="The Andamio Papers — Introducing Andamio, the Issuer paper, Building on Andamio, and the glossary. What Andamio is and how it works."
       />
 
-      <Page nav={{ items: nav.items, cta: nav.cta }}>
+      <Page nav={{ items: nav.items }}>
         <main className="mx-auto max-w-3xl px-6 pb-24 pt-16 sm:px-10 sm:pt-24">
           <header>
             <Kicker>The Andamio Papers</Kicker>

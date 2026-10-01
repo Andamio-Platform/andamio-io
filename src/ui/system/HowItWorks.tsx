@@ -1,18 +1,18 @@
 "use client";
 
 /**
- * HowItWorks — "Issuing takes three steps" as ONE demo card whose header
+ * HowItWorks — Define → Review → Issue → Verify as ONE demo card whose header
  * ("Learn how an Andamio Credential Badge works" + a live pulse) stays constant,
- * with the three steps (Define · Issue · Verify) as tabs INSIDE the card, right
- * below the header. The card body swaps between three mini-demos; the REAL
- * Getting Started with Andamio badge (the landing hero's fig. 1) stays on
- * screen across all three — the landing presents it, this demo customizes it:
+ * with the four steps as tabs INSIDE the card, right below the header. The card
+ * body swaps between four mini-demos; the REAL Getting Started with Andamio
+ * badge stays on screen across all four:
  *   Define → the real BadgeBuilder, rendered bare (chrome={false})
- *   Issue  → example evidence (assignment commitment) → press Issue → badge minted.
+ *   Review → example evidence → Accept or Refuse. Does not mint.
+ *   Issue  → the same evidence → press Issue → badge minted.
  *            The evidence stays in the customer's system; only the credential is
  *            on-chain (called out in the pane).
  *   Verify → look up the credential address → verified on-chain.
- * Issue + Verify are illustrative (no live API); Define is the wired builder.
+ * Review, Issue, and Verify are illustrative (no live API); Define is the wired builder.
  */
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
@@ -27,7 +27,6 @@ import { useNearViewport } from "./useNearViewport";
 
 const mono = { fontFamily: font.mono };
 const sans = { fontFamily: font.sans };
-const NUMS = ["01", "02", "03"];
 const BLUE = "var(--sys-cyan)"; // the system's data / confirmed accent
 
 // The credential's FULL on-chain address (<course_id>.<slt_hash>). Rule
@@ -204,7 +203,7 @@ export default function HowItWorks({
           <div
             role="tablist"
             aria-label={tablistLabel}
-            className="grid grid-cols-3 gap-px border-b"
+            className="grid grid-cols-2 gap-px border-b sm:grid-cols-4"
             style={{ background: color.cell, borderColor: color.rule }}
           >
             {steps.map((s, i) => {
@@ -240,7 +239,7 @@ export default function HowItWorks({
                     className="relative z-[1] text-xl font-semibold tabular-nums leading-none sm:text-2xl"
                     style={{ color: on ? color.orange : color.inkWatermark }}
                   >
-                    {NUMS[i]}
+                    {String(i + 1).padStart(2, "0")}
                   </span>
                   <span
                     className="relative z-[1] text-[14px] font-semibold tracking-[-0.02em] sm:text-[15px]"
@@ -264,28 +263,33 @@ export default function HowItWorks({
           {/* Panes — stacked in one grid cell so height = tallest (Define).
               Visibility (not display) preserves layout; inert + aria-hidden
               keep inactive panes out of the a11y tree / tab order. */}
-          <div ref={panesRef} className="grid [&>*]:col-start-1 [&>*]:row-start-1">
+          <div
+            ref={panesRef}
+            className="grid [&>*]:col-start-1 [&>*]:row-start-1"
+          >
             {!panesNear && <PaneSkeleton />}
-            {panesNear && steps.map((s, i) => {
-              const on = i === active;
-              return (
-                <div
-                  key={s.title}
-                  ref={(el) => {
-                    paneRefs.current[i] = el;
-                  }}
-                  role="tabpanel"
-                  id={`hiw-panel-${i}`}
-                  aria-labelledby={`hiw-tab-${i}`}
-                  aria-hidden={!on}
-                  className={`h-full ${on ? "" : "invisible"}`}
-                >
-                  {i === 0 && <BadgeBuilder chrome={false} />}
-                  {i === 1 && <IssueDemo />}
-                  {i === 2 && <VerifyDemo />}
-                </div>
-              );
-            })}
+            {panesNear &&
+              steps.map((s, i) => {
+                const on = i === active;
+                return (
+                  <div
+                    key={s.title}
+                    ref={(el) => {
+                      paneRefs.current[i] = el;
+                    }}
+                    role="tabpanel"
+                    id={`hiw-panel-${i}`}
+                    aria-labelledby={`hiw-tab-${i}`}
+                    aria-hidden={!on}
+                    className={`h-full ${on ? "" : "invisible"}`}
+                  >
+                    {i === 0 && <BadgeBuilder chrome={false} />}
+                    {i === 1 && <ReviewDemo />}
+                    {i === 2 && <IssueDemo />}
+                    {i === 3 && <VerifyDemo />}
+                  </div>
+                );
+              })}
           </div>
 
           {/* Shared footer — the ring-anatomy chips + address, on every tab. */}
@@ -317,63 +321,136 @@ function Pane({ children }: { children: React.ReactNode }) {
 const runBtn =
   "mt-5 border px-4 py-2 text-[13px] font-semibold transition-opacity hover:opacity-70";
 
-/* ── 02 · Issue — example evidence → press Issue → the badge is minted. ────── */
+/** The learner's evidence, inside a "your system" container (off Andamio). */
+function AssignmentEvidence() {
+  return (
+    <>
+      <div className="border" style={{ borderColor: color.cell }}>
+        <div
+          className="flex items-center justify-between border-b px-3 py-2"
+          style={{ borderColor: color.cell }}
+        >
+          <span
+            className="text-[12px] font-medium tracking-[-0.01em]"
+            style={{ color: color.inkFaint }}
+          >
+            Your system
+          </span>
+          <span
+            className="text-[11px] font-medium tracking-[-0.01em]"
+            style={{ color: color.inkFaint }}
+          >
+            private · not on Andamio
+          </span>
+        </div>
+        <div className="p-4">
+          <p
+            className="text-[12px] font-medium tracking-[-0.01em]"
+            style={{ color: color.inkFaint }}
+          >
+            Assignment commitment
+          </p>
+          <p
+            className="mt-2 text-[14px] font-semibold"
+            style={{ color: color.ink }}
+          >
+            Mint Access Token and Commit to Assignment — submitted evidence
+          </p>
+          <ul
+            className="mt-2 space-y-1.5 text-[13px]"
+            style={{ color: color.inkMuted }}
+          >
+            <li>• Screenshot — Access Token minted in the app</li>
+            <li>• Link — the commitment transaction</li>
+            <li>• Note — "Committed to the module assignment."</li>
+          </ul>
+        </div>
+      </div>
+      <p
+        className="mt-3 text-[12px] leading-relaxed"
+        style={{ color: color.inkFaint }}
+      >
+        The evidence stays in your system, not on Andamio. Only the credential
+        goes on-chain.
+      </p>
+    </>
+  );
+}
+
+type ReviewOutcome = "pending" | "accepted" | "refused";
+
+function reviewCaption(outcome: ReviewOutcome): string {
+  switch (outcome) {
+    case "pending":
+      return "Awaiting review";
+    case "accepted":
+      return "Accepted (illustrative)";
+    case "refused":
+      return "Sent back. The reviewer asked for another pass. (illustrative)";
+    default: {
+      const _exhaustive: never = outcome;
+      return _exhaustive;
+    }
+  }
+}
+
+/* ── 02 · Review — accept or refuse the evidence. Does not mint. ──────────── */
+function ReviewDemo() {
+  const [outcome, setOutcome] = React.useState<ReviewOutcome>("pending");
+  const caption = reviewCaption(outcome);
+  return (
+    <Pane>
+      <div className="grid items-start gap-8 sm:grid-cols-2">
+        <div>
+          <AssignmentEvidence />
+          <div className="mt-5 flex flex-wrap gap-3">
+            <button
+              type="button"
+              className="border px-4 py-2 text-[13px] font-semibold transition-opacity hover:opacity-70"
+              style={{ borderColor: color.ink, color: color.ink }}
+              onClick={() => setOutcome("accepted")}
+            >
+              Accept
+            </button>
+            <button
+              type="button"
+              className="border px-4 py-2 text-[13px] font-semibold transition-opacity hover:opacity-70"
+              style={{ borderColor: color.ink, color: color.ink }}
+              onClick={() => setOutcome("refused")}
+            >
+              Refuse
+            </button>
+          </div>
+          {outcome !== "pending" && (
+            <div className="mt-4">
+              <ClaimFence>Local UI state only — not a live review.</ClaimFence>
+            </div>
+          )}
+        </div>
+        <div>
+          <div className="opacity-[0.15]">
+            <StaticBadge />
+          </div>
+          <p
+            className="mt-3 text-center text-[13px] font-semibold"
+            style={{ color: outcome === "accepted" ? BLUE : color.inkFaint }}
+          >
+            {caption}
+          </p>
+        </div>
+      </div>
+    </Pane>
+  );
+}
+
+/* ── 03 · Issue — example evidence → press Issue → the badge is minted. ───── */
 function IssueDemo() {
   const [issued, setIssued] = React.useState(false);
   return (
     <Pane>
       <div className="grid items-start gap-8 sm:grid-cols-2">
-        {/* Left — the learner's evidence, inside a "your system" container so
-            the private / off-Andamio boundary is tangible (diploma vs. exam). */}
         <div>
-          <div className="border" style={{ borderColor: color.cell }}>
-            <div
-              className="flex items-center justify-between border-b px-3 py-2"
-              style={{ borderColor: color.cell }}
-            >
-              <span
-                className="text-[12px] font-medium tracking-[-0.01em]"
-                style={{ color: color.inkFaint }}
-              >
-                Your system
-              </span>
-              <span
-                className="text-[11px] font-medium tracking-[-0.01em]"
-                style={{ color: color.inkFaint }}
-              >
-                private · not on Andamio
-              </span>
-            </div>
-            <div className="p-4">
-              <p
-                className="text-[12px] font-medium tracking-[-0.01em]"
-                style={{ color: color.inkFaint }}
-              >
-                Assignment commitment
-              </p>
-              <p
-                className="mt-2 text-[14px] font-semibold"
-                style={{ color: color.ink }}
-              >
-                Mint Access Token and Commit to Assignment — submitted evidence
-              </p>
-              <ul
-                className="mt-2 space-y-1.5 text-[13px]"
-                style={{ color: color.inkMuted }}
-              >
-                <li>• Screenshot — Access Token minted in the app</li>
-                <li>• Link — the commitment transaction</li>
-                <li>• Note — "Committed to the module assignment."</li>
-              </ul>
-            </div>
-          </div>
-          <p
-            className="mt-3 text-[12px] leading-relaxed"
-            style={{ color: color.inkFaint }}
-          >
-            The evidence stays in your system, not on Andamio. Only the
-            credential goes on-chain.
-          </p>
+          <AssignmentEvidence />
           <button
             type="button"
             className={runBtn}
@@ -417,7 +494,7 @@ function IssueDemo() {
   );
 }
 
-/* ── 03 · Verify — look up the credential address, verify on-chain. ───────── */
+/* ── 04 · Verify — look up the credential address, verify on-chain. ───────── */
 function VerifyDemo() {
   const [verified, setVerified] = React.useState(false);
   return (

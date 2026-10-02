@@ -46,6 +46,50 @@ const ZONE_ARC: Partial<Record<Exclude<ActiveZone, null>, FieldArc>> = {
   sltHash: "hash",
 };
 
+/** Icon until hover, or the first tap on a touch screen. */
+function useCornerReveal() {
+  const [open, setOpen] = React.useState(false);
+  const ref = React.useRef<HTMLButtonElement>(null);
+  React.useEffect(() => {
+    if (!open) return;
+    const close = (event: PointerEvent) => {
+      if (!ref.current?.contains(event.target as Node)) setOpen(false);
+    };
+    document.addEventListener("pointerdown", close);
+    return () => document.removeEventListener("pointerdown", close);
+  }, [open]);
+  const guard = (event: React.MouseEvent, run: () => void) => {
+    const touch = window.matchMedia("(hover: none)").matches;
+    if (touch && !open) {
+      event.preventDefault();
+      setOpen(true);
+      return;
+    }
+    run();
+  };
+  return { ref, open, guard };
+}
+
+const cornerButtonCls = (side: "left" | "right", open: boolean) =>
+  [
+    "group absolute bottom-1 z-10 inline-flex h-8 max-w-8 items-center justify-center overflow-hidden rounded-full border bg-background/90 px-2 text-[11px] font-semibold tracking-[-0.01em] backdrop-blur",
+    "transition-[max-width] duration-200 hover:max-w-[9.5rem] focus-visible:max-w-[9.5rem]",
+    "focus:outline-none focus-visible:[box-shadow:0_0_0_3px_rgb(63_217_232/0.55)] disabled:opacity-60",
+    open ? "max-w-[9.5rem]" : "",
+    side === "left" ? "left-1" : "right-1 flex-row-reverse",
+  ].join(" ");
+
+const cornerLabelCls = (side: "left" | "right", open: boolean) =>
+  [
+    "max-w-0 overflow-hidden whitespace-nowrap opacity-0 transition-all duration-200",
+    "group-hover:max-w-[7.5rem] group-hover:opacity-100 group-focus-visible:max-w-[7.5rem] group-focus-visible:opacity-100",
+    open ? "max-w-[7.5rem] opacity-100" : "",
+    side === "left"
+      ? "group-hover:ml-1.5 group-focus-visible:ml-1.5"
+      : "group-hover:mr-1.5 group-focus-visible:mr-1.5",
+    open ? (side === "left" ? "ml-1.5" : "mr-1.5") : "",
+  ].join(" ");
+
 const SAMPLE: {
   courseName: string;
   moduleName: string;
@@ -201,6 +245,8 @@ export default function BadgeBuilder({
     }),
   );
   const [downloading, setDownloading] = React.useState(false);
+  const zoom = useCornerReveal();
+  const download = useCornerReveal();
 
   const downloadSvg = async () => {
     if (downloading) return;
@@ -676,45 +722,59 @@ export default function BadgeBuilder({
               }`}
             />
 
-            <div className="relative aspect-square w-[min(100cqw,100cqh,340px)]">
-              <ProofRingBadge
-                credential={credential}
-                highlight={active ? (ZONE_ARC[active] ?? null) : null}
-                showcasePhrases={false}
-                intro={false}
-                className="h-full w-full drop-shadow-[0_18px_44px_rgba(0,0,0,0.28)]"
-              />
-              <div
-                aria-hidden
-                className={`ring-[var(--sys-cyan)]/40 pointer-events-none absolute inset-[3%] rounded-full shadow-[0_0_28px_4px_rgb(63_217_232/0.45)] ring-[5px] blur-[3px] transition-opacity duration-300 ${
-                  active === "identity" ? "opacity-100" : "opacity-0"
-                }`}
-              />
-              <div
-                aria-hidden
-                className={`ring-[var(--sys-cyan)]/40 pointer-events-none absolute inset-[7%] rounded-full shadow-[0_0_28px_4px_rgb(63_217_232/0.45)] ring-[5px] blur-[3px] transition-opacity duration-300 ${
-                  active === "targets" ? "opacity-100" : "opacity-0"
-                }`}
-              />
-            </div>
-            <button
-              type="button"
-              onClick={() => void downloadSvg()}
-              disabled={downloading}
-              className="bg-background/90 absolute bottom-3 right-3 inline-flex items-center gap-1.5 border px-2.5 py-1 text-[11px] font-semibold tracking-[-0.01em] focus:outline-none focus-visible:[box-shadow:0_0_0_3px_rgb(63_217_232/0.55)] disabled:opacity-60"
-              style={{ borderColor: color.rule, color: color.ink }}
-            >
-              <Download className="h-3 w-3" />
-              {downloading ? "Preparing…" : "Download SVG"}
-            </button>
             <Dialog.Root>
+              <div className="relative aspect-square w-[min(100cqw,100cqh,340px)]">
+                <ProofRingBadge
+                  credential={credential}
+                  highlight={active ? (ZONE_ARC[active] ?? null) : null}
+                  showcasePhrases={false}
+                  intro={false}
+                  className="h-full w-full drop-shadow-[0_18px_44px_rgba(0,0,0,0.28)]"
+                />
+                <div
+                  aria-hidden
+                  className={`ring-[var(--sys-cyan)]/40 pointer-events-none absolute inset-[3%] rounded-full shadow-[0_0_28px_4px_rgb(63_217_232/0.45)] ring-[5px] blur-[3px] transition-opacity duration-300 ${
+                    active === "identity" ? "opacity-100" : "opacity-0"
+                  }`}
+                />
+                <div
+                  aria-hidden
+                  className={`ring-[var(--sys-cyan)]/40 pointer-events-none absolute inset-[7%] rounded-full shadow-[0_0_28px_4px_rgb(63_217_232/0.45)] ring-[5px] blur-[3px] transition-opacity duration-300 ${
+                    active === "targets" ? "opacity-100" : "opacity-0"
+                  }`}
+                />
+              </div>
               <Dialog.Trigger
+                ref={zoom.ref}
                 type="button"
-                className="bg-background/90 absolute bottom-3 left-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 border px-2.5 py-1 text-[11px] font-semibold tracking-[-0.01em] backdrop-blur focus:outline-none focus-visible:[box-shadow:0_0_0_3px_rgb(63_217_232/0.55)]"
+                aria-label="Zoom in"
+                data-open={zoom.open ? "true" : undefined}
+                onClick={(event) => zoom.guard(event, () => undefined)}
+                className={cornerButtonCls("left", zoom.open)}
                 style={{ borderColor: color.rule, color: color.ink }}
               >
-                <ZoomIn className="h-3 w-3" /> Zoom in
+                <ZoomIn className="h-3.5 w-3.5 shrink-0" />
+                <span className={cornerLabelCls("left", zoom.open)}>
+                  Zoom in
+                </span>
               </Dialog.Trigger>
+              <button
+                ref={download.ref}
+                type="button"
+                aria-label="Download SVG"
+                data-open={download.open ? "true" : undefined}
+                disabled={downloading}
+                onClick={(event) =>
+                  download.guard(event, () => void downloadSvg())
+                }
+                className={cornerButtonCls("right", download.open)}
+                style={{ borderColor: color.rule, color: color.ink }}
+              >
+                <Download className="h-3.5 w-3.5 shrink-0" />
+                <span className={cornerLabelCls("right", download.open)}>
+                  {downloading ? "Preparing…" : "Download SVG"}
+                </span>
+              </button>
 
               <Dialog.Portal>
                 <Dialog.Overlay className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />

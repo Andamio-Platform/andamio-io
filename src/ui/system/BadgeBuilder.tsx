@@ -399,6 +399,7 @@ export default function BadgeBuilder({
 
   return (
     <figure
+      id="builder"
       className={chrome ? `m-0 border ${className}` : `m-0 ${className}`}
       style={
         chrome

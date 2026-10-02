@@ -87,7 +87,7 @@ export default function AndamioIssuer() {
             </p>
             <div className="mt-8">
               <ButtonRow>
-                <Button variant="primary" href="#how-it-works">
+                <Button variant="primary" href="#builder">
                   Try the builder <span aria-hidden>↓</span>
                 </Button>
                 <Button

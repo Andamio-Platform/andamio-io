@@ -2,7 +2,14 @@ import Metatags from "~/components/site/metatags";
 import { roadmap } from "../../roadmap";
 import { nav, footer as footerData } from "~/ui/explore/content";
 import { color, containerCls, layout } from "~/ui/system/tokens";
-import { Page, Section, Kicker, Display, Footer } from "~/ui/system/kit";
+import {
+  Page,
+  Section,
+  Kicker,
+  Display,
+  Footer,
+  PageTrail,
+} from "~/ui/system/kit";
 import RoadmapTrack from "~/ui/system/RoadmapTrack";
 
 const slug = (s: string) =>
@@ -38,6 +45,10 @@ export default function ProductRoadmap() {
         {/* Header */}
         <Section bordered={false}>
           <div className="pb-12 pt-16 sm:pt-24">
+            <PageTrail
+              className="mb-5"
+              back={{ href: "/", label: "← Back to home" }}
+            />
             <Kicker>Product roadmap</Kicker>
             <Display as="h1" size="lg" className="mt-5">
               Roadmap

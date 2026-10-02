@@ -3,7 +3,14 @@ import Image from "next/image";
 import Metatags from "~/components/site/metatags";
 import { nav, footer as footerData, audit } from "~/ui/explore/content";
 import { color, font } from "~/ui/system/tokens";
-import { Page, Section, Kicker, Display, Footer } from "~/ui/system/kit";
+import {
+  Page,
+  Section,
+  Kicker,
+  Display,
+  Footer,
+  PageTrail,
+} from "~/ui/system/kit";
 import { CtaBand, ProofCard, Readout } from "~/ui/system/instrument";
 import { EXTERNAL_LINKS } from "~/lib/external-links";
 
@@ -118,6 +125,10 @@ export default function AboutPage() {
       <Page nav={{ items: nav.items }}>
         <Section bordered={false}>
           <div className="pb-12 pt-16 sm:pt-24">
+            <PageTrail
+              className="mb-5"
+              back={{ href: "/", label: "← Back to home" }}
+            />
             <Kicker>About</Kicker>
             <Display as="h1" size="lg" className="mt-5">
               About Andamio

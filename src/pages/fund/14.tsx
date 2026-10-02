@@ -2,7 +2,14 @@ import React, { useEffect } from "react";
 import Metatags from "~/components/site/metatags";
 import { nav, footer as footerData } from "~/ui/explore/content";
 import { color } from "~/ui/system/tokens";
-import { Page, Section, Kicker, Display, Footer } from "~/ui/system/kit";
+import {
+  Page,
+  Section,
+  Kicker,
+  Display,
+  Footer,
+  PageTrail,
+} from "~/ui/system/kit";
 
 type ProposalCategory = "technology" | "adoption";
 type Proposal = {
@@ -101,6 +108,10 @@ const FundProposals: React.FC = () => {
       {/* Header */}
       <Section bordered={false}>
         <div className="pb-12 pt-16 sm:pt-24">
+          <PageTrail
+            className="mb-5"
+            back={{ href: "/", label: "← Back to home" }}
+          />
           <Kicker>Proposals</Kicker>
           <Display as="h1" size="lg" className="mt-5">
             Project Catalyst

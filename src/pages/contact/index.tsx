@@ -13,6 +13,7 @@ import {
   Display,
   Button,
   Footer,
+  PageTrail,
 } from "~/ui/system/kit";
 
 const channels = [
@@ -48,6 +49,10 @@ export default function ContactPage() {
         {/* Header */}
         <Section bordered={false}>
           <div className="pb-12 pt-16 sm:pt-24">
+            <PageTrail
+              className="mb-5"
+              back={{ href: "/", label: "← Back to home" }}
+            />
             <Kicker>Contact</Kicker>
             <Display as="h1" size="lg" className="mt-5">
               Get In Touch

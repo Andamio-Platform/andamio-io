@@ -2,7 +2,14 @@ import React, { useState } from "react";
 import Metatags from "~/components/site/metatags";
 import { nav, footer as footerData } from "~/ui/explore/content";
 import { color, font } from "~/ui/system/tokens";
-import { Page, Section, Kicker, Display, Footer } from "~/ui/system/kit";
+import {
+  Page,
+  Section,
+  Kicker,
+  Display,
+  Footer,
+  PageTrail,
+} from "~/ui/system/kit";
 import { CASES, SECTORS, type Sector } from "~/ui/use-cases/cases";
 import { CaseCard } from "~/ui/use-cases/chrome";
 
@@ -25,6 +32,10 @@ export default function UseCasesIndex() {
       <Page nav={{ items: nav.items }}>
         <Section bordered={false}>
           <div className="pb-10 pt-16 sm:pt-24">
+            <PageTrail
+              className="mb-5"
+              back={{ href: "/", label: "← Back to home" }}
+            />
             <Kicker>Use cases</Kicker>
             <Display as="h1" size="lg" className="mt-5">
               Programs running on Andamio

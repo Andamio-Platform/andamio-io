@@ -1,12 +1,10 @@
 import React from "react";
-import Link from "next/link";
 import type { GetStaticPaths, GetStaticProps } from "next";
 import Metatags from "~/components/site/metatags";
 import JsonLd from "~/components/site/JsonLd";
 import { articleJsonLd } from "~/lib/seo";
 import { nav, footer as footerData } from "~/ui/explore/content";
-import { color } from "~/ui/system/tokens";
-import { Page, Kicker, Footer } from "~/ui/system/kit";
+import { Page, Kicker, Footer, PageTrail } from "~/ui/system/kit";
 import PaperArticle from "~/ui/whitepaper/PaperArticle";
 import { paperBySlug, PAPERS } from "~/lib/papers";
 import { readPaperBody } from "~/lib/papers.server";
@@ -40,6 +38,8 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
 };
 
 export default function WhitepaperPage({ slug, title, summary, body }: Props) {
+  const index = PAPERS.findIndex((paper) => paper.slug === slug);
+  const following = index >= 0 ? PAPERS[index + 1] : undefined;
   return (
     <>
       <Metatags title={title} description={summary} ogType="article" />
@@ -54,13 +54,17 @@ export default function WhitepaperPage({ slug, title, summary, body }: Props) {
 
       <Page nav={{ items: nav.items }}>
         <main className="mx-auto max-w-3xl px-6 pb-24 pt-16 sm:px-10 sm:pt-24">
-          <Link
-            href="/papers"
-            className="inline-flex items-center gap-1.5 text-[13px] font-semibold tracking-[-0.01em] transition-colors hover:text-foreground"
-            style={{ color: color.ink }}
-          >
-            ← All papers
-          </Link>
+          <PageTrail
+            back={{ href: "/papers", label: "← All papers" }}
+            next={
+              following
+                ? {
+                    href: `/papers/${following.slug}`,
+                    label: `${following.title} →`,
+                  }
+                : undefined
+            }
+          />
           <div className="mt-6">
             <Kicker>Andamio Papers</Kicker>
           </div>

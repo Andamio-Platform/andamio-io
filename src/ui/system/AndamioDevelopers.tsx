@@ -30,6 +30,7 @@ import {
   Button,
   ButtonRow,
   Footer,
+  PageTrail,
   SectionIntro,
   Kicker,
 } from "./kit";
@@ -59,6 +60,10 @@ export default function AndamioDevelopers() {
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
       <Section id="top" bordered={false}>
         <div className="pt-16 sm:pt-24">
+          <PageTrail
+            className="mb-6"
+            back={{ href: "/", label: "← Back to Andamio" }}
+          />
           <Kicker>{developers.hero.eyebrow}</Kicker>
           <Display as="h1" size="xl" className="mt-6 max-w-[15ch]">
             {developers.hero.headline}

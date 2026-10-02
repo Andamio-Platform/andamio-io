@@ -1,11 +1,15 @@
 import Markdoc from "@markdoc/markdoc";
-import Link from "next/link";
 import type { Metadata } from "next";
-import { getBlogPageContent } from "~/lib/blogposts";
+import {
+  getBlogPageContent,
+  getBlogPostData,
+  type BlogPost,
+} from "~/lib/blogposts";
 import { extractExcerpt, parseBlogMarkdocFrontmatter } from "~/utils/markdown";
 import { TransformedPageContent } from "~/utils/transformedPageContent";
 import SocialShareButton from "~/components/media/SocialShareButton";
 import { color, font } from "~/ui/system/tokens";
+import { PageTrail } from "~/ui/system/kit";
 import {
   SITE_URL,
   SITE_NAME,
@@ -57,9 +61,21 @@ export function generateMetadata({ params }: { params: Props }): Metadata {
   };
 }
 
-export default function Page({ params }: { params: Props }) {
+function byDateDesc(a: BlogPost, b: BlogPost): number {
+  const byDate = (b.frontmatter.date ?? "").localeCompare(
+    a.frontmatter.date ?? "",
+  );
+  return byDate || b.title.localeCompare(a.title);
+}
+
+export default async function Page({ params }: { params: Props }) {
   const content = getBlogPageContent(params.blogPostId);
   const data = getFrontmatter(params.blogPostId);
+  const posts = (await getBlogPostData())
+    .filter((post) => !post.frontmatter.redirectTo)
+    .sort(byDateDesc);
+  const index = posts.findIndex((post) => post.title === params.blogPostId);
+  const following = index >= 0 ? posts[index + 1] : undefined;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -78,13 +94,17 @@ export default function Page({ params }: { params: Props }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       {/* Breadcrumb */}
-      <Link
-        href="/blog"
-        className="inline-flex items-center gap-1.5 text-[13px] font-semibold tracking-[-0.01em] transition-colors hover:text-foreground"
-        style={{ color: color.ink }}
-      >
-        ← Back to Blog
-      </Link>
+      <PageTrail
+        back={{ href: "/blog", label: "← Back to Blog" }}
+        next={
+          following
+            ? {
+                href: `/blog/${following.title}`,
+                label: `${following.frontmatter.title || following.title} →`,
+              }
+            : undefined
+        }
+      />
 
       {/* Meta + title */}
       <header
@@ -113,16 +133,9 @@ export default function Page({ params }: { params: Props }) {
 
       {/* Footer nav */}
       <div
-        className="mt-16 flex items-center justify-between border-t pt-8"
+        className="mt-16 flex justify-end border-t pt-8"
         style={{ borderColor: color.rule }}
       >
-        <Link
-          href="/blog"
-          className="inline-flex items-center gap-2 px-4 py-2 text-[13px] font-semibold tracking-[-0.01em] transition-colors hover:text-white"
-          style={{ border: `1px solid ${color.ink}`, color: color.ink }}
-        >
-          ← All Posts
-        </Link>
         <div style={{ color: color.inkMuted }}>
           <SocialShareButton />
         </div>

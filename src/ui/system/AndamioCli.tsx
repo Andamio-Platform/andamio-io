@@ -19,6 +19,7 @@ import {
   SectionIntro,
   CardRow,
   Kicker,
+  PageTrail,
 } from "./kit";
 
 const mono = { fontFamily: font.mono };
@@ -44,6 +45,10 @@ export default function AndamioCli() {
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
       <Section id="top" bordered={false}>
         <div className="pt-16 sm:pt-24">
+          <PageTrail
+            className="mb-6"
+            back={{ href: "/developers", label: "← Build on Andamio" }}
+          />
           <Kicker>{cli.hero.eyebrow}</Kicker>
           <Display as="h1" size="xl" className="mt-6 max-w-[15ch]">
             {cli.hero.headline}

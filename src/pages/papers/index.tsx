@@ -2,7 +2,7 @@ import React from "react";
 import Metatags from "~/components/site/metatags";
 import { nav, footer as footerData } from "~/ui/explore/content";
 import { color } from "~/ui/system/tokens";
-import { Page, Kicker, Display, Footer } from "~/ui/system/kit";
+import { Page, Kicker, Display, Footer, PageTrail } from "~/ui/system/kit";
 import { ProofCard } from "~/ui/system/instrument";
 import { PAPERS } from "~/lib/papers";
 
@@ -17,6 +17,10 @@ export default function PapersHub() {
       <Page nav={{ items: nav.items }}>
         <main className="mx-auto max-w-3xl px-6 pb-24 pt-16 sm:px-10 sm:pt-24">
           <header>
+            <PageTrail
+              className="mb-5"
+              back={{ href: "/", label: "← Back to home" }}
+            />
             <Kicker>The Andamio Papers</Kicker>
             {/* The resources introduction shares its headline with hero button 3's
                 payoff (story-flows storyboard, 2026-07-02): the exploring path and

@@ -19,6 +19,7 @@ import {
   Display,
   Button,
   Footer,
+  PageTrail,
   SectionIntro,
   Kicker,
 } from "./kit";
@@ -85,6 +86,10 @@ export default function AndamioPricing() {
       {/* ── Hero — set the two-products frame up front. ─────────────────── */}
       <Section id="top" bordered={false}>
         <div className="pb-16 pt-16 sm:pb-24 sm:pt-24">
+          <PageTrail
+            className="mb-6"
+            back={{ href: "/", label: "← Back to Andamio" }}
+          />
           <Kicker>{pricing.hero.kicker}</Kicker>
           <Display as="h1" size="xl" className="mt-6 max-w-[18ch]">
             {pricing.hero.headline}

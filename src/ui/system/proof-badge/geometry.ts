@@ -25,11 +25,12 @@ export const RING = {
     bottomDashes: { from: 82.3, to: 97.7, pitchDeg: 2.2, w: 13, h: 5 },
   },
   a: {
-    band: { from: 468, to: 502 },
+    // Narrower than ring B. The rim still sits past the course-id bars.
+    band: { from: 476, to: 512 },
     innerLine: 479.5,
     ticks: 489,
     tickPitchDeg: 2,
-    rim: 498,
+    rim: 508,
   },
 } as const;
 

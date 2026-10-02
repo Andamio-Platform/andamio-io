@@ -1,6 +1,6 @@
 import React from "react";
 import { color } from "~/ui/system/tokens";
-import { Section, Kicker, Display } from "~/ui/system/kit";
+import { Section, Kicker, Display, PageTrail } from "~/ui/system/kit";
 
 const proposals = [
   {
@@ -47,6 +47,10 @@ export default function Fund12() {
       {/* Header */}
       <Section bordered={false}>
         <div className="pb-12 pt-16 sm:pt-24">
+          <PageTrail
+            className="mb-5"
+            back={{ href: "/", label: "← Back to home" }}
+          />
           <Kicker>Fund 12 · Project Catalyst</Kicker>
           <Display as="h1" size="lg" className="mt-5">
             Andamio, Build Trust.

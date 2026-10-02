@@ -122,44 +122,55 @@ function binaryBars(
       const { innerR, outerR } = span(deg, len);
       const inner = polar(innerR, deg);
       const outer = polar(outerR, deg);
+      const width = on ? (head ? 2.6 : 2) : 1.5;
+      const colored = `color-mix(in srgb, white ${on ? 14 : 22}%, ${mix(1 - hueAt(band, deg), on && head)})`;
       out.push(
-        <line
-          key={`${index}-${bit}`}
-          x1={inner.x}
-          y1={inner.y}
-          x2={outer.x}
-          y2={outer.y}
-          strokeWidth={on ? (head ? 3.2 : 2.4) : 1.7}
-          strokeLinecap="round"
-          style={{
-            stroke: mix(hueAt(band, deg), on && head),
-            opacity: on ? 1 : 0.42,
-          }}
-        />,
+        <g key={`${index}-${bit}`}>
+          <line
+            x1={inner.x}
+            y1={inner.y}
+            x2={outer.x}
+            y2={outer.y}
+            stroke="#f7f8f8"
+            strokeWidth={width + 0.7}
+            strokeLinecap="butt"
+            opacity={1}
+          />
+          <line
+            x1={inner.x}
+            y1={inner.y}
+            x2={outer.x}
+            y2={outer.y}
+            strokeWidth={width}
+            strokeLinecap="butt"
+            style={{
+              stroke: colored,
+              opacity: on ? 1 : 0.72,
+            }}
+          />
+        </g>,
       );
     }
   });
   return out;
 }
 
-function RingBArt({ hash }: { hash: string }) {
+function RingBArt({ hash, lanes }: { hash: string; lanes: boolean }) {
   const marks = useMemo(() => {
-    const out: React.ReactNode[] = binaryBars(
-      hash,
-      RING.b.track,
-      "dashes",
-      (deg, len) => {
-        // Phrase windows stay a clear lane. The bit is parked on the outer rim.
-        if (!inPhraseSlot(deg)) {
-          return {
-            innerR: RING.b.track - len / 2,
-            outerR: RING.b.track + len / 2,
-          };
-        }
-        const outerR = RING.b.outer - 0.5;
-        return { innerR: outerR - Math.min(len, 4.5), outerR };
-      },
-    );
+    // Phrase windows stay a clear lane. Without phrases, the hash fills the ring.
+    const out: React.ReactNode[] = lanes
+      ? binaryBars(hash, RING.b.track, "dashes", (deg, len) => {
+          if (!inPhraseSlot(deg)) {
+            return {
+              innerR: RING.b.track - len / 2,
+              outerR: RING.b.track + len / 2,
+            };
+          }
+          const outerR = RING.b.outer - 0.5;
+          return { innerR: outerR - Math.min(len, 4.5), outerR };
+        })
+      : binaryBars(hash, RING.b.track, "dashes");
+    if (!lanes) return out;
     // Slot separators: a short bar either side of each phrase slot.
     for (const { angle, arc } of PHRASE_SLOTS) {
       for (const side of [-1, 1]) {
@@ -180,7 +191,7 @@ function RingBArt({ hash }: { hash: string }) {
       }
     }
     return out;
-  }, [hash]);
+  }, [hash, lanes]);
 
   return (
     <svg className="pb-svg" viewBox="0 0 1024 1024" aria-hidden>
@@ -384,7 +395,7 @@ export const RingB = memo(function RingB({
         background={RING_B_EDGE_IN}
       />
       <Annulus r0={b.outer - 1} r1={b.outer + 1} background={RING_B_EDGE} />
-      <RingBArt hash={hash} />
+      <RingBArt hash={hash} lanes={phrases != null} />
       {phrases && <RingPhrases phrases={phrases} />}
     </div>
   );
@@ -398,7 +409,7 @@ export const RingA = memo(function RingA({ courseId }: { courseId: string }) {
       <Annulus
         r0={a.band.from}
         r1={a.band.to}
-        background={`radial-gradient(circle closest-side, transparent 91.4%, rgb(255 255 255 / 0.06) 96.5%, transparent 98%), ${RING_A_BAND}`}
+        background={`radial-gradient(circle closest-side, transparent 93%, rgb(255 255 255 / 0.06) 98.4%, transparent 99.8%), ${RING_A_BAND}`}
       />
       <Annulus
         r0={a.innerLine - 0.6}
@@ -407,9 +418,9 @@ export const RingA = memo(function RingA({ courseId }: { courseId: string }) {
         className="pb-faint"
       />
       <div className="pb-glow pb-glow-a">
-        <Annulus r0={a.rim - 5} r1={a.rim + 5} background={RING_A_GLOW} />
+        <Annulus r0={a.rim - 1} r1={a.rim + 2} background={RING_A_GLOW} />
       </div>
-      <Annulus r0={a.rim - 1.4} r1={a.rim + 1.4} background={RING_A_RIM} />
+      <Annulus r0={a.rim - 0.9} r1={a.rim + 0.9} background={RING_A_RIM} />
       <RingAArt courseId={courseId} />
     </div>
   );

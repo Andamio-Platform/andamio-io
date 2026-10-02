@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { type BlogPost, getBlogPostData } from "~/lib/blogposts";
 import { color, containerCls, font, layout } from "~/ui/system/tokens";
-import { Kicker } from "~/ui/system/kit";
+import { Kicker, PageTrail } from "~/ui/system/kit";
 import { ProofCard } from "~/ui/system/instrument";
 
 function byDateDesc(a: BlogPost, b: BlogPost): number {
@@ -20,6 +20,10 @@ export default async function BlogPage() {
   return (
     <div className={containerCls} style={{ maxWidth: layout.maxWidth }}>
       <header className="pb-12 pt-16 sm:pt-24">
+        <PageTrail
+          className="mb-5"
+          back={{ href: "/", label: "← Back to home" }}
+        />
         <Kicker>The Andamio Journal</Kicker>
         <h1 className="mt-4 text-[clamp(2.6rem,7vw,5rem)] font-semibold leading-[0.95] tracking-[-0.045em]">
           Blog

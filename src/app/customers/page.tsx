@@ -6,7 +6,7 @@ import path from "path";
 import Markdoc from "@markdoc/markdoc";
 import { parseBlogMarkdocFrontmatter } from "~/utils/markdown";
 import { color, containerCls, layout } from "~/ui/system/tokens";
-import { Kicker } from "~/ui/system/kit";
+import { Kicker, PageTrail } from "~/ui/system/kit";
 
 type CustomerFrontmatter = {
   title?: string;
@@ -36,6 +36,10 @@ export default function CustomersPage() {
     <div className={containerCls} style={{ maxWidth: layout.maxWidth }}>
       {/* Header */}
       <header className="pb-12 pt-16 sm:pt-24">
+        <PageTrail
+          className="mb-5"
+          back={{ href: "/", label: "← Back to home" }}
+        />
         <Kicker>The Andamio Community</Kicker>
         <h1 className="mt-4 text-[clamp(2.6rem,7vw,5rem)] font-semibold leading-[0.95] tracking-[-0.045em]">
           Customers

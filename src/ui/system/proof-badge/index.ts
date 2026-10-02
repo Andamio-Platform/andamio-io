@@ -1,4 +1,5 @@
 export { ProofRingBadge, type ProofRingBadgeProps } from "./ProofRingBadge";
+export { badgeSvgFilename, buildBadgeSvg } from "./badgeSvg";
 export {
   ANDAMIO_ISSUER_BADGE,
   CLAIM_PAGE_URL,

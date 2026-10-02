@@ -11,7 +11,12 @@
  */
 
 import React from "react";
-import { credentialFromBuilder, ProofRingBadge } from "./proof-badge";
+import {
+  badgeSvgFilename,
+  buildBadgeSvg,
+  credentialFromBuilder,
+  ProofRingBadge,
+} from "./proof-badge";
 import {
   buildBadgeParams,
   type BadgeParams,
@@ -19,7 +24,7 @@ import {
 import { GETTING_STARTED } from "./proof-badge/getting-started";
 import type { FieldArc } from "./proof-badge/geometry";
 import * as Dialog from "@radix-ui/react-dialog";
-import { ZoomIn } from "lucide-react";
+import { Download, ZoomIn } from "lucide-react";
 import { BadgeInfoFooter } from "./BadgeInfoFooter";
 import { color, font } from "./tokens";
 
@@ -195,6 +200,24 @@ export default function BadgeBuilder({
       skills: (GETTING_STARTED.params.skills ?? []).map((s) => s.label),
     }),
   );
+  const [downloading, setDownloading] = React.useState(false);
+
+  const downloadSvg = async () => {
+    if (downloading) return;
+    setDownloading(true);
+    try {
+      const svg = await buildBadgeSvg(credential);
+      const blob = new Blob([svg], { type: "image/svg+xml" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = badgeSvgFilename(credential);
+      link.click();
+      URL.revokeObjectURL(url);
+    } finally {
+      setDownloading(false);
+    }
+  };
 
   const revokeLogoObjectUrl = () => {
     if (!logoObjectUrl.current) return;
@@ -674,6 +697,16 @@ export default function BadgeBuilder({
                 }`}
               />
             </div>
+            <button
+              type="button"
+              onClick={() => void downloadSvg()}
+              disabled={downloading}
+              className="bg-background/90 absolute bottom-3 right-3 inline-flex items-center gap-1.5 border px-2.5 py-1 text-[11px] font-semibold tracking-[-0.01em] focus:outline-none focus-visible:[box-shadow:0_0_0_3px_rgb(63_217_232/0.55)] disabled:opacity-60"
+              style={{ borderColor: color.rule, color: color.ink }}
+            >
+              <Download className="h-3 w-3" />
+              {downloading ? "Preparing…" : "Download SVG"}
+            </button>
             <Dialog.Root>
               <Dialog.Trigger
                 type="button"

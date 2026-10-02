@@ -14,7 +14,6 @@
  */
 
 import React, { useState } from "react";
-import Link from "next/link";
 import {
   nav,
   demo,
@@ -28,7 +27,15 @@ import {
   EXTERNAL_LINKS,
 } from "~/ui/explore/content";
 import { color, font } from "./tokens";
-import { Page, Section, Display, Button, ButtonRow, Footer } from "./kit";
+import {
+  Page,
+  Section,
+  Display,
+  Button,
+  ButtonRow,
+  Footer,
+  PageTrail,
+} from "./kit";
 import HowItWorks from "./HowItWorks";
 import { ArcHeading, CtaBand, OrbitSteps, Readout } from "./instrument";
 import { AdoptionModes } from "./AdoptionModes";
@@ -60,13 +67,10 @@ export default function AndamioIssuer() {
       <Section id="top" bordered={false}>
         <div className="grid gap-8 pb-12 pt-16 sm:pt-24 lg:grid-cols-12">
           <div className="lg:col-span-7">
-            <Link
-              href="/#issuer"
-              className="inline-flex items-center text-[13px] font-medium tracking-[-0.01em] transition-colors hover:[color:var(--sys-ink)]"
-              style={muted}
-            >
-              {issuer.page.overviewCta}
-            </Link>
+            <PageTrail
+              className="mb-8"
+              back={{ href: "/#issuer", label: issuer.page.overviewCta }}
+            />
             <Display as="h1" size="xl" className="mt-8 max-w-[16ch]">
               {issuer.title}
             </Display>

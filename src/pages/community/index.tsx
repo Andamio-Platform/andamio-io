@@ -10,6 +10,7 @@ import {
   Display,
   Button,
   Footer,
+  PageTrail,
 } from "~/ui/system/kit";
 import { roadmap } from "~/roadmap";
 
@@ -34,6 +35,10 @@ export default function CommunityPage() {
       <Page nav={{ items: nav.items }}>
         <Section bordered={false}>
           <div className="pb-12 pt-16 sm:pt-24">
+            <PageTrail
+              className="mb-5"
+              back={{ href: "/", label: "← Back to home" }}
+            />
             <Kicker>Community</Kicker>
             <Display as="h1" size="lg" className="mt-5">
               Where the work happens

@@ -9,19 +9,18 @@
 
 import React from "react";
 import Metatags from "~/components/site/metatags";
-import Image from "next/image";
 import Link from "next/link";
 import { nav, footer as footerData } from "~/ui/explore/content";
 import { EXTERNAL_LINKS } from "~/lib/external-links";
 import { color, font } from "~/ui/system/tokens";
-import { Page, Section, Kicker, Display, Footer } from "~/ui/system/kit";
+import { Page, Section, Kicker, Display, Footer, PageTrail } from "~/ui/system/kit";
 import {
   CtaBand,
   MiniBadge,
   OrbitSteps,
   Readout,
 } from "~/ui/system/instrument";
-import { type CaseStudy, type OutcomeKind } from "./cases";
+import { CASES, type CaseStudy, type OutcomeKind } from "./cases";
 
 export function UseCaseLayout({
   title,
@@ -89,11 +88,25 @@ function Prose({
 }
 
 export function CaseDetail({ study }: { study: CaseStudy }) {
+  const index = CASES.findIndex((item) => item.slug === study.slug);
+  const following = index >= 0 ? CASES[index + 1] : undefined;
   return (
     <UseCaseLayout title={study.title} description={study.summary}>
       <Section bordered={false}>
         <div className="grid gap-10 pb-14 pt-16 sm:pt-24 lg:grid-cols-[1fr_auto] lg:items-center">
           <div>
+            <PageTrail
+              className="mb-5"
+              back={{ href: "/use-cases", label: "← All use cases" }}
+              next={
+                following
+                  ? {
+                      href: `/use-cases/${following.slug}`,
+                      label: `${following.title} →`,
+                    }
+                  : undefined
+              }
+            />
             <Kicker>
               {study.sector} · {study.partner}
             </Kicker>
@@ -117,15 +130,20 @@ export function CaseDetail({ study }: { study: CaseStudy }) {
               </p>
             ) : null}
           </div>
-          <MiniBadge
-            brand={study.partner}
-            course={study.badgeCourse}
-            mark={study.logo}
-            theme={study.theme}
-            size={220}
-            label={`Sample credential: ${study.partner} ${study.badgeCourse}`}
-            className="mx-auto"
-          />
+          <div className="mx-auto w-full max-w-[480px] lg:w-[480px]">
+            <MiniBadge
+              brand={study.partner}
+              course={study.badgeCourse}
+              module={study.badge.module}
+              mark={study.logo}
+              theme={study.theme}
+              face={study.badge}
+              size={480}
+              fill
+              label={`${study.partner} credential: ${study.badgeCourse}`}
+              className="mx-auto"
+            />
+          </div>
         </div>
       </Section>
 
@@ -142,7 +160,12 @@ export function CaseDetail({ study }: { study: CaseStudy }) {
             {study.cycleLabel}
           </Display>
           <OrbitSteps
-            steps={study.cycle}
+            steps={study.cycle.map((step) => ({
+              id: step.id,
+              label: step.label,
+              detail: step.detail,
+              points: step.points,
+            }))}
             label={study.cycleLabel}
             className="mt-8"
           />
@@ -150,8 +173,8 @@ export function CaseDetail({ study }: { study: CaseStudy }) {
       </Section>
 
       <Section>
-        <div className="grid gap-10 py-16 sm:py-20 lg:grid-cols-[1.1fr_1fr]">
-          <div>
+        <div className="grid gap-x-10 gap-y-6 py-16 sm:py-20 lg:grid-cols-[1.1fr_1fr] lg:items-center">
+          <div className="lg:col-start-1 lg:row-start-1">
             <Readout
               title="Outcomes"
               rows={study.outcomes.map((o) => ({
@@ -166,34 +189,34 @@ export function CaseDetail({ study }: { study: CaseStudy }) {
               </p>
             ) : null}
           </div>
-          <div className="flex flex-col gap-6">
-            {study.logo ? (
-              <Image
-                src={study.logo}
+          {(study.wordmark ?? study.logo) ? (
+            <div className="flex justify-center lg:col-start-2 lg:row-start-1">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={study.wordmark ?? study.logo}
                 alt={`${study.partner} logo`}
-                width={72}
-                height={72}
-                className="h-[72px] w-[72px] object-contain"
+                className="h-auto max-w-full object-contain"
+                style={{ width: study.logoWidth }}
               />
-            ) : null}
-            {study.links?.length ? (
-              <ul className="space-y-2">
-                {study.links.map((l) => (
-                  <li key={l.href}>
-                    <a
-                      href={l.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[15px] underline-offset-4 hover:underline"
-                      style={{ color: color.cyan }}
-                    >
-                      {l.label} ↗
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            ) : null}
-          </div>
+            </div>
+          ) : null}
+          {study.links?.length ? (
+            <ul className="space-y-2 lg:col-start-2 lg:row-start-2 lg:text-center">
+              {study.links.map((l) => (
+                <li key={l.href}>
+                  <a
+                    href={l.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[15px] underline-offset-4 hover:underline"
+                    style={{ color: color.cyan }}
+                  >
+                    {l.label} ↗
+                  </a>
+                </li>
+              ))}
+            </ul>
+          ) : null}
         </div>
       </Section>
 
@@ -221,10 +244,12 @@ export function CaseCard({ study }: { study: CaseStudy }) {
       <MiniBadge
         brand={study.partner}
         course={study.badgeCourse}
+        module={study.badge.module}
         mark={study.logo}
         theme={study.theme}
+        face={study.badge}
         size={140}
-        label={`Sample credential: ${study.partner} ${study.badgeCourse}`}
+        label={`${study.partner} credential: ${study.badgeCourse}`}
         className="mx-auto"
       />
       <p

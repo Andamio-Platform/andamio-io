@@ -6,6 +6,7 @@ import { getCustomerPageContent } from "~/lib/customers";
 import { extractExcerpt, parseBlogMarkdocFrontmatter } from "~/utils/markdown";
 import { TransformedPageContent } from "~/utils/transformedPageContent";
 import { color, font } from "~/ui/system/tokens";
+import { PageTrail } from "~/ui/system/kit";
 import {
   SITE_URL,
   SITE_NAME,
@@ -68,13 +69,7 @@ export default function Page({ params }: { params: Props }) {
   return (
     <div className="mx-auto max-w-3xl px-6 pb-24 pt-16 sm:px-10 sm:pt-24">
       {/* Breadcrumb */}
-      <Link
-        href="/customers"
-        className="inline-flex items-center gap-1.5 text-[13px] font-semibold tracking-[-0.01em] transition-colors hover:text-foreground"
-        style={{ color: color.ink }}
-      >
-        ← Back to Customers
-      </Link>
+      <PageTrail back={{ href: "/customers", label: "← Back to Customers" }} />
 
       {/* Meta + title */}
       <header

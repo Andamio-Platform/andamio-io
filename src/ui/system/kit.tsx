@@ -10,8 +10,10 @@
  */
 
 import React, { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { AnimatePresence, motion, useScroll, useTransform } from "motion/react";
 import { ChevronDown, Menu, X } from "lucide-react";
+import { nav as siteNav } from "~/ui/explore/content";
 import {
   color,
   font,
@@ -162,6 +164,8 @@ function NavDropdown({
   onClose: () => void;
 }) {
   const ref = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const [shift, setShift] = useState(0);
   useEffect(() => {
     if (!open) return;
     const onDoc = (e: MouseEvent) => {
@@ -170,11 +174,31 @@ function NavDropdown({
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
+    const place = () => {
+      const panel = panelRef.current;
+      const parent = ref.current;
+      if (!panel || !parent) return;
+      const gutter = 16;
+      const parentLeft = parent.getBoundingClientRect().left;
+      const width = panel.offsetWidth;
+      let left = 0;
+      const viewRight = parentLeft + width;
+      if (viewRight > window.innerWidth - gutter) {
+        left -= viewRight - (window.innerWidth - gutter);
+      }
+      if (parentLeft + left < gutter) left += gutter - (parentLeft + left);
+      setShift(left);
+    };
+    place();
+    const frame = window.requestAnimationFrame(place);
     document.addEventListener("mousedown", onDoc);
     document.addEventListener("keydown", onKey);
+    window.addEventListener("resize", place);
     return () => {
       document.removeEventListener("mousedown", onDoc);
       document.removeEventListener("keydown", onKey);
+      window.removeEventListener("resize", place);
+      window.cancelAnimationFrame(frame);
     };
   }, [open, onClose]);
 
@@ -198,8 +222,10 @@ function NavDropdown({
       </button>
       {open && (
         <div
-          className="absolute left-0 top-[calc(100%+0.85rem)] z-50 w-[26rem] duration-150 animate-in fade-in-0 slide-in-from-top-1"
+          ref={panelRef}
+          className="absolute top-[calc(100%+0.85rem)] z-50 w-[min(26rem,calc(100vw-32px))] duration-150 animate-in fade-in-0 slide-in-from-top-1"
           style={{
+            left: shift,
             background: color.paper,
             border: `1px solid ${color.rule}`,
             boxShadow: "var(--shadow-lg)",
@@ -235,10 +261,14 @@ function NavDropdown({
                 borderTop: i >= 2 ? `1px solid ${color.cell}` : undefined,
                 borderLeft: i % 2 === 1 ? `1px solid ${color.cell}` : undefined,
               };
+              const span =
+                i === items.length - 1 && items.length % 2 === 1
+                  ? "col-span-2"
+                  : "";
               return it.soon ? (
                 <span
                   key={it.name}
-                  className="flex cursor-default flex-col p-4"
+                  className={`flex cursor-default flex-col p-4 ${span}`}
                   style={cellStyle}
                 >
                   {inner}
@@ -248,22 +278,13 @@ function NavDropdown({
                   key={it.name}
                   href={it.href}
                   onClick={onClose}
-                  className="nav-card-item flex flex-col p-4"
+                  className={`nav-card-item flex flex-col p-4 ${span}`}
                   style={cellStyle}
                 >
                   {inner}
                 </a>
               );
             })}
-            {items.length % 2 === 1 && (
-              <span
-                aria-hidden
-                style={{
-                  borderTop: `1px solid ${color.cell}`,
-                  borderLeft: `1px solid ${color.cell}`,
-                }}
-              />
-            )}
           </div>
         </div>
       )}
@@ -271,7 +292,10 @@ function NavDropdown({
   );
 }
 
-export function TopNav({ items, secondaryCta }: NavData) {
+export function TopNav({
+  items,
+  secondaryCta = siteNav.secondaryCta,
+}: NavData) {
   const [open, setOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const reduce = useMotionGate();
@@ -286,7 +310,7 @@ export function TopNav({ items, secondaryCta }: NavData) {
       {/* Full-bleed row: the brand and CTAs anchor to the viewport edges
           (at the shared padX gutter) rather than the content measure. */}
       <div
-        className={`flex items-center justify-between gap-6 py-4 ${layout.padX}`}
+        className={`flex items-center justify-between gap-3 py-2.5 sm:gap-6 sm:py-3 ${layout.padX}`}
       >
         <Brand />
         <div className="flex items-center gap-5 sm:gap-6">
@@ -324,11 +348,9 @@ export function TopNav({ items, secondaryCta }: NavData) {
                 style={{ background: color.cell }}
                 aria-hidden
               />
-              <span className="hidden sm:block">
-                <Button href={secondaryCta.href} variant="outline">
-                  {secondaryCta.label}
-                </Button>
-              </span>
+              <Button href={secondaryCta.href} variant="outline" compact>
+                {secondaryCta.label}
+              </Button>
             </>
           )}
           <button
@@ -655,6 +677,7 @@ export function Button({
   children,
   className = "",
   full = false,
+  compact = false,
 }: {
   variant?: ButtonVariant;
   href?: string;
@@ -663,6 +686,8 @@ export function Button({
   children: React.ReactNode;
   className?: string;
   full?: boolean;
+  /** Tighter padding so the control fits a short header, including phones. */
+  compact?: boolean;
 }) {
   const styles: Record<ButtonVariant, React.CSSProperties> = {
     primary: {
@@ -691,8 +716,10 @@ export function Button({
     },
     disabled: { border: `1px solid ${color.cell}`, color: color.inkGhost },
   };
-  const cls = `${btnBase} ${variant === "disabled" ? "cursor-not-allowed" : ""} ${full ? "w-full" : ""} ${className}`;
-  const sty = styles[variant];
+  const cls = `${btnBase} ${compact ? "px-3 py-1.5 text-[12px]" : ""} ${variant === "disabled" ? "cursor-not-allowed" : ""} ${full ? "w-full" : ""} ${className}`;
+  const sty: React.CSSProperties = compact
+    ? { ...styles[variant], padding: "6px 12px", fontSize: 12 }
+    : styles[variant];
   if (variant !== "disabled" && !href && onClick) {
     return (
       <Pressable
@@ -1150,6 +1177,43 @@ export function StackLayers({ layers }: { layers: readonly StackLayer[] }) {
         </div>
       ))}
     </div>
+  );
+}
+
+/** Back link above a title, with an optional next link in the same column. */
+export function PageTrail({
+  back,
+  next,
+  className = "",
+}: {
+  back: { href: string; label: string };
+  next?: { href: string; label: string };
+  className?: string;
+}) {
+  const linkCls =
+    "text-[13px] font-semibold tracking-[-0.01em] transition-colors hover:[color:var(--sys-ink)]";
+  return (
+    <nav
+      aria-label="Page"
+      className={`flex flex-col items-start gap-3 sm:flex-row sm:items-baseline sm:justify-between ${className}`}
+    >
+      <Link
+        href={back.href}
+        className={linkCls}
+        style={{ color: color.inkFaint }}
+      >
+        {back.label}
+      </Link>
+      {next ? (
+        <Link
+          href={next.href}
+          className={`${linkCls} max-w-full sm:max-w-[16rem] sm:text-right`}
+          style={{ color: color.inkFaint }}
+        >
+          {next.label}
+        </Link>
+      ) : null}
+    </nav>
   );
 }
 

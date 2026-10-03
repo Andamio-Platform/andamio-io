@@ -18,6 +18,12 @@ import {
   ProofRingBadge,
 } from "./proof-badge";
 import {
+  checkFields,
+  FIELD_MAX,
+  fieldsAreValid,
+  sanitizeField,
+} from "./proof-badge/field-check";
+import {
   buildBadgeParams,
   type BadgeParams,
 } from "./proof-badge/builder-params";
@@ -89,6 +95,25 @@ const cornerLabelCls = (side: "left" | "right", open: boolean) =>
       : "group-hover:mr-1.5 group-focus-visible:mr-1.5",
     open ? (side === "left" ? "ml-1.5" : "mr-1.5") : "",
   ].join(" ");
+
+function FieldHint({
+  error,
+  children,
+}: {
+  error?: string;
+  children?: React.ReactNode;
+}) {
+  if (!error && !children) return null;
+  return (
+    <p
+      className="mt-0.5 text-[11px] leading-snug"
+      style={{ color: error ? color.orange : color.inkMuted }}
+      role={error ? "alert" : undefined}
+    >
+      {error || children}
+    </p>
+  );
+}
 
 const SAMPLE: {
   courseName: string;
@@ -249,7 +274,7 @@ export default function BadgeBuilder({
   const download = useCornerReveal();
 
   const downloadSvg = async () => {
-    if (downloading) return;
+    if (downloading || !previewReady) return;
     setDownloading(true);
     try {
       const svg = await buildBadgeSvg(credential);
@@ -299,7 +324,19 @@ export default function BadgeBuilder({
   // Debounced, latest-wins render: hashing is async (Web Crypto), so guard
   // against an in-flight result painting over a newer one.
   const reqRef = React.useRef(0);
+  const errors = checkFields({
+    course: courseName,
+    module: moduleName,
+    targets: slts,
+    earner: earnerName,
+    did,
+    issued: issuedAt,
+    skills: skillLabels,
+  });
+  const previewReady = fieldsAreValid(errors) && !logoError;
+
   React.useEffect(() => {
+    if (!previewReady) return;
     const myReq = ++reqRef.current;
     const t = window.setTimeout(async () => {
       // Pristine course/module/SLTs = real Getting Started hashes (mainnet).
@@ -311,7 +348,11 @@ export default function BadgeBuilder({
         slts.every((s, i) => s === GETTING_STARTED.slts[i]);
       const base = pristine
         ? GETTING_STARTED.params
-        : await buildBadgeParams({ courseName, moduleName, slts });
+        : await buildBadgeParams({
+            courseName: courseName.trim(),
+            moduleName: moduleName.trim(),
+            slts: slts.map((line) => line.trim()),
+          });
       if (myReq !== reqRef.current) return;
       const skills = skillLabels
         .split(",")
@@ -321,10 +362,10 @@ export default function BadgeBuilder({
         .map((label, i) => ({ id: `s${i + 1}`, label }));
       const params: BadgeParams = {
         ...base,
-        earnerName: earnerName.trim() || base.earnerName,
-        did: did.trim() || base.did,
-        issuedAt: issuedAt.trim() || base.issuedAt,
-        skills: skills.length ? skills : base.skills,
+        earnerName: earnerName.trim(),
+        did: did.trim(),
+        issuedAt: issuedAt.trim(),
+        skills,
         mark: logoUrl || undefined,
       };
       setCredential(
@@ -347,10 +388,15 @@ export default function BadgeBuilder({
     issuedAt,
     skillLabels,
     logoUrl,
+    previewReady,
   ]);
 
   const updateSlt = (i: number, value: string) =>
-    setSlts((prev) => prev.map((s, j) => (j === i ? value : s)));
+    setSlts((prev) =>
+      prev.map((s, j) =>
+        j === i ? sanitizeField(value, FIELD_MAX.target) : s,
+      ),
+    );
   const addSlt = () => {
     focusZone("targets");
     setSlts((prev) => [...prev, ""]);
@@ -467,7 +513,10 @@ export default function BadgeBuilder({
               id="bb-course"
               {...noAutofill}
               value={courseName}
-              onChange={(e) => setCourseName(e.target.value)}
+              onChange={(e) =>
+                setCourseName(sanitizeField(e.target.value, FIELD_MAX.course))
+              }
+              aria-invalid={errors.course ? true : undefined}
               onFocus={() => focusZone("identity")}
               onBlur={blurZone}
               className={inputCls}
@@ -475,12 +524,9 @@ export default function BadgeBuilder({
               placeholder="e.g. Bike Repair Basics"
             />
             {/* What a course is + the ownership rule, in one quiet line. */}
-            <p
-              className="mt-0.5 text-[11px] leading-snug"
-              style={{ color: color.inkMuted }}
-            >
+            <FieldHint error={errors.course}>
               A course is yours — only its owner can issue credentials on it.
-            </p>
+            </FieldHint>
           </div>
 
           <div className="flex flex-col gap-1">
@@ -495,13 +541,17 @@ export default function BadgeBuilder({
               id="bb-module"
               {...noAutofill}
               value={moduleName}
-              onChange={(e) => setModuleName(e.target.value)}
+              onChange={(e) =>
+                setModuleName(sanitizeField(e.target.value, FIELD_MAX.module))
+              }
+              aria-invalid={errors.module ? true : undefined}
               onFocus={() => focusZone("identity")}
               onBlur={blurZone}
               className={inputCls}
               style={inputStyle}
               placeholder="e.g. Fix a Flat Tire"
             />
+            <FieldHint error={errors.module} />
           </div>
 
           <div className="flex flex-col gap-1">
@@ -591,6 +641,7 @@ export default function BadgeBuilder({
                     {...noAutofill}
                     value={slt}
                     onChange={(e) => updateSlt(i, e.target.value)}
+                    aria-invalid={errors.targets ? true : undefined}
                     onFocus={() => focusZone("targets")}
                     onBlur={blurZone}
                     className={inputCls}
@@ -619,6 +670,7 @@ export default function BadgeBuilder({
             >
               + Add a learning target
             </button>
+            <FieldHint error={errors.targets} />
           </div>
 
           <div className="flex flex-col gap-1">
@@ -629,13 +681,17 @@ export default function BadgeBuilder({
               id="bb-earner"
               {...noAutofill}
               value={earnerName}
-              onChange={(e) => setEarnerName(e.target.value)}
+              onChange={(e) =>
+                setEarnerName(sanitizeField(e.target.value, FIELD_MAX.earner))
+              }
+              aria-invalid={errors.earner ? true : undefined}
               onFocus={() => focusZone("earner")}
               onBlur={blurZone}
               className={inputCls}
               style={inputStyle}
               placeholder="e.g. Jordan Smith"
             />
+            <FieldHint error={errors.earner} />
           </div>
 
           <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
@@ -647,13 +703,17 @@ export default function BadgeBuilder({
                 id="bb-did"
                 {...noAutofill}
                 value={did}
-                onChange={(e) => setDid(e.target.value)}
+                onChange={(e) =>
+                  setDid(sanitizeField(e.target.value, FIELD_MAX.did))
+                }
+                aria-invalid={errors.did ? true : undefined}
                 onFocus={() => focusZone("did")}
                 onBlur={blurZone}
                 className={inputCls}
                 style={{ ...inputStyle, ...mono, fontSize: 12 }}
                 placeholder="did:andamio:…"
               />
+              <FieldHint error={errors.did} />
             </div>
             <div className="flex flex-col gap-1">
               <MicroLabel
@@ -667,13 +727,15 @@ export default function BadgeBuilder({
                 id="bb-issued"
                 {...noAutofill}
                 value={issuedAt}
-                onChange={(e) => setIssuedAt(e.target.value)}
+                onChange={(e) => setIssuedAt(sanitizeField(e.target.value, 40))}
+                aria-invalid={errors.issued ? true : undefined}
                 onFocus={() => focusZone("issued")}
                 onBlur={blurZone}
                 className={inputCls}
                 style={{ ...inputStyle, ...mono, fontSize: 12 }}
                 placeholder="2025-06-03T10:30:00Z"
               />
+              <FieldHint error={errors.issued} />
             </div>
           </div>
 
@@ -685,20 +747,20 @@ export default function BadgeBuilder({
               id="bb-skills"
               {...noAutofill}
               value={skillLabels}
-              onChange={(e) => setSkillLabels(e.target.value)}
+              onChange={(e) =>
+                setSkillLabels(sanitizeField(e.target.value, FIELD_MAX.skills))
+              }
+              aria-invalid={errors.skills ? true : undefined}
               onFocus={() => focusZone("skills")}
               onBlur={blurZone}
               className={inputCls}
               style={inputStyle}
               placeholder="Access Token, Commit, Evidence, Review"
             />
-            <p
-              className="mt-0.5 text-[11px] leading-snug"
-              style={{ color: color.inkMuted }}
-            >
+            <FieldHint error={errors.skills}>
               Up to four labels, comma-separated. Marks on the face stay
               generic.
-            </p>
+            </FieldHint>
           </div>
         </div>
 
@@ -764,7 +826,7 @@ export default function BadgeBuilder({
                 type="button"
                 aria-label="Download SVG"
                 data-open={download.open ? "true" : undefined}
-                disabled={downloading}
+                disabled={downloading || !previewReady}
                 onClick={(event) =>
                   download.guard(event, () => void downloadSvg())
                 }

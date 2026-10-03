@@ -252,13 +252,15 @@ export function credentialFromBuilder(
   input: BuilderCredentialInput,
 ): ProofCredential {
   const networkKey = input.network ?? "mainnet";
+  const named = input.earnerName !== undefined;
   const trimmedName = input.earnerName?.trim() ?? "";
-  const name = trimmedName.length > 0 ? trimmedName : "Jordan Smith";
+  const name = named ? trimmedName : "Jordan Smith";
   const slug = name
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "_")
     .replace(/^_|_$/g, "");
-  const alias = slug.length > 0 ? slug : "earner";
+  const alias = slug.length > 0 ? slug : "";
+  const issuerGiven = input.issuerDid !== undefined;
   const issuerDid = input.issuerDid?.trim() ?? "";
   const issuedAt = input.issuedAt?.trim() ?? "";
   const skills = (input.skills ?? [])
@@ -273,7 +275,7 @@ export function credentialFromBuilder(
     module: input.module,
     holder: { alias, displayName: name },
     holderIsSample: true,
-    issuerDid: issuerDid.length > 0 ? issuerDid : "did:andamio:preview",
+    issuerDid: issuerGiven ? issuerDid : "did:andamio:preview",
     issuedAt,
     network: CARDANO_NETWORKS[networkKey] ?? `Cardano ${networkKey}`,
     skills,

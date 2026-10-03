@@ -505,60 +505,72 @@ export function ProofRingBadge({
               {c.module}
             </p>
 
-            <p
-              className="pb-at pb-label pb-label-accent pb-field"
-              style={field(at(f.earnerLabel.x, f.earnerLabel.y))}
-            >
-              Earner
-            </p>
-            <p
-              className="pb-at pb-earner pb-field"
-              style={field({
-                ...at(f.earner.x, f.earner.y - (showAlias ? 3 : 0)),
-                fontSize: u(earnerSize),
-                maxWidth: u(f.earner.maxW),
-              })}
-            >
-              {earnerName}
-              {c.holderIsSample && (
-                <span className="pb-sr"> (sample holder)</span>
-              )}
-            </p>
-            {showAlias && (
-              <p
-                className="pb-at pb-alias pb-field"
-                style={field(at(f.earner.x, 511))}
-                title="Access Token alias"
-              >
-                {c.holder.alias}
-              </p>
-            )}
+            {earnerName.trim() ? (
+              <>
+                <p
+                  className="pb-at pb-label pb-label-accent pb-field"
+                  style={field(at(f.earnerLabel.x, f.earnerLabel.y))}
+                >
+                  Earner
+                </p>
+                <p
+                  className="pb-at pb-earner pb-field"
+                  style={field({
+                    ...at(f.earner.x, f.earner.y - (showAlias ? 3 : 0)),
+                    fontSize: u(earnerSize),
+                    maxWidth: u(f.earner.maxW),
+                  })}
+                >
+                  {earnerName}
+                  {c.holderIsSample && (
+                    <span className="pb-sr"> (sample holder)</span>
+                  )}
+                </p>
+                {showAlias && (
+                  <p
+                    className="pb-at pb-alias pb-field"
+                    style={field(at(f.earner.x, 511))}
+                    title="Access Token alias"
+                  >
+                    {c.holder.alias}
+                  </p>
+                )}
+              </>
+            ) : null}
 
-            <p
-              className="pb-at pb-label pb-field"
-              style={field(at((f.didBox.x0 + f.didBox.x1) / 2, f.boxLabelY))}
-            >
-              Issuer DID
-            </p>
-            <div
-              className="pb-at pb-value pb-field"
-              style={field({
-                ...at(
-                  (f.didBox.x0 + f.didBox.x1) / 2,
-                  f.boxValueY + (didWraps ? 4 : 0),
-                ),
-                fontSize: u(didWraps ? 13 : 14.5),
-                maxWidth: u(206),
-              })}
-            >
-              <CopyValue
-                value={c.issuerDid}
-                display={didWraps ? breakAfterColons(c.issuerDid) : c.issuerDid}
-                label="issuer DID"
-                hooks={hooks}
-                className={didWraps ? "pb-wrap" : ""}
-              />
-            </div>
+            {c.issuerDid.trim() ? (
+              <>
+                <p
+                  className="pb-at pb-label pb-field"
+                  style={field(
+                    at((f.didBox.x0 + f.didBox.x1) / 2, f.boxLabelY),
+                  )}
+                >
+                  Issuer DID
+                </p>
+                <div
+                  className="pb-at pb-value pb-field"
+                  style={field({
+                    ...at(
+                      (f.didBox.x0 + f.didBox.x1) / 2,
+                      f.boxValueY + (didWraps ? 4 : 0),
+                    ),
+                    fontSize: u(didWraps ? 13 : 14.5),
+                    maxWidth: u(206),
+                  })}
+                >
+                  <CopyValue
+                    value={c.issuerDid}
+                    display={
+                      didWraps ? breakAfterColons(c.issuerDid) : c.issuerDid
+                    }
+                    label="issuer DID"
+                    hooks={hooks}
+                    className={didWraps ? "pb-wrap" : ""}
+                  />
+                </div>
+              </>
+            ) : null}
 
             <p
               className="pb-at pb-label pb-field"
